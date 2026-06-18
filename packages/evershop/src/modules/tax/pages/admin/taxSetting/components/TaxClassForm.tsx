@@ -1,6 +1,7 @@
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface TaxClassFormProps {
@@ -28,18 +29,18 @@ function TaxClassForm({
       <InputField
         name="name"
         type="text"
-        label="Tax class name"
+        label={_('Tax class name')}
         defaultValue=""
-        placeholder="Enter tax class name"
+        placeholder={_('Enter tax class name')}
         required
-        validation={{ required: 'Tax class name is required' }}
+        validation={{ required: _('Tax class name is required') }}
       />
       <div className="flex justify-end gap-2 mt-3">
-        <Button title="Cancel" variant="secondary" onClick={closeModal}>
-          Cancel
+        <Button title={_('Cancel')} variant="secondary" onClick={closeModal}>
+          {_('Cancel')}
         </Button>
         <Button
-          title="Save"
+          title={_('Save')}
           variant="default"
           onClick={() => {
             (
@@ -52,7 +53,7 @@ function TaxClassForm({
             );
           }}
         >
-          Save
+          {_('Save')}
         </Button>
       </div>
     </Form>

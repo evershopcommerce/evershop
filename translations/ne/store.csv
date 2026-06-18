@@ -1,0 +1,1685 @@
+Welcome Back!,फेरि स्वागत छ!
+Please sign in to your account ,कृपया आफ्नो खातामा साइन इन गर्नुहोस् 
+Join us for exclusive offers and order tracking,विशेष अफर र अर्डर ट्र्याकिङका लागि हामीसँग जोडिनुहोस्
+Sign Up,साइन अप
+Signing Up...,साइन अप गर्दै...
+Signing In...,साइन इन गर्दै...
+Recent Orders,भर्खरका अर्डरहरू
+Address Book,ठेगाना पुस्तिका
+You have no addresses saved,तपाईंसँग कुनै ठेगाना सुरक्षित गरिएको छैन
+Add new address,नयाँ ठेगाना थप्नुहोस्
+Address 2,ठेगाना २
+Set as default,पूर्वनिर्धारित रूपमा सेट गर्नुहोस्
+Save,सुरक्षित गर्नुहोस्
+Edit,सम्पादन गर्नुहोस्
+Delete,मेटाउनुहोस्
+Edit Address,ठेगाना सम्पादन गर्नुहोस्
+Product Filters,उत्पादन फिल्टरहरू
+No products found,कुनै उत्पादन फेला परेन
+${count} Products,${count} उत्पादनहरू
+Default,पूर्वनिर्धारित
+Name,नाम
+Contact Information,सम्पर्क जानकारी
+Your Cart,तपाईंको कार्ट
+Your cart is empty,तपाईंको कार्ट खाली छ
+Subtotal,उप-जम्मा
+View Cart (${totalQty}),कार्ट हेर्नुहोस् (${totalQty})
+Shopping Cart,किनमेल कार्ट
+Logged in as,यसरूपमा लग इन गरिएको
+Payment Information,भुक्तानी जानकारी
+Same as shipping address,ढुवानी ठेगाना जस्तै
+Use a different billing address,फरक बिलिङ ठेगाना प्रयोग गर्नुहोस्
+Pick a payment method,भुक्तानी विधि छान्नुहोस्
+Select a payment method,भुक्तानी विधि चयन गर्नुहोस्
+Complete Order,अर्डर पूरा गर्नुहोस्
+Add to Cart,कार्टमा थप्नुहोस्
+Search,खोज्नुहोस्
+${count} orders,${count} अर्डरहरू
+${field} is required,${field} आवश्यक छ
+${pct}% of orders cancelled,${pct}% अर्डरहरू रद्द गरियो
+${pct}% of orders completed,${pct}% अर्डरहरू पूरा भयो
+${qty} sold,${qty} बिक्री भयो
+${total} lifetime sale,${total} आजीवन बिक्री
+(Guest Checkout),(अतिथि चेकआउट)
+(list),(सूची)
+(optional),(वैकल्पिक)
+A coupon is already applied,एउटा कुपन पहिल्यै लागू गरिएको छ
+A group needs at least one sub-field,समूहलाई कम्तीमा एउटा उप-फिल्ड आवश्यक हुन्छ
+A list of best selling products,उत्कृष्ट बिक्री हुने उत्पादनहरूको सूची
+A list of customers who have placed the most orders,सबैभन्दा धेरै अर्डर गर्ने ग्राहकहरूको सूची
+A regular expression the value must match.,मान मिल्नुपर्ने रेगुलर एक्सप्रेसन।
+Accepted values,स्वीकृत मानहरू
+Active,सक्रिय
+Active Filters,सक्रिय फिल्टरहरू
+Add address API not available,ठेगाना थप्ने API उपलब्ध छैन
+Add custom field,कस्टम फिल्ड थप्नुहोस्
+Add field,फिल्ड थप्नुहोस्
+Add item,वस्तु थप्नुहोस्
+Add option,विकल्प थप्नुहोस्
+Add product,उत्पादन थप्नुहोस्
+Add some items to get started,सुरु गर्न केही वस्तुहरू थप्नुहोस्
+Add sub-field,उप-फिल्ड थप्नुहोस्
+Adding...,थप्दै...
+Address has been deleted successfully!,ठेगाना सफलतापूर्वक मेटाइयो!
+Address has been saved successfully!,ठेगाना सफलतापूर्वक सुरक्षित गरियो!
+Address has been updated successfully!,ठेगाना सफलतापूर्वक अद्यावधिक गरियो!
+Address is required,ठेगाना आवश्यक छ
+Adds target=_blank rel=noopener noreferrer.,target=_blank rel=noopener noreferrer थप्छ।
+All items fulfilled,सबै वस्तुहरू पूरा भए
+All orders,सबै अर्डरहरू
+All your past orders,तपाईंका सबै विगतका अर्डरहरू
+Allow multiple,बहुविध अनुमति दिनुहोस्
+An unexpected error occurred. Please try again.,अप्रत्याशित त्रुटि भयो। कृपया फेरि प्रयास गर्नुहोस्।
+Apply Filters,फिल्टरहरू लागू गर्नुहोस्
+Are you sure you want to mark the selected orders as shipped?,के तपाईं चयन गरिएका अर्डरहरूलाई ढुवानी गरिएको रूपमा चिन्ह लगाउन निश्चित हुनुहुन्छ?
+Are you sure?,के तपाईं निश्चित हुनुहुन्छ?
+Attribute Group,विशेषता समूह
+Attribute code is used in API and must be unique,विशेषता कोड API मा प्रयोग हुन्छ र यो अद्वितीय हुनुपर्छ
+Attribute options,विशेषता विकल्पहरू
+Attributes,विशेषताहरू
+Available shipping methods will appear once you provide your address details,तपाईंले आफ्नो ठेगाना विवरण प्रदान गरेपछि उपलब्ध ढुवानी विधिहरू देखिनेछन्
+Best Sellers,उत्कृष्ट बिक्रेताहरू
+Best customers,उत्कृष्ट ग्राहकहरू
+Billing address,बिलिङ ठेगाना
+Black,कालो
+Buy qty,किन्ने परिमाण
+Buy qty is required,किन्ने परिमाण आवश्यक छ
+Can not process payment. Please try again later.,भुक्तानी प्रक्रिया गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।
+Can't be undone,पूर्ववत् गर्न सकिँदैन
+Cancel,रद्द गर्नुहोस्
+Cancel Order,अर्डर रद्द गर्नुहोस्
+Cancel shipment,ढुवानी रद्द गर्नुहोस्
+Cancel this shipment?,यो ढुवानी रद्द गर्ने?
+Canceled,रद्द गरियो
+Cancelled,रद्द गरियो
+Cannot add billing address: cart not initialized,बिलिङ ठेगाना थप्न सकिँदैन: कार्ट प्रारम्भ गरिएको छैन
+Cannot add contact info: cart not initialized,सम्पर्क जानकारी थप्न सकिँदैन: कार्ट प्रारम्भ गरिएको छैन
+Cannot add payment method: cart not initialized,भुक्तानी विधि थप्न सकिँदैन: कार्ट प्रारम्भ गरिएको छैन
+Cannot add shipping address: cart not initialized,ढुवानी ठेगाना थप्न सकिँदैन: कार्ट प्रारम्भ गरिएको छैन
+Cannot add shipping method: cart not initialized,ढुवानी विधि थप्न सकिँदैन: कार्ट प्रारम्भ गरिएको छैन
+Cannot add shipping method: providerCode is required,ढुवानी विधि थप्न सकिँदैन: providerCode आवश्यक छ
+Cannot apply coupon: cart not initialized,कुपन लागू गर्न सकिँदैन: कार्ट प्रारम्भ गरिएको छैन
+Cannot remove coupon: cart not initialized,कुपन हटाउन सकिँदैन: कार्ट प्रारम्भ गरिएको छैन
+Carrier,क्यारियर
+Carrier is required,क्यारियर आवश्यक छ
+Cart ID is required to checkout,चेकआउट गर्न कार्ट ID आवश्यक छ
+Cart is not initialized,कार्ट प्रारम्भ गरिएको छैन
+Catalog,क्याटलग
+Categories,वर्गहरू
+Category,वर्ग
+Charcoal,चारकोल
+Checkout success,चेकआउट सफल
+Choose Product SKU,उत्पादन SKU छान्नुहोस्
+Choose SKU,SKU छान्नुहोस्
+City is required,सहर आवश्यक छ
+Clear All,सबै हटाउनुहोस्
+Clear Filters,फिल्टरहरू हटाउनुहोस्
+Clear all,सबै हटाउनुहोस्
+Clear categories,वर्गहरू हटाउनुहोस्
+Close fullscreen view,फुलस्क्रिन दृश्य बन्द गर्नुहोस्
+Code,कोड
+Collections,सङ्ग्रहहरू
+Comma-separated; renders the value as a dropdown.,अल्पविरामले छुट्याइएको; मानलाई ड्रपडाउनको रूपमा देखाउँछ।
+Completed,पूरा भयो
+Configurable,कन्फिगरेबल
+Configure tax classes and tax rates,कर वर्गहरू र कर दरहरू कन्फिगर गर्नुहोस्
+Confirm,पुष्टि गर्नुहोस्
+Contact for pricing,मूल्यका लागि सम्पर्क गर्नुहोस्
+Conveniently pay with cash at your doorstep when your order is delivered.,तपाईंको अर्डर डेलिभरी हुँदा सजिलैसँग आफ्नो ढोकामै नगदमा भुक्तानी गर्नुहोस्।
+Coupon applied successfully!,कुपन सफलतापूर्वक लागू गरियो!
+Coupon code is required,कुपन कोड आवश्यक छ
+Coupon does not match,कुपन मिलेन
+Coupon removed successfully!,कुपन सफलतापूर्वक हटाइयो!
+Cream,क्रिम
+Create,सिर्जना गर्नुहोस्
+Create a new attribute,नयाँ विशेषता सिर्जना गर्नुहोस्
+Create a new group,नयाँ समूह सिर्जना गर्नुहोस्
+Create a new package,नयाँ प्याकेज सिर्जना गर्नुहोस्
+Create shipment,ढुवानी सिर्जना गर्नुहोस्
+Created,सिर्जना गरियो
+Custom URL,कस्टम URL
+Custom field created,कस्टम फिल्ड सिर्जना गरियो
+Custom field updated,कस्टम फिल्ड अद्यावधिक गरियो
+Custom fields,कस्टम फिल्डहरू
+Custom fields (JSON),कस्टम फिल्डहरू (JSON)
+Custom fields saved,कस्टम फिल्डहरू सुरक्षित गरियो
+Customer Information,ग्राहक जानकारी
+Customer does not have any order yet.,ग्राहकसँग अहिलेसम्म कुनै अर्डर छैन।
+Customer notes,ग्राहक टिप्पणीहरू
+Daily,दैनिक
+Date and time must be after ${min},मिति र समय ${min} पछिको हुनुपर्छ
+Date and time must be before ${max},मिति र समय ${max} भन्दा अगाडि हुनुपर्छ
+Date must be after ${min},मिति ${min} भन्दा पछाडि हुनुपर्छ
+Date must be before ${max},मिति ${max} भन्दा अगाडि हुनुपर्छ
+Delete ${count} coupons,${count} कुपन मेटाउनुहोस्
+Delete ${count} products,${count} उत्पादन मेटाउनुहोस्
+Delete address API not available,ठेगाना मेटाउने API उपलब्ध छैन
+Delivered,डेलिभर भयो
+Description,विवरण
+Disable,निष्क्रिय गर्नुहोस्
+Disable ${count} coupons,${count} कुपन निष्क्रिय गर्नुहोस्
+Disable ${count} customers,${count} ग्राहक निष्क्रिय गर्नुहोस्
+Disable ${count} products,${count} उत्पादन निष्क्रिय गर्नुहोस्
+Disabled,निष्क्रिय
+Discount percent,छुटको प्रतिशत
+Discount percent is required,छुटको प्रतिशत आवश्यक छ
+Display on Frontend?,फ्रन्टएन्डमा देखाउने?
+Displays the mobile sidebar.,मोबाइल साइडबार देखाउँछ।
+Done,भयो
+Drag to reorder,क्रम मिलाउन तान्नुहोस्
+Duplicate,नक्कल गर्नुहोस्
+Edit custom field,कस्टम फिल्ड सम्पादन गर्नुहोस्
+Edit field settings,फिल्ड सेटिङ सम्पादन गर्नुहोस्
+Edit package,प्याकेज सम्पादन गर्नुहोस्
+Edit tracking info,ट्र्याकिङ जानकारी सम्पादन गर्नुहोस्
+Editing ${name},${name} सम्पादन गर्दै
+Email a shipment confirmation,ढुवानी पुष्टिकरण इमेल गर्नुहोस्
+Email a shipment confirmation with tracking details,ट्र्याकिङ विवरणसहित ढुवानी पुष्टिकरण इमेल गर्नुहोस्
+Email is required,इमेल आवश्यक छ
+Enable,सक्रिय गर्नुहोस्
+Enable ${count} coupons,${count} कुपन सक्रिय गर्नुहोस्
+Enable ${count} customers,${count} ग्राहक सक्रिय गर्नुहोस्
+Enable ${count} products,${count} उत्पादन सक्रिय गर्नुहोस्
+Enabled,सक्रिय
+Enter attribute code,एट्रिब्युट कोड लेख्नुहोस्
+Enter attribute name,एट्रिब्युट नाम लेख्नुहोस्
+Enter text,पाठ लेख्नुहोस्
+Enter value for ${attribute},${attribute} को लागि मान लेख्नुहोस्
+Enter your email,आफ्नो इमेल लेख्नुहोस्
+Enter your new password,आफ्नो नयाँ पासवर्ड लेख्नुहोस्
+Enter your password,आफ्नो पासवर्ड लेख्नुहोस्
+Error,त्रुटि
+Failed to add address,ठेगाना थप्न असफल
+Failed to add billing address,बिलिङ ठेगाना थप्न असफल
+Failed to add billing address.,बिलिङ ठेगाना थप्न असफल।
+Failed to add contact info,सम्पर्क जानकारी थप्न असफल
+Failed to add contact info.,सम्पर्क जानकारी थप्न असफल।
+Failed to add item to cart,कार्टमा वस्तु थप्न असफल
+Failed to add payment method,भुक्तानी विधि थप्न असफल
+Failed to add payment method.,भुक्तानी विधि थप्न असफल।
+Failed to add product to cart,कार्टमा उत्पादन थप्न असफल
+Failed to add shipping address,ढुवानी ठेगाना थप्न असफल
+Failed to add shipping address.,ढुवानी ठेगाना थप्न असफल।
+Failed to add shipping method,ढुवानी विधि थप्न असफल
+Failed to add shipping method.,ढुवानी विधि थप्न असफल।
+Failed to apply coupon,कुपन लागू गर्न असफल
+Failed to cancel shipment,ढुवानी रद्द गर्न असफल
+Failed to checkout,चेकआउट गर्न असफल
+Failed to create field,फिल्ड सिर्जना गर्न असफल
+Failed to create shipment,ढुवानी सिर्जना गर्न असफल
+Failed to delete address,ठेगाना मेटाउन असफल
+Failed to load custom fields,कस्टम फिल्ड लोड गर्न असफल
+Failed to mark delivered,डेलिभर भएको चिन्ह लगाउन असफल
+Failed to place order,अर्डर गर्न असफल
+Failed to place order. Please try again.,अर्डर गर्न असफल। कृपया फेरि प्रयास गर्नुहोस्।
+Failed to remove coupon,कुपन हटाउन असफल
+Failed to remove coupon.,कुपन हटाउन असफल।
+Failed to save custom fields,कस्टम फिल्ड सुरक्षित गर्न असफल
+Failed to set shipping method,ढुवानी विधि सेट गर्न असफल
+Failed to set shipping note,ढुवानी टिप्पणी सेट गर्न असफल
+Failed to update address,ठेगाना अद्यावधिक गर्न असफल
+Failed to update field,फिल्ड अद्यावधिक गर्न असफल
+Failed to update shipment,ढुवानी अद्यावधिक गर्न असफल
+Failed to update tracking info,ट्र्याकिङ जानकारी अद्यावधिक गर्न असफल
+Failed to void label,लेबल रद्द गर्न असफल
+Failed!,असफल भयो!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,यो इन्टिटी प्रकारमा लागू हुने फिल्डहरू। फिल्ड थप्दा यो प्रकारका सबै इन्टिटीमा लागू हुन्छ।
+File size must be less than ${maxSize},फाइलको आकार ${maxSize} भन्दा कम हुनुपर्छ
+Filter Products,उत्पादन फिल्टर गर्नुहोस्
+Filters,फिल्टरहरू
+First,पहिलो
+Free,नि:शुल्क
+Free shipping,नि:शुल्क ढुवानी
+Free shipping ?,नि:शुल्क ढुवानी ?
+Fulfill ${count} orders,${count} अर्डर पूरा गर्नुहोस्
+Full Name is required,पूरा नाम आवश्यक छ
+Fully shipped,पूर्ण रूपमा ढुवानी भयो
+General,सामान्य
+Get qty,प्राप्त परिमाण
+Get qty is required,प्राप्त परिमाण आवश्यक छ
+Ghost,घोस्ट
+Go,जानुहोस्
+Go to Login,लगइनमा जानुहोस्
+Go to next page,अर्को पृष्ठमा जानुहोस्
+Go to previous page,अघिल्लो पृष्ठमा जानुहोस्
+Hello,नमस्ते
+Hide from storefront,स्टोरफ्रन्टबाट लुकाउनुहोस्
+ID,ID
+In Stock,स्टकमा छ
+Inactive,निष्क्रिय
+Inclusive of tax ${totalTaxAmount},कर ${totalTaxAmount} सहित
+Insert,सम्मिलित गर्नुहोस्
+Invalid address,अमान्य ठेगाना
+Invalid cart,अमान्य कार्ट
+Invalid cart id,अमान्य कार्ट id
+Invalid coupon,अमान्य कुपन
+Invalid customer,अमान्य ग्राहक
+Invalid customer id,अमान्य ग्राहक id
+Invalid email or password,अमान्य इमेल वा पासवर्ड
+Invalid format,अमान्य ढाँचा
+Invalid quantity,अमान्य परिमाण
+Is Filterable?,फिल्टर गर्न मिल्ने?
+Is Required?,आवश्यक छ?
+Item,वस्तु
+Items,वस्तुहरू
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,यो ढुवानीका वस्तुहरू अर्डरको नपठाइएको पूलमा फर्किनेछन्। यो कार्य फिर्ता गर्न सकिँदैन।
+Key,की
+Key is required,की आवश्यक छ
+Label,लेबल
+Label voided,लेबल रद्द गरियो
+Language,भाषा
+Last,अन्तिम
+Lifetime Sales,जीवनभरको बिक्री
+Light gray,हल्का खैरो
+Limit,सीमा
+Link,लिङ्क
+Loading,लोड हुँदै
+Log in,लगइन गर्नुहोस्
+Logging in...,लगइन हुँदै...
+Logging out...,लगआउट हुँदै...
+Login failed,लगइन असफल
+Logout failed,लगआउट असफल
+Look like you just started. No bestsellers yet.,तपाईं भर्खरै सुरु गर्नुभएको जस्तो देखिन्छ। अहिलेसम्म कुनै बेस्टसेलर छैन।
+"Lowercase letters, digits, underscore. Immutable.","साना अक्षर, अंक, अन्डरस्कोर। अपरिवर्तनीय।"
+Manage the general information of the attribute.,एट्रिब्युटको सामान्य जानकारी व्यवस्थापन गर्नुहोस्।
+Manage the setting of the attribute.,एट्रिब्युटको सेटिङ व्यवस्थापन गर्नुहोस्।
+Mark as shipped,ढुवानी भएको चिन्ह लगाउनुहोस्
+Mark delivered,डेलिभर भएको चिन्ह लगाउनुहोस्
+Mark shipment as delivered?,ढुवानीलाई डेलिभर भएको चिन्ह लगाउने?
+Max length,अधिकतम लम्बाइ
+Max of Y,Y को अधिकतम
+Max of Y is required,Y को अधिकतम आवश्यक छ
+Max value,अधिकतम मान
+Min length,न्यूनतम लम्बाइ
+Min value,न्यूनतम मान
+Minimum quantity,न्यूनतम परिमाण
+Mint,मिन्ट
+Monthly,मासिक
+More,थप
+More pages,थप पृष्ठहरू
+Move down,तल सार्नुहोस्
+Move up,माथि सार्नुहोस्
+Multiselect,बहुचयन
+Must be at least ${n},कम्तीमा ${n} हुनुपर्छ
+Must be at least ${n} characters,कम्तीमा ${n} वर्ण हुनुपर्छ
+Must be at most ${n},बढीमा ${n} हुनुपर्छ
+Must be at most ${n} characters,बढीमा ${n} वर्ण हुनुपर्छ
+"Must start with a letter; lowercase letters, digits, underscore only","अक्षरबाट सुरु हुनुपर्छ; साना अक्षर, अङ्क, अन्डरस्कोर मात्र"
+Name is required,नाम आवश्यक छ
+New Product,नयाँ उत्पादन
+New Widget,नयाँ विजेट
+New folder,नयाँ फोल्डर
+Next,अर्को
+Next slide,अर्को स्लाइड
+No,होइन
+No address data received,कुनै ठेगाना डाटा प्राप्त भएन
+"No attribute groups found for query ""${query}""","""${query}"" क्वेरीका लागि कुनै एट्रिब्युट समूह फेला परेन"
+No carriers registered,कुनै क्यारियर दर्ता गरिएको छैन
+"No categories found for ""${term}""","""${term}"" का लागि कुनै कोटि फेला परेन"
+"No categories found for query ""${query}""","""${query}"" क्वेरीका लागि कुनै कोटि फेला परेन"
+"No collections found for query ""${query}""","""${query}"" क्वेरीका लागि कुनै सङ्ग्रह फेला परेन"
+No coupon to remove,हटाउनका लागि कुनै कुपन छैन
+No custom fields yet.,अहिलेसम्म कुनै कस्टम फिल्ड छैन।
+No data available,कुनै डाटा उपलब्ध छैन
+No free shipping,नि:शुल्क ढुवानी छैन
+No limit,कुनै सीमा छैन
+No maximum,कुनै अधिकतम छैन
+No minimum,कुनै न्यूनतम छैन
+No notes from customer,ग्राहकबाट कुनै टिप्पणी छैन
+"No options found for ""${code}""","""${code}"" का लागि कुनै विकल्प फेला परेन"
+"No products found for query ""${query}""","""${query}"" क्वेरीका लागि कुनै उत्पादन फेला परेन"
+No shipments yet — your order is being prepared.,अहिलेसम्म कुनै ढुवानी छैन — तपाईंको अर्डर तयार गरिँदैछ।
+No shipping is required for this order,यो अर्डरका लागि कुनै ढुवानी आवश्यक छैन
+No shipping methods available,कुनै ढुवानी विधि उपलब्ध छैन
+No shipping options are available for your location,तपाईंको स्थानका लागि कुनै ढुवानी विकल्प उपलब्ध छैन
+No shipping required,कुनै ढुवानी आवश्यक छैन
+No widgets match your search.,तपाईंको खोजसँग कुनै विजेट मेल खाँदैन।
+None,कुनै पनि होइन
+Not set,सेट गरिएको छैन
+Not visible to customers,ग्राहकहरूलाई देखिँदैन
+Notify customer,ग्राहकलाई सूचित गर्नुहोस्
+Open in new tab,नयाँ ट्याबमा खोल्नुहोस्
+Operator,अपरेटर
+Option text,विकल्प पाठ
+Optional help text shown to admins.,एडमिनहरूलाई देखाइने वैकल्पिक सहायता पाठ।
+Order Placed,अर्डर गरियो
+Order detail,अर्डर विवरण
+Order must contain products matching all conditions below,अर्डरमा तलका सबै सर्तसँग मेल खाने उत्पादनहरू हुनुपर्छ
+Order not found,अर्डर फेला परेन
+Orders,अर्डरहरू
+Others,अन्य
+Out of Stock,स्टकमा छैन
+Outline,रूपरेखा
+Overview of sales data over selected periods,चयन गरिएका अवधिहरूमा बिक्री डाटाको अवलोकन
+Overview of total sales and order status over the lifetime of your store,तपाईंको स्टोरको सम्पूर्ण अवधिमा कुल बिक्री र अर्डर स्थितिको अवलोकन
+Page,पृष्ठ
+Page ${currentPage} of ${totalPages},${totalPages} मध्ये पृष्ठ ${currentPage}
+Page not found,पृष्ठ फेला परेन
+Password is required,पासवर्ड आवश्यक छ
+Password must be at least ${minLength} characters long,पासवर्ड कम्तीमा ${minLength} वर्ण लामो हुनुपर्छ
+Paste a URL or a relative path starting with ,एउटा URL वा यसबाट सुरु हुने सापेक्ष पथ टाँस्नुहोस् 
+Pattern (regex),ढाँचा (regex)
+Pay with PayPal,PayPal बाट भुक्तानी गर्नुहोस्
+Pay with Stripe,Stripe बाट भुक्तानी गर्नुहोस्
+Payment Status,भुक्तानी स्थिति
+Placing Order...,अर्डर गरिँदैछ...
+Please enter a coupon code,कृपया कुपन कोड प्रविष्ट गर्नुहोस्
+Please enter a valid URL,कृपया मान्य URL प्रविष्ट गर्नुहोस्
+Please enter a valid email address,कृपया मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्
+Please enter your email to receive a reset link,रिसेट लिङ्क प्राप्त गर्न कृपया तपाईंको इमेल प्रविष्ट गर्नुहोस्
+Please provide billing address to proceed,अगाडि बढ्न कृपया बिलिङ ठेगाना प्रदान गर्नुहोस्
+Please select a payment method,कृपया भुक्तानी विधि चयन गर्नुहोस्
+Please select a shipping method,कृपया ढुवानी विधि चयन गर्नुहोस्
+Please sign in to your account,कृपया तपाईंको खातामा साइन इन गर्नुहोस्
+Position,स्थान
+Previous,अघिल्लो
+Previous slide,अघिल्लो स्लाइड
+Price: ${value},मूल्य: ${value}
+Primary,प्राथमिक
+Print Label,लेबल प्रिन्ट गर्नुहोस्
+Processing Payment...,भुक्तानी प्रक्रियामा छ...
+Product Description,उत्पादन विवरण
+Product is out of stock,उत्पादन स्टकमा छैन
+Product name is required,उत्पादनको नाम आवश्यक छ
+Product not found,उत्पादन फेला परेन
+Product type,उत्पादन प्रकार
+Products,उत्पादनहरू
+Reason for cancellation,रद्द गर्नुको कारण
+Reason is required,कारण आवश्यक छ
+Recently placed orders by this customer,यो ग्राहकले हालै गरेका अर्डरहरू
+Redirecting to PayPal...,PayPal मा रिडिरेक्ट गरिँदैछ...
+Reference type,सन्दर्भ प्रकार
+Registration failed,दर्ता असफल भयो
+Remove item,वस्तु हटाउनुहोस्
+Remove sub-field,उप-फिल्ड हटाउनुहोस्
+Required,आवश्यक
+Requires at least one item to create a cart,कार्ट सिर्जना गर्न कम्तीमा एउटा वस्तु आवश्यक छ
+Reset Password,पासवर्ड रिसेट गर्नुहोस्
+Reset Your Password,तपाईंको पासवर्ड रिसेट गर्नुहोस्
+Reset password,पासवर्ड रिसेट गर्नुहोस्
+Reset your password,तपाईंको पासवर्ड रिसेट गर्नुहोस्
+Root,मूल
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU अद्वितीय हुनुपर्छ
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,बिक्री तथ्याङ्क
+Save custom fields,कस्टम फिल्डहरू सेभ गर्नुहोस्
+Save field,फिल्ड सेभ गर्नुहोस्
+Saved successfully!,सफलतापूर्वक सेभ भयो!
+Search attribute groups,एट्रिब्युट समूह खोज्नुहोस्
+Search categories,कोटिहरू खोज्नुहोस्
+Search collections,सङ्ग्रहहरू खोज्नुहोस्
+"Search for products, orders, and other resources","उत्पादन, अर्डर र अन्य स्रोतहरू खोज्नुहोस्"
+Search products,उत्पादनहरू खोज्नुहोस्
+Search results for: ${keyword},खोज परिणामहरू: ${keyword}
+Search widgets…,विजेटहरू खोज्नुहोस्…
+Searching...,खोज्दैछ...
+Search…,खोज्नुहोस्…
+See all orders →,सबै अर्डरहरू हेर्नुहोस् →
+Select,चयन गर्नुहोस्
+Select a carrier,एउटा क्यारियर चयन गर्नुहोस्
+Select at least one item to ship,ढुवानीका लागि कम्तीमा एउटा वस्तु चयन गर्नुहोस्
+Select groups the attribute belongs to,एट्रिब्युट सम्बन्धित समूहहरू चयन गर्नुहोस्
+Select shipping method,ढुवानी विधि चयन गर्नुहोस्
+Select sort,क्रमबद्धता चयन गर्नुहोस्
+"Select the items going in this shipment, then add the carrier & tracking.","यो ढुवानीमा जाने वस्तुहरू चयन गर्नुहोस्, त्यसपछि क्यारियर र ट्र्याकिङ थप्नुहोस्।"
+Setting,सेटिङ
+Settings,सेटिङहरू
+Shipment Status,ढुवानी स्थिति
+Shipment canceled,ढुवानी रद्द गरियो
+Shipment created,ढुवानी सिर्जना गरियो
+Shipment marked delivered,ढुवानी डेलिभर भएको चिन्ह लगाइयो
+Shipments,ढुवानीहरू
+Shipped,पठाइयो
+Shipping (${method}),ढुवानी (${method})
+Shipping Setting,ढुवानी सेटिङ
+Show,देखाउनुहोस्
+Show all ${count} options,सबै ${count} विकल्पहरू देखाउनुहोस्
+Show on storefront,स्टोरफ्रन्टमा देखाउनुहोस्
+Showing ${showing} of ${total},${total} मध्ये ${showing} देखाइँदैछ
+Showing ${start}-${end} of ${total} results,${total} परिणाममध्ये ${start}-${end} देखाइँदैछ
+Sidebar,साइडबार
+Sign in to view your orders,तपाईंका अर्डरहरू हेर्न साइन इन गर्नुहोस्
+Simple,सामान्य
+Sky,आकाश
+Sold out,बिक्री भइसक्यो
+Some error occurred. Please try again later.,केही त्रुटि भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।
+Some products are not available,केही उत्पादनहरू उपलब्ध छैनन्
+Something went wrong! Please try again.,केही गडबड भयो! कृपया फेरि प्रयास गर्नुहोस्।
+Something went wrong. Please try again later.,केही गडबड भयो। कृपया पछि फेरि प्रयास गर्नुहोस्।
+Something wrong. Please try again,केही गडबड भयो। कृपया फेरि प्रयास गर्नुहोस्
+Sort Order,क्रमबद्धता
+Sort order,क्रमबद्धता
+Status,स्थिति
+Stock,मौज्दात
+Stripe is not loaded. Please try again.,Stripe लोड भएको छैन। कृपया फेरि प्रयास गर्नुहोस्।
+Style,शैली
+Sub-fields,उप-फिल्डहरू
+Submit Cancellation,रद्द पेस गर्नुहोस्
+Successfully logged in,सफलतापूर्वक लग इन भयो
+Successfully logged out,सफलतापूर्वक लग आउट भयो
+Tax Setting,कर सेटिङ
+Test failure,परीक्षण असफल
+Test failure:,परीक्षण असफल:
+Test success,परीक्षण सफल
+Test success:,परीक्षण सफल:
+Text,पाठ
+Textarea,पाठ क्षेत्र
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,क्यारियरले ट्र्याकिङ नम्बरलाई अमान्य भनी चिन्ह लगाउनेछ। यदि तपाईं अझै पनि पठाउन चाहनुहुन्छ भने नयाँ लेबल किन्नुपर्नेछ।
+The customer will receive a delivery confirmation email.,ग्राहकले डेलिभरी पुष्टिकरण इमेल प्राप्त गर्नेछन्।
+There is no category,कुनै वर्ग छैन
+There is no file to display.,देखाउनको लागि कुनै फाइल छैन।
+There is no sub folder.,कुनै उप फोल्डर छैन।
+There was an error:,एउटा त्रुटि भयो:
+This tracking link has expired,यो ट्र्याकिङ लिंकको म्याद सकिएको छ
+This tracking link is no longer valid,यो ट्र्याकिङ लिंक अब मान्य छैन
+Thumbnail,थम्बनेल
+Time must be after ${min},समय ${min} पछिको हुनुपर्छ
+Time must be before ${max},समय ${max} अघिको हुनुपर्छ
+Toggle Sidebar,साइडबार टगल गर्नुहोस्
+Token is invalid or expired,टोकन अमान्य वा म्याद सकिएको छ
+Too many items requested,धेरै वस्तुहरू अनुरोध गरियो
+Track,ट्र्याक गर्नुहोस्
+Track shipment →,ढुवानी ट्र्याक गर्नुहोस् →
+Track your order,आफ्नो अर्डर ट्र्याक गर्नुहोस्
+Tracking info updated,ट्र्याकिङ जानकारी अद्यावधिक भयो
+Tracking link,ट्र्याकिङ लिंक
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,ट्र्याकिङ लिंकहरू सीमित समयका लागि मात्र मान्य हुन्छन्। आफ्नो अर्डरको हालको स्थिति हेर्न आफ्नो खातामा साइन इन गर्नुहोस्।
+Tracking number,ट्र्याकिङ नम्बर
+Type,प्रकार
+Type / to see the available blocks,उपलब्ध ब्लकहरू हेर्न / टाइप गर्नुहोस्
+UPDATE PASSWORD,पासवर्ड अद्यावधिक गर्नुहोस्
+Update address API not available,ठेगाना अद्यावधिक API उपलब्ध छैन
+Update field,फिल्ड अद्यावधिक गर्नुहोस्
+Upload,अपलोड गर्नुहोस्
+Validation,प्रमाणीकरण
+Value,मान
+Value must be a whole number,मान पूर्ण संख्या हुनुपर्छ
+Value must be at least ${min},मान कम्तीमा ${min} हुनुपर्छ
+Value must be at most ${max},मान बढीमा ${max} हुनुपर्छ
+View All Products,सबै उत्पादनहरू हेर्नुहोस्
+View JSON,JSON हेर्नुहोस्
+View all customers,सबै ग्राहकहरू हेर्नुहोस्
+Visible to customer,ग्राहकलाई देखिने
+Void Label,लेबल रद्द गर्नुहोस्
+Void label,लेबल रद्द गर्नुहोस्
+Void this shipping label?,यो ढुवानी लेबल रद्द गर्ने?
+"We could not find this order. It may have been removed, or it may belong to a different account.","हामीले यो अर्डर फेला पार्न सकेनौं। यो हटाइएको हुन सक्छ, वा यो अर्को खातासँग सम्बन्धित हुन सक्छ।"
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","हामीले यो लिंक प्रमाणित गर्न सकेनौं। यदि तपाईंले यो हाम्रो इमेलमा प्राप्त गर्नुभएको हो भने, कृपया सबैभन्दा भर्खरको सन्देशबाट फेरि प्रयास गर्नुहोस्, वा आफ्नो खातामा साइन इन गर्नुहोस्।"
+We have sent you an email with a link to reset your password. Please check your inbox.,हामीले तपाईंलाई पासवर्ड रिसेट गर्ने लिंक सहितको इमेल पठाएका छौं। कृपया आफ्नो इनबक्स जाँच गर्नुहोस्।
+Weekly,साप्ताहिक
+Welcome to our store!,हाम्रो पसलमा स्वागत छ!
+"Where you ship, shipping methods and delivery fee","तपाईं कहाँ पठाउनुहुन्छ, ढुवानी विधिहरू र डेलिभरी शुल्क"
+White,सेतो
+Yes,हो
+You are already logged in,तपाईं पहिले नै लग इन हुनुहुन्छ
+You are here:,तपाईं यहाँ हुनुहुन्छ:
+You have no attribute groups to display,देखाउनको लागि तपाईंसँग कुनै विशेषता समूह छैन
+You have no categories to display,देखाउनको लागि तपाईंसँग कुनै वर्ग छैन
+You have no collections to display,देखाउनको लागि तपाईंसँग कुनै सङ्ग्रह छैन
+You have no products to display,देखाउनको लागि तपाईंसँग कुनै उत्पादन छैन
+You have not placed any orders yet.,तपाईंले अहिलेसम्म कुनै अर्डर गर्नुभएको छैन।
+You paid for,तपाईंले भुक्तानी गर्नुभयो
+You will be redirected to PayPal for payment processing.,भुक्तानी प्रशोधनको लागि तपाईंलाई PayPal मा पुनर्निर्देशित गरिनेछ।
+Your Orders,तपाईंका अर्डरहरू
+Your order #${number} has been delivered,तपाईंको अर्डर #${number} डेलिभर भयो
+Your order #${number} is on the way,तपाईंको अर्डर #${number} बाटोमा छ
+Your order has been confirmed!,तपाईंको अर्डर पुष्टि भयो!
+Your password has been updated successfully.,तपाईंको पासवर्ड सफलतापूर्वक अद्यावधिक भयो।
+across,भरि
+available to ship,पठाउन उपलब्ध
+breadcrumb,ब्रेडक्रम्ब
+e.g. Care instructions,"जस्तै, हेरचाह निर्देशनहरू"
+"e.g. New, Sale, Limited","जस्तै, नयाँ, बिक्री, सीमित"
+e.g. Question,"जस्तै, प्रश्न"
+e.g. care_instructions,"जस्तै, care_instructions"
+e.g. question,"जस्तै, question"
+item,वस्तु
+items,वस्तुहरू
+left to ship,पठाउन बाँकी
+of,मध्ये
+of ${count},${count} मध्ये
+unit,एकाइ
+units,एकाइहरू
+${count} changes published.,${count} परिवर्तनहरू प्रकाशित भए।
+${count} child widgets,${count} चाइल्ड विजेटहरू
+${count} countries,${count} देशहरू
+${count} on ${route},${route} मा ${count}
+${count} ops total,कुल ${count} अपरेसनहरू
+${count} pending ops,${count} बाँकी अपरेसनहरू
+${count} pending ops on,${count} बाँकी अपरेसनहरू यसमा
+${count} routes,${count} रुटहरू
+${direction} failed,${direction} असफल भयो
+${method} — ${zone} rate,${method} — ${zone} दर
+${method} — new rate,${method} — नयाँ दर
+${name} attached to ${zone},${name} ${zone} मा संलग्न गरियो
+${name} configuration for ${zone},${zone} का लागि ${name} कन्फिगरेसन
+${name} configuration for this zone,यो क्षेत्रको लागि ${name} कन्फिगरेसन
+${name} configuration saved for ${zone},${zone} का लागि ${name} कन्फिगरेसन सुरक्षित गरियो
+${name} detached,${name} अलग गरियो
+${name} is required,${name} आवश्यक छ
+${title} settings,${title} सेटिङहरू
+${total} changes will go live immediately.,${total} परिवर्तनहरू तुरुन्तै लाइभ हुनेछन्।
+${total} items,${total} वस्तुहरू
+(envelope),(खाम)
++ Add Line,+ लाइन थप्नुहोस्
++ Add Method,+ विधि थप्नुहोस्
++ Add Rate,+ दर थप्नुहोस्
++ Add placement,+ प्लेसमेन्ट थप्नुहोस्
++ Attach Provider,+ प्रदायक संलग्न गर्नुहोस्
++ New package,+ नयाँ प्याकेज
++${count} more,+${count} थप
+", +${count} more",", +${count} थप"
+", last updated",", पछिल्लो अद्यावधिक"
+0 for flat envelopes,समतल खामहरूका लागि ०
+1 change published.,१ परिवर्तन प्रकाशित भयो।
+1 change will go live immediately.,१ परिवर्तन तुरुन्तै लाइभ हुनेछ।
+1 child widget,१ चाइल्ड विजेट
+1 op total,कुल १ अपरेसन
+1 pending op,१ बाँकी अपरेसन
+1 pending op on,१ बाँकी अपरेसन यसमा
+A package is required for shippable products,पठाउन सकिने उत्पादनहरूका लागि प्याकेज आवश्यक छ
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,रोलआउट योजनाले तपाईंका हालका सम्पादनहरूलाई स्न्यापसटको रूपमा सुरक्षित गर्छ र निर्धारित अवधिमा स्वतः लागू गर्छ।
+Action,कार्य
+Actions,कार्यहरू
+Add,थप्नुहोस्
+Add Products,उत्पादनहरू थप्नुहोस्
+Add Rate,दर थप्नुहोस्
+Add Shipping Method,ढुवानी विधि थप्नुहोस्
+Add Tax Rate,कर दर थप्नुहोस्
+Add Variant,भेरियन्ट थप्नुहोस्
+Add products to this category by selecting them from the list below.,तलको सूचीबाट उत्पादनहरू चयन गरेर यो वर्गमा थप्नुहोस्।
+Add rate,दर थप्नुहोस्
+Added,थपियो
+Adding to Column ${number},स्तम्भ ${number} मा थप्दै
+Additional languages,थप भाषाहरू
+Admin panel language,प्रशासन प्यानल भाषा
+Affects ${count} pages,${count} पृष्ठहरूलाई प्रभाव पार्छ
+Affects 1 page,१ पृष्ठलाई प्रभाव पार्छ
+All pages,सबै पृष्ठहरू
+All registered providers are already attached to this zone.,सबै दर्ता गरिएका प्रदायकहरू पहिले नै यस क्षेत्रमा संलग्न छन्।
+All routes,सबै रुटहरू
+Also shown on ${routes},${routes} मा पनि देखाइन्छ
+Also shown on ${routes} +${count},${routes} +${count} मा पनि देखाइन्छ
+Amount must be greater than or equal to 0,रकम ० भन्दा बढी वा बराबर हुनुपर्छ
+Amount must be less than or equal to ${value} ${currency},रकम ${value} ${currency} भन्दा कम वा बराबर हुनुपर्छ
+Apply a condition?,सर्त लागू गर्ने?
+Area,क्षेत्र
+Area is required,क्षेत्र आवश्यक छ
+At least one country is required,कम्तीमा एक देश आवश्यक छ
+Attach,संलग्न गर्नुहोस्
+Attach Provider to ${zone},${zone} मा प्रदायक संलग्न गर्नुहोस्
+Attached Providers,संलग्न प्रदायकहरू
+Attribute Name,विशेषताको नाम
+Attribute code is required,विशेषता कोड आवश्यक छ
+Attribute created successfully!,विशेषता सफलतापूर्वक सिर्जना गरियो!
+Attribute group,विशेषता समूह
+Attribute name is required,विशेषताको नाम आवश्यक छ
+Authorize only,अधिकृत मात्र
+Auto-saves while you edit,तपाईं सम्पादन गर्दा स्वतः सुरक्षित हुन्छ
+Back To Dashboard,ड्यासबोर्डमा फर्कनुहोस्
+Base calculation address,आधार गणना ठेगाना
+Based on cart subtotal,कार्ट उप-जम्माको आधारमा
+Based on cart weight,कार्ट तौलको आधारमा
+Basic configuration,आधारभूत कन्फिगरेसन
+Boolean,बुलियन
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,प्रति-क्षेत्र दरसहितका अन्तर्निहित ढुवानी विधिहरू। पहिले Settings → Shipping अन्तर्गत कुनै क्षेत्रमा Core संलग्न गर्नुहोस्; त्यसपछि यहाँ विधिहरू थप्नुहोस् र प्रति क्षेत्र तिनका दरहरू कन्फिगर गर्नुहोस्।
+Buy X get Y,X किन्नुहोस् Y पाउनुहोस्
+CMS,CMS
+Calculation type,गणना प्रकार
+Can not change the attribute group of a product that is already in a variant group.,पहिले नै भेरियन्ट समूहमा रहेको उत्पादनको विशेषता समूह परिवर्तन गर्न सकिँदैन।
+Cancel rollout,रोलआउट रद्द गर्नुहोस्
+Cancel rollout plan?,रोलआउट योजना रद्द गर्ने?
+Canvas device width,क्यानभास उपकरण चौडाइ
+Capture,क्याप्चर
+Capture Payment,भुक्तानी क्याप्चर गर्नुहोस्
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,पूर्तिका लागि क्यारियर सङ्केत — चेकआउटमा कहिल्यै देखाइँदैन। NewShipmentDialog ले क्यारियर पूर्व-चयन गर्न यो प्रयोग गर्छ।
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,लेबल किन्दा प्रयोग हुने क्यारियर-विशिष्ट सेवा कोड (CreateLabelInput.serviceCode)। स्वतन्त्र रूप — सटीक टोकन क्यारियरको API कागजातमा प्रमाणित गर्नुहोस्। क्यारियरलाई आफ्नो पूर्वनिर्धारित सेवा छनोट गर्न दिन खाली छोड्नुहोस्।
+Cash On Delivery Payment,डेलिभरीमा नगद भुक्तानी
+"Catalog, Search","क्याटलग, खोज"
+Category Image,वर्ग छवि
+Category Name,वर्गको नाम
+Category created successfully!,वर्ग सफलतापूर्वक सिर्जना गरियो!
+Category name is required,वर्गको नाम आवश्यक छ
+Choose Attribute Groups,विशेषता समूहहरू छनोट गर्नुहोस्
+Choose Categories,वर्गहरू छनोट गर्नुहोस्
+Choose Collections,सङ्ग्रहहरू छनोट गर्नुहोस्
+Choose SKUs,SKU हरू छनोट गर्नुहोस्
+Choose how much of your unpublished work to discard. The published storefront is not affected.,तपाईंको अप्रकाशित कामको कति भाग हटाउने भनेर छनोट गर्नुहोस्। प्रकाशित स्टोरफ्रन्ट प्रभावित हुँदैन।
+Choose where you ship and how much you charge for shipping.,तपाईं कहाँ ढुवानी गर्नुहुन्छ र ढुवानीका लागि कति शुल्क लिनुहुन्छ छनोट गर्नुहोस्।
+Clear filter,फिल्टर खाली गर्नुहोस्
+Clear filters,फिल्टरहरू खाली गर्नुहोस्
+Client ID,Client ID
+Client Secret,Client Secret
+Close,बन्द गर्नुहोस्
+Close settings,सेटिङहरू बन्द गर्नुहोस्
+Close — continue draft,बन्द गर्नुहोस् — मस्यौदा जारी राख्नुहोस्
+Cms Pages,CMS पृष्ठहरू
+Collapse left rail,बायाँ रेल संकुचित गर्नुहोस्
+Collapse panel,प्यानल संकुचित गर्नुहोस्
+Collection Code,सङ्ग्रह कोड
+Collection Name,सङ्ग्रहको नाम
+Collection code is required,सङ्ग्रह कोड आवश्यक छ
+Collection code must be alphanumeric and can include underscores or dashes.,सङ्ग्रह कोड वर्णाङ्कीय हुनुपर्छ र अन्डरस्कोर वा ड्यास समावेश गर्न सकिन्छ।
+Collection created successfully!,सङ्ग्रह सफलतापूर्वक सिर्जना गरियो!
+Color,रङ
+Commerce,वाणिज्य
+Compound,मिश्रित
+Condition,सर्त
+Configure,कन्फिगर गर्नुहोस्
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,प्रति क्षेत्र लागत र सर्तहरू कन्फिगर गर्नुहोस्। दर नभएका क्षेत्रहरूले यो विधि प्रस्ताव गर्दैनन्।
+Configure rate,दर कन्फिगर गर्नुहोस्
+Configure the available payment methods,उपलब्ध भुक्तानी विधिहरू कन्फिगर गर्नुहोस्
+Configure the settings for the ${name} widget.,${name} विजेटका लागि सेटिङहरू कन्फिगर गर्नुहोस्।
+Configure the tax classes that will be available to your customers at checkout.,चेकआउटमा तपाईंका ग्राहकहरूका लागि उपलब्ध हुने कर वर्गहरू कन्फिगर गर्नुहोस्।
+Configure your Cash On Delivery payment gateway settings,तपाईंको डेलिभरीमा नगद भुक्तानी गेटवे सेटिङहरू कन्फिगर गर्नुहोस्
+Configure your Paypal payment gateway settings,तपाईंको Paypal भुक्तानी गेटवे सेटिङहरू कन्फिगर गर्नुहोस्
+Configure your Stripe payment gateway settings,तपाईंको Stripe भुक्तानी गेटवे सेटिङहरू कन्फिगर गर्नुहोस्
+Configure your store information,तपाईंको स्टोर जानकारी कन्फिगर गर्नुहोस्
+"Conflicts with ${plan1}, ${plan2}","${plan1}, ${plan2} सँग द्वन्द्व छ"
+Conflicts with ${plan},${plan} सँग द्वन्द्व छ
+Conflicts with ${plan} +${count},${plan} +${count} सँग द्वन्द्व छ
+Conflicts with:,यससँग द्वन्द्व छ:
+Content,सामग्री
+Continue a saved rollout plan,सुरक्षित गरिएको रोलआउट योजना जारी राख्नुहोस्
+Continue your draft,तपाईंको मस्यौदा जारी राख्नुहोस्
+Core Shipping,Core ढुवानी
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core अझै कुनै क्षेत्रमा संलग्न छैन। पहिले Settings → Shipping अन्तर्गत यसलाई संलग्न गर्नुहोस्।
+Cost,लागत
+Cost is required,लागत आवश्यक छ
+Could not start fresh,नयाँ सुरु गर्न सकिएन
+Countries,देशहरू
+"Country code (e.g., ""US""). Use ""*"" for all countries.","देश कोड (जस्तै, ""US"")। सबै देशहरूका लागि ""*"" प्रयोग गर्नुहोस्।"
+Coupon Code,कुपन कोड
+"Coupon code can only contain letters, numbers, underscores, and hyphens","कुपन कोडमा अक्षर, नम्बर, अन्डरस्कोर र हाइफनहरू मात्र हुन सक्छन्"
+Coupon created successfully!,कुपन सफलतापूर्वक सिर्जना गरियो!
+Coupons,कुपनहरू
+Create A New Customer,नयाँ ग्राहक सिर्जना गर्नुहोस्
+Create New Package,नयाँ प्याकेज सिर्जना गर्नुहोस्
+Create New Tax Class,नयाँ कर वर्ग सिर्जना गर्नुहोस्
+Create New Zone,नयाँ क्षेत्र सिर्जना गर्नुहोस्
+Create a new category,नयाँ वर्ग सिर्जना गर्नुहोस्
+Create a new collection,नयाँ सङ्ग्रह सिर्जना गर्नुहोस्
+Create a new coupon,नयाँ कुपन सिर्जना गर्नुहोस्
+Create a new page,नयाँ पृष्ठ सिर्जना गर्नुहोस्
+Create a new product,नयाँ उत्पादन सिर्जना गर्नुहोस्
+Create a new variant for this product.,यस उत्पादनका लागि नयाँ भेरियन्ट सिर्जना गर्नुहोस्।
+Create a new widget,नयाँ विजेट सिर्जना गर्नुहोस्
+Create a variant group,भेरियन्ट समूह सिर्जना गर्नुहोस्
+Create method,विधि सिर्जना गर्नुहोस्
+Create new tax class,नयाँ कर वर्ग सिर्जना गर्नुहोस्
+Create rollout plan,रोलआउट योजना सिर्जना गर्नुहोस्
+Created At,सिर्जना मिति
+Current,हालको
+Customer,ग्राहक
+Customer Email,ग्राहक इमेल
+Customer conditions,ग्राहक सर्तहरू
+Customer emails,ग्राहक इमेलहरू
+Customer groups,ग्राहक समूहहरू
+Customer's purchase,ग्राहकको खरिद
+Customers,ग्राहकहरू
+Customers (${count}),ग्राहकहरू (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,${zone} का ग्राहकहरूले अब चेकआउटमा ${name} का विधिहरू देख्ने छैनन्। तपाईं पछि यसलाई पुनः संलग्न गर्न सक्नुहुन्छ।
+Dashboard,ड्यासबोर्ड
+Date,मिति
+Decrease,घटाउनुहोस्
+Default carrier,पूर्वनिर्धारित क्यारियर
+Default language,पूर्वनिर्धारित भाषा
+Default package,पूर्वनिर्धारित प्याकेज
+Default service code,पूर्वनिर्धारित सेवा कोड
+"Delete ""${name}""?","""${name}"" मेटाउने?"
+Delete ${count} attributes,${count} विशेषताहरू मेटाउनुहोस्
+Delete ${count} categories,${count} वर्गहरू मेटाउनुहोस्
+Delete ${count} collections,${count} सङ्ग्रहहरू मेटाउनुहोस्
+Delete ${count} pages,${count} पृष्ठहरू मेटाउनुहोस्
+Delete ${count} widgets,${count} विजेटहरू मेटाउनुहोस्
+Delete container widget?,कन्टेनर विजेट मेटाउने?
+Delete image,छवि मेटाउनुहोस्
+"Delete package ""${name}""?","प्याकेज ""${name}"" मेटाउने?"
+Delete this,यो मेटाउनुहोस्
+Delete this widget? This will be saved as a pending change you can publish or discard.,यो विजेट मेटाउने? यो तपाईंले प्रकाशित वा हटाउन सक्ने विचाराधीन परिवर्तनको रूपमा सुरक्षित हुनेछ।
+Delete widget?,विजेट मेटाउने?
+Delete zone,क्षेत्र मेटाउनुहोस्
+"Delete zone ""${name}""?","क्षेत्र ""${name}"" मेटाउने?"
+Deleted ${name},${name} मेटाइयो
+Deleting this,यो मेटाइँदै
+Deleting this container will also hide,यो कन्टेनर मेटाउँदा यो पनि लुकाइनेछ
+Description is required,विवरण आवश्यक छ
+Desktop,डेस्कटप
+Detach,अलग गर्नुहोस्
+Detach ${name}?,${name} अलग गर्ने?
+Disable ${count} pages,${count} पृष्ठहरू निष्क्रिय गर्नुहोस्
+Disable ${count} widgets,${count} विजेटहरू निष्क्रिय गर्नुहोस्
+Disabled products will not be visible in the store and cannot be purchased.,निष्क्रिय उत्पादनहरू स्टोरमा देखिने छैनन् र किन्न सकिँदैन।
+Discard changes on this page only,यस पृष्ठका परिवर्तनहरू मात्र खारेज गर्नुहोस्
+Discard everything,सबै खारेज गर्नुहोस्
+Discard everything in this draft,यस मस्यौदाका सबै खारेज गर्नुहोस्
+Discard failed,खारेज गर्न असफल भयो
+Discard pending changes?,बाँकी परिवर्तनहरू खारेज गर्ने?
+Discard this page,यो पृष्ठ खारेज गर्नुहोस्
+Discarding…,खारेज गर्दै…
+Discount Type,छुटको प्रकार
+Discount amount,छुट रकम
+Discount amount is required,छुट रकम आवश्यक छ
+Discount type is required,छुटको प्रकार आवश्यक छ
+Dislay Name,प्रदर्शन नाम
+Display Name,प्रदर्शन नाम
+Draft,मस्यौदा
+Draft — not scheduled,मस्यौदा — तालिकाबद्ध छैन
+Drag to resize,आकार बदल्न तान्नुहोस्
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","प्रत्येक पङ्क्तिले यो विजेटलाई एक पृष्ठमा, एक क्षेत्रमा, आफ्नै क्रम अनुसार राख्छ। साना नम्बरहरू पहिले देखिन्छन्।"
+Edit ${name},${name} सम्पादन गर्नुहोस्
+Edit Shipping Zone,ढुवानी क्षेत्र सम्पादन गर्नुहोस्
+Edit Tax Rate,कर दर सम्पादन गर्नुहोस्
+Edit Variant,भेरिएन्ट सम्पादन गर्नुहोस्
+Edit Zone,क्षेत्र सम्पादन गर्नुहोस्
+Edit against the live storefront. Publish immediately or save as a rollout plan.,लाइभ स्टोरफ्रन्टमा सम्पादन गर्नुहोस्। तुरुन्तै प्रकाशित गर्नुहोस् वा रोलआउट योजनाको रूपमा सुरक्षित गर्नुहोस्।
+Edit rollout schedule,रोलआउट तालिका सम्पादन गर्नुहोस्
+Editable routes,सम्पादनयोग्य रुटहरू
+Editing ${coupon},${coupon} सम्पादन गर्दै
+Editing ${fullName},${fullName} सम्पादन गर्दै
+Editing widget ${name},विजेट ${name} सम्पादन गर्दै
+Edits to a shared widget update every route it appears on.,साझा विजेटमा गरिएका सम्पादनहरूले यो देखिने हरेक रुट अद्यावधिक गर्छ।
+Empty package weight,खाली प्याकेजको तौल
+Empty weight,खाली तौल
+Enable ${count} pages,${count} पृष्ठहरू सक्रिय गर्नुहोस्
+Enable ${count} widgets,${count} विजेटहरू सक्रिय गर्नुहोस्
+Enable this page to make it visible on the frontend.,यो पृष्ठलाई फ्रन्टएन्डमा देखिने बनाउन सक्रिय गर्नुहोस्।
+Enable?,सक्रिय गर्ने?
+End,अन्त्य
+End Date,अन्त्य मिति
+End date,अन्त्य मिति
+End time is invalid.,अन्त्य समय अमान्य छ।
+End time must be after start time.,अन्त्य समय सुरु समयपछि हुनुपर्छ।
+Enter Category Name,कोटि नाम प्रविष्ट गर्नुहोस्
+Enter Collection Name,सङ्ग्रहको नाम प्रविष्ट गर्नुहोस्
+Enter Meta Description,Meta विवरण प्रविष्ट गर्नुहोस्
+Enter Meta Title,Meta शीर्षक प्रविष्ट गर्नुहोस्
+Enter Meta description,Meta विवरण प्रविष्ट गर्नुहोस्
+Enter Meta title,Meta शीर्षक प्रविष्ट गर्नुहोस्
+Enter SKU,SKU प्रविष्ट गर्नुहोस्
+Enter URL Key,URL कुञ्जी प्रविष्ट गर्नुहोस्
+Enter URL key,URL कुञ्जी प्रविष्ट गर्नुहोस्
+Enter customer emails,ग्राहक इमेलहरू प्रविष्ट गर्नुहोस्
+Enter description,विवरण प्रविष्ट गर्नुहोस्
+Enter group name,समूहको नाम प्रविष्ट गर्नुहोस्
+Enter meta description,meta विवरण प्रविष्ट गर्नुहोस्
+Enter meta title,meta शीर्षक प्रविष्ट गर्नुहोस्
+Enter page name,पृष्ठको नाम प्रविष्ट गर्नुहोस्
+Enter price,मूल्य प्रविष्ट गर्नुहोस्
+Enter product name,उत्पादनको नाम प्रविष्ट गर्नुहोस्
+Enter purchased amount,किनिएको रकम प्रविष्ट गर्नुहोस्
+Enter quantity,परिमाण प्रविष्ट गर्नुहोस्
+Enter tax class name,कर वर्गको नाम प्रविष्ट गर्नुहोस्
+Enter the quantity,परिमाण प्रविष्ट गर्नुहोस्
+Enter weight,तौल प्रविष्ट गर्नुहोस्
+Environment,वातावरण
+Error loading countries,देशहरू लोड गर्दा त्रुटि
+Error loading methods,विधिहरू लोड गर्दा त्रुटि
+Error loading packages,प्याकेजहरू लोड गर्दा त्रुटि
+Error loading providers,प्रदायकहरू लोड गर्दा त्रुटि
+Error loading zones,क्षेत्रहरू लोड गर्दा त्रुटि
+EverShop · Back to page builder,EverShop · पृष्ठ बिल्डरमा फर्कनुहोस्
+Every page rolls back to the rollout’s saved state.,हरेक पृष्ठ रोलआउटको सुरक्षित अवस्थामा फर्कन्छ।
+Every page rolls back to what the rollout had saved.,हरेक पृष्ठ रोलआउटले सुरक्षित गरेको अवस्थामा फर्कन्छ।
+Existing rollout plan: ${plan},विद्यमान रोलआउट योजना: ${plan}
+Expand,विस्तार गर्नुहोस्
+Expand left rail,बायाँ रेल विस्तार गर्नुहोस्
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.",पूर्वनिर्धारितबाहेक खरिदकर्ताले बदल्न सक्ने थप भाषाहरू। पूर्वनिर्धारित भाषा सधैँ उपलब्ध हुन्छ — तपाईंले यहाँ थप्नु पर्दैन।
+Failed to attach provider,प्रदायक संलग्न गर्न असफल भयो
+Failed to delete ${name},${name} मेटाउन असफल भयो
+Failed to detach ${name},${name} अलग गर्न असफल भयो
+Failed to remove rate,दर हटाउन असफल भयो
+Failed to remove zone,क्षेत्र हटाउन असफल भयो
+Failed to save change,परिवर्तन सुरक्षित गर्न असफल भयो
+Failed to save rate,दर सुरक्षित गर्न असफल भयो
+Failed to save zone,क्षेत्र सुरक्षित गर्न असफल भयो
+Failed to update rollout schedule,रोलआउट तालिका अद्यावधिक गर्न असफल भयो
+Fixed discount to entire order,सम्पूर्ण अर्डरमा निश्चित छुट
+Fixed discount to specific products,निश्चित उत्पादनहरूमा निश्चित छुट
+Flat rate,समान दर
+"Flat rate in cart currency, tax-exclusive.","कार्ट मुद्रामा समान दर, कर बाहेक।"
+Free shipping?,निःशुल्क ढुवानी?
+General Information,सामान्य जानकारी
+Give Feedback,प्रतिक्रिया दिनुहोस्
+Global,विश्वव्यापी
+Globals,विश्वव्यापीहरू
+Group,समूह
+Group Name,समूहको नाम
+Group name is required,समूहको नाम आवश्यक छ
+Groups,समूहहरू
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,अर्ध-खुला अन्तराल — ठ्याक्कै Max मा रहेको कार्ट बाहिर रहन्छ (अर्को तहको Min ले त्यो बिन्दु ओगट्छ)।
+Has conflicts,द्वन्द्वहरू छन्
+Heads up — ,सावधान — 
+Height,उचाइ
+Height is required (0 for envelopes),उचाइ आवश्यक छ (खामका लागि 0)
+Height must be 0 or greater,उचाइ 0 वा सोभन्दा बढी हुनुपर्छ
+Hide global areas,विश्वव्यापी क्षेत्रहरू लुकाउनुहोस्
+Higest tax rate based on cart items,कार्ट वस्तुहरूमा आधारित सबैभन्दा उच्च कर दर
+Highlight global areas on canvas,क्यानभासमा विश्वव्यापी क्षेत्रहरू हाइलाइट गर्नुहोस्
+Image,छवि
+Include In Menu,मेनुमा समावेश गर्नुहोस्
+Include in Store Menu?,स्टोर मेनुमा समावेश गर्ने?
+Increase,वृद्धि गर्नुहोस्
+Insert image,छवि घुसाउनुहोस्
+Integer,पूर्णाङ्क
+Invalid folder name,अमान्य फोल्डर नाम
+Invalid start,अमान्य सुरुवात
+Invalid window,अमान्य अवधि
+Inventory,इन्भेन्टरी
+Is compound,संयुक्त हो
+Its rates will be removed too. This cannot be undone.,यसका दरहरू पनि हटाइनेछन्। यो पूर्ववत् गर्न सकिँदैन।
+Languages,भाषाहरू
+Layers,तहहरू
+Layout,लेआउट
+Leave,छोड्नुहोस्
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,सम्पूर्ण देश समेट्न देशको सूची खाली राख्नुहोस्। ढुवानीलाई निश्चित क्षेत्रहरूमा सीमित गर्न प्रदेशहरू थप्नुहोस्।
+Leaving now may drop the most recent edits that haven’t reached the server yet.,अहिले छोड्दा सर्भरमा नपुगेका हालैका सम्पादनहरू हराउन सक्छन्।
+Length,लम्बाइ
+Length is required,लम्बाइ आवश्यक छ
+Length must be greater than 0,लम्बाइ 0 भन्दा बढी हुनुपर्छ
+Live,लाइभ
+Loading...,लोड हुँदै...
+Long text,लामो पाठ
+Lower values appear first.,साना मानहरू पहिले देखिन्छन्।
+Manage Stock,स्टक व्यवस्थापन गर्नुहोस्
+Manage general information about the collection.,सङ्ग्रहको सामान्य जानकारी व्यवस्थापन गर्नुहोस्।
+Manage product images and gallery. Drag and drop to reorder images.,उत्पादन छविहरू र ग्यालरी व्यवस्थापन गर्नुहोस्। छविहरू पुनःक्रमबद्ध गर्न तानेर छाड्नुहोस्।
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","ढुवानी एकीकरणहरू र तिनका विधिहरू व्यवस्थापन गर्नुहोस् (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,विभिन्न क्षेत्रहरूका लागि कर वर्गहरू र कर दरहरू व्यवस्थापन गर्नुहोस्।
+Manage the SEO settings of the category.,कोटिको SEO सेटिङहरू व्यवस्थापन गर्नुहोस्।
+Manage the SEO settings.,SEO सेटिङहरू व्यवस्थापन गर्नुहोस्।
+Manage the attributes.,विशेषताहरू व्यवस्थापन गर्नुहोस्।
+Manage the collections associated with this product.,यस उत्पादनसँग सम्बन्धित सङ्ग्रहहरू व्यवस्थापन गर्नुहोस्।
+Manage the general information of the category.,कोटिको सामान्य जानकारी व्यवस्थापन गर्नुहोस्।
+Manage the general information of the product.,उत्पादनको सामान्य जानकारी व्यवस्थापन गर्नुहोस्।
+Manage the inventory settings of the product.,उत्पादनको इन्भेन्टरी सेटिङहरू व्यवस्थापन गर्नुहोस्।
+Manage the products assigned to this category.,यस कोटिमा तोकिएका उत्पादनहरू व्यवस्थापन गर्नुहोस्।
+Manage the products assigned to this collection.,यस सङ्ग्रहमा तोकिएका उत्पादनहरू व्यवस्थापन गर्नुहोस्।
+Manage the shipping settings of the product.,उत्पादनको ढुवानी सेटिङहरू व्यवस्थापन गर्नुहोस्।
+Manage the status settings of the category.,श्रेणीको स्थिति सेटिङहरू व्यवस्थापन गर्नुहोस्।
+Manage the variant group of the product.,उत्पादनको भेरियन्ट समूह व्यवस्थापन गर्नुहोस्।
+Marketing,मार्केटिङ
+Max ${unit},अधिकतम ${unit}
+Max is required,अधिकतम आवश्यक छ
+Maximum,अधिकतम
+Maximum amount is ${value} ${currency},अधिकतम रकम ${value} ${currency} हो
+Maximum quantity is required,अधिकतम परिमाण आवश्यक छ
+Maximum quantity must be greater than or equal to 0,अधिकतम परिमाण ० भन्दा ठूलो वा बराबर हुनुपर्छ
+Media,मिडिया
+Meta Description,मेटा विवरण
+Meta Title,मेटा शीर्षक
+Meta Title is required,मेटा शीर्षक आवश्यक छ
+Meta description,मेटा विवरण
+Meta description is required,मेटा विवरण आवश्यक छ
+Meta title,मेटा शीर्षक
+Meta title is required,मेटा शीर्षक आवश्यक छ
+Method,विधि
+Method created,विधि सिर्जना गरियो
+Method name,विधिको नाम
+Method name is required,विधिको नाम आवश्यक छ
+Method updated,विधि अद्यावधिक गरियो
+Methods →,विधिहरू →
+Min ${unit},न्यूनतम ${unit}
+Min Price,न्यूनतम मूल्य
+Min Weight,न्यूनतम तौल
+Min is required,न्यूनतम आवश्यक छ
+Min price is required,न्यूनतम मूल्य आवश्यक छ
+Min weight is required,न्यूनतम तौल आवश्यक छ
+Minimum purchase amount,न्यूनतम खरिद रकम
+Minimum purchase qty,न्यूनतम खरिद परिमाण
+Minimum purchase quantity,न्यूनतम खरिद परिमाण
+Minimum purchased amount. This only applies to registered customers.,न्यूनतम खरिद रकम। यो दर्ता भएका ग्राहकहरूमा मात्र लागू हुन्छ।
+Minimum quantity is required,न्यूनतम परिमाण आवश्यक छ
+Missing name,नाम छुटेको छ
+Money,रकम
+Name is required.,नाम आवश्यक छ।
+Navigation,नेभिगेसन
+New Attribute,नयाँ एट्रिब्युट
+New Category,नयाँ श्रेणी
+New Collection,नयाँ संग्रह
+New Coupon,नयाँ कुपन
+New Page,नयाँ पृष्ठ
+New Variant,नयाँ भेरियन्ट
+New coupon,नयाँ कुपन
+New rate,नयाँ दर
+No collections,कुनै संग्रह छैन
+No editable routes.,सम्पादनयोग्य रुटहरू छैनन्।
+No file selected,कुनै फाइल चयन गरिएको छैन
+No methods yet — add one to start offering Core shipping.,अहिलेसम्म कुनै विधि छैन — Core ढुवानी प्रस्ताव सुरु गर्न एउटा थप्नुहोस्।
+No packages yet. Create one — shippable products require a package.,अहिलेसम्म कुनै प्याकेज छैन। एउटा सिर्जना गर्नुहोस् — ढुवानीयोग्य उत्पादनहरूलाई प्याकेज आवश्यक हुन्छ।
+No product to display.,देखाउनको लागि कुनै उत्पादन छैन।
+"No providers attached. Click ""Attach Provider"" to add one.","कुनै प्रदायक संलग्न छैन। एउटा थप्न ""Attach Provider"" क्लिक गर्नुहोस्।"
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","अहिलेसम्म कुनै दर छैन — यो विधि कुनै क्षेत्रमा प्रस्ताव गर्न ""Add Rate"" क्लिक गर्नुहोस्।"
+"No results for ""${keyword}""","""${keyword}"" को लागि कुनै नतिजा छैन"
+No routes have opted into page-builder editing yet.,अहिलेसम्म कुनै पनि रुटले पेज-बिल्डर सम्पादन रोजेको छैन।
+No shipping required?,ढुवानी आवश्यक छैन?
+No subdivisions available — whole country is covered.,कुनै उपविभाजन उपलब्ध छैन — सम्पूर्ण देश समेटिएको छ।
+No widgets available.,कुनै विजेट उपलब्ध छैन।
+"No widgets match ""${query}"".","""${query}"" सँग मिल्ने कुनै विजेट छैन।"
+No widgets on this route yet.,अहिलेसम्म यो रुटमा कुनै विजेट छैन।
+No zones,कुनै क्षेत्र छैन
+No zones found,कुनै क्षेत्र फेला परेन
+Not visible individually,व्यक्तिगत रूपमा देखिँदैन
+Nothing to publish,प्रकाशन गर्न केही छैन
+Nothing to redo on this page,यो पृष्ठमा पुनः गर्न केही छैन
+Nothing to undo on this page,यो पृष्ठमा पूर्ववत् गर्न केही छैन
+Number,सङ्ख्या
+Option text is required,विकल्प पाठ आवश्यक छ
+Optional. Added to the shipping weight for quotes and labels.,वैकल्पिक। उद्धरण र लेबलहरूको लागि ढुवानी तौलमा थपिन्छ।
+Order Number,अर्डर नम्बर
+Order conditions,अर्डर सर्तहरू
+Orders (${count}),अर्डरहरू (${count})
+Other,अन्य
+Other pages keep their pending changes.,अन्य पृष्ठहरूले आफ्ना बाँकी परिवर्तनहरू राख्छन्।
+Overlaps with existing rollout: ${plans}.,अवस्थित रोलआउटसँग ओभरल्याप हुन्छ: ${plans}।
+Overlaps with existing rollouts: ${plans}.,अवस्थित रोलआउटहरूसँग ओभरल्याप हुन्छ: ${plans}।
+Package,प्याकेज
+Package created,प्याकेज सिर्जना गरियो
+Package deleted,प्याकेज मेटाइयो
+Package saved,प्याकेज सुरक्षित गरियो
+Packages,प्याकेजहरू
+Page Name,पृष्ठको नाम
+Page Not Found,पृष्ठ फेला परेन
+Page builder,पेज बिल्डर
+Page builder canvas,पेज बिल्डर क्यानभास
+Page created successfully!,पृष्ठ सफलतापूर्वक सिर्जना गरियो!
+Page is required,पृष्ठ आवश्यक छ
+Page name is required,पृष्ठको नाम आवश्यक छ
+Pages,पृष्ठहरू
+Parent category,मूल श्रेणी
+Payment Setting,भुक्तानी सेटिङ
+Payment mode,भुक्तानी मोड
+Payment setting saved,भुक्तानी सेटिङ सुरक्षित गरियो
+Paypal Payment,Paypal भुक्तानी
+Pending start time,सुरु हुने समय बाँकी
+Percentage discount to entire order,सम्पूर्ण अर्डरमा प्रतिशत छुट
+Percentage discount to specific products,निर्दिष्ट उत्पादनहरूमा प्रतिशत छुट
+Phone,फोन
+Pick a start time to schedule this rollout.,यो रोलआउट तालिकाबद्ध गर्न सुरु हुने समय छान्नुहोस्।
+Pick a widget below to insert as a child.,चाइल्डको रूपमा घुसाउन तल एउटा विजेट छान्नुहोस्।
+Pick up where you left off — ${count} pending changes,तपाईंले छोडेको ठाउँबाट सुरु गर्नुहोस् — ${count} बाँकी परिवर्तनहरू
+Pick up where you left off — 1 pending change,तपाईंले छोडेको ठाउँबाट सुरु गर्नुहोस् — १ बाँकी परिवर्तन
+Pin drawer open,ड्रअर खुला राख्न पिन गर्नुहोस्
+Pin — keep drawer open across canvas clicks,पिन — क्यानभास क्लिकहरूमा ड्रअर खुला राख्नुहोस्
+Placed on: ${routes},राखिएको: ${routes}
+Placements,प्लेसमेन्टहरू
+Postal Code,हुलाक कोड
+"Postcode (e.g., ""90210""). Empty for all postcodes.","हुलाक कोड (जस्तै, ""90210"")। सबै हुलाक कोडका लागि खाली राख्नुहोस्।"
+Preselected for new products. Exactly one package is the default.,नयाँ उत्पादनहरूका लागि पूर्वचयन गरिएको। ठ्याक्कै एउटा प्याकेज पूर्वनिर्धारित हो।
+Preview,पूर्वावलोकन
+Price-based tiers,मूल्य-आधारित स्तरहरू
+Priority,प्राथमिकता
+Priority is required,प्राथमिकता आवश्यक छ
+Product Name,उत्पादनको नाम
+Product Status,उत्पादनको स्थिति
+Product created successfully,उत्पादन सफलतापूर्वक सिर्जना गरियो
+Product updated successfully,उत्पादन सफलतापूर्वक अद्यावधिक गरियो
+Products (${count}),उत्पादनहरू (${count})
+Promotion,प्रोमोसन
+Proportional allocation based on cart items,कार्ट वस्तुहरूमा आधारित समानुपातिक विनियोजन
+Provide the SEO details for the CMS page.,CMS पृष्ठका लागि SEO विवरणहरू प्रदान गर्नुहोस्।
+Provide the basic information for the CMS page.,CMS पृष्ठका लागि आधारभूत जानकारी प्रदान गर्नुहोस्।
+Provider,प्रदायक
+Province Restrictions,प्रदेश प्रतिबन्धहरू
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.","प्रदेश कोड (जस्तै, ""CA"")। सबै प्रदेशहरूका लागि ""*"" प्रयोग गर्नुहोस्।"
+Provinces,प्रदेशहरू
+Provinces is required,प्रदेशहरू आवश्यक छन्
+Provinces:,प्रदेशहरू:
+Publish failed,प्रकाशन असफल भयो
+Publish now,अहिले प्रकाशन गर्नुहोस्
+Publish to the live storefront,लाइभ स्टोरफ्रन्टमा प्रकाशन गर्नुहोस्
+Publishable Key,प्रकाशनयोग्य कुञ्जी
+Publishing…,प्रकाशन गर्दै…
+Qty is required,परिमाण आवश्यक छ
+Quick links,द्रुत लिङ्कहरू
+Rate,दर
+Rate added,दर थपियो
+Rate is required,दर आवश्यक छ
+Rate removed,दर हटाइयो
+Rate status,दरको स्थिति
+Rate updated,दर अद्यावधिक गरियो
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,पुनः गर्नुहोस् (⇧⌘Z) — यो पृष्ठमा अन्तिम पूर्ववत् गरिएको सम्पादन पुनः लागू गर्छ
+Redo last undone change on this page,यो पृष्ठमा अन्तिम पूर्ववत् गरिएको परिवर्तन पुनः गर्नुहोस्
+Reference,सन्दर्भ
+Refund,फिर्ता
+Refund amount,फिर्ता रकम
+Remove Zone,क्षेत्र हटाउनुहोस्
+Remove placement,प्लेसमेन्ट हटाउनुहोस्
+Remove rate,दर हटाउनुहोस्
+Remove this rate?,यो दर हटाउने हो?
+Removed,हटाइयो
+Resize settings drawer,सेटिङ ड्रअरको आकार बदल्नुहोस्
+"Results for ""${keyword}""","""${keyword}"" का नतिजाहरू"
+Revert all pages to saved state,सबै पृष्ठहरूलाई सुरक्षित अवस्थामा फर्काउनुहोस्
+Revert everything,सबै कुरा फर्काउनुहोस्
+Revert this page,यो पृष्ठ फर्काउनुहोस्
+Revert this page only,यो पृष्ठ मात्र फर्काउनुहोस्
+Revert to saved state?,सुरक्षित अवस्थामा फर्काउने हो?
+Reverting…,फर्काउँदै…
+Rich text,रिच टेक्स्ट
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,यो रोलआउट अन्तिम पटक सुरक्षित गरिएदेखि तपाईंले गरेका परिवर्तनहरू फिर्ता लिनुहोस्। लाइभ स्टोरफ्रन्ट प्रभावित हुँदैन — यसले पहिल्यै सुरक्षित अवस्थालाई प्रतिबिम्बित गर्छ।
+SEO,SEO
+SEO Information,SEO जानकारी
+SKU is required,SKU आवश्यक छ
+Sale,बिक्री
+Sandbox,स्यान्डबक्स
+Save Settings,सेटिङ सुरक्षित गर्नुहोस्
+Save as rollout plan,रोलआउट योजनाको रूपमा सुरक्षित गर्नुहोस्
+Save as rollout plan and leave,रोलआउट योजनाको रूपमा सुरक्षित गरी बाहिर निस्कनुहोस्
+Save changes,परिवर्तनहरू सुरक्षित गर्नुहोस्
+Save failed,सुरक्षित गर्न असफल
+Save method,विधि सुरक्षित गर्नुहोस्
+Save rate,दर सुरक्षित गर्नुहोस्
+Saving…,सुरक्षित गर्दै…
+Schedule failed,समयतालिका असफल
+Scheduled,समयतालिका तय गरियो
+Search engine optimize,खोज इन्जिन अप्टिमाइज
+Search widgets,विजेटहरू खोज्नुहोस्
+Secret Key,गोप्य कुञ्जी
+Select Category,वर्ग चयन गर्नुहोस्
+Select Parent Category,मूल वर्ग चयन गर्नुहोस्
+Select Products by SKU,SKU अनुसार उत्पादनहरू चयन गर्नुहोस्
+Select a provider first,पहिले एक प्रदायक चयन गर्नुहोस्
+Select a provider…,एक प्रदायक चयन गर्नुहोस्…
+Select an option,एक विकल्प चयन गर्नुहोस्
+Select category,वर्ग चयन गर्नुहोस्
+Select countries,देशहरू चयन गर्नुहोस्
+Select operator,अपरेटर चयन गर्नुहोस्
+Select options,विकल्पहरू चयन गर्नुहोस्
+Select page,पृष्ठ चयन गर्नुहोस्
+Select products to add to this collection.,यो सङ्ग्रहमा थप्न उत्पादनहरू चयन गर्नुहोस्।
+Select the list of attribute,विशेषताको सूची चयन गर्नुहोस्
+Select this option if the product is a digital product or service that does not require shipping.,यदि उत्पादन डिजिटल उत्पादन वा सेवा हो जसलाई ढुवानी आवश्यक पर्दैन भने यो विकल्प चयन गर्नुहोस्।
+Set a start time to schedule.,समयतालिका तय गर्न सुरु समय सेट गर्नुहोस्।
+Set the status and visibility of the product.,उत्पादनको स्थिति र दृश्यता सेट गर्नुहोस्।
+Share,सेयर गर्नुहोस्
+Shipping Cost,ढुवानी शुल्क
+Shipping Providers,ढुवानी प्रदायकहरू
+Shipping address,ढुवानी ठेगाना
+Shipping cost is required,ढुवानी शुल्क आवश्यक छ
+Shipping provider setting saved,ढुवानी प्रदायक सेटिङ सुरक्षित गरियो
+Shipping tax class,ढुवानी कर वर्ग
+Short text,छोटो टेक्स्ट
+Show global areas,ग्लोबल क्षेत्रहरू देखाउनुहोस्
+Show on routes,रुटहरूमा देखाउनुहोस्
+Show products?,उत्पादनहरू देखाउने हो?
+Show this widget on every page,यो विजेट हरेक पृष्ठमा देखाउनुहोस्
+Size (L × W × H),आकार (ल × चौ × उ)
+Sort,क्रमबद्ध गर्नुहोस्
+Sort order is required,क्रम क्रमाङ्क आवश्यक छ
+Sort order must be a positive number,क्रम क्रमाङ्क सकारात्मक सङ्ख्या हुनुपर्छ
+Start,सुरु
+Start a page-builder session,पेज-बिल्डर सत्र सुरु गर्नुहोस्
+Start date,सुरु मिति
+Start new changeset,नयाँ चेन्जसेट सुरु गर्नुहोस्
+Start time is invalid.,सुरु समय अमान्य छ।
+State Date,राज्य मिति
+Status is required,स्थिति आवश्यक छ
+Stay,रहनुहोस्
+Stay on this page,यो पृष्ठमा रहनुहोस्
+Stock Availability,स्टक उपलब्धता
+Stop highlighting global areas,ग्लोबल क्षेत्रहरू हाइलाइट गर्न रोक्नुहोस्
+Store Address,पसल ठेगाना
+Store Description,पसल विवरण
+Store Email,पसल इमेल
+Store Name,पसल नाम
+Store Phone Number,पसल फोन नम्बर
+Store Setting,पसल सेटिङ
+Store Settings,पसल सेटिङहरू
+Store address,पसल ठेगाना
+Storefront,स्टोरफ्रन्ट
+Stripe Payment,Stripe भुक्तानी
+Tablet,ट्याब्लेट
+Take our survey,हाम्रो सर्वेक्षणमा भाग लिनुहोस्
+Target Products,लक्षित उत्पादनहरू
+Tax Class,कर वर्ग
+Tax calculation configuration,कर गणना कन्फिगरेसन
+Tax class name,कर वर्ग नाम
+Tax class name is required,कर वर्ग नाम आवश्यक छ
+Tax classes,कर वर्गहरू
+Tax rate has been saved successfully!,कर दर सफलतापूर्वक सुरक्षित गरियो!
+Tax setting has been saved successfully!,कर सेटिङ सफलतापूर्वक सुरक्षित गरियो!
+The box or envelope this product ships in. Applies to all variants of this product.,यो उत्पादन ढुवानी हुने बाकस वा खाम। यो उत्पादनका सबै भेरियन्टहरूमा लागू हुन्छ।
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,तपाईंले ढुवानीमा प्रयोग गर्ने बाकस र खामहरू। प्रत्येक ढुवानीयोग्य उत्पादनले एउटालाई सन्दर्भ गर्छ — यसको आयाम र खाली तौलले ढुवानी कोटेसन र लेबलहरू निर्धारण गर्छ।
+The conditions related to the customer for the coupon to be applied.,कुपन लागू हुनका लागि ग्राहकसँग सम्बन्धित सर्तहरू।
+The conditions related to the order for the coupon to be applied.,कुपन लागू हुनका लागि अर्डरसँग सम्बन्धित सर्तहरू।
+The default package cannot be deleted,पूर्वनिर्धारित प्याकेज मेटाउन सकिँदैन
+The draft holds ${count} saved changes you can publish later.,मस्यौदामा ${count} सुरक्षित परिवर्तनहरू छन् जुन तपाईं पछि प्रकाशित गर्न सक्नुहुन्छ।
+The draft holds 1 saved change you can publish later.,मस्यौदामा १ सुरक्षित परिवर्तन छ जुन तपाईं पछि प्रकाशित गर्न सक्नुहुन्छ।
+The draft is deleted.,मस्यौदा मेटाइयो।
+The draft itself is deleted.,मस्यौदा आफैं मेटाइयो।
+The general information about the coupon.,कुपनको बारेमा सामान्य जानकारी।
+"The language of the admin panel, independent of the storefront.","स्टोरफ्रन्टबाट स्वतन्त्र, एडमिन प्यानलको भाषा।"
+The method will no longer apply to this zone.,यो विधि अब यो क्षेत्रमा लागू हुनेछैन।
+The minimum quantity of items required in the order to qualify for this coupon.,यो कुपनका लागि योग्य हुन अर्डरमा आवश्यक वस्तुहरूको न्यूनतम परिमाण।
+The minimum total amount required for the order to qualify for this coupon.,यो कुपनका लागि अर्डर योग्य हुन आवश्यक न्यूनतम कुल रकम।
+The rollout plan,रोलआउट योजना
+The storefront's primary language. Pages in this language have no URL prefix.,स्टोरफ्रन्टको प्राथमिक भाषा। यो भाषाका पृष्ठहरूमा कुनै URL उपसर्ग हुँदैन।
+The type of discount applied by the coupon.,कुपनद्वारा लागू गरिएको छुटको प्रकार।
+The zone this rate applies to.,यो दर लागू हुने क्षेत्र।
+"There is no ""Select"" attribute available.","कुनै ""Select"" विशेषता उपलब्ध छैन।"
+There is no attribute to display,देखाउन कुनै विशेषता छैन
+There is no category to display,देखाउन कुनै वर्ग छैन
+There is no collections to display,देखाउन कुनै सङ्ग्रह छैन
+There is no coupon to display,देखाउन कुनै कुपन छैन
+There is no customer to display,देखाउन कुनै ग्राहक छैन
+There is no order to display,देखाउन कुनै अर्डर छैन
+There is no page to display,देखाउन कुनै पृष्ठ छैन
+There is no widget to display,देखाउन कुनै विजेट छैन
+There was an error fetching attribute groups.,विशेषता समूहहरू ल्याउँदा त्रुटि भयो।
+There was an error fetching categories.,वर्गहरू ल्याउँदा त्रुटि भयो।
+There was an error fetching collections.,सङ्ग्रहहरू ल्याउँदा त्रुटि भयो।
+There was an error fetching file browser APIs.,फाइल ब्राउजर API हरू ल्याउँदा त्रुटि भयो।
+There was an error fetching products.,उत्पादनहरू ल्याउँदा त्रुटि भयो।
+This cannot be undone. Packages still assigned to products can't be removed.,यो पूर्ववत् गर्न सकिँदैन। उत्पादनहरूमा अझै तोकिएका प्याकेजहरू हटाउन सकिँदैन।
+This changeset has no operations yet.,यो चेन्जसेटमा अहिलेसम्म कुनै सञ्चालन छैन।
+This field is required,यो फिल्ड आवश्यक छ
+This is the URL path for the CMS page.,यो CMS पृष्ठको URL पथ हो।
+This is the address used to calculate tax rates.,यो कर दरहरू गणना गर्न प्रयोग गरिने ठेगाना हो।
+This is the meta title for the CMS page.,यो CMS पृष्ठको मेटा शीर्षक हो।
+This is the name of the CMS page that will be displayed in the admin panel.,यो CMS पृष्ठको नाम हो जुन एडमिन प्यानलमा देखाइनेछ।
+This is the tax class applied to shipping costs.,यो ढुवानी शुल्कमा लागू गरिने कर वर्ग हो।
+This product has some variants like color or size?,यो उत्पादनमा रङ वा आकार जस्ता केही भेरियन्टहरू छन्?
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,यो प्रदायकमा कुनै प्रति-क्षेत्र कन्फिगरेसन छैन। विधिहरू र प्रति-क्षेत्र दरहरू प्रदायकको आफ्नै एडमिन क्षेत्रमा व्यवस्थापन गरिन्छ।
+This removes the zone along with its provider attachments and rates. This cannot be undone.,यसले क्षेत्रलाई यसको प्रदायक संलग्नकहरू र दरहरूसहित हटाउँछ। यो पूर्ववत् गर्न सकिँदैन।
+This route has unpublished changes in your draft,यो रुटमा तपाईंको मस्यौदामा अप्रकाशित परिवर्तनहरू छन्
+This will be saved as a pending change you can publish or discard.,यो विचाराधीन परिवर्तनको रूपमा सुरक्षित हुनेछ जुन तपाईं प्रकाशित गर्न वा खारेज गर्न सक्नुहुन्छ।
+Tiered,तहगत
+Type is required,प्रकार आवश्यक छ
+URL Key,URL कुञ्जी
+URL Key is required,URL कुञ्जी आवश्यक छ
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","URL कुञ्जी लोअरकेस हुनुपर्छ र यसमा केवल अक्षर, सङ्ख्या र हाइफनहरू मात्र हुन सक्छन्"
+URL key,URL कुञ्जी
+URL key is required,URL कुञ्जी आवश्यक छ
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,URL कुञ्जी लोअरकेस हुनुपर्छ र यसमा केवल अल्फान्युमेरिक वर्णहरू र हाइफनहरू मात्र हुन सक्छन्
+Unassign,असाइन हटाउनुहोस्
+Undo (⌘Z) — undoes your last edit on this page,पूर्ववत् (⌘Z) — यो पृष्ठमा तपाईंको अन्तिम सम्पादन पूर्ववत् गर्छ
+Undo / Redo,पूर्ववत् / पुनः गर्नुहोस्
+Undo last change on this page,यो पृष्ठमा अन्तिम परिवर्तन पूर्ववत् गर्नुहोस्
+Unknown,अज्ञात
+Unlink,लिंक हटाउनुहोस्
+Unpin drawer,ड्रअर अनपिन गर्नुहोस्
+Unpin — drawer will close when you click empty canvas,अनपिन गर्नुहोस् — खाली क्यानभासमा क्लिक गर्दा ड्रअर बन्द हुनेछ
+Unpublished changes,प्रकाशित नभएका परिवर्तनहरू
+Unsaved changes,सेभ नभएका परिवर्तनहरू
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,यो रोलआउट योजनाको नाम र सक्रिय विन्डो अद्यावधिक गर्नुहोस्। सामग्री सम्पादनहरू सम्पादकमा छुट्टै व्यवस्थापन गरिन्छ।
+Update the variant details and attributes here.,भेरियन्टको विवरण र विशेषताहरू यहाँ अद्यावधिक गर्नुहोस्।
+Updated,अद्यावधिक गरियो
+Upload an image for the category.,कोटिका लागि एउटा छवि अपलोड गर्नुहोस्।
+Used Times,प्रयोग गरिएको पटक
+Value is required,मान आवश्यक छ
+Variant Group,भेरियन्ट समूह
+Variant created successfully,भेरियन्ट सफलतापूर्वक सिर्जना गरियो
+Variant updated successfully,भेरियन्ट सफलतापूर्वक अद्यावधिक गरियो
+Version ${version},संस्करण ${version}
+Visibility,दृश्यता
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,दृश्यताले उत्पादन स्टोरमा कहाँ देखिन्छ भनी निर्धारण गर्छ। यसले उत्पादनको बिक्रीयोग्यतालाई असर गर्दैन।
+Visitors will see the new layout on their next page load.,आगन्तुकहरूले आफ्नो अर्को पृष्ठ लोडमा नयाँ लेआउट देख्नेछन्।
+Webhook Secret Key,Webhook गोप्य कुञ्जी
+Weight,तौल
+Weight must be 0 or greater,तौल ० वा सोभन्दा बढी हुनुपर्छ
+Weight must be a positive number,तौल धनात्मक संख्या हुनुपर्छ
+Weight-based tiers,तौलमा आधारित तहहरू
+Widget Settings,विजेट सेटिङहरू
+Widget created successfully!,विजेट सफलतापूर्वक सिर्जना गरियो!
+Widgets,विजेटहरू
+Width,चौडाइ
+Width is required,चौडाइ आवश्यक छ
+Width must be greater than 0,चौडाइ ० भन्दा बढी हुनुपर्छ
+Will roll out automatically: ${range},स्वतः रोलआउट हुनेछ: ${range}
+Working…,काम भइरहेको छ…
+Worldwide,विश्वव्यापी
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,यो मस्यौदामा तपाईंका ${count} परिवर्तनहरू छन् जुन अझै प्रकाशित गरिएका छैनन्।
+You have ${count} changes still saving.,तपाईंका ${count} परिवर्तनहरू अझै सेभ हुँदैछन्।
+You have 1 change in this draft that hasn’t been published yet.,यो मस्यौदामा तपाईंको १ परिवर्तन छ जुन अझै प्रकाशित गरिएको छैन।
+You have 1 change still saving.,तपाईंको १ परिवर्तन अझै सेभ हुँदैछ।
+Your draft is safe on the server — you can come back and publish it any time.,तपाईंको मस्यौदा सर्भरमा सुरक्षित छ — तपाईं जुनसुकै बेला फर्केर यसलाई प्रकाशित गर्न सक्नुहुन्छ।
+Your edits on other pages stay in the draft.,अन्य पृष्ठहरूमा गरिएका तपाईंका सम्पादनहरू मस्यौदामै रहन्छन्।
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,तपाईंको webhook url यस्तो हुनुपर्छ: https://yourdomain.com/api/stripe/webhook
+Zone,क्षेत्र
+Zone Name,क्षेत्रको नाम
+Zone Rates,क्षेत्र दरहरू
+Zone created,क्षेत्र सिर्जना गरियो
+Zone is required,क्षेत्र आवश्यक छ
+Zone name is required,क्षेत्रको नाम आवश्यक छ
+Zone removed,क्षेत्र हटाइयो
+Zone updated,क्षेत्र अद्यावधिक गरियो
+Zones served,सेवा गरिएका क्षेत्रहरू
+and ${count} more,र ${count} थप
+container will also hide,कन्टेनर पनि लुक्नेछ
+current page,हालको पृष्ठ
+e.g. Small Box,"जस्तै, सानो बाकस"
+e.g. Summer Sale 2026,"जस्तै, ग्रीष्म बिक्री 2026"
+e.g. content,"जस्तै, सामग्री"
+"e.g., 10.00","जस्तै, 10.00"
+"e.g., EU, US-West","जस्तै, EU, US-West"
+"e.g., Express","जस्तै, Express"
+"e.g., FEDEX_GROUND, usps_priority","जस्तै, FEDEX_GROUND, usps_priority"
+every page,प्रत्येक पृष्ठ
+indefinite,अनिश्चित
+open,खुला
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","प्रकाशन तत्काल हुन्छ र यो स्क्रिनबाट पूर्ववत गर्न सकिँदैन। बरु स्टेज गर्न, रद्द गर्नुहोस् र “रोलआउट तालिका बनाउनुहोस्” छान्नुहोस्।"
+quantity of products are matched bellow conditions(All),उत्पादनहरूको परिमाण तलका सर्तहरूसँग मेल खान्छ(सबै)
+subtotal,उपजोड
+to a storefront route's,स्टोरफ्रन्ट रुटको
+to make it appear here.,यसलाई यहाँ देखाउनका लागि।
+weight,तौल
+widget? This will be saved as a pending change you can publish or discard.,विजेट? यो बाँकी परिवर्तनको रूपमा सेभ हुनेछ जुन तपाईं प्रकाशित वा खारेज गर्न सक्नुहुन्छ।
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,हटाइनेछ र लाइभ स्टोरफ्रन्टले यसका सम्पादनहरू लागू गर्न बन्द गर्नेछ। अन्तर्निहित चेन्जसेट र यसका बाँकी सामग्री सम्पादनहरू सुरक्षित रहन्छन्।
+— None —,— कुनै पनि होइन —
+Cash On Delivery,सामान बुझ्दा भुक्तानी
+Please select a valid payment method,कृपया मान्य भुक्तानी विधि छान्नुहोस्
+Show ${label} width,${label} चौडाइ देखाउनुहोस्
+Column ${index},स्तम्भ ${index}
+Switch page,पृष्ठ बदल्नुहोस्
+Search pages…,पृष्ठहरू खोज्नुहोस्…
+Search pages,पृष्ठहरू खोज्नुहोस्
+Save your pending edits — the live storefront will catch up,तपाईंका बाँकी सम्पादनहरू सेभ गर्नुहोस् — लाइभ स्टोरफ्रन्ट अद्यावधिक हुनेछ
+No changes to save — the rollout matches the editor,सेभ गर्न कुनै परिवर्तन छैन — रोलआउट सम्पादकसँग मेल खान्छ
+More rollout actions,थप रोलआउट कार्यहरू
+Revert to saved state…,सेभ गरिएको अवस्थामा फर्काउनुहोस्…
+Roll back the editor to what the rollout currently shows on the storefront,रोलआउटले हाल स्टोरफ्रन्टमा देखाएको अवस्थामा सम्पादक फर्काउनुहोस्
+Nothing to revert — the editor matches the saved state,फर्काउन केही छैन — सम्पादक सेभ गरिएको अवस्थासँग मेल खान्छ
+Cancel rollout plan…,रोलआउट योजना रद्द गर्नुहोस्…
+Remove the schedule — the changeset is preserved,तालिका हटाउनुहोस् — चेन्जसेट सुरक्षित रहन्छ
+Publish,प्रकाशित गर्नुहोस्
+More publish options,थप प्रकाशन विकल्पहरू
+Apply all edits to the live storefront immediately,सबै सम्पादनहरू लाइभ स्टोरफ्रन्टमा तुरुन्तै लागू गर्नुहोस्
+Save as rollout plan…,रोलआउट योजनाको रूपमा सेभ गर्नुहोस्…
+Schedule these edits to roll out at a future time,यी सम्पादनहरू भविष्यको समयमा रोलआउट गर्न तालिका बनाउनुहोस्
+Discard pending changes…,बाँकी परिवर्तनहरू खारेज गर्नुहोस्…
+Choose between discarding the whole draft or just this page,सम्पूर्ण मस्यौदा वा केवल यो पृष्ठ खारेज गर्ने बीच छान्नुहोस्
+Switch session,सत्र बदल्नुहोस्
+New changeset,नयाँ चेन्जसेट
+Rollout: ${name},रोलआउट: ${name}
+Click or drag to add,थप्न क्लिक गर्नुहोस् वा तान्नुहोस्
+Background color,पृष्ठभूमि रङ
+Text color,पाठ रङ
+Dwell time,रुकाव समय
+Time each announcement stays visible (in addition to the 400ms slide transition).,प्रत्येक घोषणा देखिने समय (400ms स्लाइड संक्रमणको अतिरिक्त)।
+Announcements,घोषणाहरू
+Add announcement,घोषणा थप्नुहोस्
+Untitled,शीर्षकविहीन
+Free shipping on orders over $50,$50 भन्दा माथिका अर्डरमा निःशुल्क ढुवानी
+Optional. Makes the entire row a clickable link.,वैकल्पिक। सम्पूर्ण पङ्क्तिलाई क्लिक गर्न सकिने लिंक बनाउँछ।
+Link label,लिंक लेबल
+Optional. Displayed after the content; defaults to the content itself.,वैकल्पिक। सामग्रीपछि देखाइन्छ; पूर्वनिर्धारित रूपमा सामग्री आफैं हुन्छ।
+Shop now,अहिले किनमेल गर्नुहोस्
+Dark,गाढा
+Light,हल्का
+Gradient,ग्रेडियन्ट
+Left,बायाँ
+Center,केन्द्र
+Right,दायाँ
+Selected image,छानिएको छवि
+No image selected,कुनै छवि छानिएको छैन
+Replace,बदल्नुहोस्
+Clear,हटाउनुहोस्
+Reflects the alignment below.,तलको पङ्क्तिबद्धता प्रतिबिम्बित गर्छ।
+Banner Image,ब्यानर छवि
+Mobile image,मोबाइल छवि
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,वैकल्पिक। 768px ब्रेकपोइन्टभन्दा तल प्रयोग हुन्छ। खाली हुँदा माथिको छविमा फर्किन्छ — सामान्य प्रयोग भनेको उही दृश्यको पोर्ट्रेट क्रप हो।
+Alignment,पङ्क्तिबद्धता
+Overlay copy,ओभरले पाठ
+Eyebrow,आइब्रो
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".","शीर्षकमाथिको सानो सबै-ठूला अक्षरको लेबल। जस्तै, ""LIMITED EDITION""।"
+LIMITED EDITION,LIMITED EDITION
+Heading,शीर्षक
+The Summer Edit,The Summer Edit
+Sub-text,उप-पाठ
+One short supporting sentence.,एउटा छोटो सहायक वाक्य।
+Overlay placement,ओभरले स्थान
+Content position,सामग्री स्थिति
+Where the overlay text sits on the image.,ओभरले पाठ छविमा कहाँ बस्छ।
+Tint,टिन्ट
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,पठनीयताका लागि ओभरले पाठपछाडिको स्क्रिम। गाढा / ग्रेडियन्टले पाठलाई स्वतः सेतोमा बदल्छ।
+Tint opacity,टिन्ट अपारदर्शिता
+Call to actions,कार्य आह्वानहरू
+Remove primary CTA,प्राथमिक CTA हटाउनुहोस्
++ Add a primary CTA,+ प्राथमिक CTA थप्नुहोस्
+Secondary,माध्यमिक
+Remove secondary CTA,माध्यमिक CTA हटाउनुहोस्
+Learn more,थप जान्नुहोस्
++ Add a secondary CTA,+ माध्यमिक CTA थप्नुहोस्
+Details,विवरणहरू
+Alt text,वैकल्पिक पाठ
+Describes the banner for screen readers and SEO.,स्क्रिन रिडर र SEO का लागि ब्यानरको वर्णन गर्छ।
+"e.g. ""Summer sale promotional banner""","जस्तै ""ग्रीष्म छुट प्रवर्द्धन ब्यानर"""
+Banner link,ब्यानर लिङ्क
+Optional. Clicking the banner navigates here.,वैकल्पिक। ब्यानरमा क्लिक गर्दा यहाँ जान्छ।
+Display name,प्रदर्शन नाम
+Shop,पसल
+Target,लक्ष्य
+"Page, category, product, or a custom URL.","पृष्ठ, श्रेणी, उत्पादन, वा कस्टम URL।"
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: यो लिङ्कलाई र्‍याङ्किङ क्रेडिट नदिनुहोस् (rel=nofollow)।
+No referrer,कुनै रेफरर छैन
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,गोपनीयता: रेफर गर्ने URL हटाउनुहोस् (rel=noreferrer)। नयाँ-ट्याब लिङ्कहरूमा यो सधैँ समावेश हुन्छ।
+Menu items,मेनु वस्तुहरू
+Add menu item,मेनु वस्तु थप्नुहोस्
+Sub-items,उप-वस्तुहरू
+Optional dropdown links (1 level).,वैकल्पिक ड्रपडाउन लिङ्कहरू (१ तह)।
+Add sub-item,उप-वस्तु थप्नुहोस्
+Options,विकल्पहरू
+Use as main menu,मुख्य मेनुको रूपमा प्रयोग गर्नुहोस्
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","प्राथमिक नेभिगेसन — मोबाइलमा यो ह्याम्बर्गर मेनुमा परिणत हुन्छ। साधारण लिङ्क सूची (जस्तै फुटर) का लागि बन्द गर्नुहोस्, जुन मोबाइलमा इनलाइन रहन्छ।"
+Custom CSS classes,कस्टम CSS क्लासहरू
+Applied to the rendered menu element.,रेन्डर गरिएको मेनु तत्वमा लागू गरिन्छ।
+e.g. main-nav font-semibold,जस्तै main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,टाइलहरू
+Add tile,टाइल थप्नुहोस्
+Hero · ,हिरो · 
+Used when no image is set.,कुनै छवि सेट नगरिएको बेला प्रयोग गरिन्छ।
+Small label above the heading.,शीर्षकमाथिको सानो लेबल।
+THE SUMMER EDIT,THE SUMMER EDIT
+New Arrivals,नयाँ आगमनहरू
+Body,मुख्य भाग
+Big card — the headline of the grid.,ठूलो कार्ड — ग्रिडको शीर्षरेखा।
+Link URL,लिङ्क URL
+Gap,खाली ठाउँ
+Minimum block height,न्यूनतम ब्लक उचाइ
+Image left,छवि बायाँ
+Image right,छवि दायाँ
+Centered,केन्द्रित
+Pull quote,पुल कोट
+Variant,प्रकार
+Image column size,छवि स्तम्भ आकार
+Describe the image,छविको वर्णन गर्नुहोस्
+Copy,पाठ सामग्री
+"Small all-caps label. E.g. ""OUR STORY"".","सानो सबै-ठूलो अक्षरको लेबल। जस्तै ""OUR STORY""।"
+Our story,हाम्रो कथा
+"Made by hand, in small batches","हातले बनाइएको, सानो ब्याचमा"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","पुल-कोट प्रकारका लागि आवश्यक। ठूलो आकारमा, ब्लककोटको रूपमा देखाइन्छ।"
+"A short, quotable line.","छोटो, उद्धरण गर्न मिल्ने पङ्क्ति।"
+Three or four sentences of brand narrative.,ब्रान्ड कथाका तीन वा चार वाक्य।
+Second body paragraph (optional),दोस्रो मुख्य अनुच्छेद (वैकल्पिक)
+A second short paragraph if the story needs it.,कथालाई आवश्यक भएमा दोस्रो छोटो अनुच्छेद।
+Read more link,थप पढ्ने लिङ्क
+Read more,थप पढ्नुहोस्
+URL,URL
+Remove read-more link,थप-पढ्ने लिङ्क हटाउनुहोस्
++ Add a read-more link,+ थप-पढ्ने लिङ्क थप्नुहोस्
+Square,वर्ग
+Landscape,ल्यान्डस्केप
+Portrait,पोर्ट्रेट
+Overlay,ओभरले
+Below,तल
+New category,नयाँ श्रेणी
+Section heading,खण्ड शीर्षक
+Optional. Shown above the grid.,वैकल्पिक। ग्रिडमाथि देखाइन्छ।
+Shop by category,श्रेणी अनुसार किनमेल
+Women,महिला
+Columns,स्तम्भहरू
+Auto,स्वतः
+Asymmetric makes the first tile span 2 columns.,असमिति बनाउँदा पहिलो टाइल २ स्तम्भमा फैलिन्छ।
+Uniform,एकसमान
+Asymmetric,असमिति
+Image aspect,छवि अनुपात
+Label position,लेबल स्थिति
+Blush,ब्लश
+XL,XL
+Position ${c},स्थिति ${c}
+Column layout,स्तम्भ लेआउट
+Drag widgets into each column. Children re-flow when you change the ratio.,प्रत्येक स्तम्भमा विजेटहरू तान्नुहोस्। अनुपात परिवर्तन गर्दा चाइल्डहरू पुनः मिलाइन्छ।
+Space between columns.,स्तम्भहरूबीचको खाली ठाउँ।
+Where content sits within each column. Applied uniformly to every column.,प्रत्येक स्तम्भभित्र सामग्री कहाँ रहन्छ। हरेक स्तम्भमा एकसमान लागू गरिन्छ।
+Row appearance,पङ्क्ति देखावट
+Background,पृष्ठभूमि
+Custom color,कस्टम रङ
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","कुनै पनि CSS रङ (जस्तै ""#0a0a0a"" वा ""rgb(10,10,10)"")। माथिको स्वाच प्रयोग गर्न खाली छोड्नुहोस्।"
+Padding,प्याडिङ
+Outer spacing around the row. Scales down on mobile.,पङ्क्ति वरिपरिको बाहिरी खाली ठाउँ। मोबाइलमा घट्छ।
+Solid,ठोस
+Dashed,धर्के
+Already expired,पहिले नै म्याद सकिएको
+Expires in ${days}d ${hours}h,${days}d ${hours}h मा म्याद सकिन्छ
+Expires in ${hours}h ${minutes}m,${hours}h ${minutes}m मा म्याद सकिन्छ
+Offer,प्रस्ताव
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","तत्कालता पङ्क्ति। वैकल्पिक। जस्तै ""Limited · Ends Sunday""।"
+Limited · Ends Sunday,सीमित · आइतबार सकिन्छ
+Headline,शीर्षरेखा
+Take 20% off your order,आफ्नो अर्डरमा 20% छुट लिनुहोस्
+Optional. One short instructional line.,वैकल्पिक। एउटा छोटो निर्देशन पङ्क्ति।
+Use code at checkout,चेकआउटमा कोड प्रयोग गर्नुहोस्
+Promo code,प्रोमो कोड
+Displayed in uppercase to shoppers.,किनमेलकर्ताहरूलाई ठूलो अक्षरमा देखाइन्छ।
+Expires,म्याद सकिन्छ
+Optional. The block auto-hides after this time for live visitors.,वैकल्पिक। यो समयपछि लाइभ आगन्तुकहरूका लागि ब्लक स्वतः लुक्छ।
+Call to action,कार्यको आह्वान
+Button label,बटन लेबल
+Shop now →,अहिले किन्नुहोस् →
+Button link,बटन लिङ्क
+Appearance,देखावट
+Border,किनारा
+Narrow,साँघुरो
+Normal,सामान्य
+Wide,फराकिलो
+Shown above all content. Optional.,सबै सामग्रीमाथि देखाइन्छ। वैकल्पिक।
+e.g. Frequently asked,जस्तै बारम्बार सोधिने
+Prose,गद्य
+FAQ group · ${count} items,FAQ समूह · ${count} वस्तुहरू
+Group heading,समूह शीर्षक
+Optional sub-heading.,वैकल्पिक उप-शीर्षक।
+e.g. Shipping,जस्तै ढुवानी
+Add question,प्रश्न थप्नुहोस्
+Question,प्रश्न
+e.g. How long does shipping take?,जस्तै ढुवानीमा कति समय लाग्छ?
+Answer,उत्तर
+"Supports **bold**, _italic_, and line breaks.","**bold**, _italic_, र लाइन ब्रेकलाई समर्थन गर्छ।"
+e.g. Orders ship within 24 hours…,जस्तै अर्डरहरू २४ घण्टाभित्र ढुवानी हुन्छन्…
+Add prose,गद्य थप्नुहोस्
+Add FAQ group,FAQ समूह थप्नुहोस्
+Max width,अधिकतम चौडाइ
+Content column width.,सामग्री स्तम्भ चौडाइ।
+Allow multiple open,धेरै खुला हुन अनुमति दिनुहोस्
+"When off, opening one FAQ item closes the others in the same group.","बन्द हुँदा, एउटा FAQ वस्तु खोल्दा सोही समूहका अरूहरू बन्द हुन्छन्।"
+New link,नयाँ लिङ्क
+New column,नयाँ स्तम्भ
+Add column,स्तम्भ थप्नुहोस्
+${title} · ${count} links,${title} · ${count} लिङ्कहरू
+Column title,स्तम्भ शीर्षक
+Links,लिङ्कहरू
+"Min 1, max 12.","न्यूनतम १, अधिकतम १२।"
+Add link,लिङ्क थप्नुहोस्
+New arrivals,नयाँ आगमनहरू
+Boxed,बक्स गरिएको
+Wide (full bleed),फराकिलो (पूर्ण किनारासम्म)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,बक्स गरिएको पृष्ठको कन्टेनरभित्र रहन्छ (थिमले अधिकतम चौडाइ निर्धारण गर्छ)। फराकिलो किनारादेखि किनारासम्म फैलिन्छ।
+Scales down on mobile.,मोबाइलमा घट्छ।
+Optional. Painted behind content. Combine with a tint below for legibility.,वैकल्पिक। सामग्रीको पछाडि रङ लगाइन्छ। पठनीयताका लागि तलको टिन्टसँग संयोजन गर्नुहोस्।
+XS,XS
+Spacing,खाली ठाउँ
+Size,आकार
+Mobile scales down ~⅔ automatically.,मोबाइलमा स्वतः ~⅔ ले घट्छ।
+Divider line,विभाजक रेखा
+Show divider line,विभाजक रेखा देखाउनुहोस्
+A horizontal rule centred in the spacing band.,स्पेसिङ ब्यान्डको बीचमा केन्द्रित तेर्सो रेखा।
+Line color,रेखाको रङ
+Default uses the theme's divider color.,पूर्वनिर्धारितले थिमको विभाजक रङ प्रयोग गर्छ।
+Sides,छेउहरू
+Bottom,तल
+Dots,थोप्लाहरू
+Bars,पट्टीहरू
+Mobile image (optional),मोबाइल छवि (वैकल्पिक)
+Used at ≤ 767 px. Falls back to the main image.,≤ 767 px मा प्रयोग हुन्छ। मुख्य छविमा फर्किन्छ।
+e.g. New collection,"जस्तै, नयाँ सङ्ग्रह"
+e.g. Summer Sale,"जस्तै, ग्रीष्म बिक्री"
+Sub text,उप पाठ
+Check out our latest products with special discounts.,विशेष छुटसहित हाम्रा नवीनतम उत्पादनहरू हेर्नुहोस्।
+Primary button,प्राथमिक बटन
+Secondary button,द्वितीयक बटन
++ Add secondary button,+ द्वितीयक बटन थप्नुहोस्
+Overrides,ओभरराइडहरू
+Leaves slide-specific anchor; falls back to the slideshow's default.,स्लाइड-विशिष्ट एङ्कर छोड्छ; स्लाइडशोको पूर्वनिर्धारितमा फर्किन्छ।
+Overlay tint,ओभरले टिन्ट
+Overlay opacity,ओभरले अपारदर्शिता
+Make whole slide clickable,सम्पूर्ण स्लाइड क्लिक गर्न मिल्ने बनाउनुहोस्
+Behavior,व्यवहार
+Transition,सङ्क्रमण
+Slide,स्लाइड
+Fade,फेड
+Transition speed,सङ्क्रमण गति
+Autoplay,स्वतः प्ले
+Autoplay delay,स्वतः प्ले ढिलाइ
+${seconds} s between slides,स्लाइडहरू बीच ${seconds} से
+Pause on hover,होभरमा रोक्नुहोस्
+Pause for 20 s after user nav,प्रयोगकर्ता न्याभिगेसनपछि 20 से रोक्नुहोस्
+Arrows,तीरहरू
+Aspect ratio,आस्पेक्ट अनुपात
+`Auto` matches the natural image height (jumps between slides).,`Auto` ले प्राकृतिक छवि उचाइसँग मेल खान्छ (स्लाइडहरू बीच उफ्रिन्छ)।
+Default content position,पूर्वनिर्धारित सामग्री स्थिति
+Per-slide overrides win.,प्रति-स्लाइड ओभरराइडहरूले जित्छन्।
+Default overlay tint,पूर्वनिर्धारित ओभरले टिन्ट
+Default overlay opacity,पूर्वनिर्धारित ओभरले अपारदर्शिता
+Slides (${count}),स्लाइडहरू (${count})
+No slides yet.,अहिलेसम्म कुनै स्लाइड छैन।
+Add your first slide,तपाईंको पहिलो स्लाइड थप्नुहोस्
+Slide ${number},स्लाइड ${number}
+Image only,छवि मात्र
+Empty,खाली
+Show slide,स्लाइड देखाउनुहोस्
+Hide slide,स्लाइड लुकाउनुहोस्
+Move slide up,स्लाइड माथि सार्नुहोस्
+Move slide down,स्लाइड तल सार्नुहोस्
+Delete slide,स्लाइड मेट्नुहोस्
+Top,माथि
+Cover,कभर
+Contain,कन्टेन
+Required for accessibility.,पहुँचयोग्यताका लागि आवश्यक।
+Image fit,छवि फिट
+"Small all-caps label. E.g. ""LIMITED EDITION"".","सानो सबै-ठूला अक्षरको लेबल। जस्तै, ""LIMITED EDITION""।"
+Limited edition,सीमित संस्करण
+One strong line,एउटा बलियो लाइन
+Two lines of supporting copy.,समर्थन गर्ने दुई लाइन पाठ।
+Image position,छवि स्थिति
+Vertical alignment,ठाडो पङ्क्तिबद्धता
+Aligns the copy panel content.,पाठ प्यानलको सामग्री पङ्क्तिबद्ध गर्छ।
+Remove call to action,कल टु एक्सन हटाउनुहोस्
+Add a call to action,कल टु एक्सन थप्नुहोस्
+Custom CSS classes for the text block,पाठ ब्लकका लागि कस्टम CSS क्लासहरू
+Add group,समूह थप्नुहोस्
+${label} · ${count} subs,${label} · ${count} उप
+Parent label,प्यारेन्ट लेबल
+Parent link,प्यारेन्ट लिङ्क
+Image alt text,छवि alt पाठ
+Sub-categories,उप-कोटिहरू
+"Min 1, max 8.","न्यूनतम 1, अधिकतम 8।"
+Add sub-category,उप-कोटि थप्नुहोस्
+Dresses,पोशाकहरू
+Columns (desktop),स्तम्भहरू (डेस्कटप)
+On tablets the layout is always 2 columns.,ट्याब्लेटमा लेआउट सधैं 2 स्तम्भको हुन्छ।
+Make parent image a link,प्यारेन्ट छविलाई लिङ्क बनाउनुहोस्
+"When off, only the sub-chips and parent label are interactive.","बन्द हुँदा, उप-चिप र प्यारेन्ट लेबल मात्र अन्तरक्रियात्मक हुन्छन्।"
+Title,शीर्षक
+e.g. Free shipping,"जस्तै, निःशुल्क ढुवानी"
+Optional supporting line below the title.,शीर्षकमुनि वैकल्पिक समर्थन लाइन।
+Icon,आइकन
+Optional. SVG or raster image. Hidden when icons are turned off globally.,वैकल्पिक। SVG वा र्‍यास्टर छवि। आइकनहरू विश्वव्यापी रूपमा बन्द गर्दा लुकाइन्छ।
+Optional. Makes the whole cell clickable.,वैकल्पिक। सम्पूर्ण सेललाई क्लिक गर्न मिल्ने बनाउँछ।
+"Auto matches the item count, capped at 4.","Auto ले वस्तु सङ्ख्यासँग मेल खान्छ, अधिकतम 4 मा सीमित।"
+3,3
+4,4
+Icon size,आइकन आकार
+Show icons,आइकनहरू देखाउनुहोस्
+Master switch. Items without an icon URL are unaffected.,मास्टर स्विच। आइकन URL नभएका वस्तुहरू प्रभावित हुँदैनन्।
+Show divider,विभाजक देखाउनुहोस्
+Vertical line between cells.,सेलहरू बीचको ठाडो रेखा।
+Collection,सङ्ग्रह
+Search collections…,सङ्ग्रहहरू खोज्नुहोस्…
+No collections match “${value}”.,कुनै पनि सङ्ग्रह “${value}” सँग मेल खाँदैन।
+You have no collections yet.,तपाईंसँग अहिलेसम्म कुनै सङ्ग्रह छैन।
+Please select a collection,कृपया एउटा सङ्ग्रह छनोट गर्नुहोस्
+"Defaults to ""${name}"" (the collection's name).","पूर्वनिर्धारित ""${name}"" मा (सङ्ग्रहको नाम)।"
+Defaults to the picked collection's name.,छनोट गरिएको सङ्ग्रहको नाममा पूर्वनिर्धारित हुन्छ।
+Collection name,सङ्ग्रहको नाम
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,सङ्ग्रहको विवरणमा पूर्वनिर्धारित हुन्छ। यो सेट गर्दा रिच-टेक्स्ट विवरण सादा पाठले प्रतिस्थापन हुन्छ।
+e.g. Hand-picked styles for the season.,"जस्तै, सिजनका लागि हातले छानिएका शैलीहरू।"
+View all link,सबै हेर्ने लिङ्क
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","वैकल्पिक। खाली हुँदा लुकाइन्छ। कोटि, उत्पादन, पृष्ठ छान्नुहोस्, वा कस्टम URL टाँस्नुहोस्।"
+"Optional. Defaults to ""View all →"".","वैकल्पिक। पूर्वनिर्धारित ""View all →"" मा।"
+View all →,सबै हेर्नुहोस् →
+Total products,कुल उत्पादनहरू
+Number of products to display.,देखाउने उत्पादनहरूको सङ्ख्या।
+Products per row,प्रति पङ्क्ति उत्पादनहरू
+Grid columns (1–6 typical).,ग्रिड स्तम्भहरू (सामान्यतया 1–6)।
+Count is required,गणना आवश्यक छ
+e.g. 8,"जस्तै, 8"
+Count per row is required,प्रति पङ्क्ति गणना आवश्यक छ
+e.g. 4,"जस्तै, 4"
+Cover image,कभर छवि
+COLLECTION,सङ्ग्रह
+"Defaults to ""${pickedName}"".","पूर्वनिर्धारित ""${pickedName}"" मा।"
+Defaults to the picked collection name.,छनोट गरिएको सङ्ग्रहको नाममा पूर्वनिर्धारित हुन्छ।
+Optional. One or two sentences of editorial copy.,वैकल्पिक। सम्पादकीय पाठको एक वा दुई वाक्य।
+"Linen, cotton, easy stuff.","लिनेन, कपास, सजिला कुराहरू।"
+Preview product count,पूर्वावलोकन उत्पादन गणना
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,कृपया एउटा सङ्ग्रह छान्नुहोस्
+Add collection,सङ्ग्रह थप्नुहोस्
+Row heading,पङ्क्ति शीर्षक
+The Linen Edit,द लिनेन एडिट
+Optional. Hidden when empty.,वैकल्पिक। खाली हुँदा लुकाइन्छ।
+View all label,सबै हेर्ने लेबल
+Show price,मूल्य देखाउनुहोस्
+Show divider between rows,पङ्क्तिहरू बीच विभाजक देखाउनुहोस्
+Selected:,चयन गरिएको:
+Image override,छवि ओभरराइड
+Override image,छवि ओभरराइड गर्नुहोस्
+Override image (optional),छवि ओभरराइड गर्नुहोस् (वैकल्पिक)
+Leave empty to use the product's primary image.,उत्पादनको प्राथमिक छवि प्रयोग गर्न खाली छोड्नुहोस्।
+Small label above the product name. Optional.,उत्पादनको नाममाथिको सानो लेबल। वैकल्पिक।
+FEATURED,विशेष
+Editorial copy,सम्पादकीय पाठ
+Overrides the product's own description in this context. Leave blank to hide.,यस सन्दर्भमा उत्पादनको आफ्नै विवरण ओभरराइड गर्छ। लुकाउन खाली छोड्नुहोस्।
+Two lines of copy explaining why this product is being spotlighted right now.,यो उत्पादन अहिले किन प्रकाशमा ल्याइँदैछ भनेर व्याख्या गर्ने दुई लाइन पाठ।
+Please pick a product,कृपया एउटा उत्पादन छान्नुहोस्
+e.g. On orders over $50,"जस्तै, $50 भन्दा माथिको अर्डरमा"
+Text block,पाठ ब्लक
+Menu,मेनु
+Footer menu,फुटर मेनु
+Banner,ब्यानर
+Simple Slideshow,साधारण स्लाइडशो
+Brand story,ब्रान्ड कथा
+Category mosaic,कोटि मोजाइक
+Tiered categories,तहगत कोटिहरू
+Bento grid,बेन्टो ग्रिड
+Separator,विभाजक
+Section,खण्ड
+Split feature,विभाजित विशेषता
+Announcement bar,घोषणा पट्टी
+Coupon block,कुपन ब्लक
+FAQ block,FAQ ब्लक
+Trust strip,विश्वास पट्टी
+Collection products,सङ्ग्रह उत्पादनहरू
+Collection stack,सङ्ग्रह स्ट्याक
+Collection spotlight,सङ्ग्रह स्पटलाइट
+Product hero,उत्पादन हिरो
+Layout container with 1–4 columns for nesting widgets.,विजेटहरू नेस्ट गर्न १–४ स्तम्भसहितको लेआउट कन्टेनर।
+Add rich text content,रिच टेक्स्ट सामग्री थप्नुहोस्
+Navigation links,नेभिगेसन लिङ्कहरू
+Multi-column list of footer links — a titled column of navigation links per group.,फुटर लिङ्कहरूको बहु-स्तम्भ सूची — प्रत्येक समूहका लागि नेभिगेसन लिङ्कहरूको शीर्षकसहित स्तम्भ।
+A single hero image with optional overlay copy and CTAs.,वैकल्पिक ओभरले पाठ र CTA सहितको एकल हिरो छवि।
+Rotating image carousel,घुम्ने छवि क्यारोसेल
+Editorial block combining an image and long-form brand narrative. Four layout variants.,छवि र लामो ब्रान्ड कथालाई जोड्ने सम्पादकीय ब्लक। चार लेआउट प्रकार।
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.","प्राथमिक ""कोटि अनुसार किनमेल"" प्रवेश बिन्दुका लागि ३–६ कोटि टाइलको ग्रिड।"
+A two-level nav block: parent category image plus a row of sub-category chips.,दुई-तह नेभ ब्लक: मूल कोटि छवि र उप-कोटि चिपहरूको पङ्क्ति।
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,CTA टाइलहरूको असममित मोजाइक — एउटा ठूलो हिरो र १–४ सहायक टाइल।
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","विजेटहरू बीचको ठाडो दूरी, वैकल्पिक विभाजक रेखासहित। मोबाइल स्वतः घट्छ।"
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,अन्य विजेटहरूलाई बेर्ने स्टाइल गरिएको ड्रप गर्न मिल्ने ब्यान्ड। चौडा (किनारा-देखि-किनारा) र बक्स गरिएको (थिम कन्टेनर) बीच टगल गर्नुहोस्।
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,वैकल्पिक CTA सहित ५०/५० छवि + पाठ प्रोमो ब्लक। मानक प्रोमो मोमेन्ट विजेट।
+A thin top-of-page bar with one or more rotating announcements.,एक वा बढी घुम्ने घोषणासहितको पृष्ठको माथिल्लो पातलो पट्टी।
+A promo panel with a copyable discount code and CTA.,प्रतिलिपि गर्न मिल्ने छुट कोड र CTA सहितको प्रोमो प्यानल।
+Flexible content block mixing prose sections and accordion FAQ groups.,गद्य खण्ड र एकर्डियन FAQ समूहहरू मिसाउने लचिलो सामग्री ब्लक।
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","हिरो-मुनि वा फुटर-माथि सुदृढीकरणका लागि मूल्य-प्रस्ताव वस्तुहरू (निःशुल्क शिपिङ, सजिलो फिर्ता, आदि) को पङ्क्ति।"
+A list of products from a collection,सङ्ग्रहका उत्पादनहरूको सूची
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","सङ्ग्रहहरूका थुप्रिएका पङ्क्तिहरू, प्रत्येकमा शीर्षक, सबै-हेर्नुहोस् लिङ्क, र उत्पादनहरूको पट्टी।"
+"A featured collection with cover image, editorial copy, and a small product preview grid.","कभर छवि, सम्पादकीय पाठ, र सानो उत्पादन पूर्वावलोकन ग्रिडसहितको विशेष सङ्ग्रह।"
+"A single-product spotlight — image, name, price, and a link to the full product page.","एकल-उत्पादन स्पटलाइट — छवि, नाम, मूल्य, र पूर्ण उत्पादन पृष्ठको लिङ्क।"

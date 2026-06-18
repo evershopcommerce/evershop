@@ -11,6 +11,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type {
   TieredGroup,
@@ -31,9 +32,9 @@ const ASPECT_OPTIONS: ReadonlyArray<{
   value: TieredImageAspect;
   label: string;
 }> = [
-  { value: 'square', label: 'Square' },
-  { value: 'landscape', label: 'Landscape' },
-  { value: 'portrait', label: 'Portrait' }
+  { value: 'square', label: _('Square') },
+  { value: 'landscape', label: _('Landscape') },
+  { value: 'portrait', label: _('Portrait') }
 ];
 
 function makeId(): string {
@@ -154,22 +155,25 @@ export default function TieredCategoriesSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Groups">
+      <Section title={_('Groups')}>
         <RepeatableAccordion<TieredGroup>
           items={groups}
           onAdd={addGroup}
           onRemove={removeGroup}
           onMove={moveGroup}
-          addLabel="Add group"
+          addLabel={_('Add group')}
           minItems={1}
           maxItems={4}
           initiallyOpenFirst
           renderHeader={({ item }) =>
-            `${item.parent.label} · ${item.subs.length} subs`
+            _('${label} · ${count} subs', {
+              label: item.parent.label ?? '',
+              count: String(item.subs.length)
+            })
           }
           renderItem={({ item, index }) => (
             <>
-              <Field label="Parent label">
+              <Field label={_('Parent label')}>
                 <input
                   type="text"
                   value={item.parent.label || ''}
@@ -178,11 +182,11 @@ export default function TieredCategoriesSetting({
                       parent: { ...item.parent, label: e.target.value }
                     })
                   }
-                  placeholder="Women"
+                  placeholder={_('Women')}
                   className={drawerInputClass}
                 />
               </Field>
-              <Field label="Parent link">
+              <Field label={_('Parent link')}>
                 <LinkPicker
                   value={item.parent.url || ''}
                   initialKind="category"
@@ -193,7 +197,7 @@ export default function TieredCategoriesSetting({
                   }
                 />
               </Field>
-              <Field label="Image">
+              <Field label={_('Image')}>
                 <ImagePickerField
                   value={item.image || ''}
                   onChange={(v) =>
@@ -209,41 +213,41 @@ export default function TieredCategoriesSetting({
                   }
                 />
               </Field>
-              <Field label="Image alt text">
+              <Field label={_('Image alt text')}>
                 <input
                   type="text"
                   value={item.imageAlt || ''}
                   onChange={(e) =>
                     updateGroup(index, { imageAlt: e.target.value })
                   }
-                  placeholder="Describe the image"
+                  placeholder={_('Describe the image')}
                   className={drawerInputClass}
                 />
               </Field>
-              <Field label="Sub-categories" hint="Min 1, max 8.">
+              <Field label={_('Sub-categories')} hint={_('Min 1, max 8.')}>
                 <RepeatableAccordion<TieredSubItem>
                   items={item.subs}
                   onAdd={() => addSub(index)}
                   onRemove={(i) => removeSub(index, i)}
                   onMove={(f, t) => moveSub(index, f, t)}
-                  addLabel="Add sub-category"
+                  addLabel={_('Add sub-category')}
                   minItems={1}
                   maxItems={8}
-                  renderHeader={({ item: sub }) => sub.label || 'Untitled'}
+                  renderHeader={({ item: sub }) => sub.label || _('Untitled')}
                   renderItem={({ item: sub, index: subIdx }) => (
                     <>
-                      <Field label="Label">
+                      <Field label={_('Label')}>
                         <input
                           type="text"
                           value={sub.label || ''}
                           onChange={(e) =>
                             updateSub(index, subIdx, { label: e.target.value })
                           }
-                          placeholder="Dresses"
+                          placeholder={_('Dresses')}
                           className={drawerInputClass}
                         />
                       </Field>
-                      <Field label="URL">
+                      <Field label={_('URL')}>
                         <LinkPicker
                           value={sub.url || ''}
                           initialKind="category"
@@ -261,15 +265,15 @@ export default function TieredCategoriesSetting({
         />
       </Section>
 
-      <Section title="Layout">
+      <Section title={_('Layout')}>
         <Field
-          label="Columns (desktop)"
-          hint="On tablets the layout is always 2 columns."
+          label={_('Columns (desktop)')}
+          hint={_('On tablets the layout is always 2 columns.')}
         >
           <Segmented<number>
             value={colsV ?? 0}
             options={[
-              { value: 0, label: 'Auto' },
+              { value: 0, label: _('Auto') },
               { value: 2, label: '2' },
               { value: 3, label: '3' },
               { value: 4, label: '4' }
@@ -281,7 +285,7 @@ export default function TieredCategoriesSetting({
             }
           />
         </Field>
-        <Field label="Image aspect">
+        <Field label={_('Image aspect')}>
           <Segmented<TieredImageAspect>
             value={aspectV}
             options={ASPECT_OPTIONS}
@@ -291,8 +295,10 @@ export default function TieredCategoriesSetting({
           />
         </Field>
         <Toggle
-          label="Make parent image a link"
-          description="When off, only the sub-chips and parent label are interactive."
+          label={_('Make parent image a link')}
+          description={_(
+            'When off, only the sub-chips and parent label are interactive.'
+          )}
           checked={showParentLinkV}
           onChange={(v) =>
             setValue('settings.showParentLink', v, { shouldDirty: true })

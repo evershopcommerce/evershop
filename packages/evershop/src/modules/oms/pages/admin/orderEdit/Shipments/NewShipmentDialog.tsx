@@ -63,7 +63,7 @@ function QtyStepper({
         className="w-7 h-full grid place-items-center text-muted-foreground hover:bg-muted disabled:opacity-40 disabled:hover:bg-transparent"
         onClick={() => onChange(clamp(value - 1))}
         disabled={value <= min}
-        aria-label="Decrease"
+        aria-label={_('Decrease')}
       >
         <Minus className="size-3.5" />
       </button>
@@ -81,7 +81,7 @@ function QtyStepper({
         className="w-7 h-full grid place-items-center text-muted-foreground hover:bg-muted disabled:opacity-40 disabled:hover:bg-transparent"
         onClick={() => onChange(clamp(value + 1))}
         disabled={value >= max}
-        aria-label="Increase"
+        aria-label={_('Increase')}
       >
         <Plus className="size-3.5" />
       </button>

@@ -8,6 +8,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { CollectionPicker } from '@components/common/page-builder/pickers/CollectionPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface CollectionSpotlightSettingProps {
@@ -66,7 +67,7 @@ export default function CollectionSpotlightSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Collection">
+      <Section title={_('Collection')}>
         <CollectionPicker
           selectedCode={collectionV || null}
           onPick={({ code, name }) => {
@@ -81,8 +82,8 @@ export default function CollectionSpotlightSetting({
         />
       </Section>
 
-      <Section title="Cover image">
-        <Field label={imageV ? 'Selected image' : 'No image selected'}>
+      <Section title={_('Cover image')}>
+        <Field label={imageV ? _('Selected image') : _('No image selected')}>
           <ImagePickerField
             value={imageV}
             onChange={(v) => {
@@ -98,7 +99,7 @@ export default function CollectionSpotlightSetting({
             }}
           />
         </Field>
-        <Field label="Alt text">
+        <Field label={_('Alt text')}>
           <input
             type="text"
             value={imageAltV}
@@ -107,14 +108,14 @@ export default function CollectionSpotlightSetting({
                 shouldDirty: true
               })
             }
-            placeholder="Describe the image"
+            placeholder={_('Describe the image')}
             className={drawerInputClass}
           />
         </Field>
       </Section>
 
-      <Section title="Copy">
-        <Field label="Eyebrow">
+      <Section title={_('Copy')}>
+        <Field label={_('Eyebrow')}>
           <input
             type="text"
             value={eyebrowV}
@@ -123,16 +124,16 @@ export default function CollectionSpotlightSetting({
                 shouldDirty: true
               })
             }
-            placeholder="COLLECTION"
+            placeholder={_('COLLECTION')}
             className={drawerInputClass}
           />
         </Field>
         <Field
-          label="Heading"
+          label={_('Heading')}
           hint={
             pickedName
-              ? `Defaults to "${pickedName}".`
-              : 'Defaults to the picked collection name.'
+              ? _('Defaults to "${pickedName}".', { pickedName })
+              : _('Defaults to the picked collection name.')
           }
         >
           <input
@@ -143,45 +144,45 @@ export default function CollectionSpotlightSetting({
                 shouldDirty: true
               })
             }
-            placeholder={pickedName || 'Collection name'}
+            placeholder={pickedName || _('Collection name')}
             className={drawerInputClass}
           />
         </Field>
         <Field
-          label="Body"
-          hint="Optional. One or two sentences of editorial copy."
+          label={_('Body')}
+          hint={_('Optional. One or two sentences of editorial copy.')}
         >
           <MarkdownBodyField
             value={bodyV}
             onChange={(v) =>
               setValue('settings.body', v || null, { shouldDirty: true })
             }
-            placeholder="Linen, cotton, easy stuff."
+            placeholder={_('Linen, cotton, easy stuff.')}
             rows={3}
             softLimit={240}
           />
         </Field>
       </Section>
 
-      <Section title="Layout">
-        <Field label="Image position">
+      <Section title={_('Layout')}>
+        <Field label={_('Image position')}>
           <Segmented<'left' | 'right'>
             value={imagePositionV}
             options={[
-              { value: 'left', label: 'Image left' },
-              { value: 'right', label: 'Image right' }
+              { value: 'left', label: _('Image left') },
+              { value: 'right', label: _('Image right') }
             ]}
             onChange={(v) =>
               setValue('settings.imagePosition', v, { shouldDirty: true })
             }
           />
         </Field>
-        <Field label="Preview product count">
+        <Field label={_('Preview product count')}>
           <Segmented<2 | 4>
             value={previewCountV}
             options={[
-              { value: 2, label: '2 (1×2)' },
-              { value: 4, label: '4 (2×2)' }
+              { value: 2, label: _('2 (1×2)') },
+              { value: 4, label: _('4 (2×2)') }
             ]}
             onChange={(v) =>
               setValue('settings.previewCount', v, { shouldDirty: true })
@@ -193,7 +194,7 @@ export default function CollectionSpotlightSetting({
       <input
         type="hidden"
         {...register('settings.collection', {
-          required: 'Please pick a collection'
+          required: _('Please pick a collection')
         })}
         defaultValue={collection ?? ''}
       />

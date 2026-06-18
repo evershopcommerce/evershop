@@ -9,6 +9,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type { BrandStoryLayout } from './BrandStory.js';
 
@@ -33,10 +34,10 @@ const LAYOUT_OPTIONS: ReadonlyArray<{
   value: BrandStoryLayout;
   label: string;
 }> = [
-  { value: 'image-left', label: 'Image left' },
-  { value: 'image-right', label: 'Image right' },
-  { value: 'centered', label: 'Centered' },
-  { value: 'pull-quote', label: 'Pull quote' }
+  { value: 'image-left', label: _('Image left') },
+  { value: 'image-right', label: _('Image right') },
+  { value: 'centered', label: _('Centered') },
+  { value: 'pull-quote', label: _('Pull quote') }
 ];
 
 const IMAGE_SIZE_OPTIONS: ReadonlyArray<{ value: 40 | 50 | 60; label: string }> =
@@ -91,8 +92,8 @@ export default function BrandStorySetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Layout">
-        <Field label="Variant">
+      <Section title={_('Layout')}>
+        <Field label={_('Variant')}>
           <Segmented<BrandStoryLayout>
             value={layoutV}
             options={LAYOUT_OPTIONS}
@@ -102,7 +103,7 @@ export default function BrandStorySetting({
           />
         </Field>
         {showImageSizeField && (
-          <Field label="Image column size">
+          <Field label={_('Image column size')}>
             <Segmented<40 | 50 | 60>
               value={imageSizeV}
               options={IMAGE_SIZE_OPTIONS}
@@ -115,8 +116,8 @@ export default function BrandStorySetting({
       </Section>
 
       {showImageField && (
-        <Section title="Image">
-          <Field label={imageV ? 'Selected image' : 'No image selected'}>
+        <Section title={_('Image')}>
+          <Field label={imageV ? _('Selected image') : _('No image selected')}>
             <ImagePickerField
               value={imageV}
               onChange={(v) => {
@@ -132,7 +133,7 @@ export default function BrandStorySetting({
               }}
             />
           </Field>
-          <Field label="Alt text">
+          <Field label={_('Alt text')}>
             <input
               type="text"
               value={imageAltV}
@@ -141,15 +142,18 @@ export default function BrandStorySetting({
                   shouldDirty: true
                 })
               }
-              placeholder="Describe the image"
+              placeholder={_('Describe the image')}
               className={drawerInputClass}
             />
           </Field>
         </Section>
       )}
 
-      <Section title="Copy">
-        <Field label="Eyebrow" hint='Small all-caps label. E.g. "OUR STORY".'>
+      <Section title={_('Copy')}>
+        <Field
+          label={_('Eyebrow')}
+          hint={_('Small all-caps label. E.g. "OUR STORY".')}
+        >
           <input
             type="text"
             value={eyebrowV}
@@ -158,11 +162,11 @@ export default function BrandStorySetting({
                 shouldDirty: true
               })
             }
-            placeholder="Our story"
+            placeholder={_('Our story')}
             className={drawerInputClass}
           />
         </Field>
-        <Field label="Heading">
+        <Field label={_('Heading')}>
           <input
             type="text"
             value={headingV}
@@ -171,14 +175,16 @@ export default function BrandStorySetting({
                 shouldDirty: true
               })
             }
-            placeholder="Made by hand, in small batches"
+            placeholder={_('Made by hand, in small batches')}
             className={drawerInputClass}
           />
         </Field>
         {showPullQuoteField && (
           <Field
-            label="Pull quote"
-            hint="Required for the pull-quote variant. Displayed large, styled as a blockquote."
+            label={_('Pull quote')}
+            hint={_(
+              'Required for the pull-quote variant. Displayed large, styled as a blockquote.'
+            )}
           >
             <textarea
               value={pullQuoteV}
@@ -188,23 +194,23 @@ export default function BrandStorySetting({
                 })
               }
               rows={3}
-              placeholder="A short, quotable line."
+              placeholder={_('A short, quotable line.')}
               className="w-full resize-vertical rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </Field>
         )}
-        <Field label="Body">
+        <Field label={_('Body')}>
           <MarkdownBodyField
             value={bodyV}
             onChange={(v) =>
               setValue('settings.body', v, { shouldDirty: true })
             }
-            placeholder="Three or four sentences of brand narrative."
+            placeholder={_('Three or four sentences of brand narrative.')}
             rows={4}
             softLimit={400}
           />
         </Field>
-        <Field label="Second body paragraph (optional)">
+        <Field label={_('Second body paragraph (optional)')}>
           <MarkdownBodyField
             value={bodySecondaryV}
             onChange={(v) =>
@@ -212,17 +218,17 @@ export default function BrandStorySetting({
                 shouldDirty: true
               })
             }
-            placeholder="A second short paragraph if the story needs it."
+            placeholder={_('A second short paragraph if the story needs it.')}
             rows={3}
             softLimit={400}
           />
         </Field>
       </Section>
 
-      <Section title="Read more link">
+      <Section title={_('Read more link')}>
         {linkV ? (
           <>
-            <Field label="Label">
+            <Field label={_('Label')}>
               <input
                 type="text"
                 value={linkV.label || ''}
@@ -233,11 +239,11 @@ export default function BrandStorySetting({
                     { shouldDirty: true }
                   )
                 }
-                placeholder="Read more"
+                placeholder={_('Read more')}
                 className={drawerInputClass}
               />
             </Field>
-            <Field label="URL">
+            <Field label={_('URL')}>
               <LinkPicker
                 value={linkV.url || ''}
                 onChange={({ url }) =>
@@ -250,7 +256,7 @@ export default function BrandStorySetting({
               />
             </Field>
             <Toggle
-              label="Open in new tab"
+              label={_('Open in new tab')}
               checked={!!linkV.newTab}
               onChange={(v) =>
                 setValue(
@@ -267,7 +273,7 @@ export default function BrandStorySetting({
               }
               className="text-[11px] text-muted-foreground hover:text-destructive"
             >
-              Remove read-more link
+              {_('Remove read-more link')}
             </button>
           </>
         ) : (
@@ -282,7 +288,7 @@ export default function BrandStorySetting({
             }
             className="text-xs font-medium text-primary hover:underline"
           >
-            + Add a read-more link
+            {_('+ Add a read-more link')}
           </button>
         )}
       </Section>

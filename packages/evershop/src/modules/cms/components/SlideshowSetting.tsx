@@ -7,6 +7,7 @@ import {
 } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Switch } from '@components/common/ui/Switch.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import {
   ChevronDown,
   ChevronUp,
@@ -217,7 +218,7 @@ function AnchorPicker({
             key={c}
             type="button"
             onClick={() => onChange(c)}
-            aria-label={`Position ${c.toUpperCase()}`}
+            aria-label={_('Position ${c}', { c: c.toUpperCase() })}
             title={c.toUpperCase()}
             className={`h-6 w-6 rounded transition-colors ${
               active
@@ -350,25 +351,25 @@ const BUTTON_STYLE_OPTIONS: ReadonlyArray<{
   value: ButtonStyle;
   label: string;
 }> = [
-  { value: 'default', label: 'Primary' },
-  { value: 'secondary', label: 'Secondary' },
-  { value: 'outline', label: 'Outline' },
-  { value: 'ghost', label: 'Ghost' },
-  { value: 'link', label: 'Link' }
+  { value: 'default', label: _('Primary') },
+  { value: 'secondary', label: _('Secondary') },
+  { value: 'outline', label: _('Outline') },
+  { value: 'ghost', label: _('Ghost') },
+  { value: 'link', label: _('Link') }
 ];
 
 const OVERLAY_TINT_OPTIONS: ReadonlyArray<{
   value: OverlayTint;
   label: string;
 }> = [
-  { value: 'none', label: 'None' },
-  { value: 'dark', label: 'Dark' },
-  { value: 'light', label: 'Light' },
-  { value: 'gradient', label: 'Gradient' }
+  { value: 'none', label: _('None') },
+  { value: 'dark', label: _('Dark') },
+  { value: 'light', label: _('Light') },
+  { value: 'gradient', label: _('Gradient') }
 ];
 
 const ASPECT_OPTIONS: ReadonlyArray<{ value: AspectRatio; label: string }> = [
-  { value: 'auto', label: 'Auto' },
+  { value: 'auto', label: _('Auto') },
   { value: '16:9', label: '16:9' },
   { value: '21:9', label: '21:9' },
   { value: '4:3', label: '4:3' },
@@ -376,15 +377,15 @@ const ASPECT_OPTIONS: ReadonlyArray<{ value: AspectRatio; label: string }> = [
 ];
 
 const ARROWS_OPTIONS: ReadonlyArray<{ value: ArrowsStyle; label: string }> = [
-  { value: 'hidden', label: 'None' },
-  { value: 'sides', label: 'Sides' },
-  { value: 'bottom-right', label: 'Bottom' }
+  { value: 'hidden', label: _('None') },
+  { value: 'sides', label: _('Sides') },
+  { value: 'bottom-right', label: _('Bottom') }
 ];
 
 const DOTS_OPTIONS: ReadonlyArray<{ value: DotsStyle; label: string }> = [
-  { value: 'hidden', label: 'None' },
-  { value: 'dots', label: 'Dots' },
-  { value: 'bars', label: 'Bars' },
+  { value: 'hidden', label: _('None') },
+  { value: 'dots', label: _('Dots') },
+  { value: 'bars', label: _('Bars') },
   { value: 'numbers', label: '123' }
 ];
 
@@ -640,7 +641,7 @@ export default function SlideshowSetting({
         <div className="space-y-3 border-t border-divider px-3 py-3 bg-muted/20">
           {/* Image picker */}
           <div className="space-y-2">
-            <Field label="Image">
+            <Field label={_('Image')}>
               <div className="flex items-center gap-2">
                 <div className="relative h-14 w-24 overflow-hidden rounded border border-divider bg-muted/40 flex items-center justify-center">
                   {slide.image ? (
@@ -661,13 +662,13 @@ export default function SlideshowSetting({
                     setImagePickerTarget({ kind: 'desktop', slideIndex: idx })
                   }
                 >
-                  {slide.image ? 'Replace' : 'Select'}
+                  {slide.image ? _('Replace') : _('Select')}
                 </Button>
               </div>
             </Field>
             <Field
-              label="Mobile image (optional)"
-              hint="Used at ≤ 767 px. Falls back to the main image."
+              label={_('Mobile image (optional)')}
+              hint={_('Used at ≤ 767 px. Falls back to the main image.')}
             >
               <div className="flex items-center gap-2">
                 <div className="relative h-14 w-24 overflow-hidden rounded border border-divider bg-muted/40 flex items-center justify-center">
@@ -689,7 +690,7 @@ export default function SlideshowSetting({
                     setImagePickerTarget({ kind: 'mobile', slideIndex: idx })
                   }
                 >
-                  {slide.mobileImage ? 'Replace' : 'Select'}
+                  {slide.mobileImage ? _('Replace') : _('Select')}
                 </Button>
                 {slide.mobileImage && (
                   <Button
@@ -698,7 +699,7 @@ export default function SlideshowSetting({
                     type="button"
                     onClick={() => updateSlide(idx, { mobileImage: '' })}
                   >
-                    Clear
+                    {_('Clear')}
                   </Button>
                 )}
               </div>
@@ -714,26 +715,26 @@ export default function SlideshowSetting({
               internally and the input element stays mounted across each
               keystroke (controlled `value` + onChange of the whole slides
               array remounted these and dropped focus after one letter). */}
-          <Field label="Eyebrow">
+          <Field label={_('Eyebrow')}>
             <input
               type="text"
               {...register(`settings.slides.${idx}.eyebrow` as any)}
-              placeholder="e.g. New collection"
+              placeholder={_('e.g. New collection')}
               className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </Field>
-          <Field label="Headline">
+          <Field label={_('Headline')}>
             <input
               type="text"
               {...register(`settings.slides.${idx}.headline` as any)}
-              placeholder="e.g. Summer Sale"
+              placeholder={_('e.g. Summer Sale')}
               className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </Field>
-          <Field label="Sub text">
+          <Field label={_('Sub text')}>
             <textarea
               {...register(`settings.slides.${idx}.subText` as any)}
-              placeholder="Check out our latest products with special discounts."
+              placeholder={_('Check out our latest products with special discounts.')}
               rows={2}
               className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary resize-vertical"
             />
@@ -742,23 +743,23 @@ export default function SlideshowSetting({
           {/* Primary button */}
           <div className="rounded-md border border-divider bg-card p-3 space-y-2">
             <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Primary button
+              {_('Primary button')}
             </div>
-            <Field label="Label">
+            <Field label={_('Label')}>
               <input
                 type="text"
                 {...register(`settings.slides.${idx}.buttonText` as any)}
-                placeholder="Shop now"
+                placeholder={_('Shop now')}
                 className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </Field>
-            <Field label="Link">
+            <Field label={_('Link')}>
               <LinkPicker
                 value={slide.buttonLink || ''}
                 onChange={({ url }) => updateSlide(idx, { buttonLink: url })}
               />
             </Field>
-            <Field label="Style">
+            <Field label={_('Style')}>
               <Segmented
                 value={(slide.buttonStyle as ButtonStyle) || 'default'}
                 onChange={(v) => updateSlide(idx, { buttonStyle: v })}
@@ -771,7 +772,7 @@ export default function SlideshowSetting({
           <div className="rounded-md border border-divider bg-card p-3 space-y-2">
             <div className="flex items-center justify-between">
               <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                Secondary button
+                {_('Secondary button')}
               </div>
               {hasSecondary && (
                 <Button
@@ -786,21 +787,21 @@ export default function SlideshowSetting({
                     })
                   }
                 >
-                  Remove
+                  {_('Remove')}
                 </Button>
               )}
             </div>
             {hasSecondary ? (
               <>
-                <Field label="Label">
+                <Field label={_('Label')}>
                   <input
                     type="text"
                     {...register(`settings.slides.${idx}.button2Text` as any)}
-                    placeholder="Learn more"
+                    placeholder={_('Learn more')}
                     className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                   />
                 </Field>
-                <Field label="Link">
+                <Field label={_('Link')}>
                   <LinkPicker
                     value={slide.button2Link || ''}
                     onChange={({ url }) =>
@@ -808,7 +809,7 @@ export default function SlideshowSetting({
                     }
                   />
                 </Field>
-                <Field label="Style">
+                <Field label={_('Style')}>
                   <Segmented
                     value={(slide.button2Style as ButtonStyle) || 'outline'}
                     onChange={(v) => updateSlide(idx, { button2Style: v })}
@@ -829,7 +830,7 @@ export default function SlideshowSetting({
                   })
                 }
               >
-                + Add secondary button
+                {_('+ Add secondary button')}
               </Button>
             )}
           </div>
@@ -837,18 +838,20 @@ export default function SlideshowSetting({
           {/* Per-slide overrides */}
           <div className="rounded-md border border-dashed border-divider/70 p-3 space-y-3">
             <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              Overrides
+              {_('Overrides')}
             </div>
             <Field
-              label="Content position"
-              hint="Leaves slide-specific anchor; falls back to the slideshow's default."
+              label={_('Content position')}
+              hint={_(
+                "Leaves slide-specific anchor; falls back to the slideshow's default."
+              )}
             >
               <AnchorPicker
                 value={slidePos}
                 onChange={(v) => updateSlide(idx, { contentPosition: v })}
               />
             </Field>
-            <Field label="Overlay tint">
+            <Field label={_('Overlay tint')}>
               <Segmented
                 value={slideTint}
                 onChange={(v) => updateSlide(idx, { overlayTint: v })}
@@ -856,7 +859,7 @@ export default function SlideshowSetting({
               />
             </Field>
             <Field
-              label="Overlay opacity"
+              label={_('Overlay opacity')}
               hint={`${Math.round(slideOpacity * 100)}%`}
             >
               <Slider
@@ -871,7 +874,7 @@ export default function SlideshowSetting({
             <Toggle
               value={Boolean(slide.wholeSlideLink)}
               onChange={(v) => updateSlide(idx, { wholeSlideLink: v })}
-              label="Make whole slide clickable"
+              label={_('Make whole slide clickable')}
             />
           </div>
         </div>
@@ -899,19 +902,19 @@ export default function SlideshowSetting({
       )}
 
       {/* ── Behavior ─────────────────────────────────────────────────── */}
-      <Section title="Behavior">
-        <Field label="Transition">
+      <Section title={_('Behavior')}>
+        <Field label={_('Transition')}>
           <Segmented
             value={currentTransition}
             onChange={(v) => setValue('settings.transition', v)}
             options={[
-              { value: 'slide', label: 'Slide' },
-              { value: 'fade', label: 'Fade' }
+              { value: 'slide', label: _('Slide') },
+              { value: 'fade', label: _('Fade') }
             ]}
           />
         </Field>
         <Field
-          label="Transition speed"
+          label={_('Transition speed')}
           hint={`${currentTransitionSpeed} ms`}
         >
           <Slider
@@ -926,12 +929,14 @@ export default function SlideshowSetting({
         <Toggle
           value={currentAutoplay}
           onChange={(v) => setValue('settings.autoplay', v)}
-          label="Autoplay"
+          label={_('Autoplay')}
         />
         {currentAutoplay && (
           <Field
-            label="Autoplay delay"
-            hint={`${Math.round(currentAutoplaySpeed / 100) / 10} s between slides`}
+            label={_('Autoplay delay')}
+            hint={_('${seconds} s between slides', {
+              seconds: String(Math.round(currentAutoplaySpeed / 100) / 10)
+            })}
           >
             <Slider
               value={currentAutoplaySpeed}
@@ -946,14 +951,14 @@ export default function SlideshowSetting({
         <Toggle
           value={currentPauseOnHover}
           onChange={(v) => setValue('settings.pauseOnHover', v)}
-          label="Pause on hover"
+          label={_('Pause on hover')}
         />
         <Toggle
           value={currentPauseOnInteraction}
           onChange={(v) => setValue('settings.pauseOnInteraction', v)}
-          label="Pause for 20 s after user nav"
+          label={_('Pause for 20 s after user nav')}
         />
-        <Field label="Arrows">
+        <Field label={_('Arrows')}>
           <Segmented
             value={currentArrowsStyle}
             onChange={(v) => {
@@ -963,7 +968,7 @@ export default function SlideshowSetting({
             options={ARROWS_OPTIONS}
           />
         </Field>
-        <Field label="Dots">
+        <Field label={_('Dots')}>
           <Segmented
             value={currentDotsStyle}
             onChange={(v) => {
@@ -976,10 +981,12 @@ export default function SlideshowSetting({
       </Section>
 
       {/* ── Layout ───────────────────────────────────────────────────── */}
-      <Section title="Layout">
+      <Section title={_('Layout')}>
         <Field
-          label="Aspect ratio"
-          hint="`Auto` matches the natural image height (jumps between slides)."
+          label={_('Aspect ratio')}
+          hint={_(
+            '`Auto` matches the natural image height (jumps between slides).'
+          )}
         >
           <Segmented
             value={currentAspectRatio}
@@ -988,15 +995,15 @@ export default function SlideshowSetting({
           />
         </Field>
         <Field
-          label="Default content position"
-          hint="Per-slide overrides win."
+          label={_('Default content position')}
+          hint={_('Per-slide overrides win.')}
         >
           <AnchorPicker
             value={currentDefaultPosition}
             onChange={(v) => setValue('settings.defaultContentPosition', v)}
           />
         </Field>
-        <Field label="Default overlay tint">
+        <Field label={_('Default overlay tint')}>
           <Segmented
             value={currentDefaultTint}
             onChange={(v) => setValue('settings.defaultOverlayTint', v)}
@@ -1004,7 +1011,7 @@ export default function SlideshowSetting({
           />
         </Field>
         <Field
-          label="Default overlay opacity"
+          label={_('Default overlay opacity')}
           hint={`${Math.round(currentDefaultOpacity * 100)}%`}
         >
           <Slider
@@ -1022,7 +1029,7 @@ export default function SlideshowSetting({
 
       {/* ── Slides ───────────────────────────────────────────────────── */}
       <Section
-        title={`Slides (${slideCount})`}
+        title={_('Slides (${count})', { count: String(slideCount) })}
         rightSlot={
           <Button
             variant="outline"
@@ -1034,18 +1041,18 @@ export default function SlideshowSetting({
             }}
           >
             <Plus className="h-3 w-3 mr-1" />
-            Add
+            {_('Add')}
           </Button>
         }
       >
         {slideCount === 0 ? (
           <div className="rounded-md border border-dashed border-divider px-4 py-6 text-center">
             <p className="text-sm text-muted-foreground mb-3">
-              No slides yet.
+              {_('No slides yet.')}
             </p>
             <Button variant="outline" size="sm" type="button" onClick={addSlide}>
               <Plus className="h-3 w-3 mr-1" />
-              Add your first slide
+              {_('Add your first slide')}
             </Button>
           </div>
         ) : (
@@ -1094,10 +1101,12 @@ export default function SlideshowSetting({
                               : 'text-foreground'
                           }`}
                         >
-                          {slide.headline || `Slide ${idx + 1}`}
+                          {slide.headline ||
+                            _('Slide ${number}', { number: String(idx + 1) })}
                         </div>
                         <div className="truncate text-[11px] text-muted-foreground">
-                          {slide.subText || (slide.image ? 'Image only' : 'Empty')}
+                          {slide.subText ||
+                            (slide.image ? _('Image only') : _('Empty'))}
                         </div>
                       </div>
                     </button>
@@ -1105,8 +1114,8 @@ export default function SlideshowSetting({
                     <button
                       type="button"
                       onClick={() => toggleHidden(idx)}
-                      aria-label={isHidden ? 'Show slide' : 'Hide slide'}
-                      title={isHidden ? 'Show slide' : 'Hide slide'}
+                      aria-label={isHidden ? _('Show slide') : _('Hide slide')}
+                      title={isHidden ? _('Show slide') : _('Hide slide')}
                       className="rounded p-1 text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground"
                     >
                       {isHidden ? (
@@ -1119,8 +1128,8 @@ export default function SlideshowSetting({
                       type="button"
                       onClick={() => moveUp(idx)}
                       disabled={idx === 0}
-                      aria-label="Move slide up"
-                      title="Move up"
+                      aria-label={_('Move slide up')}
+                      title={_('Move up')}
                       className="rounded p-1 text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-30"
                     >
                       <ChevronUp className="h-3.5 w-3.5" />
@@ -1129,8 +1138,8 @@ export default function SlideshowSetting({
                       type="button"
                       onClick={() => moveDown(idx)}
                       disabled={idx === slideCount - 1}
-                      aria-label="Move slide down"
-                      title="Move down"
+                      aria-label={_('Move slide down')}
+                      title={_('Move down')}
                       className="rounded p-1 text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-30"
                     >
                       <ChevronDown className="h-3.5 w-3.5" />
@@ -1138,8 +1147,8 @@ export default function SlideshowSetting({
                     <button
                       type="button"
                       onClick={() => removeSlide(idx)}
-                      aria-label="Delete slide"
-                      title="Delete"
+                      aria-label={_('Delete slide')}
+                      title={_('Delete')}
                       className="rounded p-1 text-rose-600 transition-colors hover:bg-rose-50 dark:hover:bg-rose-950/40"
                     >
                       <Trash2 className="h-3.5 w-3.5" />

@@ -5,6 +5,7 @@ import {
   Toggle
 } from '@components/common/page-builder/drawer/index.js';
 import { LinkKind, LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 /**
@@ -32,10 +33,10 @@ export interface CtaValue {
 export type CtaStyle = 'primary' | 'secondary' | 'ghost' | 'link';
 
 const STYLE_OPTIONS: ReadonlyArray<{ value: CtaStyle; label: string }> = [
-  { value: 'primary', label: 'Primary' },
-  { value: 'secondary', label: 'Outline' },
-  { value: 'ghost', label: 'Ghost' },
-  { value: 'link', label: 'Link' }
+  { value: 'primary', label: _('Primary') },
+  { value: 'secondary', label: _('Outline') },
+  { value: 'ghost', label: _('Ghost') },
+  { value: 'link', label: _('Link') }
 ];
 
 export interface CtaFieldProps {
@@ -58,7 +59,7 @@ export function CtaField({
 
   return (
     <div className="space-y-2.5">
-      <Field label="Label">
+      <Field label={_('Label')}>
         <input
           type="text"
           value={value.label || ''}
@@ -67,7 +68,7 @@ export function CtaField({
           className={drawerInputClass}
         />
       </Field>
-      <Field label="Link">
+      <Field label={_('Link')}>
         <LinkPicker
           value={value.url || ''}
           initialKind={value.kind ?? 'custom'}
@@ -84,13 +85,13 @@ export function CtaField({
         />
       </Field>
       <Toggle
-        label="Open in new tab"
-        description="Adds target=_blank rel=noopener noreferrer."
+        label={_('Open in new tab')}
+        description={_('Adds target=_blank rel=noopener noreferrer.')}
         checked={!!value.newTab}
         onChange={(v) => update({ newTab: v })}
       />
       {showStyle && (
-        <Field label="Style">
+        <Field label={_('Style')}>
           <Segmented<CtaStyle>
             value={value.style ?? 'primary'}
             options={STYLE_OPTIONS}

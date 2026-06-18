@@ -4,7 +4,6 @@ Sku, SKU
 Continue to shipping, Đến phần vận chuyển
 Continue shopping, Tiếp tục mua sắm
 Continue Shopping, Tiếp tục mua sắm
-CONTINUE SHOPPING, TIẾP TỤC MUA SẮM
 Shopping cart, Giỏ hàng
 Product, Sản phẩm
 Price, Giá
@@ -15,7 +14,6 @@ Sub total, Tổng phụ
 Discount(${coupon}), Giảm giá(${coupon})
 Order summary, Tóm tắt đơn hàng
 Taxes and shipping calculated at checkout, Thuế và phí vận chuyển được tính khi thanh toán
-CHECKOUT, THANH TOÁN
 Change, Thay đổi
 Payment Method, Phương thức thanh toán
 Shipping Method, Phương thức vận chuyển
@@ -27,7 +25,7 @@ Discount, Giảm giá
 Shipping, Phí vận chuyển
 No tax, Không có thuế
 Tax, Thuế
-Sorry, there is no available method for your address, Xin lỗi, không có phương thức nào khả dụng cho địa chỉ của bạn
+"Sorry, there is no available method for your address","Xin lỗi, không có phương thức nào khả dụng cho địa chỉ của bạn"
 Please enter a shipping address in order to see shipping quotes, Vui lòng nhập địa chỉ giao hàng để xem báo giá vận chuyển
 Continue to payment, Đến phần thanh toán
 No payment method available, Không có phương thức thanh toán nào khả dụng
@@ -36,7 +34,7 @@ Shipment, Vận chuyển
 Thank you ${name}!, Cảm ơn ${name}!
 Contact Information, Thông tin liên hệ
 Order #${orderNumber}, Đơn hàng #${orderNumber}
-ADD TO CART, Thêm vào giỏ hàng
+Add to cart, Thêm vào giỏ hàng
 Please select variant options, Vui lòng chọn thuộc tính sản phẩm
 VIEW CART (${count}), Xem giỏ hàng (${count})
 JUST ADDED TO YOUR CART, Vừa thêm vào giỏ hàng của bạn

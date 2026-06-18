@@ -131,9 +131,10 @@ export default function CustomerInfo({
         variant={'default'}
         size={'lg'}
         onClick={() => (window.location.href = '/')}
-        title={_('CONTINUE SHOPPING')}
+        title={_('Continue shopping')}
+        className="uppercase"
       >
-        {_('CONTINUE SHOPPING')}
+        {_('Continue shopping')}
       </Button>
     </div>
   );

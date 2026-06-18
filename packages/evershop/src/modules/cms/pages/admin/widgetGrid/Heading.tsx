@@ -1,8 +1,9 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export default function WidgetGridHeading() {
-  return <PageHeading heading="Widgets" />;
+  return <PageHeading heading={_('Widgets')} />;
 }
 
 export const layout = {

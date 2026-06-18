@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { useFormContext } from 'react-hook-form';
 
 interface ImageProps {
@@ -32,8 +33,10 @@ export default function Image({ category }: ImageProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Category Image</CardTitle>
-        <CardDescription>Upload an image for the category.</CardDescription>
+        <CardTitle>{_('Category Image')}</CardTitle>
+        <CardDescription>
+          {_('Upload an image for the category.')}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ImageUploader

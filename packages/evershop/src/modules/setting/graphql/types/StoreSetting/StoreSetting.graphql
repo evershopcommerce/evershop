@@ -4,7 +4,6 @@ extend type Setting {
   storeLanguage: String
   storeLanguages: [String]
   adminLanguage: String
-  installedLocales: [String]
   storeCurrency: String
   storeTimeZone: String
   storePhoneNumber: String

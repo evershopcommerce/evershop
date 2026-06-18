@@ -1,5 +1,6 @@
 import { DateField } from '@components/common/form/DateField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export const Setting: React.FC<{
@@ -13,27 +14,27 @@ export const Setting: React.FC<{
         <NumberField
           name="discount_amount"
           defaultValue={discountAmount}
-          placeholder="Discount amount"
+          placeholder={_('Discount amount')}
           required
-          label="Discount amount"
+          label={_('Discount amount')}
           validation={{
-            required: 'Discount amount is required'
+            required: _('Discount amount is required')
           }}
         />
       </div>
       <div>
         <DateField
           name="start_date"
-          label="Start date"
-          placeholder="Start date"
+          label={_('Start date')}
+          placeholder={_('Start date')}
           defaultValue={startDate}
         />
       </div>
       <div>
         <DateField
-          placeholder="End date"
+          placeholder={_('End date')}
           name="end_date"
-          label="End date"
+          label={_('End date')}
           defaultValue={endDate}
         />
       </div>

@@ -51,12 +51,12 @@ export default function ShoppingCart({ checkoutUrl }: ShoppingCartProps) {
               <div className="shopping-cart-checkout-btn flex justify-between mt-5">
                 <Button
                   onClick={() => (window.location.href = checkoutUrl)}
-                  title={_('CHECKOUT')}
+                  title={_('Checkout')}
                   variant="default"
                   size={'lg'}
-                  className={'w-full'}
+                  className={'w-full uppercase'}
                 >
-                  {_('CHECKOUT')}
+                  {_('Checkout')}
                 </Button>
               </div>
               <Area id="shoppingCartAfterSummary" noOuter />

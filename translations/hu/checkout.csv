@@ -4,7 +4,6 @@ Sku, SKU
 Continue to shipping, Tovább a szállításhoz
 Continue shopping, Vásárlás folytatása
 Continue Shopping, Vásárlás Folytatása
-CONTINUE SHOPPING, VÁSÁRLÁS FOLYTATÁSA
 Shopping cart, Bevásárlókosár
 Product, Termék
 Price, Ár
@@ -15,7 +14,7 @@ Sub total, Részösszeg
 Discount(${coupon}), Kedvezmény(${coupon})
 Order summary, Megrendelés összesítő
 Taxes and shipping calculated at checkout, Az ÁFA és a szállítási költség a fizetéskor kerül véglegesítésre
-CHECKOUT, Fizetés
+Checkout, Fizetés
 Change, Módosít
 Payment Method, Fizetési mód
 Shipping Address, Szállítási cím
@@ -28,7 +27,7 @@ Discount, Kedvezmény
 Shipping, Szállítás
 No tax, Nincs ÁFA
 Tax, ÁFA
-Sorry, there is no available method for your address, Sajnáljuk, de a címedhez nincs elérhető szállítási mód
+"Sorry, there is no available method for your address","Sajnáljuk, de a címedhez nincs elérhető szállítási mód"
 Please enter a shipping address in order to see shipping quotes, A szállítási díj megjelenítéséhez kérjük add meg a szállítási címedet
 Continue to payment, Tovább a fizetéshez
 Ship to, Szállítási cím
@@ -36,7 +35,7 @@ Shipment, Szállítás
 Thank you ${name}!, Köszönjük ${name}!
 Contact information, Elérhetőség
 Order #${orderNumber}, Megrendelés #${orderNumber}
-ADD TO CART, KOSÁRBA
+Add to cart, KOSÁRBA
 Please select variant options, Válassz a lehetőségek közül!
 VIEW CART (${count}), KOSÁR MEGTEKINTÉSE (${count})
 JUST ADDED TO YOUR CART, HOZZÁADTUK A KOSARADHOZ!
@@ -51,7 +50,7 @@ City, Város
 Country, Ország
 Postcode, IRSZ
 Inclusive of tax, ÁFA nélküli
-Sorry, there is no available method for your address,Sajnáljuk, a címedre jelenleg nincs elérhető szállítási mód
+"Sorry, there is no available method for your address","Sajnáljuk, a címedre jelenleg nincs elérhető szállítási mód"
 Full name is required, Kérjük add meg a teljes nevedet!
 Telephone is required, Kérjük add meg a telefonszámodat!
 Address is required, Kérjük add meg a címedet!

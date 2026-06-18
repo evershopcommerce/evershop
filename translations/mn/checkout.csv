@@ -4,7 +4,6 @@ Sku, SKU
 Continue to shipping, Хүргэлт рүү үргэлжлүүлэх
 Continue shopping, Худалдан авалтаа үргэлжлүүлэх
 Continue Shopping, Худалдан авалтаа үргэлжлүүлэх
-CONTINUE SHOPPING, ХУДАЛДАН АВАЛТАА ҮРГЭЛЖЛҮҮЛЭХ
 Shopping cart, Сагс
 Product, Бүтээгдэхүүн
 Price, Үнэ
@@ -15,7 +14,7 @@ Sub total, Дүнгийн дүн
 Discount(${coupon}), Хөнгөлөлт(${coupon})
 Order summary, Захиалгын тойм
 Taxes and shipping calculated at checkout, Татвар болон хүргэлт нь захиалга баталгаажуулах үед тооцогдоно
-CHECKOUT, ТӨЛӨЛТ
+Checkout, ТӨЛӨЛТ
 Change, Өөрчлөх
 Payment Method, Төлбөрийн арга
 Shipping Method, Хүргэлтийн төрөл
@@ -27,7 +26,7 @@ Discount, Хөнгөлөлт
 Shipping, Хүргэлт
 No tax, Татваргүй
 Tax, Татвар
-Sorry, there is no available method for your address, Уучлаарай, таны хаягт боломжтой арга байхгүй байна
+"Sorry, there is no available method for your address","Уучлаарай, таны хаягт боломжтой арга байхгүй байна"
 Please enter a shipping address in order to see shipping quotes, Хүргэлтийн үнэ үзэхийн тулд хүргэлтийн хаяг оруулна уу
 Continue to payment, Төлбөр рүү шилжих
 No payment method available, Төлбөр хийх боломжгүй
@@ -36,7 +35,7 @@ Shipment, Ачилт
 Thank you ${name}!, Баярлалаа ${name}!
 Contact information, Холбоо барих мэдээлэл
 Order #${orderNumber}, Захиалга #${orderNumber}
-ADD TO CART, САГСАД НЭМЭХ
+Add to cart, САГСАД НЭМЭХ
 Please select variant options, Хувилбарын сонголтыг сонгоно уу
 VIEW CART (${count}), САГСЫГ ХАРАХ (${count})
 JUST ADDED TO YOUR CART, Сагс руу зүгээр шинэ нэмэгдсэн

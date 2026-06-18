@@ -1,0 +1,1688 @@
+Welcome Back!,Добро дошли назад!
+Please sign in to your account ,Пријавите се на свој налог 
+Join us for exclusive offers and order tracking,Придружите нам се за ексклузивне понуде и праћење поруџбина
+Sign Up,Региструј се
+Signing Up...,Регистровање...
+Signing In...,Пријављивање...
+Recent Orders,Недавне поруџбине
+Address Book,Адресар
+You have no addresses saved,Немате сачуваних адреса
+Add new address,Додај нову адресу
+Address 2,Адреса 2
+Set as default,Постави као подразумевано
+Save,Сачувај
+Edit,Измени
+Delete,Обриши
+Edit Address,Измени адресу
+Featured collection,Истакнута колекција
+Product Filters,Филтери производа
+No products found,Нема пронађених производа
+${count} Products,${count} производа
+Default,Подразумевано
+Name,Име
+My billing address is same as shipping address,Моја адреса за наплату је иста као адреса за испоруку
+"Sorry, there is no available method for your address","Жао нам је, нема доступног начина за вашу адресу"
+Contact Information,Контакт подаци
+Your Cart,Ваша корпа
+Your cart is empty,Ваша корпа је празна
+Subtotal,Међузбир
+View Cart (${totalQty}),Прикажи корпу (${totalQty})
+Shopping Cart,Корпа за куповину
+Logged in as,Пријављени као
+Payment Information,Подаци о плаћању
+Same as shipping address,Исто као адреса за испоруку
+Use a different billing address,Користи другу адресу за наплату
+Pick a payment method,Изаберите начин плаћања
+Select a payment method,Изаберите начин плаћања
+Complete Order,Заврши поруџбину
+Add to Cart,Додај у корпу
+Search,Претрага
+${count} orders,${count} поруџбина
+${field} is required,${field} је обавезно
+${pct}% of orders cancelled,${pct}% поруџбина отказано
+${pct}% of orders completed,${pct}% поруџбина завршено
+${qty} sold,${qty} продато
+${total} lifetime sale,${total} укупна продаја
+(Guest Checkout),(Куповина као гост)
+(list),(листа)
+(optional),(опционо)
+A coupon is already applied,Купон је већ примењен
+A group needs at least one sub-field,Група мора имати бар једно под-поље
+A list of best selling products,Листа најпродаванијих производа
+A list of customers who have placed the most orders,Листа купаца који су направили највише поруџбина
+A regular expression the value must match.,Регуларни израз коме вредност мора одговарати.
+Accepted values,Прихваћене вредности
+Active,Активно
+Active Filters,Активни филтери
+Add address API not available,API за додавање адресе није доступан
+Add custom field,Додај прилагођено поље
+Add field,Додај поље
+Add item,Додај ставку
+Add option,Додај опцију
+Add product,Додај производ
+Add some items to get started,Додајте неке ставке да бисте почели
+Add sub-field,Додај под-поље
+Adding...,Додавање...
+Address has been deleted successfully!,Адреса је успешно обрисана!
+Address has been saved successfully!,Адреса је успешно сачувана!
+Address has been updated successfully!,Адреса је успешно ажурирана!
+Address is required,Адреса је обавезна
+Adds target=_blank rel=noopener noreferrer.,Додаје target=_blank rel=noopener noreferrer.
+All items fulfilled,Све ставке испуњене
+All orders,Све поруџбине
+All your past orders,Све ваше претходне поруџбине
+Allow multiple,Дозволи више
+An unexpected error occurred. Please try again.,Дошло је до неочекиване грешке. Покушајте поново.
+Apply Filters,Примени филтере
+Are you sure you want to mark the selected orders as shipped?,Да ли сте сигурни да желите да означите изабране поруџбине као послате?
+Are you sure?,Да ли сте сигурни?
+Attribute Group,Група атрибута
+Attribute code is used in API and must be unique,Код атрибута се користи у API-ју и мора бити јединствен
+Attribute options,Опције атрибута
+Attributes,Атрибути
+Available shipping methods will appear once you provide your address details,Доступни начини испоруке ће се појавити када унесете податке о адреси
+Best Sellers,Најпродаванији
+Best customers,Најбољи купци
+Billing address,Адреса за наплату
+Black,Црна
+Buy qty,Количина куповине
+Buy qty is required,Количина куповине је обавезна
+Can not process payment. Please try again later.,Није могуће обрадити плаћање. Покушајте поново касније.
+Can't be undone,Не може се поништити
+Cancel,Откажи
+Cancel Order,Откажи поруџбину
+Cancel shipment,Откажи пошиљку
+Cancel this shipment?,Откажи ову пошиљку?
+Canceled,Отказано
+Cancelled,Отказано
+Cannot add billing address: cart not initialized,Није могуће додати адресу за наплату: корпа није иницијализована
+Cannot add contact info: cart not initialized,Није могуће додати контакт податке: корпа није иницијализована
+Cannot add payment method: cart not initialized,Није могуће додати начин плаћања: корпа није иницијализована
+Cannot add shipping address: cart not initialized,Није могуће додати адресу за испоруку: корпа није иницијализована
+Cannot add shipping method: cart not initialized,Није могуће додати начин испоруке: корпа није иницијализована
+Cannot add shipping method: providerCode is required,Није могуће додати начин испоруке: providerCode је обавезан
+Cannot apply coupon: cart not initialized,Није могуће применити купон: корпа није иницијализована
+Cannot remove coupon: cart not initialized,Није могуће уклонити купон: корпа није иницијализована
+Carrier,Превозник
+Carrier is required,Превозник је обавезан
+Cart ID is required to checkout,ID корпе је обавезан за наплату
+Cart is not initialized,Корпа није иницијализована
+Catalog,Каталог
+Categories,Категорије
+Category,Категорија
+Charcoal,Тамносива
+Checkout success,Куповина успешна
+Choose Product SKU,Изаберите SKU производа
+Choose SKU,Изаберите SKU
+City is required,Град је обавезан
+Clear All,Обриши све
+Clear Filters,Обриши филтере
+Clear all,Обриши све
+Clear categories,Обриши категорије
+Close fullscreen view,Затвори приказ преко целог екрана
+Code,Код
+Collections,Колекције
+Comma-separated; renders the value as a dropdown.,Раздвојено зарезима; приказује вредност као падајући мени.
+Completed,Завршено
+Configurable,Подесиво
+Configure tax classes and tax rates,Подесите пореске класе и пореске стопе
+Confirm,Потврди
+Contact for pricing,Контактирајте за цену
+Conveniently pay with cash at your doorstep when your order is delivered.,Удобно платите готовином на кућном прагу када вам поруџбина буде испоручена.
+Coupon applied successfully!,Купон је успешно примењен!
+Coupon code is required,Код купона је обавезан
+Coupon does not match,Купон се не подудара
+Coupon removed successfully!,Купон је успешно уклоњен!
+Cream,Крем
+Create,Креирај
+Create a new attribute,Креирај нови атрибут
+Create a new group,Креирај нову групу
+Create a new package,Креирај нови пакет
+Create shipment,Креирај пошиљку
+Created,Креирано
+Custom URL,Прилагођени URL
+Custom field created,Прилагођено поље је креирано
+Custom field updated,Прилагођено поље је ажурирано
+Custom fields,Прилагођена поља
+Custom fields (JSON),Прилагођена поља (JSON)
+Custom fields saved,Прилагођена поља су сачувана
+Customer Information,Подаци о купцу
+Customer does not have any order yet.,Купац још нема ниједну поруџбину.
+Customer notes,Napomene kupca
+Daily,Dnevno
+Date and time must be after ${min},Datum i vreme moraju biti posle ${min}
+Date and time must be before ${max},Datum i vreme moraju biti pre ${max}
+Date must be after ${min},Datum mora biti posle ${min}
+Date must be before ${max},Datum mora biti pre ${max}
+Delete ${count} coupons,Obriši ${count} kupona
+Delete ${count} products,Obriši ${count} proizvoda
+Delete address API not available,API za brisanje adrese nije dostupan
+Delivered,Isporučeno
+Description,Opis
+Disable,Onemogući
+Disable ${count} coupons,Onemogući ${count} kupona
+Disable ${count} customers,Onemogući ${count} kupaca
+Disable ${count} products,Onemogući ${count} proizvoda
+Disabled,Onemogućeno
+Discount percent,Procenat popusta
+Discount percent is required,Procenat popusta je obavezan
+Display on Frontend?,Prikazati na prodavnici?
+Displays the mobile sidebar.,Prikazuje mobilnu bočnu traku.
+Done,Gotovo
+Drag to reorder,Prevucite za promenu redosleda
+Duplicate,Dupliraj
+Edit custom field,Izmeni prilagođeno polje
+Edit field settings,Izmeni podešavanja polja
+Edit package,Izmeni paket
+Edit tracking info,Izmeni informacije o praćenju
+Editing ${name},Izmena ${name}
+Email a shipment confirmation,Pošalji potvrdu o slanju imejlom
+Email a shipment confirmation with tracking details,Pošalji potvrdu o slanju sa detaljima praćenja imejlom
+Email is required,Imejl je obavezan
+Enable,Omogući
+Enable ${count} coupons,Omogući ${count} kupona
+Enable ${count} customers,Omogući ${count} kupaca
+Enable ${count} products,Omogući ${count} proizvoda
+Enabled,Omogućeno
+Enter attribute code,Unesite kod atributa
+Enter attribute name,Unesite naziv atributa
+Enter text,Unesite tekst
+Enter value for ${attribute},Unesite vrednost za ${attribute}
+Enter your email,Unesite vaš imejl
+Enter your new password,Unesite vašu novu lozinku
+Enter your password,Unesite vašu lozinku
+Error,Greška
+Failed to add address,Dodavanje adrese nije uspelo
+Failed to add billing address,Dodavanje adrese za naplatu nije uspelo
+Failed to add billing address.,Dodavanje adrese za naplatu nije uspelo.
+Failed to add contact info,Dodavanje kontakt podataka nije uspelo
+Failed to add contact info.,Dodavanje kontakt podataka nije uspelo.
+Failed to add item to cart,Dodavanje stavke u korpu nije uspelo
+Failed to add payment method,Dodavanje načina plaćanja nije uspelo
+Failed to add payment method.,Dodavanje načina plaćanja nije uspelo.
+Failed to add product to cart,Dodavanje proizvoda u korpu nije uspelo
+Failed to add shipping address,Dodavanje adrese za isporuku nije uspelo
+Failed to add shipping address.,Dodavanje adrese za isporuku nije uspelo.
+Failed to add shipping method,Dodavanje načina isporuke nije uspelo
+Failed to add shipping method.,Dodavanje načina isporuke nije uspelo.
+Failed to apply coupon,Primena kupona nije uspela
+Failed to cancel shipment,Otkazivanje pošiljke nije uspelo
+Failed to checkout,Završetak kupovine nije uspeo
+Failed to create field,Kreiranje polja nije uspelo
+Failed to create shipment,Kreiranje pošiljke nije uspelo
+Failed to delete address,Brisanje adrese nije uspelo
+Failed to load custom fields,Učitavanje prilagođenih polja nije uspelo
+Failed to mark delivered,Označavanje kao isporučeno nije uspelo
+Failed to place order,Kreiranje porudžbine nije uspelo
+Failed to place order. Please try again.,Kreiranje porudžbine nije uspelo. Pokušajte ponovo.
+Failed to remove coupon,Uklanjanje kupona nije uspelo
+Failed to remove coupon.,Uklanjanje kupona nije uspelo.
+Failed to save custom fields,Čuvanje prilagođenih polja nije uspelo
+Failed to set shipping method,Postavljanje načina isporuke nije uspelo
+Failed to set shipping note,Postavljanje napomene o isporuci nije uspelo
+Failed to update address,Ažuriranje adrese nije uspelo
+Failed to update field,Ažuriranje polja nije uspelo
+Failed to update shipment,Ažuriranje pošiljke nije uspelo
+Failed to update tracking info,Ažuriranje informacija o praćenju nije uspelo
+Failed to void label,Poništavanje nalepnice nije uspelo
+Failed!,Neuspešno!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,Polja primenljiva na ovaj tip entiteta. Dodavanje polja primenjuje ga na sve entitete ovog tipa.
+File size must be less than ${maxSize},Veličina datoteke mora biti manja od ${maxSize}
+Filter Products,Filtriraj proizvode
+Filters,Filteri
+First,Prvo
+Free,Besplatno
+Free shipping,Besplatna isporuka
+Free shipping ?,Besplatna isporuka?
+Fulfill ${count} orders,Realizuj ${count} porudžbina
+Full Name is required,Puno ime je obavezno
+Fully shipped,U potpunosti poslato
+General,Opšte
+Get qty,Dobijena količina
+Get qty is required,Dobijena količina je obavezna
+Ghost,Providno
+Go,Idi
+Go to Login,Idi na prijavu
+Go to next page,Idi na sledeću stranicu
+Go to previous page,Idi na prethodnu stranicu
+Hello,Zdravo
+Hide from storefront,Sakrij iz prodavnice
+ID,ID
+In Stock,Na zalihama
+Inactive,Neaktivno
+Inclusive of tax ${totalTaxAmount},Sa uključenim porezom ${totalTaxAmount}
+Insert,Umetni
+Invalid address,Nevažeća adresa
+Invalid cart,Nevažeća korpa
+Invalid cart id,Nevažeći ID korpe
+Invalid coupon,Nevažeći kupon
+Invalid customer,Nevažeći kupac
+Invalid customer id,Nevažeći ID kupca
+Invalid email or password,Nevažeći imejl ili lozinka
+Invalid format,Nevažeći format
+Invalid quantity,Nevažeća količina
+Is Filterable?,Može se filtrirati?
+Is Required?,Obavezno?
+Item,Stavka
+Items,Stavke
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,Stavke u ovoj pošiljci vratiće se u skup neposlatih stavki porudžbine. Ova radnja se ne može poništiti.
+Key,Ključ
+Key is required,Ključ je obavezan
+Label,Oznaka
+Label voided,Nalepnica poništena
+Language,Jezik
+Last,Poslednje
+Lifetime Sales,Ukupna prodaja
+Light gray,Svetlo siva
+Limit,Ograničenje
+Link,Veza
+Loading,Učitavanje
+Log in,Prijavi se
+Logging in...,Prijavljivanje...
+Logging out...,Odjavljivanje...
+Login failed,Prijava nije uspela
+Logout failed,Odjava nije uspela
+Look like you just started. No bestsellers yet.,Izgleda da ste tek počeli. Još nema najprodavanijih.
+"Lowercase letters, digits, underscore. Immutable.","Mala slova, cifre, donja crta. Nepromenljivo."
+Manage the general information of the attribute.,Upravljajte opštim informacijama atributa.
+Manage the setting of the attribute.,Upravljajte podešavanjem atributa.
+Mark as shipped,Označi kao poslato
+Mark delivered,Označi kao isporučeno
+Mark shipment as delivered?,Označiti pošiljku kao isporučenu?
+Max length,Maksimalna dužina
+Max of Y,Maksimalno Y
+Max of Y is required,Maksimalno Y je obavezno
+Max value,Maksimalna vrednost
+Min length,Minimalna dužina
+Min value,Minimalna vrednost
+Minimum quantity,Minimalna količina
+Mint,Menta
+Monthly,Mesečno
+More,Više
+More pages,Još stranica
+Move down,Pomeri dole
+Move up,Pomeri gore
+Multiselect,Višestruki izbor
+Must be at least ${n},Mora biti najmanje ${n}
+Must be at least ${n} characters,Mora imati najmanje ${n} znakova
+Must be at most ${n},Mora biti najviše ${n}
+Must be at most ${n} characters,Mora imati najviše ${n} znakova
+"Must start with a letter; lowercase letters, digits, underscore only","Mora počinjati slovom; dozvoljena su samo mala slova, cifre i donja crta"
+Name is required,Naziv je obavezan
+New Product,Novi proizvod
+New Widget,Novi vidžet
+New folder,Nova fascikla
+Next,Sledeće
+Next slide,Sledeći slajd
+No,Ne
+No address data received,Nisu primljeni podaci o adresi
+"No attribute groups found for query ""${query}""","Nisu pronađene grupe atributa za upit ""${query}"""
+No carriers registered,Nema registrovanih kurira
+"No categories found for ""${term}""","Nisu pronađene kategorije za ""${term}"""
+"No categories found for query ""${query}""","Nisu pronađene kategorije za upit ""${query}"""
+"No collections found for query ""${query}""","Nisu pronađene kolekcije za upit ""${query}"""
+No coupon to remove,Nema kupona za uklanjanje
+No custom fields yet.,Još nema prilagođenih polja.
+No data available,Nema dostupnih podataka
+No free shipping,Bez besplatne dostave
+No limit,Bez ograničenja
+No maximum,Bez maksimuma
+No minimum,Bez minimuma
+No notes from customer,Nema napomena od kupca
+"No options found for ""${code}""","Nisu pronađene opcije za ""${code}"""
+"No products found for query ""${query}""","Nisu pronađeni proizvodi za upit ""${query}"""
+No shipments yet — your order is being prepared.,Još nema pošiljki — vaša porudžbina se priprema.
+No shipping is required for this order,Za ovu porudžbinu nije potrebna dostava
+No shipping methods available,Nema dostupnih načina dostave
+No shipping options are available for your location,Nema dostupnih opcija dostave za vašu lokaciju
+No shipping required,Dostava nije potrebna
+No widgets match your search.,Nijedan vidžet ne odgovara vašoj pretrazi.
+None,Nijedno
+Not set,Nije postavljeno
+Not visible to customers,Nije vidljivo kupcima
+Notify customer,Obavesti kupca
+Open in new tab,Otvori u novom tabu
+Operator,Operator
+Option text,Tekst opcije
+Optional help text shown to admins.,Opcioni tekst pomoći prikazan administratorima.
+Order Placed,Porudžbina poslata
+Order detail,Detalji porudžbine
+Order must contain products matching all conditions below,Porudžbina mora sadržati proizvode koji ispunjavaju sve uslove ispod
+Order not found,Porudžbina nije pronađena
+Orders,Porudžbine
+Others,Ostalo
+Out of Stock,Nema na zalihama
+Outline,Kontura
+Overview of sales data over selected periods,Pregled podataka o prodaji za izabrane periode
+Overview of total sales and order status over the lifetime of your store,Pregled ukupne prodaje i statusa porudžbina tokom celog perioda rada vaše prodavnice
+Page,Stranica
+Page ${currentPage} of ${totalPages},Stranica ${currentPage} od ${totalPages}
+Page not found,Stranica nije pronađena
+Password is required,Lozinka je obavezna
+Password must be at least ${minLength} characters long,Lozinka mora imati najmanje ${minLength} znakova
+Paste a URL or a relative path starting with ,Nalepite URL ili relativnu putanju koja počinje sa 
+Pattern (regex),Šablon (regex)
+Pay with PayPal,Plati putem PayPal-a
+Pay with Stripe,Plati putem Stripe-a
+Payment Status,Status plaćanja
+Placing Order...,Slanje porudžbine...
+Please enter a coupon code,Unesite kôd kupona
+Please enter a valid URL,Unesite važeći URL
+Please enter a valid email address,Unesite važeću imejl adresu
+Please enter your email to receive a reset link,Unesite svoju imejl adresu da biste primili link za resetovanje
+Please provide billing address to proceed,Unesite adresu za naplatu da biste nastavili
+Please select a payment method,Izaberite način plaćanja
+Please select a shipping method,Izaberite način dostave
+Please sign in to your account,Prijavite se na svoj nalog
+Position,Pozicija
+Previous,Prethodno
+Previous slide,Prethodni slajd
+Price: ${value},Cena: ${value}
+Primary,Primarno
+Print Label,Odštampaj nalepnicu
+Processing Payment...,Obrada plaćanja...
+Product Description,Opis proizvoda
+Product is out of stock,Proizvoda nema na zalihama
+Product name is required,Naziv proizvoda je obavezan
+Product not found,Proizvod nije pronađen
+Product type,Tip proizvoda
+Products,Proizvodi
+Reason for cancellation,Razlog otkazivanja
+Reason is required,Razlog je obavezan
+Recently placed orders by this customer,Nedavno poslate porudžbine ovog kupca
+Redirecting to PayPal...,Preusmeravanje na PayPal...
+Reference type,Tip reference
+Registration failed,Registracija nije uspela
+Remove item,Ukloni stavku
+Remove sub-field,Ukloni potpolje
+Required,Obavezno
+Requires at least one item to create a cart,Potrebna je najmanje jedna stavka za kreiranje korpe
+Reset Password,Resetuj lozinku
+Reset Your Password,Resetujte svoju lozinku
+Reset password,Resetuj lozinku
+Reset your password,Resetujte svoju lozinku
+Root,Koren
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU mora biti jedinstven
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,Statistika prodaje
+Save custom fields,Sačuvaj prilagođena polja
+Save field,Sačuvaj polje
+Saved successfully!,Uspešno sačuvano!
+Search attribute groups,Pretraži grupe atributa
+Search categories,Pretraži kategorije
+Search collections,Pretraži kolekcije
+"Search for products, orders, and other resources","Pretražite proizvode, porudžbine i druge resurse"
+Search products,Pretraži proizvode
+Search results for: ${keyword},Rezultati pretrage za: ${keyword}
+Search widgets…,Pretraži vidžete…
+Searching...,Pretraga...
+Search…,Pretraži…
+See all orders →,Pogledaj sve porudžbine →
+Select,Izaberi
+Select a carrier,Izaberite kurira
+Select at least one item to ship,Izaberite najmanje jednu stavku za slanje
+Select groups the attribute belongs to,Izaberite grupe kojima atribut pripada
+Select shipping method,Izaberite način dostave
+Select sort,Izaberite sortiranje
+"Select the items going in this shipment, then add the carrier & tracking.","Izaberite stavke koje idu u ovu pošiljku, zatim dodajte kurira i praćenje."
+Setting,Podešavanje
+Settings,Podešavanja
+Shipment Status,Status pošiljke
+Shipment canceled,Pošiljka otkazana
+Shipment created,Pošiljka kreirana
+Shipment marked delivered,Pošiljka označena kao isporučena
+Shipments,Pošiljke
+Shipped,Poslato
+Shipping (${method}),Dostava (${method})
+Shipping Setting,Podešavanje dostave
+Show,Prikaži
+Show all ${count} options,Prikaži svih ${count} opcija
+Show on storefront,Prikaži na prodavnici
+Showing ${showing} of ${total},Prikazuje se ${showing} od ${total}
+Showing ${start}-${end} of ${total} results,Prikazuje se ${start}-${end} od ${total} rezultata
+Sidebar,Bočna traka
+Sign in to view your orders,Prijavite se da biste videli svoje porudžbine
+Simple,Jednostavno
+Sky,Nebesko plava
+Sold out,Rasprodato
+Some error occurred. Please try again later.,Došlo je do greške. Pokušajte ponovo kasnije.
+Some products are not available,Neki proizvodi nisu dostupni
+Something went wrong! Please try again.,Nešto je pošlo po zlu! Pokušajte ponovo.
+Something went wrong. Please try again later.,Nešto je pošlo po zlu. Pokušajte ponovo kasnije.
+Something wrong. Please try again,Nešto nije u redu. Pokušajte ponovo
+Sort Order,Redosled sortiranja
+Sort order,Redosled sortiranja
+Status,Status
+Stock,Zaliha
+Stripe is not loaded. Please try again.,Stripe nije učitan. Pokušajte ponovo.
+Style,Stil
+Sub-fields,Podpolja
+Submit Cancellation,Pošalji otkazivanje
+Successfully logged in,Uspešno ste se prijavili
+Successfully logged out,Uspešno ste se odjavili
+Tax Setting,Podešavanje poreza
+Test failure,Neuspeh testa
+Test failure:,Neuspeh testa:
+Test success,Uspeh testa
+Test success:,Uspeh testa:
+Text,Tekst
+Textarea,Tekstualno polje
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,Prevoznik će označiti broj za praćenje kao nevažeći. Moraćete da kupite novu nalepnicu ako i dalje nameravate da pošaljete pošiljku.
+The customer will receive a delivery confirmation email.,Kupac će dobiti imejl sa potvrdom isporuke.
+There is no category,Nema kategorije
+There is no file to display.,Nema datoteke za prikaz.
+There is no sub folder.,Nema podfascikle.
+There was an error:,Došlo je do greške:
+This tracking link has expired,Ova veza za praćenje je istekla
+This tracking link is no longer valid,Ova veza za praćenje više nije važeća
+Thumbnail,Sličica
+Time must be after ${min},Vreme mora biti posle ${min}
+Time must be before ${max},Vreme mora biti pre ${max}
+Toggle Sidebar,Uključi/isključi bočnu traku
+Token is invalid or expired,Token je nevažeći ili je istekao
+Too many items requested,Zatraženo je previše stavki
+Track,Prati
+Track shipment →,Prati pošiljku →
+Track your order,Pratite svoju porudžbinu
+Tracking info updated,Informacije o praćenju ažurirane
+Tracking link,Veza za praćenje
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,Veze za praćenje važe ograničeno vreme. Prijavite se na svoj nalog da biste videli trenutni status svoje porudžbine.
+Tracking number,Broj za praćenje
+Type,Tip
+Type / to see the available blocks,Ukucajte / da biste videli dostupne blokove
+UPDATE PASSWORD,AŽURIRAJ LOZINKU
+Update address API not available,API za ažuriranje adrese nije dostupan
+Update field,Ažuriraj polje
+Upload,Otpremi
+Validation,Validacija
+Value,Vrednost
+Value must be a whole number,Vrednost mora biti ceo broj
+Value must be at least ${min},Vrednost mora biti najmanje ${min}
+Value must be at most ${max},Vrednost mora biti najviše ${max}
+View All Products,Prikaži sve proizvode
+View JSON,Prikaži JSON
+View all customers,Prikaži sve kupce
+Visible to customer,Vidljivo kupcu
+Void Label,Poništi nalepnicu
+Void label,Poništi nalepnicu
+Void this shipping label?,Poništiti ovu nalepnicu za otpremu?
+"We could not find this order. It may have been removed, or it may belong to a different account.",Nismo mogli da pronađemo ovu porudžbinu. Možda je uklonjena ili pripada drugom nalogu.
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","Nismo mogli da verifikujemo ovu vezu. Ako ste je dobili u imejlu od nas, pokušajte ponovo iz najnovije poruke ili se prijavite na svoj nalog."
+We have sent you an email with a link to reset your password. Please check your inbox.,Poslali smo vam imejl sa vezom za resetovanje lozinke. Proverite svoje prijemno sanduče.
+Weekly,Nedeljno
+Welcome to our store!,Dobro došli u našu prodavnicu!
+"Where you ship, shipping methods and delivery fee","Gde isporučujete, načini otpreme i naknada za dostavu"
+White,Bela
+Yes,Da
+You are already logged in,Već ste prijavljeni
+You are here:,Nalazite se ovde:
+You have no attribute groups to display,Nemate grupe atributa za prikaz
+You have no categories to display,Nemate kategorije za prikaz
+You have no collections to display,Nemate kolekcije za prikaz
+You have no products to display,Nemate proizvode za prikaz
+You have not placed any orders yet.,Još niste napravili nijednu porudžbinu.
+You paid for,Platili ste za
+You will be redirected to PayPal for payment processing.,Bićete preusmereni na PayPal radi obrade plaćanja.
+Your Orders,Vaše porudžbine
+Your order #${number} has been delivered,Vaša porudžbina #${number} je isporučena
+Your order #${number} is on the way,Vaša porudžbina #${number} je na putu
+Your order has been confirmed!,Vaša porudžbina je potvrđena!
+Your password has been updated successfully.,Vaša lozinka je uspešno ažurirana.
+across,preko
+available to ship,dostupno za otpremu
+breadcrumb,putanja
+e.g. Care instructions,npr. Uputstva za održavanje
+"e.g. New, Sale, Limited","npr. Novo, Rasprodaja, Ograničeno"
+e.g. Question,npr. Pitanje
+e.g. care_instructions,npr. care_instructions
+e.g. question,npr. question
+item,stavka
+items,stavke
+left to ship,preostalo za otpremu
+of,od
+of ${count},od ${count}
+unit,jedinica
+units,jedinice
+${count} changes published.,Objavljeno je ${count} izmena.
+${count} child widgets,${count} podređenih vidžeta
+${count} countries,${count} zemalja
+${count} on ${route},${count} na ${route}
+${count} ops total,ukupno ${count} operacija
+${count} pending ops,${count} operacija na čekanju
+${count} pending ops on,${count} operacija na čekanju na
+${count} routes,${count} ruta
+${direction} failed,${direction} nije uspelo
+${method} — ${zone} rate,${method} — tarifa za ${zone}
+${method} — new rate,${method} — nova tarifa
+${name} attached to ${zone},${name} je dodato u ${zone}
+${name} configuration for ${zone},Konfiguracija za ${name} za ${zone}
+${name} configuration for this zone,Konfiguracija za ${name} za ovu zonu
+${name} configuration saved for ${zone},Konfiguracija za ${name} je sačuvana za ${zone}
+${name} detached,${name} je odvojeno
+${name} is required,${name} je obavezno
+${title} settings,Podešavanja za ${title}
+${total} changes will go live immediately.,${total} izmena će odmah stupiti na snagu.
+${total} items,${total} stavki
+(envelope),(koverat)
++ Add Line,+ Dodaj stavku
++ Add Method,+ Dodaj način
++ Add Rate,+ Dodaj tarifu
++ Add placement,+ Dodaj mesto
++ Attach Provider,+ Dodaj provajdera
++ New package,+ Novi paket
++${count} more,+${count} još
+", +${count} more",", +${count} još"
+", last updated",", poslednje ažuriranje"
+0 for flat envelopes,0 za ravne koverte
+1 change published.,Objavljena je 1 izmena.
+1 change will go live immediately.,1 izmena će odmah stupiti na snagu.
+1 child widget,1 podređeni vidžet
+1 op total,ukupno 1 operacija
+1 pending op,1 operacija na čekanju
+1 pending op on,1 operacija na čekanju na
+A package is required for shippable products,Paket je obavezan za proizvode koji se otpremaju
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,Plan uvođenja čuva vaše trenutne izmene kao snimak i automatski ih primenjuje tokom zakazanog perioda.
+Action,Radnja
+Actions,Radnje
+Add,Dodaj
+Add Products,Dodaj proizvode
+Add Rate,Dodaj tarifu
+Add Shipping Method,Dodaj način otpreme
+Add Tax Rate,Dodaj poresku stopu
+Add Variant,Dodaj varijantu
+Add products to this category by selecting them from the list below.,Dodajte proizvode u ovu kategoriju tako što ćete ih izabrati sa liste ispod.
+Add rate,Dodaj tarifu
+Added,Dodato
+Adding to Column ${number},Dodavanje u kolonu ${number}
+Additional languages,Dodatni jezici
+Admin panel language,Jezik administratorskog panela
+Affects ${count} pages,Утиче на ${count} страница
+Affects 1 page,Утиче на 1 страницу
+All pages,Све странице
+All registered providers are already attached to this zone.,Сви регистровани провајдери су већ додати овој зони.
+All routes,Све руте
+Also shown on ${routes},Такође приказано на ${routes}
+Also shown on ${routes} +${count},Такође приказано на ${routes} +${count}
+Amount must be greater than or equal to 0,Износ мора бити већи или једнак 0
+Amount must be less than or equal to ${value} ${currency},Износ мора бити мањи или једнак ${value} ${currency}
+Apply a condition?,Применити услов?
+Area,Област
+Area is required,Област је обавезна
+At least one country is required,Потребна је најмање једна држава
+Attach,Додај
+Attach Provider to ${zone},Додај провајдера у ${zone}
+Attached Providers,Додати провајдери
+Attribute Name,Назив атрибута
+Attribute code is required,Код атрибута је обавезан
+Attribute created successfully!,Атрибут је успешно креиран!
+Attribute group,Група атрибута
+Attribute name is required,Назив атрибута је обавезан
+Authorize only,Само ауторизација
+Auto-saves while you edit,Аутоматски чува током уређивања
+Back To Dashboard,Назад на контролну таблу
+Base calculation address,Основна адреса за обрачун
+Based on cart subtotal,На основу међузбира корпе
+Based on cart weight,На основу тежине корпе
+Basic configuration,Основна конфигурација
+Boolean,Логичка вредност
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,Уграђени начини испоруке са тарифама по зони. Прво додајте Core у зону под Подешавања → Испорука; затим овде додајте начине и подесите њихове тарифе по зони.
+Buy X get Y,Купи X добиј Y
+CMS,CMS
+Calculation type,Тип обрачуна
+Can not change the attribute group of a product that is already in a variant group.,Није могуће променити групу атрибута производа који је већ у групи варијанти.
+Cancel rollout,Откажи објаву
+Cancel rollout plan?,Откажи план објаве?
+Canvas device width,Ширина уређаја платна
+Capture,Наплати
+Capture Payment,Наплати плаћање
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,Назнака превозника за испуњење — никада се не приказује на наплати. NewShipmentDialog ово користи за претходни избор превозника.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,Код услуге специфичан за превозника који се користи при куповини налепнице (CreateLabelInput.serviceCode). Слободан унос — проверите тачан токен у API документацији превозника. Оставите празно да превозник изабере подразумевану услугу.
+Cash On Delivery Payment,Плаћање поузећем
+"Catalog, Search","Каталог, Претрага"
+Category Image,Слика категорије
+Category Name,Назив категорије
+Category created successfully!,Категорија је успешно креирана!
+Category name is required,Назив категорије је обавезан
+Choose Attribute Groups,Изаберите групе атрибута
+Choose Categories,Изаберите категорије
+Choose Collections,Изаберите колекције
+Choose SKUs,Изаберите SKU-ове
+Choose how much of your unpublished work to discard. The published storefront is not affected.,Изаберите колико необјављеног рада желите да одбаците. Објављена продавница није погођена.
+Choose where you ship and how much you charge for shipping.,Изаберите где испоручујете и колико наплаћујете за испоруку.
+Clear filter,Обриши филтер
+Clear filters,Обриши филтере
+Client ID,Client ID
+Client Secret,Client Secret
+Close,Затвори
+Close settings,Затвори подешавања
+Close — continue draft,Затвори — настави нацрт
+Cms Pages,CMS странице
+Collapse left rail,Скупи леву траку
+Collapse panel,Скупи панел
+Collection Code,Код колекције
+Collection Name,Назив колекције
+Collection code is required,Код колекције је обавезан
+Collection code must be alphanumeric and can include underscores or dashes.,Код колекције мора бити алфанумерички и може садржати доње црте или цртице.
+Collection created successfully!,Колекција је успешно креирана!
+Color,Боја
+Commerce,Трговина
+Compound,Сложено
+Condition,Услов
+Configure,Подеси
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,Подесите трошак и услове по зони. Зоне без тарифе не нуде овај начин.
+Configure rate,Подеси тарифу
+Configure the available payment methods,Подесите доступне начине плаћања
+Configure the settings for the ${name} widget.,Подесите подешавања за виџет ${name}.
+Configure the tax classes that will be available to your customers at checkout.,Подесите пореске класе које ће бити доступне вашим купцима при наплати.
+Configure your Cash On Delivery payment gateway settings,Подесите подешавања мрежног пролаза за плаћање поузећем
+Configure your Paypal payment gateway settings,Подесите подешавања Paypal мрежног пролаза за плаћање
+Configure your Stripe payment gateway settings,Подесите подешавања Stripe мрежног пролаза за плаћање
+Configure your store information,Подесите информације о продавници
+"Conflicts with ${plan1}, ${plan2}","У сукобу са ${plan1}, ${plan2}"
+Conflicts with ${plan},У сукобу са ${plan}
+Conflicts with ${plan} +${count},У сукобу са ${plan} +${count}
+Conflicts with:,У сукобу са:
+Content,Садржај
+Continue a saved rollout plan,Настави сачувани план објаве
+Continue your draft,Настави нацрт
+Core Shipping,Core испорука
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core још није додат ниједној зони. Прво га додајте под Подешавања → Испорука.
+Cost,Трошак
+Cost is required,Трошак је обавезан
+Could not start fresh,Није могуће почети изнова
+Countries,Државе
+"Country code (e.g., ""US""). Use ""*"" for all countries.","Код државе (нпр. ""US""). Користите ""*"" за све државе."
+Coupon Code,Код купона
+"Coupon code can only contain letters, numbers, underscores, and hyphens","Код купона може садржати само слова, бројеве, доње црте и цртице"
+Coupon created successfully!,Купон је успешно креиран!
+Coupons,Купони
+Create A New Customer,Креирај новог купца
+Create New Package,Креирај нови пакет
+Create New Tax Class,Креирај нову пореску класу
+Create New Zone,Креирај нову зону
+Create a new category,Креирај нову категорију
+Create a new collection,Креирај нову колекцију
+Create a new coupon,Креирај нови купон
+Create a new page,Креирај нову страницу
+Create a new product,Креирај нови производ
+Create a new variant for this product.,Креирај нову варијанту за овај производ.
+Create a new widget,Креирај нови виџет
+Create a variant group,Креирај групу варијанти
+Create method,Креирај начин
+Create new tax class,Креирај нову пореску класу
+Create rollout plan,Креирај план објаве
+Created At,Креирано
+Current,Тренутно
+Customer,Купац
+Customer Email,Имејл купца
+Customer conditions,Услови купца
+Customer emails,Имејлови купаца
+Customer groups,Групе купаца
+Customer's purchase,Куповина купца
+Customers,Купци
+Customers (${count}),Купци (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,Купци у зони ${zone} више неће видети начине провајдера ${name} при наплати. Можете га поново додати касније.
+Dashboard,Контролна табла
+Date,Датум
+Decrease,Смањи
+Default carrier,Подразумевани превозник
+Default language,Подразумевани језик
+Default package,Подразумевани пакет
+Default service code,Подразумевани код услуге
+"Delete ""${name}""?","Избрисати ""${name}""?"
+Delete ${count} attributes,Избриши ${count} атрибута
+Delete ${count} categories,Избриши ${count} категорија
+Delete ${count} collections,Избриши ${count} колекција
+Delete ${count} pages,Избриши ${count} страница
+Delete ${count} widgets,Избриши ${count} виџета
+Delete container widget?,Избрисати виџет контејнера?
+Delete image,Избриши слику
+"Delete package ""${name}""?","Избрисати пакет ""${name}""?"
+Delete this,Избриши ово
+Delete this widget? This will be saved as a pending change you can publish or discard.,Избрисати овај виџет? Ово ће бити сачувано као измена на чекању коју можете објавити или одбацити.
+Delete widget?,Избрисати виџет?
+Delete zone,Избриши зону
+"Delete zone ""${name}""?","Избрисати зону ""${name}""?"
+Deleted ${name},Избрисано ${name}
+Deleting this,Брисање овог
+Deleting this container will also hide,Брисање овог контејнера ће такође сакрити
+Description is required,Опис је обавезан
+Desktop,Десктоп
+Detach,Откачи
+Detach ${name}?,Откачити ${name}?
+Disable ${count} pages,Онемогући ${count} страница
+Disable ${count} widgets,Онемогући ${count} виџета
+Disabled products will not be visible in the store and cannot be purchased.,Онемогућени производи неће бити видљиви у продавници и не могу се купити.
+Discard changes on this page only,Одбаци измене само на овој страници
+Discard everything,Одбаци све
+Discard everything in this draft,Одбаци све у овом нацрту
+Discard failed,Одбацивање није успело
+Discard pending changes?,Одбацити измене на чекању?
+Discard this page,Одбаци ову страницу
+Discarding…,Одбацивање…
+Discount Type,Тип попуста
+Discount amount,Износ попуста
+Discount amount is required,Износ попуста је обавезан
+Discount type is required,Тип попуста је обавезан
+Dislay Name,Приказно име
+Display Name,Приказно име
+Draft,Нацрт
+Draft — not scheduled,Нацрт — није заказан
+Drag to resize,Превуците за промену величине
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","Сваки ред поставља овај виџет на једну страницу, у једну област, са сопственим редоследом. Мањи бројеви се приказују први."
+Edit ${name},Уреди ${name}
+Edit Shipping Zone,Уреди зону испоруке
+Edit Tax Rate,Уреди пореску стопу
+Edit Variant,Уреди варијанту
+Edit Zone,Уреди зону
+Edit against the live storefront. Publish immediately or save as a rollout plan.,Уређујте у односу на активну продавницу. Објавите одмах или сачувајте као план објаве.
+Edit rollout schedule,Уреди распоред објаве
+Editable routes,Руте које се могу уређивати
+Editing ${coupon},Уређивање ${coupon}
+Editing ${fullName},Уређивање ${fullName}
+Editing widget ${name},Уређивање виџета ${name}
+Edits to a shared widget update every route it appears on.,Измене дељеног виџета ажурирају сваку руту на којој се појављује.
+Empty package weight,Тежина празног пакета
+Empty weight,Празна тежина
+Enable ${count} pages,Омогући ${count} страница
+Enable ${count} widgets,Омогући ${count} виџета
+Enable this page to make it visible on the frontend.,Омогућите ову страницу да би била видљива на сајту.
+Enable?,Омогућити?
+End,Крај
+End Date,Датум завршетка
+End date,Датум завршетка
+End time is invalid.,Време завршетка је неисправно.
+End time must be after start time.,Време завршетка мора бити после времена почетка.
+Enter Category Name,Унесите назив категорије
+Enter Collection Name,Унесите назив колекције
+Enter Meta Description,Унесите Meta опис
+Enter Meta Title,Унесите Meta наслов
+Enter Meta description,Унесите Meta опис
+Enter Meta title,Унесите Meta наслов
+Enter SKU,Унесите SKU
+Enter URL Key,Унесите URL кључ
+Enter URL key,Унесите URL кључ
+Enter customer emails,Унесите имејлове купаца
+Enter description,Унесите опис
+Enter group name,Унесите назив групе
+Enter meta description,Унесите Meta опис
+Enter meta title,Унесите Meta наслов
+Enter page name,Унесите назив странице
+Enter price,Унесите цену
+Enter product name,Унесите назив производа
+Enter purchased amount,Унесите купљени износ
+Enter quantity,Унесите количину
+Enter tax class name,Унесите назив пореске класе
+Enter the quantity,Унесите количину
+Enter weight,Унесите тежину
+Environment,Окружење
+Error loading countries,Грешка при учитавању држава
+Error loading methods,Грешка при учитавању метода
+Error loading packages,Грешка при учитавању пакета
+Error loading providers,Грешка при учитавању провајдера
+Error loading zones,Грешка при учитавању зона
+EverShop · Back to page builder,EverShop · Назад на градитељ страница
+Every page rolls back to the rollout’s saved state.,Свака страница се враћа на сачувано стање објаве.
+Every page rolls back to what the rollout had saved.,Свака страница се враћа на оно што је објава сачувала.
+Existing rollout plan: ${plan},Постојећи план објаве: ${plan}
+Expand,Прошири
+Expand left rail,Прошири леву траку
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.","Додатни језици на које купци могу да пређу, поред подразумеваног. Подразумевани језик је увек доступан — њега не додајете овде."
+Failed to attach provider,Качење провајдера није успело
+Failed to delete ${name},Брисање ${name} није успело
+Failed to detach ${name},Откачивање ${name} није успело
+Failed to remove rate,Уклањање стопе није успело
+Failed to remove zone,Уклањање зоне није успело
+Failed to save change,Чување измене није успело
+Failed to save rate,Чување стопе није успело
+Failed to save zone,Чување зоне није успело
+Failed to update rollout schedule,Ажурирање распореда објаве није успело
+Fixed discount to entire order,Фиксни попуст на целу поруџбину
+Fixed discount to specific products,Фиксни попуст на одређене производе
+Flat rate,Фиксна тарифа
+"Flat rate in cart currency, tax-exclusive.","Фиксна тарифа у валути корпе, без пореза."
+Free shipping?,Бесплатна испорука?
+General Information,Опште информације
+Give Feedback,Оставите повратну информацију
+Global,Глобално
+Globals,Глобални елементи
+Group,Група
+Group Name,Назив групе
+Group name is required,Назив групе је обавезан
+Groups,Групе
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,Полуотворени интервал — корпа тачно на Max је искључена (Min следећег нивоа поседује ту тачку).
+Has conflicts,Има конфликте
+Heads up — ,Напомена — 
+Height,Висина
+Height is required (0 for envelopes),Висина је обавезна (0 за коверте)
+Height must be 0 or greater,Висина мора бити 0 или већа
+Hide global areas,Сакриј глобалне области
+Higest tax rate based on cart items,Највиша пореска стопа на основу ставки у корпи
+Highlight global areas on canvas,Истакни глобалне области на платну
+Image,Слика
+Include In Menu,Укључи у мени
+Include in Store Menu?,Укључити у мени продавнице?
+Increase,Повећај
+Insert image,Уметни слику
+Integer,Цео број
+Invalid folder name,Неисправан назив фасцикле
+Invalid start,Неисправан почетак
+Invalid window,Неисправан временски опсег
+Inventory,Залихе
+Is compound,Сложен
+Its rates will be removed too. This cannot be undone.,И њене стопе ће бити уклоњене. Ово се не може опозвати.
+Languages,Језици
+Layers,Слојеви
+Layout,Распоред
+Leave,Напусти
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,Оставите листу државе празном да бисте покрили целу државу. Додајте покрајине да бисте ограничили испоруку на одређене регионе.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,Напуштање сада може одбацити најновије измене које још нису стигле до сервера.
+Length,Дужина
+Length is required,Дужина је обавезна
+Length must be greater than 0,Дужина мора бити већа од 0
+Live,Уживо
+Loading...,Учитавање...
+Long text,Дугачак текст
+Lower values appear first.,Мање вредности се приказују прве.
+Manage Stock,Управљај залихама
+Manage general information about the collection.,Управљајте општим информацијама о колекцији.
+Manage product images and gallery. Drag and drop to reorder images.,Управљајте сликама и галеријом производа. Превуците и пустите да промените редослед слика.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","Управљајте интеграцијама испоруке и њиховим методама (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,Управљајте пореским класама и пореским стопама за различите регионе.
+Manage the SEO settings of the category.,Управљајте SEO подешавањима категорије.
+Manage the SEO settings.,Управљајте SEO подешавањима.
+Manage the attributes.,Управљајте атрибутима.
+Manage the collections associated with this product.,Управљајте колекцијама повезаним са овим производом.
+Manage the general information of the category.,Управљајте општим информацијама о категорији.
+Manage the general information of the product.,Управљајте општим информацијама о производу.
+Manage the inventory settings of the product.,Управљајте подешавањима залиха производа.
+Manage the products assigned to this category.,Upravljajte proizvodima dodeljenim ovoj kategoriji.
+Manage the products assigned to this collection.,Upravljajte proizvodima dodeljenim ovoj kolekciji.
+Manage the shipping settings of the product.,Upravljajte podešavanjima dostave proizvoda.
+Manage the status settings of the category.,Upravljajte podešavanjima statusa kategorije.
+Manage the variant group of the product.,Upravljajte grupom varijanti proizvoda.
+Marketing,Marketing
+Max ${unit},Maks ${unit}
+Max is required,Maksimum je obavezan
+Maximum,Maksimum
+Maximum amount is ${value} ${currency},Maksimalni iznos je ${value} ${currency}
+Maximum quantity is required,Maksimalna količina je obavezna
+Maximum quantity must be greater than or equal to 0,Maksimalna količina mora biti veća ili jednaka 0
+Media,Medija
+Meta Description,Meta opis
+Meta Title,Meta naslov
+Meta Title is required,Meta naslov je obavezan
+Meta description,Meta opis
+Meta description is required,Meta opis je obavezan
+Meta title,Meta naslov
+Meta title is required,Meta naslov je obavezan
+Method,Metoda
+Method created,Metoda je kreirana
+Method name,Naziv metode
+Method name is required,Naziv metode je obavezan
+Method updated,Metoda je ažurirana
+Methods →,Metode →
+Min ${unit},Min ${unit}
+Min Price,Min cena
+Min Weight,Min težina
+Min is required,Minimum je obavezan
+Min price is required,Min cena je obavezna
+Min weight is required,Min težina je obavezna
+Minimum purchase amount,Minimalni iznos kupovine
+Minimum purchase qty,Min količina kupovine
+Minimum purchase quantity,Minimalna količina kupovine
+Minimum purchased amount. This only applies to registered customers.,Minimalni iznos kupovine. Ovo se odnosi samo na registrovane kupce.
+Minimum quantity is required,Minimalna količina je obavezna
+Missing name,Nedostaje naziv
+Money,Novac
+Name is required.,Naziv je obavezan.
+Navigation,Navigacija
+New Attribute,Novi atribut
+New Category,Nova kategorija
+New Collection,Nova kolekcija
+New Coupon,Novi kupon
+New Page,Nova stranica
+New Variant,Nova varijanta
+New coupon,Novi kupon
+New rate,Nova tarifa
+No collections,Nema kolekcija
+No editable routes.,Nema putanja koje se mogu uređivati.
+No file selected,Nijedan fajl nije izabran
+No methods yet — add one to start offering Core shipping.,Još uvek nema metoda — dodajte jednu da biste počeli da nudite Core dostavu.
+No packages yet. Create one — shippable products require a package.,Još uvek nema paketa. Kreirajte jedan — proizvodi za dostavu zahtevaju paket.
+No product to display.,Nema proizvoda za prikaz.
+"No providers attached. Click ""Attach Provider"" to add one.",Nijedan provajder nije priložen. Kliknite „Priloži provajdera“ da biste ga dodali.
+"No rates yet — click ""Add Rate"" to offer this method in a zone.",Još uvek nema tarifa — kliknite „Dodaj tarifu“ da biste ponudili ovu metodu u zoni.
+"No results for ""${keyword}""",Nema rezultata za „${keyword}“
+No routes have opted into page-builder editing yet.,Nijedna putanja se još nije uključila u uređivanje pomoću alata za izradu stranica.
+No shipping required?,Dostava nije potrebna?
+No subdivisions available — whole country is covered.,Nema dostupnih podregiona — cela država je pokrivena.
+No widgets available.,Nema dostupnih vidžeta.
+"No widgets match ""${query}"".",Nijedan vidžet ne odgovara „${query}“.
+No widgets on this route yet.,Još uvek nema vidžeta na ovoj putanji.
+No zones,Nema zona
+No zones found,Nije pronađena nijedna zona
+Not visible individually,Nije vidljivo pojedinačno
+Nothing to publish,Nema ničega za objavljivanje
+Nothing to redo on this page,Nema ničega za ponavljanje na ovoj stranici
+Nothing to undo on this page,Nema ničega za poništavanje na ovoj stranici
+Number,Broj
+Option text is required,Tekst opcije je obavezan
+Optional. Added to the shipping weight for quotes and labels.,Opciono. Dodaje se težini za dostavu radi ponuda i nalepnica.
+Order Number,Broj porudžbine
+Order conditions,Uslovi porudžbine
+Orders (${count}),Porudžbine (${count})
+Other,Ostalo
+Other pages keep their pending changes.,Ostale stranice zadržavaju svoje neobjavljene izmene.
+Overlaps with existing rollout: ${plans}.,Preklapa se sa postojećim uvođenjem: ${plans}.
+Overlaps with existing rollouts: ${plans}.,Preklapa se sa postojećim uvođenjima: ${plans}.
+Package,Paket
+Package created,Paket je kreiran
+Package deleted,Paket je obrisan
+Package saved,Paket je sačuvan
+Packages,Paketi
+Page Name,Naziv stranice
+Page Not Found,Stranica nije pronađena
+Page builder,Alat za izradu stranica
+Page builder canvas,Platno alata za izradu stranica
+Page created successfully!,Stranica je uspešno kreirana!
+Page is required,Stranica je obavezna
+Page name is required,Naziv stranice je obavezan
+Pages,Stranice
+Parent category,Nadređena kategorija
+Payment Setting,Podešavanje plaćanja
+Payment mode,Režim plaćanja
+Payment setting saved,Podešavanje plaćanja je sačuvano
+Paypal Payment,Paypal plaćanje
+Pending start time,Vreme početka na čekanju
+Percentage discount to entire order,Procentualni popust na celu porudžbinu
+Percentage discount to specific products,Procentualni popust na određene proizvode
+Phone,Telefon
+Pick a start time to schedule this rollout.,Izaberite vreme početka da biste zakazali ovo uvođenje.
+Pick a widget below to insert as a child.,Izaberite vidžet ispod da biste ga umetnuli kao podstavku.
+Pick up where you left off — ${count} pending changes,Nastavite gde ste stali — ${count} neobjavljenih izmena
+Pick up where you left off — 1 pending change,Nastavite gde ste stali — 1 neobjavljena izmena
+Pin drawer open,Zakači fioku kao otvorenu
+Pin — keep drawer open across canvas clicks,Zakači — drži fioku otvorenu pri klikovima na platno
+Placed on: ${routes},Postavljeno na: ${routes}
+Placements,Postavljanja
+Postal Code,Poštanski broj
+"Postcode (e.g., ""90210""). Empty for all postcodes.",Poštanski broj (npr. „90210“). Prazno za sve poštanske brojeve.
+Preselected for new products. Exactly one package is the default.,Unapred izabrano za nove proizvode. Tačno jedan paket je podrazumevani.
+Preview,Pregled
+Price-based tiers,Nivoi na osnovu cene
+Priority,Prioritet
+Priority is required,Prioritet je obavezan
+Product Name,Naziv proizvoda
+Product Status,Status proizvoda
+Product created successfully,Proizvod je uspešno kreiran
+Product updated successfully,Proizvod je uspešno ažuriran
+Products (${count}),Proizvodi (${count})
+Promotion,Promocija
+Proportional allocation based on cart items,Proporcionalna raspodela na osnovu stavki u korpi
+Provide the SEO details for the CMS page.,Unesite SEO detalje za CMS stranicu.
+Provide the basic information for the CMS page.,Unesite osnovne informacije za CMS stranicu.
+Provider,Provajder
+Province Restrictions,Ograničenja pokrajina
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.",Šifra pokrajine (npr. „CA“). Koristite „*“ za sve pokrajine.
+Provinces,Pokrajine
+Provinces is required,Pokrajine su obavezne
+Provinces:,Pokrajine:
+Publish failed,Objavljivanje nije uspelo
+Publish now,Objavi sada
+Publish to the live storefront,Objavi na aktivnu prodavnicu
+Publishable Key,Ključ za objavljivanje
+Publishing…,Objavljivanje…
+Qty is required,Količina je obavezna
+Quick links,Brze veze
+Rate,Tarifa
+Rate added,Tarifa je dodata
+Rate is required,Tarifa je obavezna
+Rate removed,Tarifa je uklonjena
+Rate status,Status tarife
+Rate updated,Tarifa je ažurirana
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,Ponovi (⇧⌘Z) — ponovo primenjuje poslednju poništenu izmenu na ovoj stranici
+Redo last undone change on this page,Ponovi poslednju poništenu izmenu na ovoj stranici
+Reference,Referenca
+Refund,Povraćaj sredstava
+Refund amount,Iznos povraćaja
+Remove Zone,Ukloni zonu
+Remove placement,Ukloni postavku
+Remove rate,Ukloni tarifu
+Remove this rate?,Ukloniti ovu tarifu?
+Removed,Uklonjeno
+Resize settings drawer,Promeni veličinu panela podešavanja
+"Results for ""${keyword}""","Rezultati za ""${keyword}"""
+Revert all pages to saved state,Vrati sve stranice na sačuvano stanje
+Revert everything,Vrati sve
+Revert this page,Vrati ovu stranicu
+Revert this page only,Vrati samo ovu stranicu
+Revert to saved state?,Vratiti na sačuvano stanje?
+Reverting…,Vraćanje…
+Rich text,Obogaćeni tekst
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,Poništite izmene koje ste načinili otkako je ovaj plan objave poslednji put sačuvan. Aktivna prodavnica nije pogođena — već odražava sačuvano stanje.
+SEO,SEO
+SEO Information,SEO informacije
+SKU is required,SKU je obavezan
+Sale,Rasprodaja
+Sandbox,Sandbox
+Save Settings,Sačuvaj podešavanja
+Save as rollout plan,Sačuvaj kao plan objave
+Save as rollout plan and leave,Sačuvaj kao plan objave i izađi
+Save changes,Sačuvaj izmene
+Save failed,Čuvanje nije uspelo
+Save method,Sačuvaj metodu
+Save rate,Sačuvaj tarifu
+Saving…,Čuvanje…
+Schedule failed,Zakazivanje nije uspelo
+Scheduled,Zakazano
+Search engine optimize,Optimizacija za pretraživače
+Search widgets,Pretraži vidžete
+Secret Key,Tajni ključ
+Select Category,Izaberi kategoriju
+Select Parent Category,Izaberi nadređenu kategoriju
+Select Products by SKU,Izaberi proizvode po SKU
+Select a provider first,Prvo izaberite provajdera
+Select a provider…,Izaberite provajdera…
+Select an option,Izaberite opciju
+Select category,Izaberi kategoriju
+Select countries,Izaberi zemlje
+Select operator,Izaberi operator
+Select options,Izaberi opcije
+Select page,Izaberi stranicu
+Select products to add to this collection.,Izaberite proizvode za dodavanje u ovu kolekciju.
+Select the list of attribute,Izaberite listu atributa
+Select this option if the product is a digital product or service that does not require shipping.,Izaberite ovu opciju ako je proizvod digitalni proizvod ili usluga koja ne zahteva isporuku.
+Set a start time to schedule.,Postavite vreme početka za zakazivanje.
+Set the status and visibility of the product.,Postavite status i vidljivost proizvoda.
+Share,Podeli
+Shipping Cost,Troškovi isporuke
+Shipping Providers,Provajderi isporuke
+Shipping address,Adresa isporuke
+Shipping cost is required,Troškovi isporuke su obavezni
+Shipping provider setting saved,Podešavanje provajdera isporuke je sačuvano
+Shipping tax class,Poreska klasa isporuke
+Short text,Kratak tekst
+Show global areas,Prikaži globalne oblasti
+Show on routes,Prikaži na rutama
+Show products?,Prikazati proizvode?
+Show this widget on every page,Prikaži ovaj vidžet na svakoj stranici
+Size (L × W × H),Dimenzije (D × Š × V)
+Sort,Sortiraj
+Sort order is required,Redosled sortiranja je obavezan
+Sort order must be a positive number,Redosled sortiranja mora biti pozitivan broj
+Start,Početak
+Start a page-builder session,Pokreni sesiju graditelja stranica
+Start date,Datum početka
+Start new changeset,Pokreni novi skup izmena
+Start time is invalid.,Vreme početka nije ispravno.
+State Date,Datum stanja
+Status is required,Status je obavezan
+Stay,Ostani
+Stay on this page,Ostani na ovoj stranici
+Stock Availability,Dostupnost zaliha
+Stop highlighting global areas,Prestani da isticeš globalne oblasti
+Store Address,Adresa prodavnice
+Store Description,Opis prodavnice
+Store Email,Email prodavnice
+Store Name,Naziv prodavnice
+Store Phone Number,Broj telefona prodavnice
+Store Setting,Podešavanje prodavnice
+Store Settings,Podešavanja prodavnice
+Store address,Adresa prodavnice
+Storefront,Prodavnica
+Stripe Payment,Stripe plaćanje
+Tablet,Tablet
+Take our survey,Popunite našu anketu
+Target Products,Ciljni proizvodi
+Tax Class,Poreska klasa
+Tax calculation configuration,Konfiguracija obračuna poreza
+Tax class name,Naziv poreske klase
+Tax class name is required,Naziv poreske klase je obavezan
+Tax classes,Poreske klase
+Tax rate has been saved successfully!,Poreska stopa je uspešno sačuvana!
+Tax setting has been saved successfully!,Podešavanje poreza je uspešno sačuvano!
+The box or envelope this product ships in. Applies to all variants of this product.,Kutija ili koverta u kojoj se ovaj proizvod isporučuje. Primenjuje se na sve varijante ovog proizvoda.
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,Kutije i koverte koje koristite za isporuku. Svaki proizvod koji se isporučuje referencira jednu — njene dimenzije i prazna težina određuju procene troškova i nalepnice za isporuku.
+The conditions related to the customer for the coupon to be applied.,Uslovi vezani za kupca koji moraju biti ispunjeni da bi se kupon primenio.
+The conditions related to the order for the coupon to be applied.,Uslovi vezani za porudžbinu koji moraju biti ispunjeni da bi se kupon primenio.
+The default package cannot be deleted,Podrazumevani paket ne može biti obrisan
+The draft holds ${count} saved changes you can publish later.,Nacrt sadrži ${count} sačuvanih izmena koje možete kasnije objaviti.
+The draft holds 1 saved change you can publish later.,Nacrt sadrži 1 sačuvanu izmenu koju možete kasnije objaviti.
+The draft is deleted.,Nacrt je obrisan.
+The draft itself is deleted.,Sam nacrt je obrisan.
+The general information about the coupon.,Opšte informacije o kuponu.
+"The language of the admin panel, independent of the storefront.","Jezik administratorskog panela, nezavisan od prodavnice."
+The method will no longer apply to this zone.,Metoda se više neće primenjivati na ovu zonu.
+The minimum quantity of items required in the order to qualify for this coupon.,Minimalna količina artikala u porudžbini potrebna za primenu ovog kupona.
+The minimum total amount required for the order to qualify for this coupon.,Minimalan ukupan iznos porudžbine potreban za primenu ovog kupona.
+The rollout plan,Plan objave
+The storefront's primary language. Pages in this language have no URL prefix.,Primarni jezik prodavnice. Stranice na ovom jeziku nemaju URL prefiks.
+The type of discount applied by the coupon.,Vrsta popusta koji kupon primenjuje.
+The zone this rate applies to.,Zona na koju se ova tarifa primenjuje.
+"There is no ""Select"" attribute available.","Nema dostupnog ""Select"" atributa."
+There is no attribute to display,Nema atributa za prikaz
+There is no category to display,Nema kategorije za prikaz
+There is no collections to display,Nema kolekcija za prikaz
+There is no coupon to display,Nema kupona za prikaz
+There is no customer to display,Nema kupca za prikaz
+There is no order to display,Nema porudžbine za prikaz
+There is no page to display,Nema stranice za prikaz
+There is no widget to display,Nema vidžeta za prikaz
+There was an error fetching attribute groups.,Došlo je do greške pri preuzimanju grupa atributa.
+There was an error fetching categories.,Došlo je do greške pri preuzimanju kategorija.
+There was an error fetching collections.,Došlo je do greške pri preuzimanju kolekcija.
+There was an error fetching file browser APIs.,Došlo je do greške pri preuzimanju API-ja pregledača datoteka.
+There was an error fetching products.,Došlo je do greške pri preuzimanju proizvoda.
+This cannot be undone. Packages still assigned to products can't be removed.,Ovo se ne može poništiti. Paketi koji su još dodeljeni proizvodima ne mogu biti uklonjeni.
+This changeset has no operations yet.,Ovaj skup izmena još nema operacija.
+This field is required,Ovo polje je obavezno
+This is the URL path for the CMS page.,Ovo je URL putanja za CMS stranicu.
+This is the address used to calculate tax rates.,Ovo je adresa koja se koristi za obračun poreskih stopa.
+This is the meta title for the CMS page.,Ovo je meta naslov za CMS stranicu.
+This is the name of the CMS page that will be displayed in the admin panel.,Ovo je naziv CMS stranice koji će biti prikazan u administratorskom panelu.
+This is the tax class applied to shipping costs.,Ovo je poreska klasa koja se primenjuje na troškove isporuke.
+This product has some variants like color or size?,Da li ovaj proizvod ima varijante poput boje ili veličine?
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,Ovaj provajder nema konfiguraciju po zoni. Metodama i tarifama po zoni upravlja se u sopstvenom administratorskom delu provajdera.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,Ovo uklanja zonu zajedno sa njenim priloženim provajderima i tarifama. Ovo se ne može poništiti.
+This route has unpublished changes in your draft,Ova ruta ima neobjavljene izmene u vašem nacrtu
+This will be saved as a pending change you can publish or discard.,Ovo će biti sačuvano kao izmena na čekanju koju možete objaviti ili odbaciti.
+Tiered,Stepenasto
+Type is required,Tip je obavezan
+URL Key,URL ključ
+URL Key is required,URL ključ je obavezan
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","URL ključ mora biti malim slovima i može sadržati samo slova, brojeve i crtice"
+URL key,URL ključ
+URL key is required,URL ključ je obavezan
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,URL ključ mora biti malim slovima i može sadržati samo alfanumeričke znakove i crtice
+Unassign,Poništi dodelu
+Undo (⌘Z) — undoes your last edit on this page,Опозови (⌘Z) — опозива вашу последњу измену на овој страници
+Undo / Redo,Опозови / Понови
+Undo last change on this page,Опозови последњу измену на овој страници
+Unknown,Непознато
+Unlink,Уклони везу
+Unpin drawer,Откачи фиоку
+Unpin — drawer will close when you click empty canvas,Откачи — фиока ће се затворити када кликнете на празно платно
+Unpublished changes,Необјављене измене
+Unsaved changes,Несачуване измене
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,Ажурирајте назив и активни период за овај план објаве. Измене садржаја се управљају засебно у уређивачу.
+Update the variant details and attributes here.,Овде ажурирајте детаље и атрибуте варијанте.
+Updated,Ажурирано
+Upload an image for the category.,Отпремите слику за категорију.
+Used Times,Број употреба
+Value is required,Вредност је обавезна
+Variant Group,Група варијанти
+Variant created successfully,Варијанта је успешно креирана
+Variant updated successfully,Варијанта је успешно ажурирана
+Version ${version},Верзија ${version}
+Visibility,Видљивост
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,Видљивост одређује где се производ појављује у продавници. Не утиче на могућност продаје производа.
+Visitors will see the new layout on their next page load.,Посетиоци ће видети нови распоред при следећем учитавању странице.
+Webhook Secret Key,Тајни кључ веб-куке
+Weight,Тежина
+Weight must be 0 or greater,Тежина мора бити 0 или већа
+Weight must be a positive number,Тежина мора бити позитиван број
+Weight-based tiers,Нивои на основу тежине
+Widget Settings,Подешавања виџета
+Widget created successfully!,Виџет је успешно креиран!
+Widgets,Виџети
+Width,Ширина
+Width is required,Ширина је обавезна
+Width must be greater than 0,Ширина мора бити већа од 0
+Will roll out automatically: ${range},Биће објављено аутоматски: ${range}
+Working…,Ради се…
+Worldwide,Широм света
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,Имате ${count} измена у овом нацрту које још нису објављене.
+You have ${count} changes still saving.,Имате ${count} измена које се још чувају.
+You have 1 change in this draft that hasn’t been published yet.,Имате 1 измену у овом нацрту која још није објављена.
+You have 1 change still saving.,Имате 1 измену која се још чува.
+Your draft is safe on the server — you can come back and publish it any time.,Ваш нацрт је безбедан на серверу — можете се вратити и објавити га у било ком тренутку.
+Your edits on other pages stay in the draft.,Ваше измене на другим страницама остају у нацрту.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,Ваша URL адреса веб-куке треба да буде: https://yourdomain.com/api/stripe/webhook
+Zone,Зона
+Zone Name,Назив зоне
+Zone Rates,Тарифе зоне
+Zone created,Зона је креирана
+Zone is required,Зона је обавезна
+Zone name is required,Назив зоне је обавезан
+Zone removed,Зона је уклоњена
+Zone updated,Зона је ажурирана
+Zones served,Опслужене зоне
+and ${count} more,и још ${count}
+container will also hide,контејнер ће се такође сакрити
+current page,тренутна страница
+e.g. Small Box,нпр. Мала кутија
+e.g. Summer Sale 2026,нпр. Летња распродаја 2026
+e.g. content,нпр. садржај
+"e.g., 10.00",нпр. 10.00
+"e.g., EU, US-West","нпр. EU, US-West"
+"e.g., Express",нпр. Експрес
+"e.g., FEDEX_GROUND, usps_priority","нпр. FEDEX_GROUND, usps_priority"
+every page,свака страница
+indefinite,неограничено
+open,отвори
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","објављивање је тренутно и не може се опозвати са овог екрана. Да бисте уместо тога припремили измене, откажите и изаберите „Закажи објаву“."
+quantity of products are matched bellow conditions(All),количина производа испуњава услове наведене испод (Сви)
+subtotal,међузбир
+to a storefront route's,на руту продавнице
+to make it appear here.,да би се појавило овде.
+weight,тежина
+widget? This will be saved as a pending change you can publish or discard.,виџет? Ово ће бити сачувано као измена на чекању коју можете објавити или одбацити.
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,биће уклоњено и активна продавница ће престати да примењује своје измене. Основни скуп измена и његове измене садржаја на чекању су сачуване.
+— None —,— Ништа —
+Cash On Delivery,Плаћање поузећем
+Please select a valid payment method,Изаберите важећи начин плаћања
+Show ${label} width,Прикажи ширину за ${label}
+Column ${index},Колона ${index}
+Switch page,Промени страницу
+Search pages…,Претражи странице…
+Search pages,Претражи странице
+Save your pending edits — the live storefront will catch up,Сачувајте измене на чекању — активна продавница ће се ажурирати
+No changes to save — the rollout matches the editor,Нема измена за чување — објава се поклапа са уређивачем
+More rollout actions,Још радњи за објаву
+Revert to saved state…,Врати на сачувано стање…
+Roll back the editor to what the rollout currently shows on the storefront,Врати уређивач на оно што објава тренутно приказује у продавници
+Nothing to revert — the editor matches the saved state,Нема шта да се врати — уређивач се поклапа са сачуваним стањем
+Cancel rollout plan…,Откажи план објаве…
+Remove the schedule — the changeset is preserved,Уклони распоред — скуп измена је сачуван
+Publish,Објави
+More publish options,Још опција за објављивање
+Apply all edits to the live storefront immediately,Одмах примени све измене на активну продавницу
+Save as rollout plan…,Сачувај као план објаве…
+Schedule these edits to roll out at a future time,Закажи ове измене за објаву у будућности
+Discard pending changes…,Одбаци измене на чекању…
+Choose between discarding the whole draft or just this page,Изаберите између одбацивања целог нацрта или само ове странице
+Switch session,Промени сесију
+New changeset,Нови скуп измена
+Rollout: ${name},Објава: ${name}
+Click or drag to add,Кликните или превуците за додавање
+Background color,Боја позадине
+Text color,Боја текста
+Dwell time,Време задржавања
+Time each announcement stays visible (in addition to the 400ms slide transition).,Време колико свако обавештење остаје видљиво (поред прелаза клизања од 400ms).
+Announcements,Обавештења
+Add announcement,Додај обавештење
+Untitled,Без назива
+Free shipping on orders over $50,Бесплатна достава за поруџбине преко $50
+Optional. Makes the entire row a clickable link.,Опционо. Чини цео ред кликабилном везом.
+Link label,Натпис везе
+Optional. Displayed after the content; defaults to the content itself.,Опционо. Приказује се након садржаја; подразумевано је сам садржај.
+Shop now,Купи одмах
+Dark,Тамно
+Light,Светло
+Gradient,Прелив
+Left,Лево
+Center,Центар
+Right,Десно
+Selected image,Изабрана слика
+No image selected,Ниједна слика није изабрана
+Replace,Замени
+Clear,Обриши
+Reflects the alignment below.,Одражава поравнање испод.
+Banner Image,Слика банера
+Mobile image,Мобилна слика
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,"Опционо. Замењује се испод тачке прелома од 768px. Када је празно, користи се горња слика — типична употреба је усправни исечак исте сцене."
+Alignment,Поравнање
+Overlay copy,Текст преко слике
+Eyebrow,Натнаслов
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".",Мали натпис великим словима изнад наслова. Нпр. „ОГРАНИЧЕНО ИЗДАЊЕ“.
+LIMITED EDITION,ОГРАНИЧЕНО ИЗДАЊЕ
+Heading,Наслов
+The Summer Edit,Летња колекција
+Sub-text,Подтекст
+One short supporting sentence.,Једна кратка пратећа реченица.
+Overlay placement,Распоред преклопа
+Content position,Позиција садржаја
+Where the overlay text sits on the image.,Где се налази текст преклопа на слици.
+Tint,Нијанса
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,Затамњење иза текста преклопа ради читљивости. Тамно / прелив аутоматски мењају текст у бело.
+Tint opacity,Непрозирност нијансе
+Call to actions,Позиви на акцију
+Remove primary CTA,Уклони примарни CTA
++ Add a primary CTA,+ Додај примарни CTA
+Secondary,Секундарни
+Remove secondary CTA,Уклони секундарни CTA
+Learn more,Сазнај више
++ Add a secondary CTA,+ Додај секундарни CTA
+Details,Detalji
+Alt text,Alt tekst
+Describes the banner for screen readers and SEO.,Opisuje baner za čitače ekrana i SEO.
+"e.g. ""Summer sale promotional banner""",npr. „Promotivni baner letnje rasprodaje“
+Banner link,Link banera
+Optional. Clicking the banner navigates here.,Opciono. Klik na baner vodi ovde.
+Display name,Prikazano ime
+Shop,Prodavnica
+Target,Odredište
+"Page, category, product, or a custom URL.","Stranica, kategorija, proizvod ili prilagođeni URL."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: ne prenosi rangiranje na ovaj link (rel=nofollow).
+No referrer,Bez referera
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,Privatnost: izostavlja referer URL (rel=noreferrer). Linkovi koji se otvaraju u novoj kartici uvek ga uključuju.
+Menu items,Stavke menija
+Add menu item,Dodaj stavku menija
+Sub-items,Podstavke
+Optional dropdown links (1 level).,Opcioni padajući linkovi (1 nivo).
+Add sub-item,Dodaj podstavku
+Options,Opcije
+Use as main menu,Koristi kao glavni meni
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","Primarna navigacija — na mobilnom se skuplja u hamburger meni. Isključite za jednostavnu listu linkova (npr. podnožje), koja na mobilnom ostaje u redu."
+Custom CSS classes,Prilagođene CSS klase
+Applied to the rendered menu element.,Primenjuje se na renderovani element menija.
+e.g. main-nav font-semibold,npr. main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,Pločice
+Add tile,Dodaj pločicu
+Hero · ,Hero · 
+Used when no image is set.,Koristi se kada slika nije postavljena.
+Small label above the heading.,Mala oznaka iznad naslova.
+THE SUMMER EDIT,LETNJI IZBOR
+New Arrivals,Novo u ponudi
+Body,Tekst
+Big card — the headline of the grid.,Velika kartica — naslov mreže.
+Link URL,URL linka
+Gap,Razmak
+Minimum block height,Minimalna visina bloka
+Image left,Slika levo
+Image right,Slika desno
+Centered,Centrirano
+Pull quote,Istaknuti citat
+Variant,Varijanta
+Image column size,Veličina kolone slike
+Describe the image,Opišite sliku
+Copy,Tekst
+"Small all-caps label. E.g. ""OUR STORY"".",Mala oznaka velikim slovima. Npr. „NAŠA PRIČA“.
+Our story,Naša priča
+"Made by hand, in small batches","Ručno izrađeno, u malim serijama"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","Obavezno za varijantu istaknutog citata. Prikazuje se veliko, kao citatni blok."
+"A short, quotable line.",Kratka rečenica pogodna za citiranje.
+Three or four sentences of brand narrative.,Tri ili četiri rečenice priče o brendu.
+Second body paragraph (optional),Drugi pasus teksta (opciono)
+A second short paragraph if the story needs it.,Drugi kratak pasus ako je priči potreban.
+Read more link,Link „Pročitaj više“
+Read more,Pročitaj više
+URL,URL
+Remove read-more link,Ukloni link „Pročitaj više“
++ Add a read-more link,+ Dodaj link „Pročitaj više“
+Square,Kvadrat
+Landscape,Pejzaž
+Portrait,Portret
+Overlay,Preklop
+Below,Ispod
+New category,Nova kategorija
+Section heading,Naslov sekcije
+Optional. Shown above the grid.,Opciono. Prikazuje se iznad mreže.
+Shop by category,Kupujte po kategoriji
+Women,Žene
+Columns,Kolone
+Auto,Automatski
+Asymmetric makes the first tile span 2 columns.,Asimetrično čini da prva pločica zauzima 2 kolone.
+Uniform,Ujednačeno
+Asymmetric,Asimetrično
+Image aspect,Odnos slike
+Label position,Pozicija oznake
+Blush,Rumena
+XL,XL
+Position ${c},Pozicija ${c}
+Column layout,Raspored kolona
+Drag widgets into each column. Children re-flow when you change the ratio.,Prevucite vidžete u svaku kolonu. Elementi se preraspoređuju kada promenite odnos.
+Space between columns.,Razmak između kolona.
+Where content sits within each column. Applied uniformly to every column.,Gde se sadržaj nalazi unutar svake kolone. Primenjuje se jednako na svaku kolonu.
+Row appearance,Izgled reda
+Background,Pozadina
+Custom color,Prilagođena boja
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","Bilo koja CSS boja (npr. „#0a0a0a“ ili „rgb(10,10,10)“). Ostavite prazno da koristite uzorak iznad."
+Padding,Unutrašnji razmak
+Outer spacing around the row. Scales down on mobile.,Spoljašnji razmak oko reda. Smanjuje se na mobilnom.
+Solid,Puna
+Dashed,Isprekidana
+Already expired,Već isteklo
+Expires in ${days}d ${hours}h,Ističe za ${days}d ${hours}č
+Expires in ${hours}h ${minutes}m,Ističe za ${hours}č ${minutes}m
+Offer,Ponuda
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".",Rečenica hitnosti. Opciono. Npr. „Ograničeno · Ističe u nedelju“.
+Limited · Ends Sunday,Ograničeno · Ističe u nedelju
+Headline,Naslov
+Take 20% off your order,Ostvarite 20% popusta na porudžbinu
+Optional. One short instructional line.,Opciono. Jedna kratka rečenica sa uputstvom.
+Use code at checkout,Iskoristite kôd na naplati
+Promo code,Promo kôd
+Displayed in uppercase to shoppers.,Prikazuje se kupcima velikim slovima.
+Expires,Ističe
+Optional. The block auto-hides after this time for live visitors.,Opciono. Blok se automatski sakriva nakon ovog vremena za posetioce uživo.
+Call to action,Poziv na akciju
+Button label,Tekst dugmeta
+Shop now →,Kupi odmah →
+Button link,Link dugmeta
+Appearance,Izgled
+Border,Ivica
+Narrow,Usko
+Normal,Normalno
+Wide,Široko
+Shown above all content. Optional.,Prikazuje se iznad celog sadržaja. Opciono.
+e.g. Frequently asked,npr. Često postavljana
+Prose,Tekst
+FAQ group · ${count} items,FAQ grupa · ${count} stavki
+Group heading,Naslov grupe
+Optional sub-heading.,Opcioni podnaslov.
+e.g. Shipping,npr. Dostava
+Add question,Dodaj pitanje
+Question,Pitanje
+e.g. How long does shipping take?,npr. Koliko traje dostava?
+Answer,Odgovor
+"Supports **bold**, _italic_, and line breaks.","Podržava **podebljano**, _kurziv_ i prelome redova."
+e.g. Orders ship within 24 hours…,npr. Porudžbine se šalju u roku od 24 sata…
+Add prose,Dodaj tekst
+Add FAQ group,Dodaj FAQ grupu
+Max width,Maks. širina
+Content column width.,Širina kolone sadržaja.
+Allow multiple open,Dozvoli više otvorenih
+"When off, opening one FAQ item closes the others in the same group.","Kada je isključeno, otvaranje jedne FAQ stavke zatvara ostale u istoj grupi."
+New link,Novi link
+New column,Nova kolona
+Add column,Dodaj kolonu
+${title} · ${count} links,${title} · ${count} linkova
+Column title,Naslov kolone
+Links,Linkovi
+"Min 1, max 12.","Min. 1, maks. 12."
+Add link,Dodaj link
+New arrivals,Novo u ponudi
+Boxed,U okviru
+Wide (full bleed),Široko (preko cele širine)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,U okviru ostaje unutar kontejnera stranice (tema određuje maks. širinu). Široko se proteže od ivice do ivice.
+Scales down on mobile.,Smanjuje se na mobilnom.
+Optional. Painted behind content. Combine with a tint below for legibility.,Opciono. Iscrtava se iza sadržaja. Kombinujte sa nijansom ispod radi čitljivosti.
+XS,XS
+Spacing,Razmak
+Size,Veličina
+Mobile scales down ~⅔ automatically.,Na mobilnom se automatski smanjuje na ~⅔.
+Divider line,Linija razdvajanja
+Show divider line,Prikaži liniju razdvajanja
+A horizontal rule centred in the spacing band.,Horizontalna linija centrirana u traci razmaka.
+Line color,Boja linije
+Default uses the theme's divider color.,Podrazumevano koristi boju razdvajanja teme.
+Sides,Strane
+Bottom,Dno
+Dots,Tačke
+Bars,Trake
+Mobile image (optional),Mobilna slika (opciono)
+Used at ≤ 767 px. Falls back to the main image.,Koristi se na ≤ 767 px. Vraća se na glavnu sliku.
+e.g. New collection,npr. Nova kolekcija
+e.g. Summer Sale,npr. Letnja rasprodaja
+Sub text,Podtekst
+Check out our latest products with special discounts.,Pogledajte naše najnovije proizvode sa posebnim popustima.
+Primary button,Primarno dugme
+Secondary button,Sekundarno dugme
++ Add secondary button,+ Dodaj sekundarno dugme
+Overrides,Zamene
+Leaves slide-specific anchor; falls back to the slideshow's default.,Ostavlja sidro specifično za slajd; vraća se na podrazumevano za slajd-šou.
+Overlay tint,Nijansa prekrivača
+Overlay opacity,Neprozirnost prekrivača
+Make whole slide clickable,Učini ceo slajd kliktabilnim
+Behavior,Ponašanje
+Transition,Prelaz
+Slide,Slajd
+Fade,Pretapanje
+Transition speed,Brzina prelaza
+Autoplay,Automatska reprodukcija
+Autoplay delay,Kašnjenje automatske reprodukcije
+${seconds} s between slides,${seconds} s između slajdova
+Pause on hover,Pauziraj na prelazak mišem
+Pause for 20 s after user nav,Pauziraj 20 s nakon navigacije korisnika
+Arrows,Strelice
+Aspect ratio,Odnos stranica
+`Auto` matches the natural image height (jumps between slides).,`Auto` prati prirodnu visinu slike (skače između slajdova).
+Default content position,Podrazumevani položaj sadržaja
+Per-slide overrides win.,Zamene po slajdu imaju prednost.
+Default overlay tint,Podrazumevana nijansa prekrivača
+Default overlay opacity,Podrazumevana neprozirnost prekrivača
+Slides (${count}),Slajdovi (${count})
+No slides yet.,Još nema slajdova.
+Add your first slide,Dodajte svoj prvi slajd
+Slide ${number},Slajd ${number}
+Image only,Samo slika
+Empty,Prazno
+Show slide,Prikaži slajd
+Hide slide,Sakrij slajd
+Move slide up,Pomeri slajd gore
+Move slide down,Pomeri slajd dole
+Delete slide,Obriši slajd
+Top,Vrh
+Cover,Prekrij
+Contain,Uklopi
+Required for accessibility.,Obavezno radi pristupačnosti.
+Image fit,Uklapanje slike
+"Small all-caps label. E.g. ""LIMITED EDITION"".",Mala oznaka velikim slovima. Npr. „LIMITIRANO IZDANJE“.
+Limited edition,Limitirano izdanje
+One strong line,Jedna jaka linija
+Two lines of supporting copy.,Dve linije propratnog teksta.
+Image position,Položaj slike
+Vertical alignment,Vertikalno poravnanje
+Aligns the copy panel content.,Poravnava sadržaj panela teksta.
+Remove call to action,Ukloni poziv na akciju
+Add a call to action,Dodaj poziv na akciju
+Custom CSS classes for the text block,Prilagođene CSS klase za tekstualni blok
+Add group,Dodaj grupu
+${label} · ${count} subs,${label} · ${count} potkat.
+Parent label,Oznaka roditelja
+Parent link,Veza roditelja
+Image alt text,Alternativni tekst slike
+Sub-categories,Potkategorije
+"Min 1, max 8.","Min 1, maks 8."
+Add sub-category,Dodaj potkategoriju
+Dresses,Haljine
+Columns (desktop),Kolone (desktop)
+On tablets the layout is always 2 columns.,Na tabletima je raspored uvek 2 kolone.
+Make parent image a link,Učini sliku roditelja vezom
+"When off, only the sub-chips and parent label are interactive.","Kada je isključeno, samo pod-čipovi i oznaka roditelja su interaktivni."
+Title,Naslov
+e.g. Free shipping,npr. Besplatna dostava
+Optional supporting line below the title.,Opciona propratna linija ispod naslova.
+Icon,Ikona
+Optional. SVG or raster image. Hidden when icons are turned off globally.,Opciono. SVG ili rasterska slika. Sakriveno kada su ikone globalno isključene.
+Optional. Makes the whole cell clickable.,Opciono. Čini celu ćeliju kliktabilnom.
+"Auto matches the item count, capped at 4.","Auto prati broj stavki, ograničeno na 4."
+3,3
+4,4
+Icon size,Veličina ikone
+Show icons,Prikaži ikone
+Master switch. Items without an icon URL are unaffected.,Glavni prekidač. Stavke bez URL ikone nisu pogođene.
+Show divider,Prikaži razdelnik
+Vertical line between cells.,Vertikalna linija između ćelija.
+Collection,Kolekcija
+Search collections…,Pretraži kolekcije…
+No collections match “${value}”.,Nijedna kolekcija ne odgovara „${value}“.
+You have no collections yet.,Još nemate kolekcije.
+Please select a collection,Izaberite kolekciju
+"Defaults to ""${name}"" (the collection's name).",Podrazumevano je „${name}“ (naziv kolekcije).
+Defaults to the picked collection's name.,Podrazumevano je naziv izabrane kolekcije.
+Collection name,Naziv kolekcije
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,Podrazumevano je opis kolekcije. Postavljanje ovoga zamenjuje bogati tekstualni opis običnim tekstom.
+e.g. Hand-picked styles for the season.,npr. Ručno odabrani stilovi za sezonu.
+View all link,Veza „Prikaži sve“
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","Opciono. Sakriveno kada je prazno. Izaberite kategoriju, proizvod, stranicu ili nalepite prilagođeni URL."
+"Optional. Defaults to ""View all →"".",Opciono. Podrazumevano je „Prikaži sve →“.
+View all →,Prikaži sve →
+Total products,Ukupno proizvoda
+Number of products to display.,Broj proizvoda za prikaz.
+Products per row,Proizvoda po redu
+Grid columns (1–6 typical).,Kolone mreže (tipično 1–6).
+Count is required,Broj je obavezan
+e.g. 8,npr. 8
+Count per row is required,Broj po redu je obavezan
+e.g. 4,npr. 4
+Cover image,Naslovna slika
+COLLECTION,KOLEKCIJA
+"Defaults to ""${pickedName}"".",Podrazumevano je „${pickedName}“.
+Defaults to the picked collection name.,Podrazumevano je naziv izabrane kolekcije.
+Optional. One or two sentences of editorial copy.,Opciono. Jedna ili dve rečenice uredničkog teksta.
+"Linen, cotton, easy stuff.","Lan, pamuk, lagane stvari."
+Preview product count,Broj proizvoda u pregledu
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,Izaberite kolekciju
+Add collection,Dodaj kolekciju
+Row heading,Naslov reda
+The Linen Edit,The Linen Edit
+Optional. Hidden when empty.,Opciono. Sakriveno kada je prazno.
+View all label,Oznaka „Prikaži sve“
+Show price,Prikaži cenu
+Show divider between rows,Prikaži razdelnik između redova
+Selected:,Izabrano:
+Image override,Zamena slike
+Override image,Zameni sliku
+Override image (optional),Zameni sliku (opciono)
+Leave empty to use the product's primary image.,Ostavite prazno da biste koristili primarnu sliku proizvoda.
+Small label above the product name. Optional.,Mala oznaka iznad naziva proizvoda. Opciono.
+FEATURED,IZDVOJENO
+Editorial copy,Urednički tekst
+Overrides the product's own description in this context. Leave blank to hide.,Zamenjuje sopstveni opis proizvoda u ovom kontekstu. Ostavite prazno da biste sakrili.
+Two lines of copy explaining why this product is being spotlighted right now.,Dve linije teksta koje objašnjavaju zašto je ovaj proizvod sada istaknut.
+Please pick a product,Izaberite proizvod
+e.g. On orders over $50,npr. Za porudžbine preko $50
+Text block,Tekstualni blok
+Menu,Meni
+Footer menu,Meni podnožja
+Banner,Банер
+Simple Slideshow,Једноставан слајдшоу
+Brand story,Прича о бренду
+Category mosaic,Мозаик категорија
+Tiered categories,Степеноване категорије
+Bento grid,Бенто мрежа
+Separator,Раздвајач
+Section,Одељак
+Split feature,Подељени блок
+Announcement bar,Трака са обавештењима
+Coupon block,Блок купона
+FAQ block,Блок честих питања
+Trust strip,Трака поверења
+Collection products,Производи колекције
+Collection stack,Низ колекција
+Collection spotlight,Издвојена колекција
+Product hero,Истакнути производ
+Layout container with 1–4 columns for nesting widgets.,Контејнер распореда са 1–4 колоне за угнежђивање виџета.
+Add rich text content,Додајте богат текстуални садржај
+Navigation links,Навигациони линкови
+Multi-column list of footer links — a titled column of navigation links per group.,Вишеколонска листа линкова подножја — насловљена колона навигационих линкова по групи.
+A single hero image with optional overlay copy and CTAs.,Једна истакнута слика са опционим прекривним текстом и CTA дугмадима.
+Rotating image carousel,Ротирајући карусел слика
+Editorial block combining an image and long-form brand narrative. Four layout variants.,Уређивачки блок који комбинује слику и дужи наратив о бренду. Четири варијанте распореда.
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.",Мрежа од 3–6 плочица категорија за главну улазну тачку „Купуј по категорији”.
+A two-level nav block: parent category image plus a row of sub-category chips.,Дводимензиони навигациони блок: слика надређене категорије плус ред чипова поткатегорија.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,Асиметрични мозаик CTA плочица — једна велика истакнута плус 1–4 пратеће плочице.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","Вертикални размак између виџета, са опционом линијом раздвајача. На мобилном се аутоматски смањује."
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,Стилизована трака за испуштање која обавија друге виџете. Пребацујте између широког (од ивице до ивице) и уоквиреног (контејнер теме).
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,Промотивни блок 50/50 са сликом и текстом и опционим CTA дугметом. Канонски виџет за промотивни тренутак.
+A thin top-of-page bar with one or more rotating announcements.,Танка трака на врху странице са једним или више ротирајућих обавештења.
+A promo panel with a copyable discount code and CTA.,Промотивни панел са кодом за попуст који се може копирати и CTA дугметом.
+Flexible content block mixing prose sections and accordion FAQ groups.,Флексибилан садржински блок који комбинује текстуалне одељке и хармоника групе честих питања.
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","Ред ставки са предностима (бесплатна достава, лако враћање итд.) за наглашавање испод истакнутог дела или изнад подножја."
+A list of products from a collection,Листа производа из колекције
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Поређани редови колекција, сваки са насловом, линком „прикажи све” и тракom производа."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","Истакнута колекција са насловном сликом, уређивачким текстом и малом мрежом за преглед производа."
+"A single-product spotlight — image, name, price, and a link to the full product page.","Издвајање једног производа — слика, назив, цена и линк ка целој страници производа."

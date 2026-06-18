@@ -1,4 +1,3 @@
-import { getAvailableLocales } from '../../../../../lib/locale/dictionary.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';
 import {
   getAdditionalLanguages,
@@ -34,9 +33,6 @@ export default {
     // full enabled set is always default + these (getEnabledLanguages, server-side).
     storeLanguages: () => getAdditionalLanguages(),
     adminLanguage: () => getAdminLanguage(),
-    // Locales the store can offer: 'en' (built-in source language) + every folder under
-    // translations/. Drives the admin language pickers; not user-configurable.
-    installedLocales: () => [...new Set(['en', ...getAvailableLocales()])],
     storeCurrency: () => getConfig('shop.currency', 'USD'),
     storeTimeZone: (setting) => {
       const storeTimeZone = setting.find((s) => s.name === 'storeTimeZone');

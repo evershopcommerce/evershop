@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle
 } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import {
   AlertTriangle,
   ArrowRight,
@@ -79,7 +80,7 @@ function summarize(ops: ChangesetOperation[]): OpSummary {
 }
 
 function humanizeRoute(id: string): string {
-  if (id === 'all') return 'every page';
+  if (id === 'all') return _('every page');
   // Camel-case route ids → spaced words: `categoryView` → `Category view`.
   const spaced = id.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
@@ -153,18 +154,23 @@ export function PublishDialog({
             <div className="flex flex-col gap-1">
               <DialogTitle className="text-sm font-medium">
                 {hasOps
-                  ? 'Publish to the live storefront'
-                  : 'Nothing to publish'}
+                  ? _('Publish to the live storefront')
+                  : _('Nothing to publish')}
               </DialogTitle>
               <DialogDescription className="text-xs">
                 {hasOps ? (
                   <>
-                    {total} change{total === 1 ? '' : 's'} will go live
-                    immediately. Visitors will see the new layout on their next
-                    page load.
+                    {total === 1
+                      ? _('1 change will go live immediately.')
+                      : _('${total} changes will go live immediately.', {
+                          total: String(total)
+                        })}{' '}
+                    {_(
+                      'Visitors will see the new layout on their next page load.'
+                    )}
                   </>
                 ) : (
-                  <>This changeset has no operations yet.</>
+                  <>{_('This changeset has no operations yet.')}</>
                 )}
               </DialogDescription>
             </div>
@@ -176,19 +182,19 @@ export function PublishDialog({
             <div className="grid grid-cols-3 gap-2">
               <StatCard
                 icon={<Plus className="h-3.5 w-3.5" strokeWidth={2.5} />}
-                label="Added"
+                label={_('Added')}
                 count={summary.added}
                 tone="add"
               />
               <StatCard
                 icon={<Pencil className="h-3.5 w-3.5" strokeWidth={2.5} />}
-                label="Updated"
+                label={_('Updated')}
                 count={summary.updated}
                 tone="update"
               />
               <StatCard
                 icon={<Minus className="h-3.5 w-3.5" strokeWidth={2.5} />}
-                label="Removed"
+                label={_('Removed')}
                 count={summary.removed}
                 tone="remove"
               />
@@ -202,8 +208,11 @@ export function PublishDialog({
                 />
                 <div className="min-w-0 text-xs">
                   <div className="font-medium text-foreground">
-                    Affects {summary.routes.length} page
-                    {summary.routes.length === 1 ? '' : 's'}
+                    {summary.routes.length === 1
+                      ? _('Affects 1 page')
+                      : _('Affects ${count} pages', {
+                          count: String(summary.routes.length)
+                        })}
                   </div>
                   <div className="mt-0.5 text-muted-foreground">
                     {summary.routes
@@ -211,7 +220,12 @@ export function PublishDialog({
                       .map((r) => humanizeRoute(r.id))
                       .join(', ')}
                     {summary.routes.length > 4 && (
-                      <span> +{summary.routes.length - 4} more</span>
+                      <span>
+                        {' '}
+                        {_('+${count} more', {
+                          count: String(summary.routes.length - 4)
+                        })}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -224,9 +238,10 @@ export function PublishDialog({
                 aria-hidden="true"
               />
               <span>
-                <strong className="font-semibold">Heads up — </strong>
-                publishing is immediate and can’t be undone from this screen. To
-                stage instead, cancel and choose “Schedule a rollout”.
+                <strong className="font-semibold">{_('Heads up — ')}</strong>
+                {_(
+                  'publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.'
+                )}
               </span>
             </div>
           </div>
@@ -234,7 +249,7 @@ export function PublishDialog({
 
         <DialogFooter>
           <Button variant="ghost" onClick={onClose} disabled={isBusy}>
-            Cancel
+            {_('Cancel')}
           </Button>
           <Button
             onClick={onConfirm}
@@ -242,10 +257,10 @@ export function PublishDialog({
             className="gap-1.5"
           >
             {isBusy ? (
-              <>Publishing…</>
+              <>{_('Publishing…')}</>
             ) : (
               <>
-                Publish now
+                {_('Publish now')}
                 <ArrowRight className="h-3.5 w-3.5" />
               </>
             )}

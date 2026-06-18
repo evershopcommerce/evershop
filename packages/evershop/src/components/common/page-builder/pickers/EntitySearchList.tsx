@@ -2,6 +2,7 @@
 import Spinner from '@components/admin/Spinner.js';
 import { Image } from '@components/common/Image.js';
 import { drawerInputClass } from '@components/common/page-builder/drawer/index.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Check, Search } from 'lucide-react';
 import React from 'react';
 
@@ -55,7 +56,7 @@ export function EntitySearchList({
         <input
           type="text"
           value={search}
-          placeholder="Search…"
+          placeholder={_('Search…')}
           onChange={(e) => onSearchChange(e.target.value)}
           className={`${drawerInputClass} pl-7`}
         />

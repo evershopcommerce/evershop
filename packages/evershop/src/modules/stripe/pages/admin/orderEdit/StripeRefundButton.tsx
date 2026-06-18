@@ -5,6 +5,7 @@ import { useAlertContext } from '@components/common/modal/Alert.js';
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
 import { Button } from '@components/common/ui/Button.js';
 import { CardContent } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { toast } from 'react-toastify';
 
@@ -43,7 +44,7 @@ export default function StripeRefundButton({
             variant="destructive"
             onClick={() => {
               openAlert({
-                heading: 'Refund',
+                heading: _('Refund'),
                 content: (
                   <div>
                     <Form
@@ -75,23 +76,33 @@ export default function StripeRefundButton({
                       <div>
                         <NumberField
                           name="amount"
-                          label="Refund amount"
-                          placeholder="Refund amount"
+                          label={_('Refund amount')}
+                          placeholder={_('Refund amount')}
                           defaultValue={grandTotal.value}
                           required
                           validation={{
-                            required: 'This field is required',
+                            required: _('This field is required'),
                             min: {
                               value: 0,
-                              message:
+                              message: _(
                                 'Amount must be greater than or equal to 0'
+                              )
                             },
                             max: {
-                              value: grandTotal.value,
-                              message: `Amount must be less than or equal to ${grandTotal.value} ${grandTotal.currency}`
+                              value: String(grandTotal.value),
+                              message: _(
+                                'Amount must be less than or equal to ${value} ${currency}',
+                                {
+                                  value: String(grandTotal.value),
+                                  currency: grandTotal.currency
+                                }
+                              )
                             }
                           }}
-                          helperText={`Maximum amount is ${grandTotal.value} ${grandTotal.currency}`}
+                          helperText={_('Maximum amount is ${value} ${currency}', {
+                            value: String(grandTotal.value),
+                            currency: grandTotal.currency
+                          })}
                           unit={grandTotal.currency}
                         />
                       </div>
@@ -104,12 +115,12 @@ export default function StripeRefundButton({
                   </div>
                 ),
                 primaryAction: {
-                  title: 'Cancel',
+                  title: _('Cancel'),
                   onAction: closeAlert,
                   variant: ''
                 },
                 secondaryAction: {
-                  title: 'Refund',
+                  title: _('Refund'),
                   onAction: () => {
                     setLoading(true);
                     dispatchAlert({
@@ -128,7 +139,7 @@ export default function StripeRefundButton({
               });
             }}
           >
-            Refund
+            {_('Refund')}
           </Button>
         </div>
       </CardContent>

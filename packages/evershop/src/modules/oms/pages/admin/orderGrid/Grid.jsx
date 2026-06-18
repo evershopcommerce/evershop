@@ -30,6 +30,7 @@ import {
   TableBody,
   TableCell
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -55,22 +56,24 @@ function Actions({ orders = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Mark as shipped',
+      name: _('Mark as shipped'),
       onAction: () => {
         openAlert({
-          heading: `Fullfill ${selectedIds.length} orders`,
+          heading: _('Fulfill ${count} orders', { count: selectedIds.length }),
           content: (
             <div className="form-field mb-0">
-              Are you sure you want to mark the selected orders as shipped?
+              {_(
+                'Are you sure you want to mark the selected orders as shipped?'
+              )}
             </div>
           ),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Mark as shipped',
+            title: _('Mark as shipped'),
             onAction: async () => {
               await fullFillOrders();
             },
@@ -149,7 +152,7 @@ export default function OrderGrid({
                     default: () => (
                       <InputField
                         name="keyword"
-                        placeholder="Search"
+                        placeholder={_('Search')}
                         defaultValue={
                           currentFilters.find((f) => f.key === 'keyword')?.value
                         }
@@ -192,11 +195,11 @@ export default function OrderGrid({
                           }}
                         >
                           <SelectTrigger>
-                            <SelectValue>Payment Status</SelectValue>
+                            <SelectValue>{_('Payment Status')}</SelectValue>
                           </SelectTrigger>
                           <SelectContent>
                             <SelectGroup>
-                              <SelectLabel>Payment Status</SelectLabel>
+                              <SelectLabel>{_('Payment Status')}</SelectLabel>
                               {paymentStatusList.map((status, index) => (
                                 <SelectItem key={index} value={status.code}>
                                   {status.name}
@@ -230,11 +233,11 @@ export default function OrderGrid({
                         }}
                       >
                         <SelectTrigger>
-                          <SelectValue>Shipment Status</SelectValue>
+                          <SelectValue>{_('Shipment Status')}</SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            <SelectLabel>Shipment Status</SelectLabel>
+                            <SelectLabel>{_('Shipment Status')}</SelectLabel>
                             {shipmentStatusList.map((status, index) => (
                               <SelectItem key={index} value={status.code}>
                                 {status.name}
@@ -262,7 +265,7 @@ export default function OrderGrid({
               window.location.href = url.href;
             }}
           >
-            Clear Filters
+            {_('Clear Filters')}
           </Button>
         </CardAction>
       </CardHeader>
@@ -292,7 +295,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Order Number"
+                          title={_('Order Number')}
                           name="number"
                           currentFilters={currentFilters}
                         />
@@ -304,7 +307,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Date"
+                          title={_('Date')}
                           name="created_at"
                           currentFilters={currentFilters}
                         />
@@ -316,7 +319,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Customer Email"
+                          title={_('Customer Email')}
                           name="email"
                           currentFilters={currentFilters}
                         />
@@ -328,7 +331,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Shipment Status"
+                          title={_('Shipment Status')}
                           name="shipment_status"
                           currentFilters={currentFilters}
                         />
@@ -340,7 +343,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Payment Status"
+                          title={_('Payment Status')}
                           name="payment_status"
                           currentFilters={currentFilters}
                         />
@@ -352,7 +355,7 @@ export default function OrderGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Total"
+                          title={_('Total')}
                           name="total"
                           currentFilters={currentFilters}
                         />
@@ -451,7 +454,7 @@ export default function OrderGrid({
         </Table>
         {orders.length === 0 && (
           <div className="flex w-full justify-center">
-            There is no order to display
+            {_('There is no order to display')}
           </div>
         )}
         <GridPagination total={total} limit={limit} page={page} />

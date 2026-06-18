@@ -6,6 +6,7 @@ import {
   CardTitle
 } from '@components/common/ui/Card.js';
 import { Circle } from '@components/common/ui/Circle.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Discount } from './payment/Discount.js';
@@ -37,8 +38,8 @@ export default function OrderSummary({
           <div className="flex space-x-2">
             <Circle variant={paymentStatus.badge} />
             <span className="block self-center">
-              {`${paymentStatus.name || 'Unknown'} - ${
-                paymentMethodName || 'Unknown'
+              {`${paymentStatus.name || _('Unknown')} - ${
+                paymentMethodName || _('Unknown')
               }`}
             </span>
           </div>

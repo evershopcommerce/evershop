@@ -6,6 +6,7 @@ import {
   ItemDescription,
   ItemTitle
 } from '@components/common/ui/Item.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { cn } from '@evershop/evershop/lib/util/cn';
 import { Settings } from 'lucide-react';
 import React from 'react';
@@ -40,12 +41,12 @@ export default function StoreSettingMenu({
                 isActive && 'text-primary'
               )}
             >
-              Store Setting
+              {_('Store Setting')}
             </a>
           </div>
         </ItemTitle>
         <ItemDescription>
-          <div>Configure your store information</div>
+          <div>{_('Configure your store information')}</div>
         </ItemDescription>
       </ItemContent>
       <ItemActions>

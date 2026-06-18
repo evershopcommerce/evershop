@@ -1,0 +1,1685 @@
+Welcome Back!,خوش آمدید!
+Please sign in to your account ,لطفاً وارد حساب کاربری خود شوید 
+Join us for exclusive offers and order tracking,برای پیشنهادهای ویژه و پیگیری سفارش به ما بپیوندید
+Sign Up,ثبت‌نام
+Signing Up...,در حال ثبت‌نام...
+Signing In...,در حال ورود...
+Recent Orders,سفارش‌های اخیر
+Address Book,دفترچه آدرس
+You have no addresses saved,هیچ آدرسی ذخیره نکرده‌اید
+Add new address,افزودن آدرس جدید
+Address 2,آدرس ۲
+Set as default,تنظیم به‌عنوان پیش‌فرض
+Save,ذخیره
+Edit,ویرایش
+Delete,حذف
+Edit Address,ویرایش آدرس
+Product Filters,فیلترهای محصول
+No products found,هیچ محصولی یافت نشد
+${count} Products,${count} محصول
+Default,پیش‌فرض
+Name,نام
+Contact Information,اطلاعات تماس
+Your Cart,سبد خرید شما
+Your cart is empty,سبد خرید شما خالی است
+Subtotal,جمع جزء
+View Cart (${totalQty}),مشاهده سبد (${totalQty})
+Shopping Cart,سبد خرید
+Logged in as,وارد شده با حساب
+Payment Information,اطلاعات پرداخت
+Same as shipping address,همانند آدرس ارسال
+Use a different billing address,استفاده از آدرس صورت‌حساب متفاوت
+Pick a payment method,یک روش پرداخت انتخاب کنید
+Select a payment method,یک روش پرداخت انتخاب کنید
+Complete Order,تکمیل سفارش
+Add to Cart,افزودن به سبد
+Search,جستجو
+${count} orders,${count} سفارش
+${field} is required,${field} الزامی است
+${pct}% of orders cancelled,${pct}٪ سفارش‌ها لغو شده
+${pct}% of orders completed,${pct}٪ سفارش‌ها تکمیل شده
+${qty} sold,${qty} فروخته‌شده
+${total} lifetime sale,${total} فروش کل عمر
+(Guest Checkout),(تسویه‌حساب مهمان)
+(list),(فهرست)
+(optional),(اختیاری)
+A coupon is already applied,یک کوپن قبلاً اعمال شده است
+A group needs at least one sub-field,یک گروه به حداقل یک زیرفیلد نیاز دارد
+A list of best selling products,فهرستی از پرفروش‌ترین محصولات
+A list of customers who have placed the most orders,فهرستی از مشتریانی که بیشترین سفارش‌ها را ثبت کرده‌اند
+A regular expression the value must match.,عبارت باقاعده‌ای که مقدار باید با آن مطابقت داشته باشد.
+Accepted values,مقادیر پذیرفته‌شده
+Active,فعال
+Active Filters,فیلترهای فعال
+Add address API not available,API افزودن آدرس در دسترس نیست
+Add custom field,افزودن فیلد سفارشی
+Add field,افزودن فیلد
+Add item,افزودن مورد
+Add option,افزودن گزینه
+Add product,افزودن محصول
+Add some items to get started,برای شروع چند مورد اضافه کنید
+Add sub-field,افزودن زیرفیلد
+Adding...,در حال افزودن...
+Address has been deleted successfully!,آدرس با موفقیت حذف شد!
+Address has been saved successfully!,آدرس با موفقیت ذخیره شد!
+Address has been updated successfully!,آدرس با موفقیت به‌روزرسانی شد!
+Address is required,آدرس الزامی است
+Adds target=_blank rel=noopener noreferrer.,target=_blank rel=noopener noreferrer را اضافه می‌کند.
+All items fulfilled,همه موارد آماده‌سازی شدند
+All orders,همه سفارش‌ها
+All your past orders,همه سفارش‌های گذشته شما
+Allow multiple,اجازه چندتایی
+An unexpected error occurred. Please try again.,خطای غیرمنتظره‌ای رخ داد. لطفاً دوباره تلاش کنید.
+Apply Filters,اعمال فیلترها
+Are you sure you want to mark the selected orders as shipped?,آیا مطمئنید که می‌خواهید سفارش‌های انتخاب‌شده را به‌عنوان ارسال‌شده علامت بزنید؟
+Are you sure?,آیا مطمئن هستید؟
+Attribute Group,گروه ویژگی
+Attribute code is used in API and must be unique,کد ویژگی در API استفاده می‌شود و باید یکتا باشد
+Attribute options,گزینه‌های ویژگی
+Attributes,ویژگی‌ها
+Available shipping methods will appear once you provide your address details,روش‌های ارسال در دسترس پس از ارائه جزئیات آدرس شما نمایش داده می‌شوند
+Best Sellers,پرفروش‌ترین‌ها
+Best customers,بهترین مشتریان
+Billing address,آدرس صورت‌حساب
+Black,مشکی
+Buy qty,تعداد خرید
+Buy qty is required,تعداد خرید الزامی است
+Can not process payment. Please try again later.,امکان پردازش پرداخت وجود ندارد. لطفاً بعداً دوباره تلاش کنید.
+Can't be undone,قابل بازگرداندن نیست
+Cancel,لغو
+Cancel Order,لغو سفارش
+Cancel shipment,لغو محموله
+Cancel this shipment?,این محموله لغو شود؟
+Canceled,لغو شده
+Cancelled,لغو شده
+Cannot add billing address: cart not initialized,امکان افزودن آدرس صورت‌حساب نیست: سبد مقداردهی اولیه نشده
+Cannot add contact info: cart not initialized,امکان افزودن اطلاعات تماس نیست: سبد مقداردهی اولیه نشده
+Cannot add payment method: cart not initialized,امکان افزودن روش پرداخت نیست: سبد مقداردهی اولیه نشده
+Cannot add shipping address: cart not initialized,امکان افزودن آدرس ارسال نیست: سبد مقداردهی اولیه نشده
+Cannot add shipping method: cart not initialized,امکان افزودن روش ارسال نیست: سبد مقداردهی اولیه نشده
+Cannot add shipping method: providerCode is required,امکان افزودن روش ارسال نیست: providerCode الزامی است
+Cannot apply coupon: cart not initialized,امکان اعمال کوپن نیست: سبد مقداردهی اولیه نشده
+Cannot remove coupon: cart not initialized,امکان حذف کوپن نیست: سبد مقداردهی اولیه نشده
+Carrier,حامل
+Carrier is required,حامل الزامی است
+Cart ID is required to checkout,شناسه سبد برای تسویه‌حساب الزامی است
+Cart is not initialized,سبد مقداردهی اولیه نشده است
+Catalog,کاتالوگ
+Categories,دسته‌بندی‌ها
+Category,دسته‌بندی
+Charcoal,زغالی
+Checkout success,تسویه‌حساب موفق
+Choose Product SKU,انتخاب SKU محصول
+Choose SKU,انتخاب SKU
+City is required,شهر الزامی است
+Clear All,پاک کردن همه
+Clear Filters,پاک کردن فیلترها
+Clear all,پاک کردن همه
+Clear categories,پاک کردن دسته‌بندی‌ها
+Close fullscreen view,بستن نمای تمام‌صفحه
+Code,کد
+Collections,مجموعه‌ها
+Comma-separated; renders the value as a dropdown.,جداشده با کاما؛ مقدار را به‌صورت یک فهرست کشویی نمایش می‌دهد.
+Completed,تکمیل‌شده
+Configurable,قابل پیکربندی
+Configure tax classes and tax rates,پیکربندی کلاس‌های مالیاتی و نرخ‌های مالیات
+Confirm,تأیید
+Contact for pricing,برای قیمت تماس بگیرید
+Conveniently pay with cash at your doorstep when your order is delivered.,هنگام تحویل سفارش، به‌راحتی با پول نقد در درب منزل پرداخت کنید.
+Coupon applied successfully!,کوپن با موفقیت اعمال شد!
+Coupon code is required,کد کوپن الزامی است
+Coupon does not match,کوپن مطابقت ندارد
+Coupon removed successfully!,کوپن با موفقیت حذف شد!
+Cream,کرم
+Create,ایجاد
+Create a new attribute,ایجاد یک ویژگی جدید
+Create a new group,ایجاد یک گروه جدید
+Create a new package,ایجاد یک بسته جدید
+Create shipment,ایجاد محموله
+Created,ایجاد شد
+Custom URL,URL سفارشی
+Custom field created,فیلد سفارشی ایجاد شد
+Custom field updated,فیلد سفارشی به‌روزرسانی شد
+Custom fields,فیلدهای سفارشی
+Custom fields (JSON),فیلدهای سفارشی (JSON)
+Custom fields saved,فیلدهای سفارشی ذخیره شد
+Customer Information,اطلاعات مشتری
+Customer does not have any order yet.,مشتری هنوز هیچ سفارشی ندارد.
+Customer notes,یادداشت‌های مشتری
+Daily,روزانه
+Date and time must be after ${min},تاریخ و زمان باید بعد از ${min} باشد
+Date and time must be before ${max},تاریخ و زمان باید پیش از ${max} باشد
+Date must be after ${min},تاریخ باید پس از ${min} باشد
+Date must be before ${max},تاریخ باید پیش از ${max} باشد
+Delete ${count} coupons,حذف ${count} کوپن
+Delete ${count} products,حذف ${count} محصول
+Delete address API not available,API حذف آدرس در دسترس نیست
+Delivered,تحویل‌شده
+Description,توضیحات
+Disable,غیرفعال‌سازی
+Disable ${count} coupons,غیرفعال‌سازی ${count} کوپن
+Disable ${count} customers,غیرفعال‌سازی ${count} مشتری
+Disable ${count} products,غیرفعال‌سازی ${count} محصول
+Disabled,غیرفعال
+Discount percent,درصد تخفیف
+Discount percent is required,درصد تخفیف الزامی است
+Display on Frontend?,نمایش در فروشگاه؟
+Displays the mobile sidebar.,نوار کناری موبایل را نمایش می‌دهد.
+Done,انجام شد
+Drag to reorder,برای مرتب‌سازی بکشید
+Duplicate,تکثیر
+Edit custom field,ویرایش فیلد سفارشی
+Edit field settings,ویرایش تنظیمات فیلد
+Edit package,ویرایش بسته
+Edit tracking info,ویرایش اطلاعات پیگیری
+Editing ${name},در حال ویرایش ${name}
+Email a shipment confirmation,ارسال ایمیل تأیید مرسوله
+Email a shipment confirmation with tracking details,ارسال ایمیل تأیید مرسوله همراه با جزئیات پیگیری
+Email is required,ایمیل الزامی است
+Enable,فعال‌سازی
+Enable ${count} coupons,فعال‌سازی ${count} کوپن
+Enable ${count} customers,فعال‌سازی ${count} مشتری
+Enable ${count} products,فعال‌سازی ${count} محصول
+Enabled,فعال
+Enter attribute code,کد ویژگی را وارد کنید
+Enter attribute name,نام ویژگی را وارد کنید
+Enter text,متن را وارد کنید
+Enter value for ${attribute},مقدار را برای ${attribute} وارد کنید
+Enter your email,ایمیل خود را وارد کنید
+Enter your new password,رمز عبور جدید خود را وارد کنید
+Enter your password,رمز عبور خود را وارد کنید
+Error,خطا
+Failed to add address,افزودن آدرس ناموفق بود
+Failed to add billing address,افزودن آدرس صورتحساب ناموفق بود
+Failed to add billing address.,افزودن آدرس صورتحساب ناموفق بود.
+Failed to add contact info,افزودن اطلاعات تماس ناموفق بود
+Failed to add contact info.,افزودن اطلاعات تماس ناموفق بود.
+Failed to add item to cart,افزودن کالا به سبد خرید ناموفق بود
+Failed to add payment method,افزودن روش پرداخت ناموفق بود
+Failed to add payment method.,افزودن روش پرداخت ناموفق بود.
+Failed to add product to cart,افزودن محصول به سبد خرید ناموفق بود
+Failed to add shipping address,افزودن آدرس ارسال ناموفق بود
+Failed to add shipping address.,افزودن آدرس ارسال ناموفق بود.
+Failed to add shipping method,افزودن روش ارسال ناموفق بود
+Failed to add shipping method.,افزودن روش ارسال ناموفق بود.
+Failed to apply coupon,اعمال کوپن ناموفق بود
+Failed to cancel shipment,لغو مرسوله ناموفق بود
+Failed to checkout,تسویه‌حساب ناموفق بود
+Failed to create field,ایجاد فیلد ناموفق بود
+Failed to create shipment,ایجاد مرسوله ناموفق بود
+Failed to delete address,حذف آدرس ناموفق بود
+Failed to load custom fields,بارگذاری فیلدهای سفارشی ناموفق بود
+Failed to mark delivered,علامت‌گذاری به‌عنوان تحویل‌شده ناموفق بود
+Failed to place order,ثبت سفارش ناموفق بود
+Failed to place order. Please try again.,ثبت سفارش ناموفق بود. لطفاً دوباره تلاش کنید.
+Failed to remove coupon,حذف کوپن ناموفق بود
+Failed to remove coupon.,حذف کوپن ناموفق بود.
+Failed to save custom fields,ذخیره فیلدهای سفارشی ناموفق بود
+Failed to set shipping method,تنظیم روش ارسال ناموفق بود
+Failed to set shipping note,تنظیم یادداشت ارسال ناموفق بود
+Failed to update address,به‌روزرسانی آدرس ناموفق بود
+Failed to update field,به‌روزرسانی فیلد ناموفق بود
+Failed to update shipment,به‌روزرسانی مرسوله ناموفق بود
+Failed to update tracking info,به‌روزرسانی اطلاعات پیگیری ناموفق بود
+Failed to void label,باطل کردن برچسب ناموفق بود
+Failed!,ناموفق!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,فیلدهای قابل اعمال به این نوع موجودیت. افزودن یک فیلد آن را به همهٔ موجودیت‌های این نوع اعمال می‌کند.
+File size must be less than ${maxSize},اندازهٔ فایل باید کمتر از ${maxSize} باشد
+Filter Products,فیلتر محصولات
+Filters,فیلترها
+First,اول
+Free,رایگان
+Free shipping,ارسال رایگان
+Free shipping ?,ارسال رایگان؟
+Fulfill ${count} orders,تکمیل ${count} سفارش
+Full Name is required,نام کامل الزامی است
+Fully shipped,به‌طور کامل ارسال‌شده
+General,عمومی
+Get qty,تعداد دریافتی
+Get qty is required,تعداد دریافتی الزامی است
+Ghost,شبح
+Go,برو
+Go to Login,رفتن به ورود
+Go to next page,رفتن به صفحهٔ بعد
+Go to previous page,رفتن به صفحهٔ قبل
+Hello,سلام
+Hide from storefront,پنهان‌سازی از فروشگاه
+ID,شناسه
+In Stock,موجود در انبار
+Inactive,غیرفعال
+Inclusive of tax ${totalTaxAmount},شامل مالیات ${totalTaxAmount}
+Insert,درج
+Invalid address,آدرس نامعتبر
+Invalid cart,سبد خرید نامعتبر
+Invalid cart id,شناسهٔ سبد خرید نامعتبر
+Invalid coupon,کوپن نامعتبر
+Invalid customer,مشتری نامعتبر
+Invalid customer id,شناسهٔ مشتری نامعتبر
+Invalid email or password,ایمیل یا رمز عبور نامعتبر
+Invalid format,قالب نامعتبر
+Invalid quantity,تعداد نامعتبر
+Is Filterable?,قابل فیلتر است؟
+Is Required?,الزامی است؟
+Item,کالا
+Items,کالاها
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,کالاهای این مرسوله به مخزن ارسال‌نشدهٔ سفارش بازمی‌گردند. این عمل قابل بازگشت نیست.
+Key,کلید
+Key is required,کلید الزامی است
+Label,برچسب
+Label voided,برچسب باطل شد
+Language,زبان
+Last,آخر
+Lifetime Sales,فروش کل دوره
+Light gray,خاکستری روشن
+Limit,محدودیت
+Link,پیوند
+Loading,در حال بارگذاری
+Log in,ورود
+Logging in...,در حال ورود...
+Logging out...,در حال خروج...
+Login failed,ورود ناموفق بود
+Logout failed,خروج ناموفق بود
+Look like you just started. No bestsellers yet.,به نظر می‌رسد تازه شروع کرده‌اید. هنوز محصول پرفروشی نیست.
+"Lowercase letters, digits, underscore. Immutable.",حروف کوچک، اعداد، زیرخط. غیرقابل تغییر.
+Manage the general information of the attribute.,مدیریت اطلاعات عمومی ویژگی.
+Manage the setting of the attribute.,مدیریت تنظیمات ویژگی.
+Mark as shipped,علامت‌گذاری به‌عنوان ارسال‌شده
+Mark delivered,علامت‌گذاری به‌عنوان تحویل‌شده
+Mark shipment as delivered?,مرسوله به‌عنوان تحویل‌شده علامت‌گذاری شود؟
+Max length,حداکثر طول
+Max of Y,حداکثر Y
+Max of Y is required,حداکثر Y الزامی است
+Max value,حداکثر مقدار
+Min length,حداقل طول
+Min value,حداقل مقدار
+Minimum quantity,حداقل تعداد
+Mint,نعنایی
+Monthly,ماهانه
+More,بیشتر
+More pages,صفحات بیشتر
+Move down,انتقال به پایین
+Move up,انتقال به بالا
+Multiselect,انتخاب چندگانه
+Must be at least ${n},باید حداقل ${n} باشد
+Must be at least ${n} characters,باید حداقل ${n} کاراکتر باشد
+Must be at most ${n},باید حداکثر ${n} باشد
+Must be at most ${n} characters,باید حداکثر ${n} کاراکتر باشد
+"Must start with a letter; lowercase letters, digits, underscore only",باید با یک حرف شروع شود؛ فقط حروف کوچک، ارقام و زیرخط مجاز است
+Name is required,نام الزامی است
+New Product,محصول جدید
+New Widget,ویجت جدید
+New folder,پوشه جدید
+Next,بعدی
+Next slide,اسلاید بعدی
+No,خیر
+No address data received,هیچ داده آدرسی دریافت نشد
+"No attribute groups found for query ""${query}""",هیچ گروه ویژگی‌ای برای جستجوی «${query}» یافت نشد
+No carriers registered,هیچ شرکت حملی ثبت نشده است
+"No categories found for ""${term}""",هیچ دسته‌بندی‌ای برای «${term}» یافت نشد
+"No categories found for query ""${query}""",هیچ دسته‌بندی‌ای برای جستجوی «${query}» یافت نشد
+"No collections found for query ""${query}""",هیچ مجموعه‌ای برای جستجوی «${query}» یافت نشد
+No coupon to remove,کوپنی برای حذف وجود ندارد
+No custom fields yet.,هنوز فیلد سفارشی‌ای وجود ندارد.
+No data available,داده‌ای موجود نیست
+No free shipping,بدون ارسال رایگان
+No limit,بدون محدودیت
+No maximum,بدون حداکثر
+No minimum,بدون حداقل
+No notes from customer,یادداشتی از مشتری وجود ندارد
+"No options found for ""${code}""",هیچ گزینه‌ای برای «${code}» یافت نشد
+"No products found for query ""${query}""",هیچ محصولی برای جستجوی «${query}» یافت نشد
+No shipments yet — your order is being prepared.,هنوز مرسوله‌ای وجود ندارد — سفارش شما در حال آماده‌سازی است.
+No shipping is required for this order,برای این سفارش نیازی به ارسال نیست
+No shipping methods available,هیچ روش ارسالی در دسترس نیست
+No shipping options are available for your location,هیچ گزینه ارسالی برای موقعیت مکانی شما در دسترس نیست
+No shipping required,نیازی به ارسال نیست
+No widgets match your search.,هیچ ویجتی با جستجوی شما مطابقت ندارد.
+None,هیچ‌کدام
+Not set,تنظیم نشده
+Not visible to customers,برای مشتریان قابل مشاهده نیست
+Notify customer,اطلاع‌رسانی به مشتری
+Open in new tab,باز کردن در زبانه جدید
+Operator,عملگر
+Option text,متن گزینه
+Optional help text shown to admins.,متن راهنمای اختیاری که به مدیران نمایش داده می‌شود.
+Order Placed,سفارش ثبت شد
+Order detail,جزئیات سفارش
+Order must contain products matching all conditions below,سفارش باید شامل محصولاتی باشد که با همه شرایط زیر مطابقت دارند
+Order not found,سفارش یافت نشد
+Orders,سفارش‌ها
+Others,سایر موارد
+Out of Stock,ناموجود
+Outline,خط دور
+Overview of sales data over selected periods,مرور داده‌های فروش در بازه‌های زمانی انتخاب‌شده
+Overview of total sales and order status over the lifetime of your store,مرور کل فروش و وضعیت سفارش‌ها در طول عمر فروشگاه شما
+Page,صفحه
+Page ${currentPage} of ${totalPages},صفحه ${currentPage} از ${totalPages}
+Page not found,صفحه یافت نشد
+Password is required,رمز عبور الزامی است
+Password must be at least ${minLength} characters long,رمز عبور باید حداقل ${minLength} کاراکتر باشد
+Paste a URL or a relative path starting with ,یک URL یا یک مسیر نسبی که با آن شروع می‌شود را جای‌گذاری کنید 
+Pattern (regex),الگو (regex)
+Pay with PayPal,پرداخت با PayPal
+Pay with Stripe,پرداخت با Stripe
+Payment Status,وضعیت پرداخت
+Placing Order...,در حال ثبت سفارش...
+Please enter a coupon code,لطفاً یک کد کوپن وارد کنید
+Please enter a valid URL,لطفاً یک URL معتبر وارد کنید
+Please enter a valid email address,لطفاً یک آدرس ایمیل معتبر وارد کنید
+Please enter your email to receive a reset link,لطفاً ایمیل خود را وارد کنید تا لینک بازنشانی را دریافت کنید
+Please provide billing address to proceed,لطفاً برای ادامه آدرس صورت‌حساب را وارد کنید
+Please select a payment method,لطفاً یک روش پرداخت انتخاب کنید
+Please select a shipping method,لطفاً یک روش ارسال انتخاب کنید
+Please sign in to your account,لطفاً وارد حساب کاربری خود شوید
+Position,موقعیت
+Previous,قبلی
+Previous slide,اسلاید قبلی
+Price: ${value},قیمت: ${value}
+Primary,اصلی
+Print Label,چاپ برچسب
+Processing Payment...,در حال پردازش پرداخت...
+Product Description,توضیحات محصول
+Product is out of stock,محصول ناموجود است
+Product name is required,نام محصول الزامی است
+Product not found,محصول یافت نشد
+Product type,نوع محصول
+Products,محصولات
+Reason for cancellation,دلیل لغو
+Reason is required,دلیل الزامی است
+Recently placed orders by this customer,سفارش‌های اخیر ثبت‌شده توسط این مشتری
+Redirecting to PayPal...,در حال انتقال به PayPal...
+Reference type,نوع مرجع
+Registration failed,ثبت‌نام ناموفق بود
+Remove item,حذف مورد
+Remove sub-field,حذف زیرفیلد
+Required,الزامی
+Requires at least one item to create a cart,برای ایجاد سبد خرید حداقل یک مورد لازم است
+Reset Password,بازنشانی رمز عبور
+Reset Your Password,رمز عبور خود را بازنشانی کنید
+Reset password,بازنشانی رمز عبور
+Reset your password,رمز عبور خود را بازنشانی کنید
+Root,ریشه
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU باید یکتا باشد
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,آمار فروش
+Save custom fields,ذخیره فیلدهای سفارشی
+Save field,ذخیره فیلد
+Saved successfully!,با موفقیت ذخیره شد!
+Search attribute groups,جستجوی گروه‌های ویژگی
+Search categories,جستجوی دسته‌بندی‌ها
+Search collections,جستجوی مجموعه‌ها
+"Search for products, orders, and other resources",جستجوی محصولات، سفارش‌ها و سایر منابع
+Search products,جستجوی محصولات
+Search results for: ${keyword},نتایج جستجو برای: ${keyword}
+Search widgets…,جستجوی ویجت‌ها…
+Searching...,در حال جستجو...
+Search…,جستجو…
+See all orders →,مشاهده همه سفارش‌ها →
+Select,انتخاب
+Select a carrier,یک شرکت حمل انتخاب کنید
+Select at least one item to ship,حداقل یک مورد برای ارسال انتخاب کنید
+Select groups the attribute belongs to,گروه‌هایی که این ویژگی به آن‌ها تعلق دارد را انتخاب کنید
+Select shipping method,انتخاب روش ارسال
+Select sort,انتخاب مرتب‌سازی
+"Select the items going in this shipment, then add the carrier & tracking.",مواردی که در این مرسوله قرار می‌گیرند را انتخاب کنید، سپس شرکت حمل و کد رهگیری را اضافه کنید.
+Setting,تنظیم
+Settings,تنظیمات
+Shipment Status,وضعیت مرسوله
+Shipment canceled,مرسوله لغو شد
+Shipment created,مرسوله ایجاد شد
+Shipment marked delivered,مرسوله به‌عنوان تحویل‌شده علامت‌گذاری شد
+Shipments,مرسوله‌ها
+Shipped,ارسال‌شده
+Shipping (${method}),ارسال (${method})
+Shipping Setting,تنظیمات ارسال
+Show,نمایش
+Show all ${count} options,نمایش همه ${count} گزینه
+Show on storefront,نمایش در فروشگاه
+Showing ${showing} of ${total},نمایش ${showing} از ${total}
+Showing ${start}-${end} of ${total} results,نمایش ${start}-${end} از ${total} نتیجه
+Sidebar,نوار کناری
+Sign in to view your orders,برای مشاهده سفارش‌های خود وارد شوید
+Simple,ساده
+Sky,آسمانی
+Sold out,تمام شد
+Some error occurred. Please try again later.,خطایی رخ داد. لطفاً بعداً دوباره تلاش کنید.
+Some products are not available,برخی محصولات در دسترس نیستند
+Something went wrong! Please try again.,مشکلی پیش آمد! لطفاً دوباره تلاش کنید.
+Something went wrong. Please try again later.,مشکلی پیش آمد. لطفاً بعداً دوباره تلاش کنید.
+Something wrong. Please try again,مشکلی پیش آمد. لطفاً دوباره تلاش کنید
+Sort Order,ترتیب مرتب‌سازی
+Sort order,ترتیب مرتب‌سازی
+Status,وضعیت
+Stock,موجودی
+Stripe is not loaded. Please try again.,Stripe بارگذاری نشد. لطفاً دوباره تلاش کنید.
+Style,سبک
+Sub-fields,زیرفیلدها
+Submit Cancellation,ثبت لغو
+Successfully logged in,با موفقیت وارد شدید
+Successfully logged out,با موفقیت خارج شدید
+Tax Setting,تنظیمات مالیات
+Test failure,شکست آزمایش
+Test failure:,شکست آزمایش:
+Test success,موفقیت آزمایش
+Test success:,موفقیت آزمایش:
+Text,متن
+Textarea,ناحیه متن
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,شرکت حمل‌ونقل شماره رهگیری را نامعتبر علامت‌گذاری می‌کند. اگر همچنان قصد ارسال دارید، باید برچسب جدیدی خریداری کنید.
+The customer will receive a delivery confirmation email.,مشتری یک ایمیل تأیید تحویل دریافت خواهد کرد.
+There is no category,هیچ دسته‌بندی‌ای وجود ندارد
+There is no file to display.,هیچ فایلی برای نمایش وجود ندارد.
+There is no sub folder.,هیچ زیرپوشه‌ای وجود ندارد.
+There was an error:,خطایی رخ داد:
+This tracking link has expired,این پیوند رهگیری منقضی شده است
+This tracking link is no longer valid,این پیوند رهگیری دیگر معتبر نیست
+Thumbnail,تصویر بندانگشتی
+Time must be after ${min},زمان باید بعد از ${min} باشد
+Time must be before ${max},زمان باید قبل از ${max} باشد
+Toggle Sidebar,نمایش/پنهان نوار کناری
+Token is invalid or expired,توکن نامعتبر یا منقضی شده است
+Too many items requested,تعداد موارد درخواستی بیش از حد است
+Track,رهگیری
+Track shipment →,رهگیری مرسوله →
+Track your order,سفارش خود را رهگیری کنید
+Tracking info updated,اطلاعات رهگیری به‌روزرسانی شد
+Tracking link,پیوند رهگیری
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,پیوندهای رهگیری برای مدت محدودی معتبر هستند. برای مشاهده وضعیت فعلی سفارش خود وارد حساب کاربری‌تان شوید.
+Tracking number,شماره رهگیری
+Type,نوع
+Type / to see the available blocks,برای دیدن بلوک‌های موجود / را تایپ کنید
+UPDATE PASSWORD,به‌روزرسانی گذرواژه
+Update address API not available,API به‌روزرسانی آدرس در دسترس نیست
+Update field,به‌روزرسانی فیلد
+Upload,بارگذاری
+Validation,اعتبارسنجی
+Value,مقدار
+Value must be a whole number,مقدار باید یک عدد صحیح باشد
+Value must be at least ${min},مقدار باید حداقل ${min} باشد
+Value must be at most ${max},مقدار باید حداکثر ${max} باشد
+View All Products,مشاهده همه محصولات
+View JSON,مشاهده JSON
+View all customers,مشاهده همه مشتریان
+Visible to customer,قابل مشاهده برای مشتری
+Void Label,ابطال برچسب
+Void label,ابطال برچسب
+Void this shipping label?,این برچسب حمل‌ونقل ابطال شود؟
+"We could not find this order. It may have been removed, or it may belong to a different account.",این سفارش را پیدا نکردیم. ممکن است حذف شده باشد یا به حساب دیگری تعلق داشته باشد.
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.",نتوانستیم این پیوند را تأیید کنیم. اگر آن را در ایمیلی از ما دریافت کرده‌اید، لطفاً از جدیدترین پیام دوباره تلاش کنید یا وارد حساب کاربری‌تان شوید.
+We have sent you an email with a link to reset your password. Please check your inbox.,ایمیلی حاوی پیوند بازنشانی گذرواژه برای شما ارسال کردیم. لطفاً صندوق ورودی خود را بررسی کنید.
+Weekly,هفتگی
+Welcome to our store!,به فروشگاه ما خوش آمدید!
+"Where you ship, shipping methods and delivery fee",مناطق ارسال، روش‌های حمل‌ونقل و هزینه تحویل
+White,سفید
+Yes,بله
+You are already logged in,شما قبلاً وارد شده‌اید
+You are here:,شما اینجا هستید:
+You have no attribute groups to display,هیچ گروه ویژگی‌ای برای نمایش ندارید
+You have no categories to display,هیچ دسته‌بندی‌ای برای نمایش ندارید
+You have no collections to display,هیچ مجموعه‌ای برای نمایش ندارید
+You have no products to display,هیچ محصولی برای نمایش ندارید
+You have not placed any orders yet.,شما هنوز هیچ سفارشی ثبت نکرده‌اید.
+You paid for,شما پرداخت کردید برای
+You will be redirected to PayPal for payment processing.,برای پردازش پرداخت به PayPal هدایت خواهید شد.
+Your Orders,سفارش‌های شما
+Your order #${number} has been delivered,سفارش #${number} شما تحویل داده شد
+Your order #${number} is on the way,سفارش #${number} شما در راه است
+Your order has been confirmed!,سفارش شما تأیید شد!
+Your password has been updated successfully.,گذرواژه شما با موفقیت به‌روزرسانی شد.
+across,در میان
+available to ship,آماده ارسال
+breadcrumb,مسیر راهنما
+e.g. Care instructions,مثلاً دستورالعمل نگهداری
+"e.g. New, Sale, Limited",مثلاً جدید، حراج، محدود
+e.g. Question,مثلاً پرسش
+e.g. care_instructions,مثلاً care_instructions
+e.g. question,مثلاً question
+item,مورد
+items,مورد
+left to ship,باقی‌مانده برای ارسال
+of,از
+of ${count},از ${count}
+unit,واحد
+units,واحد
+${count} changes published.,${count} تغییر منتشر شد.
+${count} child widgets,${count} ویجت فرزند
+${count} countries,${count} کشور
+${count} on ${route},${count} در ${route}
+${count} ops total,${count} عملیات در مجموع
+${count} pending ops,${count} عملیات در انتظار
+${count} pending ops on,${count} عملیات در انتظار در
+${count} routes,${count} مسیر
+${direction} failed,${direction} ناموفق بود
+${method} — ${zone} rate,${method} — نرخ ${zone}
+${method} — new rate,${method} — نرخ جدید
+${name} attached to ${zone},${name} به ${zone} پیوست شد
+${name} configuration for ${zone},پیکربندی ${name} برای ${zone}
+${name} configuration for this zone,پیکربندی ${name} برای این منطقه
+${name} configuration saved for ${zone},پیکربندی ${name} برای ${zone} ذخیره شد
+${name} detached,${name} جدا شد
+${name} is required,${name} الزامی است
+${title} settings,تنظیمات ${title}
+${total} changes will go live immediately.,${total} تغییر بلافاصله فعال خواهد شد.
+${total} items,${total} مورد
+(envelope),(پاکت)
++ Add Line,+ افزودن خط
++ Add Method,+ افزودن روش
++ Add Rate,+ افزودن نرخ
++ Add placement,+ افزودن جایگاه
++ Attach Provider,+ پیوست ارائه‌دهنده
++ New package,+ بسته جدید
++${count} more,+${count} مورد دیگر
+", +${count} more",، +${count} مورد دیگر
+", last updated",، آخرین به‌روزرسانی
+0 for flat envelopes,۰ برای پاکت‌های تخت
+1 change published.,۱ تغییر منتشر شد.
+1 change will go live immediately.,۱ تغییر بلافاصله فعال خواهد شد.
+1 child widget,۱ ویجت فرزند
+1 op total,۱ عملیات در مجموع
+1 pending op,۱ عملیات در انتظار
+1 pending op on,۱ عملیات در انتظار در
+A package is required for shippable products,برای محصولات قابل ارسال، یک بسته الزامی است
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,یک طرح انتشار، ویرایش‌های فعلی شما را به‌عنوان یک عکس فوری ذخیره می‌کند و آن‌ها را به‌طور خودکار در یک بازه زمانی برنامه‌ریزی‌شده اعمال می‌کند.
+Action,عمل
+Actions,عملیات
+Add,افزودن
+Add Products,افزودن محصولات
+Add Rate,افزودن نرخ
+Add Shipping Method,افزودن روش حمل‌ونقل
+Add Tax Rate,افزودن نرخ مالیات
+Add Variant,افزودن گونه
+Add products to this category by selecting them from the list below.,با انتخاب محصولات از فهرست زیر، آن‌ها را به این دسته‌بندی اضافه کنید.
+Add rate,افزودن نرخ
+Added,افزوده شد
+Adding to Column ${number},افزودن به ستون ${number}
+Additional languages,زبان‌های اضافی
+Admin panel language,زبان پنل مدیریت
+Affects ${count} pages,بر ${count} صفحه تأثیر می‌گذارد
+Affects 1 page,بر ۱ صفحه تأثیر می‌گذارد
+All pages,همه صفحات
+All registered providers are already attached to this zone.,همه ارائه‌دهندگان ثبت‌شده از قبل به این منطقه متصل شده‌اند.
+All routes,همه مسیرها
+Also shown on ${routes},همچنین در ${routes} نمایش داده می‌شود
+Also shown on ${routes} +${count},همچنین در ${routes} +${count} نمایش داده می‌شود
+Amount must be greater than or equal to 0,مبلغ باید بزرگ‌تر یا مساوی ۰ باشد
+Amount must be less than or equal to ${value} ${currency},مبلغ باید کوچک‌تر یا مساوی ${value} ${currency} باشد
+Apply a condition?,یک شرط اعمال شود؟
+Area,ناحیه
+Area is required,ناحیه الزامی است
+At least one country is required,حداقل یک کشور الزامی است
+Attach,اتصال
+Attach Provider to ${zone},اتصال ارائه‌دهنده به ${zone}
+Attached Providers,ارائه‌دهندگان متصل‌شده
+Attribute Name,نام ویژگی
+Attribute code is required,کد ویژگی الزامی است
+Attribute created successfully!,ویژگی با موفقیت ایجاد شد!
+Attribute group,گروه ویژگی
+Attribute name is required,نام ویژگی الزامی است
+Authorize only,فقط مجوزدهی
+Auto-saves while you edit,هنگام ویرایش به‌طور خودکار ذخیره می‌شود
+Back To Dashboard,بازگشت به داشبورد
+Base calculation address,آدرس مبنای محاسبه
+Based on cart subtotal,بر اساس جمع جزء سبد خرید
+Based on cart weight,بر اساس وزن سبد خرید
+Basic configuration,پیکربندی پایه
+Boolean,بولین
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,روش‌های حمل‌ونقل داخلی با نرخ‌های هر منطقه. ابتدا Core را در بخش تنظیمات → حمل‌ونقل به یک منطقه متصل کنید؛ سپس روش‌ها را اینجا اضافه کرده و نرخ آن‌ها را برای هر منطقه پیکربندی کنید.
+Buy X get Y,X بخر Y بگیر
+CMS,CMS
+Calculation type,نوع محاسبه
+Can not change the attribute group of a product that is already in a variant group.,نمی‌توان گروه ویژگی محصولی را که از قبل در یک گروه واریانت قرار دارد تغییر داد.
+Cancel rollout,لغو انتشار
+Cancel rollout plan?,طرح انتشار لغو شود؟
+Canvas device width,عرض دستگاه بوم
+Capture,دریافت وجه
+Capture Payment,دریافت پرداخت
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,راهنمای حامل برای انجام سفارش — هرگز در تسویه‌حساب نمایش داده نمی‌شود. NewShipmentDialog از این برای پیش‌انتخاب حامل استفاده می‌کند.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,کد سرویس مخصوص حامل که هنگام خرید برچسب استفاده می‌شود (CreateLabelInput.serviceCode). آزاد — توکن دقیق را در مستندات API حامل بررسی کنید. برای اینکه حامل سرویس پیش‌فرض خود را انتخاب کند، خالی بگذارید.
+Cash On Delivery Payment,پرداخت در محل تحویل
+"Catalog, Search",کاتالوگ، جستجو
+Category Image,تصویر دسته‌بندی
+Category Name,نام دسته‌بندی
+Category created successfully!,دسته‌بندی با موفقیت ایجاد شد!
+Category name is required,نام دسته‌بندی الزامی است
+Choose Attribute Groups,انتخاب گروه‌های ویژگی
+Choose Categories,انتخاب دسته‌بندی‌ها
+Choose Collections,انتخاب مجموعه‌ها
+Choose SKUs,انتخاب SKUها
+Choose how much of your unpublished work to discard. The published storefront is not affected.,انتخاب کنید چه مقدار از کار منتشرنشده خود را دور بریزید. فروشگاه منتشرشده تحت تأثیر قرار نمی‌گیرد.
+Choose where you ship and how much you charge for shipping.,انتخاب کنید به کجا ارسال می‌کنید و چه مبلغی برای حمل‌ونقل دریافت می‌کنید.
+Clear filter,پاک کردن فیلتر
+Clear filters,پاک کردن فیلترها
+Client ID,Client ID
+Client Secret,Client Secret
+Close,بستن
+Close settings,بستن تنظیمات
+Close — continue draft,بستن — ادامه پیش‌نویس
+Cms Pages,صفحات CMS
+Collapse left rail,جمع کردن نوار سمت چپ
+Collapse panel,جمع کردن پنل
+Collection Code,کد مجموعه
+Collection Name,نام مجموعه
+Collection code is required,کد مجموعه الزامی است
+Collection code must be alphanumeric and can include underscores or dashes.,کد مجموعه باید عددی-حرفی باشد و می‌تواند شامل خط زیر یا خط تیره باشد.
+Collection created successfully!,مجموعه با موفقیت ایجاد شد!
+Color,رنگ
+Commerce,تجارت
+Compound,مرکب
+Condition,شرط
+Configure,پیکربندی
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,هزینه و شرایط را برای هر منطقه پیکربندی کنید. مناطق بدون نرخ این روش را ارائه نمی‌دهند.
+Configure rate,پیکربندی نرخ
+Configure the available payment methods,پیکربندی روش‌های پرداخت موجود
+Configure the settings for the ${name} widget.,تنظیمات ویجت ${name} را پیکربندی کنید.
+Configure the tax classes that will be available to your customers at checkout.,کلاس‌های مالیاتی را که در تسویه‌حساب برای مشتریان شما در دسترس خواهد بود پیکربندی کنید.
+Configure your Cash On Delivery payment gateway settings,تنظیمات درگاه پرداخت در محل تحویل خود را پیکربندی کنید
+Configure your Paypal payment gateway settings,تنظیمات درگاه پرداخت Paypal خود را پیکربندی کنید
+Configure your Stripe payment gateway settings,تنظیمات درگاه پرداخت Stripe خود را پیکربندی کنید
+Configure your store information,اطلاعات فروشگاه خود را پیکربندی کنید
+"Conflicts with ${plan1}, ${plan2}",تداخل با ${plan1}، ${plan2}
+Conflicts with ${plan},تداخل با ${plan}
+Conflicts with ${plan} +${count},تداخل با ${plan} +${count}
+Conflicts with:,تداخل با:
+Content,محتوا
+Continue a saved rollout plan,ادامه یک طرح انتشار ذخیره‌شده
+Continue your draft,ادامه پیش‌نویس خود
+Core Shipping,حمل‌ونقل Core
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core هنوز به هیچ منطقه‌ای متصل نشده است. ابتدا آن را در بخش تنظیمات → حمل‌ونقل متصل کنید.
+Cost,هزینه
+Cost is required,هزینه الزامی است
+Could not start fresh,شروع از نو ممکن نشد
+Countries,کشورها
+"Country code (e.g., ""US""). Use ""*"" for all countries.",کد کشور (مثلاً «US»). برای همه کشورها از «*» استفاده کنید.
+Coupon Code,کد کوپن
+"Coupon code can only contain letters, numbers, underscores, and hyphens",کد کوپن فقط می‌تواند شامل حروف، اعداد، خط زیر و خط تیره باشد
+Coupon created successfully!,کوپن با موفقیت ایجاد شد!
+Coupons,کوپن‌ها
+Create A New Customer,ایجاد مشتری جدید
+Create New Package,ایجاد بسته جدید
+Create New Tax Class,ایجاد کلاس مالیاتی جدید
+Create New Zone,ایجاد منطقه جدید
+Create a new category,ایجاد دسته‌بندی جدید
+Create a new collection,ایجاد مجموعه جدید
+Create a new coupon,ایجاد کوپن جدید
+Create a new page,ایجاد صفحه جدید
+Create a new product,ایجاد محصول جدید
+Create a new variant for this product.,ایجاد واریانت جدید برای این محصول.
+Create a new widget,ایجاد ویجت جدید
+Create a variant group,ایجاد گروه واریانت
+Create method,ایجاد روش
+Create new tax class,ایجاد کلاس مالیاتی جدید
+Create rollout plan,ایجاد طرح انتشار
+Created At,ایجاد شده در
+Current,فعلی
+Customer,مشتری
+Customer Email,ایمیل مشتری
+Customer conditions,شرایط مشتری
+Customer emails,ایمیل‌های مشتری
+Customer groups,گروه‌های مشتری
+Customer's purchase,خرید مشتری
+Customers,مشتریان
+Customers (${count}),مشتریان (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,مشتریان در ${zone} دیگر روش‌های ${name} را در تسویه‌حساب نخواهند دید. می‌توانید بعداً دوباره آن را متصل کنید.
+Dashboard,داشبورد
+Date,تاریخ
+Decrease,کاهش
+Default carrier,حامل پیش‌فرض
+Default language,زبان پیش‌فرض
+Default package,بسته پیش‌فرض
+Default service code,کد سرویس پیش‌فرض
+"Delete ""${name}""?",حذف «${name}»؟
+Delete ${count} attributes,حذف ${count} ویژگی
+Delete ${count} categories,حذف ${count} دسته‌بندی
+Delete ${count} collections,حذف ${count} مجموعه
+Delete ${count} pages,حذف ${count} صفحه
+Delete ${count} widgets,حذف ${count} ویجت
+Delete container widget?,حذف ویجت محفظه؟
+Delete image,حذف تصویر
+"Delete package ""${name}""?",حذف بسته «${name}»؟
+Delete this,حذف این
+Delete this widget? This will be saved as a pending change you can publish or discard.,این ویجت حذف شود؟ این به‌عنوان یک تغییر در انتظار ذخیره می‌شود که می‌توانید منتشر یا لغو کنید.
+Delete widget?,حذف ویجت؟
+Delete zone,حذف منطقه
+"Delete zone ""${name}""?",حذف منطقه «${name}»؟
+Deleted ${name},${name} حذف شد
+Deleting this,حذف این
+Deleting this container will also hide,حذف این محفظه همچنین پنهان می‌کند
+Description is required,توضیحات الزامی است
+Desktop,دسکتاپ
+Detach,جدا کردن
+Detach ${name}?,جدا کردن ${name}؟
+Disable ${count} pages,غیرفعال کردن ${count} صفحه
+Disable ${count} widgets,غیرفعال کردن ${count} ویجت
+Disabled products will not be visible in the store and cannot be purchased.,محصولات غیرفعال در فروشگاه نمایش داده نمی‌شوند و قابل خرید نیستند.
+Discard changes on this page only,لغو تغییرات فقط در این صفحه
+Discard everything,لغو همه چیز
+Discard everything in this draft,لغو همه چیز در این پیش‌نویس
+Discard failed,لغو ناموفق بود
+Discard pending changes?,لغو تغییرات در انتظار؟
+Discard this page,لغو این صفحه
+Discarding…,در حال لغو…
+Discount Type,نوع تخفیف
+Discount amount,مقدار تخفیف
+Discount amount is required,مقدار تخفیف الزامی است
+Discount type is required,نوع تخفیف الزامی است
+Dislay Name,نام نمایشی
+Display Name,نام نمایشی
+Draft,پیش‌نویس
+Draft — not scheduled,پیش‌نویس — زمان‌بندی نشده
+Drag to resize,برای تغییر اندازه بکشید
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.",هر ردیف این ویجت را در یک صفحه، در یک ناحیه و با ترتیب مرتب‌سازی خاص خود قرار می‌دهد. اعداد کوچک‌تر ابتدا نمایش داده می‌شوند.
+Edit ${name},ویرایش ${name}
+Edit Shipping Zone,ویرایش منطقه ارسال
+Edit Tax Rate,ویرایش نرخ مالیات
+Edit Variant,ویرایش گونه
+Edit Zone,ویرایش منطقه
+Edit against the live storefront. Publish immediately or save as a rollout plan.,ویرایش بر اساس فروشگاه زنده. بلافاصله منتشر کنید یا به‌عنوان طرح انتشار ذخیره کنید.
+Edit rollout schedule,ویرایش زمان‌بندی انتشار
+Editable routes,مسیرهای قابل ویرایش
+Editing ${coupon},در حال ویرایش ${coupon}
+Editing ${fullName},در حال ویرایش ${fullName}
+Editing widget ${name},در حال ویرایش ویجت ${name}
+Edits to a shared widget update every route it appears on.,ویرایش یک ویجت مشترک، تمام مسیرهایی که در آن‌ها ظاهر می‌شود را به‌روزرسانی می‌کند.
+Empty package weight,وزن بسته خالی
+Empty weight,وزن خالی
+Enable ${count} pages,فعال کردن ${count} صفحه
+Enable ${count} widgets,فعال کردن ${count} ویجت
+Enable this page to make it visible on the frontend.,این صفحه را فعال کنید تا در بخش نمایشی قابل مشاهده شود.
+Enable?,فعال شود؟
+End,پایان
+End Date,تاریخ پایان
+End date,تاریخ پایان
+End time is invalid.,زمان پایان نامعتبر است.
+End time must be after start time.,زمان پایان باید بعد از زمان شروع باشد.
+Enter Category Name,نام دسته‌بندی را وارد کنید
+Enter Collection Name,نام مجموعه را وارد کنید
+Enter Meta Description,توضیحات Meta را وارد کنید
+Enter Meta Title,عنوان Meta را وارد کنید
+Enter Meta description,توضیحات Meta را وارد کنید
+Enter Meta title,عنوان Meta را وارد کنید
+Enter SKU,SKU را وارد کنید
+Enter URL Key,کلید URL را وارد کنید
+Enter URL key,کلید URL را وارد کنید
+Enter customer emails,ایمیل‌های مشتری را وارد کنید
+Enter description,توضیحات را وارد کنید
+Enter group name,نام گروه را وارد کنید
+Enter meta description,توضیحات Meta را وارد کنید
+Enter meta title,عنوان Meta را وارد کنید
+Enter page name,نام صفحه را وارد کنید
+Enter price,قیمت را وارد کنید
+Enter product name,نام محصول را وارد کنید
+Enter purchased amount,مقدار خریداری‌شده را وارد کنید
+Enter quantity,تعداد را وارد کنید
+Enter tax class name,نام طبقه مالیاتی را وارد کنید
+Enter the quantity,تعداد را وارد کنید
+Enter weight,وزن را وارد کنید
+Environment,محیط
+Error loading countries,خطا در بارگذاری کشورها
+Error loading methods,خطا در بارگذاری روش‌ها
+Error loading packages,خطا در بارگذاری بسته‌ها
+Error loading providers,خطا در بارگذاری ارائه‌دهندگان
+Error loading zones,خطا در بارگذاری مناطق
+EverShop · Back to page builder,EverShop · بازگشت به سازنده صفحه
+Every page rolls back to the rollout’s saved state.,هر صفحه به وضعیت ذخیره‌شده انتشار بازمی‌گردد.
+Every page rolls back to what the rollout had saved.,هر صفحه به آنچه انتشار ذخیره کرده بود بازمی‌گردد.
+Existing rollout plan: ${plan},طرح انتشار موجود: ${plan}
+Expand,گسترش
+Expand left rail,گسترش نوار سمت چپ
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.",زبان‌های اضافی که خریداران می‌توانند علاوه بر زبان پیش‌فرض به آن‌ها تغییر دهند. زبان پیش‌فرض همیشه در دسترس است — آن را اینجا اضافه نمی‌کنید.
+Failed to attach provider,اتصال ارائه‌دهنده ناموفق بود
+Failed to delete ${name},حذف ${name} ناموفق بود
+Failed to detach ${name},جدا کردن ${name} ناموفق بود
+Failed to remove rate,حذف نرخ ناموفق بود
+Failed to remove zone,حذف منطقه ناموفق بود
+Failed to save change,ذخیره تغییر ناموفق بود
+Failed to save rate,ذخیره نرخ ناموفق بود
+Failed to save zone,ذخیره منطقه ناموفق بود
+Failed to update rollout schedule,به‌روزرسانی زمان‌بندی انتشار ناموفق بود
+Fixed discount to entire order,تخفیف ثابت برای کل سفارش
+Fixed discount to specific products,تخفیف ثابت برای محصولات مشخص
+Flat rate,نرخ ثابت
+"Flat rate in cart currency, tax-exclusive.",نرخ ثابت به ارز سبد خرید، بدون احتساب مالیات.
+Free shipping?,ارسال رایگان؟
+General Information,اطلاعات کلی
+Give Feedback,ارسال بازخورد
+Global,سراسری
+Globals,موارد سراسری
+Group,گروه
+Group Name,نام گروه
+Group name is required,نام گروه الزامی است
+Groups,گروه‌ها
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,بازه نیمه‌باز — سبد خریدی که دقیقاً برابر با حداکثر باشد مستثنی می‌شود (حداقل سطح بعدی مالک آن نقطه است).
+Has conflicts,دارای تعارض
+Heads up — ,توجه — 
+Height,ارتفاع
+Height is required (0 for envelopes),ارتفاع الزامی است (۰ برای پاکت‌نامه‌ها)
+Height must be 0 or greater,ارتفاع باید ۰ یا بیشتر باشد
+Hide global areas,پنهان کردن نواحی سراسری
+Higest tax rate based on cart items,بالاترین نرخ مالیات بر اساس اقلام سبد خرید
+Highlight global areas on canvas,برجسته‌سازی نواحی سراسری روی بوم
+Image,تصویر
+Include In Menu,گنجاندن در منو
+Include in Store Menu?,در منوی فروشگاه گنجانده شود؟
+Increase,افزایش
+Insert image,درج تصویر
+Integer,عدد صحیح
+Invalid folder name,نام پوشه نامعتبر است
+Invalid start,شروع نامعتبر
+Invalid window,بازه نامعتبر
+Inventory,موجودی
+Is compound,مرکب است
+Its rates will be removed too. This cannot be undone.,نرخ‌های آن نیز حذف خواهند شد. این عمل قابل بازگشت نیست.
+Languages,زبان‌ها
+Layers,لایه‌ها
+Layout,چیدمان
+Leave,خروج
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,فهرست یک کشور را خالی بگذارید تا کل کشور را پوشش دهد. برای محدود کردن ارسال به مناطق مشخص، استان‌ها را اضافه کنید.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,خروج در این لحظه ممکن است جدیدترین ویرایش‌هایی را که هنوز به سرور نرسیده‌اند حذف کند.
+Length,طول
+Length is required,طول الزامی است
+Length must be greater than 0,طول باید بیشتر از ۰ باشد
+Live,زنده
+Loading...,در حال بارگذاری...
+Long text,متن بلند
+Lower values appear first.,مقادیر کوچک‌تر ابتدا نمایش داده می‌شوند.
+Manage Stock,مدیریت موجودی انبار
+Manage general information about the collection.,مدیریت اطلاعات کلی درباره مجموعه.
+Manage product images and gallery. Drag and drop to reorder images.,مدیریت تصاویر و گالری محصول. برای تغییر ترتیب تصاویر، بکشید و رها کنید.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","مدیریت یکپارچه‌سازی‌های ارسال و روش‌های آن‌ها (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,مدیریت طبقات مالیاتی و نرخ‌های مالیات برای مناطق مختلف.
+Manage the SEO settings of the category.,مدیریت تنظیمات SEO دسته‌بندی.
+Manage the SEO settings.,مدیریت تنظیمات SEO.
+Manage the attributes.,مدیریت ویژگی‌ها.
+Manage the collections associated with this product.,مدیریت مجموعه‌های مرتبط با این محصول.
+Manage the general information of the category.,مدیریت اطلاعات کلی دسته‌بندی.
+Manage the general information of the product.,مدیریت اطلاعات کلی محصول.
+Manage the inventory settings of the product.,مدیریت تنظیمات موجودی محصول.
+Manage the products assigned to this category.,مدیریت محصولات اختصاص‌یافته به این دسته‌بندی.
+Manage the products assigned to this collection.,مدیریت محصولات اختصاص‌یافته به این مجموعه.
+Manage the shipping settings of the product.,مدیریت تنظیمات ارسال محصول.
+Manage the status settings of the category.,تنظیمات وضعیت دسته‌بندی را مدیریت کنید.
+Manage the variant group of the product.,گروه تنوع محصول را مدیریت کنید.
+Marketing,بازاریابی
+Max ${unit},حداکثر ${unit}
+Max is required,حداکثر الزامی است
+Maximum,حداکثر
+Maximum amount is ${value} ${currency},حداکثر مبلغ ${value} ${currency} است
+Maximum quantity is required,تعداد حداکثر الزامی است
+Maximum quantity must be greater than or equal to 0,تعداد حداکثر باید بزرگ‌تر یا مساوی ۰ باشد
+Media,رسانه
+Meta Description,توضیحات متا
+Meta Title,عنوان متا
+Meta Title is required,عنوان متا الزامی است
+Meta description,توضیحات متا
+Meta description is required,توضیحات متا الزامی است
+Meta title,عنوان متا
+Meta title is required,عنوان متا الزامی است
+Method,روش
+Method created,روش ایجاد شد
+Method name,نام روش
+Method name is required,نام روش الزامی است
+Method updated,روش به‌روزرسانی شد
+Methods →,روش‌ها →
+Min ${unit},حداقل ${unit}
+Min Price,حداقل قیمت
+Min Weight,حداقل وزن
+Min is required,حداقل الزامی است
+Min price is required,حداقل قیمت الزامی است
+Min weight is required,حداقل وزن الزامی است
+Minimum purchase amount,حداقل مبلغ خرید
+Minimum purchase qty,حداقل تعداد خرید
+Minimum purchase quantity,حداقل تعداد خرید
+Minimum purchased amount. This only applies to registered customers.,حداقل مبلغ خریداری‌شده. این فقط برای مشتریان ثبت‌نام‌شده اعمال می‌شود.
+Minimum quantity is required,تعداد حداقل الزامی است
+Missing name,نام موجود نیست
+Money,پول
+Name is required.,نام الزامی است.
+Navigation,ناوبری
+New Attribute,ویژگی جدید
+New Category,دسته‌بندی جدید
+New Collection,مجموعه جدید
+New Coupon,کوپن جدید
+New Page,صفحه جدید
+New Variant,تنوع جدید
+New coupon,کوپن جدید
+New rate,نرخ جدید
+No collections,بدون مجموعه
+No editable routes.,مسیر قابل ویرایشی وجود ندارد.
+No file selected,فایلی انتخاب نشده است
+No methods yet — add one to start offering Core shipping.,هنوز روشی وجود ندارد — یکی اضافه کنید تا ارائه ارسال Core را آغاز کنید.
+No packages yet. Create one — shippable products require a package.,هنوز بسته‌ای وجود ندارد. یکی ایجاد کنید — محصولات قابل ارسال به یک بسته نیاز دارند.
+No product to display.,محصولی برای نمایش وجود ندارد.
+"No providers attached. Click ""Attach Provider"" to add one.",هیچ ارائه‌دهنده‌ای متصل نشده است. برای افزودن روی «اتصال ارائه‌دهنده» کلیک کنید.
+"No rates yet — click ""Add Rate"" to offer this method in a zone.",هنوز نرخی وجود ندارد — برای ارائه این روش در یک منطقه روی «افزودن نرخ» کلیک کنید.
+"No results for ""${keyword}""",نتیجه‌ای برای «${keyword}» یافت نشد
+No routes have opted into page-builder editing yet.,هنوز هیچ مسیری ویرایش با صفحه‌ساز را فعال نکرده است.
+No shipping required?,ارسال لازم نیست؟
+No subdivisions available — whole country is covered.,هیچ زیرمجموعه‌ای موجود نیست — کل کشور پوشش داده شده است.
+No widgets available.,هیچ ویجتی موجود نیست.
+"No widgets match ""${query}"".",هیچ ویجتی با «${query}» مطابقت ندارد.
+No widgets on this route yet.,هنوز هیچ ویجتی در این مسیر وجود ندارد.
+No zones,بدون منطقه
+No zones found,هیچ منطقه‌ای یافت نشد
+Not visible individually,به‌صورت جداگانه قابل مشاهده نیست
+Nothing to publish,چیزی برای انتشار وجود ندارد
+Nothing to redo on this page,چیزی برای انجام مجدد در این صفحه وجود ندارد
+Nothing to undo on this page,چیزی برای لغو در این صفحه وجود ندارد
+Number,عدد
+Option text is required,متن گزینه الزامی است
+Optional. Added to the shipping weight for quotes and labels.,اختیاری. به وزن ارسال برای برآوردها و برچسب‌ها افزوده می‌شود.
+Order Number,شماره سفارش
+Order conditions,شرایط سفارش
+Orders (${count}),سفارش‌ها (${count})
+Other,سایر
+Other pages keep their pending changes.,سایر صفحات تغییرات در انتظار خود را حفظ می‌کنند.
+Overlaps with existing rollout: ${plans}.,با عرضه موجود همپوشانی دارد: ${plans}.
+Overlaps with existing rollouts: ${plans}.,با عرضه‌های موجود همپوشانی دارد: ${plans}.
+Package,بسته
+Package created,بسته ایجاد شد
+Package deleted,بسته حذف شد
+Package saved,بسته ذخیره شد
+Packages,بسته‌ها
+Page Name,نام صفحه
+Page Not Found,صفحه یافت نشد
+Page builder,صفحه‌ساز
+Page builder canvas,بوم صفحه‌ساز
+Page created successfully!,صفحه با موفقیت ایجاد شد!
+Page is required,صفحه الزامی است
+Page name is required,نام صفحه الزامی است
+Pages,صفحات
+Parent category,دسته‌بندی والد
+Payment Setting,تنظیمات پرداخت
+Payment mode,حالت پرداخت
+Payment setting saved,تنظیمات پرداخت ذخیره شد
+Paypal Payment,پرداخت پی‌پال
+Pending start time,زمان شروع در انتظار
+Percentage discount to entire order,تخفیف درصدی برای کل سفارش
+Percentage discount to specific products,تخفیف درصدی برای محصولات خاص
+Phone,تلفن
+Pick a start time to schedule this rollout.,برای زمان‌بندی این عرضه یک زمان شروع انتخاب کنید.
+Pick a widget below to insert as a child.,یک ویجت از پایین انتخاب کنید تا به‌عنوان فرزند درج شود.
+Pick up where you left off — ${count} pending changes,از همان‌جا که متوقف شدید ادامه دهید — ${count} تغییر در انتظار
+Pick up where you left off — 1 pending change,از همان‌جا که متوقف شدید ادامه دهید — ۱ تغییر در انتظار
+Pin drawer open,کشو را باز نگه دارید
+Pin — keep drawer open across canvas clicks,سنجاق — کشو را هنگام کلیک روی بوم باز نگه دارید
+Placed on: ${routes},قرار گرفته در: ${routes}
+Placements,جایگاه‌ها
+Postal Code,کد پستی
+"Postcode (e.g., ""90210""). Empty for all postcodes.",کد پستی (مثلاً «90210»). برای همه کدهای پستی خالی بگذارید.
+Preselected for new products. Exactly one package is the default.,از پیش برای محصولات جدید انتخاب شده. دقیقاً یک بسته پیش‌فرض است.
+Preview,پیش‌نمایش
+Price-based tiers,سطوح مبتنی بر قیمت
+Priority,اولویت
+Priority is required,اولویت الزامی است
+Product Name,نام محصول
+Product Status,وضعیت محصول
+Product created successfully,محصول با موفقیت ایجاد شد
+Product updated successfully,محصول با موفقیت به‌روزرسانی شد
+Products (${count}),محصولات (${count})
+Promotion,تبلیغات
+Proportional allocation based on cart items,تخصیص متناسب بر اساس اقلام سبد خرید
+Provide the SEO details for the CMS page.,جزئیات SEO صفحه CMS را وارد کنید.
+Provide the basic information for the CMS page.,اطلاعات پایه صفحه CMS را وارد کنید.
+Provider,ارائه‌دهنده
+Province Restrictions,محدودیت‌های استان
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.",کد استان (مثلاً «CA»). برای همه استان‌ها از «*» استفاده کنید.
+Provinces,استان‌ها
+Provinces is required,استان‌ها الزامی است
+Provinces:,استان‌ها:
+Publish failed,انتشار ناموفق بود
+Publish now,اکنون منتشر کنید
+Publish to the live storefront,انتشار در فروشگاه زنده
+Publishable Key,کلید قابل انتشار
+Publishing…,در حال انتشار…
+Qty is required,تعداد الزامی است
+Quick links,پیوندهای سریع
+Rate,نرخ
+Rate added,نرخ افزوده شد
+Rate is required,نرخ الزامی است
+Rate removed,نرخ حذف شد
+Rate status,وضعیت نرخ
+Rate updated,نرخ به‌روزرسانی شد
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,انجام مجدد (⇧⌘Z) — آخرین ویرایش لغوشده در این صفحه را دوباره اعمال می‌کند
+Redo last undone change on this page,انجام مجدد آخرین تغییر لغوشده در این صفحه
+Reference,مرجع
+Refund,بازپرداخت
+Refund amount,مبلغ بازپرداخت
+Remove Zone,حذف منطقه
+Remove placement,حذف جایگاه
+Remove rate,حذف نرخ
+Remove this rate?,این نرخ حذف شود؟
+Removed,حذف شد
+Resize settings drawer,تغییر اندازه کشوی تنظیمات
+"Results for ""${keyword}""",نتایج برای «${keyword}»
+Revert all pages to saved state,بازگرداندن همه صفحات به حالت ذخیره‌شده
+Revert everything,بازگرداندن همه چیز
+Revert this page,بازگرداندن این صفحه
+Revert this page only,بازگرداندن فقط این صفحه
+Revert to saved state?,بازگشت به حالت ذخیره‌شده؟
+Reverting…,در حال بازگرداندن…
+Rich text,متن غنی
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,تغییراتی را که از آخرین ذخیره این انتشار اعمال کرده‌اید، بازمی‌گرداند. فروشگاه زنده تحت تأثیر قرار نمی‌گیرد — هم‌اکنون حالت ذخیره‌شده را نمایش می‌دهد.
+SEO,SEO
+SEO Information,اطلاعات SEO
+SKU is required,SKU الزامی است
+Sale,حراج
+Sandbox,محیط آزمایشی
+Save Settings,ذخیره تنظیمات
+Save as rollout plan,ذخیره به‌عنوان طرح انتشار
+Save as rollout plan and leave,ذخیره به‌عنوان طرح انتشار و خروج
+Save changes,ذخیره تغییرات
+Save failed,ذخیره ناموفق بود
+Save method,ذخیره روش
+Save rate,ذخیره نرخ
+Saving…,در حال ذخیره…
+Schedule failed,زمان‌بندی ناموفق بود
+Scheduled,زمان‌بندی‌شده
+Search engine optimize,بهینه‌سازی موتور جستجو
+Search widgets,جستجوی ویجت‌ها
+Secret Key,کلید مخفی
+Select Category,انتخاب دسته‌بندی
+Select Parent Category,انتخاب دسته‌بندی والد
+Select Products by SKU,انتخاب محصولات بر اساس SKU
+Select a provider first,ابتدا یک ارائه‌دهنده انتخاب کنید
+Select a provider…,یک ارائه‌دهنده انتخاب کنید…
+Select an option,یک گزینه انتخاب کنید
+Select category,انتخاب دسته‌بندی
+Select countries,انتخاب کشورها
+Select operator,انتخاب عملگر
+Select options,انتخاب گزینه‌ها
+Select page,انتخاب صفحه
+Select products to add to this collection.,محصولاتی را برای افزودن به این مجموعه انتخاب کنید.
+Select the list of attribute,فهرست ویژگی‌ها را انتخاب کنید
+Select this option if the product is a digital product or service that does not require shipping.,اگر محصول، یک محصول یا خدمت دیجیتالی است که نیازی به ارسال ندارد، این گزینه را انتخاب کنید.
+Set a start time to schedule.,برای زمان‌بندی، یک زمان شروع تعیین کنید.
+Set the status and visibility of the product.,وضعیت و قابلیت نمایش محصول را تنظیم کنید.
+Share,اشتراک‌گذاری
+Shipping Cost,هزینه ارسال
+Shipping Providers,ارائه‌دهندگان ارسال
+Shipping address,آدرس ارسال
+Shipping cost is required,هزینه ارسال الزامی است
+Shipping provider setting saved,تنظیمات ارائه‌دهنده ارسال ذخیره شد
+Shipping tax class,کلاس مالیاتی ارسال
+Short text,متن کوتاه
+Show global areas,نمایش نواحی سراسری
+Show on routes,نمایش در مسیرها
+Show products?,محصولات نمایش داده شوند؟
+Show this widget on every page,نمایش این ویجت در همه صفحات
+Size (L × W × H),اندازه (طول × عرض × ارتفاع)
+Sort,مرتب‌سازی
+Sort order is required,ترتیب مرتب‌سازی الزامی است
+Sort order must be a positive number,ترتیب مرتب‌سازی باید یک عدد مثبت باشد
+Start,شروع
+Start a page-builder session,شروع یک نشست صفحه‌ساز
+Start date,تاریخ شروع
+Start new changeset,شروع مجموعه تغییرات جدید
+Start time is invalid.,زمان شروع نامعتبر است.
+State Date,تاریخ شروع
+Status is required,وضعیت الزامی است
+Stay,ماندن
+Stay on this page,ماندن در این صفحه
+Stock Availability,موجودی انبار
+Stop highlighting global areas,توقف برجسته‌سازی نواحی سراسری
+Store Address,آدرس فروشگاه
+Store Description,توضیحات فروشگاه
+Store Email,ایمیل فروشگاه
+Store Name,نام فروشگاه
+Store Phone Number,شماره تلفن فروشگاه
+Store Setting,تنظیمات فروشگاه
+Store Settings,تنظیمات فروشگاه
+Store address,آدرس فروشگاه
+Storefront,فروشگاه
+Stripe Payment,پرداخت Stripe
+Tablet,تبلت
+Take our survey,در نظرسنجی ما شرکت کنید
+Target Products,محصولات هدف
+Tax Class,کلاس مالیاتی
+Tax calculation configuration,پیکربندی محاسبه مالیات
+Tax class name,نام کلاس مالیاتی
+Tax class name is required,نام کلاس مالیاتی الزامی است
+Tax classes,کلاس‌های مالیاتی
+Tax rate has been saved successfully!,نرخ مالیات با موفقیت ذخیره شد!
+Tax setting has been saved successfully!,تنظیمات مالیات با موفقیت ذخیره شد!
+The box or envelope this product ships in. Applies to all variants of this product.,جعبه یا پاکتی که این محصول در آن ارسال می‌شود. برای همه گونه‌های این محصول اعمال می‌شود.
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,جعبه‌ها و پاکت‌هایی که با آن‌ها ارسال می‌کنید. هر محصول قابل ارسال به یکی از آن‌ها ارجاع می‌دهد — ابعاد و وزن خالی آن، برآورد هزینه ارسال و برچسب‌ها را تعیین می‌کند.
+The conditions related to the customer for the coupon to be applied.,شرایط مربوط به مشتری برای اعمال کوپن.
+The conditions related to the order for the coupon to be applied.,شرایط مربوط به سفارش برای اعمال کوپن.
+The default package cannot be deleted,بسته پیش‌فرض قابل حذف نیست
+The draft holds ${count} saved changes you can publish later.,پیش‌نویس ${count} تغییر ذخیره‌شده دارد که می‌توانید بعداً منتشر کنید.
+The draft holds 1 saved change you can publish later.,پیش‌نویس ۱ تغییر ذخیره‌شده دارد که می‌توانید بعداً منتشر کنید.
+The draft is deleted.,پیش‌نویس حذف شد.
+The draft itself is deleted.,خودِ پیش‌نویس حذف شد.
+The general information about the coupon.,اطلاعات کلی درباره کوپن.
+"The language of the admin panel, independent of the storefront.",زبان پنل مدیریت، مستقل از فروشگاه.
+The method will no longer apply to this zone.,این روش دیگر برای این منطقه اعمال نمی‌شود.
+The minimum quantity of items required in the order to qualify for this coupon.,حداقل تعداد اقلام مورد نیاز در سفارش برای واجد شرایط بودن این کوپن.
+The minimum total amount required for the order to qualify for this coupon.,حداقل مبلغ کل مورد نیاز برای واجد شرایط بودن سفارش جهت این کوپن.
+The rollout plan,طرح انتشار
+The storefront's primary language. Pages in this language have no URL prefix.,زبان اصلی فروشگاه. صفحات در این زبان پیشوند URL ندارند.
+The type of discount applied by the coupon.,نوع تخفیف اعمال‌شده توسط کوپن.
+The zone this rate applies to.,منطقه‌ای که این نرخ برای آن اعمال می‌شود.
+"There is no ""Select"" attribute available.",هیچ ویژگی «Select» موجود نیست.
+There is no attribute to display,هیچ ویژگی‌ای برای نمایش وجود ندارد
+There is no category to display,هیچ دسته‌بندی‌ای برای نمایش وجود ندارد
+There is no collections to display,هیچ مجموعه‌ای برای نمایش وجود ندارد
+There is no coupon to display,هیچ کوپنی برای نمایش وجود ندارد
+There is no customer to display,هیچ مشتری‌ای برای نمایش وجود ندارد
+There is no order to display,هیچ سفارشی برای نمایش وجود ندارد
+There is no page to display,هیچ صفحه‌ای برای نمایش وجود ندارد
+There is no widget to display,هیچ ویجتی برای نمایش وجود ندارد
+There was an error fetching attribute groups.,در دریافت گروه‌های ویژگی خطایی رخ داد.
+There was an error fetching categories.,در دریافت دسته‌بندی‌ها خطایی رخ داد.
+There was an error fetching collections.,در دریافت مجموعه‌ها خطایی رخ داد.
+There was an error fetching file browser APIs.,در دریافت APIهای مرورگر فایل خطایی رخ داد.
+There was an error fetching products.,در دریافت محصولات خطایی رخ داد.
+This cannot be undone. Packages still assigned to products can't be removed.,این عمل قابل بازگشت نیست. بسته‌هایی که هنوز به محصولات اختصاص یافته‌اند، قابل حذف نیستند.
+This changeset has no operations yet.,این مجموعه تغییرات هنوز هیچ عملیاتی ندارد.
+This field is required,این فیلد الزامی است
+This is the URL path for the CMS page.,این مسیر URL برای صفحه CMS است.
+This is the address used to calculate tax rates.,این آدرسی است که برای محاسبه نرخ‌های مالیات استفاده می‌شود.
+This is the meta title for the CMS page.,این عنوان متای صفحه CMS است.
+This is the name of the CMS page that will be displayed in the admin panel.,این نام صفحه CMS است که در پنل مدیریت نمایش داده می‌شود.
+This is the tax class applied to shipping costs.,این کلاس مالیاتی است که بر هزینه‌های ارسال اعمال می‌شود.
+This product has some variants like color or size?,این محصول گونه‌هایی مانند رنگ یا اندازه دارد؟
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,این ارائه‌دهنده پیکربندی به‌ازای منطقه ندارد. روش‌ها و نرخ‌های به‌ازای منطقه در ناحیه مدیریت خود ارائه‌دهنده مدیریت می‌شوند.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,این کار منطقه را به همراه پیوست‌های ارائه‌دهنده و نرخ‌های آن حذف می‌کند. این عمل قابل بازگشت نیست.
+This route has unpublished changes in your draft,این مسیر در پیش‌نویس شما تغییرات منتشرنشده دارد
+This will be saved as a pending change you can publish or discard.,این به‌عنوان یک تغییر در انتظار ذخیره می‌شود که می‌توانید منتشر یا لغو کنید.
+Tiered,پلکانی
+Type is required,نوع الزامی است
+URL Key,کلید URL
+URL Key is required,کلید URL الزامی است
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens",کلید URL باید با حروف کوچک باشد و فقط می‌تواند شامل حروف، اعداد و خط تیره باشد
+URL key,کلید URL
+URL key is required,کلید URL الزامی است
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,کلید URL باید با حروف کوچک باشد و فقط می‌تواند شامل کاراکترهای حرفی-عددی و خط تیره باشد
+Unassign,لغو تخصیص
+Undo (⌘Z) — undoes your last edit on this page,واگرد (⌘Z) — آخرین ویرایش شما در این صفحه را لغو می‌کند
+Undo / Redo,واگرد / ازنو
+Undo last change on this page,واگرد آخرین تغییر در این صفحه
+Unknown,ناشناخته
+Unlink,حذف پیوند
+Unpin drawer,برداشتن سنجاق کشو
+Unpin — drawer will close when you click empty canvas,برداشتن سنجاق — با کلیک روی بوم خالی، کشو بسته می‌شود
+Unpublished changes,تغییرات منتشرنشده
+Unsaved changes,تغییرات ذخیره‌نشده
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,نام و بازه فعال این طرح انتشار را به‌روزرسانی کنید. ویرایش‌های محتوا به‌طور جداگانه در ویرایشگر مدیریت می‌شوند.
+Update the variant details and attributes here.,جزئیات و ویژگی‌های گونه را اینجا به‌روزرسانی کنید.
+Updated,به‌روزرسانی شد
+Upload an image for the category.,تصویری برای دسته‌بندی بارگذاری کنید.
+Used Times,دفعات استفاده
+Value is required,مقدار الزامی است
+Variant Group,گروه گونه
+Variant created successfully,گونه با موفقیت ایجاد شد
+Variant updated successfully,گونه با موفقیت به‌روزرسانی شد
+Version ${version},نسخه ${version}
+Visibility,قابلیت مشاهده
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,قابلیت مشاهده تعیین می‌کند که محصول در کجای فروشگاه نمایش داده شود. این بر قابلیت فروش محصول تأثیری ندارد.
+Visitors will see the new layout on their next page load.,بازدیدکنندگان در بارگذاری بعدی صفحه، چیدمان جدید را خواهند دید.
+Webhook Secret Key,کلید مخفی وب‌هوک
+Weight,وزن
+Weight must be 0 or greater,وزن باید ۰ یا بزرگ‌تر باشد
+Weight must be a positive number,وزن باید عددی مثبت باشد
+Weight-based tiers,رده‌های مبتنی بر وزن
+Widget Settings,تنظیمات ابزارک
+Widget created successfully!,ابزارک با موفقیت ایجاد شد!
+Widgets,ابزارک‌ها
+Width,عرض
+Width is required,عرض الزامی است
+Width must be greater than 0,عرض باید بزرگ‌تر از ۰ باشد
+Will roll out automatically: ${range},به‌طور خودکار منتشر می‌شود: ${range}
+Working…,در حال کار…
+Worldwide,سراسر جهان
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,شما ${count} تغییر در این پیش‌نویس دارید که هنوز منتشر نشده‌اند.
+You have ${count} changes still saving.,شما ${count} تغییر دارید که هنوز در حال ذخیره‌شدن هستند.
+You have 1 change in this draft that hasn’t been published yet.,شما ۱ تغییر در این پیش‌نویس دارید که هنوز منتشر نشده است.
+You have 1 change still saving.,شما ۱ تغییر دارید که هنوز در حال ذخیره‌شدن است.
+Your draft is safe on the server — you can come back and publish it any time.,پیش‌نویس شما روی سرور ایمن است — می‌توانید هر زمان برگردید و آن را منتشر کنید.
+Your edits on other pages stay in the draft.,ویرایش‌های شما در صفحات دیگر در پیش‌نویس باقی می‌مانند.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,آدرس وب‌هوک شما باید این باشد: https://yourdomain.com/api/stripe/webhook
+Zone,منطقه
+Zone Name,نام منطقه
+Zone Rates,نرخ‌های منطقه
+Zone created,منطقه ایجاد شد
+Zone is required,منطقه الزامی است
+Zone name is required,نام منطقه الزامی است
+Zone removed,منطقه حذف شد
+Zone updated,منطقه به‌روزرسانی شد
+Zones served,مناطق پوشش‌داده‌شده
+and ${count} more,و ${count} مورد دیگر
+container will also hide,کانتینر نیز پنهان خواهد شد
+current page,صفحه فعلی
+e.g. Small Box,مثلاً جعبه کوچک
+e.g. Summer Sale 2026,مثلاً حراج تابستان ۲۰۲۶
+e.g. content,مثلاً محتوا
+"e.g., 10.00",مثلاً ۱۰٫۰۰
+"e.g., EU, US-West",مثلاً EU، US-West
+"e.g., Express",مثلاً اکسپرس
+"e.g., FEDEX_GROUND, usps_priority",مثلاً FEDEX_GROUND، usps_priority
+every page,هر صفحه
+indefinite,نامحدود
+open,باز
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.",انتشار فوری است و از این صفحه قابل بازگردانی نیست. برای مرحله‌بندی به‌جای آن، لغو کنید و «زمان‌بندی یک انتشار» را انتخاب کنید.
+quantity of products are matched bellow conditions(All),تعداد محصولاتی که با شرایط زیر مطابقت دارند (همه)
+subtotal,جمع جزء
+to a storefront route's,به مسیر یک ویترین فروشگاه
+to make it appear here.,تا اینجا نمایش داده شود.
+weight,وزن
+widget? This will be saved as a pending change you can publish or discard.,ابزارک؟ این به‌عنوان یک تغییر در انتظار ذخیره می‌شود که می‌توانید آن را منتشر یا لغو کنید.
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,حذف خواهد شد و ویترین زنده دیگر ویرایش‌های آن را اعمال نمی‌کند. مجموعه‌تغییرات زیربنایی و ویرایش‌های محتوای در انتظار آن حفظ می‌شوند.
+— None —,— هیچ‌کدام —
+Cash On Delivery,پرداخت در محل
+Please select a valid payment method,لطفاً یک روش پرداخت معتبر انتخاب کنید
+Show ${label} width,نمایش عرض ${label}
+Column ${index},ستون ${index}
+Switch page,تغییر صفحه
+Search pages…,جستجوی صفحات…
+Search pages,جستجوی صفحات
+Save your pending edits — the live storefront will catch up,ویرایش‌های در انتظار خود را ذخیره کنید — ویترین زنده هماهنگ خواهد شد
+No changes to save — the rollout matches the editor,تغییری برای ذخیره نیست — انتشار با ویرایشگر مطابقت دارد
+More rollout actions,اقدامات بیشتر انتشار
+Revert to saved state…,بازگشت به وضعیت ذخیره‌شده…
+Roll back the editor to what the rollout currently shows on the storefront,بازگرداندن ویرایشگر به آنچه انتشار در حال حاضر در ویترین نمایش می‌دهد
+Nothing to revert — the editor matches the saved state,چیزی برای بازگردانی نیست — ویرایشگر با وضعیت ذخیره‌شده مطابقت دارد
+Cancel rollout plan…,لغو طرح انتشار…
+Remove the schedule — the changeset is preserved,حذف زمان‌بندی — مجموعه‌تغییرات حفظ می‌شود
+Publish,انتشار
+More publish options,گزینه‌های بیشتر انتشار
+Apply all edits to the live storefront immediately,اعمال فوری همه ویرایش‌ها روی ویترین زنده
+Save as rollout plan…,ذخیره به‌عنوان طرح انتشار…
+Schedule these edits to roll out at a future time,زمان‌بندی این ویرایش‌ها برای انتشار در زمان آینده
+Discard pending changes…,لغو تغییرات در انتظار…
+Choose between discarding the whole draft or just this page,بین لغو کل پیش‌نویس یا فقط این صفحه انتخاب کنید
+Switch session,تغییر نشست
+New changeset,مجموعه‌تغییرات جدید
+Rollout: ${name},انتشار: ${name}
+Click or drag to add,برای افزودن کلیک کنید یا بکشید
+Background color,رنگ پس‌زمینه
+Text color,رنگ متن
+Dwell time,زمان توقف
+Time each announcement stays visible (in addition to the 400ms slide transition).,مدت زمانی که هر اعلان قابل مشاهده می‌ماند (علاوه بر گذار اسلاید ۴۰۰ms).
+Announcements,اعلان‌ها
+Add announcement,افزودن اعلان
+Untitled,بدون عنوان
+Free shipping on orders over $50,ارسال رایگان برای سفارش‌های بالای ۵۰ دلار
+Optional. Makes the entire row a clickable link.,اختیاری. کل ردیف را به یک پیوند قابل کلیک تبدیل می‌کند.
+Link label,برچسب پیوند
+Optional. Displayed after the content; defaults to the content itself.,اختیاری. پس از محتوا نمایش داده می‌شود؛ به‌طور پیش‌فرض خودِ محتوا است.
+Shop now,همین حالا خرید کنید
+Dark,تیره
+Light,روشن
+Gradient,گرادیان
+Left,چپ
+Center,وسط
+Right,راست
+Selected image,تصویر انتخاب‌شده
+No image selected,تصویری انتخاب نشده است
+Replace,جایگزینی
+Clear,پاک کردن
+Reflects the alignment below.,چیدمان زیر را منعکس می‌کند.
+Banner Image,تصویر بنر
+Mobile image,تصویر موبایل
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,اختیاری. در زیر نقطه‌شکست 768px جایگزین می‌شود. در صورت خالی بودن، به تصویر بالا بازمی‌گردد — استفاده معمول، برش عمودی از همان صحنه است.
+Alignment,چیدمان
+Overlay copy,متن روکش
+Eyebrow,عنوان فرعی بالا
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".",برچسب کوچک تمام‌بزرگ بالای سرتیتر. مثلاً «LIMITED EDITION».
+LIMITED EDITION,نسخه محدود
+Heading,سرتیتر
+The Summer Edit,کالکشن تابستان
+Sub-text,متن فرعی
+One short supporting sentence.,یک جمله پشتیبان کوتاه.
+Overlay placement,موقعیت روکش
+Content position,موقعیت محتوا
+Where the overlay text sits on the image.,محل قرارگیری متن روکش روی تصویر.
+Tint,رنگ‌مایه
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,یک لایه تیره پشت متن روکش برای خوانایی. حالت تیره / گرادیان به‌طور خودکار متن را به سفید تغییر می‌دهد.
+Tint opacity,شفافیت رنگ‌مایه
+Call to actions,دکمه‌های فراخوان
+Remove primary CTA,حذف CTA اصلی
++ Add a primary CTA,+ افزودن یک CTA اصلی
+Secondary,ثانویه
+Remove secondary CTA,حذف CTA ثانویه
+Learn more,بیشتر بدانید
++ Add a secondary CTA,+ افزودن یک CTA ثانویه
+Details,جزئیات
+Alt text,متن جایگزین
+Describes the banner for screen readers and SEO.,بنر را برای صفحه‌خوان‌ها و SEO توصیف می‌کند.
+"e.g. ""Summer sale promotional banner""",مثلاً «بنر تبلیغاتی فروش تابستانه»
+Banner link,پیوند بنر
+Optional. Clicking the banner navigates here.,اختیاری. کلیک روی بنر به اینجا می‌رود.
+Display name,نام نمایشی
+Shop,فروشگاه
+Target,مقصد
+"Page, category, product, or a custom URL.",صفحه، دسته‌بندی، محصول یا یک URL سفارشی.
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,سئو: اعتبار رتبه‌بندی را به این پیوند منتقل نکنید (rel=nofollow).
+No referrer,بدون ارجاع‌دهنده
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,حریم خصوصی: حذف URL ارجاع‌دهنده (rel=noreferrer). پیوندهای زبانه جدید همیشه شامل این هستند.
+Menu items,آیتم‌های منو
+Add menu item,افزودن آیتم منو
+Sub-items,زیرآیتم‌ها
+Optional dropdown links (1 level).,پیوندهای کشویی اختیاری (۱ سطح).
+Add sub-item,افزودن زیرآیتم
+Options,گزینه‌ها
+Use as main menu,استفاده به عنوان منوی اصلی
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.",ناوبری اصلی — در موبایل به منوی همبرگری جمع می‌شود. برای فهرست پیوند ساده (مثلاً فوتر) خاموش کنید که در موبایل به‌صورت درون‌خطی می‌ماند.
+Custom CSS classes,کلاس‌های CSS سفارشی
+Applied to the rendered menu element.,به عنصر منوی رندرشده اعمال می‌شود.
+e.g. main-nav font-semibold,مثلاً main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,کاشی‌ها
+Add tile,افزودن کاشی
+Hero · ,هیرو · 
+Used when no image is set.,وقتی هیچ تصویری تنظیم نشده استفاده می‌شود.
+Small label above the heading.,برچسب کوچک بالای سرتیتر.
+THE SUMMER EDIT,THE SUMMER EDIT
+New Arrivals,تازه‌واردها
+Body,متن
+Big card — the headline of the grid.,کارت بزرگ — سرتیتر شبکه.
+Link URL,URL پیوند
+Gap,فاصله
+Minimum block height,حداقل ارتفاع بلوک
+Image left,تصویر سمت چپ
+Image right,تصویر سمت راست
+Centered,وسط‌چین
+Pull quote,نقل‌قول برجسته
+Variant,گونه
+Image column size,اندازه ستون تصویر
+Describe the image,تصویر را توصیف کنید
+Copy,محتوای متنی
+"Small all-caps label. E.g. ""OUR STORY"".",برچسب کوچک با حروف بزرگ. مثلاً «OUR STORY».
+Our story,داستان ما
+"Made by hand, in small batches",دست‌ساز، در دسته‌های کوچک
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.",برای گونه نقل‌قول برجسته لازم است. بزرگ نمایش داده می‌شود، به‌صورت نقل‌قول استایل می‌شود.
+"A short, quotable line.",یک خط کوتاه و قابل‌نقل.
+Three or four sentences of brand narrative.,سه یا چهار جمله از روایت برند.
+Second body paragraph (optional),پاراگراف دوم متن (اختیاری)
+A second short paragraph if the story needs it.,یک پاراگراف کوتاه دوم اگر داستان به آن نیاز دارد.
+Read more link,پیوند بیشتر بخوانید
+Read more,بیشتر بخوانید
+URL,URL
+Remove read-more link,حذف پیوند بیشتر بخوانید
++ Add a read-more link,+ افزودن پیوند بیشتر بخوانید
+Square,مربع
+Landscape,افقی
+Portrait,عمودی
+Overlay,روی‌هم
+Below,پایین
+New category,دسته‌بندی جدید
+Section heading,سرتیتر بخش
+Optional. Shown above the grid.,اختیاری. بالای شبکه نمایش داده می‌شود.
+Shop by category,خرید بر اساس دسته‌بندی
+Women,زنانه
+Columns,ستون‌ها
+Auto,خودکار
+Asymmetric makes the first tile span 2 columns.,نامتقارن باعث می‌شود کاشی اول ۲ ستون را در بر بگیرد.
+Uniform,یکنواخت
+Asymmetric,نامتقارن
+Image aspect,نسبت تصویر
+Label position,موقعیت برچسب
+Blush,صورتی ملایم
+XL,XL
+Position ${c},موقعیت ${c}
+Column layout,چیدمان ستون
+Drag widgets into each column. Children re-flow when you change the ratio.,ویجت‌ها را به هر ستون بکشید. با تغییر نسبت، فرزندان دوباره جریان می‌یابند.
+Space between columns.,فاصله بین ستون‌ها.
+Where content sits within each column. Applied uniformly to every column.,محل قرارگیری محتوا در هر ستون. به‌طور یکنواخت به همه ستون‌ها اعمال می‌شود.
+Row appearance,ظاهر ردیف
+Background,پس‌زمینه
+Custom color,رنگ سفارشی
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","هر رنگ CSS (مثلاً «#0a0a0a» یا «rgb(10,10,10)»). برای استفاده از نمونه رنگ بالا خالی بگذارید."
+Padding,فاصله داخلی
+Outer spacing around the row. Scales down on mobile.,فاصله بیرونی اطراف ردیف. در موبایل کوچک می‌شود.
+Solid,یکدست
+Dashed,خط‌چین
+Already expired,قبلاً منقضی شده
+Expires in ${days}d ${hours}h,انقضا در ${days}روز ${hours}ساعت
+Expires in ${hours}h ${minutes}m,انقضا در ${hours}ساعت ${minutes}دقیقه
+Offer,پیشنهاد
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".",خط فوریت. اختیاری. مثلاً «محدود · پایان یکشنبه».
+Limited · Ends Sunday,محدود · پایان یکشنبه
+Headline,سرتیتر
+Take 20% off your order,۲۰٪ تخفیف روی سفارش خود بگیرید
+Optional. One short instructional line.,اختیاری. یک خط راهنمای کوتاه.
+Use code at checkout,کد را هنگام تسویه‌حساب استفاده کنید
+Promo code,کد تخفیف
+Displayed in uppercase to shoppers.,با حروف بزرگ به خریداران نمایش داده می‌شود.
+Expires,انقضا
+Optional. The block auto-hides after this time for live visitors.,اختیاری. بلوک پس از این زمان به‌طور خودکار برای بازدیدکنندگان زنده پنهان می‌شود.
+Call to action,فراخوان عمل
+Button label,برچسب دکمه
+Shop now →,اکنون خرید کنید →
+Button link,پیوند دکمه
+Appearance,ظاهر
+Border,حاشیه
+Narrow,باریک
+Normal,معمولی
+Wide,عریض
+Shown above all content. Optional.,بالای همه محتوا نمایش داده می‌شود. اختیاری.
+e.g. Frequently asked,مثلاً پرسش‌های پرتکرار
+Prose,متن
+FAQ group · ${count} items,گروه سؤالات متداول · ${count} آیتم
+Group heading,سرتیتر گروه
+Optional sub-heading.,زیرسرتیتر اختیاری.
+e.g. Shipping,مثلاً ارسال
+Add question,افزودن سؤال
+Question,سؤال
+e.g. How long does shipping take?,مثلاً ارسال چقدر طول می‌کشد؟
+Answer,پاسخ
+"Supports **bold**, _italic_, and line breaks.",از **پررنگ**، _ایتالیک_ و شکست خط پشتیبانی می‌کند.
+e.g. Orders ship within 24 hours…,مثلاً سفارش‌ها ظرف ۲۴ ساعت ارسال می‌شوند…
+Add prose,افزودن متن
+Add FAQ group,افزودن گروه سؤالات متداول
+Max width,حداکثر عرض
+Content column width.,عرض ستون محتوا.
+Allow multiple open,اجازه باز بودن چندتایی
+"When off, opening one FAQ item closes the others in the same group.",وقتی خاموش است، باز کردن یک آیتم سؤال متداول بقیه آیتم‌های همان گروه را می‌بندد.
+New link,پیوند جدید
+New column,ستون جدید
+Add column,افزودن ستون
+${title} · ${count} links,${title} · ${count} پیوند
+Column title,عنوان ستون
+Links,پیوندها
+"Min 1, max 12.",حداقل ۱، حداکثر ۱۲.
+Add link,افزودن پیوند
+New arrivals,تازه‌واردها
+Boxed,جعبه‌ای
+Wide (full bleed),عریض (تمام‌عرض)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,حالت جعبه‌ای داخل ظرف صفحه می‌ماند (پوسته حداکثر عرض را تعیین می‌کند). حالت عریض لبه‌تا‌لبه می‌شود.
+Scales down on mobile.,در موبایل کوچک می‌شود.
+Optional. Painted behind content. Combine with a tint below for legibility.,اختیاری. پشت محتوا رنگ می‌شود. برای خوانایی با ته‌رنگ زیر ترکیب کنید.
+XS,XS
+Spacing,فاصله‌گذاری
+Size,اندازه
+Mobile scales down ~⅔ automatically.,موبایل به‌طور خودکار حدود ⅔ کوچک می‌شود.
+Divider line,خط جداکننده
+Show divider line,نمایش خط جداکننده
+A horizontal rule centred in the spacing band.,یک خط افقی که در نوار فاصله‌گذاری به‌صورت مرکزی قرار می‌گیرد.
+Line color,رنگ خط
+Default uses the theme's divider color.,حالت پیش‌فرض از رنگ جداکننده‌ی پوسته استفاده می‌کند.
+Sides,اضلاع
+Bottom,پایین
+Dots,نقطه‌ها
+Bars,میله‌ها
+Mobile image (optional),تصویر موبایل (اختیاری)
+Used at ≤ 767 px. Falls back to the main image.,در ≤ 767 px استفاده می‌شود. در غیر این صورت به تصویر اصلی برمی‌گردد.
+e.g. New collection,مثلاً مجموعه‌ی جدید
+e.g. Summer Sale,مثلاً حراج تابستانه
+Sub text,متن فرعی
+Check out our latest products with special discounts.,جدیدترین محصولات ما را با تخفیف‌های ویژه ببینید.
+Primary button,دکمه‌ی اصلی
+Secondary button,دکمه‌ی فرعی
++ Add secondary button,+ افزودن دکمه‌ی فرعی
+Overrides,بازنویسی‌ها
+Leaves slide-specific anchor; falls back to the slideshow's default.,لنگر مخصوص اسلاید را حفظ می‌کند؛ در غیر این صورت به حالت پیش‌فرض اسلایدشو برمی‌گردد.
+Overlay tint,رنگ روکش
+Overlay opacity,شفافیت روکش
+Make whole slide clickable,کل اسلاید قابل کلیک شود
+Behavior,رفتار
+Transition,گذار
+Slide,اسلاید
+Fade,محو‌شدن
+Transition speed,سرعت گذار
+Autoplay,پخش خودکار
+Autoplay delay,تأخیر پخش خودکار
+${seconds} s between slides,${seconds} ثانیه بین اسلایدها
+Pause on hover,توقف هنگام نشانگر روی آن
+Pause for 20 s after user nav,توقف به مدت ۲۰ ثانیه پس از پیمایش کاربر
+Arrows,فلش‌ها
+Aspect ratio,نسبت ابعاد
+`Auto` matches the natural image height (jumps between slides).,`Auto` با ارتفاع طبیعی تصویر مطابقت می‌کند (بین اسلایدها جهش دارد).
+Default content position,موقعیت پیش‌فرض محتوا
+Per-slide overrides win.,بازنویسی‌های هر اسلاید اولویت دارند.
+Default overlay tint,رنگ روکش پیش‌فرض
+Default overlay opacity,شفافیت روکش پیش‌فرض
+Slides (${count}),اسلایدها (${count})
+No slides yet.,هنوز اسلایدی وجود ندارد.
+Add your first slide,اولین اسلاید خود را اضافه کنید
+Slide ${number},اسلاید ${number}
+Image only,فقط تصویر
+Empty,خالی
+Show slide,نمایش اسلاید
+Hide slide,پنهان‌کردن اسلاید
+Move slide up,انتقال اسلاید به بالا
+Move slide down,انتقال اسلاید به پایین
+Delete slide,حذف اسلاید
+Top,بالا
+Cover,پوشاندن
+Contain,جای‌دادن
+Required for accessibility.,برای دسترس‌پذیری الزامی است.
+Image fit,تناسب تصویر
+"Small all-caps label. E.g. ""LIMITED EDITION"".",برچسب کوچک با حروف بزرگ. مثلاً «نسخه‌ی محدود».
+Limited edition,نسخه‌ی محدود
+One strong line,یک خط قوی
+Two lines of supporting copy.,دو خط متن پشتیبان.
+Image position,موقعیت تصویر
+Vertical alignment,تراز عمودی
+Aligns the copy panel content.,محتوای پنل متن را تراز می‌کند.
+Remove call to action,حذف فراخوان به اقدام
+Add a call to action,افزودن فراخوان به اقدام
+Custom CSS classes for the text block,کلاس‌های CSS سفارشی برای بلوک متن
+Add group,افزودن گروه
+${label} · ${count} subs,${label} · ${count} زیرمجموعه
+Parent label,برچسب والد
+Parent link,پیوند والد
+Image alt text,متن جایگزین تصویر
+Sub-categories,زیردسته‌ها
+"Min 1, max 8.",حداقل ۱، حداکثر ۸.
+Add sub-category,افزودن زیردسته
+Dresses,پیراهن‌ها
+Columns (desktop),ستون‌ها (دسکتاپ)
+On tablets the layout is always 2 columns.,در تبلت‌ها چیدمان همیشه ۲ ستونی است.
+Make parent image a link,تصویر والد به پیوند تبدیل شود
+"When off, only the sub-chips and parent label are interactive.",وقتی خاموش است، فقط چیپ‌های فرعی و برچسب والد تعاملی هستند.
+Title,عنوان
+e.g. Free shipping,مثلاً ارسال رایگان
+Optional supporting line below the title.,خط پشتیبان اختیاری زیر عنوان.
+Icon,آیکون
+Optional. SVG or raster image. Hidden when icons are turned off globally.,اختیاری. تصویر SVG یا رستری. وقتی آیکون‌ها به‌صورت سراسری خاموش باشند پنهان می‌شود.
+Optional. Makes the whole cell clickable.,اختیاری. کل سلول را قابل کلیک می‌کند.
+"Auto matches the item count, capped at 4.",حالت خودکار با تعداد آیتم‌ها مطابقت می‌کند، با سقف ۴.
+3,3
+4,4
+Icon size,اندازه‌ی آیکون
+Show icons,نمایش آیکون‌ها
+Master switch. Items without an icon URL are unaffected.,کلید اصلی. آیتم‌های بدون نشانی آیکون تأثیر نمی‌پذیرند.
+Show divider,نمایش جداکننده
+Vertical line between cells.,خط عمودی بین سلول‌ها.
+Collection,مجموعه
+Search collections…,جستجوی مجموعه‌ها…
+No collections match “${value}”.,هیچ مجموعه‌ای با «${value}» مطابقت ندارد.
+You have no collections yet.,هنوز هیچ مجموعه‌ای ندارید.
+Please select a collection,لطفاً یک مجموعه انتخاب کنید
+"Defaults to ""${name}"" (the collection's name).",به‌طور پیش‌فرض «${name}» (نام مجموعه).
+Defaults to the picked collection's name.,به‌طور پیش‌فرض نام مجموعه‌ی انتخاب‌شده.
+Collection name,نام مجموعه
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,به‌طور پیش‌فرض توضیحات مجموعه. تنظیم این مورد، توضیحات متن‌غنی را با متن ساده جایگزین می‌کند.
+e.g. Hand-picked styles for the season.,مثلاً استایل‌های دست‌چین‌شده برای این فصل.
+View all link,پیوند مشاهده‌ی همه
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.",اختیاری. وقتی خالی باشد پنهان می‌شود. یک دسته، محصول، صفحه انتخاب کنید یا یک URL سفارشی بچسبانید.
+"Optional. Defaults to ""View all →"".",اختیاری. به‌طور پیش‌فرض «مشاهده‌ی همه →».
+View all →,مشاهده‌ی همه →
+Total products,کل محصولات
+Number of products to display.,تعداد محصولات برای نمایش.
+Products per row,محصولات در هر ردیف
+Grid columns (1–6 typical).,ستون‌های شبکه (معمولاً ۱ تا ۶).
+Count is required,تعداد الزامی است
+e.g. 8,مثلاً 8
+Count per row is required,تعداد در هر ردیف الزامی است
+e.g. 4,مثلاً 4
+Cover image,تصویر جلد
+COLLECTION,مجموعه
+"Defaults to ""${pickedName}"".",به‌طور پیش‌فرض «${pickedName}».
+Defaults to the picked collection name.,به‌طور پیش‌فرض نام مجموعه‌ی انتخاب‌شده.
+Optional. One or two sentences of editorial copy.,اختیاری. یک یا دو جمله متن تحریریه.
+"Linen, cotton, easy stuff.",کتان، پنبه، چیزهای راحت.
+Preview product count,تعداد محصولات پیش‌نمایش
+2 (1×2),۲ (۱×۲)
+4 (2×2),۴ (۲×۲)
+Please pick a collection,لطفاً یک مجموعه انتخاب کنید
+Add collection,افزودن مجموعه
+Row heading,عنوان ردیف
+The Linen Edit,گزیده‌ی کتان
+Optional. Hidden when empty.,اختیاری. وقتی خالی باشد پنهان می‌شود.
+View all label,برچسب مشاهده‌ی همه
+Show price,نمایش قیمت
+Show divider between rows,نمایش جداکننده بین ردیف‌ها
+Selected:,انتخاب‌شده:
+Image override,بازنویسی تصویر
+Override image,بازنویسی تصویر
+Override image (optional),بازنویسی تصویر (اختیاری)
+Leave empty to use the product's primary image.,برای استفاده از تصویر اصلی محصول، خالی بگذارید.
+Small label above the product name. Optional.,برچسب کوچک بالای نام محصول. اختیاری.
+FEATURED,ویژه
+Editorial copy,متن تحریریه
+Overrides the product's own description in this context. Leave blank to hide.,توضیحات خود محصول را در این بخش بازنویسی می‌کند. برای پنهان‌کردن، خالی بگذارید.
+Two lines of copy explaining why this product is being spotlighted right now.,دو خط متن که توضیح می‌دهد چرا این محصول هم‌اکنون برجسته شده است.
+Please pick a product,لطفاً یک محصول انتخاب کنید
+e.g. On orders over $50,مثلاً برای سفارش‌های بالای ۵۰$
+Text block,بلوک متن
+Menu,منو
+Footer menu,منوی پاورقی
+Banner,بنر
+Simple Slideshow,اسلایدشو ساده
+Brand story,داستان برند
+Category mosaic,موزاییک دسته‌بندی
+Tiered categories,دسته‌بندی‌های لایه‌ای
+Bento grid,شبکه بنتو
+Separator,جداکننده
+Section,بخش
+Split feature,ویژگی دوبخشی
+Announcement bar,نوار اعلان
+Coupon block,بلوک کوپن
+FAQ block,بلوک پرسش‌های متداول
+Trust strip,نوار اعتماد
+Collection products,محصولات مجموعه
+Collection stack,پشته مجموعه‌ها
+Collection spotlight,نمایش ویژه مجموعه
+Product hero,هیروی محصول
+Layout container with 1–4 columns for nesting widgets.,ظرف چیدمان با ۱ تا ۴ ستون برای جای‌گذاری ویجت‌ها.
+Add rich text content,افزودن محتوای متنی غنی
+Navigation links,پیوندهای پیمایش
+Multi-column list of footer links — a titled column of navigation links per group.,فهرست چندستونی پیوندهای فوتر — یک ستون عنوان‌دار از پیوندهای پیمایش برای هر گروه.
+A single hero image with optional overlay copy and CTAs.,یک تصویر هیروی واحد با متن روکش و دکمه‌های CTA اختیاری.
+Rotating image carousel,چرخ‌فلک تصویر گردشی
+Editorial block combining an image and long-form brand narrative. Four layout variants.,بلوک تحریریه که یک تصویر و روایت بلند برند را ترکیب می‌کند. چهار گونه چیدمان.
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.",شبکه‌ای از ۳ تا ۶ کاشی دسته‌بندی برای نقطه ورود اصلی «خرید بر اساس دسته‌بندی».
+A two-level nav block: parent category image plus a row of sub-category chips.,بلوک پیمایش دوسطحی: تصویر دسته‌بندی والد به‌علاوه ردیفی از تراشه‌های زیردسته.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,موزاییک نامتقارن از کاشی‌های CTA — یک هیروی بزرگ به‌علاوه ۱ تا ۴ کاشی پشتیبان.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.",فاصله عمودی بین ویجت‌ها، با خط جداکننده اختیاری. در موبایل به‌صورت خودکار کوچک می‌شود.
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,نوار قابل رهاسازی استایل‌دار که ویجت‌های دیگر را در بر می‌گیرد. بین حالت گسترده (لبه‌به‌لبه) و جعبه‌ای (ظرف قالب) جابه‌جا کنید.
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,بلوک تبلیغاتی ۵۰/۵۰ تصویر + متن با CTA اختیاری. ویجت متعارف لحظه تبلیغاتی.
+A thin top-of-page bar with one or more rotating announcements.,نوار باریک بالای صفحه با یک یا چند اعلان گردشی.
+A promo panel with a copyable discount code and CTA.,پنل تبلیغاتی با کد تخفیف قابل کپی و CTA.
+Flexible content block mixing prose sections and accordion FAQ groups.,بلوک محتوای انعطاف‌پذیر که بخش‌های متنی و گروه‌های آکاردئونی پرسش‌های متداول را ترکیب می‌کند.
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.",ردیفی از موارد ارزش‌آفرین (ارسال رایگان، بازگشت آسان و غیره) برای تقویت زیر هیرو یا بالای فوتر.
+A list of products from a collection,فهرستی از محصولات یک مجموعه
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.",ردیف‌های پشته‌ای از مجموعه‌ها، هر کدام با یک عنوان، پیوند مشاهده همه و نواری از محصولات.
+"A featured collection with cover image, editorial copy, and a small product preview grid.",یک مجموعه ویژه با تصویر جلد، متن تحریریه و شبکه‌ای کوچک از پیش‌نمایش محصولات.
+"A single-product spotlight — image, name, price, and a link to the full product page.",نمایش ویژه تک‌محصول — تصویر، نام، قیمت و پیوندی به صفحه کامل محصول.

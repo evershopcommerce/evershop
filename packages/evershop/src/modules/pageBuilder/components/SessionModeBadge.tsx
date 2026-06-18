@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Calendar, Edit3 } from 'lucide-react';
 import React from 'react';
 
@@ -44,11 +45,11 @@ export function SessionModeBadge({
       <button
         type="button"
         onClick={onClick}
-        title="Switch session"
+        title={_('Switch session')}
         className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-muted/40 text-muted-foreground border border-divider hover:text-foreground transition-colors"
       >
         <Edit3 className="h-3 w-3" />
-        New changeset
+        {_('New changeset')}
       </button>
     );
   }
@@ -69,23 +70,23 @@ export function SessionModeBadge({
       <button
         type="button"
         onClick={onClick}
-        title="Switch session"
+        title={_('Switch session')}
         className="inline-flex items-center gap-1.5 -ml-0.5 outline-none focus-visible:ring-1 focus-visible:ring-violet-400 rounded-full"
       >
         <Calendar className="h-3 w-3" />
-        Rollout: {rolloutPlan.name}
+        {_('Rollout: ${name}', { name: rolloutPlan.name })}
         <span
           className={`ml-0.5 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium ${pillStyles}`}
         >
-          {status === 'scheduled' ? 'Scheduled' : 'Live'}
+          {status === 'scheduled' ? _('Scheduled') : _('Live')}
         </span>
       </button>
       {onEditSchedule && (
         <button
           type="button"
           onClick={onEditSchedule}
-          title="Edit rollout schedule"
-          aria-label="Edit rollout schedule"
+          title={_('Edit rollout schedule')}
+          aria-label={_('Edit rollout schedule')}
           className="inline-flex items-center justify-center h-4 w-4 rounded text-violet-600 hover:text-violet-900 hover:bg-violet-200/60 transition-colors dark:text-violet-400 dark:hover:text-violet-200 dark:hover:bg-violet-900/40"
         >
           <Edit3 className="h-3 w-3" />

@@ -18,6 +18,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -122,7 +123,7 @@ export function MethodForm({
             toast.error(response.error.message);
             return;
           }
-          toast.success(`Method ${isCreate ? 'created' : 'updated'}`);
+          toast.success(isCreate ? _('Method created') : _('Method updated'));
           onSaved();
         }}
         onError={(err) => toast.error(String(err))}
@@ -130,25 +131,25 @@ export function MethodForm({
         <div className="space-y-3">
           <InputField
             name="name"
-            label="Method name"
-            placeholder="e.g., Express"
+            label={_('Method name')}
+            placeholder={_('e.g., Express')}
             required
-            validation={{ required: 'Method name is required' }}
+            validation={{ required: _('Method name is required') }}
             defaultValue={method?.name ?? ''}
           />
           <div className="grid grid-cols-2 gap-3">
             <ToggleField
               name="is_enabled"
-              label="Status"
-              trueLabel="Enabled"
-              falseLabel="Disabled"
+              label={_('Status')}
+              trueLabel={_('Enabled')}
+              falseLabel={_('Disabled')}
               defaultValue={method?.isEnabled ?? true}
             />
             <NumberField
               name="sort_order"
-              label="Sort order"
+              label={_('Sort order')}
               defaultValue={method?.sortOrder ?? 0}
-              helperText="Lower values appear first."
+              helperText={_('Lower values appear first.')}
             />
           </div>
 
@@ -156,20 +157,24 @@ export function MethodForm({
             <>
               <SelectField
                 name="default_carrier_code"
-                label="Default carrier"
+                label={_('Default carrier')}
                 options={[
-                  { value: '', label: '— None —' },
+                  { value: '', label: _('— None —') },
                   ...carriers.map((c) => ({ value: c.code, label: c.name }))
                 ]}
                 defaultValue={method?.defaultCarrierCode ?? ''}
-                helperText="Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier."
+                helperText={_(
+                  'Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.'
+                )}
               />
               <InputField
                 name="default_service_code"
-                label="Default service code"
-                placeholder="e.g., FEDEX_GROUND, usps_priority"
+                label={_('Default service code')}
+                placeholder={_('e.g., FEDEX_GROUND, usps_priority')}
                 defaultValue={method?.defaultServiceCode ?? ''}
-                helperText="Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service."
+                helperText={_(
+                  "Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service."
+                )}
               />
             </>
           )}
@@ -191,7 +196,7 @@ export function MethodForm({
                 );
               }}
             >
-              {isCreate ? 'Create method' : 'Save method'}
+              {isCreate ? _('Create method') : _('Save method')}
             </Button>
           </div>
         </div>
@@ -201,7 +206,7 @@ export function MethodForm({
         <div className="space-y-2 pt-3 border-t border-border">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold text-xs uppercase tracking-wide">
-              Zone Rates
+              {_('Zone Rates')}
             </h3>
             <Button
               type="button"
@@ -210,31 +215,34 @@ export function MethodForm({
               disabled={availableZones.length === 0}
               onClick={() => setAddingRate(true)}
             >
-              + Add Rate
+              {_('+ Add Rate')}
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
-            Configure cost and conditions per zone. Zones without a rate
-            don&apos;t offer this method.
+            {_(
+              "Configure cost and conditions per zone. Zones without a rate don't offer this method."
+            )}
           </p>
           {coreZones.length === 0 ? (
             <p className="text-sm text-muted-foreground italic">
-              Core isn&apos;t attached to any zone yet. Attach it under Settings
-              → Shipping first.
+              {_(
+                "Core isn't attached to any zone yet. Attach it under Settings → Shipping first."
+              )}
             </p>
           ) : rates.length === 0 ? (
             <p className="text-sm text-muted-foreground italic">
-              No rates yet — click &quot;Add Rate&quot; to offer this method in
-              a zone.
+              {_(
+                'No rates yet — click "Add Rate" to offer this method in a zone.'
+              )}
             </p>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Zone</TableHead>
-                  <TableHead>Rate</TableHead>
-                  <TableHead>Condition</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{_('Zone')}</TableHead>
+                  <TableHead>{_('Rate')}</TableHead>
+                  <TableHead>{_('Condition')}</TableHead>
+                  <TableHead className="text-right">{_('Actions')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -243,7 +251,7 @@ export function MethodForm({
                     <TableCell className="font-medium">
                       {rate.zone?.name ?? '—'}
                     </TableCell>
-                    <TableCell>{rate.cost?.text ?? 'Tiered'}</TableCell>
+                    <TableCell>{rate.cost?.text ?? _('Tiered')}</TableCell>
                     <TableCell className="text-sm">
                       {rate.conditionType
                         ? `${rate.conditionType} ${rate.min ?? 0}–${
@@ -257,7 +265,7 @@ export function MethodForm({
                         size="sm"
                         onClick={() => setEditingRate(rate)}
                       >
-                        Edit
+                        {_('Edit')}
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -277,8 +285,11 @@ export function MethodForm({
           <DialogHeader>
             <DialogTitle>
               {editingRate
-                ? `${method!.name} — ${editingRate.zone?.name ?? ''} rate`
-                : 'Configure rate'}
+                ? _('${method} — ${zone} rate', {
+                    method: method!.name,
+                    zone: editingRate.zone?.name ?? ''
+                  })
+                : _('Configure rate')}
             </DialogTitle>
           </DialogHeader>
           {editingRate && method && (
@@ -304,7 +315,9 @@ export function MethodForm({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {method ? `${method.name} — new rate` : 'New rate'}
+              {method
+                ? _('${method} — new rate', { method: method.name })
+                : _('New rate')}
             </DialogTitle>
           </DialogHeader>
           {addingRate && method && (

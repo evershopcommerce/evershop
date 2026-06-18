@@ -4,7 +4,6 @@ Sku, SKU
 Continue to shipping, Continuar comprando
 Continue shopping, Continue comprando
 Continue Shopping, Continue Comprando
-CONTINUE SHOPPING, CONTINUE COMPRANDO
 Shopping cart, Carrinho de compras
 Product, Produto
 Price, Preço
@@ -15,7 +14,7 @@ Sub total, Sub total
 Discount(${coupon}), Desconto(${coupon})
 Order summary, Resumo do pedido
 Taxes and shipping calculated at checkout, Impostos e frete calculados no checkout
-CHECKOUT, CHECKOUT
+Checkout, CHECKOUT
 Change, Alterar
 Payment Method, Metodo de Pagamento
 Shipping Address, Endereço de Entrega
@@ -28,7 +27,7 @@ Discount, Desconto
 Shipping, Entrega
 No tax, Sem impostos
 Tax, Impostos
-Sorry, there is no available method for your address, Desculpe, não existe método disponível para seu endereço.
+"Sorry, there is no available method for your address","Desculpe, não existe método disponível para seu endereço."
 Please enter a shipping address in order to see shipping quotes, Por favor insira um endereço de entrega para calcular o frete
 Continue to payment, Continuar para o pagamento
 No payment method available, Nenhum método de pagamento disponível
@@ -37,7 +36,7 @@ Shipment, Envio
 Thank you ${name}!, Obrigado(a), ${name}!
 Contact information, Informações de contato
 Order #${orderNumber}, Pedido #${orderNumber}
-ADD TO CART, ADICIONAR AO CARRINHO
+Add to cart, ADICIONAR AO CARRINHO
 Please select variant options, Por favor escolha as opções de variação
 VIEW CART (${count}), VER CARRINHO (${count})
 JUST ADDED TO YOUR CART, ADICIONADO AO CARRINHO
@@ -52,7 +51,7 @@ City, Cidade
 Country, País
 Postcode, CEP
 Inclusive of tax, Impostos inclusos
-Sorry, there is no available method for your address,Desculpe, não existem opções para seu endereço.
+"Sorry, there is no available method for your address","Desculpe, não existem opções para seu endereço."
 Full name is required, Nome completo é obrigatório
 Telephone is required, Telefone é obrigatório
 Address is required, Endereço é obrigatório

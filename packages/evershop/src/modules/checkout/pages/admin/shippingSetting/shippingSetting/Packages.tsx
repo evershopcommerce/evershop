@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -54,7 +55,9 @@ export function Packages() {
 
   if (fetching) return <Spinner width={'2rem'} height={'2rem'} />;
   if (error)
-    return <div className="text-destructive">Error loading packages</div>;
+    return (
+      <div className="text-destructive">{_('Error loading packages')}</div>
+    );
 
   const reload = () => reexecuteQuery({ requestPolicy: 'network-only' });
   const packages: PackageData[] = data?.packages ?? [];
@@ -68,7 +71,7 @@ export function Packages() {
     if (response.data?.error) {
       toast.error(response.data.error.message);
     } else {
-      toast.success('Package deleted');
+      toast.success(_('Package deleted'));
       reload();
     }
   };
@@ -78,9 +81,9 @@ export function Packages() {
       <table className="w-full text-sm">
         <thead>
           <tr className="text-left border-b border-border">
-            <th className="py-2">Name</th>
-            <th className="py-2">Size (L × W × H)</th>
-            <th className="py-2">Empty weight</th>
+            <th className="py-2">{_('Name')}</th>
+            <th className="py-2">{_('Size (L × W × H)')}</th>
+            <th className="py-2">{_('Empty weight')}</th>
             <th className="py-2" />
           </tr>
         </thead>
@@ -89,12 +92,17 @@ export function Packages() {
             <tr key={pkg.uuid} className="border-b border-border">
               <td className="py-2">
                 {pkg.name}{' '}
-                {pkg.isDefault && <Badge variant="secondary">Default</Badge>}
+                {pkg.isDefault && (
+                  <Badge variant="secondary">{_('Default')}</Badge>
+                )}
               </td>
               <td className="py-2">
                 {pkg.length} × {pkg.width} × {pkg.height} {dimensionUnit}
                 {pkg.height === 0 && (
-                  <span className="text-xs text-muted-foreground"> (envelope)</span>
+                  <span className="text-xs text-muted-foreground">
+                    {' '}
+                    {_('(envelope)')}
+                  </span>
                 )}
               </td>
               <td className="py-2">{pkg.weight?.value ?? 0} {pkg.weight?.unit ?? weightUnit}</td>
@@ -105,7 +113,7 @@ export function Packages() {
                   type="button"
                   onClick={() => setEditing(pkg)}
                 >
-                  Edit
+                  {_('Edit')}
                 </Button>
                 <ConfirmDialog
                   trigger={
@@ -116,16 +124,18 @@ export function Packages() {
                       disabled={pkg.isDefault}
                       title={
                         pkg.isDefault
-                          ? 'The default package cannot be deleted'
+                          ? _('The default package cannot be deleted')
                           : undefined
                       }
                     >
-                      Delete
+                      {_('Delete')}
                     </Button>
                   }
-                  title={`Delete package "${pkg.name}"?`}
-                  description="This cannot be undone. Packages still assigned to products can't be removed."
-                  confirmLabel="Delete"
+                  title={_('Delete package "${name}"?', { name: pkg.name })}
+                  description={_(
+                    "This cannot be undone. Packages still assigned to products can't be removed."
+                  )}
+                  confirmLabel={_('Delete')}
                   confirmVariant="destructive"
                   onConfirm={() => onDelete(pkg)}
                 />
@@ -135,8 +145,9 @@ export function Packages() {
           {packages.length === 0 && (
             <tr>
               <td colSpan={4} className="py-4 text-muted-foreground">
-                No packages yet. Create one — shippable products require a
-                package.
+                {_(
+                  'No packages yet. Create one — shippable products require a package.'
+                )}
               </td>
             </tr>
           )}
@@ -146,7 +157,7 @@ export function Packages() {
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <div className="flex justify-end mt-3">
           <DialogTrigger>
-            <Button>Create New Package</Button>
+            <Button>{_('Create New Package')}</Button>
           </DialogTrigger>
         </div>
         <DialogContent>

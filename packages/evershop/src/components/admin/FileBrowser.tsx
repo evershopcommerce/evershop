@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import './FileBrowser.scss';
 import { useQuery } from 'urql';
@@ -132,7 +133,7 @@ const FileBrowser: React.FC<{
   const createFolder = (e, folder) => {
     e.preventDefault();
     if (!folder || !folder.trim()) {
-      setError('Invalid folder name');
+      setError(_('Invalid folder name'));
       return;
     }
     const path = currentPath.map((f) => f.name);
@@ -169,7 +170,7 @@ const FileBrowser: React.FC<{
     });
 
     if (!file) {
-      setError('No file selected');
+      setError(_('No file selected'));
     } else {
       const path = currentPath.map((f) => f.name);
       path.push(file.name);
@@ -199,7 +200,7 @@ const FileBrowser: React.FC<{
     });
 
     if (!file) {
-      setError('No file selected');
+      setError(_('No file selected'));
     } else {
       onInsert(file.url);
     }
@@ -279,7 +280,7 @@ const FileBrowser: React.FC<{
   if (err) {
     return (
       <p className="text-destructive">
-        There was an error fetching file browser APIs.
+        {_('There was an error fetching file browser APIs.')}
         {err.message}
       </p>
     );
@@ -328,14 +329,14 @@ const FileBrowser: React.FC<{
             <div className="col-span-1">
               <div className="current-path mb-10">
                 <div className="flex">
-                  <div className="pr-2">You are here:</div>
+                  <div className="pr-2">{_('You are here:')}</div>
                   <div>
                     <a
                       href="#"
                       onClick={(e) => onSelectFolderFromBreadcrumb(e, 0)}
                       className="text-primary hover:underline"
                     >
-                      Root
+                      {_('Root')}
                     </a>
                   </div>
                   {currentPath
@@ -388,14 +389,14 @@ const FileBrowser: React.FC<{
                 ))}
                 {folders.length === 0 && (
                   <li className="list-group-item">
-                    <span>There is no sub folder.</span>
+                    <span>{_('There is no sub folder.')}</span>
                   </li>
                 )}
               </ul>
               <div className="justify-start items-center gap-2 flex">
                 <Input
                   type="text"
-                  placeholder="New folder"
+                  placeholder={_('New folder')}
                   ref={newFolderRefInput}
                 />
                 <Button
@@ -404,7 +405,7 @@ const FileBrowser: React.FC<{
                   }
                   variant={'outline'}
                 >
-                  Create
+                  {_('Create')}
                 </Button>
               </div>
             </div>
@@ -413,17 +414,17 @@ const FileBrowser: React.FC<{
               <div className="tool-bar grid grid-cols-3 gap-2 mb-5">
                 <Button
                   variant="destructive"
-                  title="Delete image"
+                  title={_('Delete image')}
                   onClick={() => deleteFile()}
                 >
-                  Delete
+                  {_('Delete')}
                 </Button>
                 <Button
                   variant="default"
-                  title="Insert image"
+                  title={_('Insert image')}
                   onClick={() => insertFile()}
                 >
-                  Insert
+                  {_('Insert')}
                 </Button>
                 <Button
                   variant="outline"
@@ -435,7 +436,7 @@ const FileBrowser: React.FC<{
                     ).click();
                   }}
                 >
-                  Upload
+                  {_('Upload')}
                 </Button>
                 <label
                   className="self-center"
@@ -452,7 +453,9 @@ const FileBrowser: React.FC<{
                   </a>
                 </label>
               </div>
-              {files.length === 0 && <div>There is no file to display.</div>}
+              {files.length === 0 && (
+                <div>{_('There is no file to display.')}</div>
+              )}
               <div className="grid grid-cols-9 gap-2">
                 {files.map((f) => (
                   <File file={f} select={onSelectFile} key={f.name} />

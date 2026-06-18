@@ -9,6 +9,7 @@ import {
   Segmented,
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import {
   AlignEndVertical,
   AlignStartVertical,
@@ -41,8 +42,8 @@ const POSITION_OPTIONS: ReadonlyArray<{
   value: SplitImagePosition;
   label: string;
 }> = [
-  { value: 'left', label: 'Image left' },
-  { value: 'right', label: 'Image right' }
+  { value: 'left', label: _('Image left') },
+  { value: 'right', label: _('Image right') }
 ];
 
 const ALIGN_OPTIONS: ReadonlyArray<{
@@ -50,18 +51,18 @@ const ALIGN_OPTIONS: ReadonlyArray<{
   label: string;
   icon: React.ReactNode;
 }> = [
-  { value: 'top', label: 'Top', icon: <AlignStartVertical className="h-3.5 w-3.5" /> },
+  { value: 'top', label: _('Top'), icon: <AlignStartVertical className="h-3.5 w-3.5" /> },
   {
     value: 'center',
-    label: 'Center',
+    label: _('Center'),
     icon: <AlignVerticalSpaceAround className="h-3.5 w-3.5" />
   },
-  { value: 'bottom', label: 'Bottom', icon: <AlignEndVertical className="h-3.5 w-3.5" /> }
+  { value: 'bottom', label: _('Bottom'), icon: <AlignEndVertical className="h-3.5 w-3.5" /> }
 ];
 
 const FIT_OPTIONS: ReadonlyArray<{ value: SplitImageFit; label: string }> = [
-  { value: 'cover', label: 'Cover' },
-  { value: 'contain', label: 'Contain' }
+  { value: 'cover', label: _('Cover') },
+  { value: 'contain', label: _('Contain') }
 ];
 
 const BLANK_CTA: CtaValue = {
@@ -110,8 +111,8 @@ export default function SplitFeatureSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Image">
-        <Field label={imageV ? 'Selected image' : 'No image selected'}>
+      <Section title={_('Image')}>
+        <Field label={imageV ? _('Selected image') : _('No image selected')}>
           <ImagePickerField
             value={imageV}
             onChange={(next) => {
@@ -129,7 +130,7 @@ export default function SplitFeatureSetting({
             }}
           />
         </Field>
-        <Field label="Alt text" hint="Required for accessibility.">
+        <Field label={_('Alt text')} hint={_('Required for accessibility.')}>
           <input
             type="text"
             value={imageAltV}
@@ -138,11 +139,11 @@ export default function SplitFeatureSetting({
                 shouldDirty: true
               })
             }
-            placeholder="Describe the image"
+            placeholder={_('Describe the image')}
             className={drawerInputClass}
           />
         </Field>
-        <Field label="Image fit">
+        <Field label={_('Image fit')}>
           <Segmented<SplitImageFit>
             value={imageFitV}
             options={FIT_OPTIONS}
@@ -153,8 +154,8 @@ export default function SplitFeatureSetting({
         </Field>
       </Section>
 
-      <Section title="Copy">
-        <Field label="Eyebrow" hint='Small all-caps label. E.g. "LIMITED EDITION".'>
+      <Section title={_('Copy')}>
+        <Field label={_('Eyebrow')} hint={_('Small all-caps label. E.g. "LIMITED EDITION".')}>
           <input
             type="text"
             value={eyebrowV}
@@ -163,11 +164,11 @@ export default function SplitFeatureSetting({
                 shouldDirty: true
               })
             }
-            placeholder="Limited edition"
+            placeholder={_('Limited edition')}
             className={drawerInputClass}
           />
         </Field>
-        <Field label="Headline">
+        <Field label={_('Headline')}>
           <input
             type="text"
             value={headingV}
@@ -176,24 +177,24 @@ export default function SplitFeatureSetting({
                 shouldDirty: true
               })
             }
-            placeholder="One strong line"
+            placeholder={_('One strong line')}
             className={drawerInputClass}
           />
         </Field>
-        <Field label="Body">
+        <Field label={_('Body')}>
           <MarkdownBodyField
             value={bodyV}
             onChange={(v) =>
               setValue('settings.body', v || null, { shouldDirty: true })
             }
-            placeholder="Two lines of supporting copy."
+            placeholder={_('Two lines of supporting copy.')}
             softLimit={400}
           />
         </Field>
       </Section>
 
-      <Section title="Layout">
-        <Field label="Image position">
+      <Section title={_('Layout')}>
+        <Field label={_('Image position')}>
           <Segmented<SplitImagePosition>
             value={imagePositionV}
             options={POSITION_OPTIONS}
@@ -202,7 +203,7 @@ export default function SplitFeatureSetting({
             }
           />
         </Field>
-        <Field label="Vertical alignment" hint="Aligns the copy panel content.">
+        <Field label={_('Vertical alignment')} hint={_('Aligns the copy panel content.')}>
           <Segmented<SplitVerticalAlign>
             value={verticalAlignV}
             options={ALIGN_OPTIONS}
@@ -213,7 +214,7 @@ export default function SplitFeatureSetting({
         </Field>
       </Section>
 
-      <Section title="Call to action">
+      <Section title={_('Call to action')}>
         {ctaV ? (
           <>
             <CtaField
@@ -229,7 +230,7 @@ export default function SplitFeatureSetting({
               }
               className="text-[11px] text-muted-foreground hover:text-destructive"
             >
-              Remove call to action
+              {_('Remove call to action')}
             </button>
           </>
         ) : (
@@ -240,7 +241,7 @@ export default function SplitFeatureSetting({
             }
             className="text-xs font-medium text-primary hover:underline"
           >
-            + Add a call to action
+            + {_('Add a call to action')}
           </button>
         )}
       </Section>

@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle
 } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useMemo, useState } from 'react';
 
 export interface RolloutPlanInput {
@@ -70,7 +71,7 @@ interface FieldErrors {
 }
 
 function fmtRange(startAt: string, endAt: string): string {
-  if (!startAt) return 'Draft — not scheduled';
+  if (!startAt) return _('Draft — not scheduled');
   const fmt = (v: string) =>
     new Date(v).toLocaleString(undefined, {
       month: 'short',
@@ -79,7 +80,7 @@ function fmtRange(startAt: string, endAt: string): string {
       hour: '2-digit',
       minute: '2-digit'
     });
-  return `${fmt(startAt)} → ${endAt ? fmt(endAt) : 'open'}`;
+  return `${fmt(startAt)} → ${endAt ? fmt(endAt) : _('open')}`;
 }
 
 /**
@@ -97,7 +98,7 @@ function validate(
   const errors: FieldErrors = {};
 
   if (!name.trim()) {
-    errors.name = 'Name is required.';
+    errors.name = _('Name is required.');
   }
 
   // Start time is required to actually schedule. Empty start = draft mode,
@@ -106,21 +107,21 @@ function validate(
   if (startAt) {
     const ms = new Date(startAt).getTime();
     if (Number.isNaN(ms)) {
-      errors.startTime = 'Start time is invalid.';
+      errors.startTime = _('Start time is invalid.');
     } else {
       startMs = ms;
     }
   } else {
-    errors.startTime = 'Pick a start time to schedule this rollout.';
+    errors.startTime = _('Pick a start time to schedule this rollout.');
   }
 
   let endMs: number | null = null;
   if (endAt) {
     const ms = new Date(endAt).getTime();
     if (Number.isNaN(ms)) {
-      errors.endTime = 'End time is invalid.';
+      errors.endTime = _('End time is invalid.');
     } else if (startMs != null && ms <= startMs) {
-      errors.endTime = 'End time must be after start time.';
+      errors.endTime = _('End time must be after start time.');
     } else {
       endMs = ms;
     }
@@ -147,9 +148,14 @@ function validate(
       }
     }
     if (conflicts.length > 0) {
-      errors.overlap = `Overlaps with existing rollout${
-        conflicts.length === 1 ? '' : 's'
-      }: ${conflicts.join(', ')}.`;
+      errors.overlap =
+        conflicts.length === 1
+          ? _('Overlaps with existing rollout: ${plans}.', {
+              plans: conflicts.join(', ')
+            })
+          : _('Overlaps with existing rollouts: ${plans}.', {
+              plans: conflicts.join(', ')
+            });
       errors.overlapPlans = conflicts;
     }
   }
@@ -257,17 +263,24 @@ export function RolloutDialog({
   const statusBadgeLabel: string = (() => {
     if (errors.overlap && (errors.overlapPlans?.length ?? 0) > 0) {
       const planNames = errors.overlapPlans!;
-      if (planNames.length === 1) return `Conflicts with ${planNames[0]}`;
+      if (planNames.length === 1)
+        return _('Conflicts with ${plan}', { plan: planNames[0] });
       if (planNames.length === 2)
-        return `Conflicts with ${planNames[0]}, ${planNames[1]}`;
-      return `Conflicts with ${planNames[0]} +${planNames.length - 1}`;
+        return _('Conflicts with ${plan1}, ${plan2}', {
+          plan1: planNames[0],
+          plan2: planNames[1]
+        });
+      return _('Conflicts with ${plan} +${count}', {
+        plan: planNames[0],
+        count: String(planNames.length - 1)
+      });
     }
-    if (errors.endTime) return 'Invalid window';
-    if (errors.startTime) return 'Invalid start';
-    if (errors.name) return 'Missing name';
+    if (errors.endTime) return _('Invalid window');
+    if (errors.startTime) return _('Invalid start');
+    if (errors.name) return _('Missing name');
     // Defensive — shouldn't reach here when isValid is false but the
     // errors map is somehow empty. Keep the original generic label.
-    return 'Has conflicts';
+    return _('Has conflicts');
   })();
 
   const handleSave = () => {
@@ -289,26 +302,32 @@ export function RolloutDialog({
       <DialogContent className="sm:max-w-[520px]">
         <DialogHeader>
           <DialogTitle>
-            {isEditMode ? 'Edit rollout schedule' : 'Save as rollout plan'}
+            {isEditMode
+              ? _('Edit rollout schedule')
+              : _('Save as rollout plan')}
           </DialogTitle>
         </DialogHeader>
 
         <div className="rounded-md bg-muted/40 px-3 py-2.5 text-xs text-muted-foreground leading-relaxed">
           {isEditMode
-            ? 'Update the name and active window for this rollout plan. Content edits are managed separately in the editor.'
-            : 'A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.'}
+            ? _(
+                'Update the name and active window for this rollout plan. Content edits are managed separately in the editor.'
+              )
+            : _(
+                'A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.'
+              )}
         </div>
 
         <div className="space-y-1.5">
           <label className="block text-xs font-semibold text-foreground/80 tracking-wide">
-            Name
+            {_('Name')}
           </label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             onBlur={() => setTouched((t) => ({ ...t, name: true }))}
-            placeholder="e.g. Summer Sale 2026"
+            placeholder={_('e.g. Summer Sale 2026')}
             aria-invalid={!!showError('name')}
             className={`w-full bg-card border rounded-md px-2.5 py-1.5 text-sm focus:outline-none focus:ring-1 ${
               showError('name')
@@ -326,7 +345,7 @@ export function RolloutDialog({
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
             <label className="block text-xs font-semibold text-foreground/80 tracking-wide">
-              Start
+              {_('Start')}
             </label>
             <input
               type="datetime-local"
@@ -348,9 +367,9 @@ export function RolloutDialog({
           </div>
           <div className="space-y-1.5">
             <label className="block text-xs font-semibold text-foreground/80 tracking-wide">
-              End{' '}
+              {_('End')}{' '}
               <span className="font-normal text-muted-foreground">
-                (optional)
+                {_('(optional)')}
               </span>
             </label>
             <input
@@ -387,7 +406,7 @@ export function RolloutDialog({
           <div className="flex flex-wrap items-center gap-2">
             {willBeDraft ? (
               <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-semibold bg-muted/50 text-muted-foreground">
-                Pending start time
+                {_('Pending start time')}
               </span>
             ) : (
               <span
@@ -397,13 +416,15 @@ export function RolloutDialog({
                     : 'bg-destructive/15 text-destructive'
                 }`}
               >
-                {isValid ? 'Scheduled' : statusBadgeLabel}
+                {isValid ? _('Scheduled') : statusBadgeLabel}
               </span>
             )}
             <span>
               {willBeDraft
-                ? 'Set a start time to schedule.'
-                : `Will roll out automatically: ${fmtRange(startAt, endAt)}`}
+                ? _('Set a start time to schedule.')
+                : _('Will roll out automatically: ${range}', {
+                    range: fmtRange(startAt, endAt)
+                  })}
             </span>
           </div>
           {/* When the proposed window overlaps existing plans, render each
@@ -416,13 +437,13 @@ export function RolloutDialog({
           {!isValid && !willBeDraft && (errors.overlapPlans?.length ?? 0) > 0 && (
             <div className="flex flex-wrap items-center gap-1.5">
               <span className="text-[11px] text-muted-foreground">
-                Conflicts with:
+                {_('Conflicts with:')}
               </span>
               {errors.overlapPlans!.map((planName) => (
                 <span
                   key={planName}
                   className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-destructive/10 text-destructive text-[11px] font-medium"
-                  title={`Existing rollout plan: ${planName}`}
+                  title={_('Existing rollout plan: ${plan}', { plan: planName })}
                 >
                   {planName}
                 </span>
@@ -434,14 +455,14 @@ export function RolloutDialog({
         <DialogFooter>
           <ButtonGroup className="gap-2">
             <Button variant="ghost" onClick={onClose} disabled={isBusy}>
-              Cancel
+              {_('Cancel')}
             </Button>
             <Button onClick={handleSave} disabled={isBusy || !isValid}>
               {isBusy
-                ? 'Saving…'
+                ? _('Saving…')
                 : isEditMode
-                ? 'Save changes'
-                : 'Create rollout plan'}
+                ? _('Save changes')
+                : _('Create rollout plan')}
             </Button>
           </ButtonGroup>
         </DialogFooter>

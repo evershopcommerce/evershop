@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -35,10 +36,10 @@ export default function LifetimeSale({ api }) {
   const { orders, total, completed_percentage, cancelled_percentage } = data;
 
   const chartData = [
-    { name: 'Completed', value: completed_percentage },
-    { name: 'Cancelled', value: cancelled_percentage },
+    { name: _('Completed'), value: completed_percentage },
+    { name: _('Cancelled'), value: cancelled_percentage },
     {
-      name: 'Others',
+      name: _('Others'),
       value: 100 - completed_percentage - cancelled_percentage
     }
   ];
@@ -66,7 +67,7 @@ export default function LifetimeSale({ api }) {
     return (
       <Card title="Lifetime Sales">
         <CardHeader>
-          <CardTitle>Lifetime Sales</CardTitle>
+          <CardTitle>{_('Lifetime Sales')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="skeleton-wrapper-lifetime">
@@ -87,31 +88,41 @@ export default function LifetimeSale({ api }) {
     return (
       <Card title="Lifetime Sales">
         <CardHeader>
-          <CardTitle>Lifetime Sales</CardTitle>
+          <CardTitle>{_('Lifetime Sales')}</CardTitle>
           <CardDescription>
-            Overview of total sales and order status over the lifetime of your
+            {_(
+              'Overview of total sales and order status over the lifetime of your store'
+            )}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 gap-2">
             <div className="flex space-x-2 items-center">
               <Dot variant="info" />
-              <div className="self-center">{orders} orders</div>
+              <div className="self-center">
+                {_('${count} orders', { count: orders })}
+              </div>
             </div>
             <div className="flex space-x-2 items-center">
               <Dot variant="info" />
-              <div className="self-center">{total} lifetime sale</div>
+              <div className="self-center">
+                {_('${total} lifetime sale', { total })}
+              </div>
             </div>
             <div className="flex space-x-2 items-center">
               <Dot variant="success" />
               <div className="self-center">
-                {completed_percentage}% of orders completed
+                {_('${pct}% of orders completed', {
+                  pct: completed_percentage
+                })}
               </div>
             </div>
             <div className="flex space-x-2 items-center">
               <Dot variant="critical" />
               <div className="self-center">
-                {cancelled_percentage}% of orders cancelled
+                {_('${pct}% of orders cancelled', {
+                  pct: cancelled_percentage
+                })}
               </div>
             </div>
           </div>

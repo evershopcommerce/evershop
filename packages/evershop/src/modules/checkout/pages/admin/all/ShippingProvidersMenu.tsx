@@ -6,6 +6,7 @@ import {
   ItemDescription,
   ItemTitle
 } from '@components/common/ui/Item.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { cn } from '@evershop/evershop/lib/util/cn';
 import { Truck } from 'lucide-react';
 import React from 'react';
@@ -45,13 +46,15 @@ export default function ShippingProvidersMenu({
                 isActive && 'text-primary'
               )}
             >
-              Shipping Providers
+              {_('Shipping Providers')}
             </a>
           </div>
         </ItemTitle>
         <ItemDescription>
           <div>
-            Manage shipping integrations and their methods (Core, USPS, FedEx, …)
+            {_(
+              'Manage shipping integrations and their methods (Core, USPS, FedEx, …)'
+            )}
           </div>
         </ItemDescription>
       </ItemContent>

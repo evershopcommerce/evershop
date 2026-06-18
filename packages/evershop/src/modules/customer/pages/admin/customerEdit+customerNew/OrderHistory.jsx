@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -12,14 +13,14 @@ export default function OrderHistory({ customer: { orders = [] } }) {
   return (
     <Card title="Order History">
       <CardHeader>
-        <CardTitle>Order History</CardTitle>
+        <CardTitle>{_('Order History')}</CardTitle>
         <CardDescription>
-          Recently placed orders by this customer
+          {_('Recently placed orders by this customer')}
         </CardDescription>
       </CardHeader>
       {orders.length < 1 && (
         <CardContent>
-          <div>Customer does not have any order yet.</div>
+          <div>{_('Customer does not have any order yet.')}</div>
         </CardContent>
       )}
       {orders.length > 0 && (

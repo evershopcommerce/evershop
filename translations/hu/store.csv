@@ -1,0 +1,1686 @@
+Welcome Back!,Üdvözöljük újra!
+Please sign in to your account ,"Kérjük, jelentkezzen be a fiókjába "
+Join us for exclusive offers and order tracking,Csatlakozzon hozzánk exkluzív ajánlatokért és rendeléskövetésért
+Sign Up,Regisztráció
+Signing Up...,Regisztráció...
+Signing In...,Bejelentkezés...
+Recent Orders,Legutóbbi rendelések
+Address Book,Címjegyzék
+You have no addresses saved,Nincs mentett cím
+Add new address,Új cím hozzáadása
+Address 2,Cím 2
+Set as default,Beállítás alapértelmezettként
+Save,Mentés
+Edit,Szerkesztés
+Delete,Törlés
+Edit Address,Cím szerkesztése
+Product Filters,Termékszűrők
+No products found,Nem található termék
+${count} Products,${count} termék
+Default,Alapértelmezett
+Name,Név
+No payment method available,Nincs elérhető fizetési mód
+Contact Information,Kapcsolattartási adatok
+Your Cart,Az Ön kosara
+Your cart is empty,A kosara üres
+Subtotal,Részösszeg
+View Cart (${totalQty}),Kosár megtekintése (${totalQty})
+Shopping Cart,Bevásárlókosár
+Logged in as,Bejelentkezve mint
+Payment Information,Fizetési adatok
+Same as shipping address,Megegyezik a szállítási címmel
+Use a different billing address,Eltérő számlázási cím használata
+Pick a payment method,Válasszon fizetési módot
+Select a payment method,Válasszon fizetési módot
+Complete Order,Rendelés véglegesítése
+Add to Cart,Kosárba
+Search,Keresés
+You will be redirected to PayPal,Át lesz irányítva a PayPal-ra
+We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,"Sajnáljuk. Hiba történt a fizetés feldolgozása során. Kártyáját nem terheltük meg. Kérjük, próbálja újra."
+${count} orders,${count} rendelés
+${field} is required,A(z) ${field} megadása kötelező
+${pct}% of orders cancelled,A rendelések ${pct}%-a törölve
+${pct}% of orders completed,A rendelések ${pct}%-a teljesítve
+${qty} sold,${qty} eladva
+${total} lifetime sale,${total} összes eladás
+(Guest Checkout),(Vendég vásárlás)
+(list),(lista)
+(optional),(opcionális)
+A coupon is already applied,Már alkalmazva van egy kupon
+A group needs at least one sub-field,Egy csoporthoz legalább egy almező szükséges
+A list of best selling products,A legkelendőbb termékek listája
+A list of customers who have placed the most orders,A legtöbb rendelést leadó vásárlók listája
+A regular expression the value must match.,"Reguláris kifejezés, amelyre az értéknek illeszkednie kell."
+Accepted values,Elfogadott értékek
+Active,Aktív
+Active Filters,Aktív szűrők
+Add address API not available,A cím hozzáadása API nem érhető el
+Add custom field,Egyedi mező hozzáadása
+Add field,Mező hozzáadása
+Add item,Tétel hozzáadása
+Add option,Lehetőség hozzáadása
+Add product,Termék hozzáadása
+Add some items to get started,Adjon hozzá néhány tételt a kezdéshez
+Add sub-field,Almező hozzáadása
+Adding...,Hozzáadás...
+Address has been deleted successfully!,A cím sikeresen törölve!
+Address has been saved successfully!,A cím sikeresen mentve!
+Address has been updated successfully!,A cím sikeresen frissítve!
+Adds target=_blank rel=noopener noreferrer.,Hozzáadja a target=_blank rel=noopener noreferrer attribútumokat.
+All items fulfilled,Minden tétel teljesítve
+All orders,Összes rendelés
+All your past orders,Minden korábbi rendelése
+Allow multiple,Több engedélyezése
+An unexpected error occurred. Please try again.,"Váratlan hiba történt. Kérjük, próbálja újra."
+Apply Filters,Szűrők alkalmazása
+Are you sure you want to mark the selected orders as shipped?,Biztosan kiszállítottként szeretné megjelölni a kiválasztott rendeléseket?
+Are you sure?,Biztos benne?
+Attribute Group,Tulajdonságcsoport
+Attribute code is used in API and must be unique,"A tulajdonságkód az API-ban használatos, és egyedinek kell lennie"
+Attribute options,Tulajdonság lehetőségei
+Attributes,Tulajdonságok
+Available shipping methods will appear once you provide your address details,"Az elérhető szállítási módok megjelennek, miután megadta a címadatait"
+Best Sellers,Legkelendőbb termékek
+Best customers,Legjobb vásárlók
+Billing address,Számlázási cím
+Black,Fekete
+Buy qty,Vásárolt mennyiség
+Buy qty is required,A vásárolt mennyiség megadása kötelező
+Can not process payment. Please try again later.,"A fizetés nem dolgozható fel. Kérjük, próbálja újra később."
+Can't be undone,Nem vonható vissza
+Cancel,Mégse
+Cancel Order,Rendelés törlése
+Cancel shipment,Szállítmány törlése
+Cancel this shipment?,Törli ezt a szállítmányt?
+Canceled,Törölve
+Cancelled,Törölve
+Cannot add billing address: cart not initialized,Nem adható hozzá számlázási cím: a kosár nincs inicializálva
+Cannot add contact info: cart not initialized,Nem adhatók hozzá kapcsolattartási adatok: a kosár nincs inicializálva
+Cannot add payment method: cart not initialized,Nem adható hozzá fizetési mód: a kosár nincs inicializálva
+Cannot add shipping address: cart not initialized,Nem adható hozzá szállítási cím: a kosár nincs inicializálva
+Cannot add shipping method: cart not initialized,Nem adható hozzá szállítási mód: a kosár nincs inicializálva
+Cannot add shipping method: providerCode is required,Nem adható hozzá szállítási mód: a providerCode megadása kötelező
+Cannot apply coupon: cart not initialized,Nem alkalmazható kupon: a kosár nincs inicializálva
+Cannot remove coupon: cart not initialized,Nem távolítható el a kupon: a kosár nincs inicializálva
+Carrier,Fuvarozó
+Carrier is required,A fuvarozó megadása kötelező
+Cart ID is required to checkout,A pénztárhoz a kosár azonosító megadása kötelező
+Cart is not initialized,A kosár nincs inicializálva
+Catalog,Katalógus
+Categories,Kategóriák
+Category,Kategória
+Charcoal,Szénfekete
+Checkout success,Sikeres fizetés
+Choose Product SKU,Válasszon termék SKU-t
+Choose SKU,Válasszon SKU-t
+Clear All,Összes törlése
+Clear Filters,Szűrők törlése
+Clear all,Összes törlése
+Clear categories,Kategóriák törlése
+Close fullscreen view,Teljes képernyős nézet bezárása
+Code,Kód
+Collections,Kollekciók
+Comma-separated; renders the value as a dropdown.,Vesszővel elválasztva; az értéket legördülő listaként jeleníti meg.
+Completed,Teljesítve
+Configurable,Konfigurálható
+Configure tax classes and tax rates,Adóosztályok és adókulcsok beállítása
+Confirm,Megerősítés
+Contact for pricing,Árért vegye fel a kapcsolatot
+Conveniently pay with cash at your doorstep when your order is delivered.,"Fizessen kényelmesen készpénzzel az ajtajánál, amikor a rendelését kézbesítik."
+Coupon applied successfully!,A kupon sikeresen alkalmazva!
+Coupon code is required,A kuponkód megadása kötelező
+Coupon does not match,A kupon nem egyezik
+Coupon removed successfully!,A kupon sikeresen eltávolítva!
+Cream,Krémszín
+Create,Létrehozás
+Create a new attribute,Új tulajdonság létrehozása
+Create a new group,Új csoport létrehozása
+Create a new package,Új csomag létrehozása
+Create shipment,Szállítmány létrehozása
+Created,Létrehozva
+Custom URL,Egyedi URL
+Custom field created,Egyedi mező létrehozva
+Custom field updated,Egyedi mező frissítve
+Custom fields,Egyedi mezők
+Custom fields (JSON),Egyedi mezők (JSON)
+Custom fields saved,Egyedi mezők mentve
+Customer Information,Vásárlói adatok
+Customer does not have any order yet.,A vásárlónak még nincs rendelése.
+Customer notes,Vásárlói megjegyzések
+Daily,Naponta
+Date and time must be after ${min},A dátumnak és időpontnak ${min} utáninak kell lennie
+Date and time must be before ${max},A dátumnak és időpontnak ${max} előttinek kell lennie
+Date must be after ${min},A dátumnak ${min} utáninak kell lennie
+Date must be before ${max},A dátumnak ${max} előttinek kell lennie
+Delete ${count} coupons,${count} kupon törlése
+Delete ${count} products,${count} termék törlése
+Delete address API not available,A cím törlési API nem érhető el
+Delivered,Kézbesítve
+Description,Leírás
+Disable,Letiltás
+Disable ${count} coupons,${count} kupon letiltása
+Disable ${count} customers,${count} ügyfél letiltása
+Disable ${count} products,${count} termék letiltása
+Disabled,Letiltva
+Discount percent,Kedvezmény százaléka
+Discount percent is required,A kedvezmény százaléka kötelező
+Display on Frontend?,Megjelenítés a felületen?
+Displays the mobile sidebar.,Megjeleníti a mobil oldalsávot.
+Done,Kész
+Drag to reorder,Húzza az átrendezéshez
+Duplicate,Másolat
+Edit custom field,Egyéni mező szerkesztése
+Edit field settings,Mezőbeállítások szerkesztése
+Edit package,Csomag szerkesztése
+Edit tracking info,Nyomkövetési adatok szerkesztése
+Editing ${name},${name} szerkesztése
+Email a shipment confirmation,Szállítási visszaigazolás küldése e-mailben
+Email a shipment confirmation with tracking details,Szállítási visszaigazolás küldése e-mailben nyomkövetési adatokkal
+Email is required,Az e-mail cím kötelező
+Enable,Engedélyezés
+Enable ${count} coupons,${count} kupon engedélyezése
+Enable ${count} customers,${count} ügyfél engedélyezése
+Enable ${count} products,${count} termék engedélyezése
+Enabled,Engedélyezve
+Enter attribute code,Adja meg a tulajdonság kódját
+Enter attribute name,Adja meg a tulajdonság nevét
+Enter text,Írjon be szöveget
+Enter value for ${attribute},Adjon meg értéket ehhez: ${attribute}
+Enter your email,Adja meg az e-mail címét
+Enter your new password,Adja meg az új jelszavát
+Enter your password,Adja meg a jelszavát
+Error,Hiba
+Failed to add address,Nem sikerült hozzáadni a címet
+Failed to add billing address,Nem sikerült hozzáadni a számlázási címet
+Failed to add billing address.,Nem sikerült hozzáadni a számlázási címet.
+Failed to add contact info,Nem sikerült hozzáadni a kapcsolattartási adatokat
+Failed to add contact info.,Nem sikerült hozzáadni a kapcsolattartási adatokat.
+Failed to add item to cart,Nem sikerült a tételt a kosárhoz adni
+Failed to add payment method,Nem sikerült hozzáadni a fizetési módot
+Failed to add payment method.,Nem sikerült hozzáadni a fizetési módot.
+Failed to add product to cart,Nem sikerült a terméket a kosárhoz adni
+Failed to add shipping address,Nem sikerült hozzáadni a szállítási címet
+Failed to add shipping address.,Nem sikerült hozzáadni a szállítási címet.
+Failed to add shipping method,Nem sikerült hozzáadni a szállítási módot
+Failed to add shipping method.,Nem sikerült hozzáadni a szállítási módot.
+Failed to apply coupon,Nem sikerült alkalmazni a kupont
+Failed to cancel shipment,Nem sikerült visszavonni a szállítmányt
+Failed to checkout,Nem sikerült a fizetés
+Failed to create field,Nem sikerült létrehozni a mezőt
+Failed to create shipment,Nem sikerült létrehozni a szállítmányt
+Failed to delete address,Nem sikerült törölni a címet
+Failed to load custom fields,Nem sikerült betölteni az egyéni mezőket
+Failed to mark delivered,Nem sikerült kézbesítettnek jelölni
+Failed to place order,Nem sikerült leadni a rendelést
+Failed to place order. Please try again.,"Nem sikerült leadni a rendelést. Kérjük, próbálja újra."
+Failed to remove coupon,Nem sikerült eltávolítani a kupont
+Failed to remove coupon.,Nem sikerült eltávolítani a kupont.
+Failed to save custom fields,Nem sikerült menteni az egyéni mezőket
+Failed to set shipping method,Nem sikerült beállítani a szállítási módot
+Failed to set shipping note,Nem sikerült beállítani a szállítási megjegyzést
+Failed to update address,Nem sikerült frissíteni a címet
+Failed to update field,Nem sikerült frissíteni a mezőt
+Failed to update shipment,Nem sikerült frissíteni a szállítmányt
+Failed to update tracking info,Nem sikerült frissíteni a nyomkövetési adatokat
+Failed to void label,Nem sikerült érvényteleníteni a címkét
+Failed!,Sikertelen!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,Az erre az entitástípusra alkalmazható mezők. Egy mező hozzáadása az adott típus minden entitására alkalmazza azt.
+File size must be less than ${maxSize},A fájl méretének ${maxSize} alatt kell lennie
+Filter Products,Termékek szűrése
+Filters,Szűrők
+First,Első
+Free,Ingyenes
+Free shipping,Ingyenes szállítás
+Free shipping ?,Ingyenes szállítás?
+Fulfill ${count} orders,${count} rendelés teljesítése
+Full Name is required,A teljes név megadása kötelező
+Fully shipped,Teljesen kiszállítva
+General,Általános
+Get qty,Kapott mennyiség
+Get qty is required,A kapott mennyiség megadása kötelező
+Ghost,Szellem
+Go,Mehet
+Go to Login,Tovább a bejelentkezéshez
+Go to next page,Ugrás a következő oldalra
+Go to previous page,Ugrás az előző oldalra
+Hello,Üdvözöljük
+Hide from storefront,Elrejtés a kirakatból
+ID,Azonosító
+In Stock,Raktáron
+Inactive,Inaktív
+Inclusive of tax ${totalTaxAmount},Adóval együtt: ${totalTaxAmount}
+Insert,Beszúrás
+Invalid address,Érvénytelen cím
+Invalid cart,Érvénytelen kosár
+Invalid cart id,Érvénytelen kosárazonosító
+Invalid coupon,Érvénytelen kupon
+Invalid customer,Érvénytelen ügyfél
+Invalid customer id,Érvénytelen ügyfélazonosító
+Invalid email or password,Érvénytelen e-mail cím vagy jelszó
+Invalid format,Érvénytelen formátum
+Invalid quantity,Érvénytelen mennyiség
+Is Filterable?,Szűrhető?
+Is Required?,Kötelező?
+Item,Tétel
+Items,Tételek
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,A szállítmány tételei visszakerülnek a rendelés ki nem szállított készletébe. Ez a művelet nem vonható vissza.
+Key,Kulcs
+Key is required,A kulcs megadása kötelező
+Label,Címke
+Label voided,Címke érvénytelenítve
+Language,Nyelv
+Last,Utolsó
+Lifetime Sales,Teljes eladás
+Light gray,Világosszürke
+Limit,Korlát
+Link,Hivatkozás
+Loading,Betöltés
+Log in,Bejelentkezés
+Logging in...,Bejelentkezés...
+Logging out...,Kijelentkezés...
+Login failed,A bejelentkezés sikertelen
+Logout failed,A kijelentkezés sikertelen
+Look like you just started. No bestsellers yet.,"Úgy tűnik, még csak most kezdte. Még nincsenek sikertermékek."
+"Lowercase letters, digits, underscore. Immutable.","Kisbetűk, számjegyek, aláhúzás. Nem módosítható."
+Manage the general information of the attribute.,A tulajdonság általános információinak kezelése.
+Manage the setting of the attribute.,A tulajdonság beállításainak kezelése.
+Mark as shipped,Megjelölés kiszállítottként
+Mark delivered,Megjelölés kézbesítettként
+Mark shipment as delivered?,Megjelöli a szállítmányt kézbesítettként?
+Max length,Maximális hossz
+Max of Y,Y maximuma
+Max of Y is required,Y maximumának megadása kötelező
+Max value,Maximális érték
+Min length,Minimális hossz
+Min value,Minimális érték
+Minimum quantity,Minimális mennyiség
+Mint,Menta
+Monthly,Havi
+More,Több
+More pages,További oldalak
+Move down,Mozgatás lefelé
+Move up,Mozgatás felfelé
+Multiselect,Többszörös választás
+Must be at least ${n},Legalább ${n} kell legyen
+Must be at least ${n} characters,Legalább ${n} karakter kell legyen
+Must be at most ${n},Legfeljebb ${n} lehet
+Must be at most ${n} characters,Legfeljebb ${n} karakter lehet
+"Must start with a letter; lowercase letters, digits, underscore only","Betűvel kell kezdődnie; csak kisbetűk, számjegyek és aláhúzás engedélyezett"
+Name is required,A név megadása kötelező
+New Product,Új termék
+New Widget,Új widget
+New folder,Új mappa
+Next,Tovább
+Next slide,Következő dia
+No,Nem
+No address data received,Nem érkezett címadat
+"No attribute groups found for query ""${query}""","Nincs találat ""${query}"" keresésre attribútumcsoportok között"
+No carriers registered,Nincs regisztrált fuvarozó
+"No categories found for ""${term}""","Nincs kategória találat ""${term}"" keresésre"
+"No categories found for query ""${query}""","Nincs kategória találat ""${query}"" keresésre"
+"No collections found for query ""${query}""","Nincs gyűjtemény találat ""${query}"" keresésre"
+No coupon to remove,Nincs eltávolítható kupon
+No custom fields yet.,Még nincsenek egyéni mezők.
+No data available,Nincs elérhető adat
+No free shipping,Nincs ingyenes szállítás
+No limit,Nincs korlát
+No maximum,Nincs maximum
+No minimum,Nincs minimum
+No notes from customer,Nincs megjegyzés a vásárlótól
+"No options found for ""${code}""","Nincs opció találat ""${code}"" kódra"
+"No products found for query ""${query}""","Nincs termék találat ""${query}"" keresésre"
+No shipments yet — your order is being prepared.,Még nincs szállítmány — a rendelése előkészítés alatt áll.
+No shipping is required for this order,Ehhez a rendeléshez nincs szükség szállításra
+No shipping methods available,Nincs elérhető szállítási mód
+No shipping options are available for your location,Az Ön helyszínére nincs elérhető szállítási lehetőség
+No shipping required,Nincs szükség szállításra
+No widgets match your search.,Nincs a keresésnek megfelelő widget.
+None,Nincs
+Not set,Nincs beállítva
+Not visible to customers,A vásárlók számára nem látható
+Notify customer,Vásárló értesítése
+Open in new tab,Megnyitás új lapon
+Operator,Operátor
+Option text,Opció szövege
+Optional help text shown to admins.,Az adminoknak megjelenő opcionális súgószöveg.
+Order Placed,Rendelés leadva
+Order detail,Rendelés részletei
+Order must contain products matching all conditions below,A rendelésnek az alábbi összes feltételnek megfelelő termékeket kell tartalmaznia
+Order not found,A rendelés nem található
+Orders,Rendelések
+Others,Egyéb
+Out of Stock,Elfogyott
+Outline,Körvonal
+Overview of sales data over selected periods,Az értékesítési adatok áttekintése a kiválasztott időszakokra
+Overview of total sales and order status over the lifetime of your store,A teljes értékesítés és a rendelési állapot áttekintése az üzlet teljes élettartama alatt
+Page,Oldal
+Page ${currentPage} of ${totalPages},${currentPage}. oldal / ${totalPages}
+Page not found,Az oldal nem található
+Password is required,A jelszó megadása kötelező
+Password must be at least ${minLength} characters long,A jelszónak legalább ${minLength} karakter hosszúnak kell lennie
+Paste a URL or a relative path starting with ,"Illesszen be egy URL-t vagy egy relatív elérési utat, amely ezzel kezdődik: "
+Pattern (regex),Minta (regex)
+Pay with PayPal,Fizetés PayPallal
+Pay with Stripe,Fizetés Stripe-pal
+Payment Status,Fizetési állapot
+Placing Order...,Rendelés leadása...
+Please enter a coupon code,Adjon meg egy kuponkódot
+Please enter a valid URL,Adjon meg egy érvényes URL-t
+Please enter a valid email address,Adjon meg egy érvényes e-mail-címet
+Please enter your email to receive a reset link,Adja meg az e-mail-címét a visszaállítási hivatkozás fogadásához
+Please provide billing address to proceed,A folytatáshoz adja meg a számlázási címet
+Please select a payment method,Válasszon fizetési módot
+Please select a shipping method,Válasszon szállítási módot
+Please sign in to your account,Jelentkezzen be a fiókjába
+Position,Pozíció
+Previous,Előző
+Previous slide,Előző dia
+Price: ${value},Ár: ${value}
+Primary,Elsődleges
+Print Label,Címke nyomtatása
+Processing Payment...,Fizetés feldolgozása...
+Product Description,Termékleírás
+Product is out of stock,A termék elfogyott
+Product name is required,A terméknév megadása kötelező
+Product not found,A termék nem található
+Product type,Terméktípus
+Products,Termékek
+Reason for cancellation,A lemondás oka
+Reason is required,Az indoklás megadása kötelező
+Recently placed orders by this customer,Ennek a vásárlónak a legutóbb leadott rendelései
+Redirecting to PayPal...,Átirányítás a PayPalra...
+Reference type,Hivatkozás típusa
+Registration failed,A regisztráció sikertelen
+Remove item,Tétel eltávolítása
+Remove sub-field,Almező eltávolítása
+Required,Kötelező
+Requires at least one item to create a cart,A kosár létrehozásához legalább egy tétel szükséges
+Reset Password,Jelszó visszaállítása
+Reset Your Password,Állítsa vissza a jelszavát
+Reset password,Jelszó visszaállítása
+Reset your password,Állítsa vissza a jelszavát
+Root,Gyökér
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,A SKU-nak egyedinek kell lennie
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,Értékesítési statisztikák
+Save custom fields,Egyéni mezők mentése
+Save field,Mező mentése
+Saved successfully!,Sikeresen mentve!
+Search attribute groups,Attribútumcsoportok keresése
+Search categories,Kategóriák keresése
+Search collections,Gyűjtemények keresése
+"Search for products, orders, and other resources","Keressen termékeket, rendeléseket és egyéb erőforrásokat"
+Search products,Termékek keresése
+Search results for: ${keyword},Keresési eredmények erre: ${keyword}
+Search widgets…,Widgetek keresése…
+Searching...,Keresés...
+Search…,Keresés…
+See all orders →,Összes rendelés megtekintése →
+Select,Kiválasztás
+Select a carrier,Válasszon fuvarozót
+Select at least one item to ship,Válasszon ki legalább egy tételt a szállításhoz
+Select groups the attribute belongs to,"Válassza ki azokat a csoportokat, amelyekhez az attribútum tartozik"
+Select shipping method,Válasszon szállítási módot
+Select sort,Válasszon rendezést
+"Select the items going in this shipment, then add the carrier & tracking.","Válassza ki a szállítmányba kerülő tételeket, majd adja hozzá a fuvarozót és a nyomon követést."
+Setting,Beállítás
+Settings,Beállítások
+Shipment Status,Szállítmány állapota
+Shipment canceled,Szállítmány lemondva
+Shipment created,Szállítmány létrehozva
+Shipment marked delivered,Szállítmány kézbesítettként megjelölve
+Shipments,Szállítmányok
+Shipped,Kiszállítva
+Shipping (${method}),Szállítás (${method})
+Shipping Setting,Szállítási beállítás
+Show,Mutat
+Show all ${count} options,Mind a(z) ${count} opció megjelenítése
+Show on storefront,Megjelenítés a webáruházban
+Showing ${showing} of ${total},${showing} / ${total} megjelenítve
+Showing ${start}-${end} of ${total} results,${start}-${end} / ${total} eredmény megjelenítve
+Sidebar,Oldalsáv
+Sign in to view your orders,Jelentkezzen be a rendelései megtekintéséhez
+Simple,Egyszerű
+Sky,Égkék
+Sold out,Elfogyott
+Some error occurred. Please try again later.,"Hiba történt. Kérjük, próbálja újra később."
+Some products are not available,Néhány termék nem elérhető
+Something went wrong! Please try again.,"Valami hiba történt! Kérjük, próbálja újra."
+Something went wrong. Please try again later.,"Hiba történt. Kérjük, próbálja újra később."
+Something wrong. Please try again,"Hiba történt. Kérjük, próbálja újra"
+Sort Order,Rendezési sorrend
+Sort order,Rendezési sorrend
+Status,Állapot
+Stock,Készlet
+Stripe is not loaded. Please try again.,"A Stripe nem töltődött be. Kérjük, próbálja újra."
+Style,Stílus
+Sub-fields,Almezők
+Submit Cancellation,Lemondás beküldése
+Successfully logged in,Sikeres bejelentkezés
+Successfully logged out,Sikeres kijelentkezés
+Tax Setting,Adóbeállítás
+Test failure,Teszt sikertelen
+Test failure:,Teszt sikertelen:
+Test success,Teszt sikeres
+Test success:,Teszt sikeres:
+Text,Szöveg
+Textarea,Szövegmező
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,"A futárszolgálat érvénytelennek jelöli a nyomkövetési számot. Új címkét kell vásárolnia, ha továbbra is szállítani szeretne."
+The customer will receive a delivery confirmation email.,Az ügyfél kézbesítési visszaigazoló e-mailt kap.
+There is no category,Nincs kategória
+There is no file to display.,Nincs megjeleníthető fájl.
+There is no sub folder.,Nincs almappa.
+There was an error:,Hiba történt:
+This tracking link has expired,Ez a nyomkövetési hivatkozás lejárt
+This tracking link is no longer valid,Ez a nyomkövetési hivatkozás már nem érvényes
+Thumbnail,Bélyegkép
+Time must be after ${min},Az időpontnak ${min} után kell lennie
+Time must be before ${max},Az időpontnak ${max} előtt kell lennie
+Toggle Sidebar,Oldalsáv ki-/bekapcsolása
+Token is invalid or expired,A token érvénytelen vagy lejárt
+Too many items requested,Túl sok elemet kért
+Track,Nyomon követés
+Track shipment →,Szállítmány nyomon követése →
+Track your order,Rendelés nyomon követése
+Tracking info updated,Nyomkövetési információ frissítve
+Tracking link,Nyomkövetési hivatkozás
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,"A nyomkövetési hivatkozások csak korlátozott ideig érvényesek. Jelentkezzen be fiókjába, hogy lássa rendelése aktuális állapotát."
+Tracking number,Nyomkövetési szám
+Type,Típus
+Type / to see the available blocks,Írja be a / jelet az elérhető blokkok megtekintéséhez
+UPDATE PASSWORD,JELSZÓ MÓDOSÍTÁSA
+Update address API not available,A cím frissítési API nem érhető el
+Update field,Mező frissítése
+Upload,Feltöltés
+Validation,Ellenőrzés
+Value,Érték
+Value must be a whole number,Az értéknek egész számnak kell lennie
+Value must be at least ${min},Az értéknek legalább ${min} kell lennie
+Value must be at most ${max},Az érték legfeljebb ${max} lehet
+View All Products,Összes termék megtekintése
+View JSON,JSON megtekintése
+View all customers,Összes ügyfél megtekintése
+Visible to customer,Látható az ügyfél számára
+Void Label,Címke érvénytelenítése
+Void label,Címke érvénytelenítése
+Void this shipping label?,Érvényteleníti ezt a szállítási címkét?
+"We could not find this order. It may have been removed, or it may belong to a different account.","Nem találtuk ezt a rendelést. Lehet, hogy eltávolították, vagy egy másik fiókhoz tartozik."
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","Nem tudtuk ellenőrizni ezt a hivatkozást. Ha tőlünk e-mailben kapta, próbálja újra a legutóbbi üzenetből, vagy jelentkezzen be fiókjába."
+We have sent you an email with a link to reset your password. Please check your inbox.,"E-mailt küldtünk a jelszó visszaállításához szükséges hivatkozással. Kérjük, ellenőrizze postaládáját."
+Weekly,Hetente
+Welcome to our store!,Üdvözöljük üzletünkben!
+"Where you ship, shipping methods and delivery fee","Hová szállít, szállítási módok és kézbesítési díj"
+White,Fehér
+Yes,Igen
+You are already logged in,Ön már bejelentkezett
+You are here:,Ön itt van:
+You have no attribute groups to display,Nincs megjeleníthető tulajdonságcsoport
+You have no categories to display,Nincs megjeleníthető kategória
+You have no collections to display,Nincs megjeleníthető kollekció
+You have no products to display,Nincs megjeleníthető termék
+You have not placed any orders yet.,Még nem adott le rendelést.
+You paid for,Ön fizetett ezért:
+You will be redirected to PayPal for payment processing.,Átirányítjuk a PayPalhoz a fizetés feldolgozásához.
+Your Orders,Rendelései
+Your order #${number} has been delivered,#${number} számú rendelését kézbesítettük
+Your order #${number} is on the way,#${number} számú rendelése úton van
+Your order has been confirmed!,Rendelését megerősítettük!
+Your password has been updated successfully.,Jelszava sikeresen frissült.
+across,összesen
+available to ship,szállításra kész
+breadcrumb,morzsamenü
+e.g. Care instructions,pl. Kezelési útmutató
+"e.g. New, Sale, Limited","pl. Új, Akció, Limitált"
+e.g. Question,pl. Kérdés
+e.g. care_instructions,pl. care_instructions
+e.g. question,pl. question
+item,elem
+items,elem
+left to ship,szállításra vár
+of,/
+of ${count},/ ${count}
+unit,egység
+units,egység
+${count} changes published.,${count} módosítás közzétéve.
+${count} child widgets,${count} alwidget
+${count} countries,${count} ország
+${count} on ${route},${count} a(z) ${route} útvonalon
+${count} ops total,${count} művelet összesen
+${count} pending ops,${count} függőben lévő művelet
+${count} pending ops on,${count} függőben lévő művelet itt:
+${count} routes,${count} útvonal
+${direction} failed,${direction} sikertelen
+${method} — ${zone} rate,${method} — ${zone} díjszabás
+${method} — new rate,${method} — új díjszabás
+${name} attached to ${zone},${name} hozzárendelve ehhez: ${zone}
+${name} configuration for ${zone},${name} konfiguráció ehhez: ${zone}
+${name} configuration for this zone,${name} konfiguráció ehhez a zónához
+${name} configuration saved for ${zone},${name} konfiguráció mentve ehhez: ${zone}
+${name} detached,${name} leválasztva
+${name} is required,A(z) ${name} megadása kötelező
+${title} settings,${title} beállításai
+${total} changes will go live immediately.,${total} módosítás azonnal élesedik.
+${total} items,${total} elem
+(envelope),(boríték)
++ Add Line,+ Sor hozzáadása
++ Add Method,+ Mód hozzáadása
++ Add Rate,+ Díjszabás hozzáadása
++ Add placement,+ Elhelyezés hozzáadása
++ Attach Provider,+ Szolgáltató hozzárendelése
++ New package,+ Új csomag
++${count} more,+${count} további
+", +${count} more",", +${count} további"
+", last updated",", utoljára frissítve"
+0 for flat envelopes,0 a lapos borítékoknál
+1 change published.,1 módosítás közzétéve.
+1 change will go live immediately.,1 módosítás azonnal élesedik.
+1 child widget,1 alwidget
+1 op total,1 művelet összesen
+1 pending op,1 függőben lévő művelet
+1 pending op on,1 függőben lévő művelet itt:
+A package is required for shippable products,A szállítható termékekhez csomag szükséges
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,"A bevezetési terv pillanatképként menti az aktuális módosításokat, és automatikusan alkalmazza azokat egy ütemezett időablakban."
+Action,Művelet
+Actions,Műveletek
+Add,Hozzáadás
+Add Products,Termékek hozzáadása
+Add Rate,Díjszabás hozzáadása
+Add Shipping Method,Szállítási mód hozzáadása
+Add Tax Rate,Adókulcs hozzáadása
+Add Variant,Változat hozzáadása
+Add products to this category by selecting them from the list below.,Adjon hozzá termékeket ehhez a kategóriához az alábbi listából való kiválasztással.
+Add rate,Díjszabás hozzáadása
+Added,Hozzáadva
+Adding to Column ${number},Hozzáadás a(z) ${number}. oszlophoz
+Additional languages,További nyelvek
+Admin panel language,Adminisztrációs felület nyelve
+Affects ${count} pages,${count} oldalt érint
+Affects 1 page,1 oldalt érint
+All pages,Minden oldal
+All registered providers are already attached to this zone.,Minden regisztrált szolgáltató már csatolva van ehhez a zónához.
+All routes,Minden útvonal
+Also shown on ${routes},Megjelenik itt is: ${routes}
+Also shown on ${routes} +${count},Megjelenik itt is: ${routes} +${count}
+Amount must be greater than or equal to 0,Az összegnek 0-nál nagyobbnak vagy egyenlőnek kell lennie
+Amount must be less than or equal to ${value} ${currency},"Az összegnek kisebbnek vagy egyenlőnek kell lennie, mint ${value} ${currency}"
+Apply a condition?,Alkalmaz feltételt?
+Area,Terület
+Area is required,A terület megadása kötelező
+At least one country is required,Legalább egy ország megadása kötelező
+Attach,Csatolás
+Attach Provider to ${zone},Szolgáltató csatolása ehhez: ${zone}
+Attached Providers,Csatolt szolgáltatók
+Attribute Name,Attribútum neve
+Attribute code is required,Az attribútum kódja kötelező
+Attribute created successfully!,Az attribútum sikeresen létrejött!
+Attribute group,Attribútumcsoport
+Attribute name is required,Az attribútum neve kötelező
+Authorize only,Csak engedélyezés
+Auto-saves while you edit,Automatikus mentés szerkesztés közben
+Back To Dashboard,Vissza az irányítópultra
+Base calculation address,Alapszámítási cím
+Based on cart subtotal,Kosár részösszege alapján
+Based on cart weight,Kosár súlya alapján
+Basic configuration,Alapbeállítások
+Boolean,Logikai
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,"Beépített szállítási módok zónánkénti díjakkal. Először csatolja a Core-t egy zónához a Beállítások → Szállítás alatt; majd adjon hozzá itt módokat, és állítsa be a díjaikat zónánként."
+Buy X get Y,"Vegyél X-et, kapsz Y-t"
+CMS,CMS
+Calculation type,Számítási típus
+Can not change the attribute group of a product that is already in a variant group.,"Nem módosítható egy olyan termék attribútumcsoportja, amely már egy variánscsoport tagja."
+Cancel rollout,Bevezetés megszakítása
+Cancel rollout plan?,Megszakítja a bevezetési tervet?
+Canvas device width,Vászon eszközszélessége
+Capture,Beváltás
+Capture Payment,Fizetés beváltása
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,Fuvarozói tipp a teljesítéshez — soha nem jelenik meg a pénztárnál. A NewShipmentDialog ezt használja a fuvarozó előzetes kiválasztásához.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,"A címke vásárlásakor használt fuvarozó-specifikus szolgáltatáskód (CreateLabelInput.serviceCode). Szabad szöveges — ellenőrizze a pontos tokent a fuvarozó API-dokumentációjában. Hagyja üresen, hogy a fuvarozó az alapértelmezett szolgáltatását válassza."
+Cash On Delivery Payment,Utánvétes fizetés
+"Catalog, Search","Katalógus, Keresés"
+Category Image,Kategória képe
+Category Name,Kategória neve
+Category created successfully!,A kategória sikeresen létrejött!
+Category name is required,A kategória neve kötelező
+Choose Attribute Groups,Attribútumcsoportok kiválasztása
+Choose Categories,Kategóriák kiválasztása
+Choose Collections,Gyűjtemények kiválasztása
+Choose SKUs,SKU-k kiválasztása
+Choose how much of your unpublished work to discard. The published storefront is not affected.,"Válassza ki, mennyit szeretne elvetni a nem közzétett munkájából. A közzétett áruházat ez nem érinti."
+Choose where you ship and how much you charge for shipping.,"Válassza ki, hová szállít, és mennyit számít fel a szállításért."
+Clear filter,Szűrő törlése
+Clear filters,Szűrők törlése
+Client ID,Client ID
+Client Secret,Client Secret
+Close,Bezárás
+Close settings,Beállítások bezárása
+Close — continue draft,Bezárás — piszkozat folytatása
+Cms Pages,CMS-oldalak
+Collapse left rail,Bal oldali sáv összecsukása
+Collapse panel,Panel összecsukása
+Collection Code,Gyűjtemény kódja
+Collection Name,Gyűjtemény neve
+Collection code is required,A gyűjtemény kódja kötelező
+Collection code must be alphanumeric and can include underscores or dashes.,"A gyűjtemény kódja csak alfanumerikus lehet, és tartalmazhat aláhúzásokat vagy kötőjeleket."
+Collection created successfully!,A gyűjtemény sikeresen létrejött!
+Color,Szín
+Commerce,Kereskedelem
+Compound,Összetett
+Condition,Feltétel
+Configure,Beállítás
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,Állítsa be a költséget és a feltételeket zónánként. A díj nélküli zónák nem kínálják ezt a módot.
+Configure rate,Díj beállítása
+Configure the available payment methods,Az elérhető fizetési módok beállítása
+Configure the settings for the ${name} widget.,A(z) ${name} widget beállításainak konfigurálása.
+Configure the tax classes that will be available to your customers at checkout.,"Állítsa be az adóosztályokat, amelyek a vásárlók számára elérhetők lesznek a pénztárnál."
+Configure your Cash On Delivery payment gateway settings,Az utánvétes fizetési átjáró beállításainak konfigurálása
+Configure your Paypal payment gateway settings,A PayPal fizetési átjáró beállításainak konfigurálása
+Configure your Stripe payment gateway settings,A Stripe fizetési átjáró beállításainak konfigurálása
+Configure your store information,Az áruház adatainak beállítása
+"Conflicts with ${plan1}, ${plan2}","Ütközik ezzel: ${plan1}, ${plan2}"
+Conflicts with ${plan},Ütközik ezzel: ${plan}
+Conflicts with ${plan} +${count},Ütközik ezzel: ${plan} +${count}
+Conflicts with:,Ütközik ezekkel:
+Content,Tartalom
+Continue a saved rollout plan,Mentett bevezetési terv folytatása
+Continue your draft,Piszkozat folytatása
+Core Shipping,Core szállítás
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,A Core még nincs egyetlen zónához sem csatolva. Először csatolja a Beállítások → Szállítás alatt.
+Cost,Költség
+Cost is required,A költség megadása kötelező
+Could not start fresh,Nem sikerült újrakezdeni
+Countries,Országok
+"Country code (e.g., ""US""). Use ""*"" for all countries.",Országkód (pl. „US”). Használja a „*” jelet az összes országhoz.
+Coupon Code,Kuponkód
+"Coupon code can only contain letters, numbers, underscores, and hyphens","A kuponkód csak betűket, számokat, aláhúzásokat és kötőjeleket tartalmazhat"
+Coupon created successfully!,A kupon sikeresen létrejött!
+Coupons,Kuponok
+Create A New Customer,Új vásárló létrehozása
+Create New Package,Új csomag létrehozása
+Create New Tax Class,Új adóosztály létrehozása
+Create New Zone,Új zóna létrehozása
+Create a new category,Új kategória létrehozása
+Create a new collection,Új gyűjtemény létrehozása
+Create a new coupon,Új kupon létrehozása
+Create a new page,Új oldal létrehozása
+Create a new product,Új termék létrehozása
+Create a new variant for this product.,Új variáns létrehozása ehhez a termékhez.
+Create a new widget,Új widget létrehozása
+Create a variant group,Variánscsoport létrehozása
+Create method,Mód létrehozása
+Create new tax class,Új adóosztály létrehozása
+Create rollout plan,Bevezetési terv létrehozása
+Created At,Létrehozva
+Current,Jelenlegi
+Customer,Vásárló
+Customer Email,Vásárló e-mail-címe
+Customer conditions,Vásárlói feltételek
+Customer emails,Vásárlói e-mailek
+Customer groups,Vásárlói csoportok
+Customer's purchase,Vásárló vásárlása
+Customers,Vásárlók
+Customers (${count}),Vásárlók (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,A(z) ${zone} zónában lévő vásárlók többé nem látják a(z) ${name} módjait a pénztárnál. Később újra csatolhatja.
+Dashboard,Irányítópult
+Date,Dátum
+Decrease,Csökkentés
+Default carrier,Alapértelmezett fuvarozó
+Default language,Alapértelmezett nyelv
+Default package,Alapértelmezett csomag
+Default service code,Alapértelmezett szolgáltatáskód
+"Delete ""${name}""?",Törli a következőt: „${name}”?
+Delete ${count} attributes,${count} attribútum törlése
+Delete ${count} categories,${count} kategória törlése
+Delete ${count} collections,${count} gyűjtemény törlése
+Delete ${count} pages,${count} oldal törlése
+Delete ${count} widgets,${count} widget törlése
+Delete container widget?,Törli a konténer-widgetet?
+Delete image,Kép törlése
+"Delete package ""${name}""?",Törli a(z) „${name}” csomagot?
+Delete this,Törlés
+Delete this widget? This will be saved as a pending change you can publish or discard.,"Törli ezt a widgetet? Ez függőben lévő módosításként lesz mentve, amelyet közzétehet vagy elvethet."
+Delete widget?,Törli a widgetet?
+Delete zone,Zóna törlése
+"Delete zone ""${name}""?",Törli a(z) „${name}” zónát?
+Deleted ${name},${name} törölve
+Deleting this,Ennek törlése
+Deleting this container will also hide,A konténer törlése elrejti a következőt is:
+Description is required,A leírás megadása kötelező
+Desktop,Asztali
+Detach,Leválasztás
+Detach ${name}?,Leválasztja ezt: ${name}?
+Disable ${count} pages,${count} oldal letiltása
+Disable ${count} widgets,${count} widget letiltása
+Disabled products will not be visible in the store and cannot be purchased.,"A letiltott termékek nem jelennek meg az áruházban, és nem vásárolhatók meg."
+Discard changes on this page only,Csak ezen az oldalon végzett módosítások elvetése
+Discard everything,Minden elvetése
+Discard everything in this draft,Minden elvetése ebben a piszkozatban
+Discard failed,Az elvetés sikertelen
+Discard pending changes?,Elveti a függőben lévő módosításokat?
+Discard this page,Ezen oldal elvetése
+Discarding…,Elvetés…
+Discount Type,Kedvezmény típusa
+Discount amount,Kedvezmény összege
+Discount amount is required,A kedvezmény összege kötelező
+Discount type is required,A kedvezmény típusa kötelező
+Dislay Name,Megjelenített név
+Display Name,Megjelenített név
+Draft,Piszkozat
+Draft — not scheduled,Piszkozat — nincs ütemezve
+Drag to resize,Húzza az átméretezéshez
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","Minden sor egy oldalra, egy területre helyezi ezt a widgetet, saját rendezési sorrenddel. Az alacsonyabb számok jelennek meg elöl."
+Edit ${name},${name} szerkesztése
+Edit Shipping Zone,Szállítási zóna szerkesztése
+Edit Tax Rate,Adókulcs szerkesztése
+Edit Variant,Változat szerkesztése
+Edit Zone,Zóna szerkesztése
+Edit against the live storefront. Publish immediately or save as a rollout plan.,"Szerkesztés az élő áruház ellen. Tegye közzé azonnal, vagy mentse bevezetési tervként."
+Edit rollout schedule,Bevezetési ütemezés szerkesztése
+Editable routes,Szerkeszthető útvonalak
+Editing ${coupon},${coupon} szerkesztése
+Editing ${fullName},${fullName} szerkesztése
+Editing widget ${name},${name} widget szerkesztése
+Edits to a shared widget update every route it appears on.,"A megosztott widget módosításai minden útvonalat frissítenek, ahol megjelenik."
+Empty package weight,Üres csomag súlya
+Empty weight,Üres súly
+Enable ${count} pages,${count} oldal engedélyezése
+Enable ${count} widgets,${count} widget engedélyezése
+Enable this page to make it visible on the frontend.,"Engedélyezze ezt az oldalt, hogy láthatóvá váljon a felületen."
+Enable?,Engedélyezi?
+End,Vége
+End Date,Befejezés dátuma
+End date,Befejezés dátuma
+End time is invalid.,A befejezés időpontja érvénytelen.
+End time must be after start time.,A befejezés időpontjának a kezdés időpontja után kell lennie.
+Enter Category Name,Adja meg a kategória nevét
+Enter Collection Name,Adja meg a kollekció nevét
+Enter Meta Description,Adja meg a meta leírást
+Enter Meta Title,Adja meg a meta címet
+Enter Meta description,Adja meg a meta leírást
+Enter Meta title,Adja meg a meta címet
+Enter SKU,Adja meg a SKU-t
+Enter URL Key,Adja meg az URL-kulcsot
+Enter URL key,Adja meg az URL-kulcsot
+Enter customer emails,Adja meg az ügyfelek e-mail-címeit
+Enter description,Adja meg a leírást
+Enter group name,Adja meg a csoport nevét
+Enter meta description,Adja meg a meta leírást
+Enter meta title,Adja meg a meta címet
+Enter page name,Adja meg az oldal nevét
+Enter price,Adja meg az árat
+Enter product name,Adja meg a termék nevét
+Enter purchased amount,Adja meg a vásárolt mennyiséget
+Enter quantity,Adja meg a mennyiséget
+Enter tax class name,Adja meg az adóosztály nevét
+Enter the quantity,Adja meg a mennyiséget
+Enter weight,Adja meg a súlyt
+Environment,Környezet
+Error loading countries,Hiba az országok betöltésekor
+Error loading methods,Hiba a módszerek betöltésekor
+Error loading packages,Hiba a csomagok betöltésekor
+Error loading providers,Hiba a szolgáltatók betöltésekor
+Error loading zones,Hiba a zónák betöltésekor
+EverShop · Back to page builder,EverShop · Vissza az oldalszerkesztőhöz
+Every page rolls back to the rollout’s saved state.,Minden oldal visszaáll a bevezetés mentett állapotára.
+Every page rolls back to what the rollout had saved.,"Minden oldal visszaáll arra, amit a bevezetés elmentett."
+Existing rollout plan: ${plan},Meglévő bevezetési terv: ${plan}
+Expand,Kibontás
+Expand left rail,Bal oldali sáv kibontása
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.","További nyelvek, amelyekre a vásárlók átválthatnak az alapértelmezetten felül. Az alapértelmezett nyelv mindig elérhető — azt itt nem kell hozzáadnia."
+Failed to attach provider,A szolgáltató csatolása sikertelen
+Failed to delete ${name},${name} törlése sikertelen
+Failed to detach ${name},${name} leválasztása sikertelen
+Failed to remove rate,A kulcs eltávolítása sikertelen
+Failed to remove zone,A zóna eltávolítása sikertelen
+Failed to save change,A módosítás mentése sikertelen
+Failed to save rate,A kulcs mentése sikertelen
+Failed to save zone,A zóna mentése sikertelen
+Failed to update rollout schedule,A bevezetési ütemezés frissítése sikertelen
+Fixed discount to entire order,Fix kedvezmény a teljes rendelésre
+Fixed discount to specific products,Fix kedvezmény adott termékekre
+Flat rate,Átalánydíj
+"Flat rate in cart currency, tax-exclusive.","Átalánydíj a kosár pénznemében, adó nélkül."
+Free shipping?,Ingyenes szállítás?
+General Information,Általános információk
+Give Feedback,Visszajelzés küldése
+Global,Globális
+Globals,Globálisak
+Group,Csoport
+Group Name,Csoport neve
+Group name is required,A csoport neve kötelező
+Groups,Csoportok
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,Félig nyitott intervallum — a pontosan Max értékű kosár ki van zárva (azt a pontot a következő szint Min értéke birtokolja).
+Has conflicts,Ütközéseket tartalmaz
+Heads up — ,Figyelem — 
+Height,Magasság
+Height is required (0 for envelopes),A magasság kötelező (borítékok esetén 0)
+Height must be 0 or greater,A magasságnak 0-nak vagy nagyobbnak kell lennie
+Hide global areas,Globális területek elrejtése
+Higest tax rate based on cart items,Legmagasabb adókulcs a kosár tételei alapján
+Highlight global areas on canvas,Globális területek kiemelése a vásznon
+Image,Kép
+Include In Menu,Felvétel a menübe
+Include in Store Menu?,Felveszi az áruház menüjébe?
+Increase,Növelés
+Insert image,Kép beszúrása
+Integer,Egész szám
+Invalid folder name,Érvénytelen mappanév
+Invalid start,Érvénytelen kezdés
+Invalid window,Érvénytelen időablak
+Inventory,Készlet
+Is compound,Összetett
+Its rates will be removed too. This cannot be undone.,A kulcsai is eltávolításra kerülnek. Ez nem vonható vissza.
+Languages,Nyelvek
+Layers,Rétegek
+Layout,Elrendezés
+Leave,Kilépés
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,Hagyja üresen egy ország listáját az egész ország lefedéséhez. Adjon hozzá tartományokat a szállítás adott régiókra való korlátozásához.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,"A mostani kilépés elveszítheti a legutóbbi módosításokat, amelyek még nem értek el a szerverre."
+Length,Hossz
+Length is required,A hossz kötelező
+Length must be greater than 0,A hossznak nagyobbnak kell lennie 0-nál
+Live,Élő
+Loading...,Betöltés…
+Long text,Hosszú szöveg
+Lower values appear first.,Az alacsonyabb értékek jelennek meg elöl.
+Manage Stock,Készlet kezelése
+Manage general information about the collection.,A kollekció általános információinak kezelése.
+Manage product images and gallery. Drag and drop to reorder images.,Termékképek és galéria kezelése. A képek átrendezéséhez húzza és ejtse.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","Szállítási integrációk és módszereik kezelése (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,Adóosztályok és adókulcsok kezelése a különböző régiókhoz.
+Manage the SEO settings of the category.,A kategória SEO-beállításainak kezelése.
+Manage the SEO settings.,A SEO-beállítások kezelése.
+Manage the attributes.,Az attribútumok kezelése.
+Manage the collections associated with this product.,A termékhez társított kollekciók kezelése.
+Manage the general information of the category.,A kategória általános információinak kezelése.
+Manage the general information of the product.,A termék általános információinak kezelése.
+Manage the inventory settings of the product.,A termék készletbeállításainak kezelése.
+Manage the products assigned to this category.,Az ehhez a kategóriához rendelt termékek kezelése.
+Manage the products assigned to this collection.,Az ehhez a kollekcióhoz rendelt termékek kezelése.
+Manage the shipping settings of the product.,A termék szállítási beállításainak kezelése.
+Manage the status settings of the category.,A kategória állapotbeállításainak kezelése.
+Manage the variant group of the product.,A termék variánscsoportjának kezelése.
+Marketing,Marketing
+Max ${unit},Max. ${unit}
+Max is required,A maximum megadása kötelező
+Maximum,Maximum
+Maximum amount is ${value} ${currency},A maximális összeg ${value} ${currency}
+Maximum quantity is required,A maximális mennyiség megadása kötelező
+Maximum quantity must be greater than or equal to 0,A maximális mennyiségnek 0-nál nagyobbnak vagy egyenlőnek kell lennie
+Media,Média
+Meta Description,Meta leírás
+Meta Title,Meta cím
+Meta Title is required,A meta cím megadása kötelező
+Meta description,Meta leírás
+Meta description is required,A meta leírás megadása kötelező
+Meta title,Meta cím
+Meta title is required,A meta cím megadása kötelező
+Method,Mód
+Method created,Mód létrehozva
+Method name,Mód neve
+Method name is required,A mód nevének megadása kötelező
+Method updated,Mód frissítve
+Methods →,Módok →
+Min ${unit},Min. ${unit}
+Min Price,Min. ár
+Min Weight,Min. súly
+Min is required,A minimum megadása kötelező
+Min price is required,A minimális ár megadása kötelező
+Min weight is required,A minimális súly megadása kötelező
+Minimum purchase amount,Minimális vásárlási összeg
+Minimum purchase qty,Min. vásárlási menny.
+Minimum purchase quantity,Minimális vásárlási mennyiség
+Minimum purchased amount. This only applies to registered customers.,Minimális vásárlási összeg. Ez csak regisztrált vásárlókra vonatkozik.
+Minimum quantity is required,A minimális mennyiség megadása kötelező
+Missing name,Hiányzó név
+Money,Pénz
+Name is required.,A név megadása kötelező.
+Navigation,Navigáció
+New Attribute,Új attribútum
+New Category,Új kategória
+New Collection,Új gyűjtemény
+New Coupon,Új kupon
+New Page,Új oldal
+New Variant,Új variáns
+New coupon,Új kupon
+New rate,Új díj
+No collections,Nincsenek gyűjtemények
+No editable routes.,Nincsenek szerkeszthető útvonalak.
+No file selected,Nincs kiválasztott fájl
+No methods yet — add one to start offering Core shipping.,Még nincsenek módok — adjon hozzá egyet a Core szállítás megkezdéséhez.
+No packages yet. Create one — shippable products require a package.,Még nincsenek csomagok. Hozzon létre egyet — a szállítható termékekhez csomag szükséges.
+No product to display.,Nincs megjeleníthető termék.
+"No providers attached. Click ""Attach Provider"" to add one.",Nincsenek csatolt szolgáltatók. Kattintson a „Szolgáltató csatolása” gombra egy hozzáadásához.
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","Még nincsenek díjak — kattintson a „Díj hozzáadása” gombra, hogy ezt a módot egy zónában kínálja."
+"No results for ""${keyword}""",Nincs találat erre: „${keyword}”
+No routes have opted into page-builder editing yet.,Egyetlen útvonal sem választotta még az oldalszerkesztős szerkesztést.
+No shipping required?,Nincs szükség szállításra?
+No subdivisions available — whole country is covered.,Nincsenek elérhető körzetek — az egész ország le van fedve.
+No widgets available.,Nincsenek elérhető widgetek.
+"No widgets match ""${query}"".",Egyetlen widget sem felel meg ennek: „${query}”.
+No widgets on this route yet.,Még nincsenek widgetek ezen az útvonalon.
+No zones,Nincsenek zónák
+No zones found,Nem találhatók zónák
+Not visible individually,Egyenként nem látható
+Nothing to publish,Nincs mit közzétenni
+Nothing to redo on this page,Nincs mit újra végrehajtani ezen az oldalon
+Nothing to undo on this page,Nincs mit visszavonni ezen az oldalon
+Number,Szám
+Option text is required,Az opció szövegének megadása kötelező
+Optional. Added to the shipping weight for quotes and labels.,Opcionális. Hozzáadódik a szállítási súlyhoz az árajánlatokhoz és címkékhez.
+Order Number,Rendelésszám
+Order conditions,Rendelési feltételek
+Orders (${count}),Rendelések (${count})
+Other,Egyéb
+Other pages keep their pending changes.,A többi oldal megtartja a függőben lévő módosításait.
+Overlaps with existing rollout: ${plans}.,Átfedésben van egy meglévő bevezetéssel: ${plans}.
+Overlaps with existing rollouts: ${plans}.,Átfedésben van meglévő bevezetésekkel: ${plans}.
+Package,Csomag
+Package created,Csomag létrehozva
+Package deleted,Csomag törölve
+Package saved,Csomag mentve
+Packages,Csomagok
+Page Name,Oldal neve
+Page Not Found,Az oldal nem található
+Page builder,Oldalszerkesztő
+Page builder canvas,Oldalszerkesztő vászon
+Page created successfully!,Az oldal sikeresen létrejött!
+Page is required,Az oldal megadása kötelező
+Page name is required,Az oldal nevének megadása kötelező
+Pages,Oldalak
+Parent category,Szülőkategória
+Payment Setting,Fizetési beállítás
+Payment mode,Fizetési mód
+Payment setting saved,Fizetési beállítás mentve
+Paypal Payment,Paypal fizetés
+Pending start time,Függőben lévő kezdési idő
+Percentage discount to entire order,Százalékos kedvezmény a teljes rendelésre
+Percentage discount to specific products,Százalékos kedvezmény meghatározott termékekre
+Phone,Telefon
+Pick a start time to schedule this rollout.,Válasszon kezdési időt a bevezetés ütemezéséhez.
+Pick a widget below to insert as a child.,Válasszon egy widgetet alább gyermekelemként való beszúráshoz.
+Pick up where you left off — ${count} pending changes,"Folytassa ott, ahol abbahagyta — ${count} függőben lévő módosítás"
+Pick up where you left off — 1 pending change,"Folytassa ott, ahol abbahagyta — 1 függőben lévő módosítás"
+Pin drawer open,Fiók nyitva rögzítése
+Pin — keep drawer open across canvas clicks,Rögzítés — a fiók nyitva tartása a vászonra kattintások között
+Placed on: ${routes},Elhelyezve itt: ${routes}
+Placements,Elhelyezések
+Postal Code,Irányítószám
+"Postcode (e.g., ""90210""). Empty for all postcodes.",Irányítószám (pl. „90210”). Üresen minden irányítószámra.
+Preselected for new products. Exactly one package is the default.,Előre kiválasztva az új termékekhez. Pontosan egy csomag az alapértelmezett.
+Preview,Előnézet
+Price-based tiers,Ár alapú szintek
+Priority,Prioritás
+Priority is required,A prioritás megadása kötelező
+Product Name,Termék neve
+Product Status,Termék állapota
+Product created successfully,A termék sikeresen létrejött
+Product updated successfully,A termék sikeresen frissült
+Products (${count}),Termékek (${count})
+Promotion,Promóció
+Proportional allocation based on cart items,Arányos elosztás a kosár tételei alapján
+Provide the SEO details for the CMS page.,Adja meg a CMS-oldal SEO-adatait.
+Provide the basic information for the CMS page.,Adja meg a CMS-oldal alapvető adatait.
+Provider,Szolgáltató
+Province Restrictions,Tartományi korlátozások
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.",Tartománykód (pl. „CA”). Használja a „*” jelet minden tartományra.
+Provinces,Tartományok
+Provinces is required,A tartományok megadása kötelező
+Provinces:,Tartományok:
+Publish failed,A közzététel sikertelen
+Publish now,Közzététel most
+Publish to the live storefront,Közzététel az élő áruházban
+Publishable Key,Közzétehető kulcs
+Publishing…,Közzététel…
+Qty is required,A mennyiség megadása kötelező
+Quick links,Gyorshivatkozások
+Rate,Díj
+Rate added,Díj hozzáadva
+Rate is required,A díj megadása kötelező
+Rate removed,Díj eltávolítva
+Rate status,Díj állapota
+Rate updated,Díj frissítve
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,Újra (⇧⌘Z) — újra alkalmazza az utoljára visszavont módosítást ezen az oldalon
+Redo last undone change on this page,Az utoljára visszavont módosítás újbóli végrehajtása ezen az oldalon
+Reference,Hivatkozás
+Refund,Visszatérítés
+Refund amount,Visszatérítés összege
+Remove Zone,Zóna eltávolítása
+Remove placement,Elhelyezés eltávolítása
+Remove rate,Tarifa eltávolítása
+Remove this rate?,Eltávolítja ezt a tarifát?
+Removed,Eltávolítva
+Resize settings drawer,Beállítások panel átméretezése
+"Results for ""${keyword}""","Találatok erre: ""${keyword}"""
+Revert all pages to saved state,Minden oldal visszaállítása a mentett állapotra
+Revert everything,Minden visszaállítása
+Revert this page,Oldal visszaállítása
+Revert this page only,Csak ennek az oldalnak a visszaállítása
+Revert to saved state?,Visszaállítja a mentett állapotra?
+Reverting…,Visszaállítás…
+Rich text,Formázott szöveg
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,"Vonja vissza azokat a módosításokat, amelyeket a kiadás legutóbbi mentése óta végzett. Az élő áruházat ez nem érinti — az már a mentett állapotot tükrözi."
+SEO,SEO
+SEO Information,SEO-információk
+SKU is required,A SKU megadása kötelező
+Sale,Akció
+Sandbox,Tesztkörnyezet
+Save Settings,Beállítások mentése
+Save as rollout plan,Mentés kiadási tervként
+Save as rollout plan and leave,Mentés kiadási tervként és kilépés
+Save changes,Módosítások mentése
+Save failed,A mentés sikertelen
+Save method,Módszer mentése
+Save rate,Tarifa mentése
+Saving…,Mentés…
+Schedule failed,Az ütemezés sikertelen
+Scheduled,Ütemezve
+Search engine optimize,Keresőoptimalizálás
+Search widgets,Widgetek keresése
+Secret Key,Titkos kulcs
+Select Category,Kategória kiválasztása
+Select Parent Category,Szülőkategória kiválasztása
+Select Products by SKU,Termékek kiválasztása SKU alapján
+Select a provider first,Először válasszon szolgáltatót
+Select a provider…,Válasszon szolgáltatót…
+Select an option,Válasszon egy lehetőséget
+Select category,Kategória kiválasztása
+Select countries,Országok kiválasztása
+Select operator,Operátor kiválasztása
+Select options,Lehetőségek kiválasztása
+Select page,Oldal kiválasztása
+Select products to add to this collection.,Válassza ki a kollekcióhoz hozzáadandó termékeket.
+Select the list of attribute,Válassza ki az attribútumok listáját
+Select this option if the product is a digital product or service that does not require shipping.,"Válassza ezt a lehetőséget, ha a termék digitális termék vagy szolgáltatás, amely nem igényel szállítást."
+Set a start time to schedule.,Az ütemezéshez állítson be kezdési időpontot.
+Set the status and visibility of the product.,Állítsa be a termék állapotát és láthatóságát.
+Share,Megosztás
+Shipping Cost,Szállítási költség
+Shipping Providers,Szállítási szolgáltatók
+Shipping address,Szállítási cím
+Shipping cost is required,A szállítási költség megadása kötelező
+Shipping provider setting saved,A szállítási szolgáltató beállítása mentve
+Shipping tax class,Szállítási adóosztály
+Short text,Rövid szöveg
+Show global areas,Globális területek megjelenítése
+Show on routes,Megjelenítés útvonalakon
+Show products?,Megjelenítse a termékeket?
+Show this widget on every page,Jelenítse meg ezt a widgetet minden oldalon
+Size (L × W × H),Méret (H × Sz × M)
+Sort,Rendezés
+Sort order is required,A rendezési sorrend megadása kötelező
+Sort order must be a positive number,A rendezési sorrendnek pozitív számnak kell lennie
+Start,Indítás
+Start a page-builder session,Oldalszerkesztő munkamenet indítása
+Start date,Kezdő dátum
+Start new changeset,Új módosításcsomag indítása
+Start time is invalid.,A kezdési időpont érvénytelen.
+State Date,Állapot dátuma
+Status is required,Az állapot megadása kötelező
+Stay,Maradok
+Stay on this page,Maradok ezen az oldalon
+Stock Availability,Készlet elérhetősége
+Stop highlighting global areas,Globális területek kiemelésének leállítása
+Store Address,Áruház címe
+Store Description,Áruház leírása
+Store Email,Áruház e-mail-címe
+Store Name,Áruház neve
+Store Phone Number,Áruház telefonszáma
+Store Setting,Áruház beállítása
+Store Settings,Áruház beállításai
+Store address,Áruház címe
+Storefront,Áruház
+Stripe Payment,Stripe-fizetés
+Tablet,Táblagép
+Take our survey,Töltse ki a kérdőívünket
+Target Products,Célzott termékek
+Tax Class,Adóosztály
+Tax calculation configuration,Adószámítás konfigurációja
+Tax class name,Adóosztály neve
+Tax class name is required,Az adóosztály nevének megadása kötelező
+Tax classes,Adóosztályok
+Tax rate has been saved successfully!,Az adókulcs sikeresen mentve!
+Tax setting has been saved successfully!,Az adóbeállítás sikeresen mentve!
+The box or envelope this product ships in. Applies to all variants of this product.,"A doboz vagy boríték, amelyben ezt a terméket szállítják. A termék összes változatára vonatkozik."
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,"A dobozok és borítékok, amelyekkel szállít. Minden szállítható termék egyre hivatkozik — annak méretei és üres súlya határozza meg a szállítási árajánlatokat és címkéket."
+The conditions related to the customer for the coupon to be applied.,"A kuponra vonatkozó, ügyféllel kapcsolatos feltételek az alkalmazáshoz."
+The conditions related to the order for the coupon to be applied.,"A kuponra vonatkozó, rendeléssel kapcsolatos feltételek az alkalmazáshoz."
+The default package cannot be deleted,Az alapértelmezett csomag nem törölhető
+The draft holds ${count} saved changes you can publish later.,"A piszkozat ${count} mentett módosítást tartalmaz, amelyeket később közzétehet."
+The draft holds 1 saved change you can publish later.,"A piszkozat 1 mentett módosítást tartalmaz, amelyet később közzétehet."
+The draft is deleted.,A piszkozat törölve.
+The draft itself is deleted.,Maga a piszkozat törölve.
+The general information about the coupon.,Általános információk a kuponról.
+"The language of the admin panel, independent of the storefront.","Az adminisztrációs felület nyelve, az áruháztól függetlenül."
+The method will no longer apply to this zone.,A módszer többé nem vonatkozik erre a zónára.
+The minimum quantity of items required in the order to qualify for this coupon.,A rendelésben szükséges minimális tételmennyiség a kuponra való jogosultsághoz.
+The minimum total amount required for the order to qualify for this coupon.,A rendeléshez szükséges minimális végösszeg a kuponra való jogosultsághoz.
+The rollout plan,A kiadási terv
+The storefront's primary language. Pages in this language have no URL prefix.,Az áruház elsődleges nyelve. Az ezen a nyelven lévő oldalaknak nincs URL-előtagjuk.
+The type of discount applied by the coupon.,A kupon által alkalmazott kedvezmény típusa.
+The zone this rate applies to.,"A zóna, amelyre ez a tarifa vonatkozik."
+"There is no ""Select"" attribute available.","Nincs elérhető ""Select"" típusú attribútum."
+There is no attribute to display,Nincs megjeleníthető attribútum
+There is no category to display,Nincs megjeleníthető kategória
+There is no collections to display,Nincs megjeleníthető kollekció
+There is no coupon to display,Nincs megjeleníthető kupon
+There is no customer to display,Nincs megjeleníthető ügyfél
+There is no order to display,Nincs megjeleníthető rendelés
+There is no page to display,Nincs megjeleníthető oldal
+There is no widget to display,Nincs megjeleníthető widget
+There was an error fetching attribute groups.,Hiba történt az attribútumcsoportok lekérése közben.
+There was an error fetching categories.,Hiba történt a kategóriák lekérése közben.
+There was an error fetching collections.,Hiba történt a kollekciók lekérése közben.
+There was an error fetching file browser APIs.,Hiba történt a fájlböngésző API-k lekérése közben.
+There was an error fetching products.,Hiba történt a termékek lekérése közben.
+This cannot be undone. Packages still assigned to products can't be removed.,Ez nem vonható vissza. A még termékekhez rendelt csomagok nem távolíthatók el.
+This changeset has no operations yet.,Ennek a módosításcsomagnak még nincsenek műveletei.
+This field is required,Ennek a mezőnek a kitöltése kötelező
+This is the URL path for the CMS page.,Ez a CMS-oldal URL-útvonala.
+This is the address used to calculate tax rates.,Ez az adókulcsok kiszámításához használt cím.
+This is the meta title for the CMS page.,Ez a CMS-oldal metacíme.
+This is the name of the CMS page that will be displayed in the admin panel.,"Ez a CMS-oldal neve, amely az adminisztrációs felületen jelenik meg."
+This is the tax class applied to shipping costs.,Ez a szállítási költségekre alkalmazott adóosztály.
+This product has some variants like color or size?,"Ennek a terméknek vannak változatai, például szín vagy méret?"
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,Ennek a szolgáltatónak nincs zónánkénti konfigurációja. A módszereket és a zónánkénti tarifákat a szolgáltató saját adminisztrációs felületén kezelik.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,Ez eltávolítja a zónát a hozzá tartozó szolgáltatói csatolásokkal és tarifákkal együtt. Ez nem vonható vissza.
+This route has unpublished changes in your draft,Ennek az útvonalnak közzé nem tett módosításai vannak a piszkozatában
+This will be saved as a pending change you can publish or discard.,"Ez függőben lévő módosításként kerül mentésre, amelyet közzétehet vagy elvethet."
+Tiered,Sávos
+Type is required,A típus megadása kötelező
+URL Key,URL-kulcs
+URL Key is required,Az URL-kulcs megadása kötelező
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","Az URL-kulcsnak kisbetűsnek kell lennie, és csak betűket, számokat és kötőjeleket tartalmazhat"
+URL key,URL-kulcs
+URL key is required,Az URL-kulcs megadása kötelező
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,"Az URL-kulcsnak kisbetűsnek kell lennie, és csak alfanumerikus karaktereket és kötőjeleket tartalmazhat"
+Unassign,Hozzárendelés megszüntetése
+Undo (⌘Z) — undoes your last edit on this page,Visszavonás (⌘Z) — visszavonja az utolsó szerkesztést ezen az oldalon
+Undo / Redo,Visszavonás / Ismétlés
+Undo last change on this page,Utolsó módosítás visszavonása ezen az oldalon
+Unknown,Ismeretlen
+Unlink,Hivatkozás eltávolítása
+Unpin drawer,Fiók rögzítésének feloldása
+Unpin — drawer will close when you click empty canvas,"Rögzítés feloldása — a fiók bezárul, ha üres vászonra kattint"
+Unpublished changes,Nem közzétett módosítások
+Unsaved changes,Nem mentett módosítások
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,Frissítse a kiterjesztési terv nevét és aktív időablakát. A tartalmi szerkesztéseket külön kezeli a szerkesztő.
+Update the variant details and attributes here.,Itt frissítheti a variáns részleteit és tulajdonságait.
+Updated,Frissítve
+Upload an image for the category.,Töltsön fel képet a kategóriához.
+Used Times,Felhasználások száma
+Value is required,Az érték megadása kötelező
+Variant Group,Variánscsoport
+Variant created successfully,A variáns sikeresen létrejött
+Variant updated successfully,A variáns sikeresen frissült
+Version ${version},${version} verzió
+Visibility,Láthatóság
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,"A láthatóság határozza meg, hogy a termék hol jelenik meg az üzletben. Nem befolyásolja a termék eladhatóságát."
+Visitors will see the new layout on their next page load.,A látogatók a következő oldalbetöltéskor látják az új elrendezést.
+Webhook Secret Key,Webhook titkos kulcs
+Weight,Súly
+Weight must be 0 or greater,A súlynak 0-nak vagy nagyobbnak kell lennie
+Weight must be a positive number,A súlynak pozitív számnak kell lennie
+Weight-based tiers,Súly alapú sávok
+Widget Settings,Widget beállítások
+Widget created successfully!,A widget sikeresen létrejött!
+Widgets,Widgetek
+Width,Szélesség
+Width is required,A szélesség megadása kötelező
+Width must be greater than 0,A szélességnek 0-nál nagyobbnak kell lennie
+Will roll out automatically: ${range},Automatikusan kiterjesztésre kerül: ${range}
+Working…,Folyamatban…
+Worldwide,Világszerte
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,"Ebben a piszkozatban ${count} módosítás van, amelyet még nem tett közzé."
+You have ${count} changes still saving.,${count} módosítás mentése még folyamatban van.
+You have 1 change in this draft that hasn’t been published yet.,"Ebben a piszkozatban 1 módosítás van, amelyet még nem tett közzé."
+You have 1 change still saving.,1 módosítás mentése még folyamatban van.
+Your draft is safe on the server — you can come back and publish it any time.,A piszkozata biztonságban van a szerveren — bármikor visszatérhet és közzéteheti.
+Your edits on other pages stay in the draft.,A többi oldalon végzett szerkesztései a piszkozatban maradnak.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,A webhook URL-jének a következőnek kell lennie: https://yourdomain.com/api/stripe/webhook
+Zone,Zóna
+Zone Name,Zóna neve
+Zone Rates,Zóna díjszabás
+Zone created,Zóna létrehozva
+Zone is required,A zóna megadása kötelező
+Zone name is required,A zóna nevének megadása kötelező
+Zone removed,Zóna eltávolítva
+Zone updated,Zóna frissítve
+Zones served,Kiszolgált zónák
+and ${count} more,és további ${count}
+container will also hide,a tároló is elrejtésre kerül
+current page,jelenlegi oldal
+e.g. Small Box,pl. Kis doboz
+e.g. Summer Sale 2026,pl. Nyári akció 2026
+e.g. content,pl. content
+"e.g., 10.00",pl. 10.00
+"e.g., EU, US-West","pl. EU, US-West"
+"e.g., Express",pl. Express
+"e.g., FEDEX_GROUND, usps_priority","pl. FEDEX_GROUND, usps_priority"
+every page,minden oldal
+indefinite,határozatlan
+open,nyitva
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","a közzététel azonnali, és erről a képernyőről nem vonható vissza. Ehelyett előkészítéshez vonja vissza, és válassza a „Kiterjesztés ütemezése” lehetőséget."
+quantity of products are matched bellow conditions(All),a termékek mennyisége megfelel az alábbi feltételeknek (Mind)
+subtotal,részösszeg
+to a storefront route's,egy storefront útvonalhoz
+to make it appear here.,hogy itt megjelenjen.
+weight,súly
+widget? This will be saved as a pending change you can publish or discard.,"widgetet? Ez függőben lévő módosításként mentésre kerül, amelyet közzétehet vagy elvethet."
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,"eltávolításra kerül, és az élő storefront leállítja a szerkesztéseinek alkalmazását. Az alapul szolgáló módosításcsomag és a függőben lévő tartalmi szerkesztései megmaradnak."
+— None —,— Nincs —
+Cash On Delivery,Utánvét
+Please select a valid payment method,"Kérjük, válasszon érvényes fizetési módot"
+Show ${label} width,${label} szélesség megjelenítése
+Column ${index},${index}. oszlop
+Switch page,Oldalváltás
+Search pages…,Oldalak keresése…
+Search pages,Oldalak keresése
+Save your pending edits — the live storefront will catch up,Mentse el függőben lévő szerkesztéseit — az élő storefront utoléri
+No changes to save — the rollout matches the editor,Nincs menthető módosítás — a kiterjesztés megegyezik a szerkesztővel
+More rollout actions,További kiterjesztési műveletek
+Revert to saved state…,Visszaállítás a mentett állapotra…
+Roll back the editor to what the rollout currently shows on the storefront,"A szerkesztő visszaállítása arra, amit a kiterjesztés jelenleg a storefronton mutat"
+Nothing to revert — the editor matches the saved state,Nincs mit visszaállítani — a szerkesztő megegyezik a mentett állapottal
+Cancel rollout plan…,Kiterjesztési terv megszakítása…
+Remove the schedule — the changeset is preserved,Az ütemezés eltávolítása — a módosításcsomag megmarad
+Publish,Közzététel
+More publish options,További közzétételi lehetőségek
+Apply all edits to the live storefront immediately,Az összes szerkesztés azonnali alkalmazása az élő storefronton
+Save as rollout plan…,Mentés kiterjesztési tervként…
+Schedule these edits to roll out at a future time,Ezeknek a szerkesztéseknek a kiterjesztése egy jövőbeli időpontra ütemezve
+Discard pending changes…,Függőben lévő módosítások elvetése…
+Choose between discarding the whole draft or just this page,Válasszon a teljes piszkozat vagy csak ezen oldal elvetése között
+Switch session,Munkamenet váltása
+New changeset,Új módosításcsomag
+Rollout: ${name},Kiterjesztés: ${name}
+Click or drag to add,Kattintson vagy húzza a hozzáadáshoz
+Background color,Háttérszín
+Text color,Szövegszín
+Dwell time,Megjelenítési idő
+Time each announcement stays visible (in addition to the 400ms slide transition).,"Az az idő, ameddig az egyes közlemények láthatóak maradnak (a 400ms-os csúsztatási átmeneten felül)."
+Announcements,Közlemények
+Add announcement,Közlemény hozzáadása
+Untitled,Cím nélküli
+Free shipping on orders over $50,Ingyenes szállítás 50 $ feletti rendelésekre
+Optional. Makes the entire row a clickable link.,Választható. A teljes sort kattintható hivatkozássá teszi.
+Link label,Hivatkozás címkéje
+Optional. Displayed after the content; defaults to the content itself.,Választható. A tartalom után jelenik meg; alapértelmezésben maga a tartalom.
+Shop now,Vásároljon most
+Dark,Sötét
+Light,Világos
+Gradient,Színátmenet
+Left,Balra
+Center,Középre
+Right,Jobbra
+Selected image,Kiválasztott kép
+No image selected,Nincs kép kiválasztva
+Replace,Csere
+Clear,Törlés
+Reflects the alignment below.,Tükrözi az alábbi igazítást.
+Banner Image,Banner kép
+Mobile image,Mobil kép
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,Választható. A 768px töréspont alatt jelenik meg. Üresen hagyva a fenti képre vált vissza — jellemzően ugyanazon jelenet álló tájolású kivágása.
+Alignment,Igazítás
+Overlay copy,Rávetített szöveg
+Eyebrow,Felcím
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".","Kis, csupa nagybetűs címke a fejléc felett. Pl. „LIMITED EDITION”."
+LIMITED EDITION,LIMITÁLT KIADÁS
+Heading,Fejléc
+The Summer Edit,A nyári válogatás
+Sub-text,Alszöveg
+One short supporting sentence.,Egy rövid kiegészítő mondat.
+Overlay placement,Rávetítés elhelyezése
+Content position,Tartalom pozíciója
+Where the overlay text sits on the image.,Hol helyezkedik el a rávetített szöveg a képen.
+Tint,Árnyalat
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,Egy fátyolréteg a rávetített szöveg mögött az olvashatóság érdekében. A sötét / színátmenet automatikusan fehérre váltja a szöveget.
+Tint opacity,Árnyalat átlátszatlansága
+Call to actions,Cselekvésre ösztönzők
+Remove primary CTA,Elsődleges CTA eltávolítása
++ Add a primary CTA,+ Elsődleges CTA hozzáadása
+Secondary,Másodlagos
+Remove secondary CTA,Másodlagos CTA eltávolítása
+Learn more,Tudjon meg többet
++ Add a secondary CTA,+ Másodlagos CTA hozzáadása
+Details,Részletek
+Alt text,Alternatív szöveg
+Describes the banner for screen readers and SEO.,Leírja a bannert képernyőolvasók és SEO számára.
+"e.g. ""Summer sale promotional banner""","pl. ""Nyári akció reklámbanner"""
+Banner link,Banner hivatkozás
+Optional. Clicking the banner navigates here.,Opcionális. A bannerre kattintva ide navigál.
+Display name,Megjelenítendő név
+Shop,Bolt
+Target,Cél
+"Page, category, product, or a custom URL.","Oldal, kategória, termék vagy egyéni URL."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: ne adjon rangsorolási értéket ennek a hivatkozásnak (rel=nofollow).
+No referrer,Nincs hivatkozó
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,Adatvédelem: elhagyja a hivatkozó URL-t (rel=noreferrer). Az új lapon nyíló hivatkozások mindig tartalmazzák ezt.
+Menu items,Menüelemek
+Add menu item,Menüelem hozzáadása
+Sub-items,Alelemek
+Optional dropdown links (1 level).,Opcionális legördülő hivatkozások (1 szint).
+Add sub-item,Alelem hozzáadása
+Options,Beállítások
+Use as main menu,Használat főmenüként
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","Elsődleges navigáció — mobilon hamburger menüvé csukódik össze. Kapcsolja ki egyszerű hivatkozáslistához (pl. lábléc), amely mobilon egy sorban marad."
+Custom CSS classes,Egyéni CSS osztályok
+Applied to the rendered menu element.,A megjelenített menüelemre alkalmazva.
+e.g. main-nav font-semibold,pl. main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,Csempék
+Add tile,Csempe hozzáadása
+Hero · ,Hero · 
+Used when no image is set.,"Akkor használatos, ha nincs kép beállítva."
+Small label above the heading.,Kis címke a fejléc fölött.
+THE SUMMER EDIT,A NYÁRI VÁLOGATÁS
+New Arrivals,Új érkezések
+Body,Törzsszöveg
+Big card — the headline of the grid.,Nagy kártya — a rács főcíme.
+Link URL,Hivatkozás URL
+Gap,Térköz
+Minimum block height,Minimális blokkmagasság
+Image left,Kép balra
+Image right,Kép jobbra
+Centered,Középre igazítva
+Pull quote,Kiemelt idézet
+Variant,Változat
+Image column size,Képoszlop mérete
+Describe the image,Írja le a képet
+Copy,Szöveg
+"Small all-caps label. E.g. ""OUR STORY"".","Kis, csupa nagybetűs címke. Pl. ""A TÖRTÉNETÜNK""."
+Our story,A történetünk
+"Made by hand, in small batches","Kézzel készült, kis tételekben"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","A kiemelt idézet változathoz szükséges. Nagy méretben jelenik meg, idézetblokként formázva."
+"A short, quotable line.","Egy rövid, idézhető sor."
+Three or four sentences of brand narrative.,Három-négy mondatnyi márkatörténet.
+Second body paragraph (optional),Második törzsbekezdés (opcionális)
+A second short paragraph if the story needs it.,"Egy második rövid bekezdés, ha a történet megkívánja."
+Read more link,Tovább hivatkozás
+Read more,Tovább
+URL,URL
+Remove read-more link,Tovább hivatkozás eltávolítása
++ Add a read-more link,+ Tovább hivatkozás hozzáadása
+Square,Négyzet
+Landscape,Fekvő
+Portrait,Álló
+Overlay,Rátét
+Below,Alatt
+New category,Új kategória
+Section heading,Szakaszcím
+Optional. Shown above the grid.,Opcionális. A rács fölött jelenik meg.
+Shop by category,Vásárlás kategória szerint
+Women,Nők
+Columns,Oszlopok
+Auto,Automatikus
+Asymmetric makes the first tile span 2 columns.,Az aszimmetrikus elrendezésnél az első csempe 2 oszlopnyi széles.
+Uniform,Egyenletes
+Asymmetric,Aszimmetrikus
+Image aspect,Kép képaránya
+Label position,Címke pozíciója
+Blush,Rózsaszín
+XL,XL
+Position ${c},${c}. pozíció
+Column layout,Oszlopelrendezés
+Drag widgets into each column. Children re-flow when you change the ratio.,"Húzza a widgeteket az egyes oszlopokba. A gyermekelemek újrarendeződnek, amikor megváltoztatja az arányt."
+Space between columns.,Térköz az oszlopok között.
+Where content sits within each column. Applied uniformly to every column.,Hol helyezkedik el a tartalom az egyes oszlopokon belül. Minden oszlopra egyformán alkalmazva.
+Row appearance,Sor megjelenése
+Background,Háttér
+Custom color,Egyéni szín
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","Bármilyen CSS szín (pl. ""#0a0a0a"" vagy ""rgb(10,10,10)""). Hagyja üresen a fenti mintaszín használatához."
+Padding,Belső margó
+Outer spacing around the row. Scales down on mobile.,Külső térköz a sor körül. Mobilon kisebbre méretezve.
+Solid,Folytonos
+Dashed,Szaggatott
+Already expired,Már lejárt
+Expires in ${days}d ${hours}h,Lejár ${days} nap ${hours} óra múlva
+Expires in ${hours}h ${minutes}m,Lejár ${hours} óra ${minutes} perc múlva
+Offer,Ajánlat
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","Sürgősségi sor. Opcionális. Pl. ""Korlátozott · Vasárnap véget ér""."
+Limited · Ends Sunday,Korlátozott · Vasárnap véget ér
+Headline,Főcím
+Take 20% off your order,20% kedvezmény a rendelésére
+Optional. One short instructional line.,Opcionális. Egy rövid útmutató sor.
+Use code at checkout,Használja a kódot a pénztárnál
+Promo code,Promóciós kód
+Displayed in uppercase to shoppers.,A vásárlóknak nagybetűvel jelenik meg.
+Expires,Lejár
+Optional. The block auto-hides after this time for live visitors.,Opcionális. A blokk automatikusan elrejtődik az élő látogatók elől ezután az idő után.
+Call to action,Cselekvésre ösztönzés
+Button label,Gomb felirata
+Shop now →,Vásároljon most →
+Button link,Gomb hivatkozása
+Appearance,Megjelenés
+Border,Szegély
+Narrow,Keskeny
+Normal,Normál
+Wide,Széles
+Shown above all content. Optional.,Minden tartalom fölött jelenik meg. Opcionális.
+e.g. Frequently asked,pl. Gyakran ismételt
+Prose,Szövegtörzs
+FAQ group · ${count} items,GYIK csoport · ${count} elem
+Group heading,Csoport címe
+Optional sub-heading.,Opcionális alcím.
+e.g. Shipping,pl. Szállítás
+Add question,Kérdés hozzáadása
+Question,Kérdés
+e.g. How long does shipping take?,pl. Mennyi ideig tart a szállítás?
+Answer,Válasz
+"Supports **bold**, _italic_, and line breaks.","Támogatja a **félkövér**, _dőlt_ és sortörés formázást."
+e.g. Orders ship within 24 hours…,pl. A rendelések 24 órán belül kiszállításra kerülnek…
+Add prose,Szövegtörzs hozzáadása
+Add FAQ group,GYIK csoport hozzáadása
+Max width,Maximális szélesség
+Content column width.,Tartalomoszlop szélessége.
+Allow multiple open,Több megnyitás engedélyezése
+"When off, opening one FAQ item closes the others in the same group.","Ha ki van kapcsolva, egy GYIK elem megnyitása bezárja a többit ugyanabban a csoportban."
+New link,Új hivatkozás
+New column,Új oszlop
+Add column,Oszlop hozzáadása
+${title} · ${count} links,${title} · ${count} hivatkozás
+Column title,Oszlop címe
+Links,Hivatkozások
+"Min 1, max 12.","Min. 1, max. 12."
+Add link,Hivatkozás hozzáadása
+New arrivals,Új érkezések
+Boxed,Keretezett
+Wide (full bleed),Széles (teljes kitöltés)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,A keretezett az oldal konténerén belül marad (a téma dönt a maximális szélességről). A széles széltől szélig kitölt.
+Scales down on mobile.,Mobilon kisebbre méretezve.
+Optional. Painted behind content. Combine with a tint below for legibility.,Opcionális. A tartalom mögé festve. Az olvashatóság érdekében kombinálja az alábbi árnyalattal.
+XS,XS
+Spacing,Térköz
+Size,Méret
+Mobile scales down ~⅔ automatically.,Mobilon automatikusan kb. ⅔-ára kicsinyít.
+Divider line,Elválasztó vonal
+Show divider line,Elválasztó vonal megjelenítése
+A horizontal rule centred in the spacing band.,A térközsávban középre igazított vízszintes vonal.
+Line color,Vonal színe
+Default uses the theme's divider color.,Alapértelmezetten a téma elválasztó színét használja.
+Sides,Oldalak
+Bottom,Alul
+Dots,Pontok
+Bars,Sávok
+Mobile image (optional),Mobil kép (opcionális)
+Used at ≤ 767 px. Falls back to the main image.,≤ 767 px esetén használatos. A fő képre tér vissza.
+e.g. New collection,pl. Új kollekció
+e.g. Summer Sale,pl. Nyári akció
+Sub text,Alszöveg
+Check out our latest products with special discounts.,Fedezze fel legújabb termékeinket különleges kedvezményekkel.
+Primary button,Elsődleges gomb
+Secondary button,Másodlagos gomb
++ Add secondary button,+ Másodlagos gomb hozzáadása
+Overrides,Felülírások
+Leaves slide-specific anchor; falls back to the slideshow's default.,Diaspecifikus horgony marad; a diavetítés alapértelmezésére tér vissza.
+Overlay tint,Átfedés árnyalata
+Overlay opacity,Átfedés átlátszatlansága
+Make whole slide clickable,Az egész dia kattinthatóvá tétele
+Behavior,Viselkedés
+Transition,Átmenet
+Slide,Csúsztatás
+Fade,Áttűnés
+Transition speed,Átmenet sebessége
+Autoplay,Automatikus lejátszás
+Autoplay delay,Automatikus lejátszás késleltetése
+${seconds} s between slides,${seconds} mp a diák között
+Pause on hover,Szüneteltetés rámutatáskor
+Pause for 20 s after user nav,20 mp szünet felhasználói navigáció után
+Arrows,Nyilak
+Aspect ratio,Képarány
+`Auto` matches the natural image height (jumps between slides).,Az `Auto` a kép természetes magasságához igazodik (ugrál a diák között).
+Default content position,Alapértelmezett tartalompozíció
+Per-slide overrides win.,A diánkénti felülírások érvényesülnek.
+Default overlay tint,Alapértelmezett átfedési árnyalat
+Default overlay opacity,Alapértelmezett átfedési átlátszatlanság
+Slides (${count}),Diák (${count})
+No slides yet.,Még nincsenek diák.
+Add your first slide,Adja hozzá az első diát
+Slide ${number},${number}. dia
+Image only,Csak kép
+Empty,Üres
+Show slide,Dia megjelenítése
+Hide slide,Dia elrejtése
+Move slide up,Dia mozgatása felfelé
+Move slide down,Dia mozgatása lefelé
+Delete slide,Dia törlése
+Top,Felül
+Cover,Kitöltés
+Contain,Beillesztés
+Required for accessibility.,Az akadálymentesítéshez szükséges.
+Image fit,Kép igazítása
+"Small all-caps label. E.g. ""LIMITED EDITION"".","Kis méretű, csupa nagybetűs címke. Pl. „LIMITÁLT KIADÁS”."
+Limited edition,Limitált kiadás
+One strong line,Egy erőteljes sor
+Two lines of supporting copy.,Két sornyi kiegészítő szöveg.
+Image position,Kép pozíciója
+Vertical alignment,Függőleges igazítás
+Aligns the copy panel content.,A szövegpanel tartalmát igazítja.
+Remove call to action,Cselekvésre ösztönzés eltávolítása
+Add a call to action,Cselekvésre ösztönzés hozzáadása
+Custom CSS classes for the text block,Egyéni CSS osztályok a szövegblokkhoz
+Add group,Csoport hozzáadása
+${label} · ${count} subs,${label} · ${count} alkategória
+Parent label,Szülő címkéje
+Parent link,Szülő hivatkozása
+Image alt text,Kép alternatív szövege
+Sub-categories,Alkategóriák
+"Min 1, max 8.","Min. 1, max. 8."
+Add sub-category,Alkategória hozzáadása
+Dresses,Ruhák
+Columns (desktop),Oszlopok (asztali)
+On tablets the layout is always 2 columns.,Táblagépeken az elrendezés mindig 2 oszlopos.
+Make parent image a link,A szülő kép hivatkozássá tétele
+"When off, only the sub-chips and parent label are interactive.","Ha ki van kapcsolva, csak az alcímkék és a szülő címke interaktív."
+Title,Cím
+e.g. Free shipping,pl. Ingyenes szállítás
+Optional supporting line below the title.,Opcionális kiegészítő sor a cím alatt.
+Icon,Ikon
+Optional. SVG or raster image. Hidden when icons are turned off globally.,"Opcionális. SVG vagy raszteres kép. Rejtve, ha az ikonok globálisan ki vannak kapcsolva."
+Optional. Makes the whole cell clickable.,Opcionális. Az egész cellát kattinthatóvá teszi.
+"Auto matches the item count, capped at 4.","Az Auto az elemek számához igazodik, legfeljebb 4-ig."
+3,3
+4,4
+Icon size,Ikon mérete
+Show icons,Ikonok megjelenítése
+Master switch. Items without an icon URL are unaffected.,Fő kapcsoló. Az ikon URL nélküli elemek nem érintettek.
+Show divider,Elválasztó megjelenítése
+Vertical line between cells.,Függőleges vonal a cellák között.
+Collection,Kollekció
+Search collections…,Kollekciók keresése…
+No collections match “${value}”.,Nincs a „${value}” kifejezésnek megfelelő kollekció.
+You have no collections yet.,Még nincsenek kollekciói.
+Please select a collection,"Kérjük, válasszon egy kollekciót"
+"Defaults to ""${name}"" (the collection's name).",Alapértelmezetten „${name}” (a kollekció neve).
+Defaults to the picked collection's name.,Alapértelmezetten a kiválasztott kollekció neve.
+Collection name,Kollekció neve
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,Alapértelmezetten a kollekció leírása. Ennek beállítása a formázott leírást egyszerű szöveggel helyettesíti.
+e.g. Hand-picked styles for the season.,pl. Az évszakra válogatott stílusok.
+View all link,Összes megtekintése hivatkozás
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","Opcionális. Rejtve, ha üres. Válasszon kategóriát, terméket, oldalt, vagy illesszen be egyéni URL-t."
+"Optional. Defaults to ""View all →"".",Opcionális. Alapértelmezetten „Összes megtekintése →”.
+View all →,Összes megtekintése →
+Total products,Termékek összesen
+Number of products to display.,A megjelenítendő termékek száma.
+Products per row,Termékek soronként
+Grid columns (1–6 typical).,Rácsoszlopok (jellemzően 1–6).
+Count is required,A darabszám kötelező
+e.g. 8,pl. 8
+Count per row is required,A soronkénti darabszám kötelező
+e.g. 4,pl. 4
+Cover image,Borítókép
+COLLECTION,KOLLEKCIÓ
+"Defaults to ""${pickedName}"".",Alapértelmezetten „${pickedName}”.
+Defaults to the picked collection name.,Alapértelmezetten a kiválasztott kollekció neve.
+Optional. One or two sentences of editorial copy.,Opcionális. Egy-két mondatnyi szerkesztői szöveg.
+"Linen, cotton, easy stuff.","Vászon, pamut, könnyű darabok."
+Preview product count,Előnézeti termékszám
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,"Kérjük, válasszon egy kollekciót"
+Add collection,Kollekció hozzáadása
+Row heading,Sor fejléce
+The Linen Edit,A vászon válogatás
+Optional. Hidden when empty.,"Opcionális. Rejtve, ha üres."
+View all label,Összes megtekintése címke
+Show price,Ár megjelenítése
+Show divider between rows,Elválasztó megjelenítése a sorok között
+Selected:,Kiválasztva:
+Image override,Kép felülírása
+Override image,Kép felülírása
+Override image (optional),Kép felülírása (opcionális)
+Leave empty to use the product's primary image.,Hagyja üresen a termék elsődleges képének használatához.
+Small label above the product name. Optional.,Kis méretű címke a terméknév felett. Opcionális.
+FEATURED,KIEMELT
+Editorial copy,Szerkesztői szöveg
+Overrides the product's own description in this context. Leave blank to hide.,Felülírja a termék saját leírását ebben az összefüggésben. Hagyja üresen az elrejtéshez.
+Two lines of copy explaining why this product is being spotlighted right now.,"Két sornyi szöveg, amely elmagyarázza, miért kerül most ez a termék a középpontba."
+Please pick a product,"Kérjük, válasszon egy terméket"
+e.g. On orders over $50,pl. 50 $ feletti rendeléseknél
+Text block,Szövegblokk
+Menu,Menü
+Footer menu,Lábléc menü
+Banner,Banner
+Simple Slideshow,Egyszerű diavetítés
+Brand story,Márkatörténet
+Category mosaic,Kategória mozaik
+Tiered categories,Szintezett kategóriák
+Bento grid,Bento rács
+Separator,Elválasztó
+Section,Szakasz
+Split feature,Osztott blokk
+Announcement bar,Közleménysáv
+Coupon block,Kuponblokk
+FAQ block,GYIK blokk
+Trust strip,Bizalmi sáv
+Collection products,Gyűjtemény termékei
+Collection stack,Gyűjteménykötegek
+Collection spotlight,Kiemelt gyűjtemény
+Product hero,Kiemelt termék
+Layout container with 1–4 columns for nesting widgets.,Elrendezési tároló 1–4 oszloppal a beágyazott widgetekhez.
+Add rich text content,Formázott szöveges tartalom hozzáadása
+Navigation links,Navigációs hivatkozások
+Multi-column list of footer links — a titled column of navigation links per group.,Több oszlopos lábléchivatkozás-lista — csoportonként egy címmel ellátott navigációs hivatkozásoszlop.
+A single hero image with optional overlay copy and CTAs.,"Egyetlen kiemelt kép, opcionális ráhelyezett szöveggel és CTA-kkal."
+Rotating image carousel,Forgó képkarusszel
+Editorial block combining an image and long-form brand narrative. Four layout variants.,"Szerkesztői blokk, amely egy képet és hosszabb márkatörténetet ötvöz. Négy elrendezési változat."
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.",3–6 kategóriacsempéből álló rács az elsődleges „Vásárlás kategória szerint” belépési ponthoz.
+A two-level nav block: parent category image plus a row of sub-category chips.,Kétszintű navigációs blokk: szülőkategória-kép és egy sor alkategória-címke.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,Aszimmetrikus mozaik CTA-csempékből — egy nagy kiemelt csempe és 1–4 kiegészítő csempe.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","Függőleges térköz a widgetek között, opcionális elválasztó vonallal. Mobilon automatikusan kisebbedik."
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,"Stilizált, ledobható sáv, amely más widgeteket fog össze. Válthat széles (szélestől szélesig) és dobozos (témakonténer) között."
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,"50/50 arányú kép + szöveg promóciós blokk, opcionális CTA-val. A klasszikus promóciós widget."
+A thin top-of-page bar with one or more rotating announcements.,"Vékony, az oldal tetején lévő sáv egy vagy több forgó közleménnyel."
+A promo panel with a copyable discount code and CTA.,Promóciós panel másolható kedvezménykóddal és CTA-val.
+Flexible content block mixing prose sections and accordion FAQ groups.,"Rugalmas tartalmi blokk, amely szöveges szakaszokat és összecsukható GYIK-csoportokat ötvöz."
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","Egy sor előnyt kiemelő elem (ingyenes szállítás, könnyű visszaküldés stb.) a kiemelt blokk alatti vagy a lábléc feletti megerősítéshez."
+A list of products from a collection,Egy gyűjtemény termékeinek listája
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Egymásra rakott gyűjteménysorok, mindegyik egy címmel, „összes megtekintése” hivatkozással és egy termékcsíkkal."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","Kiemelt gyűjtemény borítóképpel, szerkesztői szöveggel és egy kis termékelőnézeti ráccsal."
+"A single-product spotlight — image, name, price, and a link to the full product page.","Egytermékes kiemelés — kép, név, ár és hivatkozás a teljes termékoldalra."

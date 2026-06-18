@@ -4,7 +4,6 @@ Sku,Κωδικός SKU
 Continue to shipping,Συνέχεια στην αποστολή
 Continue shopping,Συνέχιση αγορών
 Continue Shopping,Συνέχιση Αγορών
-CONTINUE SHOPPING,ΣΥΝΕΧΙΣΕ ΤΙΣ ΑΓΟΡΕΣ
 Shopping cart,Καλάθι Αγορών
 Product,Προϊόν
 Price,Τιμή
@@ -15,7 +14,7 @@ Sub total,Μερικό σύνολο
 Discount(${coupon}),Έκπτωση(${coupon})
 Order summary,Περίληψη Παραγγελίας
 Taxes and shipping calculated at checkout,Οι φόροι και τα έξοδα αποστολής υπολογίζονται κατά την ολοκλήρωση της παραγγελίας
-CHECKOUT,ΟΛΟΚΛΗΡΩΣΗ ΠΑΡΑΓΓΕΛΙΑΣ
+Checkout,ΟΛΟΚΛΗΡΩΣΗ ΠΑΡΑΓΓΕΛΙΑΣ
 Change,Αλλαγή
 Payment Method,Μέθοδος Πληρωμής
 Shipping Address,Διεύθυνση Αποστολής
@@ -37,7 +36,7 @@ Shipment,Αποστολή
 Thank you ${name}!,Ευχαριστούμε ${name}!
 Contact information,Στοιχεία Επικοινωνίας
 Order #${orderNumber},Παραγγελία #${orderNumber}
-ADD TO CART,ΠΡΟΣΘΗΚΗ ΣΤΟ ΚΑΛΑΘΙ
+Add to cart,ΠΡΟΣΘΗΚΗ ΣΤΟ ΚΑΛΑΘΙ
 Please select variant options,Παρακαλώ επιλέξτε παραλλαγές
 VIEW CART (${count}),ΠΡΟΒΟΛΗ ΚΑΛΑΘΙΟΥ (${count})
 JUST ADDED TO YOUR CART,ΠΡΟΣΤΙΘΕΜΕΝΟ ΣΤΟ ΚΑΛΑΘΙ ΣΑΣ

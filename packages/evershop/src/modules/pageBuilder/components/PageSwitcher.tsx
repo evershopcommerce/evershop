@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ChevronDown, FileText, Search } from 'lucide-react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
@@ -70,7 +71,7 @@ export function PageSwitcher({
         }`}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label="Switch page"
+        aria-label={_('Switch page')}
       >
         <FileText className="h-3.5 w-3.5 text-muted-foreground" />
         <span className="text-xs font-medium text-foreground">
@@ -90,15 +91,15 @@ export function PageSwitcher({
                 type="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search pages…"
+                placeholder={_('Search pages…')}
                 className="w-full text-sm pl-7 pr-2 py-1 rounded-md bg-muted/30 border border-divider focus:outline-none focus:ring-1 focus:ring-primary"
-                aria-label="Search pages"
+                aria-label={_('Search pages')}
               />
             </div>
           </div>
           <div className="overflow-y-auto">
             <div className="px-3 pt-2 text-[11px] uppercase tracking-wide text-muted-foreground font-semibold">
-              Pages
+              {_('Pages')}
             </div>
             <ul className="p-2 space-y-1 text-xs">
               {filtered.map((r) => {
@@ -131,15 +132,15 @@ export function PageSwitcher({
                         <span className="truncate font-medium">{r.name}</span>
                         {isCurrent ? (
                           <span className="shrink-0 text-[10px] tracking-wide px-1.5 py-0.5 rounded bg-primary/15 text-primary">
-                            Current
+                            {_('Current')}
                           </span>
                         ) : hasDraftOps ? (
                           <span className="shrink-0 text-[10px] tracking-wide px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 border border-amber-500/30">
-                            Draft
+                            {_('Draft')}
                           </span>
                         ) : (
                           <span className="shrink-0 text-[10px] tracking-wide px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 border border-emerald-500/30">
-                            Live
+                            {_('Live')}
                           </span>
                         )}
                       </div>
@@ -152,7 +153,7 @@ export function PageSwitcher({
               })}
               {pageRoutes.length === 0 && (
                 <li className="px-2 py-2 text-xs text-muted-foreground">
-                  No editable routes.
+                  {_('No editable routes.')}
                 </li>
               )}
             </ul>

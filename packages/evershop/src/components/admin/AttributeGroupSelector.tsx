@@ -2,6 +2,7 @@ import { SimplePagination } from '@components/common/SimplePagination.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Input } from '@components/common/ui/Input.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Check } from 'lucide-react';
 import React from 'react';
 import { useQuery } from 'urql';
@@ -123,7 +124,7 @@ const AttributeGroupSelector: React.FC<{
   if (error) {
     return (
       <p className="text-destructive">
-        There was an error fetching attribute groups.
+        {_('There was an error fetching attribute groups.')}
         {error.message}
       </p>
     );
@@ -136,7 +137,7 @@ const AttributeGroupSelector: React.FC<{
           <Input
             type="text"
             value={inputValue || ''}
-            placeholder="Search attribute groups"
+            placeholder={_('Search attribute groups')}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setInputValue(e.target.value);
               setLoading(true);
@@ -150,11 +151,12 @@ const AttributeGroupSelector: React.FC<{
               <div className="p-2 border border-divider rounded flex justify-center items-center">
                 {inputValue ? (
                   <p>
-                    No attribute groups found for query &quot;{inputValue}
-                    &rdquo;
+                    {_('No attribute groups found for query "${query}"', {
+                      query: inputValue
+                    })}
                   </p>
                 ) : (
-                  <p>You have no attribute groups to display</p>
+                  <p>{_('You have no attribute groups to display')}</p>
                 )}
               </div>
             )}
@@ -186,7 +188,7 @@ const AttributeGroupSelector: React.FC<{
                         onSelect(a.attributeGroupId, a.uuid, a.groupName);
                       }}
                     >
-                      Select
+                      {_('Select')}
                     </Button>
                   )}
                   {isAttributeGroupSelected(

@@ -6,6 +6,7 @@ import {
   ItemDescription,
   ItemTitle
 } from '@components/common/ui/Item.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { cn } from '@evershop/evershop/lib/util/cn';
 import { Cog, Settings } from 'lucide-react';
 import React from 'react';
@@ -40,12 +41,12 @@ export default function PaymentSettingMenu({
                 isActive && 'text-primary'
               )}
             >
-              Payment Setting
+              {_('Payment Setting')}
             </a>
           </div>
         </ItemTitle>
         <ItemDescription>
-          <div>Configure the available payment methods</div>
+          <div>{_('Configure the available payment methods')}</div>
         </ItemDescription>
       </ItemContent>
       <ItemActions>

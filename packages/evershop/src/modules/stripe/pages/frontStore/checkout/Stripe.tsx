@@ -37,24 +37,24 @@ const TestCards: React.FC<{
         {showTestCard === 'success' && (
           <div>
             <div>
-              <b>Test success:</b>
+              <b>{_('Test success:')}</b>
             </div>
             <div className="text-xs text-gray-600">
               Test card number: 4242 4242 4242 4242
             </div>
-            <div className="text-xs text-gray-600">Test card expiry: 04/26</div>
+            <div className="text-xs text-gray-600">Test card expiry: 04/99</div>
             <div className="text-xs text-gray-600">Test card CVC: 242</div>
           </div>
         )}
         {showTestCard === 'failure' && (
           <div>
             <div>
-              <b>Test failure:</b>
+              <b>{_('Test failure:')}</b>
             </div>
             <div className="text-xs text-gray-600">
               Test card number: 4000 0000 0000 9995
             </div>
-            <div className="text-xs text-gray-600">Test card expiry: 04/26</div>
+            <div className="text-xs text-gray-600">Test card expiry: 04/99</div>
             <div className="text-xs text-gray-600">Test card CVC: 242</div>
           </div>
         )}
@@ -89,15 +89,19 @@ const TestCards: React.FC<{
           </svg>
         </div>
         <div className="self-center flex space-x-2 pb-2">
-          <Button onClick={testSuccess} title="Test success" variant="default">
-            Test success
+          <Button
+            onClick={testSuccess}
+            title={_('Test success')}
+            variant="default"
+          >
+            {_('Test success')}
           </Button>
           <Button
             onClick={testFailure}
-            title="Test failure"
+            title={_('Test failure')}
             variant="destructive"
           >
-            Test failure
+            {_('Test failure')}
           </Button>
         </div>
       </div>

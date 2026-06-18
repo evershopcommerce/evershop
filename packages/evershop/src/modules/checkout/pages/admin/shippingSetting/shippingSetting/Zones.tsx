@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useQuery } from 'urql';
 import { Zone, ShippingZone } from './Zone.js';
@@ -56,8 +57,10 @@ export function Zones({
   });
 
   if (fetching) return <Spinner width={'2rem'} height={'2rem'} />;
-  if (error) return <div className="text-destructive">Error loading zones</div>;
-  if (!data || !data.shippingZones) return <div>No zones found</div>;
+  if (error)
+    return <div className="text-destructive">{_('Error loading zones')}</div>;
+  if (!data || !data.shippingZones)
+    return <div>{_('No zones found')}</div>;
 
   const reload = () => reexecuteQuery({ requestPolicy: 'network-only' });
   const createShippingZoneApi =
@@ -71,7 +74,7 @@ export function Zones({
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <div className="flex justify-end pr-5">
           <DialogTrigger>
-            <Button>Create New Zone</Button>
+            <Button>{_('Create New Zone')}</Button>
           </DialogTrigger>
         </div>
         <DialogContent>

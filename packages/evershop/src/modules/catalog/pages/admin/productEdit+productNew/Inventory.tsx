@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface InventoryProps {
@@ -29,18 +30,18 @@ export default function Inventory({ product }: InventoryProps) {
   return (
     <Card className="bg-popover">
       <CardHeader>
-        <CardTitle>Inventory</CardTitle>
+        <CardTitle>{_('Inventory')}</CardTitle>
         <CardDescription>
-          Manage the inventory settings of the product.
+          {_('Manage the inventory settings of the product.')}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <RadioGroupField
           name="manage_stock"
-          label="Manage Stock"
+          label={_('Manage Stock')}
           options={[
-            { value: 1, label: 'Yes' },
-            { value: 0, label: 'No' }
+            { value: 1, label: _('Yes') },
+            { value: 0, label: _('No') }
           ]}
           defaultValue={inventory.manageStock === 0 ? 0 : 1}
           required
@@ -49,10 +50,10 @@ export default function Inventory({ product }: InventoryProps) {
       <CardContent className="border-t border-t-border pt-6">
         <RadioGroupField
           name="stock_availability"
-          label="Stock Availability"
+          label={_('Stock Availability')}
           options={[
-            { value: 1, label: 'In Stock' },
-            { value: 0, label: 'Out of Stock' }
+            { value: 1, label: _('In Stock') },
+            { value: 0, label: _('Out of Stock') }
           ]}
           defaultValue={inventory.stockAvailability === 0 ? 0 : 1}
           required
@@ -62,8 +63,8 @@ export default function Inventory({ product }: InventoryProps) {
         <NumberField
           name="qty"
           defaultValue={inventory.qty}
-          placeholder="Quantity"
-          label="Quantity"
+          placeholder={_('Quantity')}
+          label={_('Quantity')}
           required
         />
       </CardContent>

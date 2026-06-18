@@ -1,4 +1,5 @@
 import Area from '@components/common/Area.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { generateComponentKey } from '@evershop/evershop/lib/util/keyGenerator';
 import React, { useMemo } from 'react';
 
@@ -87,16 +88,16 @@ export function WidgetPreviewCard({
       </div>
       <div className="px-3 py-2.5">
         <div className="text-[13px] font-semibold text-foreground">
-          {widget.name}
+          {_(widget.name)}
         </div>
         {widget.description && (
           <div className="text-[11.5px] text-muted-foreground mt-1 leading-snug">
-            {widget.description}
+            {_(widget.description)}
           </div>
         )}
         <div className="mt-2 text-[10.5px] text-muted-foreground/80 font-mono flex items-center gap-1.5">
           <span className="inline-block w-1 h-1 rounded-full bg-muted-foreground/60" />
-          Click or drag to add
+          {_('Click or drag to add')}
         </div>
       </div>
     </div>

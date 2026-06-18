@@ -367,7 +367,7 @@ const defaultSearchResults = (props: {
     <div className="search__results absolute top-full left-0 right-0 bg-white border border-border rounded-b-lg shadow-lg z-50 max-h-64 overflow-y-auto">
       {props.isLoading && (
         <div className="p-3 text-center text-gray-500">
-          <span>Searching...</span>
+          <span>{_('Searching...')}</span>
         </div>
       )}
       {!props.isLoading && props.results.length === 0 && (

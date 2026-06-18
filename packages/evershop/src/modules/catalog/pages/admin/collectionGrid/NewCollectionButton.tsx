@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface NewCollectionButtonProps {
@@ -9,7 +10,7 @@ export default function NewCollectionButton({
 }: NewCollectionButtonProps) {
   return (
     <Button onClick={() => (window.location.href = newCollectionUrl)}>
-      New Collection
+      {_('New Collection')}
     </Button>
   );
 }

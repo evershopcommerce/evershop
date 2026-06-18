@@ -1,8 +1,9 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export default function PageBuilderHomeHeading() {
-  return <PageHeading heading="Page builder" />;
+  return <PageHeading heading={_('Page builder')} />;
 }
 
 export const layout = {

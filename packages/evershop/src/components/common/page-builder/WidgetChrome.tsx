@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { computeDropSortOrder } from './dropSortOrder.js';
 import { isInPageBuilderIframe, postToParent } from './pageBuilderMode.js';
@@ -401,7 +402,7 @@ export function WidgetChrome({
           data-evershop-pb-toolbar
         >
           <ChromeIconButton
-            label="Move up"
+            label={_('Move up')}
             onClick={() =>
               postToParent({ type: 'widget-move-up', widgetUid: uuid, area })
             }
@@ -409,7 +410,7 @@ export function WidgetChrome({
             <ArrowUpIcon />
           </ChromeIconButton>
           <ChromeIconButton
-            label="Move down"
+            label={_('Move down')}
             onClick={() =>
               postToParent({ type: 'widget-move-down', widgetUid: uuid, area })
             }
@@ -417,7 +418,7 @@ export function WidgetChrome({
             <ArrowDownIcon />
           </ChromeIconButton>
           <ChromeIconButton
-            label="Duplicate"
+            label={_('Duplicate')}
             onClick={() =>
               postToParent({ type: 'widget-duplicate', widgetUid: uuid, area })
             }
@@ -425,7 +426,7 @@ export function WidgetChrome({
             <CopyIcon />
           </ChromeIconButton>
           <ChromeIconButton
-            label="Settings"
+            label={_('Settings')}
             tone="accent"
             onClick={() =>
               postToParent({
@@ -439,7 +440,7 @@ export function WidgetChrome({
             <SettingsIcon />
           </ChromeIconButton>
           <ChromeIconButton
-            label="Delete"
+            label={_('Delete')}
             tone="danger"
             onClick={() =>
               postToParent({

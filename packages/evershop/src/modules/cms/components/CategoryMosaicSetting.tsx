@@ -11,6 +11,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type {
   MosaicAspect,
@@ -34,17 +35,17 @@ const ASPECT_OPTIONS: ReadonlyArray<{
   value: MosaicAspect;
   label: string;
 }> = [
-  { value: 'square', label: 'Square' },
-  { value: 'landscape', label: 'Landscape' },
-  { value: 'portrait', label: 'Portrait' }
+  { value: 'square', label: _('Square') },
+  { value: 'landscape', label: _('Landscape') },
+  { value: 'portrait', label: _('Portrait') }
 ];
 
 const LABEL_POSITION_OPTIONS: ReadonlyArray<{
   value: MosaicLabelPosition;
   label: string;
 }> = [
-  { value: 'overlay', label: 'Overlay' },
-  { value: 'below', label: 'Below' }
+  { value: 'overlay', label: _('Overlay') },
+  { value: 'below', label: _('Below') }
 ];
 
 function makeBlankTile(): MosaicTile {
@@ -57,7 +58,7 @@ function makeBlankTile(): MosaicTile {
     imageAlt: '',
     imageWidth: null,
     imageHeight: null,
-    label: 'New category',
+    label: _('New category'),
     link: '/',
     newTab: false
   };
@@ -127,8 +128,11 @@ export default function CategoryMosaicSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Heading">
-        <Field label="Section heading" hint="Optional. Shown above the grid.">
+      <Section title={_('Heading')}>
+        <Field
+          label={_('Section heading')}
+          hint={_('Optional. Shown above the grid.')}
+        >
           <input
             type="text"
             value={headingV}
@@ -137,37 +141,37 @@ export default function CategoryMosaicSetting({
                 shouldDirty: true
               })
             }
-            placeholder="Shop by category"
+            placeholder={_('Shop by category')}
             className={drawerInputClass}
           />
         </Field>
       </Section>
 
-      <Section title="Tiles">
+      <Section title={_('Tiles')}>
         <RepeatableAccordion<MosaicTile>
           items={tiles}
           onAdd={addTile}
           onRemove={removeTile}
           onMove={moveTile}
-          addLabel="Add tile"
+          addLabel={_('Add tile')}
           minItems={2}
           maxItems={6}
           initiallyOpenFirst
-          renderHeader={({ item }) => item.label || 'Untitled'}
+          renderHeader={({ item }) => item.label || _('Untitled')}
           renderItem={({ item, index }) => (
             <>
-              <Field label="Label">
+              <Field label={_('Label')}>
                 <input
                   type="text"
                   value={item.label || ''}
                   onChange={(e) =>
                     updateTile(index, { label: e.target.value })
                   }
-                  placeholder="Women"
+                  placeholder={_('Women')}
                   className={drawerInputClass}
                 />
               </Field>
-              <Field label="Image">
+              <Field label={_('Image')}>
                 <ImagePickerField
                   value={item.image || ''}
                   onChange={(v) =>
@@ -183,18 +187,18 @@ export default function CategoryMosaicSetting({
                   }
                 />
               </Field>
-              <Field label="Alt text">
+              <Field label={_('Alt text')}>
                 <input
                   type="text"
                   value={item.imageAlt || ''}
                   onChange={(e) =>
                     updateTile(index, { imageAlt: e.target.value })
                   }
-                  placeholder="Describe the image"
+                  placeholder={_('Describe the image')}
                   className={drawerInputClass}
                 />
               </Field>
-              <Field label="Link">
+              <Field label={_('Link')}>
                 <LinkPicker
                   value={item.link || ''}
                   initialKind="category"
@@ -202,7 +206,7 @@ export default function CategoryMosaicSetting({
                 />
               </Field>
               <Toggle
-                label="Open in new tab"
+                label={_('Open in new tab')}
                 checked={!!item.newTab}
                 onChange={(v) => updateTile(index, { newTab: v })}
               />
@@ -211,12 +215,12 @@ export default function CategoryMosaicSetting({
         />
       </Section>
 
-      <Section title="Layout">
-        <Field label="Columns">
+      <Section title={_('Layout')}>
+        <Field label={_('Columns')}>
           <Segmented<number>
             value={colsV ?? 0}
             options={[
-              { value: 0, label: 'Auto' },
+              { value: 0, label: _('Auto') },
               { value: 3, label: '3' },
               { value: 4, label: '4' },
               { value: 6, label: '6' }
@@ -230,14 +234,14 @@ export default function CategoryMosaicSetting({
         </Field>
         {(colsV === 3 || colsV === 4) && (
           <Field
-            label="Layout"
-            hint="Asymmetric makes the first tile span 2 columns."
+            label={_('Layout')}
+            hint={_('Asymmetric makes the first tile span 2 columns.')}
           >
             <Segmented<MosaicLayout>
               value={layoutV}
               options={[
-                { value: 'uniform', label: 'Uniform' },
-                { value: 'asymmetric', label: 'Asymmetric' }
+                { value: 'uniform', label: _('Uniform') },
+                { value: 'asymmetric', label: _('Asymmetric') }
               ]}
               onChange={(v) =>
                 setValue('settings.layout', v, { shouldDirty: true })
@@ -245,7 +249,7 @@ export default function CategoryMosaicSetting({
             />
           </Field>
         )}
-        <Field label="Image aspect">
+        <Field label={_('Image aspect')}>
           <Segmented<MosaicAspect>
             value={aspectV}
             options={ASPECT_OPTIONS}
@@ -254,7 +258,7 @@ export default function CategoryMosaicSetting({
             }
           />
         </Field>
-        <Field label="Label position">
+        <Field label={_('Label position')}>
           <Segmented<MosaicLabelPosition>
             value={labelPositionV}
             options={LABEL_POSITION_OPTIONS}

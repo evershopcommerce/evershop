@@ -4,7 +4,6 @@ Sku, SKU
 Continue to shipping, Nastavi na isporuku
 Continue shopping, Nastavi kupovinu
 Continue Shopping, Nastavi kupovinu
-CONTINUE SHOPPING, NASTAVI KUPOVINU
 Shopping cart, Korpa
 Product, Proizvod
 Price, Cena
@@ -15,7 +14,7 @@ Sub total, Subtotal
 Discount(${coupon}), Popust (${coupon})
 Order summary, Pregled porudžbine
 Taxes and shipping calculated at checkout, Porezi i isporuka se računaju prilikom plaćanja
-CHECKOUT, PLAĆANJE
+Checkout, PLAĆANJE
 Change, Promeni
 Payment Method, Način plaćanja
 Shipping Method, Način isporuke
@@ -36,7 +35,7 @@ Shipment, Isporuka
 Thank you ${name}!, Hvala, ${name}!
 Contact information, Kontakt informacije
 Order #${orderNumber}, Porudžbina br. ${orderNumber}
-ADD TO CART, DODAJ U KORPU
+Add to cart, DODAJ U KORPU
 Please select variant options, Izaberite varijantu proizvoda
 VIEW CART (${count}), POGLEDAJ KORPU (${count})
 JUST ADDED TO YOUR CART, DODATO U KORPU

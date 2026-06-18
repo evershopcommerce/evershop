@@ -1,0 +1,1685 @@
+Welcome Back!,Welkom terug!
+Please sign in to your account ,Log in op je account 
+Join us for exclusive offers and order tracking,Word lid voor exclusieve aanbiedingen en het volgen van bestellingen
+Sign Up,Registreren
+Signing Up...,Bezig met registreren...
+Signing In...,Bezig met inloggen...
+Recent Orders,Recente bestellingen
+Address Book,Adresboek
+You have no addresses saved,Je hebt geen adressen opgeslagen
+Add new address,Nieuw adres toevoegen
+Address 2,Adres 2
+Set as default,Instellen als standaard
+Save,Opslaan
+Edit,Bewerken
+Delete,Verwijderen
+Edit Address,Adres bewerken
+Product Filters,Productfilters
+No products found,Geen producten gevonden
+${count} Products,${count} producten
+Default,Standaard
+Name,Naam
+Contact Information,Contactgegevens
+Your Cart,Je winkelwagen
+Your cart is empty,Je winkelwagen is leeg
+Subtotal,Subtotaal
+View Cart (${totalQty}),Winkelwagen bekijken (${totalQty})
+Shopping Cart,Winkelwagen
+Logged in as,Ingelogd als
+Payment Information,Betaalgegevens
+Same as shipping address,Hetzelfde als verzendadres
+Use a different billing address,Een ander factuuradres gebruiken
+Pick a payment method,Kies een betaalmethode
+Select a payment method,Selecteer een betaalmethode
+Complete Order,Bestelling afronden
+Add to Cart,In winkelwagen
+Search,Zoeken
+${count} orders,${count} bestellingen
+${field} is required,${field} is verplicht
+${pct}% of orders cancelled,${pct}% van de bestellingen geannuleerd
+${pct}% of orders completed,${pct}% van de bestellingen voltooid
+${qty} sold,${qty} verkocht
+${total} lifetime sale,${total} totale omzet
+(Guest Checkout),(Afrekenen als gast)
+(list),(lijst)
+(optional),(optioneel)
+A coupon is already applied,Er is al een kortingscode toegepast
+A group needs at least one sub-field,Een groep heeft minstens één subveld nodig
+A list of best selling products,Een lijst van best verkochte producten
+A list of customers who have placed the most orders,Een lijst van klanten die de meeste bestellingen hebben geplaatst
+A regular expression the value must match.,Een reguliere expressie waaraan de waarde moet voldoen.
+Accepted values,Geaccepteerde waarden
+Active,Actief
+Active Filters,Actieve filters
+Add address API not available,API voor adres toevoegen niet beschikbaar
+Add custom field,Aangepast veld toevoegen
+Add field,Veld toevoegen
+Add item,Item toevoegen
+Add option,Optie toevoegen
+Add product,Product toevoegen
+Add some items to get started,Voeg enkele items toe om te beginnen
+Add sub-field,Subveld toevoegen
+Adding...,Bezig met toevoegen...
+Address has been deleted successfully!,Adres is succesvol verwijderd!
+Address has been saved successfully!,Adres is succesvol opgeslagen!
+Address has been updated successfully!,Adres is succesvol bijgewerkt!
+Address is required,Adres is verplicht
+Adds target=_blank rel=noopener noreferrer.,Voegt target=_blank rel=noopener noreferrer toe.
+All items fulfilled,Alle items afgehandeld
+All orders,Alle bestellingen
+All your past orders,Al je vorige bestellingen
+Allow multiple,Meerdere toestaan
+An unexpected error occurred. Please try again.,Er is een onverwachte fout opgetreden. Probeer het opnieuw.
+Apply Filters,Filters toepassen
+Are you sure you want to mark the selected orders as shipped?,Weet je zeker dat je de geselecteerde bestellingen als verzonden wilt markeren?
+Are you sure?,Weet je het zeker?
+Attribute Group,Attribuutgroep
+Attribute code is used in API and must be unique,De attribuutcode wordt gebruikt in de API en moet uniek zijn
+Attribute options,Attribuutopties
+Attributes,Attributen
+Available shipping methods will appear once you provide your address details,Beschikbare verzendmethoden verschijnen zodra je je adresgegevens opgeeft
+Best Sellers,Bestsellers
+Best customers,Beste klanten
+Billing address,Factuuradres
+Black,Zwart
+Buy qty,Aantal kopen
+Buy qty is required,Aantal kopen is verplicht
+Can not process payment. Please try again later.,Kan betaling niet verwerken. Probeer het later opnieuw.
+Can't be undone,Kan niet ongedaan worden gemaakt
+Cancel,Annuleren
+Cancel Order,Bestelling annuleren
+Cancel shipment,Zending annuleren
+Cancel this shipment?,Deze zending annuleren?
+Canceled,Geannuleerd
+Cancelled,Geannuleerd
+Cannot add billing address: cart not initialized,Kan factuuradres niet toevoegen: winkelwagen niet geïnitialiseerd
+Cannot add contact info: cart not initialized,Kan contactgegevens niet toevoegen: winkelwagen niet geïnitialiseerd
+Cannot add payment method: cart not initialized,Kan betaalmethode niet toevoegen: winkelwagen niet geïnitialiseerd
+Cannot add shipping address: cart not initialized,Kan verzendadres niet toevoegen: winkelwagen niet geïnitialiseerd
+Cannot add shipping method: cart not initialized,Kan verzendmethode niet toevoegen: winkelwagen niet geïnitialiseerd
+Cannot add shipping method: providerCode is required,Kan verzendmethode niet toevoegen: providerCode is verplicht
+Cannot apply coupon: cart not initialized,Kan kortingscode niet toepassen: winkelwagen niet geïnitialiseerd
+Cannot remove coupon: cart not initialized,Kan kortingscode niet verwijderen: winkelwagen niet geïnitialiseerd
+Carrier,Vervoerder
+Carrier is required,Vervoerder is verplicht
+Cart ID is required to checkout,Winkelwagen-ID is verplicht om af te rekenen
+Cart is not initialized,Winkelwagen is niet geïnitialiseerd
+Catalog,Catalogus
+Categories,Categorieën
+Category,Categorie
+Charcoal,Antraciet
+Checkout success,Afrekenen geslaagd
+Choose Product SKU,Kies product-SKU
+Choose SKU,Kies SKU
+City is required,Plaats is verplicht
+Clear All,Alles wissen
+Clear Filters,Filters wissen
+Clear all,Alles wissen
+Clear categories,Categorieën wissen
+Close fullscreen view,Volledig scherm sluiten
+Code,Code
+Collections,Collecties
+Comma-separated; renders the value as a dropdown.,Door komma's gescheiden; geeft de waarde weer als een dropdown.
+Completed,Voltooid
+Configurable,Configureerbaar
+Configure tax classes and tax rates,Belastingklassen en belastingtarieven configureren
+Confirm,Bevestigen
+Contact for pricing,Neem contact op voor prijzen
+Conveniently pay with cash at your doorstep when your order is delivered.,Betaal eenvoudig contant aan de deur wanneer je bestelling wordt bezorgd.
+Coupon applied successfully!,Kortingscode succesvol toegepast!
+Coupon code is required,Kortingscode is verplicht
+Coupon does not match,Kortingscode komt niet overeen
+Coupon removed successfully!,Kortingscode succesvol verwijderd!
+Cream,Crème
+Create,Aanmaken
+Create a new attribute,Een nieuw attribuut aanmaken
+Create a new group,Een nieuwe groep aanmaken
+Create a new package,Een nieuw pakket aanmaken
+Create shipment,Zending aanmaken
+Created,Aangemaakt
+Custom URL,Aangepaste URL
+Custom field created,Aangepast veld aangemaakt
+Custom field updated,Aangepast veld bijgewerkt
+Custom fields,Aangepaste velden
+Custom fields (JSON),Aangepaste velden (JSON)
+Custom fields saved,Aangepaste velden opgeslagen
+Customer Information,Klantgegevens
+Customer does not have any order yet.,Klant heeft nog geen bestelling.
+Customer notes,Klantnotities
+Daily,Dagelijks
+Date and time must be after ${min},Datum en tijd moeten na ${min} liggen
+Date and time must be before ${max},Datum en tijd moeten vóór ${max} liggen
+Date must be after ${min},Datum moet na ${min} liggen
+Date must be before ${max},Datum moet vóór ${max} liggen
+Delete ${count} coupons,${count} coupons verwijderen
+Delete ${count} products,${count} producten verwijderen
+Delete address API not available,Adres verwijderen-API niet beschikbaar
+Delivered,Bezorgd
+Description,Beschrijving
+Disable,Uitschakelen
+Disable ${count} coupons,${count} coupons uitschakelen
+Disable ${count} customers,${count} klanten uitschakelen
+Disable ${count} products,${count} producten uitschakelen
+Disabled,Uitgeschakeld
+Discount percent,Kortingspercentage
+Discount percent is required,Kortingspercentage is verplicht
+Display on Frontend?,Weergeven op frontend?
+Displays the mobile sidebar.,Toont de mobiele zijbalk.
+Done,Klaar
+Drag to reorder,Sleep om te herordenen
+Duplicate,Dupliceren
+Edit custom field,Aangepast veld bewerken
+Edit field settings,Veldinstellingen bewerken
+Edit package,Pakket bewerken
+Edit tracking info,Trackinggegevens bewerken
+Editing ${name},${name} bewerken
+Email a shipment confirmation,E-mail een verzendbevestiging
+Email a shipment confirmation with tracking details,E-mail een verzendbevestiging met trackinggegevens
+Email is required,E-mail is verplicht
+Enable,Inschakelen
+Enable ${count} coupons,${count} coupons inschakelen
+Enable ${count} customers,${count} klanten inschakelen
+Enable ${count} products,${count} producten inschakelen
+Enabled,Ingeschakeld
+Enter attribute code,Voer attribuutcode in
+Enter attribute name,Voer attribuutnaam in
+Enter text,Voer tekst in
+Enter value for ${attribute},Voer waarde in voor ${attribute}
+Enter your email,Voer uw e-mail in
+Enter your new password,Voer uw nieuwe wachtwoord in
+Enter your password,Voer uw wachtwoord in
+Error,Fout
+Failed to add address,Adres toevoegen mislukt
+Failed to add billing address,Factuuradres toevoegen mislukt
+Failed to add billing address.,Factuuradres toevoegen mislukt.
+Failed to add contact info,Contactgegevens toevoegen mislukt
+Failed to add contact info.,Contactgegevens toevoegen mislukt.
+Failed to add item to cart,Artikel toevoegen aan winkelwagen mislukt
+Failed to add payment method,Betaalmethode toevoegen mislukt
+Failed to add payment method.,Betaalmethode toevoegen mislukt.
+Failed to add product to cart,Product toevoegen aan winkelwagen mislukt
+Failed to add shipping address,Verzendadres toevoegen mislukt
+Failed to add shipping address.,Verzendadres toevoegen mislukt.
+Failed to add shipping method,Verzendmethode toevoegen mislukt
+Failed to add shipping method.,Verzendmethode toevoegen mislukt.
+Failed to apply coupon,Coupon toepassen mislukt
+Failed to cancel shipment,Verzending annuleren mislukt
+Failed to checkout,Afrekenen mislukt
+Failed to create field,Veld aanmaken mislukt
+Failed to create shipment,Verzending aanmaken mislukt
+Failed to delete address,Adres verwijderen mislukt
+Failed to load custom fields,Aangepaste velden laden mislukt
+Failed to mark delivered,Markeren als bezorgd mislukt
+Failed to place order,Bestelling plaatsen mislukt
+Failed to place order. Please try again.,Bestelling plaatsen mislukt. Probeer het opnieuw.
+Failed to remove coupon,Coupon verwijderen mislukt
+Failed to remove coupon.,Coupon verwijderen mislukt.
+Failed to save custom fields,Aangepaste velden opslaan mislukt
+Failed to set shipping method,Verzendmethode instellen mislukt
+Failed to set shipping note,Verzendnotitie instellen mislukt
+Failed to update address,Adres bijwerken mislukt
+Failed to update field,Veld bijwerken mislukt
+Failed to update shipment,Verzending bijwerken mislukt
+Failed to update tracking info,Trackinggegevens bijwerken mislukt
+Failed to void label,Label annuleren mislukt
+Failed!,Mislukt!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,Velden die van toepassing zijn op dit entiteitstype. Een veld toevoegen past het toe op alle entiteiten van dit type.
+File size must be less than ${maxSize},Bestandsgrootte moet kleiner zijn dan ${maxSize}
+Filter Products,Producten filteren
+Filters,Filters
+First,Eerste
+Free,Gratis
+Free shipping,Gratis verzending
+Free shipping ?,Gratis verzending?
+Fulfill ${count} orders,${count} bestellingen afhandelen
+Full Name is required,Volledige naam is verplicht
+Fully shipped,Volledig verzonden
+General,Algemeen
+Get qty,Ontvang aantal
+Get qty is required,Ontvang aantal is verplicht
+Ghost,Ghost
+Go,Ga
+Go to Login,Ga naar inloggen
+Go to next page,Ga naar volgende pagina
+Go to previous page,Ga naar vorige pagina
+Hello,Hallo
+Hide from storefront,Verbergen voor winkel
+ID,ID
+In Stock,Op voorraad
+Inactive,Inactief
+Inclusive of tax ${totalTaxAmount},Inclusief btw ${totalTaxAmount}
+Insert,Invoegen
+Invalid address,Ongeldig adres
+Invalid cart,Ongeldige winkelwagen
+Invalid cart id,Ongeldig winkelwagen-ID
+Invalid coupon,Ongeldige coupon
+Invalid customer,Ongeldige klant
+Invalid customer id,Ongeldig klant-ID
+Invalid email or password,Ongeldige e-mail of wachtwoord
+Invalid format,Ongeldig formaat
+Invalid quantity,Ongeldig aantal
+Is Filterable?,Is filterbaar?
+Is Required?,Is verplicht?
+Item,Artikel
+Items,Artikelen
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,Artikelen in deze verzending keren terug naar de niet-verzonden voorraad van de bestelling. Deze actie kan niet ongedaan worden gemaakt.
+Key,Sleutel
+Key is required,Sleutel is verplicht
+Label,Label
+Label voided,Label geannuleerd
+Language,Taal
+Last,Laatste
+Lifetime Sales,Totale omzet
+Light gray,Lichtgrijs
+Limit,Limiet
+Link,Link
+Loading,Laden
+Log in,Inloggen
+Logging in...,Bezig met inloggen...
+Logging out...,Bezig met uitloggen...
+Login failed,Inloggen mislukt
+Logout failed,Uitloggen mislukt
+Look like you just started. No bestsellers yet.,Het lijkt erop dat u net bent begonnen. Nog geen bestsellers.
+"Lowercase letters, digits, underscore. Immutable.","Kleine letters, cijfers, underscore. Onveranderlijk."
+Manage the general information of the attribute.,Beheer de algemene informatie van het attribuut.
+Manage the setting of the attribute.,Beheer de instelling van het attribuut.
+Mark as shipped,Markeren als verzonden
+Mark delivered,Markeren als bezorgd
+Mark shipment as delivered?,Verzending markeren als bezorgd?
+Max length,Max. lengte
+Max of Y,Max. van Y
+Max of Y is required,Max. van Y is verplicht
+Max value,Max. waarde
+Min length,Min. lengte
+Min value,Min. waarde
+Minimum quantity,Minimumaantal
+Mint,Mint
+Monthly,Maandelijks
+More,Meer
+More pages,Meer pagina's
+Move down,Omlaag verplaatsen
+Move up,Omhoog verplaatsen
+Multiselect,Multiselectie
+Must be at least ${n},Moet minimaal ${n} zijn
+Must be at least ${n} characters,Moet minimaal ${n} tekens bevatten
+Must be at most ${n},Mag maximaal ${n} zijn
+Must be at most ${n} characters,Mag maximaal ${n} tekens bevatten
+"Must start with a letter; lowercase letters, digits, underscore only","Moet beginnen met een letter; alleen kleine letters, cijfers en underscore"
+Name is required,Naam is verplicht
+New Product,Nieuw product
+New Widget,Nieuwe widget
+New folder,Nieuwe map
+Next,Volgende
+Next slide,Volgende slide
+No,Nee
+No address data received,Geen adresgegevens ontvangen
+"No attribute groups found for query ""${query}""","Geen kenmerkgroepen gevonden voor zoekopdracht ""${query}"""
+No carriers registered,Geen vervoerders geregistreerd
+"No categories found for ""${term}""","Geen categorieën gevonden voor ""${term}"""
+"No categories found for query ""${query}""","Geen categorieën gevonden voor zoekopdracht ""${query}"""
+"No collections found for query ""${query}""","Geen collecties gevonden voor zoekopdracht ""${query}"""
+No coupon to remove,Geen coupon om te verwijderen
+No custom fields yet.,Nog geen aangepaste velden.
+No data available,Geen gegevens beschikbaar
+No free shipping,Geen gratis verzending
+No limit,Geen limiet
+No maximum,Geen maximum
+No minimum,Geen minimum
+No notes from customer,Geen opmerkingen van klant
+"No options found for ""${code}""","Geen opties gevonden voor ""${code}"""
+"No products found for query ""${query}""","Geen producten gevonden voor zoekopdracht ""${query}"""
+No shipments yet — your order is being prepared.,Nog geen zendingen — uw bestelling wordt voorbereid.
+No shipping is required for this order,Voor deze bestelling is geen verzending vereist
+No shipping methods available,Geen verzendmethoden beschikbaar
+No shipping options are available for your location,Er zijn geen verzendopties beschikbaar voor uw locatie
+No shipping required,Geen verzending vereist
+No widgets match your search.,Geen widgets komen overeen met uw zoekopdracht.
+None,Geen
+Not set,Niet ingesteld
+Not visible to customers,Niet zichtbaar voor klanten
+Notify customer,Klant op de hoogte stellen
+Open in new tab,Openen in nieuw tabblad
+Operator,Operator
+Option text,Optietekst
+Optional help text shown to admins.,Optionele helptekst die aan beheerders wordt getoond.
+Order Placed,Bestelling geplaatst
+Order detail,Bestellingsdetail
+Order must contain products matching all conditions below,Bestelling moet producten bevatten die aan alle onderstaande voorwaarden voldoen
+Order not found,Bestelling niet gevonden
+Orders,Bestellingen
+Others,Overige
+Out of Stock,Niet op voorraad
+Outline,Omtrek
+Overview of sales data over selected periods,Overzicht van verkoopgegevens over geselecteerde periodes
+Overview of total sales and order status over the lifetime of your store,Overzicht van totale verkoop en bestelstatus gedurende de levensduur van uw winkel
+Page,Pagina
+Page ${currentPage} of ${totalPages},Pagina ${currentPage} van ${totalPages}
+Page not found,Pagina niet gevonden
+Password is required,Wachtwoord is verplicht
+Password must be at least ${minLength} characters long,Wachtwoord moet minimaal ${minLength} tekens lang zijn
+Paste a URL or a relative path starting with ,Plak een URL of een relatief pad dat begint met 
+Pattern (regex),Patroon (regex)
+Pay with PayPal,Betalen met PayPal
+Pay with Stripe,Betalen met Stripe
+Payment Status,Betalingsstatus
+Placing Order...,Bestelling plaatsen...
+Please enter a coupon code,Voer een couponcode in
+Please enter a valid URL,Voer een geldige URL in
+Please enter a valid email address,Voer een geldig e-mailadres in
+Please enter your email to receive a reset link,Voer uw e-mailadres in om een resetlink te ontvangen
+Please provide billing address to proceed,Geef een factuuradres op om door te gaan
+Please select a payment method,Selecteer een betaalmethode
+Please select a shipping method,Selecteer een verzendmethode
+Please sign in to your account,Log in op uw account
+Position,Positie
+Previous,Vorige
+Previous slide,Vorige slide
+Price: ${value},Prijs: ${value}
+Primary,Primair
+Print Label,Label afdrukken
+Processing Payment...,Betaling verwerken...
+Product Description,Productbeschrijving
+Product is out of stock,Product is niet op voorraad
+Product name is required,Productnaam is verplicht
+Product not found,Product niet gevonden
+Product type,Producttype
+Products,Producten
+Reason for cancellation,Reden voor annulering
+Reason is required,Reden is verplicht
+Recently placed orders by this customer,Recent geplaatste bestellingen door deze klant
+Redirecting to PayPal...,Doorverwijzen naar PayPal...
+Reference type,Referentietype
+Registration failed,Registratie mislukt
+Remove item,Item verwijderen
+Remove sub-field,Subveld verwijderen
+Required,Verplicht
+Requires at least one item to create a cart,Vereist minimaal één item om een winkelwagen aan te maken
+Reset Password,Wachtwoord opnieuw instellen
+Reset Your Password,Stel uw wachtwoord opnieuw in
+Reset password,Wachtwoord opnieuw instellen
+Reset your password,Stel uw wachtwoord opnieuw in
+Root,Hoofdmap
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU moet uniek zijn
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,Verkoopstatistieken
+Save custom fields,Aangepaste velden opslaan
+Save field,Veld opslaan
+Saved successfully!,Succesvol opgeslagen!
+Search attribute groups,Kenmerkgroepen zoeken
+Search categories,Categorieën zoeken
+Search collections,Collecties zoeken
+"Search for products, orders, and other resources","Zoek naar producten, bestellingen en andere bronnen"
+Search products,Producten zoeken
+Search results for: ${keyword},Zoekresultaten voor: ${keyword}
+Search widgets…,Widgets zoeken…
+Searching...,Zoeken...
+Search…,Zoeken…
+See all orders →,Alle bestellingen bekijken →
+Select,Selecteren
+Select a carrier,Selecteer een vervoerder
+Select at least one item to ship,Selecteer minimaal één item om te verzenden
+Select groups the attribute belongs to,Selecteer de groepen waartoe het kenmerk behoort
+Select shipping method,Selecteer verzendmethode
+Select sort,Sortering selecteren
+"Select the items going in this shipment, then add the carrier & tracking.",Selecteer de items voor deze zending en voeg vervolgens de vervoerder en tracking toe.
+Setting,Instelling
+Settings,Instellingen
+Shipment Status,Zendingsstatus
+Shipment canceled,Zending geannuleerd
+Shipment created,Zending aangemaakt
+Shipment marked delivered,Zending gemarkeerd als bezorgd
+Shipments,Zendingen
+Shipped,Verzonden
+Shipping (${method}),Verzending (${method})
+Shipping Setting,Verzendinstelling
+Show,Tonen
+Show all ${count} options,Alle ${count} opties tonen
+Show on storefront,Tonen in winkel
+Showing ${showing} of ${total},${showing} van ${total} weergegeven
+Showing ${start}-${end} of ${total} results,${start}-${end} van ${total} resultaten weergegeven
+Sidebar,Zijbalk
+Sign in to view your orders,Log in om uw bestellingen te bekijken
+Simple,Eenvoudig
+Sky,Hemelsblauw
+Sold out,Uitverkocht
+Some error occurred. Please try again later.,Er is een fout opgetreden. Probeer het later opnieuw.
+Some products are not available,Sommige producten zijn niet beschikbaar
+Something went wrong! Please try again.,Er is iets misgegaan! Probeer het opnieuw.
+Something went wrong. Please try again later.,Er is iets misgegaan. Probeer het later opnieuw.
+Something wrong. Please try again,Er ging iets mis. Probeer het opnieuw
+Sort Order,Sorteervolgorde
+Sort order,Sorteervolgorde
+Status,Status
+Stock,Voorraad
+Stripe is not loaded. Please try again.,Stripe is niet geladen. Probeer het opnieuw.
+Style,Stijl
+Sub-fields,Subvelden
+Submit Cancellation,Annulering indienen
+Successfully logged in,Succesvol ingelogd
+Successfully logged out,Succesvol uitgelogd
+Tax Setting,Belastinginstelling
+Test failure,Test mislukt
+Test failure:,Test mislukt:
+Test success,Test geslaagd
+Test success:,Test geslaagd:
+Text,Tekst
+Textarea,Tekstgebied
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,De vervoerder markeert het volgnummer als ongeldig. U moet een nieuw label aanschaffen als u alsnog wilt verzenden.
+The customer will receive a delivery confirmation email.,De klant ontvangt een e-mail ter bevestiging van de levering.
+There is no category,Er is geen categorie
+There is no file to display.,Er is geen bestand om weer te geven.
+There is no sub folder.,Er is geen submap.
+There was an error:,Er is een fout opgetreden:
+This tracking link has expired,Deze volglink is verlopen
+This tracking link is no longer valid,Deze volglink is niet langer geldig
+Thumbnail,Miniatuur
+Time must be after ${min},Tijd moet na ${min} zijn
+Time must be before ${max},Tijd moet voor ${max} zijn
+Toggle Sidebar,Zijbalk wisselen
+Token is invalid or expired,Token is ongeldig of verlopen
+Too many items requested,Te veel items aangevraagd
+Track,Volgen
+Track shipment →,Zending volgen →
+Track your order,Volg uw bestelling
+Tracking info updated,Volginformatie bijgewerkt
+Tracking link,Volglink
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,Volglinks zijn beperkte tijd geldig. Log in op uw account om de huidige status van uw bestelling te bekijken.
+Tracking number,Volgnummer
+Type,Type
+Type / to see the available blocks,Typ / om de beschikbare blokken te zien
+UPDATE PASSWORD,WACHTWOORD BIJWERKEN
+Update address API not available,API voor adres bijwerken niet beschikbaar
+Update field,Veld bijwerken
+Upload,Uploaden
+Validation,Validatie
+Value,Waarde
+Value must be a whole number,Waarde moet een geheel getal zijn
+Value must be at least ${min},Waarde moet minimaal ${min} zijn
+Value must be at most ${max},Waarde mag maximaal ${max} zijn
+View All Products,Alle producten bekijken
+View JSON,JSON bekijken
+View all customers,Alle klanten bekijken
+Visible to customer,Zichtbaar voor klant
+Void Label,Label annuleren
+Void label,Label annuleren
+Void this shipping label?,Dit verzendlabel annuleren?
+"We could not find this order. It may have been removed, or it may belong to a different account.",We konden deze bestelling niet vinden. Mogelijk is deze verwijderd of hoort deze bij een ander account.
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","We konden deze link niet verifiëren. Als u deze in een e-mail van ons hebt ontvangen, probeer het dan opnieuw vanuit het meest recente bericht, of log in op uw account."
+We have sent you an email with a link to reset your password. Please check your inbox.,We hebben u een e-mail gestuurd met een link om uw wachtwoord opnieuw in te stellen. Controleer uw inbox.
+Weekly,Wekelijks
+Welcome to our store!,Welkom in onze winkel!
+"Where you ship, shipping methods and delivery fee","Waar u verzendt, verzendmethoden en leverkosten"
+White,Wit
+Yes,Ja
+You are already logged in,U bent al ingelogd
+You are here:,U bent hier:
+You have no attribute groups to display,U hebt geen attribuutgroepen om weer te geven
+You have no categories to display,U hebt geen categorieën om weer te geven
+You have no collections to display,U hebt geen collecties om weer te geven
+You have no products to display,U hebt geen producten om weer te geven
+You have not placed any orders yet.,U hebt nog geen bestellingen geplaatst.
+You paid for,U hebt betaald voor
+You will be redirected to PayPal for payment processing.,U wordt doorgestuurd naar PayPal voor de betalingsverwerking.
+Your Orders,Uw bestellingen
+Your order #${number} has been delivered,Uw bestelling #${number} is geleverd
+Your order #${number} is on the way,Uw bestelling #${number} is onderweg
+Your order has been confirmed!,Uw bestelling is bevestigd!
+Your password has been updated successfully.,Uw wachtwoord is succesvol bijgewerkt.
+across,over
+available to ship,beschikbaar om te verzenden
+breadcrumb,broodkruimel
+e.g. Care instructions,bijv. Onderhoudsinstructies
+"e.g. New, Sale, Limited","bijv. Nieuw, Uitverkoop, Beperkt"
+e.g. Question,bijv. Vraag
+e.g. care_instructions,bijv. care_instructions
+e.g. question,bijv. question
+item,item
+items,items
+left to ship,nog te verzenden
+of,van
+of ${count},van ${count}
+unit,eenheid
+units,eenheden
+${count} changes published.,${count} wijzigingen gepubliceerd.
+${count} child widgets,${count} onderliggende widgets
+${count} countries,${count} landen
+${count} on ${route},${count} op ${route}
+${count} ops total,${count} bewerkingen totaal
+${count} pending ops,${count} openstaande bewerkingen
+${count} pending ops on,${count} openstaande bewerkingen op
+${count} routes,${count} routes
+${direction} failed,${direction} mislukt
+${method} — ${zone} rate,${method} — ${zone} tarief
+${method} — new rate,${method} — nieuw tarief
+${name} attached to ${zone},${name} gekoppeld aan ${zone}
+${name} configuration for ${zone},${name} configuratie voor ${zone}
+${name} configuration for this zone,${name} configuratie voor deze zone
+${name} configuration saved for ${zone},${name} configuratie opgeslagen voor ${zone}
+${name} detached,${name} losgekoppeld
+${name} is required,${name} is verplicht
+${title} settings,${title} instellingen
+${total} changes will go live immediately.,${total} wijzigingen gaan direct live.
+${total} items,${total} items
+(envelope),(envelop)
++ Add Line,+ Regel toevoegen
++ Add Method,+ Methode toevoegen
++ Add Rate,+ Tarief toevoegen
++ Add placement,+ Plaatsing toevoegen
++ Attach Provider,+ Provider koppelen
++ New package,+ Nieuw pakket
++${count} more,+${count} meer
+", +${count} more",", +${count} meer"
+", last updated",", laatst bijgewerkt"
+0 for flat envelopes,0 voor platte enveloppen
+1 change published.,1 wijziging gepubliceerd.
+1 change will go live immediately.,1 wijziging gaat direct live.
+1 child widget,1 onderliggende widget
+1 op total,1 bewerking totaal
+1 pending op,1 openstaande bewerking
+1 pending op on,1 openstaande bewerking op
+A package is required for shippable products,Een pakket is verplicht voor verzendbare producten
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,Een uitrolplan slaat uw huidige bewerkingen op als momentopname en past ze automatisch toe tijdens een ingepland tijdvenster.
+Action,Actie
+Actions,Acties
+Add,Toevoegen
+Add Products,Producten toevoegen
+Add Rate,Tarief toevoegen
+Add Shipping Method,Verzendmethode toevoegen
+Add Tax Rate,Belastingtarief toevoegen
+Add Variant,Variant toevoegen
+Add products to this category by selecting them from the list below.,Voeg producten toe aan deze categorie door ze te selecteren uit de onderstaande lijst.
+Add rate,Tarief toevoegen
+Added,Toegevoegd
+Adding to Column ${number},Toevoegen aan kolom ${number}
+Additional languages,Aanvullende talen
+Admin panel language,Taal van beheerpaneel
+Affects ${count} pages,Heeft invloed op ${count} pagina's
+Affects 1 page,Heeft invloed op 1 pagina
+All pages,Alle pagina's
+All registered providers are already attached to this zone.,Alle geregistreerde providers zijn al aan deze zone gekoppeld.
+All routes,Alle routes
+Also shown on ${routes},Ook getoond op ${routes}
+Also shown on ${routes} +${count},Ook getoond op ${routes} +${count}
+Amount must be greater than or equal to 0,Bedrag moet groter dan of gelijk aan 0 zijn
+Amount must be less than or equal to ${value} ${currency},Bedrag moet kleiner dan of gelijk aan ${value} ${currency} zijn
+Apply a condition?,Een voorwaarde toepassen?
+Area,Gebied
+Area is required,Gebied is verplicht
+At least one country is required,Minimaal één land is verplicht
+Attach,Koppelen
+Attach Provider to ${zone},Provider koppelen aan ${zone}
+Attached Providers,Gekoppelde providers
+Attribute Name,Kenmerknaam
+Attribute code is required,Kenmerkcode is verplicht
+Attribute created successfully!,Kenmerk succesvol aangemaakt!
+Attribute group,Kenmerkgroep
+Attribute name is required,Kenmerknaam is verplicht
+Authorize only,Alleen autoriseren
+Auto-saves while you edit,Slaat automatisch op tijdens het bewerken
+Back To Dashboard,Terug naar dashboard
+Base calculation address,Basisadres voor berekening
+Based on cart subtotal,Op basis van subtotaal winkelwagen
+Based on cart weight,Op basis van gewicht winkelwagen
+Basic configuration,Basisconfiguratie
+Boolean,Boolean
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,Ingebouwde verzendmethoden met tarieven per zone. Koppel eerst Core aan een zone via Instellingen → Verzending; voeg daarna hier methoden toe en configureer hun tarieven per zone.
+Buy X get Y,Koop X krijg Y
+CMS,CMS
+Calculation type,Berekeningstype
+Can not change the attribute group of a product that is already in a variant group.,Kan de kenmerkgroep van een product dat al in een variantgroep zit niet wijzigen.
+Cancel rollout,Uitrol annuleren
+Cancel rollout plan?,Uitrolplan annuleren?
+Canvas device width,Canvas-apparaatbreedte
+Capture,Vastleggen
+Capture Payment,Betaling vastleggen
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,Vervoerderhint voor fulfilment — wordt nooit getoond bij het afrekenen. NewShipmentDialog gebruikt dit om de vervoerder vooraf te selecteren.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,Vervoerderspecifieke servicecode die wordt gebruikt bij het kopen van een label (CreateLabelInput.serviceCode). Vrije invoer — controleer de exacte token in de API-documentatie van de vervoerder. Laat leeg om de vervoerder zijn standaardservice te laten kiezen.
+Cash On Delivery Payment,Betaling onder rembours
+"Catalog, Search","Catalogus, Zoeken"
+Category Image,Categorieafbeelding
+Category Name,Categorienaam
+Category created successfully!,Categorie succesvol aangemaakt!
+Category name is required,Categorienaam is verplicht
+Choose Attribute Groups,Kies kenmerkgroepen
+Choose Categories,Kies categorieën
+Choose Collections,Kies collecties
+Choose SKUs,Kies SKU's
+Choose how much of your unpublished work to discard. The published storefront is not affected.,Kies hoeveel van je niet-gepubliceerde werk je wilt verwijderen. De gepubliceerde winkel wordt niet beïnvloed.
+Choose where you ship and how much you charge for shipping.,Kies waarheen je verzendt en hoeveel je voor verzending rekent.
+Clear filter,Filter wissen
+Clear filters,Filters wissen
+Client ID,Client-ID
+Client Secret,Client Secret
+Close,Sluiten
+Close settings,Instellingen sluiten
+Close — continue draft,Sluiten — concept voortzetten
+Cms Pages,CMS-pagina's
+Collapse left rail,Linkerbalk inklappen
+Collapse panel,Paneel inklappen
+Collection Code,Collectiecode
+Collection Name,Collectienaam
+Collection code is required,Collectiecode is verplicht
+Collection code must be alphanumeric and can include underscores or dashes.,Collectiecode moet alfanumeriek zijn en mag underscores of streepjes bevatten.
+Collection created successfully!,Collectie succesvol aangemaakt!
+Color,Kleur
+Commerce,Commerce
+Compound,Samengesteld
+Condition,Voorwaarde
+Configure,Configureren
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,Configureer kosten en voorwaarden per zone. Zones zonder tarief bieden deze methode niet aan.
+Configure rate,Tarief configureren
+Configure the available payment methods,Configureer de beschikbare betaalmethoden
+Configure the settings for the ${name} widget.,Configureer de instellingen voor de ${name}-widget.
+Configure the tax classes that will be available to your customers at checkout.,Configureer de belastingklassen die voor je klanten beschikbaar zijn bij het afrekenen.
+Configure your Cash On Delivery payment gateway settings,Configureer je instellingen voor de betaalmethode rembours
+Configure your Paypal payment gateway settings,Configureer je instellingen voor de PayPal-betaalmethode
+Configure your Stripe payment gateway settings,Configureer je instellingen voor de Stripe-betaalmethode
+Configure your store information,Configureer je winkelgegevens
+"Conflicts with ${plan1}, ${plan2}","Conflicteert met ${plan1}, ${plan2}"
+Conflicts with ${plan},Conflicteert met ${plan}
+Conflicts with ${plan} +${count},Conflicteert met ${plan} +${count}
+Conflicts with:,Conflicteert met:
+Content,Inhoud
+Continue a saved rollout plan,Een opgeslagen uitrolplan voortzetten
+Continue your draft,Je concept voortzetten
+Core Shipping,Core-verzending
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core is nog niet aan een zone gekoppeld. Koppel het eerst via Instellingen → Verzending.
+Cost,Kosten
+Cost is required,Kosten zijn verplicht
+Could not start fresh,Kon niet opnieuw beginnen
+Countries,Landen
+"Country code (e.g., ""US""). Use ""*"" for all countries.","Landcode (bijv. ""US""). Gebruik ""*"" voor alle landen."
+Coupon Code,Couponcode
+"Coupon code can only contain letters, numbers, underscores, and hyphens","Couponcode mag alleen letters, cijfers, underscores en streepjes bevatten"
+Coupon created successfully!,Coupon succesvol aangemaakt!
+Coupons,Coupons
+Create A New Customer,Een nieuwe klant aanmaken
+Create New Package,Nieuw pakket aanmaken
+Create New Tax Class,Nieuwe belastingklasse aanmaken
+Create New Zone,Nieuwe zone aanmaken
+Create a new category,Een nieuwe categorie aanmaken
+Create a new collection,Een nieuwe collectie aanmaken
+Create a new coupon,Een nieuwe coupon aanmaken
+Create a new page,Een nieuwe pagina aanmaken
+Create a new product,Een nieuw product aanmaken
+Create a new variant for this product.,Een nieuwe variant voor dit product aanmaken.
+Create a new widget,Een nieuwe widget aanmaken
+Create a variant group,Een variantgroep aanmaken
+Create method,Methode aanmaken
+Create new tax class,Nieuwe belastingklasse aanmaken
+Create rollout plan,Uitrolplan aanmaken
+Created At,Aangemaakt op
+Current,Huidig
+Customer,Klant
+Customer Email,E-mailadres klant
+Customer conditions,Klantvoorwaarden
+Customer emails,Klant-e-mails
+Customer groups,Klantgroepen
+Customer's purchase,Aankoop van de klant
+Customers,Klanten
+Customers (${count}),Klanten (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,Klanten in ${zone} zien de methoden van ${name} niet meer bij het afrekenen. Je kunt het later opnieuw koppelen.
+Dashboard,Dashboard
+Date,Datum
+Decrease,Verlagen
+Default carrier,Standaardvervoerder
+Default language,Standaardtaal
+Default package,Standaardpakket
+Default service code,Standaard servicecode
+"Delete ""${name}""?","""${name}"" verwijderen?"
+Delete ${count} attributes,${count} kenmerken verwijderen
+Delete ${count} categories,${count} categorieën verwijderen
+Delete ${count} collections,${count} collecties verwijderen
+Delete ${count} pages,${count} pagina's verwijderen
+Delete ${count} widgets,${count} widgets verwijderen
+Delete container widget?,Containerwidget verwijderen?
+Delete image,Afbeelding verwijderen
+"Delete package ""${name}""?","Pakket ""${name}"" verwijderen?"
+Delete this,Dit verwijderen
+Delete this widget? This will be saved as a pending change you can publish or discard.,Deze widget verwijderen? Dit wordt opgeslagen als een openstaande wijziging die je kunt publiceren of verwijderen.
+Delete widget?,Widget verwijderen?
+Delete zone,Zone verwijderen
+"Delete zone ""${name}""?","Zone ""${name}"" verwijderen?"
+Deleted ${name},${name} verwijderd
+Deleting this,Dit verwijderen
+Deleting this container will also hide,Het verwijderen van deze container verbergt ook
+Description is required,Beschrijving is verplicht
+Desktop,Desktop
+Detach,Ontkoppelen
+Detach ${name}?,${name} loskoppelen?
+Disable ${count} pages,${count} pagina's uitschakelen
+Disable ${count} widgets,${count} widgets uitschakelen
+Disabled products will not be visible in the store and cannot be purchased.,Uitgeschakelde producten zijn niet zichtbaar in de winkel en kunnen niet worden gekocht.
+Discard changes on this page only,Wijzigingen alleen op deze pagina negeren
+Discard everything,Alles negeren
+Discard everything in this draft,Alles in dit concept negeren
+Discard failed,Negeren mislukt
+Discard pending changes?,Openstaande wijzigingen negeren?
+Discard this page,Deze pagina negeren
+Discarding…,Negeren…
+Discount Type,Kortingstype
+Discount amount,Kortingsbedrag
+Discount amount is required,Kortingsbedrag is vereist
+Discount type is required,Kortingstype is vereist
+Dislay Name,Weergavenaam
+Display Name,Weergavenaam
+Draft,Concept
+Draft — not scheduled,Concept — niet ingepland
+Drag to resize,Sleep om formaat te wijzigen
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","Elke rij plaatst deze widget op één pagina, in één gebied, met een eigen sorteervolgorde. Lagere nummers verschijnen eerst."
+Edit ${name},${name} bewerken
+Edit Shipping Zone,Verzendzone bewerken
+Edit Tax Rate,Belastingtarief bewerken
+Edit Variant,Variant bewerken
+Edit Zone,Zone bewerken
+Edit against the live storefront. Publish immediately or save as a rollout plan.,Bewerk tegen de live storefront. Publiceer direct of sla op als uitrolplan.
+Edit rollout schedule,Uitrolschema bewerken
+Editable routes,Bewerkbare routes
+Editing ${coupon},${coupon} bewerken
+Editing ${fullName},${fullName} bewerken
+Editing widget ${name},Widget ${name} bewerken
+Edits to a shared widget update every route it appears on.,Wijzigingen aan een gedeelde widget worden bijgewerkt op elke route waarop deze verschijnt.
+Empty package weight,Leeg pakketgewicht
+Empty weight,Leeg gewicht
+Enable ${count} pages,${count} pagina's inschakelen
+Enable ${count} widgets,${count} widgets inschakelen
+Enable this page to make it visible on the frontend.,Schakel deze pagina in om deze zichtbaar te maken op de frontend.
+Enable?,Inschakelen?
+End,Einde
+End Date,Einddatum
+End date,Einddatum
+End time is invalid.,Eindtijd is ongeldig.
+End time must be after start time.,Eindtijd moet na de starttijd liggen.
+Enter Category Name,Voer categorienaam in
+Enter Collection Name,Voer collectienaam in
+Enter Meta Description,Voer metabeschrijving in
+Enter Meta Title,Voer metatitel in
+Enter Meta description,Voer metabeschrijving in
+Enter Meta title,Voer metatitel in
+Enter SKU,Voer SKU in
+Enter URL Key,Voer URL-sleutel in
+Enter URL key,Voer URL-sleutel in
+Enter customer emails,Voer klant-e-mails in
+Enter description,Voer beschrijving in
+Enter group name,Voer groepsnaam in
+Enter meta description,Voer metabeschrijving in
+Enter meta title,Voer metatitel in
+Enter page name,Voer paginanaam in
+Enter price,Voer prijs in
+Enter product name,Voer productnaam in
+Enter purchased amount,Voer aangekocht bedrag in
+Enter quantity,Voer aantal in
+Enter tax class name,Voer naam belastingklasse in
+Enter the quantity,Voer het aantal in
+Enter weight,Voer gewicht in
+Environment,Omgeving
+Error loading countries,Fout bij laden van landen
+Error loading methods,Fout bij laden van methoden
+Error loading packages,Fout bij laden van pakketten
+Error loading providers,Fout bij laden van providers
+Error loading zones,Fout bij laden van zones
+EverShop · Back to page builder,EverShop · Terug naar paginabouwer
+Every page rolls back to the rollout’s saved state.,Elke pagina wordt teruggezet naar de opgeslagen status van de uitrol.
+Every page rolls back to what the rollout had saved.,Elke pagina wordt teruggezet naar wat de uitrol had opgeslagen.
+Existing rollout plan: ${plan},Bestaand uitrolplan: ${plan}
+Expand,Uitvouwen
+Expand left rail,Linkerbalk uitvouwen
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.","Extra talen waarnaar shoppers kunnen overschakelen, bovenop de standaardtaal. De standaardtaal is altijd beschikbaar — die voeg je hier niet toe."
+Failed to attach provider,Kon provider niet koppelen
+Failed to delete ${name},Kon ${name} niet verwijderen
+Failed to detach ${name},Kon ${name} niet loskoppelen
+Failed to remove rate,Kon tarief niet verwijderen
+Failed to remove zone,Kon zone niet verwijderen
+Failed to save change,Kon wijziging niet opslaan
+Failed to save rate,Kon tarief niet opslaan
+Failed to save zone,Kon zone niet opslaan
+Failed to update rollout schedule,Kon uitrolschema niet bijwerken
+Fixed discount to entire order,Vaste korting op de hele bestelling
+Fixed discount to specific products,Vaste korting op specifieke producten
+Flat rate,Vast tarief
+"Flat rate in cart currency, tax-exclusive.","Vast tarief in winkelwagenvaluta, exclusief belasting."
+Free shipping?,Gratis verzending?
+General Information,Algemene informatie
+Give Feedback,Feedback geven
+Global,Globaal
+Globals,Globale items
+Group,Groep
+Group Name,Groepsnaam
+Group name is required,Groepsnaam is vereist
+Groups,Groepen
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,Half-open interval — een winkelwagen op exact Max wordt uitgesloten (de Min van het volgende niveau bezit dat punt).
+Has conflicts,Heeft conflicten
+Heads up — ,Let op — 
+Height,Hoogte
+Height is required (0 for envelopes),Hoogte is vereist (0 voor enveloppen)
+Height must be 0 or greater,Hoogte moet 0 of groter zijn
+Hide global areas,Globale gebieden verbergen
+Higest tax rate based on cart items,Hoogste belastingtarief op basis van winkelwagenitems
+Highlight global areas on canvas,Globale gebieden op canvas markeren
+Image,Afbeelding
+Include In Menu,Opnemen in menu
+Include in Store Menu?,Opnemen in winkelmenu?
+Increase,Verhogen
+Insert image,Afbeelding invoegen
+Integer,Geheel getal
+Invalid folder name,Ongeldige mapnaam
+Invalid start,Ongeldige start
+Invalid window,Ongeldig venster
+Inventory,Voorraad
+Is compound,Is samengesteld
+Its rates will be removed too. This cannot be undone.,De bijbehorende tarieven worden ook verwijderd. Dit kan niet ongedaan worden gemaakt.
+Languages,Talen
+Layers,Lagen
+Layout,Lay-out
+Leave,Verlaten
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,Laat de lijst van een land leeg om het hele land te dekken. Voeg provincies toe om verzending te beperken tot specifieke regio's.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,Nu vertrekken kan de meest recente wijzigingen die de server nog niet hebben bereikt verliezen.
+Length,Lengte
+Length is required,Lengte is vereist
+Length must be greater than 0,Lengte moet groter zijn dan 0
+Live,Live
+Loading...,Laden...
+Long text,Lange tekst
+Lower values appear first.,Lagere waarden verschijnen eerst.
+Manage Stock,Voorraad beheren
+Manage general information about the collection.,Beheer algemene informatie over de collectie.
+Manage product images and gallery. Drag and drop to reorder images.,Beheer productafbeeldingen en galerij. Sleep en zet neer om afbeeldingen opnieuw te ordenen.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","Beheer verzendintegraties en hun methoden (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,Beheer belastingklassen en belastingtarieven voor verschillende regio's.
+Manage the SEO settings of the category.,Beheer de SEO-instellingen van de categorie.
+Manage the SEO settings.,Beheer de SEO-instellingen.
+Manage the attributes.,Beheer de kenmerken.
+Manage the collections associated with this product.,Beheer de collecties die aan dit product zijn gekoppeld.
+Manage the general information of the category.,Beheer de algemene informatie van de categorie.
+Manage the general information of the product.,Beheer de algemene informatie van het product.
+Manage the inventory settings of the product.,Beheer de voorraadinstellingen van het product.
+Manage the products assigned to this category.,Beheer de producten die aan deze categorie zijn toegewezen.
+Manage the products assigned to this collection.,Beheer de producten die aan deze collectie zijn toegewezen.
+Manage the shipping settings of the product.,Beheer de verzendinstellingen van het product.
+Manage the status settings of the category.,Beheer de statusinstellingen van de categorie.
+Manage the variant group of the product.,Beheer de variantgroep van het product.
+Marketing,Marketing
+Max ${unit},Max ${unit}
+Max is required,Max is verplicht
+Maximum,Maximum
+Maximum amount is ${value} ${currency},Maximumbedrag is ${value} ${currency}
+Maximum quantity is required,Maximumaantal is verplicht
+Maximum quantity must be greater than or equal to 0,Maximumaantal moet groter dan of gelijk aan 0 zijn
+Media,Media
+Meta Description,Meta-beschrijving
+Meta Title,Meta-titel
+Meta Title is required,Meta-titel is verplicht
+Meta description,Meta-beschrijving
+Meta description is required,Meta-beschrijving is verplicht
+Meta title,Meta-titel
+Meta title is required,Meta-titel is verplicht
+Method,Methode
+Method created,Methode aangemaakt
+Method name,Methodenaam
+Method name is required,Methodenaam is verplicht
+Method updated,Methode bijgewerkt
+Methods →,Methoden →
+Min ${unit},Min ${unit}
+Min Price,Min. prijs
+Min Weight,Min. gewicht
+Min is required,Min is verplicht
+Min price is required,Min. prijs is verplicht
+Min weight is required,Min. gewicht is verplicht
+Minimum purchase amount,Minimaal aankoopbedrag
+Minimum purchase qty,Min. aankoopaantal
+Minimum purchase quantity,Minimaal aankoopaantal
+Minimum purchased amount. This only applies to registered customers.,Minimaal aankoopbedrag. Dit geldt alleen voor geregistreerde klanten.
+Minimum quantity is required,Minimumaantal is verplicht
+Missing name,Naam ontbreekt
+Money,Geld
+Name is required.,Naam is verplicht.
+Navigation,Navigatie
+New Attribute,Nieuw attribuut
+New Category,Nieuwe categorie
+New Collection,Nieuwe collectie
+New Coupon,Nieuwe kortingsbon
+New Page,Nieuwe pagina
+New Variant,Nieuwe variant
+New coupon,Nieuwe kortingsbon
+New rate,Nieuw tarief
+No collections,Geen collecties
+No editable routes.,Geen bewerkbare routes.
+No file selected,Geen bestand geselecteerd
+No methods yet — add one to start offering Core shipping.,Nog geen methoden — voeg er een toe om Core-verzending aan te bieden.
+No packages yet. Create one — shippable products require a package.,Nog geen pakketten. Maak er een aan — verzendbare producten vereisen een pakket.
+No product to display.,Geen product om weer te geven.
+"No providers attached. Click ""Attach Provider"" to add one.","Geen providers gekoppeld. Klik op ""Provider koppelen"" om er een toe te voegen."
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","Nog geen tarieven — klik op ""Tarief toevoegen"" om deze methode in een zone aan te bieden."
+"No results for ""${keyword}""","Geen resultaten voor ""${keyword}"""
+No routes have opted into page-builder editing yet.,Nog geen routes hebben page-builder-bewerking ingeschakeld.
+No shipping required?,Geen verzending vereist?
+No subdivisions available — whole country is covered.,Geen onderverdelingen beschikbaar — het hele land is gedekt.
+No widgets available.,Geen widgets beschikbaar.
+"No widgets match ""${query}"".","Geen widgets komen overeen met ""${query}""."
+No widgets on this route yet.,Nog geen widgets op deze route.
+No zones,Geen zones
+No zones found,Geen zones gevonden
+Not visible individually,Niet afzonderlijk zichtbaar
+Nothing to publish,Niets om te publiceren
+Nothing to redo on this page,Niets om opnieuw uit te voeren op deze pagina
+Nothing to undo on this page,Niets om ongedaan te maken op deze pagina
+Number,Nummer
+Option text is required,Optietekst is verplicht
+Optional. Added to the shipping weight for quotes and labels.,Optioneel. Wordt toegevoegd aan het verzendgewicht voor offertes en labels.
+Order Number,Bestelnummer
+Order conditions,Bestelvoorwaarden
+Orders (${count}),Bestellingen (${count})
+Other,Overig
+Other pages keep their pending changes.,Andere pagina's behouden hun openstaande wijzigingen.
+Overlaps with existing rollout: ${plans}.,Overlapt met bestaande uitrol: ${plans}.
+Overlaps with existing rollouts: ${plans}.,Overlapt met bestaande uitrollen: ${plans}.
+Package,Pakket
+Package created,Pakket aangemaakt
+Package deleted,Pakket verwijderd
+Package saved,Pakket opgeslagen
+Packages,Pakketten
+Page Name,Paginanaam
+Page Not Found,Pagina niet gevonden
+Page builder,Page builder
+Page builder canvas,Page builder-canvas
+Page created successfully!,Pagina succesvol aangemaakt!
+Page is required,Pagina is verplicht
+Page name is required,Paginanaam is verplicht
+Pages,Pagina's
+Parent category,Bovenliggende categorie
+Payment Setting,Betaalinstelling
+Payment mode,Betaalmodus
+Payment setting saved,Betaalinstelling opgeslagen
+Paypal Payment,PayPal-betaling
+Pending start time,In afwachting van starttijd
+Percentage discount to entire order,Procentuele korting op de hele bestelling
+Percentage discount to specific products,Procentuele korting op specifieke producten
+Phone,Telefoon
+Pick a start time to schedule this rollout.,Kies een starttijd om deze uitrol in te plannen.
+Pick a widget below to insert as a child.,Kies hieronder een widget om als onderliggend element in te voegen.
+Pick up where you left off — ${count} pending changes,Ga verder waar je was gebleven — ${count} openstaande wijzigingen
+Pick up where you left off — 1 pending change,Ga verder waar je was gebleven — 1 openstaande wijziging
+Pin drawer open,Lade vastgezet open houden
+Pin — keep drawer open across canvas clicks,Vastzetten — lade open houden bij klikken op canvas
+Placed on: ${routes},Geplaatst op: ${routes}
+Placements,Plaatsingen
+Postal Code,Postcode
+"Postcode (e.g., ""90210""). Empty for all postcodes.","Postcode (bijv. ""90210""). Leeg voor alle postcodes."
+Preselected for new products. Exactly one package is the default.,Vooraf geselecteerd voor nieuwe producten. Precies één pakket is de standaard.
+Preview,Voorbeeld
+Price-based tiers,Op prijs gebaseerde niveaus
+Priority,Prioriteit
+Priority is required,Prioriteit is verplicht
+Product Name,Productnaam
+Product Status,Productstatus
+Product created successfully,Product succesvol aangemaakt
+Product updated successfully,Product succesvol bijgewerkt
+Products (${count}),Producten (${count})
+Promotion,Promotie
+Proportional allocation based on cart items,Proportionele toewijzing op basis van winkelwagenartikelen
+Provide the SEO details for the CMS page.,Geef de SEO-details voor de CMS-pagina op.
+Provide the basic information for the CMS page.,Geef de basisinformatie voor de CMS-pagina op.
+Provider,Provider
+Province Restrictions,Provinciebeperkingen
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.","Provinciecode (bijv. ""CA""). Gebruik ""*"" voor alle provincies."
+Provinces,Provincies
+Provinces is required,Provincies is verplicht
+Provinces:,Provincies:
+Publish failed,Publiceren mislukt
+Publish now,Nu publiceren
+Publish to the live storefront,Publiceren naar de live winkel
+Publishable Key,Publiceerbare sleutel
+Publishing…,Bezig met publiceren…
+Qty is required,Aantal is verplicht
+Quick links,Snelkoppelingen
+Rate,Tarief
+Rate added,Tarief toegevoegd
+Rate is required,Tarief is verplicht
+Rate removed,Tarief verwijderd
+Rate status,Tariefstatus
+Rate updated,Tarief bijgewerkt
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,Opnieuw (⇧⌘Z) — past de laatst ongedaan gemaakte bewerking op deze pagina opnieuw toe
+Redo last undone change on this page,Laatst ongedaan gemaakte wijziging op deze pagina opnieuw uitvoeren
+Reference,Referentie
+Refund,Terugbetaling
+Refund amount,Terugbetalingsbedrag
+Remove Zone,Zone verwijderen
+Remove placement,Plaatsing verwijderen
+Remove rate,Tarief verwijderen
+Remove this rate?,Dit tarief verwijderen?
+Removed,Verwijderd
+Resize settings drawer,Formaat van instellingenpaneel wijzigen
+"Results for ""${keyword}""","Resultaten voor ""${keyword}"""
+Revert all pages to saved state,Alle pagina's terugzetten naar opgeslagen staat
+Revert everything,Alles terugdraaien
+Revert this page,Deze pagina terugdraaien
+Revert this page only,Alleen deze pagina terugdraaien
+Revert to saved state?,Terugzetten naar opgeslagen staat?
+Reverting…,Bezig met terugdraaien…
+Rich text,Opgemaakte tekst
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,Draai de wijzigingen terug die je hebt gemaakt sinds deze uitrol voor het laatst is opgeslagen. De live winkel blijft ongewijzigd — die toont al de opgeslagen staat.
+SEO,SEO
+SEO Information,SEO-informatie
+SKU is required,SKU is verplicht
+Sale,Uitverkoop
+Sandbox,Sandbox
+Save Settings,Instellingen opslaan
+Save as rollout plan,Opslaan als uitrolplan
+Save as rollout plan and leave,Opslaan als uitrolplan en verlaten
+Save changes,Wijzigingen opslaan
+Save failed,Opslaan mislukt
+Save method,Methode opslaan
+Save rate,Tarief opslaan
+Saving…,Bezig met opslaan…
+Schedule failed,Plannen mislukt
+Scheduled,Gepland
+Search engine optimize,Optimaliseren voor zoekmachines
+Search widgets,Widgets zoeken
+Secret Key,Geheime sleutel
+Select Category,Categorie selecteren
+Select Parent Category,Bovenliggende categorie selecteren
+Select Products by SKU,Producten selecteren op SKU
+Select a provider first,Selecteer eerst een aanbieder
+Select a provider…,Selecteer een aanbieder…
+Select an option,Selecteer een optie
+Select category,Categorie selecteren
+Select countries,Landen selecteren
+Select operator,Operator selecteren
+Select options,Opties selecteren
+Select page,Pagina selecteren
+Select products to add to this collection.,Selecteer producten om aan deze collectie toe te voegen.
+Select the list of attribute,Selecteer de lijst met attributen
+Select this option if the product is a digital product or service that does not require shipping.,Selecteer deze optie als het product een digitaal product of een dienst is waarvoor geen verzending nodig is.
+Set a start time to schedule.,Stel een starttijd in om te plannen.
+Set the status and visibility of the product.,Stel de status en zichtbaarheid van het product in.
+Share,Delen
+Shipping Cost,Verzendkosten
+Shipping Providers,Verzendaanbieders
+Shipping address,Verzendadres
+Shipping cost is required,Verzendkosten zijn verplicht
+Shipping provider setting saved,Instelling verzendaanbieder opgeslagen
+Shipping tax class,Btw-klasse verzending
+Short text,Korte tekst
+Show global areas,Globale gebieden tonen
+Show on routes,Tonen op routes
+Show products?,Producten tonen?
+Show this widget on every page,Deze widget op elke pagina tonen
+Size (L × W × H),Afmetingen (L × B × H)
+Sort,Sorteren
+Sort order is required,Sorteervolgorde is verplicht
+Sort order must be a positive number,Sorteervolgorde moet een positief getal zijn
+Start,Start
+Start a page-builder session,Een paginabouwer-sessie starten
+Start date,Startdatum
+Start new changeset,Nieuwe wijzigingenset starten
+Start time is invalid.,Starttijd is ongeldig.
+State Date,Statusdatum
+Status is required,Status is verplicht
+Stay,Blijven
+Stay on this page,Op deze pagina blijven
+Stock Availability,Voorraadbeschikbaarheid
+Stop highlighting global areas,Stop met markeren van globale gebieden
+Store Address,Winkeladres
+Store Description,Winkelbeschrijving
+Store Email,Winkel-e-mail
+Store Name,Winkelnaam
+Store Phone Number,Telefoonnummer winkel
+Store Setting,Winkelinstelling
+Store Settings,Winkelinstellingen
+Store address,Winkeladres
+Storefront,Winkel
+Stripe Payment,Stripe-betaling
+Tablet,Tablet
+Take our survey,Doe onze enquête
+Target Products,Doelproducten
+Tax Class,Btw-klasse
+Tax calculation configuration,Configuratie btw-berekening
+Tax class name,Naam btw-klasse
+Tax class name is required,Naam btw-klasse is verplicht
+Tax classes,Btw-klassen
+Tax rate has been saved successfully!,Btw-tarief is succesvol opgeslagen!
+Tax setting has been saved successfully!,Btw-instelling is succesvol opgeslagen!
+The box or envelope this product ships in. Applies to all variants of this product.,De doos of envelop waarin dit product wordt verzonden. Van toepassing op alle varianten van dit product.
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,De dozen en enveloppen waarmee je verzendt. Elk verzendbaar product verwijst naar één — de afmetingen en het leeggewicht bepalen verzendprijzen en labels.
+The conditions related to the customer for the coupon to be applied.,De voorwaarden met betrekking tot de klant waaronder de coupon wordt toegepast.
+The conditions related to the order for the coupon to be applied.,De voorwaarden met betrekking tot de bestelling waaronder de coupon wordt toegepast.
+The default package cannot be deleted,Het standaardpakket kan niet worden verwijderd
+The draft holds ${count} saved changes you can publish later.,Het concept bevat ${count} opgeslagen wijzigingen die je later kunt publiceren.
+The draft holds 1 saved change you can publish later.,Het concept bevat 1 opgeslagen wijziging die je later kunt publiceren.
+The draft is deleted.,Het concept is verwijderd.
+The draft itself is deleted.,Het concept zelf is verwijderd.
+The general information about the coupon.,De algemene informatie over de coupon.
+"The language of the admin panel, independent of the storefront.","De taal van het beheerpaneel, onafhankelijk van de winkel."
+The method will no longer apply to this zone.,De methode is niet langer van toepassing op deze zone.
+The minimum quantity of items required in the order to qualify for this coupon.,Het minimumaantal artikelen dat in de bestelling vereist is om in aanmerking te komen voor deze coupon.
+The minimum total amount required for the order to qualify for this coupon.,Het minimale totaalbedrag dat vereist is om de bestelling in aanmerking te laten komen voor deze coupon.
+The rollout plan,Het uitrolplan
+The storefront's primary language. Pages in this language have no URL prefix.,De primaire taal van de winkel. Pagina's in deze taal hebben geen URL-voorvoegsel.
+The type of discount applied by the coupon.,Het type korting dat door de coupon wordt toegepast.
+The zone this rate applies to.,De zone waarop dit tarief van toepassing is.
+"There is no ""Select"" attribute available.","Er is geen ""Select""-attribuut beschikbaar."
+There is no attribute to display,Er is geen attribuut om weer te geven
+There is no category to display,Er is geen categorie om weer te geven
+There is no collections to display,Er zijn geen collecties om weer te geven
+There is no coupon to display,Er is geen coupon om weer te geven
+There is no customer to display,Er is geen klant om weer te geven
+There is no order to display,Er is geen bestelling om weer te geven
+There is no page to display,Er is geen pagina om weer te geven
+There is no widget to display,Er is geen widget om weer te geven
+There was an error fetching attribute groups.,Er is een fout opgetreden bij het ophalen van attribuutgroepen.
+There was an error fetching categories.,Er is een fout opgetreden bij het ophalen van categorieën.
+There was an error fetching collections.,Er is een fout opgetreden bij het ophalen van collecties.
+There was an error fetching file browser APIs.,Er is een fout opgetreden bij het ophalen van bestandsbrowser-API's.
+There was an error fetching products.,Er is een fout opgetreden bij het ophalen van producten.
+This cannot be undone. Packages still assigned to products can't be removed.,"Dit kan niet ongedaan worden gemaakt. Pakketten die nog aan producten zijn toegewezen, kunnen niet worden verwijderd."
+This changeset has no operations yet.,Deze wijzigingenset heeft nog geen bewerkingen.
+This field is required,Dit veld is verplicht
+This is the URL path for the CMS page.,Dit is het URL-pad voor de CMS-pagina.
+This is the address used to calculate tax rates.,Dit is het adres dat wordt gebruikt om btw-tarieven te berekenen.
+This is the meta title for the CMS page.,Dit is de metatitel voor de CMS-pagina.
+This is the name of the CMS page that will be displayed in the admin panel.,Dit is de naam van de CMS-pagina die in het beheerpaneel wordt weergegeven.
+This is the tax class applied to shipping costs.,Dit is de btw-klasse die op verzendkosten wordt toegepast.
+This product has some variants like color or size?,Heeft dit product varianten zoals kleur of maat?
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,Deze aanbieder heeft geen configuratie per zone. Methoden en tarieven per zone worden beheerd in het eigen beheergedeelte van de aanbieder.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,"Hiermee wordt de zone verwijderd, samen met de gekoppelde aanbieders en tarieven. Dit kan niet ongedaan worden gemaakt."
+This route has unpublished changes in your draft,Deze route heeft niet-gepubliceerde wijzigingen in je concept
+This will be saved as a pending change you can publish or discard.,Dit wordt opgeslagen als een openstaande wijziging die je kunt publiceren of verwerpen.
+Tiered,Gestaffeld
+Type is required,Type is verplicht
+URL Key,URL-sleutel
+URL Key is required,URL-sleutel is verplicht
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","URL-sleutel moet in kleine letters zijn en mag alleen letters, cijfers en koppeltekens bevatten"
+URL key,URL-sleutel
+URL key is required,URL-sleutel is verplicht
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,URL-sleutel moet in kleine letters zijn en mag alleen alfanumerieke tekens en koppeltekens bevatten
+Unassign,Toewijzing opheffen
+Undo (⌘Z) — undoes your last edit on this page,Ongedaan maken (⌘Z) — maakt je laatste bewerking op deze pagina ongedaan
+Undo / Redo,Ongedaan maken / Opnieuw
+Undo last change on this page,Laatste wijziging op deze pagina ongedaan maken
+Unknown,Onbekend
+Unlink,Koppeling verwijderen
+Unpin drawer,Lade losmaken
+Unpin — drawer will close when you click empty canvas,Losmaken — lade sluit wanneer je op een leeg canvas klikt
+Unpublished changes,Niet-gepubliceerde wijzigingen
+Unsaved changes,Niet-opgeslagen wijzigingen
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,Werk de naam en het actieve venster voor dit uitrolplan bij. Inhoudswijzigingen worden apart beheerd in de editor.
+Update the variant details and attributes here.,Werk hier de variantgegevens en kenmerken bij.
+Updated,Bijgewerkt
+Upload an image for the category.,Upload een afbeelding voor de categorie.
+Used Times,Aantal keer gebruikt
+Value is required,Waarde is verplicht
+Variant Group,Variantgroep
+Variant created successfully,Variant succesvol aangemaakt
+Variant updated successfully,Variant succesvol bijgewerkt
+Version ${version},Versie ${version}
+Visibility,Zichtbaarheid
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,Zichtbaarheid bepaalt waar het product in de winkel verschijnt. Het heeft geen invloed op de verkoopbaarheid van het product.
+Visitors will see the new layout on their next page load.,Bezoekers zien de nieuwe lay-out bij hun volgende paginalading.
+Webhook Secret Key,Webhook geheime sleutel
+Weight,Gewicht
+Weight must be 0 or greater,Gewicht moet 0 of hoger zijn
+Weight must be a positive number,Gewicht moet een positief getal zijn
+Weight-based tiers,Op gewicht gebaseerde niveaus
+Widget Settings,Widget-instellingen
+Widget created successfully!,Widget succesvol aangemaakt!
+Widgets,Widgets
+Width,Breedte
+Width is required,Breedte is verplicht
+Width must be greater than 0,Breedte moet groter zijn dan 0
+Will roll out automatically: ${range},Wordt automatisch uitgerold: ${range}
+Working…,Bezig…
+Worldwide,Wereldwijd
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,Je hebt ${count} wijzigingen in dit concept die nog niet zijn gepubliceerd.
+You have ${count} changes still saving.,Je hebt ${count} wijzigingen die nog worden opgeslagen.
+You have 1 change in this draft that hasn’t been published yet.,Je hebt 1 wijziging in dit concept die nog niet is gepubliceerd.
+You have 1 change still saving.,Je hebt 1 wijziging die nog wordt opgeslagen.
+Your draft is safe on the server — you can come back and publish it any time.,Je concept staat veilig op de server — je kunt later terugkomen en het op elk moment publiceren.
+Your edits on other pages stay in the draft.,Je wijzigingen op andere pagina's blijven in het concept staan.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,Je webhook-URL moet zijn: https://yourdomain.com/api/stripe/webhook
+Zone,Zone
+Zone Name,Zonenaam
+Zone Rates,Zonetarieven
+Zone created,Zone aangemaakt
+Zone is required,Zone is verplicht
+Zone name is required,Zonenaam is verplicht
+Zone removed,Zone verwijderd
+Zone updated,Zone bijgewerkt
+Zones served,Bediende zones
+and ${count} more,en nog ${count}
+container will also hide,container wordt ook verborgen
+current page,huidige pagina
+e.g. Small Box,bijv. Kleine doos
+e.g. Summer Sale 2026,bijv. Zomeruitverkoop 2026
+e.g. content,bijv. content
+"e.g., 10.00",bijv. 10.00
+"e.g., EU, US-West","bijv. EU, US-West"
+"e.g., Express",bijv. Express
+"e.g., FEDEX_GROUND, usps_priority","bijv. FEDEX_GROUND, usps_priority"
+every page,elke pagina
+indefinite,onbepaald
+open,open
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.",publiceren gebeurt onmiddellijk en kan niet ongedaan worden gemaakt vanaf dit scherm. Annuleer en kies “Een uitrol plannen” om het in plaats daarvan klaar te zetten.
+quantity of products are matched bellow conditions(All),aantal producten voldoet aan onderstaande voorwaarden (Alle)
+subtotal,subtotaal
+to a storefront route's,naar een route van de storefront
+to make it appear here.,om het hier te laten verschijnen.
+weight,gewicht
+widget? This will be saved as a pending change you can publish or discard.,widget? Dit wordt opgeslagen als een openstaande wijziging die je kunt publiceren of verwijderen.
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,wordt verwijderd en de live storefront past de wijzigingen niet langer toe. De onderliggende wijzigingenset en de bijbehorende openstaande inhoudswijzigingen blijven behouden.
+— None —,— Geen —
+Cash On Delivery,Rembours
+Please select a valid payment method,Selecteer een geldige betaalmethode
+Show ${label} width,${label}-breedte tonen
+Column ${index},Kolom ${index}
+Switch page,Pagina wisselen
+Search pages…,Pagina's zoeken…
+Search pages,Pagina's zoeken
+Save your pending edits — the live storefront will catch up,Sla je openstaande wijzigingen op — de live storefront wordt bijgewerkt
+No changes to save — the rollout matches the editor,Geen wijzigingen om op te slaan — de uitrol komt overeen met de editor
+More rollout actions,Meer uitrolacties
+Revert to saved state…,Terugzetten naar opgeslagen staat…
+Roll back the editor to what the rollout currently shows on the storefront,Zet de editor terug naar wat de uitrol momenteel toont op de storefront
+Nothing to revert — the editor matches the saved state,Niets om terug te zetten — de editor komt overeen met de opgeslagen staat
+Cancel rollout plan…,Uitrolplan annuleren…
+Remove the schedule — the changeset is preserved,Verwijder de planning — de wijzigingenset blijft behouden
+Publish,Publiceren
+More publish options,Meer publicatieopties
+Apply all edits to the live storefront immediately,Pas alle wijzigingen onmiddellijk toe op de live storefront
+Save as rollout plan…,Opslaan als uitrolplan…
+Schedule these edits to roll out at a future time,Plan deze wijzigingen om op een later tijdstip uit te rollen
+Discard pending changes…,Openstaande wijzigingen verwijderen…
+Choose between discarding the whole draft or just this page,Kies tussen het verwijderen van het hele concept of alleen deze pagina
+Switch session,Sessie wisselen
+New changeset,Nieuwe wijzigingenset
+Rollout: ${name},Uitrol: ${name}
+Click or drag to add,Klik of sleep om toe te voegen
+Background color,Achtergrondkleur
+Text color,Tekstkleur
+Dwell time,Verblijftijd
+Time each announcement stays visible (in addition to the 400ms slide transition).,Tijd dat elke aankondiging zichtbaar blijft (naast de slideovergang van 400ms).
+Announcements,Aankondigingen
+Add announcement,Aankondiging toevoegen
+Untitled,Naamloos
+Free shipping on orders over $50,Gratis verzending bij bestellingen boven $50
+Optional. Makes the entire row a clickable link.,Optioneel. Maakt de hele rij een klikbare link.
+Link label,Linklabel
+Optional. Displayed after the content; defaults to the content itself.,Optioneel. Wordt na de inhoud weergegeven; standaard de inhoud zelf.
+Shop now,Nu winkelen
+Dark,Donker
+Light,Licht
+Gradient,Verloop
+Left,Links
+Center,Midden
+Right,Rechts
+Selected image,Geselecteerde afbeelding
+No image selected,Geen afbeelding geselecteerd
+Replace,Vervangen
+Clear,Wissen
+Reflects the alignment below.,Weerspiegelt de uitlijning hieronder.
+Banner Image,Bannerafbeelding
+Mobile image,Mobiele afbeelding
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,Optioneel. Wordt ingevoegd onder het breekpunt van 768px. Valt terug op de bovenstaande afbeelding indien leeg — meestal een staande uitsnede van dezelfde scène.
+Alignment,Uitlijning
+Overlay copy,Overlaytekst
+Eyebrow,Bovenkop
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".","Kleine label in hoofdletters boven de kop. Bijv. ""LIMITED EDITION""."
+LIMITED EDITION,LIMITED EDITION
+Heading,Kop
+The Summer Edit,The Summer Edit
+Sub-text,Subtekst
+One short supporting sentence.,Eén korte ondersteunende zin.
+Overlay placement,Overlayplaatsing
+Content position,Inhoudspositie
+Where the overlay text sits on the image.,Waar de overlaytekst op de afbeelding staat.
+Tint,Tint
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,Een waas achter de overlaytekst voor de leesbaarheid. Donker / verloop maakt de tekst automatisch wit.
+Tint opacity,Tintdekking
+Call to actions,Calls to action
+Remove primary CTA,Primaire CTA verwijderen
++ Add a primary CTA,+ Een primaire CTA toevoegen
+Secondary,Secundair
+Remove secondary CTA,Secundaire CTA verwijderen
+Learn more,Meer informatie
++ Add a secondary CTA,+ Een secundaire CTA toevoegen
+Details,Details
+Alt text,Alt-tekst
+Describes the banner for screen readers and SEO.,Beschrijft de banner voor schermlezers en SEO.
+"e.g. ""Summer sale promotional banner""","bijv. ""Promotiebanner zomeruitverkoop"""
+Banner link,Bannerlink
+Optional. Clicking the banner navigates here.,Optioneel. Klikken op de banner navigeert hierheen.
+Display name,Weergavenaam
+Shop,Winkel
+Target,Doel
+"Page, category, product, or a custom URL.","Pagina, categorie, product of een aangepaste URL."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: geef geen rankingwaarde door aan deze link (rel=nofollow).
+No referrer,Geen referrer
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,Privacy: laat de verwijzende URL weg (rel=noreferrer). Links die in een nieuw tabblad openen bevatten dit altijd.
+Menu items,Menu-items
+Add menu item,Menu-item toevoegen
+Sub-items,Subitems
+Optional dropdown links (1 level).,Optionele dropdownlinks (1 niveau).
+Add sub-item,Subitem toevoegen
+Options,Opties
+Use as main menu,Gebruiken als hoofdmenu
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","Primaire navigatie — op mobiel klapt dit samen tot een hamburgermenu. Schakel uit voor een eenvoudige linklijst (bijv. een footer), die op mobiel inline blijft."
+Custom CSS classes,Aangepaste CSS-klassen
+Applied to the rendered menu element.,Toegepast op het gerenderde menu-element.
+e.g. main-nav font-semibold,bijv. main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,Tegels
+Add tile,Tegel toevoegen
+Hero · ,Hero · 
+Used when no image is set.,Gebruikt wanneer er geen afbeelding is ingesteld.
+Small label above the heading.,Klein label boven de kop.
+THE SUMMER EDIT,DE ZOMER EDIT
+New Arrivals,Nieuwe collectie
+Body,Tekst
+Big card — the headline of the grid.,Grote kaart — de blikvanger van het raster.
+Link URL,Link-URL
+Gap,Tussenruimte
+Minimum block height,Minimale blokhoogte
+Image left,Afbeelding links
+Image right,Afbeelding rechts
+Centered,Gecentreerd
+Pull quote,Uitgelicht citaat
+Variant,Variant
+Image column size,Breedte afbeeldingskolom
+Describe the image,Beschrijf de afbeelding
+Copy,Tekst
+"Small all-caps label. E.g. ""OUR STORY"".","Klein label in hoofdletters. Bijv. ""ONS VERHAAL""."
+Our story,Ons verhaal
+"Made by hand, in small batches","Met de hand gemaakt, in kleine oplages"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","Vereist voor de variant met uitgelicht citaat. Wordt groot weergegeven, opgemaakt als blockquote."
+"A short, quotable line.","Een korte, citeerbare regel."
+Three or four sentences of brand narrative.,Drie of vier zinnen merkverhaal.
+Second body paragraph (optional),Tweede tekstalinea (optioneel)
+A second short paragraph if the story needs it.,Een tweede korte alinea als het verhaal dat nodig heeft.
+Read more link,Meer lezen-link
+Read more,Meer lezen
+URL,URL
+Remove read-more link,Meer lezen-link verwijderen
++ Add a read-more link,+ Meer lezen-link toevoegen
+Square,Vierkant
+Landscape,Liggend
+Portrait,Staand
+Overlay,Overlay
+Below,Onder
+New category,Nieuwe categorie
+Section heading,Sectiekop
+Optional. Shown above the grid.,Optioneel. Wordt boven het raster getoond.
+Shop by category,Shoppen per categorie
+Women,Dames
+Columns,Kolommen
+Auto,Automatisch
+Asymmetric makes the first tile span 2 columns.,Asymmetrisch laat de eerste tegel 2 kolommen beslaan.
+Uniform,Uniform
+Asymmetric,Asymmetrisch
+Image aspect,Beeldverhouding
+Label position,Labelpositie
+Blush,Roze
+XL,XL
+Position ${c},Positie ${c}
+Column layout,Kolomindeling
+Drag widgets into each column. Children re-flow when you change the ratio.,Sleep widgets naar elke kolom. De onderdelen herschikken zich wanneer je de verhouding wijzigt.
+Space between columns.,Ruimte tussen kolommen.
+Where content sits within each column. Applied uniformly to every column.,Waar de inhoud binnen elke kolom staat. Wordt uniform op elke kolom toegepast.
+Row appearance,Weergave rij
+Background,Achtergrond
+Custom color,Aangepaste kleur
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","Elke CSS-kleur (bijv. ""#0a0a0a"" of ""rgb(10,10,10)""). Laat leeg om het staal hierboven te gebruiken."
+Padding,Opvulling
+Outer spacing around the row. Scales down on mobile.,Buitenruimte rond de rij. Wordt op mobiel kleiner geschaald.
+Solid,Effen
+Dashed,Gestreept
+Already expired,Al verlopen
+Expires in ${days}d ${hours}h,Verloopt over ${days}d ${hours}u
+Expires in ${hours}h ${minutes}m,Verloopt over ${hours}u ${minutes}m
+Offer,Aanbieding
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","Urgentieregel. Optioneel. Bijv. ""Beperkt · Eindigt zondag""."
+Limited · Ends Sunday,Beperkt · Eindigt zondag
+Headline,Kop
+Take 20% off your order,Krijg 20% korting op je bestelling
+Optional. One short instructional line.,Optioneel. Eén korte instructieregel.
+Use code at checkout,Gebruik de code bij het afrekenen
+Promo code,Promotiecode
+Displayed in uppercase to shoppers.,Wordt in hoofdletters aan klanten getoond.
+Expires,Verloopt
+Optional. The block auto-hides after this time for live visitors.,Optioneel. Het blok wordt na deze tijd automatisch verborgen voor live bezoekers.
+Call to action,Call-to-action
+Button label,Knoplabel
+Shop now →,Shop nu →
+Button link,Knoplink
+Appearance,Weergave
+Border,Rand
+Narrow,Smal
+Normal,Normaal
+Wide,Breed
+Shown above all content. Optional.,Wordt boven alle inhoud getoond. Optioneel.
+e.g. Frequently asked,bijv. Veelgestelde vragen
+Prose,Tekst
+FAQ group · ${count} items,FAQ-groep · ${count} items
+Group heading,Groepskop
+Optional sub-heading.,Optionele subkop.
+e.g. Shipping,bijv. Verzending
+Add question,Vraag toevoegen
+Question,Vraag
+e.g. How long does shipping take?,bijv. Hoe lang duurt de verzending?
+Answer,Antwoord
+"Supports **bold**, _italic_, and line breaks.","Ondersteunt **vet**, _cursief_ en regeleinden."
+e.g. Orders ship within 24 hours…,bijv. Bestellingen worden binnen 24 uur verzonden…
+Add prose,Tekst toevoegen
+Add FAQ group,FAQ-groep toevoegen
+Max width,Maximale breedte
+Content column width.,Breedte inhoudskolom.
+Allow multiple open,Meerdere tegelijk openen toestaan
+"When off, opening one FAQ item closes the others in the same group.","Wanneer uitgeschakeld, sluit het openen van één FAQ-item de andere in dezelfde groep."
+New link,Nieuwe link
+New column,Nieuwe kolom
+Add column,Kolom toevoegen
+${title} · ${count} links,${title} · ${count} links
+Column title,Kolomtitel
+Links,Links
+"Min 1, max 12.","Min. 1, max. 12."
+Add link,Link toevoegen
+New arrivals,Nieuwe collectie
+Boxed,Begrensd
+Wide (full bleed),Breed (full bleed)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,Begrensd blijft binnen de container van de pagina (het thema bepaalt de maximale breedte). Breed loopt van rand tot rand.
+Scales down on mobile.,Wordt op mobiel kleiner geschaald.
+Optional. Painted behind content. Combine with a tint below for legibility.,Optioneel. Achter de inhoud geplaatst. Combineer met een tint hieronder voor leesbaarheid.
+XS,XS
+Spacing,Ruimte
+Size,Grootte
+Mobile scales down ~⅔ automatically.,Op mobiel wordt automatisch ~⅔ kleiner geschaald.
+Divider line,Scheidingslijn
+Show divider line,Scheidingslijn tonen
+A horizontal rule centred in the spacing band.,Een horizontale lijn gecentreerd in de tussenruimte.
+Line color,Lijnkleur
+Default uses the theme's divider color.,Standaard gebruikt de scheidingskleur van het thema.
+Sides,Zijkanten
+Bottom,Onder
+Dots,Stippen
+Bars,Balken
+Mobile image (optional),Mobiele afbeelding (optioneel)
+Used at ≤ 767 px. Falls back to the main image.,Gebruikt bij ≤ 767 px. Valt terug op de hoofdafbeelding.
+e.g. New collection,bijv. Nieuwe collectie
+e.g. Summer Sale,bijv. Zomeruitverkoop
+Sub text,Subtekst
+Check out our latest products with special discounts.,Bekijk onze nieuwste producten met speciale kortingen.
+Primary button,Primaire knop
+Secondary button,Secundaire knop
++ Add secondary button,+ Secundaire knop toevoegen
+Overrides,Overschrijvingen
+Leaves slide-specific anchor; falls back to the slideshow's default.,Laat dia-specifiek anker; valt terug op de standaard van de diavoorstelling.
+Overlay tint,Overlaytint
+Overlay opacity,Overlay-ondoorzichtigheid
+Make whole slide clickable,Hele dia klikbaar maken
+Behavior,Gedrag
+Transition,Overgang
+Slide,Schuiven
+Fade,Vervagen
+Transition speed,Overgangssnelheid
+Autoplay,Automatisch afspelen
+Autoplay delay,Vertraging automatisch afspelen
+${seconds} s between slides,${seconds} s tussen dia's
+Pause on hover,Pauzeren bij hover
+Pause for 20 s after user nav,20 s pauzeren na navigatie door gebruiker
+Arrows,Pijlen
+Aspect ratio,Beeldverhouding
+`Auto` matches the natural image height (jumps between slides).,`Auto` volgt de natuurlijke afbeeldingshoogte (springt tussen dia's).
+Default content position,Standaard inhoudspositie
+Per-slide overrides win.,Overschrijvingen per dia hebben voorrang.
+Default overlay tint,Standaard overlaytint
+Default overlay opacity,Standaard overlay-ondoorzichtigheid
+Slides (${count}),Dia's (${count})
+No slides yet.,Nog geen dia's.
+Add your first slide,Voeg je eerste dia toe
+Slide ${number},Dia ${number}
+Image only,Alleen afbeelding
+Empty,Leeg
+Show slide,Dia tonen
+Hide slide,Dia verbergen
+Move slide up,Dia omhoog verplaatsen
+Move slide down,Dia omlaag verplaatsen
+Delete slide,Dia verwijderen
+Top,Boven
+Cover,Vullen
+Contain,Passend
+Required for accessibility.,Vereist voor toegankelijkheid.
+Image fit,Afbeeldingspassing
+"Small all-caps label. E.g. ""LIMITED EDITION"".","Klein label in hoofdletters. Bijv. ""LIMITED EDITION""."
+Limited edition,Beperkte oplage
+One strong line,Eén krachtige regel
+Two lines of supporting copy.,Twee regels ondersteunende tekst.
+Image position,Afbeeldingspositie
+Vertical alignment,Verticale uitlijning
+Aligns the copy panel content.,Lijnt de inhoud van het tekstpaneel uit.
+Remove call to action,Call-to-action verwijderen
+Add a call to action,Een call-to-action toevoegen
+Custom CSS classes for the text block,Aangepaste CSS-klassen voor het tekstblok
+Add group,Groep toevoegen
+${label} · ${count} subs,${label} · ${count} subs
+Parent label,Bovenliggend label
+Parent link,Bovenliggende link
+Image alt text,Alt-tekst afbeelding
+Sub-categories,Subcategorieën
+"Min 1, max 8.","Min. 1, max. 8."
+Add sub-category,Subcategorie toevoegen
+Dresses,Jurken
+Columns (desktop),Kolommen (desktop)
+On tablets the layout is always 2 columns.,Op tablets is de lay-out altijd 2 kolommen.
+Make parent image a link,Bovenliggende afbeelding tot link maken
+"When off, only the sub-chips and parent label are interactive.","Indien uit, zijn alleen de sub-chips en het bovenliggende label interactief."
+Title,Titel
+e.g. Free shipping,bijv. Gratis verzending
+Optional supporting line below the title.,Optionele ondersteunende regel onder de titel.
+Icon,Pictogram
+Optional. SVG or raster image. Hidden when icons are turned off globally.,Optioneel. SVG- of rasterafbeelding. Verborgen wanneer pictogrammen globaal zijn uitgeschakeld.
+Optional. Makes the whole cell clickable.,Optioneel. Maakt de hele cel klikbaar.
+"Auto matches the item count, capped at 4.","Auto volgt het aantal items, met een maximum van 4."
+3,3
+4,4
+Icon size,Pictogramgrootte
+Show icons,Pictogrammen tonen
+Master switch. Items without an icon URL are unaffected.,Hoofdschakelaar. Items zonder pictogram-URL worden niet beïnvloed.
+Show divider,Scheiding tonen
+Vertical line between cells.,Verticale lijn tussen cellen.
+Collection,Collectie
+Search collections…,Collecties zoeken…
+No collections match “${value}”.,Geen collecties komen overeen met “${value}”.
+You have no collections yet.,Je hebt nog geen collecties.
+Please select a collection,Selecteer een collectie
+"Defaults to ""${name}"" (the collection's name).","Standaard ""${name}"" (de naam van de collectie)."
+Defaults to the picked collection's name.,Standaard de naam van de gekozen collectie.
+Collection name,Collectienaam
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,Standaard de beschrijving van de collectie. Door dit in te stellen vervang je de opgemaakte beschrijving door platte tekst.
+e.g. Hand-picked styles for the season.,bijv. Met de hand geselecteerde stijlen voor het seizoen.
+View all link,Alles bekijken-link
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","Optioneel. Verborgen indien leeg. Kies een categorie, product of pagina, of plak een aangepaste URL."
+"Optional. Defaults to ""View all →"".","Optioneel. Standaard ""Alles bekijken →""."
+View all →,Alles bekijken →
+Total products,Totaal aantal producten
+Number of products to display.,Aantal weer te geven producten.
+Products per row,Producten per rij
+Grid columns (1–6 typical).,Rasterkolommen (1–6 gebruikelijk).
+Count is required,Aantal is vereist
+e.g. 8,bijv. 8
+Count per row is required,Aantal per rij is vereist
+e.g. 4,bijv. 4
+Cover image,Omslagafbeelding
+COLLECTION,COLLECTIE
+"Defaults to ""${pickedName}"".","Standaard ""${pickedName}""."
+Defaults to the picked collection name.,Standaard de naam van de gekozen collectie.
+Optional. One or two sentences of editorial copy.,Optioneel. Een of twee zinnen redactionele tekst.
+"Linen, cotton, easy stuff.","Linnen, katoen, makkelijke materialen."
+Preview product count,Aantal productvoorbeelden
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,Kies een collectie
+Add collection,Collectie toevoegen
+Row heading,Rijkop
+The Linen Edit,The Linen Edit
+Optional. Hidden when empty.,Optioneel. Verborgen indien leeg.
+View all label,Alles bekijken-label
+Show price,Prijs tonen
+Show divider between rows,Scheiding tussen rijen tonen
+Selected:,Geselecteerd:
+Image override,Afbeelding overschrijven
+Override image,Afbeelding overschrijven
+Override image (optional),Afbeelding overschrijven (optioneel)
+Leave empty to use the product's primary image.,Laat leeg om de hoofdafbeelding van het product te gebruiken.
+Small label above the product name. Optional.,Klein label boven de productnaam. Optioneel.
+FEATURED,UITGELICHT
+Editorial copy,Redactionele tekst
+Overrides the product's own description in this context. Leave blank to hide.,Overschrijft in deze context de eigen beschrijving van het product. Laat leeg om te verbergen.
+Two lines of copy explaining why this product is being spotlighted right now.,Twee regels tekst die uitleggen waarom dit product nu wordt uitgelicht.
+Please pick a product,Kies een product
+e.g. On orders over $50,bijv. Bij bestellingen boven $50
+Text block,Tekstblok
+Menu,Menu
+Footer menu,Footermenu
+Banner,Banner
+Simple Slideshow,Eenvoudige diavoorstelling
+Brand story,Merkverhaal
+Category mosaic,Categoriemozaïek
+Tiered categories,Gelaagde categorieën
+Bento grid,Bento-raster
+Separator,Scheidingslijn
+Section,Sectie
+Split feature,Gesplitste feature
+Announcement bar,Aankondigingsbalk
+Coupon block,Couponblok
+FAQ block,FAQ-blok
+Trust strip,Vertrouwensbalk
+Collection products,Collectieproducten
+Collection stack,Collectiestapel
+Collection spotlight,Collectie in de schijnwerpers
+Product hero,Producthero
+Layout container with 1–4 columns for nesting widgets.,Lay-outcontainer met 1–4 kolommen voor het nesten van widgets.
+Add rich text content,Voeg rijke-tekstinhoud toe
+Navigation links,Navigatielinks
+Multi-column list of footer links — a titled column of navigation links per group.,Lijst met footerlinks in meerdere kolommen — een kolom met titel en navigatielinks per groep.
+A single hero image with optional overlay copy and CTAs.,Eén hero-afbeelding met optionele overlaytekst en CTA's.
+Rotating image carousel,Roterende afbeeldingscarrousel
+Editorial block combining an image and long-form brand narrative. Four layout variants.,Redactioneel blok dat een afbeelding combineert met een uitgebreid merkverhaal. Vier lay-outvarianten.
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.","Een raster van 3–6 categorietegels voor het primaire ""Shop op categorie""-ingangspunt."
+A two-level nav block: parent category image plus a row of sub-category chips.,Een navigatieblok met twee niveaus: afbeelding van de hoofdcategorie plus een rij subcategoriechips.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,Een asymmetrisch mozaïek van CTA-tegels — één grote hero plus 1–4 ondersteunende tegels.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","Verticale ruimte tussen widgets, met een optionele scheidingslijn. Mobiel schaalt automatisch kleiner."
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,Gestileerde neerzetbare band die andere widgets omhult. Schakel tussen breed (rand-tot-rand) en omkaderd (themacontainer).
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,Een 50/50-promoblok met afbeelding + tekst en optionele CTA. De standaard promomoment-widget.
+A thin top-of-page bar with one or more rotating announcements.,Een dunne balk bovenaan de pagina met een of meer roterende aankondigingen.
+A promo panel with a copyable discount code and CTA.,Een promopaneel met een kopieerbare kortingscode en CTA.
+Flexible content block mixing prose sections and accordion FAQ groups.,Flexibel inhoudsblok dat tekstsecties en accordeon-FAQ-groepen combineert.
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","Een rij met waardepunten (gratis verzending, eenvoudig retourneren, enz.) ter versterking onder de hero of boven de footer."
+A list of products from a collection,Een lijst met producten uit een collectie
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Gestapelde rijen collecties, elk met een kop, een 'alles bekijken'-link en een strip met producten."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","Een uitgelichte collectie met omslagafbeelding, redactionele tekst en een klein voorbeeldraster met producten."
+"A single-product spotlight — image, name, price, and a link to the full product page.","Eén product in de schijnwerpers — afbeelding, naam, prijs en een link naar de volledige productpagina."

@@ -8,6 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from '@components/common/ui/Pagination.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useState, useEffect, useCallback } from 'react';
 
 export interface PaginationProps {
@@ -182,7 +183,11 @@ export const usePaginationLogic = (
   const getDisplayText = useCallback(() => {
     const start = (page - 1) * limit + 1;
     const end = Math.min(page * limit, total);
-    return `Showing ${start}-${end} of ${total} results`;
+    return _('Showing ${start}-${end} of ${total} results', {
+      start: start.toString(),
+      end: end.toString(),
+      total: total.toString()
+    });
   }, [page, limit, total]);
 
   const getPageInfo = useCallback(() => {
@@ -437,7 +442,7 @@ export const CompactPaginationRenderer: React.FC<{
       className={`compact-pagination flex items-center justify-between ${className}`}
     >
       <div className="pagination-info text-sm text-gray-600">
-        Showing {showing} of {total}
+        {_('Showing ${showing} of ${total}', { showing, total })}
       </div>
 
       <div className="pagination-controls flex items-center space-x-2">
@@ -446,11 +451,14 @@ export const CompactPaginationRenderer: React.FC<{
           disabled={!hasPrev || isLoading}
           className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Previous
+          {_('Previous')}
         </button>
 
         <span className="text-sm text-gray-600">
-          Page {currentPage} of {totalPages}
+          {_('Page ${currentPage} of ${totalPages}', {
+            currentPage: currentPage.toString(),
+            totalPages: totalPages.toString()
+          })}
         </span>
 
         <button
@@ -458,7 +466,7 @@ export const CompactPaginationRenderer: React.FC<{
           disabled={!hasNext || isLoading}
           className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Next
+          {_('Next')}
         </button>
       </div>
     </div>
@@ -509,7 +517,7 @@ export const InputPaginationRenderer: React.FC<{
           disabled={!hasPrev || isLoading}
           className="px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
         >
-          First
+          {_('First')}
         </button>
 
         <button
@@ -524,7 +532,7 @@ export const InputPaginationRenderer: React.FC<{
           onSubmit={handleInputSubmit}
           className="flex items-center space-x-2"
         >
-          <span className="text-sm">Page</span>
+          <span className="text-sm">{_('Page')}</span>
           <input
             type="number"
             min="1"
@@ -534,13 +542,15 @@ export const InputPaginationRenderer: React.FC<{
             className="w-16 px-2 py-1 text-sm border border-gray-300 rounded text-center"
             disabled={isLoading}
           />
-          <span className="text-sm">of {totalPages}</span>
+          <span className="text-sm">
+            {_('of ${count}', { count: totalPages.toString() })}
+          </span>
           <button
             type="submit"
             className="px-2 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
             disabled={isLoading}
           >
-            Go
+            {_('Go')}
           </button>
         </form>
 
@@ -557,7 +567,7 @@ export const InputPaginationRenderer: React.FC<{
           disabled={!hasNext || isLoading}
           className="px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
         >
-          Last
+          {_('Last')}
         </button>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { SelectField } from '@components/common/form/SelectField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import type { RegisterOptions } from 'react-hook-form';
@@ -79,7 +80,9 @@ export function AttachProviderDialog({
 
   if (fetching) return <Spinner width={20} height={20} />;
   if (error)
-    return <div className="text-destructive">Error loading providers</div>;
+    return (
+      <div className="text-destructive">{_('Error loading providers')}</div>
+    );
   if (!data) return null;
 
   // Registry-only model: installed = enabled, so the only condition to
@@ -94,7 +97,7 @@ export function AttachProviderDialog({
   if (availableProviders.length === 0) {
     return (
       <p className="text-sm text-muted-foreground">
-        All registered providers are already attached to this zone.
+        {_('All registered providers are already attached to this zone.')}
       </p>
     );
   }
@@ -126,7 +129,7 @@ function AttachForm({
 
   const attach = async () => {
     if (!selected) {
-      toast.error('Select a provider first');
+      toast.error(_('Select a provider first'));
       return;
     }
     const valid = await trigger();
@@ -137,12 +140,17 @@ function AttachForm({
         provider_code: selected.code,
         config: values.config ?? {}
       });
-      toast.success(`${selected.name} attached to ${zone.name}`);
+      toast.success(
+        _('${name} attached to ${zone}', {
+          name: selected.name,
+          zone: zone.name
+        })
+      );
       onSaved();
     } catch (e: unknown) {
       const msg =
         (e as { response?: { data?: { error?: { message?: string } } } })
-          ?.response?.data?.error?.message ?? 'Failed to attach provider';
+          ?.response?.data?.error?.message ?? _('Failed to attach provider');
       toast.error(msg);
     }
   };
@@ -150,7 +158,9 @@ function AttachForm({
   return (
     <div className="space-y-3">
       <div>
-        <label className="text-sm font-medium block mb-1">Provider</label>
+        <label className="text-sm font-medium block mb-1">
+          {_('Provider')}
+        </label>
         <select
           className="w-full border border-border rounded px-2 py-1"
           value={selectedCode || ''}
@@ -159,7 +169,7 @@ function AttachForm({
             setValue('config', {});
           }}
         >
-          <option value="">Select a provider…</option>
+          <option value="">{_('Select a provider…')}</option>
           {availableProviders.map((p) => (
             <option key={p.code} value={p.code}>
               {p.name}
@@ -173,7 +183,9 @@ function AttachForm({
         <div className="border-t pt-3 space-y-3 border-border">
           <div>
             <h3 className="font-semibold">
-              {selected.name} configuration for this zone
+              {_('${name} configuration for this zone', {
+                name: selected.name
+              })}
             </h3>
             {selected.description && (
               <p className="text-xs text-muted-foreground">
@@ -187,7 +199,7 @@ function AttachForm({
 
       <div className="flex justify-end pt-3">
         <Button type="button" variant="default" onClick={attach}>
-          Attach
+          {_('Attach')}
         </Button>
       </div>
     </div>
@@ -205,8 +217,9 @@ export function ZoneConfigFields({
   if (!fields || fields.length === 0) {
     return (
       <p className="text-sm text-muted-foreground italic">
-        This provider has no per-zone configuration. Methods and per-zone rates
-        are managed in the provider&apos;s own admin area.
+        {_(
+          "This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area."
+        )}
       </p>
     );
   }

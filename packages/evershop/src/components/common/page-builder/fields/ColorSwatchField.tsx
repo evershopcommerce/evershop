@@ -1,4 +1,5 @@
- 
+
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 /**
@@ -27,14 +28,14 @@ export interface ColorSwatchFieldProps {
 }
 
 export const DEFAULT_SWATCHES: ReadonlyArray<ColorSwatch> = [
-  { value: '', label: 'None' },
-  { value: '#ffffff', label: 'White' },
-  { value: '#f7f7f7', label: 'Light gray' },
-  { value: '#111827', label: 'Charcoal' },
-  { value: '#000000', label: 'Black' },
-  { value: '#fef3c7', label: 'Cream' },
-  { value: '#dbeafe', label: 'Sky' },
-  { value: '#dcfce7', label: 'Mint' }
+  { value: '', label: _('None') },
+  { value: '#ffffff', label: _('White') },
+  { value: '#f7f7f7', label: _('Light gray') },
+  { value: '#111827', label: _('Charcoal') },
+  { value: '#000000', label: _('Black') },
+  { value: '#fef3c7', label: _('Cream') },
+  { value: '#dbeafe', label: _('Sky') },
+  { value: '#dcfce7', label: _('Mint') }
 ];
 
 export function ColorSwatchField({

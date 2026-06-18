@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { getWidgetIcon } from './widgetIcons.js';
 
@@ -56,8 +57,8 @@ export function LayerNode({
   // Fall back to the raw code when the registry doesn't know this type
   // (e.g. an instance of a deleted/renamed widget type). Description omitted
   // in that case to keep the row from displaying a misleading blank line.
-  const displayName = def?.name ?? widget.type;
-  const description = def?.description ?? '';
+  const displayName = def?.name ? _(def.name) : widget.type;
+  const description = def?.description ? _(def.description) : '';
   const WidgetIcon = getWidgetIcon(def?.icon);
   return (
     <li>
@@ -97,7 +98,7 @@ export function LayerNode({
                     className="text-[10px] uppercase tracking-wide text-muted-foreground px-2 pt-1"
                     style={{ paddingLeft: 16 + depth * 12 }}
                   >
-                    Column {col.index + 1}
+                    {_('Column ${index}', { index: String(col.index + 1) })}
                   </div>
                   <ul className="space-y-1">
                     {col.widgets.map((kid) => (

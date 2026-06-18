@@ -8,6 +8,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { ProductPicker } from '@components/common/page-builder/pickers/ProductPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface ProductHeroSettingProps {
@@ -56,7 +57,7 @@ export default function ProductHeroSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Product">
+      <Section title={_('Product')}>
         <ProductPicker
           selectedUuid={productUuidV || null}
           selectedUrl={product?.url ?? null}
@@ -67,15 +68,16 @@ export default function ProductHeroSetting({
         />
         {pickedName && (
           <div className="rounded-md border border-divider bg-muted/30 p-2 text-[11px] text-muted-foreground">
-            Selected: <span className="text-foreground">{pickedName}</span>
+            {_('Selected:')}{' '}
+            <span className="text-foreground">{pickedName}</span>
           </div>
         )}
       </Section>
 
-      <Section title="Image override">
+      <Section title={_('Image override')}>
         <Field
-          label={imageV ? 'Override image' : 'Override image (optional)'}
-          hint="Leave empty to use the product's primary image."
+          label={imageV ? _('Override image') : _('Override image (optional)')}
+          hint={_("Leave empty to use the product's primary image.")}
         >
           <ImagePickerField
             value={imageV}
@@ -92,7 +94,7 @@ export default function ProductHeroSetting({
             }}
           />
         </Field>
-        <Field label="Alt text">
+        <Field label={_('Alt text')}>
           <input
             type="text"
             value={imageAltV}
@@ -101,16 +103,16 @@ export default function ProductHeroSetting({
                 shouldDirty: true
               })
             }
-            placeholder="Describe the image"
+            placeholder={_('Describe the image')}
             className={drawerInputClass}
           />
         </Field>
       </Section>
 
-      <Section title="Copy">
+      <Section title={_('Copy')}>
         <Field
-          label="Eyebrow"
-          hint="Small label above the product name. Optional."
+          label={_('Eyebrow')}
+          hint={_('Small label above the product name. Optional.')}
         >
           <input
             type="text"
@@ -120,33 +122,37 @@ export default function ProductHeroSetting({
                 shouldDirty: true
               })
             }
-            placeholder="FEATURED"
+            placeholder={_('FEATURED')}
             className={drawerInputClass}
           />
         </Field>
         <Field
-          label="Editorial copy"
-          hint="Overrides the product's own description in this context. Leave blank to hide."
+          label={_('Editorial copy')}
+          hint={_(
+            "Overrides the product's own description in this context. Leave blank to hide."
+          )}
         >
           <MarkdownBodyField
             value={copyV}
             onChange={(v) =>
               setValue('settings.copy', v || null, { shouldDirty: true })
             }
-            placeholder="Two lines of copy explaining why this product is being spotlighted right now."
+            placeholder={_(
+              'Two lines of copy explaining why this product is being spotlighted right now.'
+            )}
             rows={3}
             softLimit={240}
           />
         </Field>
       </Section>
 
-      <Section title="Layout">
-        <Field label="Image position">
+      <Section title={_('Layout')}>
+        <Field label={_('Image position')}>
           <Segmented<'left' | 'right'>
             value={imagePositionV}
             options={[
-              { value: 'left', label: 'Image left' },
-              { value: 'right', label: 'Image right' }
+              { value: 'left', label: _('Image left') },
+              { value: 'right', label: _('Image right') }
             ]}
             onChange={(v) =>
               setValue('settings.imagePosition', v, { shouldDirty: true })
@@ -158,7 +164,7 @@ export default function ProductHeroSetting({
       <input
         type="hidden"
         {...register('settings.productUuid', {
-          required: 'Please pick a product'
+          required: _('Please pick a product')
         })}
         defaultValue={productUuid ?? ''}
       />

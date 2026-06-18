@@ -20,6 +20,7 @@ import {
   useSortable,
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -174,7 +175,7 @@ const SortableRow: React.FC<{
               }}
             >
               <ArrowUp width={14} height={14} />
-              <span>Move up</span>
+              <span>{_('Move up')}</span>
             </button>
             <button
               type="button"
@@ -185,7 +186,7 @@ const SortableRow: React.FC<{
               }}
             >
               <ArrowDown width={14} height={14} />
-              <span>Move down</span>
+              <span>{_('Move down')}</span>
             </button>
             <button
               type="button"
@@ -196,7 +197,7 @@ const SortableRow: React.FC<{
               }}
             >
               <Trash2 width={14} height={14} />
-              <span>Delete</span>
+              <span>{_('Delete')}</span>
             </button>
           </div>
         )}
@@ -293,7 +294,7 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
             editors.current[column.id] = {};
             editors.current[column.id].instance = new EditorJS({
               holder: column.id,
-              placeholder: 'Type / to see the available blocks',
+              placeholder: _('Type / to see the available blocks'),
               minHeight: 0,
               tools: {
                 header: Header,

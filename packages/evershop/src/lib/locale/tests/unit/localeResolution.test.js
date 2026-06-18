@@ -21,6 +21,13 @@ describe('normalizeLocale', () => {
     expect(normalizeLocale(undefined)).toBeUndefined();
     expect(normalizeLocale(42)).toBeUndefined();
   });
+
+  it('does not remap codes — an invalid locale stays as-is (rejected later → 404)', () => {
+    // The locale code in a URL must match an enabled locale exactly; a non-ISO code
+    // like `vn` is NOT silently rewritten to `vi`, so `/vn` falls through to 404.
+    expect(normalizeLocale('vn')).toBe('vn');
+    expect(normalizeLocale('xx')).toBe('xx');
+  });
 });
 
 describe('mergeEnabledLocales', () => {

@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 /**
@@ -47,7 +48,7 @@ export function AnchorPicker({
             key={c}
             type="button"
             onClick={() => onChange(c)}
-            aria-label={`Position ${c.toUpperCase()}`}
+            aria-label={`${_('Position')} ${c.toUpperCase()}`}
             title={c.toUpperCase()}
             className={`h-6 w-6 rounded transition-colors ${
               active

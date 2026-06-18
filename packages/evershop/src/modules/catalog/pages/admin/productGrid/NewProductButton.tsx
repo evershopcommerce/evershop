@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface NewProductButtonProps {
@@ -10,9 +11,9 @@ export default function NewProductButton({
   return (
     <Button
       onClick={() => (window.location.href = newProductUrl)}
-      title="New Product"
+      title={_('New Product')}
     >
-      New Product
+      {_('New Product')}
     </Button>
   );
 }

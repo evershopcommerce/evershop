@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { MessageSquare } from 'lucide-react';
 import React from 'react';
 
@@ -15,10 +16,10 @@ export default function Survey() {
         onClick={handleSurveyClick}
         size="default"
         className="shadow-lg hover:shadow-xl transition-shadow gap-2"
-        title="Take our survey"
+        title={_('Take our survey')}
       >
         <MessageSquare className="size-4" />
-        Give Feedback
+        {_('Give Feedback')}
       </Button>
     </div>
   );

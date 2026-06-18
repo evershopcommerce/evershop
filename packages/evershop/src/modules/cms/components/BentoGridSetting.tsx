@@ -14,6 +14,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type {
   BentoGap,
@@ -30,17 +31,17 @@ interface BentoGridSettingProps {
 }
 
 const GAP_OPTIONS: ReadonlyArray<{ value: BentoGap; label: string }> = [
-  { value: 'sm', label: 'S' },
-  { value: 'md', label: 'M' },
-  { value: 'lg', label: 'L' }
+  { value: 'sm', label: _('S') },
+  { value: 'md', label: _('M') },
+  { value: 'lg', label: _('L') }
 ];
 
 const TEXT_COLOR_OPTIONS: ReadonlyArray<{
   value: BentoTextColor;
   label: string;
 }> = [
-  { value: 'light', label: 'Light' },
-  { value: 'dark', label: 'Dark' }
+  { value: 'light', label: _('Light') },
+  { value: 'dark', label: _('Dark') }
 ];
 
 function makeId(): string {
@@ -122,27 +123,27 @@ export default function BentoGridSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Tiles">
+      <Section title={_('Tiles')}>
         <RepeatableAccordion<BentoTile>
           items={tiles}
           onAdd={addTile}
           onRemove={removeTile}
           onMove={moveTile}
-          addLabel="Add tile"
+          addLabel={_('Add tile')}
           minItems={2}
           maxItems={5}
           initiallyOpenFirst
           renderHeader={({ item, index }) => (
             <span>
-              {index === 0 ? 'Hero · ' : ''}
-              {item.heading || 'Untitled'}
+              {index === 0 ? _('Hero · ') : ''}
+              {item.heading || _('Untitled')}
             </span>
           )}
           renderItem={({ item, index }) => {
             const isHero = index === 0;
             return (
               <>
-                <Field label="Image">
+                <Field label={_('Image')}>
                   <ImagePickerField
                     value={item.image ?? ''}
                     onChange={(v) =>
@@ -158,7 +159,7 @@ export default function BentoGridSetting({
                     }
                   />
                 </Field>
-                <Field label="Background color" hint="Used when no image is set.">
+                <Field label={_('Background color')} hint={_('Used when no image is set.')}>
                   <ColorSwatchField
                     value={item.backgroundColor || ''}
                     onChange={(v) =>
@@ -170,7 +171,7 @@ export default function BentoGridSetting({
                   />
                 </Field>
                 {isHero && (
-                  <Field label="Eyebrow" hint="Small label above the heading.">
+                  <Field label={_('Eyebrow')} hint={_('Small label above the heading.')}>
                     <input
                       type="text"
                       value={item.eyebrow ?? ''}
@@ -179,43 +180,43 @@ export default function BentoGridSetting({
                           eyebrow: e.target.value || null
                         })
                       }
-                      placeholder="THE SUMMER EDIT"
+                      placeholder={_('THE SUMMER EDIT')}
                       className={drawerInputClass}
                     />
                   </Field>
                 )}
-                <Field label="Heading">
+                <Field label={_('Heading')}>
                   <input
                     type="text"
                     value={item.heading || ''}
                     onChange={(e) =>
                       updateTile(index, { heading: e.target.value })
                     }
-                    placeholder={isHero ? 'The Summer Edit' : 'New Arrivals'}
+                    placeholder={isHero ? _('The Summer Edit') : _('New Arrivals')}
                     className={drawerInputClass}
                   />
                 </Field>
                 {isHero && (
-                  <Field label="Body">
+                  <Field label={_('Body')}>
                     <MarkdownBodyField
                       value={item.body ?? ''}
                       onChange={(v) =>
                         updateTile(index, { body: v || null })
                       }
-                      placeholder="Big card — the headline of the grid."
+                      placeholder={_('Big card — the headline of the grid.')}
                       rows={2}
                       softLimit={160}
                     />
                   </Field>
                 )}
-                <Field label="Text color">
+                <Field label={_('Text color')}>
                   <Segmented<BentoTextColor>
                     value={item.textColor}
                     options={TEXT_COLOR_OPTIONS}
                     onChange={(v) => updateTile(index, { textColor: v })}
                   />
                 </Field>
-                <Field label="Link label">
+                <Field label={_('Link label')}>
                   <input
                     type="text"
                     value={item.link?.label || ''}
@@ -224,11 +225,11 @@ export default function BentoGridSetting({
                         link: { ...item.link, label: e.target.value }
                       })
                     }
-                    placeholder="Shop"
+                    placeholder={_('Shop')}
                     className={drawerInputClass}
                   />
                 </Field>
-                <Field label="Link URL">
+                <Field label={_('Link URL')}>
                   <LinkPicker
                     value={item.link?.url || ''}
                     onChange={({ url }) =>
@@ -239,7 +240,7 @@ export default function BentoGridSetting({
                   />
                 </Field>
                 <Toggle
-                  label="Open in new tab"
+                  label={_('Open in new tab')}
                   checked={!!item.link?.newTab}
                   onChange={(v) =>
                     updateTile(index, {
@@ -253,8 +254,8 @@ export default function BentoGridSetting({
         />
       </Section>
 
-      <Section title="Layout">
-        <Field label="Gap">
+      <Section title={_('Layout')}>
+        <Field label={_('Gap')}>
           <Segmented<BentoGap>
             value={gapV}
             options={GAP_OPTIONS}
@@ -263,7 +264,7 @@ export default function BentoGridSetting({
             }
           />
         </Field>
-        <Field label="Minimum block height">
+        <Field label={_('Minimum block height')}>
           <Slider
             value={minHeightV}
             min={240}

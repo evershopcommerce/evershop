@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
@@ -36,11 +37,13 @@ export default function Media({ product }: MediaProps) {
     replace(images);
   }, []);
   return (
-    <Card title="Media">
+    <Card title={_('Media')}>
       <CardHeader>
-        <CardTitle>Media</CardTitle>
+        <CardTitle>{_('Media')}</CardTitle>
         <CardDescription>
-          Manage product images and gallery. Drag and drop to reorder images.
+          {_(
+            'Manage product images and gallery. Drag and drop to reorder images.'
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent>

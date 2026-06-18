@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useQuery } from 'urql';
 import { VariantGroup } from '../VariantGroup.js';
@@ -154,17 +155,17 @@ export const Variants: React.FC<VariantsProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Image</TableHead>
+              <TableHead>{_('Image')}</TableHead>
               {variantGroup.attributes.map((attribute) => (
                 <TableHead key={attribute.attributeId}>
                   {attribute.attributeName}
                 </TableHead>
               ))}
-              <TableHead>Sku</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Stock</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>{_('Sku')}</TableHead>
+              <TableHead>{_('Price')}</TableHead>
+              <TableHead>{_('Stock')}</TableHead>
+              <TableHead>{_('Status')}</TableHead>
+              <TableHead>{_('Actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

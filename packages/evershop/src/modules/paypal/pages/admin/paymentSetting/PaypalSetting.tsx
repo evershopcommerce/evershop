@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface PaypalPaymentProps {
@@ -33,15 +34,15 @@ export default function PaypalPayment({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Paypal Payment</CardTitle>
+        <CardTitle>{_('Paypal Payment')}</CardTitle>
         <CardDescription>
-          Configure your Paypal payment gateway settings
+          {_('Configure your Paypal payment gateway settings')}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Enable?</h4>
+            <h4>{_('Enable?')}</h4>
           </div>
           <div className="col-span-2">
             <ToggleField
@@ -56,12 +57,12 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Dislay Name</h4>
+            <h4>{_('Dislay Name')}</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="paypalDisplayName"
-              placeholder="Display Name"
+              placeholder={_('Display Name')}
               defaultValue={paypalDisplayName}
             />
           </div>
@@ -70,12 +71,12 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Client ID</h4>
+            <h4>{_('Client ID')}</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="paypalClientId"
-              placeholder="Client ID"
+              placeholder={_('Client ID')}
               defaultValue={paypalClientId}
             />
           </div>
@@ -84,12 +85,12 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Client Secret</h4>
+            <h4>{_('Client Secret')}</h4>
           </div>
           <div className="col-span-2">
             <InputField
               name="paypalClientSecret"
-              placeholder="Secret Key"
+              placeholder={_('Secret Key')}
               defaultValue={paypalClientSecret}
             />
           </div>
@@ -98,7 +99,7 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Environment</h4>
+            <h4>{_('Environment')}</h4>
           </div>
           <div className="col-span-2">
             <RadioGroupField
@@ -106,11 +107,11 @@ export default function PaypalPayment({
               defaultValue={paypalEnvironment}
               options={[
                 {
-                  label: 'Sandbox',
+                  label: _('Sandbox'),
                   value: 'https://api-m.sandbox.paypal.com'
                 },
                 {
-                  label: 'Live',
+                  label: _('Live'),
                   value: 'https://api-m.paypal.com'
                 }
               ]}
@@ -121,15 +122,15 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>Payment mode</h4>
+            <h4>{_('Payment mode')}</h4>
           </div>
           <div className="col-span-2">
             <RadioGroupField
               name="paypalPaymentIntent"
               defaultValue={paypalPaymentIntent}
               options={[
-                { label: 'Authorize only', value: 'AUTHORIZE' },
-                { label: 'Capture', value: 'CAPTURE' }
+                { label: _('Authorize only'), value: 'AUTHORIZE' },
+                { label: _('Capture'), value: 'CAPTURE' }
               ]}
             />
           </div>

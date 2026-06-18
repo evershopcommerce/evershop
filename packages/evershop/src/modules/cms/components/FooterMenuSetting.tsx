@@ -9,6 +9,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type { FooterMenuColumn, FooterMenuLink } from './FooterMenu.js';
 
@@ -27,7 +28,7 @@ function makeId(prefix: string): string {
 function makeBlankLink(): FooterMenuLink {
   return {
     id: makeId('lnk'),
-    label: 'New link',
+    label: _('New link'),
     url: '/',
     newTab: false,
     nofollow: false,
@@ -36,7 +37,7 @@ function makeBlankLink(): FooterMenuLink {
 }
 
 function makeBlankColumn(): FooterMenuColumn {
-  return { id: makeId('col'), title: 'New column', links: [makeBlankLink()] };
+  return { id: makeId('col'), title: _('New column'), links: [makeBlankLink()] };
 }
 
 export default function FooterMenuSetting({
@@ -126,45 +127,48 @@ export default function FooterMenuSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Columns">
+      <Section title={_('Columns')}>
         <RepeatableAccordion<FooterMenuColumn>
           items={columns}
           onAdd={addColumn}
           onRemove={removeColumn}
           onMove={moveColumn}
-          addLabel="Add column"
+          addLabel={_('Add column')}
           minItems={1}
           maxItems={6}
           initiallyOpenFirst
           renderHeader={({ item }) =>
-            `${item.title || 'Untitled'} · ${item.links?.length ?? 0} links`
+            _('${title} · ${count} links', {
+              title: item.title || _('Untitled'),
+              count: String(item.links?.length ?? 0)
+            })
           }
           renderItem={({ item, index }) => (
             <>
-              <Field label="Column title">
+              <Field label={_('Column title')}>
                 <input
                   type="text"
                   value={item.title || ''}
                   onChange={(e) =>
                     updateColumn(index, { title: e.target.value })
                   }
-                  placeholder="Shop"
+                  placeholder={_('Shop')}
                   className={drawerInputClass}
                 />
               </Field>
-              <Field label="Links" hint="Min 1, max 12.">
+              <Field label={_('Links')} hint={_('Min 1, max 12.')}>
                 <RepeatableAccordion<FooterMenuLink>
                   items={item.links ?? []}
                   onAdd={() => addLink(index)}
                   onRemove={(i) => removeLink(index, i)}
                   onMove={(f, t) => moveLink(index, f, t)}
-                  addLabel="Add link"
+                  addLabel={_('Add link')}
                   minItems={1}
                   maxItems={12}
-                  renderHeader={({ item: link }) => link.label || 'Untitled'}
+                  renderHeader={({ item: link }) => link.label || _('Untitled')}
                   renderItem={({ item: link, index: linkIdx }) => (
                     <>
-                      <Field label="Label">
+                      <Field label={_('Label')}>
                         <input
                           type="text"
                           value={link.label || ''}
@@ -173,11 +177,11 @@ export default function FooterMenuSetting({
                               label: e.target.value
                             })
                           }
-                          placeholder="New arrivals"
+                          placeholder={_('New arrivals')}
                           className={drawerInputClass}
                         />
                       </Field>
-                      <Field label="Link">
+                      <Field label={_('Link')}>
                         <LinkPicker
                           value={link.url || ''}
                           initialKind="custom"
@@ -187,23 +191,27 @@ export default function FooterMenuSetting({
                         />
                       </Field>
                       <Toggle
-                        label="Open in new tab"
+                        label={_('Open in new tab')}
                         checked={!!link.newTab}
                         onChange={(v) =>
                           updateLink(index, linkIdx, { newTab: v })
                         }
                       />
                       <Toggle
-                        label="Nofollow"
-                        description="SEO: don't pass ranking credit to this link (rel=nofollow)."
+                        label={_('Nofollow')}
+                        description={_(
+                          "SEO: don't pass ranking credit to this link (rel=nofollow)."
+                        )}
                         checked={!!link.nofollow}
                         onChange={(v) =>
                           updateLink(index, linkIdx, { nofollow: v })
                         }
                       />
                       <Toggle
-                        label="No referrer"
-                        description="Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this."
+                        label={_('No referrer')}
+                        description={_(
+                          'Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.'
+                        )}
                         checked={!!link.noReferrer}
                         onChange={(v) =>
                           updateLink(index, linkIdx, { noReferrer: v })

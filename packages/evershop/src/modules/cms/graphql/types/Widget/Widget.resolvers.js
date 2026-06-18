@@ -237,6 +237,10 @@ export default {
       const types = getEnabledWidgets();
       return types.map((row) => ({
         code: row.type,
+        // English source strings (registered at bootstrap). They are localized at
+        // the admin render site via _(), not here — widgetTypes is also served over
+        // the public storefront GraphQL context (store language), so translating in
+        // this shared resolver would localize to the wrong language.
         name: row.name,
         description: row.description,
         category: row.category ?? null,

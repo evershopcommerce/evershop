@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Trash2 } from 'lucide-react';
 import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
@@ -49,7 +50,7 @@ export default function General({ widget, routes }: GeneralProps) {
   // Pages a widget can be placed on: storefront GET routes (single method,
   // not API / admin), plus an "All pages" pseudo-route.
   const pageOptions = [
-    { value: 'all', label: 'All pages' },
+    { value: 'all', label: _('All pages') },
     ...routes
       .filter(
         (r) =>
@@ -88,37 +89,38 @@ export default function General({ widget, routes }: GeneralProps) {
         <InputField
           name="name"
           defaultValue={widget?.name}
-          label="Name"
+          label={_('Name')}
           required
-          validation={{ required: 'Name is required' }}
-          placeholder="Name"
+          validation={{ required: _('Name is required') }}
+          placeholder={_('Name')}
         />
       </CardContent>
       <CardContent className="pt-3 border-t border-border">
         <RadioGroupField
           name="status"
-          label="Status"
+          label={_('Status')}
           defaultValue={widget?.status}
           required
-          validation={{ required: 'Status is required' }}
+          validation={{ required: _('Status is required') }}
           options={[
-            { value: 0, label: 'Disabled' },
-            { value: 1, label: 'Enabled' }
+            { value: 0, label: _('Disabled') },
+            { value: 1, label: _('Enabled') }
           ]}
         />
       </CardContent>
       <CardContent className="pt-3 border-t border-border">
-        <div className="text-sm font-medium">Placements</div>
+        <div className="text-sm font-medium">{_('Placements')}</div>
         <p className="text-sm text-muted-foreground mt-1">
-          Each row places this widget on one page, in one area, with its own
-          sort order. Lower numbers appear first.
+          {_(
+            'Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.'
+          )}
         </p>
         <Table className="mt-3">
           <TableHeader>
             <TableRow>
-              <TableHead className="border-none">Page</TableHead>
-              <TableHead className="border-none">Area</TableHead>
-              <TableHead className="border-none w-20">Sort</TableHead>
+              <TableHead className="border-none">{_('Page')}</TableHead>
+              <TableHead className="border-none">{_('Area')}</TableHead>
+              <TableHead className="border-none w-20">{_('Sort')}</TableHead>
               <TableHead className="border-none w-10" />
             </TableRow>
           </TableHeader>
@@ -129,17 +131,17 @@ export default function General({ widget, routes }: GeneralProps) {
                   <SelectField
                     name={`placements.${index}.route`}
                     options={pageOptions}
-                    placeholder="Select page"
+                    placeholder={_('Select page')}
                     required
-                    validation={{ required: 'Page is required' }}
+                    validation={{ required: _('Page is required') }}
                   />
                 </TableCell>
                 <TableCell className="px-1">
                   <InputField
                     name={`placements.${index}.area`}
-                    placeholder="e.g. content"
+                    placeholder={_('e.g. content')}
                     required
-                    validation={{ required: 'Area is required' }}
+                    validation={{ required: _('Area is required') }}
                   />
                 </TableCell>
                 <TableCell className="px-1">
@@ -154,7 +156,7 @@ export default function General({ widget, routes }: GeneralProps) {
                       type="button"
                       onClick={() => remove(index)}
                       className="text-muted-foreground hover:text-destructive p-1"
-                      title="Remove placement"
+                      title={_('Remove placement')}
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -177,7 +179,7 @@ export default function General({ widget, routes }: GeneralProps) {
                     )
                   }
                 >
-                  + Add placement
+                  {_('+ Add placement')}
                 </Button>
               </TableCell>
             </TableRow>

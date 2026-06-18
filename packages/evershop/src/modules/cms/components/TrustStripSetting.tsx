@@ -11,6 +11,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type { TrustAlignment, TrustIconSize, TrustItem } from './TrustStrip.js';
 
@@ -37,14 +38,14 @@ interface TrustStripSettingProps {
 }
 
 const ICON_SIZE_OPTIONS = [
-  { value: 'sm' as TrustIconSize, label: 'S' },
-  { value: 'md' as TrustIconSize, label: 'M' },
-  { value: 'lg' as TrustIconSize, label: 'L' }
+  { value: 'sm' as TrustIconSize, label: _('S') },
+  { value: 'md' as TrustIconSize, label: _('M') },
+  { value: 'lg' as TrustIconSize, label: _('L') }
 ];
 
 const ALIGNMENT_OPTIONS = [
-  { value: 'left' as TrustAlignment, label: 'Left' },
-  { value: 'center' as TrustAlignment, label: 'Center' }
+  { value: 'left' as TrustAlignment, label: _('Left') },
+  { value: 'center' as TrustAlignment, label: _('Center') }
 ];
 
 function makeBlankItem(): TrustItem {
@@ -133,7 +134,7 @@ export default function TrustStripSetting({
 
   return (
     <div className="space-y-3">
-      <Section title="Items">
+      <Section title={_('Items')}>
         <RepeatableAccordion<TrustItem>
           items={items}
           onAdd={addItem}
@@ -141,25 +142,25 @@ export default function TrustStripSetting({
           onMove={moveItem}
           minItems={1}
           maxItems={6}
-          addLabel="Add item"
+          addLabel={_('Add item')}
           initiallyOpenFirst
-          renderHeader={({ item }) => item.title || 'Untitled'}
+          renderHeader={({ item }) => item.title || _('Untitled')}
           renderItem={({ item, index }) => (
             <>
-              <Field label="Title">
+              <Field label={_('Title')}>
                 <input
                   type="text"
                   value={item.title || ''}
                   onChange={(e) =>
                     updateItem(index, { title: e.target.value })
                   }
-                  placeholder="e.g. Free shipping"
+                  placeholder={_('e.g. Free shipping')}
                   className={drawerInputClass}
                 />
               </Field>
               <Field
-                label="Description"
-                hint="Optional supporting line below the title."
+                label={_('Description')}
+                hint={_('Optional supporting line below the title.')}
               >
                 <input
                   type="text"
@@ -169,13 +170,15 @@ export default function TrustStripSetting({
                       description: e.target.value ? e.target.value : null
                     })
                   }
-                  placeholder="e.g. On orders over $50"
+                  placeholder={_('e.g. On orders over $50')}
                   className={drawerInputClass}
                 />
               </Field>
               <Field
-                label="Icon"
-                hint="Optional. SVG or raster image. Hidden when icons are turned off globally."
+                label={_('Icon')}
+                hint={_(
+                  'Optional. SVG or raster image. Hidden when icons are turned off globally.'
+                )}
               >
                 <ImagePickerField
                   value={item.icon ?? ''}
@@ -192,7 +195,10 @@ export default function TrustStripSetting({
                   }
                 />
               </Field>
-              <Field label="Link" hint="Optional. Makes the whole cell clickable.">
+              <Field
+                label={_('Link')}
+                hint={_('Optional. Makes the whole cell clickable.')}
+              >
                 <LinkPicker
                   value={item.link?.url || ''}
                   onChange={({ url }) =>
@@ -204,7 +210,7 @@ export default function TrustStripSetting({
                 {item.link && (
                   <div className="mt-2">
                     <Toggle
-                      label="Open in new tab"
+                      label={_('Open in new tab')}
                       checked={!!item.link.newTab}
                       onChange={(v) =>
                         updateItem(index, {
@@ -220,17 +226,17 @@ export default function TrustStripSetting({
         />
       </Section>
 
-      <Section title="Layout">
+      <Section title={_('Layout')}>
         <Field
-          label="Columns"
-          hint="Auto matches the item count, capped at 4."
+          label={_('Columns')}
+          hint={_('Auto matches the item count, capped at 4.')}
         >
           <Segmented<number>
             value={cols ?? 0}
             options={[
-              { value: 0, label: 'Auto' },
-              { value: 3, label: '3' },
-              { value: 4, label: '4' }
+              { value: 0, label: _('Auto') },
+              { value: 3, label: _('3') },
+              { value: 4, label: _('4') }
             ]}
             onChange={(v) =>
               setValue('settings.columns', v === 0 ? null : v, {
@@ -239,7 +245,7 @@ export default function TrustStripSetting({
             }
           />
         </Field>
-        <Field label="Alignment">
+        <Field label={_('Alignment')}>
           <Segmented<TrustAlignment>
             value={alignmentState}
             options={ALIGNMENT_OPTIONS}
@@ -248,7 +254,7 @@ export default function TrustStripSetting({
             }
           />
         </Field>
-        <Field label="Icon size">
+        <Field label={_('Icon size')}>
           <Segmented<TrustIconSize>
             value={iconSizeState}
             options={ICON_SIZE_OPTIONS}
@@ -258,16 +264,18 @@ export default function TrustStripSetting({
           />
         </Field>
         <Toggle
-          label="Show icons"
-          description="Master switch. Items without an icon URL are unaffected."
+          label={_('Show icons')}
+          description={_(
+            'Master switch. Items without an icon URL are unaffected.'
+          )}
           checked={showIconsState}
           onChange={(v) =>
             setValue('settings.showIcons', v, { shouldDirty: true })
           }
         />
         <Toggle
-          label="Show divider"
-          description="Vertical line between cells."
+          label={_('Show divider')}
+          description={_('Vertical line between cells.')}
           checked={dividerState}
           onChange={(v) =>
             setValue('settings.divider', v, { shouldDirty: true })

@@ -1,6 +1,7 @@
 import { SettingMenu } from '@components/admin/SettingMenu.js';
 import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface ShippingProvidersProps {
@@ -30,7 +31,7 @@ export default function ShippingProviders({
             id="shippingProviderSettingForm"
             method="POST"
             action={saveSettingApi}
-            successMessage="Shipping provider setting saved"
+            successMessage={_('Shipping provider setting saved')}
           >
             <Area id="shippingProviderSetting" className="grid gap-5" />
           </Form>
