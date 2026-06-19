@@ -3,7 +3,7 @@ import path from 'path';
 import sharp from 'sharp';
 import { CONSTANTS } from '../../../lib/helpers.js';
 import { debug } from '../../../lib/log/logger.js';
-import { getEnabledTheme } from '../../../lib/util/getEnabledTheme.js';
+import { getActiveTheme } from '../../../lib/util/getActiveTheme.js';
 import { secureFetch } from '../../../lib/util/secureFetch.js';
 
 const hasTransparency = async (imageBuffer: Buffer): Promise<boolean> => {
@@ -82,8 +82,10 @@ export const imageProcessor = async (
     // captured a leading `/` in the asset path and the file lookup failed.
     src = src.replace(/\/{2,}/g, '/');
 
-    // Get the currently enabled theme (if any)
-    const enabledTheme = getEnabledTheme();
+    // Active theme name (if any). Use getActiveTheme() — a cheap, exit-free
+    // config read safe for the request hot path — not getEnabledTheme(), which
+    // does per-request FS checks and process.exit(1) on a missing theme dir.
+    const activeTheme = getActiveTheme();
 
     // Special case: Handle assets path format like "/assets/media/image.png" or "/assets/image.png"
     if (src.startsWith('/assets/')) {
@@ -100,9 +102,9 @@ export const imageProcessor = async (
           `public/${assetPath}`
         ];
 
-        // Add currently enabled theme public directory (if any) to possible paths
-        if (enabledTheme) {
-          possiblePaths.push(`themes/${enabledTheme.name}/public/${assetPath}`);
+        // Add currently active theme public directory (if any) to possible paths
+        if (activeTheme) {
+          possiblePaths.push(`themes/${activeTheme}/public/${assetPath}`);
         }
 
         let fileExists = false;
@@ -148,10 +150,10 @@ export const imageProcessor = async (
     // Only allow specific directories from project root
     const allowedPaths = ['media/', 'public/'];
 
-    // Only allow the currently enabled theme's public directory (if any),
+    // Only allow the currently active theme's public directory (if any),
     // not all existing theme folders.
-    if (enabledTheme) {
-      allowedPaths.push(`themes/${enabledTheme.name}/public/`);
+    if (activeTheme) {
+      allowedPaths.push(`themes/${activeTheme}/public/`);
     }
 
     const isAllowedPath = allowedPaths.some((allowedPath) =>
