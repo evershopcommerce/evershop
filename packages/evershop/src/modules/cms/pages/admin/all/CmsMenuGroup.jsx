@@ -1,6 +1,6 @@
 import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
-import { DocumentIcon } from '@heroicons/react/24/solid';
-import { PuzzlePieceIcon } from '@heroicons/react/24/solid';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { Book, Puzzle } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -8,17 +8,17 @@ export default function CmsMenuGroup({ cmsPageGrid, widgetGrid }) {
   return (
     <NavigationItemGroup
       id="cmsMenuGroup"
-      name="CMS"
+      name={_('CMS')}
       items={[
         {
-          Icon: DocumentIcon,
+          Icon: Book,
           url: cmsPageGrid,
-          title: 'Pages'
+          title: _('Pages')
         },
         {
-          Icon: PuzzlePieceIcon,
+          Icon: Puzzle,
           url: widgetGrid,
-          title: 'Widgets'
+          title: _('Widgets')
         }
       ]}
     />

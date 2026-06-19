@@ -226,7 +226,7 @@ export function VariantSelector({
         })}
       />
       {errors.variant_selected && (
-        <div className="text-critical">
+        <div className="text-destructive">
           {_('Please select variant options')}
         </div>
       )}

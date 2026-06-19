@@ -1,6 +1,13 @@
 import { CollectionSelector } from '@components/admin/CollectionSelector.js';
-import { Modal } from '@components/common/modal/Modal.js';
-import { useModal } from '@components/common/modal/useModal.js';
+import { Button } from '@components/common/ui/Button.js';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export const CollectionConditionValueSelector: React.FC<{
@@ -8,19 +15,15 @@ export const CollectionConditionValueSelector: React.FC<{
   updateCondition: (values: number | Array<number>) => void;
   isMulti: boolean;
 }> = ({ selectedValues, updateCondition, isMulti }) => {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const selectedIds = React.useRef<number[]>(
     Array.isArray(selectedValues) ? selectedValues.map(Number) : []
   );
-  const modal = useModal({
-    onAfterClose: () => {
-      updateCondition(selectedIds.current);
-    }
-  });
 
   const onSelect = async (id) => {
     if (!isMulti) {
       selectedIds.current = [id];
-      modal.close();
+      setDialogOpen(false);
       return Promise.resolve();
     }
 
@@ -38,41 +41,50 @@ export const CollectionConditionValueSelector: React.FC<{
   };
 
   return (
-    <div>
-      <a
-        href="#"
-        className="text-interactive hover:underline"
-        onClick={(e) => {
-          e.preventDefault();
-          modal.open();
-        }}
-      >
-        {selectedIds.current.map((id, index) => (
-          <span key={id}>
-            {index === 0 && <span className="italic">&lsquo;{id}&rsquo;</span>}
-            {index === 1 && (
-              <span> and {selectedIds.current.length - 1} more</span>
-            )}
-          </span>
-        ))}
-        {selectedIds.current.length === 0 && <span>Choose Collections</span>}
-      </a>
-      <Modal
-        title="Select Products"
-        onClose={modal.close}
-        isOpen={modal.isOpen}
-      >
-        <div className="overflow-auto" style={{ maxHeight: '60vh' }}>
-          <CollectionSelector
-            onSelect={onSelect}
-            onUnSelect={onUnSelect}
-            selectedCollections={selectedIds.current.map((id) => ({
-              collectionId: id,
-              uuid: undefined
-            }))}
-          />
-        </div>
-      </Modal>
-    </div>
+    <Dialog
+      open={dialogOpen}
+      onOpenChange={(open) => setDialogOpen(open)}
+      onOpenChangeComplete={(open) => {
+        if (!open) {
+          updateCondition(selectedIds.current);
+        }
+      }}
+    >
+      <DialogTrigger>
+        <Button variant={'link'}>
+          {selectedIds.current.map((id, index) => (
+            <span key={id}>
+              {index === 0 && (
+                <span className="italic">&lsquo;{id}&rsquo;</span>
+              )}
+              {index === 1 && (
+                <span>
+                  {' '}
+                  {_('and ${count} more', {
+                    count: String(selectedIds.current.length - 1)
+                  })}
+                </span>
+              )}
+            </span>
+          ))}
+          {selectedIds.current.length === 0 && (
+            <span>{_('Choose Collections')}</span>
+          )}
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{_('Choose Collections')}</DialogTitle>
+        </DialogHeader>
+        <CollectionSelector
+          onSelect={onSelect}
+          onUnSelect={onUnSelect}
+          selectedCollections={selectedIds.current.map((id) => ({
+            collectionId: id,
+            uuid: undefined
+          }))}
+        />
+      </DialogContent>
+    </Dialog>
   );
 };

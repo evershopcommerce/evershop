@@ -8,6 +8,7 @@ import { Image } from '@components/common/Image.js';
 import { useProduct } from '@components/frontStore/catalog/ProductContext.js';
 import './Media.scss';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 
 const SliderComponent = Slider as any;
 
@@ -19,7 +20,7 @@ const PrevArrow = (props: any) => {
     <button
       className={`${className} custom-arrow prev-arrow`}
       onClick={onClick}
-      aria-label="Previous slide"
+      aria-label={_('Previous slide')}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +45,7 @@ const NextArrow = (props: any) => {
     <button
       className={`${className} custom-arrow next-arrow`}
       onClick={onClick}
-      aria-label="Next slide"
+      aria-label={_('Next slide')}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -254,7 +255,7 @@ export const Media: React.FC<MediaProps> = ({
             <button
               className="modal-close"
               onClick={closeModal}
-              aria-label="Close fullscreen view"
+              aria-label={_('Close fullscreen view')}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

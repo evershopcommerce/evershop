@@ -1,10 +1,24 @@
 """
-Return a collection products Widget
+Return a collection products Widget.
+
+`heading` and `subText` are optional overrides for the displayed title /
+description above the product grid. When null/empty, the storefront falls
+back to the picked collection's `name` and rich-text `description`. Setting
+them in the page-builder drawer (or inline-editing in the iframe) flips the
+storefront to the plain-text override.
+
+`viewAllLink` is an optional "View all →" link rendered to the right of
+the heading. Stored as a URN or plain URL; the storefront resolves URNs
+at request time via the shared `linkLoaders`.
 """
 type CollectionProductsWidget {
   collection: String
   count: Int
   countPerRow: Int
+  heading: String
+  subText: String
+  viewAllLink: String
+  viewAllLabel: String
 }
 
 extend type Query {
@@ -12,5 +26,9 @@ extend type Query {
     collection: String
     count: Int
     countPerRow: Int
+    heading: String
+    subText: String
+    viewAllLink: String
+    viewAllLabel: String
   ): CollectionProductsWidget
 }

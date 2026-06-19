@@ -1,5 +1,12 @@
-import { Card } from '@components/admin/Card.js';
 import Area from '@components/common/Area.js';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface SettingProps {
@@ -12,10 +19,18 @@ interface SettingProps {
 export default function Setting({ type }: SettingProps) {
   const areaId = `widget_setting_form`;
   return (
-    <Card title={`${type.name} widget setting`}>
-      <Card.Session>
+    <Card>
+      <CardHeader>
+        <CardTitle>{_('Widget Settings')}</CardTitle>
+        <CardDescription>
+          {_('Configure the settings for the ${name} widget.', {
+            name: type.name
+          })}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
         <Area id={areaId} noOurter />
-      </Card.Session>
+      </CardContent>
     </Card>
   );
 }

@@ -1,5 +1,5 @@
 import { normalizePort } from '../../bin/lib/normalizePort.js';
-import { getConfig } from '../util/getConfig.js';
+import { getBaseUrl } from '../../lib/util/getBaseUrl.js';
 import { buildUrl } from './buildUrl.js';
 
 const port = normalizePort();
@@ -17,9 +17,6 @@ export const buildAbsoluteUrl = (
   params: Record<string, any> = {}
 ) => {
   const url = buildUrl(routeId, params).replace(/^\/|\/$/g, '');
-  const homeUrl = getConfig('shop.homeUrl', `http://localhost:${port}`).replace(
-    /^\/|\/$/g,
-    ''
-  );
+  const homeUrl = getBaseUrl();
   return `${homeUrl}/${url}`;
 };

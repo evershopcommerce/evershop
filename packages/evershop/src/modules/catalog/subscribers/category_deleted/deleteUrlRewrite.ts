@@ -1,7 +1,7 @@
-import { execute, select } from '@evershop/postgres-query-builder';
+import { select } from '@evershop/postgres-query-builder';
+import { EventSubscriber } from '../../../../lib/event/subscriber.js';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
-import { EventSubscriber } from '../../../../lib/event/subscriber.js';
 
 const deleteUrlReWrite: EventSubscriber<'category_deleted'> = async (data) => {
   try {
@@ -13,18 +13,18 @@ const deleteUrlReWrite: EventSubscriber<'category_deleted'> = async (data) => {
       .and('entity_type', '=', 'category')
       .load(pool);
     // Delete all the url rewrite rule for this category
-    await execute(
-      pool,
-      `DELETE FROM url_rewrite WHERE entity_type = 'category' AND entity_uuid = '${categoryUuid}'`
+    await pool.query(
+      `DELETE FROM url_rewrite WHERE entity_type = 'category' AND entity_uuid = $1`,
+      [categoryUuid]
     );
 
     if (!urlRewrite) {
       return;
     } else {
       // Delete all the url rewrite rule for the sub categories and products
-      await execute(
-        pool,
-        `DELETE FROM url_rewrite WHERE request_path LIKE '${urlRewrite.request_path}/%' AND entity_type IN ('category', 'product')`
+      await pool.query(
+        `DELETE FROM url_rewrite WHERE request_path LIKE $1 AND entity_type IN ('category', 'product')`,
+        [`${urlRewrite.request_path}/%`]
       );
     }
   } catch (err) {

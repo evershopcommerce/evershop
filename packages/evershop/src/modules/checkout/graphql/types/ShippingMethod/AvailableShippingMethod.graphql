@@ -1,11 +1,25 @@
 """
 Represents an available shipping method for a cart based on the shipping address.
+
+`providerCode` identifies the provider this method came from. The storefront
+must include it in the selection payload (POST /api/carts/:id/shippingMethods)
+so the cart knows which provider's `validateMethod` to call.
+
+`carrier` is customer-facing display (e.g., "USPS"). For Core-only stores
+it's typically null; for aggregator providers (EasyPost) it's the underlying
+carrier per rate.
+
+`id` is kept as an alias for `code` for back-compat with pre-refactor clients.
 """
 type AvailableShippingMethod {
   id: String!
+  providerCode: String!
   code: String!
   name: String!
   cost: Price!
+  carrier: String
+  serviceCode: String
+  delivery: DeliveryWindow
 }
 
 extend type Cart {

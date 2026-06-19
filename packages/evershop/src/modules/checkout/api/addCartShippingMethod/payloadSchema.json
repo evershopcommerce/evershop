@@ -1,14 +1,21 @@
 {
   "type": "object",
   "properties": {
+    "provider_code": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required. Shipping provider code (e.g., 'core', 'usps') matching a registered provider in the in-memory registry. Routes the cart's resolveShippingQuote call to the correct provider's validateMethod. Silently defaulting to 'core' (the previous behavior) mis-routed non-core selections through Core's validator and surfaced as 'method no longer available'."
+    },
     "method_code": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     }
   },
-  "required": ["method_code"],
+  "required": ["provider_code", "method_code"],
   "additionalProperties": true,
   "errorMessage": {
     "properties": {
+      "provider_code": "Provider code is required",
       "method_code": "Method code is required"
     }
   }

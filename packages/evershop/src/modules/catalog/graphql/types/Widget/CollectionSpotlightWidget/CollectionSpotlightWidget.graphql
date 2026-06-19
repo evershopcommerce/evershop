@@ -1,0 +1,39 @@
+"""
+Collection spotlight — a hybrid block giving a collection both editorial
+identity (cover image + heading + body) and immediate product entry
+points (preview grid + view-all link).
+
+`previewProducts` is fetched server-side by the widget resolver; the
+storefront query selects the Product fields it needs. `totalProducts` is
+the collection's full count for the "View all N →" label.
+"""
+type CollectionSpotlightWidget {
+  collection: String
+  image: String
+  imageAlt: String
+  imagePosition: String!
+  imageWidth: Int
+  imageHeight: Int
+  eyebrow: String
+  heading: String!
+  body: String
+  previewCount: Int!
+  previewProducts: [Product!]!
+  totalProducts: Int!
+  collectionName: String
+}
+
+extend type Query {
+  collectionSpotlightWidget(
+    collection: String
+    image: String
+    imageAlt: String
+    imagePosition: String
+    imageWidth: Float
+    imageHeight: Float
+    eyebrow: String
+    heading: String
+    body: String
+    previewCount: Int
+  ): CollectionSpotlightWidget
+}

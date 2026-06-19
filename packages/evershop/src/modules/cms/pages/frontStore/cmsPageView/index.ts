@@ -1,4 +1,5 @@
 import { pool } from '../../../../../lib/postgres/connection.js';
+import { CmsUrn } from '../../../../../lib/urn/index.js';
 import { EvershopResponse } from '../../../../../types/response.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
@@ -16,6 +17,11 @@ export default async (request, response: EvershopResponse, next) => {
       next();
     } else {
       setContextValue(request, 'pageId', page.cms_page_id);
+      // Entity URN for the page-builder loader so entity-level placements
+      // (those scoped to this specific page) render alongside route-level
+      // ones. See spec 03 § 3.2.
+      request.locals = request.locals ?? {};
+      request.locals.pageBuilderEntityUrn = CmsUrn.page(page.uuid);
       setPageMetaInfo(request, {
         title: page.meta_title || page.name,
         description: page.meta_description || page.meta_title

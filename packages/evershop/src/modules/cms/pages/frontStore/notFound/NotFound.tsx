@@ -1,5 +1,5 @@
 import Area from '@components/common/Area.js';
-import Button from '@components/common/Button.js';
+import { Button } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
@@ -24,9 +24,11 @@ function Content({ continueShoppingUrl }: ContentProps) {
       <div className="mt-5 text-center">
         <Button
           title={_('Continue shopping')}
-          url={continueShoppingUrl}
-          outline
-        />
+          onClick={() => (window.location.href = continueShoppingUrl)}
+          variant="default"
+        >
+          {_('Continue shopping')}
+        </Button>
       </div>
     </div>
   );

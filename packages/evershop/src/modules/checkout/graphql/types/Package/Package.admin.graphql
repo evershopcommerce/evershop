@@ -1,0 +1,23 @@
+"""
+An admin-managed package (box/envelope) size. Dimensions are in the store's
+dimension unit (`shop.dimensionUnit`); `weight` is the TARE — the empty
+package's own weight in the store's weight unit, added to the shipping
+weight for quotes and labels. `height` may be 0 (flat envelope).
+"""
+type Package {
+  packageId: Int!
+  uuid: String!
+  name: String!
+  length: Float!
+  width: Float!
+  height: Float!
+  weight: Weight!
+  isDefault: Boolean!
+  updateApi: String!
+  deleteApi: String!
+}
+
+extend type Query {
+  packages: [Package!]!
+  package(id: String!): Package
+}

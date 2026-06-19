@@ -34,10 +34,15 @@ async function migrateModule(module, connection = null) {
   const migrations = readdirSync(path.resolve(module.path, 'migration'), {
     withFileTypes: true
   })
+    // Match `Version-X.Y.Z.js` where each segment is one or more digits. The
+    // previous regex (`Version-+([1-9].[0-9].[0-9])+.js`) had three traps:
+    // single-digit-only segments (so `1.0.10` silently dropped on the floor),
+    // unescaped dots that matched any character, and a useless `+` after the
+    // capture group.
     .filter(
       (dirent) =>
         dirent.isFile() &&
-        dirent.name.match(/^Version-+([1-9].[0-9].[0-9])+.js$/)
+        dirent.name.match(/^Version-(\d+\.\d+\.\d+)\.js$/)
     )
     .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
     .sort((first, second) => semver.lt(first, second));

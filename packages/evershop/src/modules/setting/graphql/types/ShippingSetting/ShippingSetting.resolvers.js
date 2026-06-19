@@ -12,6 +12,7 @@ export default {
         return ['US'];
       }
     },
-    weightUnit: () => getConfig('shop.weightUnit', 'kg')
+    weightUnit: () => getConfig('shop.weightUnit', 'kg'),
+    dimensionUnit: () => getConfig('shop.dimensionUnit', 'cm')
   }
 };

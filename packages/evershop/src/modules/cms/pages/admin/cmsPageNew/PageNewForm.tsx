@@ -1,6 +1,7 @@
 import { FormButtons } from '@components/admin/FormButtons.js';
 import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { toast } from 'react-toastify';
 
@@ -17,7 +18,7 @@ export default function CmsPageNewForm({
       action={action}
       method="POST"
       onSuccess={(response) => {
-        toast.success('Page created successfully!');
+        toast.success(_('Page created successfully!'));
         setTimeout(() => {
           const editUrl = response.data.links.find(
             (link) => link.rel === 'edit'

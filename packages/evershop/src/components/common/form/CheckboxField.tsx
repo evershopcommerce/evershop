@@ -1,5 +1,14 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
+import { Checkbox } from '@components/common/ui/Checkbox.js';
+import {
+  Field,
+  FieldError,
+  FieldLabel,
+  FieldLegend
+} from '@components/common/ui/Field.js';
+import { Label } from '@components/common/ui/Label.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import {
@@ -52,9 +61,10 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
     control,
     formState: { errors }
   } = useFormContext<T>();
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
 
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
 
   const validationRules = {
     ...validation,
@@ -68,70 +78,69 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
 
   if (!options || options.length === 0) {
     return (
-      <div
-        className={`form-field ${wrapperClassName} ${
-          fieldError ? 'error' : ''
-        }`}
+      <Field
+        data-invalid={fieldError ? 'true' : 'false'}
+        className={wrapperClassName}
       >
-        <div className={containerClass}>
-          <div className="checkbox-item">
-            <Controller
-              name={name}
-              control={control}
-              rules={validationRules}
-              defaultValue={defaultValue as any}
-              render={({ field }) => (
-                <input
-                  type="checkbox"
-                  id={fieldId}
-                  checked={!!field.value}
-                  onChange={(e) => field.onChange(e.target.checked)}
-                  onBlur={field.onBlur}
-                  disabled={disabled}
-                  className={className}
-                  aria-invalid={fieldError !== undefined ? 'true' : 'false'}
-                  aria-describedby={
-                    fieldError !== undefined
-                      ? `${fieldId}-error`
-                      : helperText
-                      ? `${fieldId}-helper`
-                      : undefined
-                  }
-                  {...props}
-                />
-              )}
-            />
-            {label && (
-              <label htmlFor={fieldId}>
-                {label}
-                {required && <span className="required-indicator">*</span>}
-                {helperText && <Tooltip content={helperText} position="top" />}
-              </label>
+        <div className="flex items-center gap-2">
+          <Controller
+            name={resolvedName}
+            control={control}
+            rules={validationRules}
+            defaultValue={defaultValue as any}
+            render={({ field }) => (
+              <Checkbox
+                id={fieldId}
+                checked={!!field.value}
+                onCheckedChange={(checked) => field.onChange(checked)}
+                onBlur={field.onBlur}
+                disabled={disabled}
+                className={className}
+                aria-invalid={fieldError !== undefined ? 'true' : 'false'}
+                aria-describedby={
+                  fieldError !== undefined
+                    ? `${fieldId}-error`
+                    : helperText
+                    ? `${fieldId}-helper`
+                    : undefined
+                }
+              />
             )}
-          </div>
+          />
+          {label && (
+            <FieldLabel
+              htmlFor={fieldId}
+              className="text-sm font-normal cursor-pointer"
+            >
+              {label}
+              {required && <span className="text-destructive">*</span>}
+              {helperText && <Tooltip content={helperText} position="top" />}
+            </FieldLabel>
+          )}
         </div>
 
-        {fieldError && (
-          <p id={`${fieldId}-error`} className="field-error">
-            {fieldError}
-          </p>
-        )}
-      </div>
+        {fieldError && <FieldError>{fieldError}</FieldError>}
+      </Field>
     );
   }
 
   return (
-    <div className={`${wrapperClassName} ${fieldError ? 'error' : ''}`}>
+    <Field
+      data-invalid={fieldError ? 'true' : 'false'}
+      className={wrapperClassName}
+    >
       {label && (
         <fieldset>
-          <legend>
-            {label}
-            {required && <span className="required-indicator">*</span>}
-            {helperText && <Tooltip content={helperText} position="top" />}
-          </legend>
+          <FieldLegend>
+            <>
+              {label}
+              {required && <span className="text-destructive">*</span>}
+              {helperText && <Tooltip content={helperText} position="top" />}
+            </>
+          </FieldLegend>
 
           <Controller
-            name={name}
+            name={resolvedName}
             control={control}
             rules={validationRules}
             defaultValue={defaultValue as any}
@@ -143,18 +152,16 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
                     : false;
 
                   return (
-                    <div key={option.value} className="checkbox-item">
-                      <input
-                        type="checkbox"
+                    <div key={option.value} className="flex items-center gap-2">
+                      <Checkbox
                         id={`${fieldId}-${index}`}
-                        value={option.value}
                         disabled={disabled || option.disabled}
                         checked={isChecked}
-                        onChange={(e) => {
+                        onCheckedChange={(checked) => {
                           const currentValues = Array.isArray(field.value)
                             ? field.value
                             : [];
-                          if (e.target.checked) {
+                          if (checked) {
                             field.onChange([...currentValues, option.value]);
                           } else {
                             field.onChange(
@@ -170,14 +177,15 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
                         aria-describedby={
                           fieldError ? `${fieldId}-error` : undefined
                         }
-                        {...props}
                       />
-                      <label
+                      <Label
                         htmlFor={`${fieldId}-${index}`}
-                        className={option.disabled ? 'disabled' : ''}
+                        className={`text-sm cursor-pointer ${
+                          option.disabled ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
                       >
                         {option.label}
-                      </label>
+                      </Label>
                     </div>
                   );
                 })}
@@ -187,11 +195,7 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
         </fieldset>
       )}
 
-      {fieldError && (
-        <p id={`${fieldId}-error`} className="field-error">
-          {fieldError}
-        </p>
-      )}
-    </div>
+      {fieldError && <FieldError>{fieldError}</FieldError>}
+    </Field>
   );
 }

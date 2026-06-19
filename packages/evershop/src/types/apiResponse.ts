@@ -1,6 +1,6 @@
 export interface ErrorResponse {
   error: {
-    code: string;
+    status: number;
     message: string;
   };
 }

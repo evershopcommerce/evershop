@@ -1,22 +1,18 @@
-import { Badge, BadgeProps } from '@components/admin/Badge.js';
+import { Badge, badgeVariants } from '@components/common/ui/Badge.js';
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 interface ShipmentStatusProps {
   status: {
     name: string;
-    badge: BadgeProps['variant'];
-    progress: BadgeProps['progress'];
+    badge: keyof typeof badgeVariants;
   };
 }
 
 export function ShipmentStatus({ status }: ShipmentStatusProps) {
   return (
-    <td>
-      <Badge
-        title={status.name}
-        variant={status.badge}
-        progress={status.progress}
-      />
-    </td>
+    <TableCell>
+      <Badge variant={status.badge || 'default'}>{status.name}</Badge>
+    </TableCell>
   );
 }

@@ -1,4 +1,5 @@
-import Button from '@components/common/Button.js';
+import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface NewCouponButtonProps {
@@ -8,7 +9,15 @@ interface NewCouponButtonProps {
 export default function NewCouponButton({
   newCouponUrl
 }: NewCouponButtonProps) {
-  return <Button url={newCouponUrl} title="New Coupon" />;
+  return (
+    <Button
+      onClick={() => (window.location.href = newCouponUrl)}
+      title={_('New Coupon')}
+    >
+      {' '}
+      {_('New Coupon')}{' '}
+    </Button>
+  );
 }
 
 export const layout = {

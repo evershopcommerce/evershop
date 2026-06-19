@@ -1,3 +1,4 @@
+import { Row } from '@components/common/form/Editor.js';
 import {
   commit,
   insert,
@@ -11,11 +12,13 @@ import type { PoolClient } from '@evershop/postgres-query-builder';
 import { JSONSchemaType } from 'ajv';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
-import { hookable } from '../../../../lib/util/hookable.js';
+import { hookable, hookBefore, hookAfter } from '../../../../lib/util/hookable.js';
 import {
   getValue,
   getValueSync
 } from '../../../../lib/util/registry.js';
+import { sanitizeRawHtml } from '../../../../lib/util/sanitizeHtml.js';
+import type { ProductDescriptionRow, ProductRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import productDataSchema from './productDataSchema.json'  with { type: 'json' };
 
@@ -29,23 +32,27 @@ export type ProductData = ProductInventoryData & {
   visibility?: string,
   attributes?: ProductAttributeData[],
   images?: string[],
-  [key: string]: any
+  description?: Row[],
+  /** Reference to the `package` table (parcel size). Mandatory for shippable
+   *  products, null for virtual ones. Variant groups share one package. */
+  package_id?: number | string | null,
+  [key: string]: unknown;
 };
 
 export type ProductInventoryData = {
   qty: number,
   manage_stock: boolean,
   stock_availability: boolean,
-  [key: string]: any
+  [key: string]: unknown
 }
 
 export type ProductAttributeData = {
   attribute_code: string,
   value: string,
-  [key: string]: any
+  [key: string]: unknown
 }
 
-function validateProductDataBeforeInsert(data: ProductData) {
+function validateProductDataBeforeInsert(data: ProductData): ProductData {
   const ajv = getAjv();
   (productDataSchema as JSONSchemaType<any>).required = [
     'name',
@@ -64,14 +71,24 @@ function validateProductDataBeforeInsert(data: ProductData) {
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
-  if (valid) {
-    return data;
-  } else {
+  if (!valid) {
     throw new Error(validate.errors[0].message);
   }
+  // A package (parcel size) is mandatory for SHIPPABLE products — quotes and
+  // labels need its dimensions/tare. Virtual/downloadable products
+  // (no_shipping_required) are exempt. See wiki/package-management-design.md.
+  if (
+    !data.no_shipping_required &&
+    (data.package_id === undefined ||
+      data.package_id === null ||
+      data.package_id === '')
+  ) {
+    throw new Error('A package is required for shippable products');
+  }
+  return data;
 }
 
-async function insertProductInventory(inventoryData: ProductInventoryData, productId: number, connection: PoolClient) {
+async function insertProductInventory(inventoryData: ProductInventoryData, productId: number, connection: PoolClient): Promise<void> {
   // Save the product inventory
   await insert('product_inventory')
     .given(inventoryData)
@@ -79,7 +96,7 @@ async function insertProductInventory(inventoryData: ProductInventoryData, produ
     .execute(connection);
 }
 
-async function insertProductAttributes(attributes: ProductAttributeData[], productId: number, connection: PoolClient) {
+async function insertProductAttributes(attributes: ProductAttributeData[], productId: number, connection: PoolClient): Promise<void> {
   // Looping attributes array
   for (let i = 0; i < attributes.length; i += 1) {
     const attribute = attributes[i];
@@ -183,7 +200,7 @@ async function insertProductAttributes(attributes: ProductAttributeData[], produ
   }
 }
 
-async function insertProductImages(images: string[], productId: number, connection: PoolClient) {
+async function insertProductImages(images: string[], productId: number, connection: PoolClient): Promise<void> {
   const baseUrl = getBaseUrl()
   await Promise.all(
     images.map((f, index) =>
@@ -204,10 +221,17 @@ async function insertProductImages(images: string[], productId: number, connecti
 }
 
 
-async function insertProductData(data: ProductData, connection: PoolClient) {
-  const product = await insert('product').given(data).execute(connection);
+async function insertProductData(data: ProductData, connection: PoolClient): Promise<ProductRow & ProductDescriptionRow & { insertId: number }> {
+  // If no_shipping_required is true, set weight to 0 and drop the package —
+  // virtual products have no parcel.
+  const productData = {
+    ...data,
+    weight: data.no_shipping_required ? 0 : data.weight,
+    package_id: data.no_shipping_required ? null : data.package_id
+  };
+  const product = await insert('product').given(productData).execute(connection);
   const description = await insert('product_description')
-    .given(data)
+    .given(productData)
     .prime('product_description_product_id', product.product_id)
     .execute(connection);
 
@@ -222,7 +246,7 @@ async function insertProductData(data: ProductData, connection: PoolClient) {
  * @param {Object} data
  * @param {Object} context
  */
-async function createProduct(data: ProductData, context: Record<string, any>) {
+async function createProduct(data: ProductData, context: Record<string, any>): Promise<ProductRow & ProductDescriptionRow & { insertId: number }> {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -231,6 +255,10 @@ async function createProduct(data: ProductData, context: Record<string, any>) {
     // Validate product data
     validateProductDataBeforeInsert(productData);
 
+    // Sanitize the description
+    if (productData.description) {
+      sanitizeRawHtml(productData.description);
+    }
     // Insert product data
     const product = await hookable(insertProductData, {
       connection,
@@ -270,7 +298,7 @@ async function createProduct(data: ProductData, context: Record<string, any>) {
  * @param {Object} data
  * @param {Object} context
  */
-export default async (data: ProductData, context: Record<string, any>) => {
+export default async (data: ProductData, context: Record<string, any>): Promise<ProductRow & ProductDescriptionRow & { insertId: number }> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');
@@ -278,3 +306,139 @@ export default async (data: ProductData, context: Record<string, any>) => {
   const product = await hookable(createProduct, context)(data, context);
   return product;
 };
+
+export function hookBeforeInsertProductData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    data: ProductData,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('insertProductData', callback, priority);
+}
+
+export function hookAfterInsertProductData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    data: ProductData,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('insertProductData', callback, priority);
+}
+
+export function hookBeforeInsertProductInventory(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    inventoryData: ProductInventoryData,
+    productId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('insertProductInventory', callback, priority);
+}
+
+export function hookAfterInsertProductInventory(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    inventoryData: ProductInventoryData,
+    productId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('insertProductInventory', callback, priority);
+}
+
+export function hookBeforeInsertProductAttributes(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    attributes: ProductAttributeData[],
+    productId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('insertProductAttributes', callback, priority);
+}
+
+export function hookAfterInsertProductAttributes(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    attributes: ProductAttributeData[],
+    productId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('insertProductAttributes', callback, priority);
+}
+
+export function hookBeforeInsertProductImages(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    images: string[],
+    productId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('insertProductImages', callback, priority);
+}
+
+export function hookAfterInsertProductImages(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    images: string[],
+    productId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('insertProductImages', callback, priority);
+}
+
+export function hookBeforeCreateProduct(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    data: ProductData,
+    context: Record<string, any>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('createProduct', callback, priority);
+}
+
+export function hookAfterCreateProduct(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    data: ProductData,
+    context: Record<string, any>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('createProduct', callback, priority);
+}

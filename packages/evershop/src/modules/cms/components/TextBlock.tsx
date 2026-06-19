@@ -12,7 +12,7 @@ export default function TextBlock({
   textWidget: { text, className }
 }: TextBlockProps) {
   return (
-    <div className={`text-block-widget ${className}`}>
+    <div className={`evershop-text-block text-block-widget ${className ?? ''}`}>
       <Editor rows={text} />
     </div>
   );

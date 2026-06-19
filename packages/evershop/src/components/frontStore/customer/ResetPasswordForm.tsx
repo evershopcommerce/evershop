@@ -1,8 +1,8 @@
-import Button from '@components/common/Button.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { Form } from '@components/common/form/Form.js';
+import { Button } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { EnvelopeIcon } from '@heroicons/react/24/outline';
+import { Mail } from 'lucide-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -33,7 +33,7 @@ export const ResetPasswordForm: React.FC<{
               {subtitle}
             </p>
           )}
-          {error && <div className="text-critical mb-2">{error}</div>}
+          {error && <div className="text-destructive mb-2">{error}</div>}
           <Form
             id="resetPasswordForm"
             form={form}
@@ -49,7 +49,7 @@ export const ResetPasswordForm: React.FC<{
             submitBtn={false}
           >
             <EmailField
-              prefixIcon={<EnvelopeIcon className="h-5 w-5" />}
+              prefixIcon={<Mail className="h-5 w-5" />}
               name="email"
               label={_('Email')}
               placeholder={_('Email')}
@@ -60,9 +60,9 @@ export const ResetPasswordForm: React.FC<{
             />
             <div className="reset__password__form__submit__button flex border-t border-divider mt-2 pt-2">
               <Button
-                title={_('Reset Password')}
                 type="submit"
-                onAction={() => {
+                variant={'default'}
+                onClick={() => {
                   (
                     document.getElementById(
                       'resetPasswordForm'
@@ -72,7 +72,9 @@ export const ResetPasswordForm: React.FC<{
                   );
                 }}
                 isLoading={loading}
-              />
+              >
+                {_('Reset Password')}
+              </Button>
             </div>
           </Form>
         </div>

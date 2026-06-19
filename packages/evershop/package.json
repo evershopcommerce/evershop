@@ -1,6 +1,6 @@
 {
   "name": "@evershop/evershop",
-  "version": "2.1.0",
+  "version": "2.1.3",
   "type": "module",
   "description": "The React Ecommerce platform. Built with Typescript, React and Postgres. Open-source and free. Fast and customizable.",
   "files": [
@@ -12,16 +12,16 @@
     "evershop": "./dist/bin/evershop.js"
   },
   "exports": {
-    ".": {
-      "import": "./dist/types/index.js",
-      "types": "./dist/types/index.d.ts"
-    },
     "./types/*": {
       "types": "./dist/types/*.d.ts"
     },
     "./lib/helpers": {
       "import": "./dist/lib/helpers.js",
       "types": "./dist/lib/helpers.d.ts"
+    },
+    "./lib/mail/*": {
+      "import": "./dist/lib/mail/*.js",
+      "types": "./dist/lib/mail/*.d.ts"
     },
     "./lib/util/*": {
       "import": "./dist/lib/util/*.js",
@@ -39,6 +39,10 @@
       "import": "./dist/lib/postgres/connection.js",
       "types": "./dist/lib/postgres/connection.d.ts"
     },
+    "./lib/postgres/query": {
+      "import": "./dist/lib/postgres/query.js",
+      "types": "./dist/lib/postgres/query.d.ts"
+    },
     "./lib/locale/*": {
       "import": "./dist/lib/locale/*.js",
       "types": "./dist/lib/locale/*.d.ts"
@@ -54,6 +58,18 @@
     "./lib/widget": {
       "import": "./dist/lib/widget/widgetManager.js",
       "types": "./dist/lib/widget/widgetManager.d.ts"
+    },
+    "./lib/widget/linkResolver": {
+      "import": "./dist/lib/widget/linkResolver.js",
+      "types": "./dist/lib/widget/linkResolver.d.ts"
+    },
+    "./lib/urn": {
+      "import": "./dist/lib/urn/index.js",
+      "types": "./dist/lib/urn/index.d.ts"
+    },
+    "./lib/metafield": {
+      "import": "./dist/lib/metafield/index.js",
+      "types": "./dist/lib/metafield/index.d.ts"
     },
     "./lib/cronjob": {
       "import": "./dist/lib/cronjob/jobManager.js",
@@ -71,9 +87,9 @@
       "import": "./dist/components/admin/*.js",
       "types": "./dist/components/admin/*.d.ts"
     },
-    "./components/frontend/*": {
-      "import": "./dist/components/storeFront/*.js",
-      "types": "./dist/components/storeFront/*.d.ts"
+    "./components/frontStore/*": {
+      "import": "./dist/components/frontStore/*.js",
+      "types": "./dist/components/frontStore/*.d.ts"
     },
     "./graphql/services": {
       "import": "./dist/modules/graphql/services/index.js",
@@ -103,10 +119,14 @@
       "import": "./dist/modules/cms/services/index.js",
       "types": "./dist/modules/cms/services/index.d.ts"
     },
+    "./promotion/services": {
+      "import": "./dist/modules/promotion/services/index.js",
+      "types": "./dist/modules/promotion/services/index.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
-    "prepack": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
+    "prepack": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,css,json}\" dist",
     "dev": "node ./dist/bin/dev/index.js",
     "start": "node ./dist/bin/start/index.js",
     "build": "node ./dist/bin/build/index.js",
@@ -131,6 +151,7 @@
   },
   "homepage": "http://evershop.io/",
   "dependencies": {
+    "@base-ui/react": "^1.1.0",
     "@ckeditor/ckeditor5-build-classic": "^36.0.1",
     "@ckeditor/ckeditor5-react": "^5.1.0",
     "@dnd-kit/core": "^6.3.1",
@@ -142,26 +163,29 @@
     "@editorjs/raw": "^2.5.0",
     "@evershop/editorjs-image": "^1.1.0",
     "@evershop/postgres-query-builder": "^2.0.1",
+    "@evershop/sonner": "^2.0.7",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.4.2",
     "@graphql-tools/schema": "^9.0.19",
     "@hapi/topo": "^5.0.0",
-    "@heroicons/react": "^2.2.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.0",
-    "@stripe/react-stripe-js": "^1.5.0",
-    "@stripe/stripe-js": "^1.18.0",
+    "@stripe/react-stripe-js": "^3.10.0",
+    "@stripe/stripe-js": "^5.10.0",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.11.29",
+    "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.13",
     "ajv": "^8.12.0",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
     "autoprefixer": "^10.4.13",
-    "axios": "^1.7.7",
+    "axios": "^1.13.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "boxen": "^5.1.2",
+    "class-variance-authority": "^0.7.1",
     "clean-css": "^5.3.1",
+    "clsx": "^2.1.1",
     "config": "^3.3.6",
     "connect-pg-simple": "^9.0.0",
     "cookie-parser": "^1.4.6",
@@ -176,10 +200,12 @@
     "express": "^4.21.2",
     "express-session": "^1.17.3",
     "fast-glob": "^3.3.3",
+    "fast-json-stable-stringify": "^2.1.0",
     "flatpickr": "^4.6.9",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "graphql-type-json": "^0.3.2",
+    "handlebars": "^4.7.9",
     "html-entities": "^2.3.3",
     "html-webpack-plugin": "^5.5.0",
     "immer": "^10.1.1",
@@ -188,9 +214,11 @@
     "jsonwebtoken": "^9.0.2",
     "kleur": "3.0.3",
     "lodash.isequalwith": "^4.4.0",
+    "lucide-react": "^0.562.0",
     "luxon": "^2.0.2",
     "mini-css-extract-plugin": "^2.6.1",
-    "multer": "^2.0.1",
+    "minimatch": "^10.2.3",
+    "multer": "^2.1.1",
     "node-cron": "^3.0.3",
     "ora": "^5.4.1",
     "pg": "^8.16.3",
@@ -201,34 +229,37 @@
     "react-dom": "^17.0.1",
     "react-fast-compare": "^3.2.0",
     "react-hook-form": "^7.61.1",
-    "react-range-slider-input": "^3.2.1",
     "react-refresh": "^0.14.0",
     "react-select": "^5.4.0",
     "react-slick": "^0.31.0",
     "react-toastify": "^6.2.0",
     "recharts": "^2.0.9",
-    "sass": "^1.53.0",
+    "sanitize-html": "^2.17.0",
+    "sass": "^1.98.0",
     "sass-loader": "^13.0.2",
     "semver": "^7.6.3",
     "serve-static": "^1.15.0",
     "session-file-store": "^1.5.0",
     "sharp": "^0.33.5",
     "slick-carousel": "^1.8.1",
-    "stripe": "^8.176.0",
+    "stripe": "^21.0.1",
     "style-loader": "^3.3.1",
     "swc-minify-webpack-plugin": "^2.1.3",
-    "tailwindcss": "^3.4.14",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.1.18",
     "touch": "^3.1.1",
+    "tw-animate-css": "^1.4.0",
+    "undici": "^7.25.0",
     "uniqid": "^5.3.0",
     "urql": "^3.0.3",
     "uuid": "^9.0.0",
     "webpack": "^5.72.1",
     "webpack-dev-middleware": "^7.4.2",
     "webpack-hot-middleware": "^2.26.1",
-    "webpackbar": "^5.0.2",
+    "webpackbar": "^7.0.0",
     "winston": "^3.3.3",
     "yargs": "^17.7.2",
-    "zero-decimal-currencies": "^1.2.0"
+    "zero-decimal-currencies": "^1.6.0"
   },
   "devDependencies": {
     "@parcel/watcher": "^2.5.1",
@@ -240,6 +271,7 @@
     "@types/node": "^22.14.1",
     "@types/pg": "^8.15.2",
     "@types/react": "^19.1.2",
+    "@types/sanitize-html": "^2.16.0",
     "copyfiles": "^2.4.1",
     "typescript": "^5.8.3"
   }

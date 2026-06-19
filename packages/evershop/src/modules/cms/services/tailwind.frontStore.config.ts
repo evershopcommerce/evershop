@@ -1,0 +1,40 @@
+import plugin from '@tailwindcss/typography';
+
+/**
+ * @deprecated. We are using tailwind 4 now. This module will be removed in future versions.
+ */
+export default {
+  theme: {
+    extend: {
+      colors: {
+        white: '#ffffff',
+        primary: '#008060',
+        secondary: '#111213',
+        surface: '#111213',
+        onSurface: '#111213',
+        interactive: '#2c6ecb',
+        critical: '#fa4545',
+        warning: '#FFC453',
+        highlight: '#5BCDDA',
+        success: '#008060',
+        decorative: '#FFC96B',
+        border: '#8c9196',
+        icon: '#5c5f62',
+        divider: '#e1e3e5',
+        textSubdued: '#737373',
+        button: '#008060'
+      },
+      boxShadow: {
+        DEFAULT: '0 0 0 1px rgba(63,63,68,.05),0 1px 3px 0 rgba(63,63,68,.15)'
+      }
+    }
+  },
+  variants: {
+    extend: {
+      borderWidth: ['first', 'last'],
+      margin: ['first', 'last'],
+      padding: ['first', 'last']
+    }
+  },
+  plugins: [plugin]
+};

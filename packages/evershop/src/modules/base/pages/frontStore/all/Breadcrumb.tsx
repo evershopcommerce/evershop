@@ -1,3 +1,11 @@
+import {
+  Breadcrumb as BreadcrumbRoot,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
+} from '@components/common/ui/Breadcrumb.js';
 import React from 'react';
 
 interface BreadcrumbProps {
@@ -12,19 +20,25 @@ interface BreadcrumbProps {
 function Breadcrumb({ pageInfo: { breadcrumbs } }: BreadcrumbProps) {
   return breadcrumbs.length ? (
     <div className="page-width">
-      <div className="breadcrumb py-5">
-        {breadcrumbs.map((breadcrumb, index) =>
-          index === breadcrumbs.length - 1 ? (
-            <span key={index}>{breadcrumb.title}</span>
-          ) : (
-            <span key={index}>
-              <a href={breadcrumb.url} className="text-interactive">
-                {breadcrumb.title}
-              </a>
-              <span>{' / '}</span>
-            </span>
-          )
-        )}
+      <div className="py-5">
+        <BreadcrumbRoot>
+          <BreadcrumbList>
+            {breadcrumbs.map((breadcrumb, index) => (
+              <React.Fragment key={index}>
+                <BreadcrumbItem>
+                  {index === breadcrumbs.length - 1 ? (
+                    <BreadcrumbPage>{breadcrumb.title}</BreadcrumbPage>
+                  ) : (
+                    <BreadcrumbLink href={breadcrumb.url}>
+                      {breadcrumb.title}
+                    </BreadcrumbLink>
+                  )}
+                </BreadcrumbItem>
+                {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+              </React.Fragment>
+            ))}
+          </BreadcrumbList>
+        </BreadcrumbRoot>
       </div>
     </div>
   ) : null;

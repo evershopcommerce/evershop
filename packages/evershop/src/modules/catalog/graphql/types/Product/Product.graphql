@@ -8,6 +8,7 @@ type Product {
   status: Int!
   sku: String!
   weight: Weight!
+  noShippingRequired: Boolean
   taxClass: Int
   description: JSON
   urlKey: String

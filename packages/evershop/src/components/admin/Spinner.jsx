@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-
 function Spinner({ width, height }) {
   return (
     <svg
@@ -14,8 +13,8 @@ function Spinner({ width, height }) {
       viewBox="0 0 100 100"
     >
       <g transform="translate(50 50) scale(.7)">
-        <circle r="50" fill="#215d38" />
-        <circle cy="-28" r="15" fill="#14a651">
+        <circle r="50" className="fill-primary" />
+        <circle cy="-28" r="15" className="fill-secondary">
           <animateTransform
             attributeName="transform"
             dur="1s"

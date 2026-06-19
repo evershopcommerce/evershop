@@ -13,16 +13,18 @@ import { JSONSchemaType } from 'ajv';
 import { error } from '../../../../lib/log/logger.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
-import { hookable } from '../../../../lib/util/hookable.js';
+import { hookable, hookBefore, hookAfter } from '../../../../lib/util/hookable.js';
 import {
   getValue,
   getValueSync
 } from '../../../../lib/util/registry.js';
+import { sanitizeRawHtml } from '../../../../lib/util/sanitizeHtml.js';
+import type { ProductDescriptionRow, ProductRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import type { ProductAttributeData, ProductData, ProductInventoryData } from './createProduct.js';
 import productDataSchema from './productDataSchema.json' with { type: 'json' };
 
-function validateProductDataBeforeUpdate(data: ProductData) {
+function validateProductDataBeforeUpdate(data: ProductData): ProductData {
   const ajv = getAjv();
   (productDataSchema as JSONSchemaType<any>).required = [];
   const jsonSchema = getValueSync(
@@ -39,7 +41,7 @@ function validateProductDataBeforeUpdate(data: ProductData) {
   }
 }
 
-async function updateProductInventory(inventoryData: ProductInventoryData, productId: number, connection: PoolClient) {
+async function updateProductInventory(inventoryData: ProductInventoryData, productId: number, connection: PoolClient): Promise<void> {
   // Save the product inventory
   try {
     // Update product inventory
@@ -60,7 +62,7 @@ async function updateProductInventory(inventoryData: ProductInventoryData, produ
  * @param {*} connection
  * @returns
  */
-async function saveProductAttributes(productId: number, attributes: ProductAttributeData[], connection: PoolClient) {
+async function saveProductAttributes(productId: number, attributes: ProductAttributeData[], connection: PoolClient): Promise<void> {
   for (let i = 0; i < attributes.length; i += 1) {
     const attribute = attributes[i];
     if (attribute.value) {
@@ -174,11 +176,11 @@ async function saveProductAttributes(productId: number, attributes: ProductAttri
 }
 
 async function updateProductAttributes(
-  attributes,
-  productId,
-  variantGroupId,
-  connection
-) {
+  attributes: ProductAttributeData[],
+  productId: number,
+  variantGroupId: number | null,
+  connection: PoolClient
+): Promise<void> {
   if (!variantGroupId) {
     await saveProductAttributes(productId, attributes, connection);
   } else {
@@ -228,7 +230,7 @@ async function updateProductAttributes(
   }
 }
 
-async function updateProductImages(images, productId, connection) {
+async function updateProductImages(images: string[] | undefined, productId: number, connection: PoolClient): Promise<void> {
   if (Array.isArray(images) && images.length === 0) {
     // Delete all images
     await del('product_image')
@@ -281,7 +283,16 @@ async function updateProductImages(images, productId, connection) {
   }
 }
 
-async function updateProductData(uuid: string, data: ProductData, connection: PoolClient) {
+async function updateProductData(uuid: string, data: ProductData, connection: PoolClient): Promise<ProductRow & ProductDescriptionRow & { updatedId?: number }> {
+  // If no_shipping_required is true, set weight to 0 and drop the package —
+  // virtual products have no parcel. (Only force package_id when the payload
+  // actually flips the product to virtual; a partial update without
+  // no_shipping_required must not null an existing package.)
+  const productData = {
+    ...data,
+    weight: data.no_shipping_required ? 0 : data.weight,
+    ...(data.no_shipping_required ? { package_id: null } : {})
+  };
   const query = select().from('product');
   query
     .leftJoin('product_description')
@@ -298,7 +309,7 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
   let newProduct;
   try {
     newProduct = await update('product')
-      .given(data)
+      .given(productData)
       .where('uuid', '=', uuid)
       .execute(connection);
   } catch (e) {
@@ -306,9 +317,9 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
       throw e;
     }
   }
-
+  let description;
   try {
-    const description = await update('product_description')
+    description = await update('product_description')
       .given(data)
       .where('product_description_product_id', '=', product.product_id)
       .execute(connection);
@@ -319,28 +330,65 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
     }
   }
 
+  // A package (parcel size) is mandatory for SHIPPABLE products — checked on
+  // the FINAL state (post-update row), so legacy products (package_id NULL
+  // from before the feature) must pick a package on their next edit, and a
+  // product flipped from virtual to shippable must pick one in the same save.
+  // The whole update runs in a transaction, so throwing here rolls back.
+  // See wiki/package-management-design.md.
+  const effectiveProduct = newProduct ?? product;
+  if (
+    !effectiveProduct.no_shipping_required &&
+    effectiveProduct.package_id === null
+  ) {
+    throw new Error('A package is required for shippable products');
+  }
+
   // Update product category and tax class to all products in same variant group
   if (product.variant_group_id) {
-    const sharedData: {
-      tax_class?: string;
-      category_id?: string;
-    } = {};
+    const sharedData: Record<string, any> = {};
     if (newProduct.tax_class !== product.tax_class) {
       sharedData.tax_class = newProduct.tax_class;
     }
     if (newProduct.category_id !== product.category_id) {
       sharedData.category_id = newProduct.category_id;
     }
-    if (Object.keys(sharedData).length > 0) {
+    if (newProduct.no_shipping_required !== product.no_shipping_required) {
+      sharedData.no_shipping_required = newProduct.no_shipping_required;
+      sharedData.weight = newProduct.weight;
+    }
+    // Variants are SIBLINGS (no parent/child) and a variant group ships in
+    // one box — all members share one package_id. Whichever member is saved
+    // propagates its package to the whole group (same transaction), so two
+    // members can never durably disagree. Editing any one member also
+    // un-legacies the entire group.
+    //
+    // Propagate on EVERY save, not only when the saved member's package
+    // changed — siblings can drift (a product that joined the group with no
+    // package, a legacy member), and re-saving any member must repair the
+    // group. Never push NULL (only virtual members can hold it after
+    // validation) over siblings.
+    if (newProduct.package_id !== null && newProduct.package_id !== undefined) {
+      sharedData.package_id = newProduct.package_id;
+    }
+    const sharedVariantData = getValueSync<Record<string, any>>(
+      'sharedVariantProductDataOnUpdate',
+      sharedData,
+      {newProduct, product}
+    );
+    if (Object.keys(sharedVariantData).length > 0) {
       await update('product')
-        .given(sharedData)
+        .given(sharedVariantData)
         .where('variant_group_id', '=', product.variant_group_id)
         .and('product_id', '<>', product.product_id)
         .execute(connection);
     }
   }
-  Object.assign(product, newProduct);
-  return product;
+  return {
+    ...description,
+    ...newProduct,
+    updatedId: product.product_id
+  }
 }
 
 /**
@@ -349,7 +397,7 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
  * @param {Object} data
  * @param {Object} context
  */
-async function updateProduct(uuid: string, data: ProductData, context: Record<string, any>) {
+async function updateProduct(uuid: string, data: ProductData, context: Record<string, any>): Promise<ProductRow & ProductDescriptionRow & { updatedId?: number }> {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -367,6 +415,10 @@ async function updateProduct(uuid: string, data: ProductData, context: Record<st
     // Validate product data
     validateProductDataBeforeUpdate(productData);
 
+    // Sanitize the description
+    if (productData.description) {
+      sanitizeRawHtml(productData.description);
+    }
     // Insert product data
     const product = await hookable(updateProductData, {
       ...context,
@@ -413,7 +465,7 @@ async function updateProduct(uuid: string, data: ProductData, context: Record<st
  * @param {Object} data
  * @param {Object} context
  */
-export default async (uuid: string, data: ProductData, context: Record<string, any>) => {
+export default async (uuid: string, data: ProductData, context: Record<string, any>): Promise<ProductRow & ProductDescriptionRow & { updatedId?: number }> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');
@@ -421,3 +473,145 @@ export default async (uuid: string, data: ProductData, context: Record<string, a
   const product = await hookable(updateProduct, context)(uuid, data, context);
   return product;
 };
+
+export function hookBeforeUpdateProductData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    uuid: string,
+    data: ProductData,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('updateProductData', callback, priority);
+}
+
+export function hookAfterUpdateProductData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    uuid: string,
+    data: ProductData,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('updateProductData', callback, priority);
+}
+
+export function hookBeforeUpdateProductInventory(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    inventoryData: ProductInventoryData,
+    productId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('updateProductInventory', callback, priority);
+}
+
+export function hookAfterUpdateProductInventory(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    inventoryData: ProductInventoryData,
+    productId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('updateProductInventory', callback, priority);
+}
+
+export function hookBeforeUpdateProductAttributes(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    attributes: any[],
+    productId: any,
+    variantGroupId: any,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('updateProductAttributes', callback, priority);
+}
+
+export function hookAfterUpdateProductAttributes(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    attributes: any[],
+    productId: any,
+    variantGroupId: any,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('updateProductAttributes', callback, priority);
+}
+
+export function hookBeforeUpdateProductImages(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    images: any[],
+    productId: any,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('updateProductImages', callback, priority);
+}
+
+export function hookAfterUpdateProductImages(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    images: any[],
+    productId: any,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('updateProductImages', callback, priority);
+}
+
+export function hookBeforeUpdateProduct(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    uuid: string,
+    data: ProductData,
+    context: Record<string, any>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('updateProduct', callback, priority);
+}
+
+export function hookAfterUpdateProduct(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    uuid: string,
+    data: ProductData,
+    context: Record<string, any>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('updateProduct', callback, priority);
+}

@@ -98,8 +98,8 @@ export function Og({
       )}
 
       {type === 'article' &&
-        authors?.length &&
-        authors.map((author, index) => (
+        (authors?.length ?? 0) > 0 &&
+        authors?.map((author, index) => (
           <Meta
             key={`author-${index}`}
             property="article:author"
@@ -109,8 +109,8 @@ export function Og({
 
       {locale && <Meta property="og:locale" content={locale} />}
 
-      {alternateLocales?.length &&
-        alternateLocales.map((alternateLocale, index) => (
+      {(alternateLocales?.length ?? 0) > 0 &&
+        alternateLocales?.map((alternateLocale, index) => (
           <Meta
             key={`locale-${index}`}
             property="og:locale:alternate"

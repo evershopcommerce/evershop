@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { localizeUrl } from '../../../../../lib/locale/localeContext.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { CMSPageCollection } from '../../../services/CMSPageCollection.js';
@@ -33,20 +34,14 @@ export default {
     }
   },
   CmsPage: {
-    url: ({ urlKey }) => buildUrl('cmsPageView', { url_key: urlKey }),
+    url: ({ urlKey }) => localizeUrl(buildUrl('cmsPageView', { url_key: urlKey })),
     editUrl: ({ uuid }) => buildUrl('cmsPageEdit', { id: uuid }),
     updateApi: (page) => buildUrl('updateCmsPage', { id: page.uuid }),
     deleteApi: (page) => buildUrl('deleteCmsPage', { id: page.uuid }),
     content: ({ content }) => {
       try {
-        const replacements = {
-          '&lt;': '<',
-          '&gt;': '>'
-        };
-        const jsonText = content
-          ? content.replace(/&lt;|&gt;/g, (match) => replacements[match])
-          : '[]';
-        return JSON.parse(jsonText);
+        const json = JSON.parse(content);
+        return json;
       } catch (e) {
         // This is for backward compatibility. If the content is not a JSON string then it is a raw HTML block
         const rowId = `r__${uuidv4()}`;

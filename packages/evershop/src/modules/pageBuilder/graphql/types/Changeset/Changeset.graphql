@@ -1,0 +1,70 @@
+"""
+A page-builder editing session. Holds an ordered list of operations on
+widget instances and placements. May be published (one-shot mutation of
+source tables) or saved as a rollout_plan (overlay during a window).
+"""
+type Changeset {
+  changesetId: Int!
+  uuid: String!
+  name: String!
+  token: String!
+  publishedAt: DateTime
+  createdBy: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  operations: [ChangesetOperation!]!
+  """
+  Per-route undo/redo cursors: { [route]: highest_applied_change_order }.
+  An op is applied iff `op.change_order <= routeCursors[op.route]` (default 0
+  when absent). Each route is independent — undoing on homepage doesn't
+  affect cart's apply window. See spec § 5.1 / § 5.4.
+  """
+  routeCursors: JSON!
+  """
+  Whether there's an op on this route that's currently in the applied
+  region — i.e. an Undo on this route would have an effect.
+  """
+  canUndo(route: String!): Boolean!
+  """
+  Whether there's an op on this route in the redo stack — i.e. a Redo on
+  this route would have an effect.
+  """
+  canRedo(route: String!): Boolean!
+  """
+  Count of "pending" ops on a route — i.e. ops that a Discard / Revert
+  would delete. In draft mode that's every op on the route (full discard
+  wipes the changeset). In rollout-edit mode that's only ops with
+  `change_order > rollout.routeCursors[route]` (ops at or below the saved
+  cursor are currently live on the storefront and stay put after a
+  Revert). Powers the per-route op-count breakdown in the Discard /
+  Revert confirmation dialog.
+  """
+  operationCountForRoute(route: String!): Int!
+  """
+  Per-route "pending" op counts across the changeset. Same semantic as
+  `operationCountForRoute`, just grouped:
+    [{ route: "homepage", count: 5 }, { route: "cart", count: 2 }]
+  """
+  operationCountsByRoute: [RouteOperationCount!]!
+  rolloutPlan: RolloutPlan
+}
+
+"""
+A single (route, count) entry used by `Changeset.operationCountsByRoute`.
+"""
+type RouteOperationCount {
+  route: String!
+  count: Int!
+}
+
+extend type Query {
+  changeset(id: Int, uuid: String, token: String): Changeset
+  changesets(filters: [FilterInput]): ChangesetCollection
+}
+
+type ChangesetCollection {
+  items: [Changeset]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}

@@ -2,7 +2,7 @@ import fs from 'fs';
 import JSON5 from 'json5';
 import uniqid from 'uniqid';
 import { isResolvable } from '../../util/isResolvable.js';
-import { generateComponentKey } from './keyGenerator.js';
+import { generateComponentKey } from '../../util/keyGenerator.js';
 import { parseGraphqlByFile } from './parseGraphqlByFile.js';
 
 export function parseGraphql(modules) {

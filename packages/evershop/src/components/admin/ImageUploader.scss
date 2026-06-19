@@ -95,8 +95,9 @@
 /* When there's no image yet in single mode */
 .image-uploader-manager .single-image-container.no-image .uploader {
   opacity: 1;
+  border-radius: var(--radius);
   background: #f5f5f5;
-  border: 2px dashed #e1e1e1;
+  border: 2px dashed var(--border);
 }
 
 .image-uploader-manager
@@ -104,7 +105,7 @@
   .uploader
   .uploader-icon
   label {
-  color: #058c8c;
+  color: var(--primary);
 }
 
 .image-uploader-manager .image-list .image {
@@ -114,7 +115,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #e1e1e1;
   background: #fff;
   max-width: 150px;
 }
@@ -125,7 +125,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px dashed #e1e1e1;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
   background: #fff;
   max-width: 150px;
 }
@@ -183,6 +184,5 @@
 }
 .uploader .uploader-icon label {
   cursor: pointer;
-  font-size: 20px;
-  color: #058c8c;
+  font-size: 18px;
 }

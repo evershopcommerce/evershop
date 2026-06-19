@@ -1,8 +1,11 @@
 import { SimplePagination } from '@components/common/SimplePagination.js';
-import { CheckIcon } from '@heroicons/react/24/outline';
+import { Button } from '@components/common/ui/Button.js';
+import { Input } from '@components/common/ui/Input.js';
+import { Skeleton } from '@components/common/ui/Skeleton.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { Check } from 'lucide-react';
 import React from 'react';
 import { useQuery } from 'urql';
-import './CategorySelector.scss';
 import { AtLeastOne } from '../../types/atLeastOne.js';
 
 const SearchQuery = `
@@ -30,20 +33,17 @@ const CategoryListSkeleton: React.FC = () => {
   const skeletonItems = Array(5).fill(0);
 
   return (
-    <div className="category-list-skeleton">
+    <div className="attribute-group-list-skeleton space-y-2 divide-y">
       {skeletonItems.map((_, index) => (
         <div
           key={index}
-          className="category-skeleton-item border-b flex justify-between items-center"
+          className="attribute-group-skeleton-item border-border pb-2 flex justify-between items-center "
         >
           <div className="flex items-center">
-            <div>
-              <div className="skeleton-title h-5 w-30 bg-gray-200 rounded skeleton-pulse mb-2"></div>
-              <div className="skeleton-id h-4 w-20 bg-gray-200 rounded skeleton-pulse"></div>
-            </div>
+            <Skeleton className="h-5 w-30 rounded"></Skeleton>
           </div>
           <div className="select-button">
-            <div className="skeleton-button h-6 w-12 bg-gray-200 rounded skeleton-pulse"></div>
+            <Skeleton className="h-6 w-12 rounded"></Skeleton>
           </div>
         </div>
       ))}
@@ -124,8 +124,8 @@ const CategorySelector: React.FC<{
 
   if (error) {
     return (
-      <p className="text-critical">
-        There was an error fetching categories.
+      <p className="text-destructive">
+        {_('There was an error fetching categories.')}
         {error.message}
       </p>
     );
@@ -135,17 +135,15 @@ const CategorySelector: React.FC<{
     <div>
       <div>
         <div className="p-2">
-          <div className="form-field">
-            <input
-              type="text"
-              value={inputValue || ''}
-              placeholder="Search categories"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setInputValue(e.target.value);
-                setLoading(true);
-              }}
-            />
-          </div>
+          <Input
+            type="text"
+            value={inputValue || ''}
+            placeholder={_('Search categories')}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setInputValue(e.target.value);
+              setLoading(true);
+            }}
+          />
         </div>
         {(fetching || loading) && <CategoryListSkeleton />}
         {!fetching && data && (
@@ -153,9 +151,13 @@ const CategorySelector: React.FC<{
             {data.categories.items.length === 0 && (
               <div className="p-2 border border-divider rounded flex justify-center items-center">
                 {inputValue ? (
-                  <p>No categories found for query &quot;{inputValue}&rdquo;</p>
+                  <p>
+                    {_('No categories found for query "${query}"', {
+                      query: inputValue
+                    })}
+                  </p>
                 ) : (
-                  <p>You have no categories to display</p>
+                  <p>{_('You have no categories to display')}</p>
                 )}
               </div>
             )}
@@ -176,9 +178,8 @@ const CategorySelector: React.FC<{
                 </div>
                 <div className="col-span-3 text-right">
                   {!isCategorySelected(cat, internalSelectedCategories) && (
-                    <button
-                      type="button"
-                      className="button secondary"
+                    <Button
+                      variant={'outline'}
                       onClick={async (e) => {
                         e.preventDefault();
                         setInternalSelectedCategories((prev) => [
@@ -192,13 +193,12 @@ const CategorySelector: React.FC<{
                         onSelect(cat.categoryId, cat.uuid, cat.name);
                       }}
                     >
-                      Select
-                    </button>
+                      {_('Select')}
+                    </Button>
                   )}
                   {isCategorySelected(cat, internalSelectedCategories) && (
-                    <a
-                      className="button primary"
-                      href="#"
+                    <Button
+                      variant={'default'}
                       onClick={(e) => {
                         e.preventDefault();
                         setInternalSelectedCategories((prev) =>
@@ -211,8 +211,8 @@ const CategorySelector: React.FC<{
                         onUnSelect(cat.categoryId, cat.uuid, cat.name);
                       }}
                     >
-                      <CheckIcon className="w-5 h-5" />
-                    </a>
+                      <Check className="w-5 h-5" />
+                    </Button>
                   )}
                 </div>
               </div>

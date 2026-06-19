@@ -1,4 +1,5 @@
 import { select } from '@evershop/postgres-query-builder';
+import { translate } from '../../../../lib/locale/translate/translate.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import {
   INTERNAL_SERVER_ERROR,
@@ -18,7 +19,7 @@ export default async (request, response, next) => {
       return response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Invalid customer'
+          message: translate('Invalid customer')
         }
       });
     }
@@ -32,7 +33,7 @@ export default async (request, response, next) => {
       return response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Invalid address'
+          message: translate('Invalid address')
         }
       });
     }

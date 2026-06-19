@@ -1,9 +1,11 @@
-import { loadCsv } from '../../lib/locale/translate/translate.js';
+import { loadAllLocales } from '../../lib/locale/dictionary.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
 
 export default async () => {
-  await loadCsv();
+  // Build the runtime locale registry from disk (spec §6.2/§6.3). `translate()` and
+  // `_()` now read this registry / the per-request ALS context — no separate loadCsv.
+  await loadAllLocales();
   addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {

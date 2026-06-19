@@ -1,7 +1,14 @@
-import { Card } from '@components/admin/Card.js';
 import Area from '@components/common/Area.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface CategorySeoProps {
@@ -18,16 +25,17 @@ export default function Seo({ category }: CategorySeoProps) {
         default: (
           <InputField
             name="url_key"
-            label="URL key"
-            placeholder="Enter URL key"
+            label={_('URL key')}
+            placeholder={_('Enter URL key')}
             defaultValue={category?.urlKey || ''}
             required
             validation={{
-              required: 'URL key is required',
+              required: _('URL key is required'),
               pattern: {
                 value: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-                message:
+                message: _(
                   'URL key must be lowercase and can only contain alphanumeric characters and hyphens'
+                )
               }
             }}
           />
@@ -40,12 +48,12 @@ export default function Seo({ category }: CategorySeoProps) {
         default: (
           <InputField
             name="meta_title"
-            label="Meta title"
-            placeholder="Enter Meta title"
+            label={_('Meta title')}
+            placeholder={_('Enter Meta title')}
             defaultValue={category?.metaTitle || ''}
             required
             validation={{
-              required: 'Meta title is required'
+              required: _('Meta title is required')
             }}
           />
         )
@@ -57,12 +65,12 @@ export default function Seo({ category }: CategorySeoProps) {
         default: (
           <TextareaField
             name="meta_description"
-            label="Meta description"
-            placeholder="Enter Meta description"
+            label={_('Meta description')}
+            placeholder={_('Enter Meta description')}
             defaultValue={category?.metaDescription || ''}
             required
             validation={{
-              required: 'Meta description is required'
+              required: _('Meta description is required')
             }}
           />
         )
@@ -72,10 +80,20 @@ export default function Seo({ category }: CategorySeoProps) {
   ];
 
   return (
-    <Card title="Search engine optimize">
-      <Card.Session>
-        <Area id="categoryEditSeo" coreComponents={fields} />
-      </Card.Session>
+    <Card>
+      <CardHeader>
+        <CardTitle>{_('Search engine optimize')}</CardTitle>
+        <CardDescription>
+          {_('Manage the SEO settings of the category.')}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Area
+          id="categoryEditSeo"
+          coreComponents={fields}
+          className="space-y-2"
+        />
+      </CardContent>
     </Card>
   );
 }

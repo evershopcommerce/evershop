@@ -1,3 +1,4 @@
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 export interface ProductNameRowProps {
@@ -6,12 +7,12 @@ export interface ProductNameRowProps {
 }
 export function ProductNameRow({ url, name }: ProductNameRowProps) {
   return (
-    <td>
+    <TableCell>
       <div>
-        <a className="hover:underline font-semibold" href={url}>
-          {name}
+        <a className="hover:underline font-semibold" href={url} title={name}>
+          {name.length > 50 ? `${name.substring(0, 50)}...` : name}
         </a>
       </div>
-    </td>
+    </TableCell>
   );
 }

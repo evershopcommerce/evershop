@@ -1,5 +1,5 @@
-import Button from '@components/common/Button.js';
 import { AddressSummary } from '@components/common/customer/address/AddressSummary.js';
+import { Button } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
@@ -9,6 +9,7 @@ interface CustomerInfoProps {
     customerFullName: string;
     customerEmail: string;
     paymentMethodName: string;
+    noShippingRequired: boolean;
     shippingAddress: {
       fullName: string;
       postcode: string;
@@ -50,6 +51,7 @@ export default function CustomerInfo({
     customerFullName,
     customerEmail,
     paymentMethodName,
+    noShippingRequired,
     shippingAddress,
     billingAddress
   }
@@ -102,7 +104,11 @@ export default function CustomerInfo({
               <h3>{_('Shipping Address')}</h3>
             </div>
             <div className="text-textSubdued">
-              <AddressSummary address={shippingAddress} />
+              {noShippingRequired ? (
+                _('No shipping required')
+              ) : (
+                <AddressSummary address={shippingAddress} />
+              )}
             </div>
           </div>
           <div>
@@ -121,7 +127,15 @@ export default function CustomerInfo({
           </div>
         </div>
       </div>
-      <Button url="/" title={_('CONTINUE SHOPPING')} />
+      <Button
+        variant={'default'}
+        size={'lg'}
+        onClick={() => (window.location.href = '/')}
+        title={_('Continue shopping')}
+        className="uppercase"
+      >
+        {_('Continue shopping')}
+      </Button>
     </div>
   );
 }
@@ -138,6 +152,7 @@ export const query = `
       customerFullName
       customerEmail
       paymentMethodName
+      noShippingRequired
       shippingNote
       shippingAddress {
         fullName

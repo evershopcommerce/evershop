@@ -2,16 +2,22 @@ import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack from 'webpack';
 import { getEnabledExtensions } from '../../../bin/extension/index.js';
-import { getComponentsByRoute } from '../../componee/getComponentsByRoute.js';
 import { CONSTANTS } from '../../helpers.js';
 import { createBaseConfig } from '../createBaseConfig.js';
 import { GraphqlPlugin } from '../plugins/GraphqlPlugin.js';
+import { InjectTailwindSources } from '../plugins/InjectTailwindSources.js';
 import { ThemeWatcherPlugin } from '../plugins/ThemeWatcherPlugin.js';
+import { getTailwindSources } from '../util/getTailwindSources.js';
 
-export function createConfigClient(route, tailwindConfig) {
+export function createConfigClient(isAdmin = false) {
   const extensions = getEnabledExtensions();
+  const tailwindSources = getTailwindSources();
   const config = createBaseConfig(false);
-  config.name = route.id;
+  config.name = isAdmin ? 'bundle-client-admin' : 'bundle-client-frontstore';
+
+  // Set different output filenames for admin and frontstore to avoid conflicts
+  config.output.filename = isAdmin ? 'admin-[name].js' : '[name].js';
+  config.output.publicPath = isAdmin ? '/backend/' : '/';
 
   const loaders = config.module.rules;
   loaders.unshift({
@@ -22,20 +28,16 @@ export function createConfigClient(route, tailwindConfig) {
           CONSTANTS.LIBPATH,
           'webpack/loaders/AreaLoader.js'
         ),
-        options: {
-          getComponents: () => getComponentsByRoute(route),
-          route
-        }
+        options: { isAdmin }
       }
     ]
   });
 
   loaders.push({
-    test: /\.(css|scss)$/i,
+    test: /\.css$/i,
     use: [
       {
-        loader: 'style-loader',
-        options: {}
+        loader: 'style-loader'
       },
       {
         loader: 'css-loader',
@@ -48,12 +50,35 @@ export function createConfigClient(route, tailwindConfig) {
         options: {
           postcssOptions: {
             plugins: [
-              [
-                'tailwindcss',
-                {
-                  config: tailwindConfig
-                }
-              ],
+              InjectTailwindSources(tailwindSources),
+              '@tailwindcss/postcss',
+              'autoprefixer'
+            ]
+          }
+        }
+      }
+    ]
+  });
+
+  loaders.push({
+    test: /\.scss$/i,
+    use: [
+      {
+        loader: 'style-loader'
+      },
+      {
+        loader: 'css-loader',
+        options: {
+          url: false
+        }
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          postcssOptions: {
+            plugins: [
+              InjectTailwindSources(tailwindSources),
+              '@tailwindcss/postcss',
               'autoprefixer'
             ]
           }
@@ -69,23 +94,8 @@ export function createConfigClient(route, tailwindConfig) {
     ]
   });
 
-  loaders.push({
-    test: /Client\.js$/,
-    use: [
-      {
-        loader: path.resolve(
-          CONSTANTS.LIBPATH,
-          'webpack/loaders/GraphQLAPILoader.js'
-        ),
-        options: {
-          isAdmin: route.isAdmin
-        }
-      }
-    ]
-  });
-
   const { plugins } = config;
-  plugins.push(new GraphqlPlugin(route));
+  plugins.push(new GraphqlPlugin(isAdmin));
   plugins.push(new webpack.ProgressPlugin());
   plugins.push(new webpack.HotModuleReplacementPlugin());
   plugins.push(
@@ -96,15 +106,14 @@ export function createConfigClient(route, tailwindConfig) {
   plugins.push(new ThemeWatcherPlugin());
 
   config.entry = () => {
-    const entry = {};
-
-    entry[route.id] = [
-      ...getComponentsByRoute(route),
+    const entry = [
       path.resolve(
         CONSTANTS.MODULESPATH,
         '../components/common/react/client/Index.js'
       ),
-      `webpack-hot-middleware/client?path=/eHot/${route.id}&reload=true&overlay=true`
+      isAdmin
+        ? `webpack-hot-middleware/client?path=/__webpack_hmr_admin&reload=true&overlay=true`
+        : `webpack-hot-middleware/client?path=/__webpack_hmr_frontstore&reload=true&overlay=true`
     ];
     return entry;
   };

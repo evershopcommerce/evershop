@@ -1,10 +1,13 @@
 import Area from '@components/common/Area.js';
-import Button from '@components/common/Button.js';
+import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 function Name() {
   return (
-    <h1 className="page-name text-center mt-6 mb-4">404 Page Not Found</h1>
+    <h1 className="page-name text-center mt-6 mb-4">
+      {_('404 Page Not Found')}
+    </h1>
   );
 }
 
@@ -14,9 +17,17 @@ interface ContentProps {
 function Content({ dashboardUrl }: ContentProps) {
   return (
     <div className="page-content">
-      <div className="text-center">The page you requested does not exist.</div>
+      <div className="text-center">
+        {_('The page you requested does not exist.')}
+      </div>
       <div className="mt-5 text-center">
-        <Button title="Back To Dashboard" url={dashboardUrl} outline />
+        <Button
+          title={_('Back To Dashboard')}
+          onClick={() => (window.location.href = dashboardUrl)}
+          variant={'default'}
+        >
+          {_('Back To Dashboard')}
+        </Button>
       </div>
     </div>
   );

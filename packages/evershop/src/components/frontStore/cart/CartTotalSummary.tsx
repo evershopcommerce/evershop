@@ -1,8 +1,15 @@
 import Area from '@components/common/Area.js';
 import { useAppState } from '@components/common/context/app.js';
+import { Skeleton } from '@components/common/ui/Skeleton.js';
 import { useCartState } from '@components/frontStore/cart/CartContext.js';
+import {
+  Coupon,
+  CouponState,
+  CouponActions
+} from '@components/frontStore/Coupon.js';
 import { CouponForm } from '@components/frontStore/CouponForm.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { CircleX } from 'lucide-react';
 import React from 'react';
 
 const SkeletonValue: React.FC<{
@@ -17,7 +24,7 @@ const SkeletonValue: React.FC<{
   return (
     <span className={`relative ${className}`}>
       <span className="opacity-0">{children}</span>
-      <span className="absolute inset-0 bg-gray-200 rounded animate-pulse" />
+      <Skeleton className="absolute top-0 left-0 w-full h-full" />
     </span>
   );
 };
@@ -103,10 +110,32 @@ const Discount: React.FC<{
 
   return (
     <div className="flex justify-between gap-7 py-2">
-      <div>{_('Discount(${coupon})', { coupon })}</div>
-      <SkeletonValue loading={loading} className="text-right">
-        {discountAmount}
-      </SkeletonValue>
+      <Coupon>
+        {(state: CouponState, actions: CouponActions) => (
+          <>
+            <div className="flex justify-start items-center gap-2">
+              <SkeletonValue loading={loading} className="text-right">
+                <span>{_('Discount(${coupon})', { coupon })}</span>
+              </SkeletonValue>
+              {!state.isLoading && (
+                <a
+                  href="#"
+                  className="text-destructive"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await actions.removeCoupon();
+                  }}
+                >
+                  <CircleX className="w-3.5 h-3.5" />
+                </a>
+              )}
+            </div>
+            <SkeletonValue loading={loading} className="text-right">
+              {discountAmount}
+            </SkeletonValue>
+          </>
+        )}
+      </Coupon>
     </div>
   );
 };
@@ -114,11 +143,20 @@ const Discount: React.FC<{
 const Shipping: React.FC<{
   method: string | undefined;
   cost: string | undefined;
+  noShippingRequired: boolean;
   loading?: boolean;
-}> = ({ method, cost, loading = false }) => {
+}> = ({ method, cost, noShippingRequired, loading = false }) => {
   return (
     <div className="summary-row flex justify-between gap-7 py-2">
-      {method && (
+      {noShippingRequired && (
+        <>
+          <span>{_('Shipping')}</span>
+          <span className="text-gray-500 italic font-normal">
+            {_('No shipping required')}
+          </span>
+        </>
+      )}
+      {method && !noShippingRequired && (
         <>
           <span>{_('Shipping (${method})', { method })}</span>
           <div>
@@ -126,7 +164,7 @@ const Shipping: React.FC<{
           </div>
         </>
       )}
-      {!method && (
+      {!method && !noShippingRequired && (
         <>
           <span>{_('Shipping')}</span>
           <span className="text-gray-500 italic font-normal">
@@ -141,6 +179,7 @@ const Shipping: React.FC<{
 const DefaultCartSummary: React.FC<{
   loading: boolean;
   showPriceIncludingTax: boolean;
+  noShippingRequired: boolean;
   subTotal: string;
   discountAmount: string;
   coupon: string | undefined;
@@ -151,6 +190,7 @@ const DefaultCartSummary: React.FC<{
 }> = ({
   loading,
   showPriceIncludingTax,
+  noShippingRequired,
   subTotal,
   discountAmount,
   coupon,
@@ -171,7 +211,12 @@ const DefaultCartSummary: React.FC<{
     />
     <Area id="cartSummaryAfterDiscount" noOuter />
     <Area id="cartSummaryBeforeShipping" noOuter />
-    <Shipping method={shippingMethod} cost={shippingCost} loading={loading} />
+    <Shipping
+      method={shippingMethod}
+      cost={shippingCost}
+      loading={loading}
+      noShippingRequired={noShippingRequired}
+    />
     <Area id="cartSummaryAfterShipping" noOuter />
     <Area id="cartSummaryBeforeTax" noOuter />
     <Tax
@@ -195,6 +240,7 @@ interface CartTotalSummaryProps {
   children?: (props: {
     loading: boolean;
     showPriceIncludingTax: boolean;
+    noShippingRequired: boolean;
     subTotal: string;
     discountAmount: string;
     coupon: string | undefined;
@@ -229,7 +275,7 @@ function CartTotalSummary({ children }: CartTotalSummaryProps) {
   const total = cart?.grandTotal?.text || '';
 
   return (
-    <div className="grid grid-cols-1 gap-5">
+    <div className="grid grid-cols-1 gap-3">
       {children ? (
         children({
           loading: Object.values(loadingStates).some(
@@ -237,6 +283,7 @@ function CartTotalSummary({ children }: CartTotalSummaryProps) {
               state === true || (typeof state === 'string' && state !== null)
           ),
           showPriceIncludingTax: priceIncludingTax,
+          noShippingRequired: cart?.noShippingRequired || false,
           subTotal,
           discountAmount,
           coupon,
@@ -252,6 +299,7 @@ function CartTotalSummary({ children }: CartTotalSummaryProps) {
               state === true || (typeof state === 'string' && state !== null)
           )}
           showPriceIncludingTax={priceIncludingTax}
+          noShippingRequired={cart?.noShippingRequired || false}
           subTotal={subTotal}
           discountAmount={discountAmount}
           coupon={coupon}

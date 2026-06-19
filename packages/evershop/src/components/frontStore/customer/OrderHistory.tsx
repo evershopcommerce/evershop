@@ -20,15 +20,15 @@ const OrderDetail: React.FC<{ order: Order }> = ({ order }) => {
               <div className="thumbnail border border-divider p-2 rounded">
                 {item.thumbnail && (
                   <Image
-                    width={100}
-                    height={100}
+                    width={50}
+                    height={50}
                     style={{ maxWidth: '6rem' }}
                     src={item.thumbnail}
                     alt={item.productName}
                   />
                 )}
                 {!item.thumbnail && (
-                  <ProductNoThumbnail width={100} height={100} />
+                  <ProductNoThumbnail width={50} height={50} />
                 )}
               </div>
               <div className="order-item-info">
@@ -38,7 +38,7 @@ const OrderDetail: React.FC<{ order: Order }> = ({ order }) => {
                 <div className="order-item-sku italic">
                   {_('Sku')}: #{item.productSku}
                 </div>
-                <div className="order-item-qty" style={{ fontSize: '0.9em' }}>
+                <div className="order-item-qty">
                   {item.qty} x {item.productPrice.text}
                 </div>
               </div>
@@ -68,7 +68,7 @@ export default function OrderHistory({ title }: { title?: string }) {
   const orders = customer?.orders || [];
   return (
     <div className="order-history divide-y">
-      {title && <h2 className="order-history-title">{title}</h2>}
+      {title && <h2 className="order-history-title border-border">{title}</h2>}
       {orders.length === 0 && (
         <div className="order-history-empty">
           {_('You have not placed any orders yet')}

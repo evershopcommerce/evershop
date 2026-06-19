@@ -21,6 +21,9 @@ export default {
   Customer: {
     editUrl: ({ uuid }) => buildUrl('customerEdit', { id: uuid }),
     updateApi: (customer) => buildUrl('updateCustomer', { id: customer.uuid }),
-    deleteApi: (customer) => buildUrl('deleteCustomer', { id: customer.uuid })
+    deleteApi: (customer) => buildUrl('deleteCustomer', { id: customer.uuid }),
+    metaData: (customer) => customer.metaData ?? customer.meta_data ?? {},
+    updateMetafieldsApi: (customer) =>
+      buildUrl('updateCustomerMetafields', { id: customer.uuid })
   }
 };

@@ -1,5 +1,6 @@
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import { Button } from '@components/common/ui/Button.js';
 import { AddToCart } from '@components/frontStore/cart/AddToCart.js';
 import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
@@ -45,7 +46,7 @@ export const ProductListItemRender = ({
 
         <div className="product__list__info flex-1 flex flex-col justify-between">
           <div>
-            <h3 className="product__list__name text-lg font-medium mb-2">
+            <h3 className="product__list__name h5 mb-2">
               <a
                 href={product.url}
                 className="hover:text-primary transition-colors"
@@ -109,20 +110,7 @@ export const ProductListItemRender = ({
                   onError={(error) => toast.error(error)}
                 >
                   {(state, actions) => (
-                    <button
-                      className="product__list__add-to-cart transition-all duration-200 ease-in-out hover:scale-105 hover:shadow-lg rounded-full"
-                      style={{
-                        padding: '10px 20px',
-                        backgroundColor: state.isInStock
-                          ? '#3182ce'
-                          : '#a0aec0',
-                        color: 'white',
-                        border: 'none',
-                        cursor: state.canAddToCart ? 'pointer' : 'not-allowed',
-                        opacity: state.isLoading ? 0.7 : 1,
-                        fontSize: '14px',
-                        fontWeight: '500'
-                      }}
+                    <Button
                       disabled={!state.canAddToCart || state.isLoading}
                       onClick={(e) => {
                         e.preventDefault();
@@ -131,7 +119,7 @@ export const ProductListItemRender = ({
                       }}
                     >
                       {state.isLoading ? _('Adding...') : _('Add to Cart')}
-                    </button>
+                    </Button>
                   )}
                 </AddToCart>
               )}
@@ -161,9 +149,7 @@ export const ProductListItemRender = ({
           )}
         </div>
         <div className="product__list__info mt-3">
-          <h3 className="product__list__name text-lg font-medium">
-            {product.name}
-          </h3>
+          <h3 className="product__list__name h5 font-medium">{product.name}</h3>
           <div className="product__list__price">
             {product.price.special &&
             product.price.regular < product.price.special ? (
@@ -197,8 +183,8 @@ export const ProductListItemRender = ({
               onError={(error) => toast.error(error)}
             >
               {(state, actions) => (
-                <button
-                  className="product__list__add-to-cart bg-primary p-2 text-center text-white w-full rounded-full transition-all duration-200 ease-in-out hover:scale-105 active:scale-95"
+                <Button
+                  className={'w-full'}
                   disabled={!state.canAddToCart || state.isLoading}
                   onClick={(e) => {
                     e.preventDefault();
@@ -207,7 +193,7 @@ export const ProductListItemRender = ({
                   }}
                 >
                   {state.isLoading ? _('Adding...') : _('Add to Cart')}
-                </button>
+                </Button>
               )}
             </AddToCart>
           )}

@@ -8,7 +8,7 @@ export function CategoryInfo() {
   const { name, description, image } = useCategory();
   return (
     <>
-      <Area id="beforeCategoryInfo" noOuter />
+      <Area id="beforeCategoryInfo" />
       <div className="mb-2 md:mb-5 category__general">
         {image && (
           <Image
@@ -27,7 +27,7 @@ export function CategoryInfo() {
           </div>
         </div>
       </div>
-      <Area id="afterCategoryInfo" noOuter />
+      <Area id="afterCategoryInfo" />
     </>
   );
 }

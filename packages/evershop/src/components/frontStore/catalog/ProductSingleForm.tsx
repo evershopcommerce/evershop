@@ -1,6 +1,7 @@
 import Area from '@components/common/Area.js';
-import Button from '@components/common/Button.js';
 import { Form } from '@components/common/form/Form.js';
+import { NumberField } from '@components/common/form/NumberField.js';
+import { Button } from '@components/common/ui/Button.js';
 import {
   AddToCart,
   AddToCartActions,
@@ -20,7 +21,7 @@ export function ProductSingleForm() {
     inventory: { isInStock }
   } = useProduct();
   const form = useForm();
-
+  const [addingToCart, setAddingToCart] = React.useState(false);
   return (
     <Form id="productForm" method="POST" submitBtn={false} form={form}>
       <Area
@@ -52,7 +53,7 @@ export function ProductSingleForm() {
                     sku: sku,
                     isInStock: isInStock
                   }}
-                  qty={1}
+                  qty={form.watch('qty') || 1}
                   onSuccess={() => {
                     // To show the mini cart after adding a product to cart
                   }}
@@ -63,30 +64,52 @@ export function ProductSingleForm() {
                   }}
                 >
                   {(state: AddToCartState, actions: AddToCartActions) => (
-                    <>
+                    <div className="mt-6 space-y-3">
                       {state.isInStock === true && (
-                        <Button
-                          title={_('ADD TO CART')}
-                          outline
-                          isLoading={state.isLoading}
-                          onAction={() => {
-                            form.trigger().then((isValid) => {
-                              if (isValid) {
-                                actions.addToCart();
-                              }
-                            });
-                          }}
-                          className="w-full py-3 text-lg font-base !rounded-full mt-8"
-                        />
+                        <>
+                          <NumberField
+                            name="qty"
+                            label={_('Quantity')}
+                            className="w-24"
+                            min={1}
+                            required
+                            placeholder={_('Quantity')}
+                            defaultValue={1}
+                            wrapperClassName="w-1/2"
+                          />
+                          <Button
+                            variant={'default'}
+                            size={'lg'}
+                            onClick={() => {
+                              form
+                                .trigger()
+                                .then((isValid) => {
+                                  if (isValid) {
+                                    setAddingToCart(true);
+                                    actions.addToCart();
+                                  }
+                                })
+                                .finally(() => {
+                                  setAddingToCart(false);
+                                });
+                            }}
+                            className="w-full py-6 uppercase"
+                            isLoading={addingToCart || state.isLoading}
+                          >
+                            {_('Add to cart')}
+                          </Button>
+                        </>
                       )}
                       {state.isInStock === false && (
                         <Button
-                          title={_('SOLD OUT')}
-                          onAction={() => {}}
-                          className="w-full py-3 text-lg font-base !rounded-full"
-                        />
+                          onClick={() => {}}
+                          className="w-full py-6 uppercase"
+                          disabled
+                        >
+                          {_('Sold out')}
+                        </Button>
                       )}
-                    </>
+                    </div>
                   )}
                 </AddToCart>
               )

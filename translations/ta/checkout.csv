@@ -4,7 +4,6 @@ Sku,பொருள் குறியீடு
 Continue to shipping,அனுப்புதலுக்கு தொடரவும்
 Continue shopping,வாங்குவதைக் தொடரவும்
 Continue Shopping,வாங்குவதைக் தொடரவும்
-CONTINUE SHOPPING,வாங்குவதைக் தொடரவும்
 Shopping cart,வணிக வண்டி
 Product,பொருள்
 Price,விலை
@@ -15,7 +14,7 @@ Sub total,துணை மொத்தம்
 Discount($coupon),தள்ளுபடி ($coupon)
 Order summary,ஆர்டர் சுருக்கம்
 Taxes and shipping calculated at checkout,வரி மற்றும் அனுப்புதல் கட்டணம் செக்அவுட் போது கணக்கிடப்படும்
-CHECKOUT,செக்அவுட் செய்
+Checkout,செக்அவுட் செய்
 Change,மாற்று
 Payment Method,கட்டண முறைகள்
 Shipping Address,அனுப்பும் முகவரி
@@ -37,7 +36,7 @@ Shipment,அனுப்புதல்
 Thank you $name!,நன்றி $name!
 Contact information,தொடர்பு தகவல்
 Order #$orderNumber,ஆர்டர் எண் #$orderNumber
-ADD TO CART,வண்டியில் சேர்
+Add to cart,வண்டியில் சேர்
 Please select variant options,மாறுபாடு விருப்பங்களைத் தேர்ந்தெடுக்கவும்
 VIEW CART ($count),வண்டியைப் பார்க்கவும் ($count)
 JUST ADDED TO YOUR CART,உங்கள் வண்டியில் சேர்க்கப்பட்டது

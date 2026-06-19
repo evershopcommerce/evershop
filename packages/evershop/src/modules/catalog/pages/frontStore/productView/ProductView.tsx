@@ -50,7 +50,16 @@ export default function ProductView({ product }: ProductData) {
               ]}
             />
           </div>
-          <ProductSingleDescription />
+          <Area
+            id="productSingleDescription"
+            coreComponents={[
+              {
+                component: { default: <ProductSingleDescription /> },
+                sortOrder: 10,
+                id: 'productSingleDescription'
+              }
+            ]}
+          />
         </div>
         <Area id="productPageBottom" className="product__page__bottom" />
       </div>

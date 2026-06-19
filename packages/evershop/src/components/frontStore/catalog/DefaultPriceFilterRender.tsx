@@ -1,14 +1,13 @@
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import React, { useState, useMemo } from 'react';
-import RangeSlider from 'react-range-slider-input';
-import 'react-range-slider-input/dist/style.css';
+import { Slider } from '@components/common/ui/Slider.js';
+import { DefaultFilterWrapperRender } from '@components/frontStore/catalog/DefaultFilterWrapperRender.js';
 import {
   PriceRange,
   FilterInput,
   useProductFilter,
   ProductFilterProps
 } from '@components/frontStore/catalog/ProductFilter.js';
-import { DefaultFilterWrapperRender } from '@components/frontStore/catalog/DefaultFilterWrapperRender.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import React, { useState, useMemo } from 'react';
 
 export const DefaultPriceFilterRender: React.FC<{
   priceRange: PriceRange;
@@ -66,7 +65,7 @@ export const DefaultPriceFilterRender: React.FC<{
     setLocalMax(maxFilter ? parseInt(maxFilter.value) : priceRange.max);
   }, [currentFilters, priceRange]);
 
-  const handleRangeChange = (values: [number, number]) => {
+  const handleRangeChange = (values: number[]) => {
     const [min, max] = values;
     setLocalMin(min);
     setLocalMax(max);
@@ -77,11 +76,11 @@ export const DefaultPriceFilterRender: React.FC<{
     <DefaultFilterWrapperRender title={_('Price')}>
       <div className="price__filter border-b border-gray-200 pb-2 mb-2">
         <div className="price__slider mb-4">
-          <RangeSlider.default
+          <Slider
             min={priceRange.min}
             max={priceRange.max}
             value={[localMin, localMax]}
-            onInput={handleRangeChange}
+            onValueChange={handleRangeChange}
           />
         </div>
 
@@ -90,7 +89,6 @@ export const DefaultPriceFilterRender: React.FC<{
           <span>{priceRange.maxText}</span>
         </div>
       </div>
-      <style>{`.range-slider .range-slider__thumb { width: 1rem; height: 1rem} .range-slider {height:6px}`}</style>
     </DefaultFilterWrapperRender>
   );
 };

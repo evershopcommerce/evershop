@@ -11,8 +11,8 @@ export const StaticImage: React.FC<StaticImageProps> = ({
   quality = 75,
   ...props
 }) => {
-  const { graphqlResponse } = useAppState();
-  const baseUrl = graphqlResponse?.pageMeta?.baseUrl || '';
+  const { config } = useAppState();
+  const baseUrl = config?.pageMeta?.baseUrl || '';
 
   const imagePath = useMemo(() => {
     const formattedSubPath = subPath.startsWith('/')

@@ -1,6 +1,7 @@
 .Toastify__toast-container {
   z-index: 9999;
   -webkit-transform: translate3d(0, 0, 9999px);
+  transform: translate3d(0, 0, 9999px);
   position: fixed;
   width: 380px;
   background-color: transparent;
@@ -61,8 +62,8 @@
   min-height: 64px;
   box-sizing: border-box;
   margin-bottom: 0.625rem;
-  padding: 8px;
-  border-radius: 5px;
+  padding: 1rem;
+  border-radius: var(--radius);
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: justify;
@@ -72,27 +73,59 @@
   font-family: sans-serif;
   cursor: pointer;
   direction: ltr;
+  background: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 .Toastify__toast--rtl {
   direction: rtl;
 }
 .Toastify__toast--dark {
-  background: #121212;
-  color: #fff;
+  background: var(--card);
+  color: var(--card-foreground);
+  border-color: var(--border);
 }
 
 .Toastify__toast--info {
-  background: #3498db;
+  background: var(--card);
+  border-color: oklch(0.6 0.118 184.704);
+  color: var(--card-foreground);
+}
+.dark .Toastify__toast--info {
+  background: var(--card);
+  border-color: oklch(0.696 0.17 162.48);
+  color: var(--card-foreground);
 }
 .Toastify__toast--success {
-  background: var(--success);
-  color: #fff;
+  background: var(--card);
+  border-color: var(--primary);
+  color: var(--card-foreground);
+}
+.dark .Toastify__toast--success {
+  background: var(--card);
+  border-color: var(--primary);
+  color: var(--card-foreground);
 }
 .Toastify__toast--warning {
-  background: #f1c40f;
+  background: var(--card);
+  border-color: oklch(0.828 0.189 84.429);
+  color: var(--card-foreground);
+}
+.dark .Toastify__toast--warning {
+  background: var(--card);
+  border-color: oklch(0.769 0.188 70.08);
+  color: var(--card-foreground);
 }
 .Toastify__toast--error {
-  background: #e74c3c;
+  background: var(--card);
+  border-color: var(--destructive);
+  color: var(--card-foreground);
+}
+.dark .Toastify__toast--error {
+  background: var(--card);
+  border-color: var(--destructive);
+  color: var(--card-foreground);
 }
 .Toastify__toast-body {
   margin: auto 0;
@@ -106,7 +139,7 @@
   }
 }
 .Toastify__close-button {
-  color: #fff;
+  color: var(--muted-foreground);
   background: transparent;
   outline: none;
   border: none;
@@ -118,8 +151,8 @@
   align-self: flex-start;
 }
 .Toastify__close-button--default {
-  color: #000;
-  opacity: 0.3;
+  color: var(--muted-foreground);
+  opacity: 0.7;
 }
 .Toastify__close-button > svg {
   fill: currentColor;
@@ -144,10 +177,10 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 5px;
+  height: 3px;
   z-index: 9999;
-  opacity: 0.7;
-  background-color: rgba(255, 255, 255, 0.7);
+  opacity: 0.5;
+  background-color: currentColor;
   transform-origin: left;
 }
 .Toastify__progress-bar--animated {
@@ -162,18 +195,10 @@
   transform-origin: right;
 }
 .Toastify__progress-bar--default {
-  background: linear-gradient(
-    to right,
-    #4cd964,
-    #5ac8fa,
-    #007aff,
-    #34aadc,
-    #5856d6,
-    #ff2d55
-  );
+  background-color: var(--primary);
 }
 .Toastify__progress-bar--dark {
-  background: #bb86fc;
+  background-color: var(--primary);
 }
 @keyframes Toastify__bounceInRight {
   from,

@@ -40,6 +40,7 @@ export function CustomerAddressForm({
   return (
     <Area
       id={areaId}
+      className="space-y-3"
       coreComponents={[
         {
           component: {
@@ -90,6 +91,8 @@ export function CustomerAddressForm({
                 name={getFieldName('city')}
                 label={_('City')}
                 placeholder={_('City')}
+                required
+                validation={{ required: _('City is required') }}
                 defaultValue={address?.city || ''}
               />
             )
@@ -105,7 +108,7 @@ export function CustomerAddressForm({
                 name={getFieldName('country')}
                 placeholder={_('Country')}
                 onChange={(value) => {
-                  setValue(getFieldName('country'), value.target.value);
+                  setValue(getFieldName('country'), value);
                   setValue(getFieldName('province'), '');
                 }}
                 required
@@ -120,6 +123,7 @@ export function CustomerAddressForm({
           component: {
             default: (
               <ProvinceAndPostcode
+                key={selectedCountry}
                 provinces={
                   allowCountries.find(
                     (country) => country.value === selectedCountry

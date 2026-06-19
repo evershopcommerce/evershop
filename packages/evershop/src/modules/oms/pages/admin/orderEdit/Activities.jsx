@@ -1,8 +1,6 @@
-
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import React from 'react';
-import './Activities.scss';
 
 export default function Activities({ order: { activities = [] } }) {
   const dailyActivities = [];
@@ -44,25 +42,31 @@ export default function Activities({ order: { activities = [] } }) {
   });
 
   return (
-    <div className="order-activities">
-      <h3 className="title">Activities</h3>
-      <ul>
+    <div className="mt-5">
+      <h3 className="text-base font-semibold pb-5 border-b border-divider">
+        Activities
+      </h3>
+      <ul className="relative py-5 mt-5 before:absolute before:content-[''] before:block before:h-full before:w-0.5 before:top-0 before:left-[0.563rem] before:bg-divider">
         {dailyActivities.map((group, i) => (
-          <li key={i} className="group">
-            <span>{group.date}</span>
-            <ul>
+          <li key={i} className="mt-12 first:mt-0">
+            <span className="uppercase pl-7 text-muted-foreground text-sm">
+              {group.date}
+            </span>
+            <ul className="mt-5 space-y-4">
               {group.activities.map((a, k) => (
-                <li key={k} className="flex items-center">
-                  <span className="dot" />
-                  <div className="comment">
-                    <span>{a.comment}</span>
+                <li key={k} className="flex items-center gap-0">
+                  <span className="block w-[0.813rem] h-[0.813rem] bg-border rounded-full z-10 border-2 border-background shrink-0" />
+                  <div className="flex-1 px-6">
+                    <span className="block text-sm">{a.comment}</span>
                     {parseInt(a.customerNotified, 10) === 1 && (
-                      <span className="customer-notified">
+                      <span className="block text-muted-foreground italic text-sm mt-1">
                         Customer was notified
                       </span>
                     )}
                   </div>
-                  <span className="time">{a.time}</span>
+                  <span className="text-muted-foreground text-sm shrink-0">
+                    {a.time}
+                  </span>
                 </li>
               ))}
             </ul>

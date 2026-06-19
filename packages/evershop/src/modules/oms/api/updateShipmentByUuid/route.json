@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/shipments/:shipment_uuid",
+  "access": "private"
+}

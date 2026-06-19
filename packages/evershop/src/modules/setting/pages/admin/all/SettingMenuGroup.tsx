@@ -1,5 +1,6 @@
 import { NavigationItemGroup } from '@components/admin/NavigationItemGroup.js';
-import { CogIcon } from '@heroicons/react/24/solid';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { Settings } from 'lucide-react';
 import React from 'react';
 
 interface CmsMenuGroupProps {
@@ -10,8 +11,8 @@ export default function CmsMenuGroup({ storeSetting }: CmsMenuGroupProps) {
   return (
     <NavigationItemGroup
       id="settingMenuGroup"
-      name="Setting"
-      Icon={() => <CogIcon width={15} height={15} />}
+      name={_('Setting')}
+      Icon={() => <Settings width={15} height={15} />}
       url={storeSetting}
     />
   );

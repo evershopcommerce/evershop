@@ -1,0 +1,38 @@
+"""
+Represents a price based cost tier. Used by CoreShippingMethodRate.
+"""
+type PriceBasedCostItem {
+  minPrice: Price!
+  cost: Price!
+}
+
+"""
+Represents a weight based cost tier. Used by CoreShippingMethodRate.
+"""
+type WeightBasedCostItem {
+  minWeight: Price!
+  cost: Price!
+}
+
+"""
+Represents a shipping zone — a geographic region used to attach providers.
+
+Coverage is defined by `countries` (multi-country) plus optional per-country
+`provinces` restrictions. A zone with no provinces for a given country covers
+the whole country.
+"""
+type ShippingZone {
+  shippingZoneId: Int!
+  uuid: String!
+  name: String!
+  countries: [Country!]!
+  provinces: [Province]
+  providers: [ShippingZoneProvider!]!
+  updateApi: String!
+  deleteApi: String!
+}
+
+extend type Query {
+  shippingZones: [ShippingZone]
+  shippingZone(id: String!): ShippingZone
+}

@@ -1,7 +1,8 @@
 import fs from 'fs/promises';
 import { join } from 'path';
 import staticMiddleware from 'serve-static';
-import { EvershopRequest, EvershopResponse } from '../../types/index.js';
+import { EvershopRequest } from '../../types/request.js';
+import { EvershopResponse } from '../../types/response.js';
 import { CONSTANTS } from '../helpers.js';
 
 export default async function publicStatic(

@@ -1,5 +1,17 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
+import {
+  Field,
+  FieldError,
+  FieldLabel,
+  FieldLegend
+} from '@components/common/ui/Field.js';
+import { Label } from '@components/common/ui/Label.js';
+import {
+  RadioGroup,
+  RadioGroupItem
+} from '@components/common/ui/RadioGroup.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import {
@@ -26,7 +38,6 @@ interface RadioGroupFieldProps<T extends FieldValues = FieldValues>
   label?: string;
   error?: string;
   helperText?: string;
-  direction?: 'horizontal' | 'vertical';
   required?: boolean;
   disabled?: boolean;
   validation?: RegisterOptions<T>;
@@ -42,7 +53,6 @@ export function RadioGroupField<T extends FieldValues = FieldValues>({
   wrapperClassName,
   helperText,
   className = '',
-  direction = 'vertical',
   required = false,
   disabled = false,
   validation,
@@ -53,9 +63,10 @@ export function RadioGroupField<T extends FieldValues = FieldValues>({
     control,
     formState: { errors }
   } = useFormContext<T>();
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
 
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
 
   const validationRules = {
     ...validation,
@@ -65,64 +76,63 @@ export function RadioGroupField<T extends FieldValues = FieldValues>({
       })
   };
 
-  const containerClass =
-    direction === 'horizontal' ? 'radio-group horizontal' : 'radio-group';
-
   return (
-    <div
-      className={`form-field ${wrapperClassName} ${fieldError ? 'error' : ''}`}
+    <Field
+      data-invalid={fieldError ? 'true' : 'false'}
+      className={wrapperClassName}
     >
       {label && (
-        <fieldset>
-          <legend>
+        <FieldLabel>
+          <>
             {label}
-            {required && <span className="required-indicator">*</span>}
+            {required && <span className="text-destructive">*</span>}
             {helperText && <Tooltip content={helperText} position="top" />}
-          </legend>
-        </fieldset>
+          </>
+        </FieldLabel>
       )}
 
       <Controller
-        name={name}
+        name={resolvedName}
         control={control}
         rules={validationRules}
         defaultValue={defaultValue as any}
         render={({ field }) => (
-          <div className={containerClass}>
+          <RadioGroup
+            value={String(field.value ?? '')}
+            onValueChange={(value) => {
+              const option = options.find((o) => String(o.value) === value);
+              if (option) {
+                field.onChange(option.value);
+              }
+            }}
+            className={className}
+            aria-invalid={fieldError !== undefined ? 'true' : 'false'}
+            aria-describedby={
+              fieldError !== undefined ? `${fieldId}-error` : undefined
+            }
+          >
             {options.map((option) => (
-              <div key={option.value} className="radio-item">
-                <input
-                  type="radio"
+              <div key={option.value} className="flex items-center gap-2">
+                <RadioGroupItem
+                  value={String(option.value)}
                   id={`${fieldId}-${option.value}`}
-                  value={option.value}
                   disabled={disabled || option.disabled}
-                  checked={field.value === option.value}
-                  onChange={() => field.onChange(option.value)}
-                  onBlur={field.onBlur}
-                  className={className}
-                  aria-invalid={fieldError !== undefined ? 'true' : 'false'}
-                  aria-describedby={
-                    fieldError !== undefined ? `${fieldId}-error` : undefined
-                  }
-                  {...props}
                 />
-                <label
+                <FieldLabel
                   htmlFor={`${fieldId}-${option.value}`}
-                  className={option.disabled ? 'disabled' : ''}
+                  className={`text-sm font-normal cursor-pointer ${
+                    option.disabled ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
                   {option.label}
-                </label>
+                </FieldLabel>
               </div>
             ))}
-          </div>
+          </RadioGroup>
         )}
       />
 
-      {fieldError && (
-        <p id={`${fieldId}-error`} className="field-error">
-          {fieldError}
-        </p>
-      )}
-    </div>
+      {fieldError && <FieldError>{fieldError}</FieldError>}
+    </Field>
   );
 }

@@ -16,13 +16,16 @@ const Header: React.FC<{ data: { level: number; text: string } }> = ({
   return React.createElement(tagName, null, data.text);
 };
 
-const List: React.FC<{ data: { items: string[] } }> = ({ data }) => {
+const List: React.FC<{
+  data: { items: string[]; style: 'ordered' | 'unordered' };
+}> = ({ data }) => {
+  const ListTag = data.style === 'ordered' ? 'ol' : 'ul';
   return (
-    <ul>
+    <ListTag>
       {data.items.map((item, index) => (
         <li key={index}>{item}</li>
       ))}
-    </ul>
+    </ListTag>
   );
 };
 

@@ -1,3 +1,4 @@
+import { Button } from '@components/common/ui/Button.js';
 import {
   useCheckout,
   useCheckoutDispatch
@@ -79,14 +80,14 @@ export default function PaypalMethod({
   useEffect(() => {
     registerPaymentComponent('paypal', {
       nameRenderer: () => (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <span>{paypalDisplayName}</span>
           <PaypalLogo />
         </div>
       ),
       formRenderer: () => (
-        <div className="flex justify-center text-gray-500">
-          <div className="w-2/3 text-center p-5">
+        <div className="flex justify-center text-muted-foreground">
+          <div className="w-2/3 text-center py-3">
             {_('You will be redirected to PayPal for payment processing.')}
           </div>
         </div>
@@ -95,14 +96,22 @@ export default function PaypalMethod({
         const { checkout } = useCheckoutDispatch();
         const { loadingStates, orderPlaced } = useCheckout();
         const handleClick = async (e: React.MouseEvent) => {
-          e.preventDefault();
-          await checkout();
+          try {
+            e.preventDefault();
+            await checkout();
+          } catch (error) {
+            toast.error(
+              error.message || _('Failed to place order. Please try again.')
+            );
+          }
         };
 
         const isDisabled = loadingStates.placingOrder || orderPlaced;
 
         return (
-          <button
+          <Button
+            variant={'default'}
+            size={'xl'}
             type="button"
             onClick={handleClick}
             disabled={isDisabled}
@@ -185,7 +194,7 @@ export default function PaypalMethod({
                 </>
               )}
             </span>
-          </button>
+          </Button>
         );
       }
     });
@@ -195,7 +204,7 @@ export default function PaypalMethod({
 }
 
 export const layout = {
-  areaId: 'checkoutForm',
+  areaId: 'checkoutFormAfter',
   sortOrder: 10
 };
 

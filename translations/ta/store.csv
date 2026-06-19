@@ -1,0 +1,1689 @@
+Welcome Back!,மீண்டும் வரவேற்கிறோம்!
+Please sign in to your account ,உங்கள் கணக்கில் உள்நுழையவும் 
+Join us for exclusive offers and order tracking,சிறப்பு சலுகைகள் மற்றும் ஆர்டர் கண்காணிப்புக்கு எங்களுடன் இணையுங்கள்
+Sign Up,பதிவு செய்க
+Signing Up...,பதிவு செய்கிறது...
+Signing In...,உள்நுழைகிறது...
+Recent Orders,சமீபத்திய ஆர்டர்கள்
+Address Book,முகவரிப் புத்தகம்
+You have no addresses saved,நீங்கள் எந்த முகவரியையும் சேமிக்கவில்லை
+Add new address,புதிய முகவரியைச் சேர்க்கவும்
+Address 2,முகவரி 2
+Set as default,இயல்புநிலையாக அமைக்கவும்
+Save,சேமி
+Edit,திருத்து
+Delete,நீக்கு
+Edit Address,முகவரியைத் திருத்து
+Product Filters,தயாரிப்பு வடிப்பான்கள்
+No products found,தயாரிப்புகள் எதுவும் இல்லை
+${count} Products,${count} தயாரிப்புகள்
+Default,இயல்புநிலை
+Name,பெயர்
+Discount(${coupon}),தள்ளுபடி(${coupon})
+${count} items,${count} பொருட்கள்
+"Sorry, there is no available method for your address","மன்னிக்கவும், உங்கள் முகவரிக்கு கிடைக்கக்கூடிய முறை எதுவும் இல்லை"
+Thank you ${name}!,நன்றி ${name}!
+Contact Information,தொடர்பு தகவல்
+Order #${orderNumber},ஆர்டர் #${orderNumber}
+VIEW CART (${count}),கார்ட்டைப் பார்க்க (${count})
+Your Cart,உங்கள் கார்ட்
+Your cart is empty,உங்கள் கார்ட் காலியாக உள்ளது
+Subtotal,துணை மொத்தம்
+View Cart (${totalQty}),கார்ட்டைப் பார்க்க (${totalQty})
+Shopping Cart,ஷாப்பிங் கார்ட்
+Logged in as,இவராக உள்நுழைந்துள்ளீர்
+Payment Information,கட்டண தகவல்
+Same as shipping address,ஷிப்பிங் முகவரியைப் போலவே
+Use a different billing address,வேறு பில்லிங் முகவரியைப் பயன்படுத்தவும்
+Pick a payment method,கட்டண முறையைத் தேர்ந்தெடுக்கவும்
+Select a payment method,கட்டண முறையைத் தேர்வு செய்யவும்
+Complete Order,ஆர்டரை முடிக்கவும்
+Add to Cart,கார்ட்டில் சேர்க்கவும்
+Search,தேடு
+${count} orders,${count} ஆர்டர்கள்
+${field} is required,${field} தேவை
+${pct}% of orders cancelled,${pct}% ஆர்டர்கள் ரத்து செய்யப்பட்டன
+${pct}% of orders completed,${pct}% ஆர்டர்கள் முடிக்கப்பட்டன
+${qty} sold,${qty} விற்பனையானது
+${total} lifetime sale,${total} வாழ்நாள் விற்பனை
+(Guest Checkout),(விருந்தினர் செக்அவுட்)
+(list),(பட்டியல்)
+(optional),(விருப்பத்தேர்வு)
+A coupon is already applied,ஒரு கூப்பன் ஏற்கனவே பயன்படுத்தப்பட்டுள்ளது
+A group needs at least one sub-field,ஒரு குழுவிற்கு குறைந்தது ஒரு துணை-புலம் தேவை
+A list of best selling products,அதிகம் விற்பனையாகும் தயாரிப்புகளின் பட்டியல்
+A list of customers who have placed the most orders,அதிக ஆர்டர்களை வழங்கிய வாடிக்கையாளர்களின் பட்டியல்
+A regular expression the value must match.,மதிப்பு பொருந்த வேண்டிய ரெகுலர் எக்ஸ்பிரஷன்.
+Accepted values,ஏற்றுக்கொள்ளப்பட்ட மதிப்புகள்
+Active,செயலில்
+Active Filters,செயலில் உள்ள வடிப்பான்கள்
+Add address API not available,முகவரி சேர்க்கும் API கிடைக்கவில்லை
+Add custom field,தனிப்பயன் புலத்தைச் சேர்க்கவும்
+Add field,புலத்தைச் சேர்க்கவும்
+Add item,பொருளைச் சேர்க்கவும்
+Add option,விருப்பத்தைச் சேர்க்கவும்
+Add product,தயாரிப்பைச் சேர்க்கவும்
+Add some items to get started,தொடங்க சில பொருட்களைச் சேர்க்கவும்
+Add sub-field,துணை-புலத்தைச் சேர்க்கவும்
+Adding...,சேர்க்கிறது...
+Address has been deleted successfully!,முகவரி வெற்றிகரமாக நீக்கப்பட்டது!
+Address has been saved successfully!,முகவரி வெற்றிகரமாக சேமிக்கப்பட்டது!
+Address has been updated successfully!,முகவரி வெற்றிகரமாக புதுப்பிக்கப்பட்டது!
+Adds target=_blank rel=noopener noreferrer.,target=_blank rel=noopener noreferrer சேர்க்கிறது.
+All items fulfilled,அனைத்து பொருட்களும் நிறைவேற்றப்பட்டன
+All orders,அனைத்து ஆர்டர்கள்
+All your past orders,உங்கள் கடந்தகால ஆர்டர்கள் அனைத்தும்
+Allow multiple,பலவற்றை அனுமதி
+An unexpected error occurred. Please try again.,எதிர்பாராத பிழை ஏற்பட்டது. மீண்டும் முயற்சிக்கவும்.
+Apply Filters,வடிப்பான்களைப் பயன்படுத்து
+Are you sure you want to mark the selected orders as shipped?,தேர்ந்தெடுக்கப்பட்ட ஆர்டர்களை அனுப்பப்பட்டதாகக் குறிக்க விரும்புகிறீர்களா?
+Are you sure?,உறுதியாக உள்ளீர்களா?
+Attribute Group,பண்புக்கூறு குழு
+Attribute code is used in API and must be unique,பண்புக்கூறு குறியீடு API-ல் பயன்படுத்தப்படுகிறது மற்றும் தனித்துவமாக இருக்க வேண்டும்
+Attribute options,பண்புக்கூறு விருப்பங்கள்
+Attributes,பண்புக்கூறுகள்
+Available shipping methods will appear once you provide your address details,உங்கள் முகவரி விவரங்களை வழங்கியதும் கிடைக்கக்கூடிய ஷிப்பிங் முறைகள் தோன்றும்
+Best Sellers,அதிக விற்பனையாளர்கள்
+Best customers,சிறந்த வாடிக்கையாளர்கள்
+Billing address,பில்லிங் முகவரி
+Black,கருப்பு
+Buy qty,வாங்கும் அளவு
+Buy qty is required,வாங்கும் அளவு தேவை
+Can not process payment. Please try again later.,கட்டணத்தைச் செயலாக்க முடியவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்.
+Can't be undone,செயல்தவிர்க்க முடியாது
+Cancel,ரத்து செய்
+Cancel Order,ஆர்டரை ரத்து செய்
+Cancel shipment,ஷிப்மென்ட்டை ரத்து செய்
+Cancel this shipment?,இந்த ஷிப்மென்ட்டை ரத்து செய்யவா?
+Canceled,ரத்து செய்யப்பட்டது
+Cancelled,ரத்து செய்யப்பட்டது
+Cannot add billing address: cart not initialized,பில்லிங் முகவரியைச் சேர்க்க முடியவில்லை: கார்ட் தொடங்கப்படவில்லை
+Cannot add contact info: cart not initialized,தொடர்பு தகவலைச் சேர்க்க முடியவில்லை: கார்ட் தொடங்கப்படவில்லை
+Cannot add payment method: cart not initialized,கட்டண முறையைச் சேர்க்க முடியவில்லை: கார்ட் தொடங்கப்படவில்லை
+Cannot add shipping address: cart not initialized,ஷிப்பிங் முகவரியைச் சேர்க்க முடியவில்லை: கார்ட் தொடங்கப்படவில்லை
+Cannot add shipping method: cart not initialized,ஷிப்பிங் முறையைச் சேர்க்க முடியவில்லை: கார்ட் தொடங்கப்படவில்லை
+Cannot add shipping method: providerCode is required,ஷிப்பிங் முறையைச் சேர்க்க முடியவில்லை: providerCode தேவை
+Cannot apply coupon: cart not initialized,கூப்பனைப் பயன்படுத்த முடியவில்லை: கார்ட் தொடங்கப்படவில்லை
+Cannot remove coupon: cart not initialized,கூப்பனை நீக்க முடியவில்லை: கார்ட் தொடங்கப்படவில்லை
+Carrier,கேரியர்
+Carrier is required,கேரியர் தேவை
+Cart ID is required to checkout,செக்அவுட் செய்ய கார்ட் ID தேவை
+Cart is not initialized,கார்ட் தொடங்கப்படவில்லை
+Catalog,பட்டியல்
+Categories,வகைகள்
+Category,வகை
+Charcoal,கரி நிறம்
+Checkout success,செக்அவுட் வெற்றி
+Choose Product SKU,தயாரிப்பு SKU-ஐத் தேர்ந்தெடுக்கவும்
+Choose SKU,SKU-ஐத் தேர்ந்தெடுக்கவும்
+Clear All,அனைத்தையும் அழி
+Clear Filters,வடிப்பான்களை அழி
+Clear all,அனைத்தையும் அழி
+Clear categories,வகைகளை அழி
+Close fullscreen view,முழுத்திரைக் காட்சியை மூடு
+Code,குறியீடு
+Collections,தொகுப்புகள்
+Comma-separated; renders the value as a dropdown.,கமாவால் பிரிக்கப்பட்டது; மதிப்பை கீழ்தோன்றலாகக் காட்டுகிறது.
+Completed,முடிக்கப்பட்டது
+Configurable,உள்ளமைக்கக்கூடியது
+Configure tax classes and tax rates,வரி வகுப்புகள் மற்றும் வரி விகிதங்களை உள்ளமைக்கவும்
+Confirm,உறுதிப்படுத்து
+Contact for pricing,விலைக்காகத் தொடர்பு கொள்ளவும்
+Conveniently pay with cash at your doorstep when your order is delivered.,உங்கள் ஆர்டர் வழங்கப்படும்போது உங்கள் வீட்டு வாசலிலேயே பணமாக வசதியாக செலுத்தலாம்.
+Coupon applied successfully!,கூப்பன் வெற்றிகரமாக பயன்படுத்தப்பட்டது!
+Coupon code is required,கூப்பன் குறியீடு தேவை
+Coupon does not match,கூப்பன் பொருந்தவில்லை
+Coupon removed successfully!,கூப்பன் வெற்றிகரமாக நீக்கப்பட்டது!
+Cream,கிரீம் நிறம்
+Create,உருவாக்கு
+Create a new attribute,புதிய பண்புக்கூறை உருவாக்கு
+Create a new group,புதிய குழுவை உருவாக்கு
+Create a new package,புதிய பேக்கேஜை உருவாக்கு
+Create shipment,ஷிப்மென்ட்டை உருவாக்கு
+Created,உருவாக்கப்பட்டது
+Custom URL,தனிப்பயன் URL
+Custom field created,தனிப்பயன் புலம் உருவாக்கப்பட்டது
+Custom field updated,தனிப்பயன் புலம் புதுப்பிக்கப்பட்டது
+Custom fields,தனிப்பயன் புலங்கள்
+Custom fields (JSON),தனிப்பயன் புலங்கள் (JSON)
+Custom fields saved,தனிப்பயன் புலங்கள் சேமிக்கப்பட்டன
+Customer Information,வாடிக்கையாளர் தகவல்
+Customer does not have any order yet.,வாடிக்கையாளருக்கு இன்னும் எந்த ஆர்டரும் இல்லை.
+Customer notes,வாடிக்கையாளர் குறிப்புகள்
+Daily,தினசரி
+Date and time must be after ${min},தேதி மற்றும் நேரம் ${min}க்குப் பிறகு இருக்க வேண்டும்
+Date and time must be before ${max},தேதி மற்றும் நேரம் ${max}க்கு முன் இருக்க வேண்டும்
+Date must be after ${min},தேதி ${min}க்குப் பிறகு இருக்க வேண்டும்
+Date must be before ${max},தேதி ${max}க்கு முன் இருக்க வேண்டும்
+Delete ${count} coupons,${count} கூப்பன்களை நீக்கு
+Delete ${count} products,${count} தயாரிப்புகளை நீக்கு
+Delete address API not available,முகவரியை நீக்கும் API கிடைக்கவில்லை
+Delivered,வழங்கப்பட்டது
+Description,விளக்கம்
+Disable,முடக்கு
+Disable ${count} coupons,${count} கூப்பன்களை முடக்கு
+Disable ${count} customers,${count} வாடிக்கையாளர்களை முடக்கு
+Disable ${count} products,${count} தயாரிப்புகளை முடக்கு
+Disabled,முடக்கப்பட்டது
+Discount percent,தள்ளுபடி சதவீதம்
+Discount percent is required,தள்ளுபடி சதவீதம் தேவை
+Display on Frontend?,முன்பக்கத்தில் காண்பிக்கவா?
+Displays the mobile sidebar.,மொபைல் பக்கப்பட்டியைக் காண்பிக்கிறது.
+Done,முடிந்தது
+Drag to reorder,மறுவரிசைப்படுத்த இழுக்கவும்
+Duplicate,நகலெடு
+Edit custom field,தனிப்பயன் புலத்தைத் திருத்து
+Edit field settings,புல அமைப்புகளைத் திருத்து
+Edit package,தொகுப்பைத் திருத்து
+Edit tracking info,கண்காணிப்புத் தகவலைத் திருத்து
+Editing ${name},${name} திருத்தப்படுகிறது
+Email a shipment confirmation,அனுப்புதல் உறுதிப்படுத்தலை மின்னஞ்சல் செய்
+Email a shipment confirmation with tracking details,கண்காணிப்பு விவரங்களுடன் அனுப்புதல் உறுதிப்படுத்தலை மின்னஞ்சல் செய்
+Email is required,மின்னஞ்சல் தேவை
+Enable,இயக்கு
+Enable ${count} coupons,${count} கூப்பன்களை இயக்கு
+Enable ${count} customers,${count} வாடிக்கையாளர்களை இயக்கு
+Enable ${count} products,${count} தயாரிப்புகளை இயக்கு
+Enabled,இயக்கப்பட்டது
+Enter attribute code,பண்புக்கூறுக் குறியீட்டை உள்ளிடவும்
+Enter attribute name,பண்புக்கூறுப் பெயரை உள்ளிடவும்
+Enter text,உரையை உள்ளிடவும்
+Enter value for ${attribute},${attribute}க்கான மதிப்பை உள்ளிடவும்
+Enter your email,உங்கள் மின்னஞ்சலை உள்ளிடவும்
+Enter your new password,உங்கள் புதிய கடவுச்சொல்லை உள்ளிடவும்
+Enter your password,உங்கள் கடவுச்சொல்லை உள்ளிடவும்
+Error,பிழை
+Failed to add address,முகவரியைச் சேர்க்க முடியவில்லை
+Failed to add billing address,பில்லிங் முகவரியைச் சேர்க்க முடியவில்லை
+Failed to add billing address.,பில்லிங் முகவரியைச் சேர்க்க முடியவில்லை.
+Failed to add contact info,தொடர்புத் தகவலைச் சேர்க்க முடியவில்லை
+Failed to add contact info.,தொடர்புத் தகவலைச் சேர்க்க முடியவில்லை.
+Failed to add item to cart,வண்டியில் பொருளைச் சேர்க்க முடியவில்லை
+Failed to add payment method,கட்டண முறையைச் சேர்க்க முடியவில்லை
+Failed to add payment method.,கட்டண முறையைச் சேர்க்க முடியவில்லை.
+Failed to add product to cart,வண்டியில் தயாரிப்பைச் சேர்க்க முடியவில்லை
+Failed to add shipping address,அனுப்புதல் முகவரியைச் சேர்க்க முடியவில்லை
+Failed to add shipping address.,அனுப்புதல் முகவரியைச் சேர்க்க முடியவில்லை.
+Failed to add shipping method,அனுப்புதல் முறையைச் சேர்க்க முடியவில்லை
+Failed to add shipping method.,அனுப்புதல் முறையைச் சேர்க்க முடியவில்லை.
+Failed to apply coupon,கூப்பனைப் பயன்படுத்த முடியவில்லை
+Failed to cancel shipment,அனுப்புதலை ரத்து செய்ய முடியவில்லை
+Failed to checkout,செக்அவுட் செய்ய முடியவில்லை
+Failed to create field,புலத்தை உருவாக்க முடியவில்லை
+Failed to create shipment,அனுப்புதலை உருவாக்க முடியவில்லை
+Failed to delete address,முகவரியை நீக்க முடியவில்லை
+Failed to load custom fields,தனிப்பயன் புலங்களை ஏற்ற முடியவில்லை
+Failed to mark delivered,வழங்கப்பட்டதாக குறிக்க முடியவில்லை
+Failed to place order,ஆர்டர் செய்ய முடியவில்லை
+Failed to place order. Please try again.,ஆர்டர் செய்ய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.
+Failed to remove coupon,கூப்பனை அகற்ற முடியவில்லை
+Failed to remove coupon.,கூப்பனை அகற்ற முடியவில்லை.
+Failed to save custom fields,தனிப்பயன் புலங்களைச் சேமிக்க முடியவில்லை
+Failed to set shipping method,அனுப்புதல் முறையை அமைக்க முடியவில்லை
+Failed to set shipping note,அனுப்புதல் குறிப்பை அமைக்க முடியவில்லை
+Failed to update address,முகவரியைப் புதுப்பிக்க முடியவில்லை
+Failed to update field,புலத்தைப் புதுப்பிக்க முடியவில்லை
+Failed to update shipment,அனுப்புதலைப் புதுப்பிக்க முடியவில்லை
+Failed to update tracking info,கண்காணிப்புத் தகவலைப் புதுப்பிக்க முடியவில்லை
+Failed to void label,லேபிளை ரத்து செய்ய முடியவில்லை
+Failed!,தோல்வியடைந்தது!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,இந்த என்டிட்டி வகைக்குப் பொருந்தும் புலங்கள். ஒரு புலத்தைச் சேர்த்தால் அது இந்த வகையின் அனைத்து என்டிட்டிகளுக்கும் பொருந்தும்.
+File size must be less than ${maxSize},கோப்பு அளவு ${maxSize}க்குக் குறைவாக இருக்க வேண்டும்
+Filter Products,தயாரிப்புகளை வடிகட்டு
+Filters,வடிப்பான்கள்
+First,முதல்
+Free,இலவசம்
+Free shipping,இலவச அனுப்புதல்
+Free shipping ?,இலவச அனுப்புதலா?
+Fulfill ${count} orders,${count} ஆர்டர்களை நிறைவேற்று
+Full Name is required,முழுப் பெயர் தேவை
+Fully shipped,முழுமையாக அனுப்பப்பட்டது
+General,பொது
+Get qty,பெறும் அளவு
+Get qty is required,பெறும் அளவு தேவை
+Ghost,கோஸ்ட்
+Go,செல்
+Go to Login,உள்நுழைவுக்குச் செல்
+Go to next page,அடுத்த பக்கத்திற்குச் செல்
+Go to previous page,முந்தைய பக்கத்திற்குச் செல்
+Hello,வணக்கம்
+Hide from storefront,ஸ்டோர்ஃபிரண்டிலிருந்து மறை
+ID,ID
+In Stock,கையிருப்பில் உள்ளது
+Inactive,செயலற்றது
+Inclusive of tax ${totalTaxAmount},வரி உட்பட ${totalTaxAmount}
+Insert,செருகு
+Invalid address,தவறான முகவரி
+Invalid cart,தவறான வண்டி
+Invalid cart id,தவறான வண்டி ID
+Invalid coupon,தவறான கூப்பன்
+Invalid customer,தவறான வாடிக்கையாளர்
+Invalid customer id,தவறான வாடிக்கையாளர் ID
+Invalid email or password,தவறான மின்னஞ்சல் அல்லது கடவுச்சொல்
+Invalid format,தவறான வடிவம்
+Invalid quantity,தவறான அளவு
+Is Filterable?,வடிகட்டக்கூடியதா?
+Is Required?,தேவையானதா?
+Item,பொருள்
+Items,பொருள்கள்
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,இந்த அனுப்புதலில் உள்ள பொருள்கள் ஆர்டரின் அனுப்பப்படாத தொகுப்புக்குத் திரும்பும். இந்தச் செயலை மீட்டெடுக்க முடியாது.
+Key,கீ
+Key is required,கீ தேவை
+Label,லேபிள்
+Label voided,லேபிள் ரத்து செய்யப்பட்டது
+Language,மொழி
+Last,கடைசி
+Lifetime Sales,வாழ்நாள் விற்பனை
+Light gray,வெளிர் சாம்பல்
+Limit,வரம்பு
+Link,இணைப்பு
+Loading,ஏற்றுகிறது
+Log in,உள்நுழை
+Logging in...,உள்நுழைகிறது...
+Logging out...,வெளியேறுகிறது...
+Login failed,உள்நுழைவு தோல்வியடைந்தது
+Logout failed,வெளியேறுதல் தோல்வியடைந்தது
+Look like you just started. No bestsellers yet.,நீங்கள் இப்போதுதான் தொடங்கியதுபோல் தெரிகிறது. இன்னும் சிறந்த விற்பனையாளர்கள் இல்லை.
+"Lowercase letters, digits, underscore. Immutable.","சிறிய எழுத்துகள், இலக்கங்கள், அடிக்கோடு. மாற்ற முடியாதது."
+Manage the general information of the attribute.,பண்புக்கூறின் பொதுத் தகவலை நிர்வகிக்கவும்.
+Manage the setting of the attribute.,பண்புக்கூறின் அமைப்பை நிர்வகிக்கவும்.
+Mark as shipped,அனுப்பப்பட்டதாக குறி
+Mark delivered,வழங்கப்பட்டதாக குறி
+Mark shipment as delivered?,அனுப்புதலை வழங்கப்பட்டதாக குறிக்கவா?
+Max length,அதிகபட்ச நீளம்
+Max of Y,Y இன் அதிகபட்சம்
+Max of Y is required,Y இன் அதிகபட்சம் தேவை
+Max value,அதிகபட்ச மதிப்பு
+Min length,குறைந்தபட்ச நீளம்
+Min value,குறைந்தபட்ச மதிப்பு
+Minimum quantity,குறைந்தபட்ச அளவு
+Mint,புதினா
+Monthly,மாதந்தோறும்
+More,மேலும்
+More pages,மேலும் பக்கங்கள்
+Move down,கீழே நகர்த்து
+Move up,மேலே நகர்த்து
+Multiselect,பல தேர்வு
+Must be at least ${n},குறைந்தபட்சம் ${n} ஆக இருக்க வேண்டும்
+Must be at least ${n} characters,குறைந்தபட்சம் ${n} எழுத்துகள் இருக்க வேண்டும்
+Must be at most ${n},அதிகபட்சம் ${n} ஆக இருக்க வேண்டும்
+Must be at most ${n} characters,அதிகபட்சம் ${n} எழுத்துகள் இருக்க வேண்டும்
+"Must start with a letter; lowercase letters, digits, underscore only","எழுத்துடன் தொடங்க வேண்டும்; சிறிய எழுத்துகள், இலக்கங்கள், அடிக்கோடு மட்டுமே"
+Name is required,பெயர் தேவை
+New Product,புதிய தயாரிப்பு
+New Widget,புதிய விட்ஜெட்
+New folder,புதிய கோப்புறை
+Next,அடுத்து
+Next slide,அடுத்த ஸ்லைடு
+No,இல்லை
+No address data received,முகவரித் தரவு எதுவும் பெறப்படவில்லை
+"No attribute groups found for query ""${query}""","""${query}"" வினவலுக்கு பண்புக்கூறு குழுக்கள் எதுவும் கிடைக்கவில்லை"
+No carriers registered,எந்த கேரியரும் பதிவு செய்யப்படவில்லை
+"No categories found for ""${term}""","""${term}"" க்கு பிரிவுகள் எதுவும் கிடைக்கவில்லை"
+"No categories found for query ""${query}""","""${query}"" வினவலுக்கு பிரிவுகள் எதுவும் கிடைக்கவில்லை"
+"No collections found for query ""${query}""","""${query}"" வினவலுக்கு தொகுப்புகள் எதுவும் கிடைக்கவில்லை"
+No coupon to remove,அகற்ற கூப்பன் எதுவும் இல்லை
+No custom fields yet.,இதுவரை தனிப்பயன் புலங்கள் இல்லை.
+No data available,தரவு எதுவும் இல்லை
+No free shipping,இலவச அனுப்புதல் இல்லை
+No limit,வரம்பு இல்லை
+No maximum,அதிகபட்சம் இல்லை
+No minimum,குறைந்தபட்சம் இல்லை
+No notes from customer,வாடிக்கையாளரிடமிருந்து குறிப்புகள் இல்லை
+"No options found for ""${code}""","""${code}"" க்கு விருப்பங்கள் எதுவும் கிடைக்கவில்லை"
+"No products found for query ""${query}""","""${query}"" வினவலுக்கு தயாரிப்புகள் எதுவும் கிடைக்கவில்லை"
+No shipments yet — your order is being prepared.,இதுவரை அனுப்புதல்கள் இல்லை — உங்கள் ஆர்டர் தயாரிக்கப்படுகிறது.
+No shipping is required for this order,இந்த ஆர்டருக்கு அனுப்புதல் தேவையில்லை
+No shipping methods available,அனுப்புதல் முறைகள் எதுவும் கிடைக்கவில்லை
+No shipping options are available for your location,உங்கள் இடத்திற்கு அனுப்புதல் விருப்பங்கள் எதுவும் கிடைக்கவில்லை
+No shipping required,அனுப்புதல் தேவையில்லை
+No widgets match your search.,உங்கள் தேடலுக்கு பொருந்தும் விட்ஜெட்கள் இல்லை.
+None,எதுவுமில்லை
+Not set,அமைக்கப்படவில்லை
+Not visible to customers,வாடிக்கையாளர்களுக்கு தெரியாது
+Notify customer,வாடிக்கையாளருக்கு அறிவி
+Open in new tab,புதிய தாவலில் திற
+Operator,இயக்கி
+Option text,விருப்ப உரை
+Optional help text shown to admins.,நிர்வாகிகளுக்குக் காட்டப்படும் விருப்ப உதவி உரை.
+Order Placed,ஆர்டர் வழங்கப்பட்டது
+Order detail,ஆர்டர் விவரம்
+Order must contain products matching all conditions below,ஆர்டர் கீழே உள்ள அனைத்து நிபந்தனைகளுக்கும் பொருந்தும் தயாரிப்புகளைக் கொண்டிருக்க வேண்டும்
+Order not found,ஆர்டர் கிடைக்கவில்லை
+Orders,ஆர்டர்கள்
+Others,மற்றவை
+Out of Stock,கையிருப்பில் இல்லை
+Outline,வெளிக்கோடு
+Overview of sales data over selected periods,தேர்ந்தெடுக்கப்பட்ட காலகட்டங்களில் விற்பனைத் தரவின் கண்ணோட்டம்
+Overview of total sales and order status over the lifetime of your store,உங்கள் கடையின் காலம் முழுவதும் மொத்த விற்பனை மற்றும் ஆர்டர் நிலையின் கண்ணோட்டம்
+Page,பக்கம்
+Page ${currentPage} of ${totalPages},பக்கம் ${currentPage} / ${totalPages}
+Page not found,பக்கம் கிடைக்கவில்லை
+Password is required,கடவுச்சொல் தேவை
+Password must be at least ${minLength} characters long,கடவுச்சொல் குறைந்தபட்சம் ${minLength} எழுத்துகள் நீளமாக இருக்க வேண்டும்
+Paste a URL or a relative path starting with ,ஒரு URL அல்லது இதனுடன் தொடங்கும் தொடர்புப் பாதையை ஒட்டவும் 
+Pattern (regex),முறை (regex)
+Pay with PayPal,PayPal மூலம் செலுத்து
+Pay with Stripe,Stripe மூலம் செலுத்து
+Payment Status,கட்டண நிலை
+Placing Order...,ஆர்டர் வழங்கப்படுகிறது...
+Please enter a coupon code,கூப்பன் குறியீட்டை உள்ளிடவும்
+Please enter a valid URL,சரியான URL ஐ உள்ளிடவும்
+Please enter a valid email address,சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்
+Please enter your email to receive a reset link,மீட்டமைப்பு இணைப்பைப் பெற உங்கள் மின்னஞ்சலை உள்ளிடவும்
+Please provide billing address to proceed,தொடர பில்லிங் முகவரியை வழங்கவும்
+Please select a payment method,ஒரு கட்டண முறையைத் தேர்ந்தெடுக்கவும்
+Please select a shipping method,ஒரு அனுப்புதல் முறையைத் தேர்ந்தெடுக்கவும்
+Please sign in to your account,உங்கள் கணக்கில் உள்நுழையவும்
+Position,நிலை
+Previous,முந்தைய
+Previous slide,முந்தைய ஸ்லைடு
+Price: ${value},விலை: ${value}
+Primary,முதன்மை
+Print Label,லேபிளை அச்சிடு
+Processing Payment...,கட்டணம் செயலாக்கப்படுகிறது...
+Product Description,தயாரிப்பு விளக்கம்
+Product is out of stock,தயாரிப்பு கையிருப்பில் இல்லை
+Product name is required,தயாரிப்பு பெயர் தேவை
+Product not found,தயாரிப்பு கிடைக்கவில்லை
+Product type,தயாரிப்பு வகை
+Products,தயாரிப்புகள்
+Reason for cancellation,ரத்து செய்வதற்கான காரணம்
+Reason is required,காரணம் தேவை
+Recently placed orders by this customer,இந்த வாடிக்கையாளரால் சமீபத்தில் வழங்கப்பட்ட ஆர்டர்கள்
+Redirecting to PayPal...,PayPal க்கு திருப்பிவிடப்படுகிறது...
+Reference type,குறிப்பு வகை
+Registration failed,பதிவு தோல்வியடைந்தது
+Remove item,உருப்படியை அகற்று
+Remove sub-field,துணைப் புலத்தை அகற்று
+Required,தேவை
+Requires at least one item to create a cart,கார்ட் உருவாக்க குறைந்தபட்சம் ஒரு உருப்படி தேவை
+Reset Password,கடவுச்சொல்லை மீட்டமை
+Reset Your Password,உங்கள் கடவுச்சொல்லை மீட்டமைக்கவும்
+Reset password,கடவுச்சொல்லை மீட்டமை
+Reset your password,உங்கள் கடவுச்சொல்லை மீட்டமைக்கவும்
+Root,மூலம்
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU தனித்துவமாக இருக்க வேண்டும்
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,விற்பனை புள்ளிவிவரம்
+Save custom fields,தனிப்பயன் புலங்களைச் சேமி
+Save field,புலத்தைச் சேமி
+Saved successfully!,வெற்றிகரமாக சேமிக்கப்பட்டது!
+Search attribute groups,பண்புக்கூறு குழுக்களைத் தேடு
+Search categories,பிரிவுகளைத் தேடு
+Search collections,தொகுப்புகளைத் தேடு
+"Search for products, orders, and other resources","தயாரிப்புகள், ஆர்டர்கள் மற்றும் பிற வளங்களைத் தேடு"
+Search products,தயாரிப்புகளைத் தேடு
+Search results for: ${keyword},தேடல் முடிவுகள்: ${keyword}
+Search widgets…,விட்ஜெட்களைத் தேடு…
+Searching...,தேடுகிறது...
+Search…,தேடு…
+See all orders →,அனைத்து ஆர்டர்களையும் பார் →
+Select,தேர்ந்தெடு
+Select a carrier,ஒரு கேரியரைத் தேர்ந்தெடு
+Select at least one item to ship,அனுப்ப குறைந்தபட்சம் ஒரு உருப்படியைத் தேர்ந்தெடுக்கவும்
+Select groups the attribute belongs to,பண்புக்கூறு சேர்ந்த குழுக்களைத் தேர்ந்தெடுக்கவும்
+Select shipping method,அனுப்புதல் முறையைத் தேர்ந்தெடு
+Select sort,வரிசையைத் தேர்ந்தெடு
+"Select the items going in this shipment, then add the carrier & tracking.","இந்த அனுப்புதலில் செல்லும் உருப்படிகளைத் தேர்ந்தெடுத்து, பின்னர் கேரியர் & கண்காணிப்பைச் சேர்க்கவும்."
+Setting,அமைப்பு
+Settings,அமைப்புகள்
+Shipment Status,அனுப்புதல் நிலை
+Shipment canceled,அனுப்புதல் ரத்து செய்யப்பட்டது
+Shipment created,அனுப்புதல் உருவாக்கப்பட்டது
+Shipment marked delivered,அனுப்புதல் வழங்கப்பட்டதாகக் குறிக்கப்பட்டது
+Shipments,அனுப்புதல்கள்
+Shipped,அனுப்பப்பட்டது
+Shipping (${method}),அனுப்புதல் (${method})
+Shipping Setting,அனுப்புதல் அமைப்பு
+Show,காட்டு
+Show all ${count} options,அனைத்து ${count} விருப்பங்களையும் காட்டு
+Show on storefront,கடைமுகப்பில் காட்டு
+Showing ${showing} of ${total},${total} இல் ${showing} காட்டப்படுகிறது
+Showing ${start}-${end} of ${total} results,${total} முடிவுகளில் ${start}-${end} காட்டப்படுகிறது
+Sidebar,பக்கப்பட்டி
+Sign in to view your orders,உங்கள் ஆர்டர்களைப் பார்க்க உள்நுழையவும்
+Simple,எளிய
+Sky,வானம்
+Sold out,விற்றுத் தீர்ந்தது
+Some error occurred. Please try again later.,ஏதோ பிழை ஏற்பட்டது. பிறகு மீண்டும் முயற்சிக்கவும்.
+Some products are not available,சில தயாரிப்புகள் கிடைக்கவில்லை
+Something went wrong! Please try again.,ஏதோ தவறு நடந்தது! மீண்டும் முயற்சிக்கவும்.
+Something went wrong. Please try again later.,ஏதோ தவறு நடந்தது. பிறகு மீண்டும் முயற்சிக்கவும்.
+Something wrong. Please try again,ஏதோ தவறு. மீண்டும் முயற்சிக்கவும்
+Sort Order,வரிசை முறை
+Sort order,வரிசை முறை
+Status,நிலை
+Stock,இருப்பு
+Stripe is not loaded. Please try again.,Stripe ஏற்றப்படவில்லை. மீண்டும் முயற்சிக்கவும்.
+Style,பாணி
+Sub-fields,துணைப் புலங்கள்
+Submit Cancellation,ரத்து கோரிக்கையைச் சமர்ப்பிக்கவும்
+Successfully logged in,வெற்றிகரமாக உள்நுழைந்தது
+Successfully logged out,வெற்றிகரமாக வெளியேறியது
+Tax Setting,வரி அமைப்பு
+Test failure,சோதனை தோல்வி
+Test failure:,சோதனை தோல்வி:
+Test success,சோதனை வெற்றி
+Test success:,சோதனை வெற்றி:
+Text,உரை
+Textarea,உரைப் பகுதி
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,கேரியர் கண்காணிப்பு எண்ணைச் செல்லாததாகக் குறிக்கும். நீங்கள் இன்னும் அனுப்ப விரும்பினால் புதிய லேபிளை வாங்க வேண்டும்.
+The customer will receive a delivery confirmation email.,வாடிக்கையாளர் டெலிவரி உறுதிப்படுத்தல் மின்னஞ்சலைப் பெறுவார்.
+There is no category,எந்தப் பிரிவும் இல்லை
+There is no file to display.,காண்பிக்க கோப்பு எதுவும் இல்லை.
+There is no sub folder.,துணை அடைவு எதுவும் இல்லை.
+There was an error:,பிழை ஏற்பட்டது:
+This tracking link has expired,இந்தக் கண்காணிப்பு இணைப்பு காலாவதியாகிவிட்டது
+This tracking link is no longer valid,இந்தக் கண்காணிப்பு இணைப்பு இனி செல்லுபடியாகாது
+Thumbnail,சிறுபடம்
+Time must be after ${min},நேரம் ${min} க்குப் பிறகு இருக்க வேண்டும்
+Time must be before ${max},நேரம் ${max} க்கு முன் இருக்க வேண்டும்
+Toggle Sidebar,பக்கப் பட்டியை நிலைமாற்று
+Token is invalid or expired,டோக்கன் செல்லாதது அல்லது காலாவதியானது
+Too many items requested,அதிக உருப்படிகள் கோரப்பட்டன
+Track,கண்காணி
+Track shipment →,அனுப்புகையைக் கண்காணி →
+Track your order,உங்கள் ஆர்டரைக் கண்காணியுங்கள்
+Tracking info updated,கண்காணிப்புத் தகவல் புதுப்பிக்கப்பட்டது
+Tracking link,கண்காணிப்பு இணைப்பு
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,கண்காணிப்பு இணைப்புகள் வரையறுக்கப்பட்ட காலத்திற்கு மட்டுமே செல்லும். உங்கள் ஆர்டரின் தற்போதைய நிலையைப் பார்க்க உங்கள் கணக்கில் உள்நுழையவும்.
+Tracking number,கண்காணிப்பு எண்
+Type,வகை
+Type / to see the available blocks,கிடைக்கும் தொகுதிகளைப் பார்க்க / தட்டச்சு செய்யவும்
+UPDATE PASSWORD,கடவுச்சொல்லைப் புதுப்பிக்கவும்
+Update address API not available,முகவரி புதுப்பிப்பு API கிடைக்கவில்லை
+Update field,புலத்தைப் புதுப்பிக்கவும்
+Upload,பதிவேற்று
+Validation,சரிபார்ப்பு
+Value,மதிப்பு
+Value must be a whole number,மதிப்பு முழு எண்ணாக இருக்க வேண்டும்
+Value must be at least ${min},மதிப்பு குறைந்தது ${min} ஆக இருக்க வேண்டும்
+Value must be at most ${max},மதிப்பு அதிகபட்சம் ${max} ஆக இருக்க வேண்டும்
+View All Products,அனைத்து தயாரிப்புகளையும் காண்க
+View JSON,JSON ஐக் காண்க
+View all customers,அனைத்து வாடிக்கையாளர்களையும் காண்க
+Visible to customer,வாடிக்கையாளருக்குத் தெரியும்
+Void Label,லேபிளை செல்லாததாக்கு
+Void label,லேபிளை செல்லாததாக்கு
+Void this shipping label?,இந்த அனுப்புகை லேபிளை செல்லாததாக்கவா?
+"We could not find this order. It may have been removed, or it may belong to a different account.",இந்த ஆர்டரைக் கண்டுபிடிக்க முடியவில்லை. அது அகற்றப்பட்டிருக்கலாம் அல்லது வேறு கணக்கிற்குச் சொந்தமானதாக இருக்கலாம்.
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","இந்த இணைப்பைச் சரிபார்க்க முடியவில்லை. எங்களிடமிருந்து மின்னஞ்சலில் இதைப் பெற்றிருந்தால், சமீபத்திய செய்தியிலிருந்து மீண்டும் முயற்சிக்கவும் அல்லது உங்கள் கணக்கில் உள்நுழையவும்."
+We have sent you an email with a link to reset your password. Please check your inbox.,உங்கள் கடவுச்சொல்லை மீட்டமைக்க ஒரு இணைப்புடன் கூடிய மின்னஞ்சலை உங்களுக்கு அனுப்பியுள்ளோம். உங்கள் இன்பாக்ஸைச் சரிபார்க்கவும்.
+Weekly,வாராந்திரம்
+Welcome to our store!,எங்கள் கடைக்கு வரவேற்கிறோம்!
+"Where you ship, shipping methods and delivery fee","நீங்கள் எங்கு அனுப்புகிறீர்கள், அனுப்புகை முறைகள் மற்றும் டெலிவரி கட்டணம்"
+White,வெள்ளை
+Yes,ஆம்
+You are already logged in,நீங்கள் ஏற்கனவே உள்நுழைந்துள்ளீர்கள்
+You are here:,நீங்கள் இங்கே இருக்கிறீர்கள்:
+You have no attribute groups to display,காண்பிக்க பண்புக் குழுக்கள் எதுவும் இல்லை
+You have no categories to display,காண்பிக்க பிரிவுகள் எதுவும் இல்லை
+You have no collections to display,காண்பிக்க தொகுப்புகள் எதுவும் இல்லை
+You have no products to display,காண்பிக்க தயாரிப்புகள் எதுவும் இல்லை
+You have not placed any orders yet.,நீங்கள் இன்னும் எந்த ஆர்டரும் வழங்கவில்லை.
+You paid for,நீங்கள் செலுத்தியது
+You will be redirected to PayPal for payment processing.,கட்டணச் செயலாக்கத்திற்காக நீங்கள் PayPal க்கு திருப்பிவிடப்படுவீர்கள்.
+Your Orders,உங்கள் ஆர்டர்கள்
+Your order #${number} has been delivered,உங்கள் ஆர்டர் #${number} டெலிவரி செய்யப்பட்டது
+Your order #${number} is on the way,உங்கள் ஆர்டர் #${number} வழியில் உள்ளது
+Your order has been confirmed!,உங்கள் ஆர்டர் உறுதிப்படுத்தப்பட்டது!
+Your password has been updated successfully.,உங்கள் கடவுச்சொல் வெற்றிகரமாகப் புதுப்பிக்கப்பட்டது.
+across,முழுவதும்
+available to ship,அனுப்புவதற்குக் கிடைக்கிறது
+breadcrumb,வழிச்சுவடு
+e.g. Care instructions,எ.கா. பராமரிப்பு வழிமுறைகள்
+"e.g. New, Sale, Limited","எ.கா. புதியது, விற்பனை, வரம்பு"
+e.g. Question,எ.கா. கேள்வி
+e.g. care_instructions,எ.கா. care_instructions
+e.g. question,எ.கா. question
+item,உருப்படி
+items,உருப்படிகள்
+left to ship,அனுப்ப மீதம்
+of,இல்
+of ${count},${count} இல்
+unit,அலகு
+units,அலகுகள்
+${count} changes published.,${count} மாற்றங்கள் வெளியிடப்பட்டன.
+${count} child widgets,${count} துணை விட்ஜெட்டுகள்
+${count} countries,${count} நாடுகள்
+${count} on ${route},${route} இல் ${count}
+${count} ops total,மொத்தம் ${count} செயல்பாடுகள்
+${count} pending ops,${count} நிலுவையிலுள்ள செயல்பாடுகள்
+${count} pending ops on,இதில் ${count} நிலுவையிலுள்ள செயல்பாடுகள்
+${count} routes,${count} வழிகள்
+${direction} failed,${direction} தோல்வியடைந்தது
+${method} — ${zone} rate,${method} — ${zone} கட்டணம்
+${method} — new rate,${method} — புதிய கட்டணம்
+${name} attached to ${zone},${name} ${zone} உடன் இணைக்கப்பட்டது
+${name} configuration for ${zone},${zone} க்கான ${name} கட்டமைப்பு
+${name} configuration for this zone,இந்த மண்டலத்திற்கான ${name} கட்டமைப்பு
+${name} configuration saved for ${zone},${zone} க்கான ${name} கட்டமைப்பு சேமிக்கப்பட்டது
+${name} detached,${name} பிரிக்கப்பட்டது
+${name} is required,${name} தேவை
+${title} settings,${title} அமைப்புகள்
+${total} changes will go live immediately.,${total} மாற்றங்கள் உடனடியாகச் செயல்படத் தொடங்கும்.
+${total} items,${total} உருப்படிகள்
+(envelope),(உறை)
++ Add Line,+ வரியைச் சேர்
++ Add Method,+ முறையைச் சேர்
++ Add Rate,+ கட்டணத்தைச் சேர்
++ Add placement,+ இடம் சேர்
++ Attach Provider,+ வழங்குநரை இணை
++ New package,+ புதிய தொகுப்பு
++${count} more,+${count} மேலும்
+", +${count} more",", +${count} மேலும்"
+", last updated",", கடைசியாகப் புதுப்பிக்கப்பட்டது"
+0 for flat envelopes,தட்டையான உறைகளுக்கு 0
+1 change published.,1 மாற்றம் வெளியிடப்பட்டது.
+1 change will go live immediately.,1 மாற்றம் உடனடியாகச் செயல்படத் தொடங்கும்.
+1 child widget,1 துணை விட்ஜெட்
+1 op total,மொத்தம் 1 செயல்பாடு
+1 pending op,1 நிலுவையிலுள்ள செயல்பாடு
+1 pending op on,இதில் 1 நிலுவையிலுள்ள செயல்பாடு
+A package is required for shippable products,அனுப்பக்கூடிய தயாரிப்புகளுக்கு ஒரு தொகுப்பு தேவை
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,"ஒரு ரோல்அவுட் திட்டம் உங்கள் தற்போதைய திருத்தங்களை ஒரு ஸ்னாப்ஷாட்டாகச் சேமித்து, திட்டமிடப்பட்ட நேரத்தில் தானாகவே அவற்றைப் பயன்படுத்துகிறது."
+Action,செயல்
+Actions,செயல்கள்
+Add,சேர்
+Add Products,தயாரிப்புகளைச் சேர்
+Add Rate,கட்டணத்தைச் சேர்
+Add Shipping Method,அனுப்புகை முறையைச் சேர்
+Add Tax Rate,வரி விகிதத்தைச் சேர்
+Add Variant,மாறுபாட்டைச் சேர்
+Add products to this category by selecting them from the list below.,கீழே உள்ள பட்டியலிலிருந்து தேர்ந்தெடுத்து இந்தப் பிரிவில் தயாரிப்புகளைச் சேர்க்கவும்.
+Add rate,கட்டணத்தைச் சேர்
+Added,சேர்க்கப்பட்டது
+Adding to Column ${number},நெடுவரிசை ${number} இல் சேர்க்கப்படுகிறது
+Additional languages,கூடுதல் மொழிகள்
+Admin panel language,நிர்வாகப் பலகை மொழி
+Affects ${count} pages,${count} பக்கங்களைப் பாதிக்கிறது
+Affects 1 page,1 பக்கத்தைப் பாதிக்கிறது
+All pages,அனைத்து பக்கங்களும்
+All registered providers are already attached to this zone.,பதிவுசெய்யப்பட்ட அனைத்து வழங்குநர்களும் ஏற்கனவே இந்த மண்டலத்துடன் இணைக்கப்பட்டுள்ளனர்.
+All routes,அனைத்து வழித்தடங்களும்
+Also shown on ${routes},${routes} இலும் காட்டப்படுகிறது
+Also shown on ${routes} +${count},${routes} +${count} இலும் காட்டப்படுகிறது
+Amount must be greater than or equal to 0,தொகை 0 ஐ விட பெரியதாகவோ அல்லது சமமாகவோ இருக்க வேண்டும்
+Amount must be less than or equal to ${value} ${currency},தொகை ${value} ${currency} ஐ விட சிறியதாகவோ அல்லது சமமாகவோ இருக்க வேண்டும்
+Apply a condition?,ஒரு நிபந்தனையைப் பயன்படுத்தவா?
+Area,பகுதி
+Area is required,பகுதி தேவை
+At least one country is required,குறைந்தது ஒரு நாடு தேவை
+Attach,இணைக்கவும்
+Attach Provider to ${zone},${zone} உடன் வழங்குநரை இணைக்கவும்
+Attached Providers,இணைக்கப்பட்ட வழங்குநர்கள்
+Attribute Name,பண்புக்கூறு பெயர்
+Attribute code is required,பண்புக்கூறு குறியீடு தேவை
+Attribute created successfully!,பண்புக்கூறு வெற்றிகரமாக உருவாக்கப்பட்டது!
+Attribute group,பண்புக்கூறு குழு
+Attribute name is required,பண்புக்கூறு பெயர் தேவை
+Authorize only,அங்கீகரிக்க மட்டும்
+Auto-saves while you edit,நீங்கள் திருத்தும்போது தானாகச் சேமிக்கிறது
+Back To Dashboard,டாஷ்போர்டுக்குத் திரும்பு
+Base calculation address,அடிப்படை கணக்கீட்டு முகவரி
+Based on cart subtotal,கூடை துணைத்தொகையின் அடிப்படையில்
+Based on cart weight,கூடை எடையின் அடிப்படையில்
+Basic configuration,அடிப்படை அமைப்பு
+Boolean,பூலியன்
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,ஒவ்வொரு மண்டலத்திற்கும் கட்டணங்களைக் கொண்ட உள்ளமைந்த அனுப்பீட்டு முறைகள். முதலில் அமைப்புகள் → அனுப்பீடு என்பதன் கீழ் Core ஐ ஒரு மண்டலத்துடன் இணைக்கவும்; பின்னர் இங்கே முறைகளைச் சேர்த்து ஒவ்வொரு மண்டலத்திற்கும் அவற்றின் கட்டணங்களை அமைக்கவும்.
+Buy X get Y,X வாங்கினால் Y பெறுங்கள்
+CMS,CMS
+Calculation type,கணக்கீட்டு வகை
+Can not change the attribute group of a product that is already in a variant group.,ஏற்கனவே மாறுபாட்டுக் குழுவில் உள்ள ஒரு பொருளின் பண்புக்கூறு குழுவை மாற்ற முடியாது.
+Cancel rollout,வெளியீட்டை ரத்துசெய்
+Cancel rollout plan?,வெளியீட்டுத் திட்டத்தை ரத்துசெய்யவா?
+Canvas device width,கேன்வாஸ் சாதன அகலம்
+Capture,கைப்பற்று
+Capture Payment,கட்டணத்தைக் கைப்பற்று
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,நிறைவேற்றத்திற்கான கேரியர் குறிப்பு — செக்அவுட்டில் ஒருபோதும் காட்டப்படாது. NewShipmentDialog இதைப் பயன்படுத்தி கேரியரை முன்கூட்டியே தேர்ந்தெடுக்கிறது.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,லேபிளை வாங்கும்போது பயன்படுத்தப்படும் கேரியர்-குறிப்பிட்ட சேவைக் குறியீடு (CreateLabelInput.serviceCode). சுதந்திர வடிவம் — கேரியரின் API ஆவணங்களில் சரியான டோக்கனைச் சரிபார்க்கவும். கேரியர் அதன் இயல்புநிலை சேவையைத் தேர்ந்தெடுக்க அனுமதிக்க வெறுமையாக விடவும்.
+Cash On Delivery Payment,டெலிவரியில் பணம் செலுத்துதல்
+"Catalog, Search","பட்டியல், தேடல்"
+Category Image,வகை படம்
+Category Name,வகை பெயர்
+Category created successfully!,வகை வெற்றிகரமாக உருவாக்கப்பட்டது!
+Category name is required,வகை பெயர் தேவை
+Choose Attribute Groups,பண்புக்கூறு குழுக்களைத் தேர்ந்தெடுக்கவும்
+Choose Categories,வகைகளைத் தேர்ந்தெடுக்கவும்
+Choose Collections,தொகுப்புகளைத் தேர்ந்தெடுக்கவும்
+Choose SKUs,SKU களைத் தேர்ந்தெடுக்கவும்
+Choose how much of your unpublished work to discard. The published storefront is not affected.,வெளியிடப்படாத உங்கள் வேலையில் எவ்வளவு நிராகரிக்க வேண்டும் என்பதைத் தேர்ந்தெடுக்கவும். வெளியிடப்பட்ட கடைமுகம் பாதிக்கப்படாது.
+Choose where you ship and how much you charge for shipping.,"நீங்கள் எங்கு அனுப்புகிறீர்கள், அனுப்பீட்டிற்கு எவ்வளவு கட்டணம் வசூலிக்கிறீர்கள் என்பதைத் தேர்ந்தெடுக்கவும்."
+Clear filter,வடிப்பானை அழி
+Clear filters,வடிப்பான்களை அழி
+Client ID,கிளையன்ட் ID
+Client Secret,கிளையன்ட் சீக்ரெட்
+Close,மூடு
+Close settings,அமைப்புகளை மூடு
+Close — continue draft,மூடு — வரைவைத் தொடரவும்
+Cms Pages,CMS பக்கங்கள்
+Collapse left rail,இடது பட்டையைச் சுருக்கு
+Collapse panel,பலகத்தைச் சுருக்கு
+Collection Code,தொகுப்புக் குறியீடு
+Collection Name,தொகுப்புப் பெயர்
+Collection code is required,தொகுப்புக் குறியீடு தேவை
+Collection code must be alphanumeric and can include underscores or dashes.,"தொகுப்புக் குறியீடு எழுத்து-எண்ணாக இருக்க வேண்டும், அடிக்கோடுகள் அல்லது கோடுகளை உள்ளடக்கலாம்."
+Collection created successfully!,தொகுப்பு வெற்றிகரமாக உருவாக்கப்பட்டது!
+Color,நிறம்
+Commerce,வணிகம்
+Compound,கூட்டு
+Condition,நிபந்தனை
+Configure,அமைக்கவும்
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,ஒவ்வொரு மண்டலத்திற்கும் செலவு மற்றும் நிபந்தனைகளை அமைக்கவும். கட்டணம் இல்லாத மண்டலங்கள் இந்த முறையை வழங்காது.
+Configure rate,கட்டணத்தை அமைக்கவும்
+Configure the available payment methods,கிடைக்கும் கட்டண முறைகளை அமைக்கவும்
+Configure the settings for the ${name} widget.,${name} விட்ஜெட்டிற்கான அமைப்புகளை அமைக்கவும்.
+Configure the tax classes that will be available to your customers at checkout.,செக்அவுட்டில் உங்கள் வாடிக்கையாளர்களுக்குக் கிடைக்கும் வரி வகுப்புகளை அமைக்கவும்.
+Configure your Cash On Delivery payment gateway settings,டெலிவரியில் பணம் செலுத்தும் கட்டண நுழைவாயில் அமைப்புகளை அமைக்கவும்
+Configure your Paypal payment gateway settings,உங்கள் Paypal கட்டண நுழைவாயில் அமைப்புகளை அமைக்கவும்
+Configure your Stripe payment gateway settings,உங்கள் Stripe கட்டண நுழைவாயில் அமைப்புகளை அமைக்கவும்
+Configure your store information,உங்கள் கடை தகவலை அமைக்கவும்
+"Conflicts with ${plan1}, ${plan2}","${plan1}, ${plan2} உடன் முரண்படுகிறது"
+Conflicts with ${plan},${plan} உடன் முரண்படுகிறது
+Conflicts with ${plan} +${count},${plan} +${count} உடன் முரண்படுகிறது
+Conflicts with:,இதனுடன் முரண்படுகிறது:
+Content,உள்ளடக்கம்
+Continue a saved rollout plan,சேமிக்கப்பட்ட வெளியீட்டுத் திட்டத்தைத் தொடரவும்
+Continue your draft,உங்கள் வரைவைத் தொடரவும்
+Core Shipping,Core அனுப்பீடு
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core இன்னும் எந்த மண்டலத்துடனும் இணைக்கப்படவில்லை. முதலில் அமைப்புகள் → அனுப்பீடு என்பதன் கீழ் அதை இணைக்கவும்.
+Cost,செலவு
+Cost is required,செலவு தேவை
+Could not start fresh,புதிதாகத் தொடங்க முடியவில்லை
+Countries,நாடுகள்
+"Country code (e.g., ""US""). Use ""*"" for all countries.","நாட்டுக் குறியீடு (எ.கா., ""US""). அனைத்து நாடுகளுக்கும் ""*"" ஐப் பயன்படுத்தவும்."
+Coupon Code,கூப்பன் குறியீடு
+"Coupon code can only contain letters, numbers, underscores, and hyphens","கூப்பன் குறியீடு எழுத்துகள், எண்கள், அடிக்கோடுகள் மற்றும் கோடுகளை மட்டுமே கொண்டிருக்கலாம்"
+Coupon created successfully!,கூப்பன் வெற்றிகரமாக உருவாக்கப்பட்டது!
+Coupons,கூப்பன்கள்
+Create A New Customer,புதிய வாடிக்கையாளரை உருவாக்கவும்
+Create New Package,புதிய தொகுப்பை உருவாக்கவும்
+Create New Tax Class,புதிய வரி வகுப்பை உருவாக்கவும்
+Create New Zone,புதிய மண்டலத்தை உருவாக்கவும்
+Create a new category,புதிய வகையை உருவாக்கவும்
+Create a new collection,புதிய தொகுப்பை உருவாக்கவும்
+Create a new coupon,புதிய கூப்பனை உருவாக்கவும்
+Create a new page,புதிய பக்கத்தை உருவாக்கவும்
+Create a new product,புதிய பொருளை உருவாக்கவும்
+Create a new variant for this product.,இந்த பொருளுக்கு புதிய மாறுபாட்டை உருவாக்கவும்.
+Create a new widget,புதிய விட்ஜெட்டை உருவாக்கவும்
+Create a variant group,மாறுபாட்டுக் குழுவை உருவாக்கவும்
+Create method,முறையை உருவாக்கவும்
+Create new tax class,புதிய வரி வகுப்பை உருவாக்கவும்
+Create rollout plan,வெளியீட்டுத் திட்டத்தை உருவாக்கவும்
+Created At,உருவாக்கப்பட்ட நேரம்
+Current,தற்போதைய
+Customer,வாடிக்கையாளர்
+Customer Email,வாடிக்கையாளர் மின்னஞ்சல்
+Customer conditions,வாடிக்கையாளர் நிபந்தனைகள்
+Customer emails,வாடிக்கையாளர் மின்னஞ்சல்கள்
+Customer groups,வாடிக்கையாளர் குழுக்கள்
+Customer's purchase,வாடிக்கையாளரின் கொள்முதல்
+Customers,வாடிக்கையாளர்கள்
+Customers (${count}),வாடிக்கையாளர்கள் (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,${zone} இல் உள்ள வாடிக்கையாளர்கள் இனி செக்அவுட்டில் ${name} இன் முறைகளைக் காண மாட்டார்கள். பின்னர் அதை மீண்டும் இணைக்கலாம்.
+Dashboard,டாஷ்போர்டு
+Date,தேதி
+Decrease,குறை
+Default carrier,இயல்புநிலை கேரியர்
+Default language,இயல்புநிலை மொழி
+Default package,இயல்புநிலை தொகுப்பு
+Default service code,இயல்புநிலை சேவைக் குறியீடு
+"Delete ""${name}""?","""${name}"" ஐ நீக்கவா?"
+Delete ${count} attributes,${count} பண்புக்கூறுகளை நீக்கு
+Delete ${count} categories,${count} வகைகளை நீக்கு
+Delete ${count} collections,${count} தொகுப்புகளை நீக்கு
+Delete ${count} pages,${count} பக்கங்களை நீக்கு
+Delete ${count} widgets,${count} விட்ஜெட்களை நீக்கு
+Delete container widget?,கன்டெய்னர் விட்ஜெட்டை நீக்கவா?
+Delete image,படத்தை நீக்கு
+"Delete package ""${name}""?","""${name}"" தொகுப்பை நீக்கவா?"
+Delete this,இதை நீக்கு
+Delete this widget? This will be saved as a pending change you can publish or discard.,இந்த விட்ஜெட்டை நீக்கவா? இது வெளியிடவோ அல்லது நிராகரிக்கவோ கூடிய நிலுவையிலுள்ள மாற்றமாகச் சேமிக்கப்படும்.
+Delete widget?,விட்ஜெட்டை நீக்கவா?
+Delete zone,மண்டலத்தை நீக்கு
+"Delete zone ""${name}""?","""${name}"" மண்டலத்தை நீக்கவா?"
+Deleted ${name},${name} நீக்கப்பட்டது
+Deleting this,இதை நீக்குகிறது
+Deleting this container will also hide,இந்தக் கொள்கலனை நீக்குவது இதையும் மறைக்கும்
+Description is required,விளக்கம் தேவை
+Desktop,டெஸ்க்டாப்
+Detach,பிரி
+Detach ${name}?,${name} ஐப் பிரிக்கவா?
+Disable ${count} pages,${count} பக்கங்களை முடக்கு
+Disable ${count} widgets,${count} விட்ஜெட்களை முடக்கு
+Disabled products will not be visible in the store and cannot be purchased.,"முடக்கப்பட்ட பொருட்கள் கடையில் தெரியாது, வாங்கவும் முடியாது."
+Discard changes on this page only,இந்தப் பக்கத்தில் மட்டும் மாற்றங்களை நிராகரி
+Discard everything,அனைத்தையும் நிராகரி
+Discard everything in this draft,இந்த வரைவில் உள்ள அனைத்தையும் நிராகரி
+Discard failed,நிராகரிப்பு தோல்வியடைந்தது
+Discard pending changes?,நிலுவையில் உள்ள மாற்றங்களை நிராகரிக்கவா?
+Discard this page,இந்தப் பக்கத்தை நிராகரி
+Discarding…,நிராகரிக்கிறது…
+Discount Type,தள்ளுபடி வகை
+Discount amount,தள்ளுபடி தொகை
+Discount amount is required,தள்ளுபடி தொகை தேவை
+Discount type is required,தள்ளுபடி வகை தேவை
+Dislay Name,காட்சிப் பெயர்
+Display Name,காட்சிப் பெயர்
+Draft,வரைவு
+Draft — not scheduled,வரைவு — திட்டமிடப்படவில்லை
+Drag to resize,அளவை மாற்ற இழுக்கவும்
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","ஒவ்வொரு வரிசையும் இந்த விட்ஜெட்டை ஒரு பக்கத்தில், ஒரு பகுதியில், அதன் சொந்த வரிசை வரிசையுடன் வைக்கிறது. குறைந்த எண்கள் முதலில் தோன்றும்."
+Edit ${name},${name} ஐத் திருத்து
+Edit Shipping Zone,அனுப்புதல் மண்டலத்தைத் திருத்து
+Edit Tax Rate,வரி விகிதத்தைத் திருத்து
+Edit Variant,மாறுபாட்டைத் திருத்து
+Edit Zone,மண்டலத்தைத் திருத்து
+Edit against the live storefront. Publish immediately or save as a rollout plan.,நேரடி கடைமுகத்திற்கு எதிராகத் திருத்தவும். உடனடியாக வெளியிடவும் அல்லது வெளியீட்டுத் திட்டமாக சேமிக்கவும்.
+Edit rollout schedule,வெளியீட்டு அட்டவணையைத் திருத்து
+Editable routes,திருத்தக்கூடிய பாதைகள்
+Editing ${coupon},${coupon} ஐத் திருத்துகிறது
+Editing ${fullName},${fullName} ஐத் திருத்துகிறது
+Editing widget ${name},${name} விட்ஜெட்டைத் திருத்துகிறது
+Edits to a shared widget update every route it appears on.,பகிரப்பட்ட விட்ஜெட்டில் செய்யும் திருத்தங்கள் அது தோன்றும் ஒவ்வொரு பாதையையும் புதுப்பிக்கும்.
+Empty package weight,வெறும் தொகுப்பு எடை
+Empty weight,வெறும் எடை
+Enable ${count} pages,${count} பக்கங்களை இயக்கு
+Enable ${count} widgets,${count} விட்ஜெட்களை இயக்கு
+Enable this page to make it visible on the frontend.,இந்தப் பக்கத்தை முகப்பில் தெரியும்படி இயக்கவும்.
+Enable?,இயக்கவா?
+End,முடிவு
+End Date,முடிவு தேதி
+End date,முடிவு தேதி
+End time is invalid.,முடிவு நேரம் தவறானது.
+End time must be after start time.,முடிவு நேரம் தொடக்க நேரத்திற்குப் பிறகு இருக்க வேண்டும்.
+Enter Category Name,வகைப் பெயரை உள்ளிடவும்
+Enter Collection Name,தொகுப்புப் பெயரை உள்ளிடவும்
+Enter Meta Description,Meta விளக்கத்தை உள்ளிடவும்
+Enter Meta Title,Meta தலைப்பை உள்ளிடவும்
+Enter Meta description,Meta விளக்கத்தை உள்ளிடவும்
+Enter Meta title,Meta தலைப்பை உள்ளிடவும்
+Enter SKU,SKU ஐ உள்ளிடவும்
+Enter URL Key,URL விசையை உள்ளிடவும்
+Enter URL key,URL விசையை உள்ளிடவும்
+Enter customer emails,வாடிக்கையாளர் மின்னஞ்சல்களை உள்ளிடவும்
+Enter description,விளக்கத்தை உள்ளிடவும்
+Enter group name,குழுப் பெயரை உள்ளிடவும்
+Enter meta description,Meta விளக்கத்தை உள்ளிடவும்
+Enter meta title,Meta தலைப்பை உள்ளிடவும்
+Enter page name,பக்கப் பெயரை உள்ளிடவும்
+Enter price,விலையை உள்ளிடவும்
+Enter product name,பொருளின் பெயரை உள்ளிடவும்
+Enter purchased amount,வாங்கிய தொகையை உள்ளிடவும்
+Enter quantity,அளவை உள்ளிடவும்
+Enter tax class name,வரி வகுப்புப் பெயரை உள்ளிடவும்
+Enter the quantity,அளவை உள்ளிடவும்
+Enter weight,எடையை உள்ளிடவும்
+Environment,சூழல்
+Error loading countries,நாடுகளை ஏற்றுவதில் பிழை
+Error loading methods,முறைகளை ஏற்றுவதில் பிழை
+Error loading packages,தொகுப்புகளை ஏற்றுவதில் பிழை
+Error loading providers,வழங்குநர்களை ஏற்றுவதில் பிழை
+Error loading zones,மண்டலங்களை ஏற்றுவதில் பிழை
+EverShop · Back to page builder,EverShop · பக்க கட்டமைப்பாளருக்குத் திரும்பு
+Every page rolls back to the rollout’s saved state.,ஒவ்வொரு பக்கமும் வெளியீட்டின் சேமிக்கப்பட்ட நிலைக்குத் திரும்புகிறது.
+Every page rolls back to what the rollout had saved.,ஒவ்வொரு பக்கமும் வெளியீடு சேமித்திருந்த நிலைக்குத் திரும்புகிறது.
+Existing rollout plan: ${plan},இருக்கும் வெளியீட்டுத் திட்டம்: ${plan}
+Expand,விரிவாக்கு
+Expand left rail,இடது பட்டியை விரிவாக்கு
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.",இயல்புநிலைக்கு மேலதிகமாக வாங்குபவர்கள் மாறக்கூடிய கூடுதல் மொழிகள். இயல்புநிலை மொழி எப்போதும் கிடைக்கும் — அதை இங்கே சேர்க்க வேண்டாம்.
+Failed to attach provider,வழங்குநரை இணைக்க முடியவில்லை
+Failed to delete ${name},${name} ஐ நீக்க முடியவில்லை
+Failed to detach ${name},${name} ஐப் பிரிக்க முடியவில்லை
+Failed to remove rate,விகிதத்தை அகற்ற முடியவில்லை
+Failed to remove zone,மண்டலத்தை அகற்ற முடியவில்லை
+Failed to save change,மாற்றத்தைச் சேமிக்க முடியவில்லை
+Failed to save rate,விகிதத்தைச் சேமிக்க முடியவில்லை
+Failed to save zone,மண்டலத்தைச் சேமிக்க முடியவில்லை
+Failed to update rollout schedule,வெளியீட்டு அட்டவணையைப் புதுப்பிக்க முடியவில்லை
+Fixed discount to entire order,முழு ஆர்டருக்கும் நிலையான தள்ளுபடி
+Fixed discount to specific products,குறிப்பிட்ட பொருட்களுக்கு நிலையான தள்ளுபடி
+Flat rate,நிலையான விகிதம்
+"Flat rate in cart currency, tax-exclusive.","வண்டி நாணயத்தில் நிலையான விகிதம், வரி தவிர்த்து."
+Free shipping?,இலவச அனுப்புதலா?
+General Information,பொதுவான தகவல்
+Give Feedback,கருத்து தெரிவிக்கவும்
+Global,உலகளாவிய
+Globals,உலகளாவியவை
+Group,குழு
+Group Name,குழுப் பெயர்
+Group name is required,குழுப் பெயர் தேவை
+Groups,குழுக்கள்
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,அரை-திறந்த இடைவெளி — சரியாக Max இல் உள்ள வண்டி விலக்கப்படுகிறது (அடுத்த அடுக்கின் Min அந்தப் புள்ளியை உரிமை கொள்கிறது).
+Has conflicts,முரண்பாடுகள் உள்ளன
+Heads up — ,கவனிக்கவும் — 
+Height,உயரம்
+Height is required (0 for envelopes),உயரம் தேவை (உறைகளுக்கு 0)
+Height must be 0 or greater,உயரம் 0 அல்லது அதற்கு மேல் இருக்க வேண்டும்
+Hide global areas,உலகளாவிய பகுதிகளை மறை
+Higest tax rate based on cart items,வண்டி உருப்படிகளின் அடிப்படையில் அதிக வரி விகிதம்
+Highlight global areas on canvas,கேன்வாஸில் உலகளாவிய பகுதிகளை சிறப்பிக்கவும்
+Image,படம்
+Include In Menu,மெனுவில் சேர்
+Include in Store Menu?,கடை மெனுவில் சேர்க்கவா?
+Increase,அதிகரி
+Insert image,படத்தைச் செருகு
+Integer,முழு எண்
+Invalid folder name,தவறான கோப்புறை பெயர்
+Invalid start,தவறான தொடக்கம்
+Invalid window,தவறான சாளரம்
+Inventory,சரக்கு
+Is compound,கூட்டுத்தானா
+Its rates will be removed too. This cannot be undone.,அதன் விகிதங்களும் அகற்றப்படும். இதை மீட்டெடுக்க முடியாது.
+Languages,மொழிகள்
+Layers,அடுக்குகள்
+Layout,அமைப்பு
+Leave,வெளியேறு
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,முழு நாட்டையும் உள்ளடக்க ஒரு நாட்டின் பட்டியலை வெறுமையாக விடவும். குறிப்பிட்ட பகுதிகளுக்கு அனுப்புதலைக் கட்டுப்படுத்த மாகாணங்களைச் சேர்க்கவும்.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,இப்போது வெளியேறினால் சேவையகத்தை இன்னும் அடையாத சமீபத்திய திருத்தங்கள் இழக்கப்படலாம்.
+Length,நீளம்
+Length is required,நீளம் தேவை
+Length must be greater than 0,நீளம் 0 ஐ விட அதிகமாக இருக்க வேண்டும்
+Live,நேரடி
+Loading...,ஏற்றுகிறது...
+Long text,நீண்ட உரை
+Lower values appear first.,குறைந்த மதிப்புகள் முதலில் தோன்றும்.
+Manage Stock,இருப்பை நிர்வகி
+Manage general information about the collection.,தொகுப்பு பற்றிய பொதுவான தகவலை நிர்வகிக்கவும்.
+Manage product images and gallery. Drag and drop to reorder images.,பொருள் படங்கள் மற்றும் கேலரியை நிர்வகிக்கவும். படங்களை மறுவரிசைப்படுத்த இழுத்து விடவும்.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","அனுப்புதல் ஒருங்கிணைப்புகள் மற்றும் அவற்றின் முறைகளை நிர்வகிக்கவும் (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,பல்வேறு பகுதிகளுக்கான வரி வகுப்புகள் மற்றும் வரி விகிதங்களை நிர்வகிக்கவும்.
+Manage the SEO settings of the category.,வகையின் SEO அமைப்புகளை நிர்வகிக்கவும்.
+Manage the SEO settings.,SEO அமைப்புகளை நிர்வகிக்கவும்.
+Manage the attributes.,பண்புகளை நிர்வகிக்கவும்.
+Manage the collections associated with this product.,இந்தப் பொருளுடன் தொடர்புடைய தொகுப்புகளை நிர்வகிக்கவும்.
+Manage the general information of the category.,வகையின் பொதுவான தகவலை நிர்வகிக்கவும்.
+Manage the general information of the product.,பொருளின் பொதுவான தகவலை நிர்வகிக்கவும்.
+Manage the inventory settings of the product.,தயாரிப்பின் சரக்கு அமைப்புகளை நிர்வகிக்கவும்.
+Manage the products assigned to this category.,இந்த வகைக்கு ஒதுக்கப்பட்ட தயாரிப்புகளை நிர்வகிக்கவும்.
+Manage the products assigned to this collection.,இந்தத் தொகுப்பிற்கு ஒதுக்கப்பட்ட தயாரிப்புகளை நிர்வகிக்கவும்.
+Manage the shipping settings of the product.,தயாரிப்பின் அனுப்புதல் அமைப்புகளை நிர்வகிக்கவும்.
+Manage the status settings of the category.,வகையின் நிலை அமைப்புகளை நிர்வகிக்கவும்.
+Manage the variant group of the product.,தயாரிப்பின் மாறுபாட்டுக் குழுவை நிர்வகிக்கவும்.
+Marketing,சந்தைப்படுத்தல்
+Max ${unit},அதிகபட்சம் ${unit}
+Max is required,அதிகபட்சம் தேவை
+Maximum,அதிகபட்சம்
+Maximum amount is ${value} ${currency},அதிகபட்ச தொகை ${value} ${currency}
+Maximum quantity is required,அதிகபட்ச அளவு தேவை
+Maximum quantity must be greater than or equal to 0,அதிகபட்ச அளவு 0 ஐ விட அதிகமாகவோ அல்லது சமமாகவோ இருக்க வேண்டும்
+Media,ஊடகம்
+Meta Description,மெட்டா விளக்கம்
+Meta Title,மெட்டா தலைப்பு
+Meta Title is required,மெட்டா தலைப்பு தேவை
+Meta description,மெட்டா விளக்கம்
+Meta description is required,மெட்டா விளக்கம் தேவை
+Meta title,மெட்டா தலைப்பு
+Meta title is required,மெட்டா தலைப்பு தேவை
+Method,முறை
+Method created,முறை உருவாக்கப்பட்டது
+Method name,முறையின் பெயர்
+Method name is required,முறையின் பெயர் தேவை
+Method updated,முறை புதுப்பிக்கப்பட்டது
+Methods →,முறைகள் →
+Min ${unit},குறைந்தபட்சம் ${unit}
+Min Price,குறைந்தபட்ச விலை
+Min Weight,குறைந்தபட்ச எடை
+Min is required,குறைந்தபட்சம் தேவை
+Min price is required,குறைந்தபட்ச விலை தேவை
+Min weight is required,குறைந்தபட்ச எடை தேவை
+Minimum purchase amount,குறைந்தபட்ச கொள்முதல் தொகை
+Minimum purchase qty,குறைந்தபட்ச கொள்முதல் அளவு
+Minimum purchase quantity,குறைந்தபட்ச கொள்முதல் அளவு
+Minimum purchased amount. This only applies to registered customers.,குறைந்தபட்ச வாங்கிய தொகை. இது பதிவுசெய்யப்பட்ட வாடிக்கையாளர்களுக்கு மட்டுமே பொருந்தும்.
+Minimum quantity is required,குறைந்தபட்ச அளவு தேவை
+Missing name,பெயர் இல்லை
+Money,பணம்
+Name is required.,பெயர் தேவை.
+Navigation,வழிசெலுத்தல்
+New Attribute,புதிய பண்பு
+New Category,புதிய வகை
+New Collection,புதிய தொகுப்பு
+New Coupon,புதிய கூப்பன்
+New Page,புதிய பக்கம்
+New Variant,புதிய மாறுபாடு
+New coupon,புதிய கூப்பன்
+New rate,புதிய கட்டணம்
+No collections,தொகுப்புகள் இல்லை
+No editable routes.,திருத்தக்கூடிய பாதைகள் இல்லை.
+No file selected,எந்தக் கோப்பும் தேர்ந்தெடுக்கப்படவில்லை
+No methods yet — add one to start offering Core shipping.,இன்னும் முறைகள் இல்லை — Core அனுப்புதலை வழங்கத் தொடங்க ஒன்றைச் சேர்க்கவும்.
+No packages yet. Create one — shippable products require a package.,இன்னும் தொகுப்புகள் இல்லை. ஒன்றை உருவாக்கவும் — அனுப்பக்கூடிய தயாரிப்புகளுக்கு ஒரு தொகுப்பு தேவை.
+No product to display.,காண்பிக்க தயாரிப்பு இல்லை.
+"No providers attached. Click ""Attach Provider"" to add one.","வழங்குநர்கள் இணைக்கப்படவில்லை. ஒன்றைச் சேர்க்க ""Attach Provider"" ஐ கிளிக் செய்யவும்."
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","இன்னும் கட்டணங்கள் இல்லை — ஒரு மண்டலத்தில் இந்த முறையை வழங்க ""Add Rate"" ஐ கிளிக் செய்யவும்."
+"No results for ""${keyword}""","""${keyword}"" க்கான முடிவுகள் இல்லை"
+No routes have opted into page-builder editing yet.,எந்தப் பாதையும் இன்னும் page-builder திருத்துதலைத் தேர்ந்தெடுக்கவில்லை.
+No shipping required?,அனுப்புதல் தேவையில்லையா?
+No subdivisions available — whole country is covered.,துணைப்பிரிவுகள் எதுவும் இல்லை — முழு நாடும் உள்ளடக்கப்பட்டுள்ளது.
+No widgets available.,விட்ஜெட்டுகள் எதுவும் இல்லை.
+"No widgets match ""${query}"".","""${query}"" க்கு பொருந்தும் விட்ஜெட்டுகள் இல்லை."
+No widgets on this route yet.,இந்தப் பாதையில் இன்னும் விட்ஜெட்டுகள் இல்லை.
+No zones,மண்டலங்கள் இல்லை
+No zones found,மண்டலங்கள் எதுவும் கிடைக்கவில்லை
+Not visible individually,தனித்தனியாகக் காணக்கூடியதல்ல
+Nothing to publish,வெளியிட எதுவும் இல்லை
+Nothing to redo on this page,இந்தப் பக்கத்தில் மீண்டும் செய்ய எதுவும் இல்லை
+Nothing to undo on this page,இந்தப் பக்கத்தில் செயல்தவிர்க்க எதுவும் இல்லை
+Number,எண்
+Option text is required,விருப்பத் தேர்வு உரை தேவை
+Optional. Added to the shipping weight for quotes and labels.,விருப்பத்திற்குரியது. மேற்கோள்கள் மற்றும் லேபிள்களுக்கான அனுப்புதல் எடையில் சேர்க்கப்படும்.
+Order Number,ஆர்டர் எண்
+Order conditions,ஆர்டர் நிபந்தனைகள்
+Orders (${count}),ஆர்டர்கள் (${count})
+Other,மற்றவை
+Other pages keep their pending changes.,மற்ற பக்கங்கள் தங்கள் நிலுவையிலுள்ள மாற்றங்களை வைத்திருக்கும்.
+Overlaps with existing rollout: ${plans}.,ஏற்கனவே உள்ள வெளியீட்டுடன் ஒன்றுடன் ஒன்று மேலடுக்காகிறது: ${plans}.
+Overlaps with existing rollouts: ${plans}.,ஏற்கனவே உள்ள வெளியீடுகளுடன் ஒன்றுடன் ஒன்று மேலடுக்காகிறது: ${plans}.
+Package,தொகுப்பு
+Package created,தொகுப்பு உருவாக்கப்பட்டது
+Package deleted,தொகுப்பு நீக்கப்பட்டது
+Package saved,தொகுப்பு சேமிக்கப்பட்டது
+Packages,தொகுப்புகள்
+Page Name,பக்கத்தின் பெயர்
+Page Not Found,பக்கம் கிடைக்கவில்லை
+Page builder,பக்க உருவாக்கி
+Page builder canvas,பக்க உருவாக்கி கேன்வாஸ்
+Page created successfully!,பக்கம் வெற்றிகரமாக உருவாக்கப்பட்டது!
+Page is required,பக்கம் தேவை
+Page name is required,பக்கத்தின் பெயர் தேவை
+Pages,பக்கங்கள்
+Parent category,பெற்றோர் வகை
+Payment Setting,கட்டண அமைப்பு
+Payment mode,கட்டண முறை
+Payment setting saved,கட்டண அமைப்பு சேமிக்கப்பட்டது
+Paypal Payment,Paypal கட்டணம்
+Pending start time,நிலுவையிலுள்ள தொடக்க நேரம்
+Percentage discount to entire order,முழு ஆர்டருக்கும் சதவீத தள்ளுபடி
+Percentage discount to specific products,குறிப்பிட்ட தயாரிப்புகளுக்கு சதவீத தள்ளுபடி
+Phone,தொலைபேசி
+Pick a start time to schedule this rollout.,இந்த வெளியீட்டைத் திட்டமிட ஒரு தொடக்க நேரத்தைத் தேர்வுசெய்யவும்.
+Pick a widget below to insert as a child.,குழந்தையாகச் செருக கீழே ஒரு விட்ஜெட்டைத் தேர்வுசெய்யவும்.
+Pick up where you left off — ${count} pending changes,நீங்கள் நிறுத்திய இடத்திலிருந்து தொடரவும் — ${count} நிலுவையிலுள்ள மாற்றங்கள்
+Pick up where you left off — 1 pending change,நீங்கள் நிறுத்திய இடத்திலிருந்து தொடரவும் — 1 நிலுவையிலுள்ள மாற்றம்
+Pin drawer open,டிராயரை திறந்த நிலையில் பின் செய்யவும்
+Pin — keep drawer open across canvas clicks,பின் — கேன்வாஸ் கிளிக்குகள் முழுவதும் டிராயரைத் திறந்த நிலையில் வைக்கவும்
+Placed on: ${routes},வைக்கப்பட்டது: ${routes}
+Placements,இடங்கள்
+Postal Code,அஞ்சல் குறியீடு
+"Postcode (e.g., ""90210""). Empty for all postcodes.","அஞ்சல் குறியீடு (எ.கா., ""90210""). அனைத்து அஞ்சல் குறியீடுகளுக்கும் காலியாக விடவும்."
+Preselected for new products. Exactly one package is the default.,புதிய தயாரிப்புகளுக்கு முன்தேர்வு செய்யப்பட்டது. சரியாக ஒரு தொகுப்பு இயல்புநிலை ஆகும்.
+Preview,முன்னோட்டம்
+Price-based tiers,விலை அடிப்படையிலான அடுக்குகள்
+Priority,முன்னுரிமை
+Priority is required,முன்னுரிமை தேவை
+Product Name,தயாரிப்பின் பெயர்
+Product Status,தயாரிப்பு நிலை
+Product created successfully,தயாரிப்பு வெற்றிகரமாக உருவாக்கப்பட்டது
+Product updated successfully,தயாரிப்பு வெற்றிகரமாக புதுப்பிக்கப்பட்டது
+Products (${count}),தயாரிப்புகள் (${count})
+Promotion,விளம்பரம்
+Proportional allocation based on cart items,வண்டி உருப்படிகளின் அடிப்படையில் விகிதாசார ஒதுக்கீடு
+Provide the SEO details for the CMS page.,CMS பக்கத்திற்கான SEO விவரங்களை வழங்கவும்.
+Provide the basic information for the CMS page.,CMS பக்கத்திற்கான அடிப்படை தகவலை வழங்கவும்.
+Provider,வழங்குநர்
+Province Restrictions,மாகாண கட்டுப்பாடுகள்
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.","மாகாண குறியீடு (எ.கா., ""CA""). அனைத்து மாகாணங்களுக்கும் ""*"" ஐப் பயன்படுத்தவும்."
+Provinces,மாகாணங்கள்
+Provinces is required,மாகாணங்கள் தேவை
+Provinces:,மாகாணங்கள்:
+Publish failed,வெளியிடுதல் தோல்வியடைந்தது
+Publish now,இப்போது வெளியிடவும்
+Publish to the live storefront,நேரடி கடைமுகப்பில் வெளியிடவும்
+Publishable Key,வெளியிடக்கூடிய விசை
+Publishing…,வெளியிடுகிறது…
+Qty is required,அளவு தேவை
+Quick links,விரைவு இணைப்புகள்
+Rate,கட்டணம்
+Rate added,கட்டணம் சேர்க்கப்பட்டது
+Rate is required,கட்டணம் தேவை
+Rate removed,கட்டணம் அகற்றப்பட்டது
+Rate status,கட்டண நிலை
+Rate updated,கட்டணம் புதுப்பிக்கப்பட்டது
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,மீண்டும் செய் (⇧⌘Z) — இந்தப் பக்கத்தில் கடைசியாக செயல்தவிர்க்கப்பட்ட திருத்தத்தை மீண்டும் பயன்படுத்துகிறது
+Redo last undone change on this page,இந்தப் பக்கத்தில் கடைசியாக செயல்தவிர்க்கப்பட்ட மாற்றத்தை மீண்டும் செய்யவும்
+Reference,குறிப்பு
+Refund,பணத்திரும்பல்
+Refund amount,பணத்திரும்பத் தொகை
+Remove Zone,மண்டலத்தை அகற்று
+Remove placement,இடநிலையை அகற்று
+Remove rate,விகிதத்தை அகற்று
+Remove this rate?,இந்த விகிதத்தை அகற்றவா?
+Removed,அகற்றப்பட்டது
+Resize settings drawer,அமைப்புகள் இழுப்பறையை மறுஅளவாக்கு
+"Results for ""${keyword}""","""${keyword}"" க்கான முடிவுகள்"
+Revert all pages to saved state,அனைத்து பக்கங்களையும் சேமித்த நிலைக்கு மீட்டெடு
+Revert everything,அனைத்தையும் மீட்டெடு
+Revert this page,இந்தப் பக்கத்தை மீட்டெடு
+Revert this page only,இந்தப் பக்கத்தை மட்டும் மீட்டெடு
+Revert to saved state?,சேமித்த நிலைக்கு மீட்டெடுக்கவா?
+Reverting…,மீட்டெடுக்கிறது…
+Rich text,ரிச் டெக்ஸ்ட்
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,இந்த வெளியீடு கடைசியாக சேமிக்கப்பட்டதிலிருந்து நீங்கள் செய்த மாற்றங்களை மீட்டெடுக்கவும். நேரடி கடைமுகம் பாதிக்கப்படாது — அது ஏற்கனவே சேமித்த நிலையைப் பிரதிபலிக்கிறது.
+SEO,SEO
+SEO Information,SEO தகவல்
+SKU is required,SKU தேவை
+Sale,விற்பனை
+Sandbox,சாண்ட்பாக்ஸ்
+Save Settings,அமைப்புகளைச் சேமி
+Save as rollout plan,வெளியீட்டுத் திட்டமாகச் சேமி
+Save as rollout plan and leave,வெளியீட்டுத் திட்டமாகச் சேமித்து வெளியேறு
+Save changes,மாற்றங்களைச் சேமி
+Save failed,சேமிப்பு தோல்வியடைந்தது
+Save method,முறையைச் சேமி
+Save rate,விகிதத்தைச் சேமி
+Saving…,சேமிக்கிறது…
+Schedule failed,திட்டமிடல் தோல்வியடைந்தது
+Scheduled,திட்டமிடப்பட்டது
+Search engine optimize,தேடுபொறி உகந்தமயமாக்கல்
+Search widgets,விட்ஜெட்களைத் தேடு
+Secret Key,இரகசிய விசை
+Select Category,வகையைத் தேர்ந்தெடு
+Select Parent Category,முதன்மை வகையைத் தேர்ந்தெடு
+Select Products by SKU,SKU மூலம் தயாரிப்புகளைத் தேர்ந்தெடு
+Select a provider first,முதலில் ஒரு வழங்குநரைத் தேர்ந்தெடு
+Select a provider…,ஒரு வழங்குநரைத் தேர்ந்தெடு…
+Select an option,ஒரு விருப்பத்தைத் தேர்ந்தெடு
+Select category,வகையைத் தேர்ந்தெடு
+Select countries,நாடுகளைத் தேர்ந்தெடு
+Select operator,இயக்கியைத் தேர்ந்தெடு
+Select options,விருப்பங்களைத் தேர்ந்தெடு
+Select page,பக்கத்தைத் தேர்ந்தெடு
+Select products to add to this collection.,இந்த தொகுப்பில் சேர்க்க தயாரிப்புகளைத் தேர்ந்தெடுக்கவும்.
+Select the list of attribute,பண்புப் பட்டியலைத் தேர்ந்தெடு
+Select this option if the product is a digital product or service that does not require shipping.,தயாரிப்பு கப்பல் போக்குவரத்து தேவைப்படாத ஒரு டிஜிட்டல் தயாரிப்பு அல்லது சேவையாக இருந்தால் இந்த விருப்பத்தைத் தேர்ந்தெடுக்கவும்.
+Set a start time to schedule.,திட்டமிட ஒரு தொடக்க நேரத்தை அமைக்கவும்.
+Set the status and visibility of the product.,தயாரிப்பின் நிலை மற்றும் தெரிவுநிலையை அமைக்கவும்.
+Share,பகிர்
+Shipping Cost,கப்பல் போக்குவரத்துச் செலவு
+Shipping Providers,கப்பல் போக்குவரத்து வழங்குநர்கள்
+Shipping address,கப்பல் போக்குவரத்து முகவரி
+Shipping cost is required,கப்பல் போக்குவரத்துச் செலவு தேவை
+Shipping provider setting saved,கப்பல் போக்குவரத்து வழங்குநர் அமைப்பு சேமிக்கப்பட்டது
+Shipping tax class,கப்பல் போக்குவரத்து வரி வகுப்பு
+Short text,குறுகிய உரை
+Show global areas,உலகளாவிய பகுதிகளைக் காட்டு
+Show on routes,வழித்தடங்களில் காட்டு
+Show products?,தயாரிப்புகளைக் காட்டவா?
+Show this widget on every page,இந்த விட்ஜெட்டை ஒவ்வொரு பக்கத்திலும் காட்டு
+Size (L × W × H),அளவு (நீ × அ × உ)
+Sort,வரிசைப்படுத்து
+Sort order is required,வரிசை வரிசைப்படுத்தல் தேவை
+Sort order must be a positive number,வரிசை வரிசைப்படுத்தல் ஒரு நேர்மறை எண்ணாக இருக்க வேண்டும்
+Start,தொடங்கு
+Start a page-builder session,பக்க உருவாக்கி அமர்வைத் தொடங்கு
+Start date,தொடக்க தேதி
+Start new changeset,புதிய மாற்றத்தொகுப்பைத் தொடங்கு
+Start time is invalid.,தொடக்க நேரம் செல்லாது.
+State Date,நிலை தேதி
+Status is required,நிலை தேவை
+Stay,இரு
+Stay on this page,இந்தப் பக்கத்தில் இரு
+Stock Availability,இருப்பு கிடைப்பு
+Stop highlighting global areas,உலகளாவிய பகுதிகளை முன்னிலைப்படுத்துவதை நிறுத்து
+Store Address,கடை முகவரி
+Store Description,கடை விளக்கம்
+Store Email,கடை மின்னஞ்சல்
+Store Name,கடை பெயர்
+Store Phone Number,கடை தொலைபேசி எண்
+Store Setting,கடை அமைப்பு
+Store Settings,கடை அமைப்புகள்
+Store address,கடை முகவரி
+Storefront,கடைமுகம்
+Stripe Payment,Stripe பணம் செலுத்துதல்
+Tablet,டேப்லெட்
+Take our survey,எங்கள் கணக்கெடுப்பில் பங்கேற்கவும்
+Target Products,இலக்கு தயாரிப்புகள்
+Tax Class,வரி வகுப்பு
+Tax calculation configuration,வரி கணக்கீட்டு கட்டமைப்பு
+Tax class name,வரி வகுப்பு பெயர்
+Tax class name is required,வரி வகுப்பு பெயர் தேவை
+Tax classes,வரி வகுப்புகள்
+Tax rate has been saved successfully!,வரி விகிதம் வெற்றிகரமாகச் சேமிக்கப்பட்டது!
+Tax setting has been saved successfully!,வரி அமைப்பு வெற்றிகரமாகச் சேமிக்கப்பட்டது!
+The box or envelope this product ships in. Applies to all variants of this product.,இந்த தயாரிப்பு அனுப்பப்படும் பெட்டி அல்லது உறை. இந்த தயாரிப்பின் அனைத்து வகைகளுக்கும் பொருந்தும்.
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,நீங்கள் அனுப்பும் பெட்டிகள் மற்றும் உறைகள். கப்பல் அனுப்பக்கூடிய ஒவ்வொரு தயாரிப்பும் ஒன்றைக் குறிப்பிடுகிறது — அதன் பரிமாணங்கள் மற்றும் வெற்று எடை கப்பல் போக்குவரத்து மேற்கோள்கள் மற்றும் லேபிள்களை இயக்குகின்றன.
+The conditions related to the customer for the coupon to be applied.,கூப்பன் பயன்படுத்தப்படுவதற்கு வாடிக்கையாளர் தொடர்பான நிபந்தனைகள்.
+The conditions related to the order for the coupon to be applied.,கூப்பன் பயன்படுத்தப்படுவதற்கு ஆர்டர் தொடர்பான நிபந்தனைகள்.
+The default package cannot be deleted,இயல்புநிலை தொகுப்பை நீக்க முடியாது
+The draft holds ${count} saved changes you can publish later.,வரைவில் நீங்கள் பின்னர் வெளியிடக்கூடிய ${count} சேமித்த மாற்றங்கள் உள்ளன.
+The draft holds 1 saved change you can publish later.,வரைவில் நீங்கள் பின்னர் வெளியிடக்கூடிய 1 சேமித்த மாற்றம் உள்ளது.
+The draft is deleted.,வரைவு நீக்கப்பட்டது.
+The draft itself is deleted.,வரைவே நீக்கப்பட்டது.
+The general information about the coupon.,கூப்பன் பற்றிய பொதுவான தகவல்.
+"The language of the admin panel, independent of the storefront.","கடைமுகத்திலிருந்து சுயாதீனமாக, நிர்வாகப் பலகத்தின் மொழி."
+The method will no longer apply to this zone.,இந்த முறை இனி இந்த மண்டலத்திற்குப் பொருந்தாது.
+The minimum quantity of items required in the order to qualify for this coupon.,இந்த கூப்பனுக்குத் தகுதிபெற ஆர்டரில் தேவைப்படும் குறைந்தபட்ச உருப்படிகளின் அளவு.
+The minimum total amount required for the order to qualify for this coupon.,இந்த கூப்பனுக்குத் தகுதிபெற ஆர்டருக்குத் தேவைப்படும் குறைந்தபட்ச மொத்தத் தொகை.
+The rollout plan,வெளியீட்டுத் திட்டம்
+The storefront's primary language. Pages in this language have no URL prefix.,கடைமுகத்தின் முதன்மை மொழி. இந்த மொழியிலுள்ள பக்கங்களுக்கு URL முன்னொட்டு இல்லை.
+The type of discount applied by the coupon.,கூப்பனால் பயன்படுத்தப்படும் தள்ளுபடியின் வகை.
+The zone this rate applies to.,இந்த விகிதம் பொருந்தும் மண்டலம்.
+"There is no ""Select"" attribute available.","""Select"" பண்பு எதுவும் கிடைக்கவில்லை."
+There is no attribute to display,காண்பிக்க பண்பு எதுவும் இல்லை
+There is no category to display,காண்பிக்க வகை எதுவும் இல்லை
+There is no collections to display,காண்பிக்க தொகுப்புகள் எதுவும் இல்லை
+There is no coupon to display,காண்பிக்க கூப்பன் எதுவும் இல்லை
+There is no customer to display,காண்பிக்க வாடிக்கையாளர் எதுவும் இல்லை
+There is no order to display,காண்பிக்க ஆர்டர் எதுவும் இல்லை
+There is no page to display,காண்பிக்க பக்கம் எதுவும் இல்லை
+There is no widget to display,காண்பிக்க விட்ஜெட் எதுவும் இல்லை
+There was an error fetching attribute groups.,பண்புக் குழுக்களைப் பெறுவதில் பிழை ஏற்பட்டது.
+There was an error fetching categories.,வகைகளைப் பெறுவதில் பிழை ஏற்பட்டது.
+There was an error fetching collections.,தொகுப்புகளைப் பெறுவதில் பிழை ஏற்பட்டது.
+There was an error fetching file browser APIs.,கோப்பு உலாவி API-களைப் பெறுவதில் பிழை ஏற்பட்டது.
+There was an error fetching products.,தயாரிப்புகளைப் பெறுவதில் பிழை ஏற்பட்டது.
+This cannot be undone. Packages still assigned to products can't be removed.,இதைச் செயல்தவிர்க்க முடியாது. இன்னும் தயாரிப்புகளுக்கு ஒதுக்கப்பட்ட தொகுப்புகளை அகற்ற முடியாது.
+This changeset has no operations yet.,இந்த மாற்றத்தொகுப்பில் இன்னும் செயல்பாடுகள் எதுவும் இல்லை.
+This field is required,இந்த புலம் தேவை
+This is the URL path for the CMS page.,இது CMS பக்கத்திற்கான URL பாதை.
+This is the address used to calculate tax rates.,இது வரி விகிதங்களைக் கணக்கிட பயன்படும் முகவரி.
+This is the meta title for the CMS page.,இது CMS பக்கத்திற்கான மெட்டா தலைப்பு.
+This is the name of the CMS page that will be displayed in the admin panel.,இது நிர்வாகப் பலகத்தில் காண்பிக்கப்படும் CMS பக்கத்தின் பெயர்.
+This is the tax class applied to shipping costs.,இது கப்பல் போக்குவரத்துச் செலவுகளுக்குப் பயன்படுத்தப்படும் வரி வகுப்பு.
+This product has some variants like color or size?,இந்த தயாரிப்பில் நிறம் அல்லது அளவு போன்ற சில வகைகள் உள்ளனவா?
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,இந்த வழங்குநருக்கு ஒவ்வொரு மண்டலத்திற்கான கட்டமைப்பு இல்லை. முறைகள் மற்றும் ஒவ்வொரு மண்டல விகிதங்கள் வழங்குநரின் சொந்த நிர்வாகப் பகுதியில் நிர்வகிக்கப்படுகின்றன.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,இது மண்டலத்தை அதன் வழங்குநர் இணைப்புகள் மற்றும் விகிதங்களுடன் சேர்த்து அகற்றுகிறது. இதைச் செயல்தவிர்க்க முடியாது.
+This route has unpublished changes in your draft,இந்த வழித்தடத்தில் உங்கள் வரைவில் வெளியிடப்படாத மாற்றங்கள் உள்ளன
+This will be saved as a pending change you can publish or discard.,இது நீங்கள் வெளியிடக்கூடிய அல்லது நிராகரிக்கக்கூடிய நிலுவையிலுள்ள மாற்றமாகச் சேமிக்கப்படும்.
+Tiered,அடுக்கு வரிசை
+Type is required,வகை தேவை
+URL Key,URL விசை
+URL Key is required,URL விசை தேவை
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","URL விசை சிறிய எழுத்தில் இருக்க வேண்டும், மேலும் எழுத்துகள், எண்கள் மற்றும் இடைக்கோடுகளை மட்டுமே கொண்டிருக்க முடியும்"
+URL key,URL விசை
+URL key is required,URL விசை தேவை
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,"URL விசை சிறிய எழுத்தில் இருக்க வேண்டும், மேலும் எழுத்தெண் வரியுருக்கள் மற்றும் இடைக்கோடுகளை மட்டுமே கொண்டிருக்க முடியும்"
+Unassign,ஒதுக்கீட்டை நீக்கு
+Undo (⌘Z) — undoes your last edit on this page,செயல்தவிர் (⌘Z) — இந்தப் பக்கத்தில் உங்கள் கடைசி திருத்தத்தை மீட்டெடுக்கிறது
+Undo / Redo,செயல்தவிர் / மீண்டும்செய்
+Undo last change on this page,இந்தப் பக்கத்தில் கடைசி மாற்றத்தைச் செயல்தவிர்
+Unknown,தெரியாதது
+Unlink,இணைப்பு நீக்கு
+Unpin drawer,டிராயரை அவிழ்
+Unpin — drawer will close when you click empty canvas,அவிழ் — காலியான கேன்வாஸை கிளிக் செய்தால் டிராயர் மூடப்படும்
+Unpublished changes,வெளியிடப்படாத மாற்றங்கள்
+Unsaved changes,சேமிக்கப்படாத மாற்றங்கள்
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,இந்த ரோல்அவுட் திட்டத்திற்கான பெயரையும் செயலில் உள்ள சாளரத்தையும் புதுப்பிக்கவும். உள்ளடக்கத் திருத்தங்கள் எடிட்டரில் தனியாக நிர்வகிக்கப்படுகின்றன.
+Update the variant details and attributes here.,இங்கே மாறுபாட்டு விவரங்களையும் பண்புகளையும் புதுப்பிக்கவும்.
+Updated,புதுப்பிக்கப்பட்டது
+Upload an image for the category.,வகைக்காக ஒரு படத்தைப் பதிவேற்றவும்.
+Used Times,பயன்படுத்தப்பட்ட முறைகள்
+Value is required,மதிப்பு தேவை
+Variant Group,மாறுபாட்டுக் குழு
+Variant created successfully,மாறுபாடு வெற்றிகரமாக உருவாக்கப்பட்டது
+Variant updated successfully,மாறுபாடு வெற்றிகரமாக புதுப்பிக்கப்பட்டது
+Version ${version},பதிப்பு ${version}
+Visibility,தெரிவுநிலை
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,கடையில் தயாரிப்பு எங்கு தோன்றுகிறது என்பதைத் தெரிவுநிலை தீர்மானிக்கிறது. இது தயாரிப்பின் விற்பனைத் தன்மையைப் பாதிக்காது.
+Visitors will see the new layout on their next page load.,பார்வையாளர்கள் தங்களின் அடுத்த பக்க ஏற்றத்தில் புதிய தளவமைப்பைக் காண்பார்கள்.
+Webhook Secret Key,Webhook ரகசிய விசை
+Weight,எடை
+Weight must be 0 or greater,எடை 0 அல்லது அதற்கு மேற்பட்டதாக இருக்க வேண்டும்
+Weight must be a positive number,எடை நேர்மறை எண்ணாக இருக்க வேண்டும்
+Weight-based tiers,எடை அடிப்படையிலான அடுக்குகள்
+Widget Settings,விட்ஜெட் அமைப்புகள்
+Widget created successfully!,விட்ஜெட் வெற்றிகரமாக உருவாக்கப்பட்டது!
+Widgets,விட்ஜெட்கள்
+Width,அகலம்
+Width is required,அகலம் தேவை
+Width must be greater than 0,அகலம் 0 ஐ விட அதிகமாக இருக்க வேண்டும்
+Will roll out automatically: ${range},தானாகவே வெளியிடப்படும்: ${range}
+Working…,செயல்படுகிறது…
+Worldwide,உலகம் முழுவதும்
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,இந்த வரைவில் இன்னும் வெளியிடப்படாத ${count} மாற்றங்கள் உங்களிடம் உள்ளன.
+You have ${count} changes still saving.,இன்னும் சேமிக்கப்பட்டுக்கொண்டிருக்கும் ${count} மாற்றங்கள் உங்களிடம் உள்ளன.
+You have 1 change in this draft that hasn’t been published yet.,இந்த வரைவில் இன்னும் வெளியிடப்படாத 1 மாற்றம் உங்களிடம் உள்ளது.
+You have 1 change still saving.,இன்னும் சேமிக்கப்பட்டுக்கொண்டிருக்கும் 1 மாற்றம் உங்களிடம் உள்ளது.
+Your draft is safe on the server — you can come back and publish it any time.,உங்கள் வரைவு சேவையகத்தில் பாதுகாப்பாக உள்ளது — எந்த நேரத்திலும் திரும்பி வந்து அதை வெளியிடலாம்.
+Your edits on other pages stay in the draft.,மற்ற பக்கங்களில் உங்கள் திருத்தங்கள் வரைவில் இருக்கும்.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,உங்கள் webhook url இவ்வாறு இருக்க வேண்டும்: https://yourdomain.com/api/stripe/webhook
+Zone,மண்டலம்
+Zone Name,மண்டலப் பெயர்
+Zone Rates,மண்டல விகிதங்கள்
+Zone created,மண்டலம் உருவாக்கப்பட்டது
+Zone is required,மண்டலம் தேவை
+Zone name is required,மண்டலப் பெயர் தேவை
+Zone removed,மண்டலம் அகற்றப்பட்டது
+Zone updated,மண்டலம் புதுப்பிக்கப்பட்டது
+Zones served,சேவை செய்யப்படும் மண்டலங்கள்
+and ${count} more,மேலும் ${count}
+container will also hide,கொள்கலனும் மறைக்கப்படும்
+current page,தற்போதைய பக்கம்
+e.g. Small Box,எ.கா. சிறிய பெட்டி
+e.g. Summer Sale 2026,எ.கா. கோடை விற்பனை 2026
+e.g. content,எ.கா. content
+"e.g., 10.00","எ.கா., 10.00"
+"e.g., EU, US-West","எ.கா., EU, US-West"
+"e.g., Express","எ.கா., Express"
+"e.g., FEDEX_GROUND, usps_priority","எ.கா., FEDEX_GROUND, usps_priority"
+every page,ஒவ்வொரு பக்கமும்
+indefinite,வரையறுக்கப்படாதது
+open,திற
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","வெளியீடு உடனடியானது, இந்தத் திரையிலிருந்து செயல்தவிர்க்க முடியாது. அதற்குப் பதிலாக நிலைப்படுத்த, ரத்து செய்து “ரோல்அவுட்டை திட்டமிடு” என்பதைத் தேர்ந்தெடுக்கவும்."
+quantity of products are matched bellow conditions(All),கீழே உள்ள நிபந்தனைகளுக்குப் பொருந்தும் தயாரிப்புகளின் அளவு (அனைத்தும்)
+subtotal,துணை மொத்தம்
+to a storefront route's,கடைமுகப்பு வழித்தடத்தின்
+to make it appear here.,இங்கே தோன்றச் செய்ய.
+weight,எடை
+widget? This will be saved as a pending change you can publish or discard.,"விட்ஜெட்? இது நிலுவையில் உள்ள மாற்றமாக சேமிக்கப்படும், அதை நீங்கள் வெளியிடலாம் அல்லது நிராகரிக்கலாம்."
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,"அகற்றப்படும், மேலும் நேரடி கடைமுகப்பு அதன் திருத்தங்களைப் பயன்படுத்துவதை நிறுத்தும். அடிப்படை மாற்றத்தொகுப்பும் அதன் நிலுவையில் உள்ள உள்ளடக்கத் திருத்தங்களும் பாதுகாக்கப்படும்."
+— None —,— எதுவுமில்லை —
+Cash On Delivery,பொருள் வந்தபின் பணம்
+Please select a valid payment method,செல்லுபடியாகும் கட்டண முறையைத் தேர்ந்தெடுக்கவும்
+Show ${label} width,${label} அகலத்தைக் காட்டு
+Column ${index},நெடுவரிசை ${index}
+Switch page,பக்கத்தை மாற்று
+Search pages…,பக்கங்களைத் தேடு…
+Search pages,பக்கங்களைத் தேடு
+Save your pending edits — the live storefront will catch up,உங்கள் நிலுவையில் உள்ள திருத்தங்களைச் சேமிக்கவும் — நேரடி கடைமுகப்பு பின்தொடரும்
+No changes to save — the rollout matches the editor,சேமிக்க மாற்றங்கள் இல்லை — ரோல்அவுட் எடிட்டருடன் பொருந்துகிறது
+More rollout actions,மேலும் ரோல்அவுட் செயல்கள்
+Revert to saved state…,சேமிக்கப்பட்ட நிலைக்குத் திரும்பு…
+Roll back the editor to what the rollout currently shows on the storefront,கடைமுகப்பில் ரோல்அவுட் தற்போது காட்டுவதற்கு எடிட்டரை மீட்டமைக்கவும்
+Nothing to revert — the editor matches the saved state,மீட்டெடுக்க எதுவுமில்லை — எடிட்டர் சேமிக்கப்பட்ட நிலையுடன் பொருந்துகிறது
+Cancel rollout plan…,ரோல்அவுட் திட்டத்தை ரத்துசெய்…
+Remove the schedule — the changeset is preserved,அட்டவணையை அகற்று — மாற்றத்தொகுப்பு பாதுகாக்கப்படுகிறது
+Publish,வெளியிடு
+More publish options,மேலும் வெளியீட்டு விருப்பங்கள்
+Apply all edits to the live storefront immediately,அனைத்து திருத்தங்களையும் நேரடி கடைமுகப்பில் உடனடியாகப் பயன்படுத்து
+Save as rollout plan…,ரோல்அவுட் திட்டமாக சேமி…
+Schedule these edits to roll out at a future time,இந்த திருத்தங்களை எதிர்காலத்தில் வெளியிட திட்டமிடவும்
+Discard pending changes…,நிலுவையில் உள்ள மாற்றங்களை நிராகரி…
+Choose between discarding the whole draft or just this page,முழு வரைவையும் நிராகரிப்பது அல்லது இந்தப் பக்கத்தை மட்டும் நிராகரிப்பது இடையே தேர்வுசெய்யவும்
+Switch session,அமர்வை மாற்று
+New changeset,புதிய மாற்றத்தொகுப்பு
+Rollout: ${name},ரோல்அவுட்: ${name}
+Click or drag to add,சேர்க்க கிளிக் செய்யவும் அல்லது இழுக்கவும்
+Background color,பின்னணி நிறம்
+Text color,உரை நிறம்
+Dwell time,நிலைத்திருக்கும் நேரம்
+Time each announcement stays visible (in addition to the 400ms slide transition).,ஒவ்வொரு அறிவிப்பும் காணப்படும் நேரம் (400ms ஸ்லைடு மாற்றத்திற்கு கூடுதலாக).
+Announcements,அறிவிப்புகள்
+Add announcement,அறிவிப்பைச் சேர்
+Untitled,தலைப்பில்லாதது
+Free shipping on orders over $50,$50 க்கு மேலான ஆர்டர்களுக்கு இலவச அனுப்புதல்
+Optional. Makes the entire row a clickable link.,விருப்பத்தேர்வு. முழு வரிசையையும் கிளிக் செய்யக்கூடிய இணைப்பாக மாற்றுகிறது.
+Link label,இணைப்பு லேபிள்
+Optional. Displayed after the content; defaults to the content itself.,விருப்பத்தேர்வு. உள்ளடக்கத்திற்குப் பிறகு காட்டப்படும்; இயல்பாக உள்ளடக்கமாகவே இருக்கும்.
+Shop now,இப்போது வாங்கு
+Dark,இருண்ட
+Light,ஒளிமயமான
+Gradient,சாய்வுநிறம்
+Left,இடது
+Center,நடு
+Right,வலது
+Selected image,தேர்ந்தெடுக்கப்பட்ட படம்
+No image selected,எந்தப் படமும் தேர்ந்தெடுக்கப்படவில்லை
+Replace,மாற்று
+Clear,அழி
+Reflects the alignment below.,கீழே உள்ள சீரமைப்பைப் பிரதிபலிக்கிறது.
+Banner Image,பேனர் படம்
+Mobile image,மொபைல் படம்
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,விருப்பத்தேர்வு. 768px முறிவுப்புள்ளிக்கு கீழே பயன்படுத்தப்படும். காலியாக இருக்கும்போது மேலே உள்ள படத்திற்குத் திரும்பும் — பொதுவாக அதே காட்சியின் செங்குத்துப் பகுதியாகப் பயன்படுத்தப்படுகிறது.
+Alignment,சீரமைப்பு
+Overlay copy,மேலடுக்கு உரை
+Eyebrow,மேல்தலைப்பு
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".","தலைப்பிற்கு மேல் சிறிய பெரிய எழுத்து லேபிள். எ.கா. ""LIMITED EDITION""."
+LIMITED EDITION,வரையறுக்கப்பட்ட பதிப்பு
+Heading,தலைப்பு
+The Summer Edit,த சம்மர் எடிட்
+Sub-text,துணை உரை
+One short supporting sentence.,ஒரு குறுகிய துணை வாக்கியம்.
+Overlay placement,மேலடுக்கு இடம்
+Content position,உள்ளடக்க நிலை
+Where the overlay text sits on the image.,படத்தில் மேலடுக்கு உரை எங்கு அமைகிறது.
+Tint,நிறச்சாயல்
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,படிக்கக்கூடிய தன்மைக்காக மேலடுக்கு உரைக்குப் பின்னால் ஒரு திரை. இருண்ட / சாய்வுநிறம் உரையைத் தானாகவே வெள்ளையாக மாற்றும்.
+Tint opacity,நிறச்சாயல் ஒளிபுகாமை
+Call to actions,செயல் அழைப்புகள்
+Remove primary CTA,முதன்மை CTA ஐ அகற்று
++ Add a primary CTA,+ முதன்மை CTA ஐச் சேர்
+Secondary,இரண்டாம்நிலை
+Remove secondary CTA,இரண்டாம்நிலை CTA ஐ அகற்று
+Learn more,மேலும் அறிக
++ Add a secondary CTA,+ இரண்டாம் நிலை CTA-ஐச் சேர்க்கவும்
+Details,விவரங்கள்
+Alt text,மாற்று உரை
+Describes the banner for screen readers and SEO.,திரை வாசிப்பான்கள் மற்றும் SEO-க்காக பேனரை விவரிக்கிறது.
+"e.g. ""Summer sale promotional banner""","எ.கா. ""கோடை விற்பனை விளம்பர பேனர்"""
+Banner link,பேனர் இணைப்பு
+Optional. Clicking the banner navigates here.,விருப்பத்தேர்வு. பேனரைக் கிளிக் செய்தால் இங்கே செல்லும்.
+Display name,காட்சிப் பெயர்
+Shop,கடை
+Target,இலக்கு
+"Page, category, product, or a custom URL.","பக்கம், வகை, தயாரிப்பு அல்லது தனிப்பயன் URL."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: இந்த இணைப்புக்கு தரவரிசை மதிப்பை அளிக்க வேண்டாம் (rel=nofollow).
+No referrer,பரிந்துரைப்பான் இல்லை
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,தனியுரிமை: பரிந்துரைக்கும் URL-ஐ நீக்கவும் (rel=noreferrer). புதிய-தாவல் இணைப்புகள் எப்போதும் இதைச் சேர்க்கும்.
+Menu items,மெனு உருப்படிகள்
+Add menu item,மெனு உருப்படியைச் சேர்க்கவும்
+Sub-items,துணை உருப்படிகள்
+Optional dropdown links (1 level).,விருப்பத்தேர்வு கீழ்விரி இணைப்புகள் (1 நிலை).
+Add sub-item,துணை உருப்படியைச் சேர்க்கவும்
+Options,விருப்பங்கள்
+Use as main menu,முதன்மை மெனுவாகப் பயன்படுத்து
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","முதன்மை வழிசெலுத்தல் — மொபைலில் இது ஹேம்பர்கர் மெனுவாக சுருங்கும். எளிய இணைப்புப் பட்டியலுக்கு (எ.கா. அடிப்பகுதி) இதை அணைக்கவும், அது மொபைலில் வரிசையில் இருக்கும்."
+Custom CSS classes,தனிப்பயன் CSS கிளாஸ்கள்
+Applied to the rendered menu element.,வழங்கப்பட்ட மெனு உறுப்புக்குப் பயன்படுத்தப்படும்.
+e.g. main-nav font-semibold,எ.கா. main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,டைல்கள்
+Add tile,டைலைச் சேர்க்கவும்
+Hero · ,ஹீரோ · 
+Used when no image is set.,எந்த படமும் அமைக்கப்படாதபோது பயன்படுத்தப்படும்.
+Small label above the heading.,தலைப்புக்கு மேலே சிறிய லேபிள்.
+THE SUMMER EDIT,THE SUMMER EDIT
+New Arrivals,புதிய வரவுகள்
+Body,உள்ளடக்கம்
+Big card — the headline of the grid.,பெரிய கார்டு — கட்டத்தின் தலைப்பு.
+Link URL,இணைப்பு URL
+Gap,இடைவெளி
+Minimum block height,குறைந்தபட்ச தொகுதி உயரம்
+Image left,படம் இடதுபுறம்
+Image right,படம் வலதுபுறம்
+Centered,மையப்படுத்தப்பட்டது
+Pull quote,முன்னிலை மேற்கோள்
+Variant,மாறுபாடு
+Image column size,படம் நெடுவரிசை அளவு
+Describe the image,படத்தை விவரிக்கவும்
+Copy,உரை
+"Small all-caps label. E.g. ""OUR STORY"".","சிறிய பெரிய எழுத்து லேபிள். எ.கா. ""OUR STORY""."
+Our story,எங்கள் கதை
+"Made by hand, in small batches","கையால் செய்யப்பட்டது, சிறிய தொகுதிகளில்"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","முன்னிலை மேற்கோள் மாறுபாட்டிற்குத் தேவை. பெரியதாகக் காட்டப்படும், ப்ளாக்கோட் வடிவில்."
+"A short, quotable line.","ஒரு குறுகிய, மேற்கோளிடத்தக்க வரி."
+Three or four sentences of brand narrative.,பிராண்ட் கதையின் மூன்று அல்லது நான்கு வாக்கியங்கள்.
+Second body paragraph (optional),இரண்டாவது உள்ளடக்கப் பத்தி (விருப்பத்தேர்வு)
+A second short paragraph if the story needs it.,கதைக்குத் தேவைப்பட்டால் இரண்டாவது குறுகிய பத்தி.
+Read more link,மேலும் படிக்க இணைப்பு
+Read more,மேலும் படிக்க
+URL,URL
+Remove read-more link,மேலும் படிக்க இணைப்பை அகற்று
++ Add a read-more link,+ மேலும் படிக்க இணைப்பைச் சேர்க்கவும்
+Square,சதுரம்
+Landscape,அகலவாக்கு
+Portrait,நெடுவாக்கு
+Overlay,மேலடுக்கு
+Below,கீழே
+New category,புதிய வகை
+Section heading,பிரிவுத் தலைப்பு
+Optional. Shown above the grid.,விருப்பத்தேர்வு. கட்டத்திற்கு மேலே காட்டப்படும்.
+Shop by category,வகையின்படி கடை செய்யவும்
+Women,பெண்கள்
+Columns,நெடுவரிசைகள்
+Auto,தானியங்கி
+Asymmetric makes the first tile span 2 columns.,சமச்சீரற்றது முதல் டைலை 2 நெடுவரிசைகளில் விரிக்கச் செய்யும்.
+Uniform,சீரானது
+Asymmetric,சமச்சீரற்றது
+Image aspect,படம் விகிதம்
+Label position,லேபிள் நிலை
+Blush,இளஞ்சிவப்பு
+XL,XL
+Position ${c},நிலை ${c}
+Column layout,நெடுவரிசை அமைப்பு
+Drag widgets into each column. Children re-flow when you change the ratio.,ஒவ்வொரு நெடுவரிசையிலும் விட்ஜெட்களை இழுக்கவும். விகிதத்தை மாற்றும்போது குழந்தைகள் மீண்டும் ஒழுங்கமைக்கப்படும்.
+Space between columns.,நெடுவரிசைகளுக்கு இடையேயான இடைவெளி.
+Where content sits within each column. Applied uniformly to every column.,ஒவ்வொரு நெடுவரிசையிலும் உள்ளடக்கம் எங்கே அமைகிறது. ஒவ்வொரு நெடுவரிசைக்கும் சீராகப் பயன்படுத்தப்படும்.
+Row appearance,வரிசை தோற்றம்
+Background,பின்னணி
+Custom color,தனிப்பயன் நிறம்
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","எந்த CSS நிறமும் (எ.கா. ""#0a0a0a"" அல்லது ""rgb(10,10,10)""). மேலே உள்ள மாதிரியைப் பயன்படுத்த காலியாக விடவும்."
+Padding,உள்ளடக்க இடைவெளி
+Outer spacing around the row. Scales down on mobile.,வரிசையைச் சுற்றியுள்ள வெளி இடைவெளி. மொபைலில் சிறிதாகும்.
+Solid,திடம்
+Dashed,புள்ளிக்கோடு
+Already expired,ஏற்கனவே காலாவதியானது
+Expires in ${days}d ${hours}h,${days}நா ${hours}ம-இல் காலாவதியாகும்
+Expires in ${hours}h ${minutes}m,${hours}ம ${minutes}நி-இல் காலாவதியாகும்
+Offer,சலுகை
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","அவசர வரி. விருப்பத்தேர்வு. எ.கா. ""Limited · Ends Sunday""."
+Limited · Ends Sunday,வரம்பு · ஞாயிறு முடிவடைகிறது
+Headline,தலைப்பு
+Take 20% off your order,உங்கள் ஆர்டரில் 20% தள்ளுபடி பெறுங்கள்
+Optional. One short instructional line.,விருப்பத்தேர்வு. ஒரு குறுகிய அறிவுறுத்தல் வரி.
+Use code at checkout,செக்அவுட்டில் குறியீட்டைப் பயன்படுத்தவும்
+Promo code,விளம்பரக் குறியீடு
+Displayed in uppercase to shoppers.,வாங்குபவர்களுக்கு பெரிய எழுத்தில் காட்டப்படும்.
+Expires,காலாவதியாகும்
+Optional. The block auto-hides after this time for live visitors.,விருப்பத்தேர்வு. நேரடி பார்வையாளர்களுக்கு இந்த நேரத்திற்குப் பிறகு தொகுதி தானாக மறையும்.
+Call to action,செயல்படுத்தும் அழைப்பு
+Button label,பொத்தான் லேபிள்
+Shop now →,இப்போது கடை செய்யவும் →
+Button link,பொத்தான் இணைப்பு
+Appearance,தோற்றம்
+Border,எல்லை
+Narrow,குறுகலான
+Normal,சாதாரண
+Wide,அகலமான
+Shown above all content. Optional.,அனைத்து உள்ளடக்கத்திற்கும் மேலே காட்டப்படும். விருப்பத்தேர்வு.
+e.g. Frequently asked,எ.கா. அடிக்கடி கேட்கப்படுபவை
+Prose,உரை
+FAQ group · ${count} items,FAQ குழு · ${count} உருப்படிகள்
+Group heading,குழுத் தலைப்பு
+Optional sub-heading.,விருப்பத்தேர்வு துணைத் தலைப்பு.
+e.g. Shipping,எ.கா. கப்பல் போக்குவரத்து
+Add question,கேள்வியைச் சேர்க்கவும்
+Question,கேள்வி
+e.g. How long does shipping take?,எ.கா. கப்பல் போக்குவரத்துக்கு எவ்வளவு நேரம் ஆகும்?
+Answer,பதில்
+"Supports **bold**, _italic_, and line breaks.","**bold**, _italic_ மற்றும் வரி முறிவுகளை ஆதரிக்கிறது."
+e.g. Orders ship within 24 hours…,எ.கா. ஆர்டர்கள் 24 மணி நேரத்திற்குள் அனுப்பப்படும்…
+Add prose,உரையைச் சேர்க்கவும்
+Add FAQ group,FAQ குழுவைச் சேர்க்கவும்
+Max width,அதிகபட்ச அகலம்
+Content column width.,உள்ளடக்க நெடுவரிசை அகலம்.
+Allow multiple open,பல திறப்புகளை அனுமதி
+"When off, opening one FAQ item closes the others in the same group.","அணைக்கப்பட்டால், ஒரு FAQ உருப்படியைத் திறப்பது அதே குழுவில் உள்ள மற்றவற்றை மூடும்."
+New link,புதிய இணைப்பு
+New column,புதிய நெடுவரிசை
+Add column,நெடுவரிசையைச் சேர்க்கவும்
+${title} · ${count} links,${title} · ${count} இணைப்புகள்
+Column title,நெடுவரிசை தலைப்பு
+Links,இணைப்புகள்
+"Min 1, max 12.","குறைந்தபட்சம் 1, அதிகபட்சம் 12."
+Add link,இணைப்பைச் சேர்க்கவும்
+New arrivals,புதிய வரவுகள்
+Boxed,பெட்டியிடப்பட்டது
+Wide (full bleed),அகலம் (முழு விரிவு)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,பெட்டியிடப்பட்டது பக்கத்தின் கொள்கலனுக்குள் இருக்கும் (அதிகபட்ச அகலத்தை தீம் தீர்மானிக்கிறது). அகலம் விளிம்பு முதல் விளிம்பு வரை விரிகிறது.
+Scales down on mobile.,மொபைலில் சிறிதாகும்.
+Optional. Painted behind content. Combine with a tint below for legibility.,விருப்பத்தேர்வு. உள்ளடக்கத்தின் பின்னால் வரையப்படும். படிக்கக்கூடிய தன்மைக்காக கீழே உள்ள நிறச்சாயலுடன் இணைக்கவும்.
+XS,XS
+Spacing,இடைவெளி
+Size,அளவு
+Mobile scales down ~⅔ automatically.,மொபைலில் தானாகவே ~⅔ அளவு குறைக்கப்படும்.
+Divider line,பிரிப்பான் கோடு
+Show divider line,பிரிப்பான் கோட்டைக் காட்டு
+A horizontal rule centred in the spacing band.,இடைவெளிப் பகுதியின் நடுவில் ஒரு கிடைமட்டக் கோடு.
+Line color,கோட்டின் நிறம்
+Default uses the theme's divider color.,இயல்பாக தீமின் பிரிப்பான் நிறத்தைப் பயன்படுத்துகிறது.
+Sides,பக்கங்கள்
+Bottom,கீழே
+Dots,புள்ளிகள்
+Bars,கம்பிகள்
+Mobile image (optional),மொபைல் படம் (விருப்பத்திற்குரியது)
+Used at ≤ 767 px. Falls back to the main image.,≤ 767 px இல் பயன்படுத்தப்படுகிறது. இல்லையெனில் முதன்மைப் படத்தைப் பயன்படுத்தும்.
+e.g. New collection,எ.கா. புதிய தொகுப்பு
+e.g. Summer Sale,எ.கா. கோடைகால விற்பனை
+Sub text,துணை உரை
+Check out our latest products with special discounts.,சிறப்புத் தள்ளுபடிகளுடன் எங்கள் சமீபத்திய தயாரிப்புகளைப் பாருங்கள்.
+Primary button,முதன்மை பொத்தான்
+Secondary button,இரண்டாம்நிலை பொத்தான்
++ Add secondary button,+ இரண்டாம்நிலை பொத்தானைச் சேர்
+Overrides,மேலெழுதல்கள்
+Leaves slide-specific anchor; falls back to the slideshow's default.,ஸ்லைடு சார்ந்த நங்கூரத்தை விட்டுவிடுகிறது; இல்லையெனில் ஸ்லைடுஷோவின் இயல்புநிலையைப் பயன்படுத்தும்.
+Overlay tint,மேற்படிவு சாயம்
+Overlay opacity,மேற்படிவு ஒளிபுகாமை
+Make whole slide clickable,முழு ஸ்லைடையும் கிளிக் செய்யக்கூடியதாக்கு
+Behavior,நடத்தை
+Transition,மாற்றம்
+Slide,ஸ்லைடு
+Fade,மங்கல்
+Transition speed,மாற்ற வேகம்
+Autoplay,தானியங்கி இயக்கம்
+Autoplay delay,தானியங்கி இயக்கத் தாமதம்
+${seconds} s between slides,ஸ்லைடுகளுக்கு இடையே ${seconds} வி
+Pause on hover,வட்டமிடும்போது இடைநிறுத்து
+Pause for 20 s after user nav,பயனர் வழிசெலுத்தலுக்குப் பிறகு 20 வி இடைநிறுத்து
+Arrows,அம்புக்குறிகள்
+Aspect ratio,விகித விகிதாசாரம்
+`Auto` matches the natural image height (jumps between slides).,`Auto` இயற்கையான படத்தின் உயரத்துடன் பொருந்துகிறது (ஸ்லைடுகளுக்கு இடையே தாவுகிறது).
+Default content position,இயல்பு உள்ளடக்க நிலை
+Per-slide overrides win.,ஒவ்வொரு ஸ்லைடின் மேலெழுதல்களே வெல்லும்.
+Default overlay tint,இயல்பு மேற்படிவு சாயம்
+Default overlay opacity,இயல்பு மேற்படிவு ஒளிபுகாமை
+Slides (${count}),ஸ்லைடுகள் (${count})
+No slides yet.,இன்னும் ஸ்லைடுகள் இல்லை.
+Add your first slide,உங்கள் முதல் ஸ்லைடைச் சேர்
+Slide ${number},ஸ்லைடு ${number}
+Image only,படம் மட்டும்
+Empty,காலி
+Show slide,ஸ்லைடைக் காட்டு
+Hide slide,ஸ்லைடை மறை
+Move slide up,ஸ்லைடை மேலே நகர்த்து
+Move slide down,ஸ்லைடை கீழே நகர்த்து
+Delete slide,ஸ்லைடை நீக்கு
+Top,மேலே
+Cover,நிரப்பு
+Contain,உள்ளடக்கு
+Required for accessibility.,அணுகலுக்கு அவசியம்.
+Image fit,படப் பொருத்தம்
+"Small all-caps label. E.g. ""LIMITED EDITION"".","சிறிய பெரிய எழுத்து லேபிள். எ.கா. ""LIMITED EDITION""."
+Limited edition,வரம்புக்குட்பட்ட பதிப்பு
+One strong line,ஒரு வலுவான வரி
+Two lines of supporting copy.,இரண்டு வரிகள் ஆதரவு உரை.
+Image position,படத்தின் நிலை
+Vertical alignment,செங்குத்து சீரமைப்பு
+Aligns the copy panel content.,உரைப் பலகை உள்ளடக்கத்தைச் சீரமைக்கிறது.
+Remove call to action,செயல் அழைப்பை அகற்று
+Add a call to action,செயல் அழைப்பைச் சேர்
+Custom CSS classes for the text block,உரைத் தொகுதிக்கான தனிப்பயன் CSS வகுப்புகள்
+Add group,குழுவைச் சேர்
+${label} · ${count} subs,${label} · ${count} துணைகள்
+Parent label,பெற்றோர் லேபிள்
+Parent link,பெற்றோர் இணைப்பு
+Image alt text,படத்தின் மாற்று உரை
+Sub-categories,துணை வகைகள்
+"Min 1, max 8.","குறைந்தபட்சம் 1, அதிகபட்சம் 8."
+Add sub-category,துணை வகையைச் சேர்
+Dresses,ஆடைகள்
+Columns (desktop),நெடுவரிசைகள் (டெஸ்க்டாப்)
+On tablets the layout is always 2 columns.,டேப்லெட்டுகளில் அமைப்பு எப்போதும் 2 நெடுவரிசைகள்.
+Make parent image a link,பெற்றோர் படத்தை ஒரு இணைப்பாக்கு
+"When off, only the sub-chips and parent label are interactive.","அணைக்கப்பட்டால், துணைச் சில்லுகள் மற்றும் பெற்றோர் லேபிள் மட்டுமே ஊடாடக்கூடியவை."
+Title,தலைப்பு
+e.g. Free shipping,எ.கா. இலவச அனுப்புதல்
+Optional supporting line below the title.,தலைப்புக்குக் கீழே விருப்ப ஆதரவு வரி.
+Icon,ஐகான்
+Optional. SVG or raster image. Hidden when icons are turned off globally.,விருப்பத்திற்குரியது. SVG அல்லது ராஸ்டர் படம். ஐகான்கள் முழுவதுமாக அணைக்கப்பட்டால் மறைக்கப்படும்.
+Optional. Makes the whole cell clickable.,விருப்பத்திற்குரியது. முழு கட்டத்தையும் கிளிக் செய்யக்கூடியதாக்குகிறது.
+"Auto matches the item count, capped at 4.","உருப்படிகளின் எண்ணிக்கையுடன் தானாகப் பொருந்துகிறது, அதிகபட்சம் 4."
+3,3
+4,4
+Icon size,ஐகான் அளவு
+Show icons,ஐகான்களைக் காட்டு
+Master switch. Items without an icon URL are unaffected.,முதன்மை சுவிட்ச். ஐகான் URL இல்லாத உருப்படிகள் பாதிக்கப்படாது.
+Show divider,பிரிப்பானைக் காட்டு
+Vertical line between cells.,கட்டங்களுக்கு இடையே செங்குத்துக் கோடு.
+Collection,தொகுப்பு
+Search collections…,தொகுப்புகளைத் தேடு…
+No collections match “${value}”.,“${value}” உடன் பொருந்தும் தொகுப்புகள் இல்லை.
+You have no collections yet.,உங்களிடம் இன்னும் தொகுப்புகள் இல்லை.
+Please select a collection,தயவுசெய்து ஒரு தொகுப்பைத் தேர்ந்தெடுக்கவும்
+"Defaults to ""${name}"" (the collection's name).","இயல்பாக ""${name}"" (தொகுப்பின் பெயர்)."
+Defaults to the picked collection's name.,இயல்பாக தேர்ந்தெடுக்கப்பட்ட தொகுப்பின் பெயர்.
+Collection name,தொகுப்பின் பெயர்
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,இயல்பாக தொகுப்பின் விளக்கம். இதை அமைப்பது செழுமை-உரை விளக்கத்தை எளிய உரையால் மாற்றுகிறது.
+e.g. Hand-picked styles for the season.,எ.கா. பருவத்திற்காக கைதேர்ந்த பாணிகள்.
+View all link,அனைத்தையும் காண இணைப்பு
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","விருப்பத்திற்குரியது. காலியாக இருக்கும்போது மறைக்கப்படும். ஒரு வகை, தயாரிப்பு, பக்கத்தைத் தேர்ந்தெடுக்கவும் அல்லது தனிப்பயன் URL ஐ ஒட்டவும்."
+"Optional. Defaults to ""View all →"".","விருப்பத்திற்குரியது. இயல்பாக ""அனைத்தையும் காண →""."
+View all →,அனைத்தையும் காண →
+Total products,மொத்த தயாரிப்புகள்
+Number of products to display.,காண்பிக்க வேண்டிய தயாரிப்புகளின் எண்ணிக்கை.
+Products per row,வரிசைக்கு தயாரிப்புகள்
+Grid columns (1–6 typical).,கட்ட நெடுவரிசைகள் (வழக்கமாக 1–6).
+Count is required,எண்ணிக்கை தேவை
+e.g. 8,எ.கா. 8
+Count per row is required,வரிசைக்கான எண்ணிக்கை தேவை
+e.g. 4,எ.கா. 4
+Cover image,அட்டைப் படம்
+COLLECTION,தொகுப்பு
+"Defaults to ""${pickedName}"".","இயல்பாக ""${pickedName}""."
+Defaults to the picked collection name.,இயல்பாக தேர்ந்தெடுக்கப்பட்ட தொகுப்பின் பெயர்.
+Optional. One or two sentences of editorial copy.,விருப்பத்திற்குரியது. ஒன்று அல்லது இரண்டு வாக்கியங்கள் கட்டுரை உரை.
+"Linen, cotton, easy stuff.","லினன், பருத்தி, எளிய பொருட்கள்."
+Preview product count,முன்னோட்ட தயாரிப்பு எண்ணிக்கை
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,தயவுசெய்து ஒரு தொகுப்பைத் தேர்ந்தெடுக்கவும்
+Add collection,தொகுப்பைச் சேர்
+Row heading,வரிசைத் தலைப்பு
+The Linen Edit,The Linen Edit
+Optional. Hidden when empty.,விருப்பத்திற்குரியது. காலியாக இருக்கும்போது மறைக்கப்படும்.
+View all label,அனைத்தையும் காண லேபிள்
+Show price,விலையைக் காட்டு
+Show divider between rows,வரிசைகளுக்கு இடையே பிரிப்பானைக் காட்டு
+Selected:,தேர்ந்தெடுக்கப்பட்டது:
+Image override,படம் மேலெழுதல்
+Override image,படத்தை மேலெழுது
+Override image (optional),படத்தை மேலெழுது (விருப்பத்திற்குரியது)
+Leave empty to use the product's primary image.,தயாரிப்பின் முதன்மைப் படத்தைப் பயன்படுத்த காலியாக விடவும்.
+Small label above the product name. Optional.,தயாரிப்பின் பெயருக்கு மேலே சிறிய லேபிள். விருப்பத்திற்குரியது.
+FEATURED,சிறப்பிக்கப்பட்டது
+Editorial copy,கட்டுரை உரை
+Overrides the product's own description in this context. Leave blank to hide.,இந்தச் சூழலில் தயாரிப்பின் சொந்த விளக்கத்தை மேலெழுதுகிறது. மறைக்க காலியாக விடவும்.
+Two lines of copy explaining why this product is being spotlighted right now.,இந்தத் தயாரிப்பு ஏன் இப்போது சிறப்பிக்கப்படுகிறது என்பதை விளக்கும் இரண்டு வரி உரை.
+Please pick a product,தயவுசெய்து ஒரு தயாரிப்பைத் தேர்ந்தெடுக்கவும்
+e.g. On orders over $50,எ.கா. $50 க்கு மேல் உள்ள ஆர்டர்களில்
+Text block,உரைத் தொகுதி
+Menu,மெனு
+Footer menu,அடிக்குறிப்பு பட்டி
+Banner,பேனர்
+Simple Slideshow,எளிய படவில்லை காட்சி
+Brand story,பிராண்ட் கதை
+Category mosaic,வகை மொசைக்
+Tiered categories,படிநிலை வகைகள்
+Bento grid,பெண்டோ கட்டம்
+Separator,பிரிப்பான்
+Section,பிரிவு
+Split feature,பிளவு அம்சம்
+Announcement bar,அறிவிப்பு பட்டை
+Coupon block,கூப்பன் தொகுதி
+FAQ block,FAQ தொகுதி
+Trust strip,நம்பிக்கை பட்டை
+Collection products,தொகுப்பு தயாரிப்புகள்
+Collection stack,தொகுப்பு அடுக்கு
+Collection spotlight,தொகுப்பு சிறப்பு வெளிச்சம்
+Product hero,தயாரிப்பு ஹீரோ
+Layout container with 1–4 columns for nesting widgets.,விட்ஜெட்களை உள்ளமைக்க 1–4 நெடுவரிசைகளுடன் கூடிய தளவமைப்பு கொள்கலன்.
+Add rich text content,வளமான உரை உள்ளடக்கத்தைச் சேர்க்கவும்
+Navigation links,வழிசெலுத்தல் இணைப்புகள்
+Multi-column list of footer links — a titled column of navigation links per group.,அடிக்குறிப்பு இணைப்புகளின் பல-நெடுவரிசை பட்டியல் — ஒவ்வொரு குழுவிற்கும் தலைப்புடன் கூடிய வழிசெலுத்தல் இணைப்புகளின் நெடுவரிசை.
+A single hero image with optional overlay copy and CTAs.,விருப்ப மேலடுக்கு உரை மற்றும் CTAக்களுடன் கூடிய ஒற்றை ஹீரோ படம்.
+Rotating image carousel,சுழலும் பட சுழற்சி
+Editorial block combining an image and long-form brand narrative. Four layout variants.,படத்தையும் நீண்ட வடிவ பிராண்ட் விவரிப்பையும் இணைக்கும் தலையங்க தொகுதி. நான்கு தளவமைப்பு வகைகள்.
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.","முதன்மை ""வகை வாரியாக வாங்கவும்"" நுழைவுப் புள்ளிக்கான 3–6 வகை ஓடுகளின் கட்டம்."
+A two-level nav block: parent category image plus a row of sub-category chips.,இரு-நிலை வழிசெலுத்தல் தொகுதி: பெற்றோர் வகை படம் மற்றும் துணை-வகை சில்லுகளின் வரிசை.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,CTA ஓடுகளின் சமச்சீரற்ற மொசைக் — ஒரு பெரிய ஹீரோ மற்றும் 1–4 துணை ஓடுகள்.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","விட்ஜெட்களுக்கு இடையே செங்குத்து இடைவெளி, விருப்ப பிரிப்பு கோட்டுடன். மொபைல் தானாகவே சிறிதாகிறது."
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,மற்ற விட்ஜெட்களை சுற்றும் வடிவமைக்கப்பட்ட விடக்கூடிய பட்டை. அகலம் (விளிம்பு-முதல்-விளிம்பு) மற்றும் பெட்டி (தீம் கொள்கலன்) இடையே மாற்றவும்.
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,விருப்ப CTA உடன் கூடிய 50/50 படம் + உரை விளம்பர தொகுதி. நியமமான விளம்பர தருண விட்ஜெட்.
+A thin top-of-page bar with one or more rotating announcements.,ஒன்று அல்லது அதற்கு மேற்பட்ட சுழலும் அறிவிப்புகளுடன் கூடிய மெல்லிய பக்கம்-மேல் பட்டை.
+A promo panel with a copyable discount code and CTA.,நகலெடுக்கக்கூடிய தள்ளுபடி குறியீடு மற்றும் CTA உடன் கூடிய விளம்பர பலகை.
+Flexible content block mixing prose sections and accordion FAQ groups.,உரைநடை பிரிவுகள் மற்றும் அக்கார்டியன் FAQ குழுக்களை கலக்கும் நெகிழ்வான உள்ளடக்க தொகுதி.
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","ஹீரோவுக்கு கீழே அல்லது அடிக்குறிப்புக்கு மேலே வலுப்படுத்துவதற்கான மதிப்பு-முன்மொழிவு உருப்படிகளின் வரிசை (இலவச கப்பல் போக்குவரத்து, எளிதான திருப்பிகள் போன்றவை)."
+A list of products from a collection,ஒரு தொகுப்பிலிருந்து தயாரிப்புகளின் பட்டியல்
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","தொகுப்புகளின் அடுக்கப்பட்ட வரிசைகள், ஒவ்வொன்றும் ஒரு தலைப்பு, அனைத்தையும்-காண இணைப்பு மற்றும் தயாரிப்புகளின் பட்டையுடன்."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","அட்டை படம், தலையங்க உரை மற்றும் சிறிய தயாரிப்பு முன்னோட்ட கட்டத்துடன் கூடிய சிறப்பு தொகுப்பு."
+"A single-product spotlight — image, name, price, and a link to the full product page.","ஒற்றை-தயாரிப்பு சிறப்பு வெளிச்சம் — படம், பெயர், விலை மற்றும் முழு தயாரிப்பு பக்கத்திற்கான இணைப்பு."

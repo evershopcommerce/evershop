@@ -1,0 +1,38 @@
+"""
+A single row inside a CollectionStack widget. `products` is fetched
+server-side by the widget resolver — the storefront query just selects
+the Product fields it needs.
+
+`source` is the collection code used at resolve time; the storefront
+doesn't read it directly. `viewAllLink` is the rendered link target;
+empty means the row's "View all" is suppressed.
+"""
+type CollectionStackRow {
+  id: String!
+  title: String!
+  source: String
+  viewAllLink: String
+  viewAllLabel: String
+  products: [Product!]!
+}
+
+"""
+Stacked collection rows widget. Storefront merchandising for 1–3
+collections shown one after the other with product strips. Heavy block;
+use sparingly.
+"""
+type CollectionStackWidget {
+  rows: [CollectionStackRow!]!
+  productCount: Int!
+  showPrice: Boolean!
+  divider: Boolean!
+}
+
+extend type Query {
+  collectionStackWidget(
+    collections: JSON
+    productCount: Int
+    showPrice: Boolean
+    divider: Boolean
+  ): CollectionStackWidget
+}

@@ -14,8 +14,11 @@ export default {
       }
     },
     allowedCountries: async () => {
+      // shipping_zone.country was dropped in the provider refactor (phase 8 /
+      // Version-1.0.9). Countries that a zone serves now live in
+      // shipping_zone_country (many-to-many) — see wiki/shipping-provider-design.md.
       const allowedCountries = await select('country')
-        .from('shipping_zone')
+        .from('shipping_zone_country')
         .execute(pool);
       return countries.filter((c) =>
         allowedCountries.find((p) => p.country === c.code)

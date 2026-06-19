@@ -1,4 +1,10 @@
-import { Card } from '@components/admin/Card.js';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { New } from './variants/New.js';
 import { Variants } from './variants/Variants.js';
@@ -40,7 +46,13 @@ const VariantGroup: React.FC<VariantGroupProps> = ({
     product?.variantGroup || null
   );
   return (
-    <Card title="Variant">
+    <Card>
+      <CardHeader>
+        <CardTitle>{_('Variant Group')}</CardTitle>
+        <CardDescription>
+          {_('Manage the variant group of the product.')}
+        </CardDescription>
+      </CardHeader>
       {!group && (
         <New
           currentProductUuid={product.uuid}

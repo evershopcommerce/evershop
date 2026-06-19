@@ -1,3 +1,8 @@
+import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import { Button } from '@components/common/ui/Button.js';
+import { Item, ItemContent } from '@components/common/ui/Item.js';
+import { TableCell, TableRow } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { VariantGroup } from '../VariantGroup.js';
 import { EditVariant } from './EditVariant.js';
@@ -9,45 +14,60 @@ export const Variant: React.FC<{
   variantGroup: VariantGroup;
 }> = ({ variant, refresh, variantGroup }) => {
   return (
-    <tr>
-      <td>
-        <img
-          style={{ maxWidth: '50px', height: 'auto' }}
-          src={variant?.product?.image?.url}
-          alt=""
-        />
-      </td>
+    <TableRow>
+      <TableCell>
+        <Item variant={'outline'} size={'xs'}>
+          <ItemContent>
+            {variant.product?.image?.url ? (
+              <img
+                style={{ maxWidth: '50px', height: 'auto' }}
+                src={variant?.product?.image?.url}
+                alt=""
+              />
+            ) : (
+              <ProductNoThumbnail className="size-12" />
+            )}
+          </ItemContent>
+        </Item>
+      </TableCell>
       {variantGroup.attributes.map((a) => {
         const option = variant.attributes.find(
           (attr) => attr.attributeCode === a.attributeCode
         );
         return (
-          <td key={a.attributeId}>
+          <TableCell key={a.attributeId}>
             <label>{option?.optionText || '--'}</label>
-          </td>
+          </TableCell>
         );
       })}
-      <td>
-        <a href={variant.product.editUrl} className="hover:text-interactive">
+      <TableCell>
+        <Button
+          variant={'link'}
+          className={'hover:cursor-pointer'}
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = variant.product.editUrl;
+          }}
+        >
           {variant.product?.sku}
-        </a>
-      </td>
-      <td>{variant.product?.price?.regular?.text}</td>
-      <td>{variant.product?.inventory?.qty}</td>
-      <td>
+        </Button>
+      </TableCell>
+      <TableCell>{variant.product?.price?.regular?.text}</TableCell>
+      <TableCell>{variant.product?.inventory?.qty}</TableCell>
+      <TableCell>
         {variant.product?.status === 1 ? (
-          <span className="text-success">Enabled</span>
+          <span className="text-primary font-medium">{_('Enabled')}</span>
         ) : (
-          <span className="text-critical">Disabled</span>
+          <span className="text-destructive font-medium">{_('Disabled')}</span>
         )}
-      </td>
-      <td>
+      </TableCell>
+      <TableCell>
         <EditVariant
           variant={variant}
           refresh={refresh}
           variantGroup={variantGroup}
         />
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   );
 };

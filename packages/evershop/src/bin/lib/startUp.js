@@ -9,6 +9,7 @@ import { lockHooks } from '../../lib/util/hookable.js';
 import isDevelopmentMode from '../../lib/util/isDevelopmentMode.js';
 import { lockRegistry } from '../../lib/util/registry.js';
 import { validateConfiguration } from '../../lib/util/validateConfiguration.js';
+import { lockCarrierRegistry } from '../../modules/oms/services/carrier/registry.js';
 import { getEnabledExtensions } from '../extension/index.js';
 import { createApp } from './app.js';
 import { loadBootstrapScript } from './bootstrap/bootstrap.js';
@@ -36,6 +37,7 @@ export const start = async function start(context, cb) {
     }
     lockHooks();
     lockRegistry();
+    lockCarrierRegistry();
     // Get the configuration (nodeconfig)
     validateConfiguration(config);
   } catch (e) {

@@ -1,0 +1,24 @@
+"""
+One parcel of the cart's packing proposal (the `cartPackages` strategy
+output, persisted on `cart.packages`). `tareWeight` is the empty package's
+weight; `goodsWeight` is the items' weight — `tareWeight + goodsWeight` is
+what the quote-side `total_weight` reflects.
+"""
+type CartParcel {
+  name: String
+  dimensions: PackageDimensions!
+  tareWeight: Weight!
+  goodsWeight: Weight!
+}
+
+extend type Cart {
+  packages: [CartParcel!]!
+}
+
+extend type CartItem {
+  """
+  The item's package (parcel) dimension snapshot. NULL for legacy products
+  with no package and for virtual items.
+  """
+  packageDimensions: PackageDimensions
+}

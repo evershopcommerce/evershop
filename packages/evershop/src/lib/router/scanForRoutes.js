@@ -61,7 +61,10 @@ export function parseRoute(jsonPath, isAdmin = false, isApi = false) {
       isApi,
       folder: dirname(jsonPath),
       payloadSchema,
-      access: routeJson?.access || 'private'
+      access: routeJson?.access || 'private',
+      // Page builder opt-in. Defaults to false. Routes that should appear
+      // in `/admin/page-builder` set `"editable": true` in `route.json`.
+      editable: routeJson?.editable === true
     };
   } else {
     return null;

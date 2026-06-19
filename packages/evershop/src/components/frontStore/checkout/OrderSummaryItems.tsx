@@ -18,7 +18,7 @@ const OrderSummaryItems: React.FC<{
   }
 
   return (
-    <ul className="order__item__summary__list divide-y divide-gray-200 border-b mb-3">
+    <ul className="order__item__summary__list divide-y divide-border border-b border-border mb-3">
       {items.map((item) => (
         <li key={item.uuid} className="flex items-start py-3">
           <div className="relative mr-4 self-center">
@@ -28,18 +28,25 @@ const OrderSummaryItems: React.FC<{
                 height={100}
                 src={item.thumbnail}
                 alt={item.productName}
-                className="w-16 h-16 object-cover rounded border p-2 box-border"
+                className="w-16 h-16 object-cover rounded border p-2 box-border border-border"
               />
             )}
             {!item.thumbnail && (
-              <ProductNoThumbnail className="w-16 h-16 rounded border p-2 box-border" />
+              <ProductNoThumbnail className="w-16 h-16 rounded border border-border p-2 box-border" />
             )}
-            <span className="absolute -top-2 -right-2 bg-gray-200 rounded-full w-6 h-6 flex items-center justify-center text-gray-700 text-sm">
+            <span className="absolute -top-2 -right-2 bg-muted rounded-full w-6 h-6 flex items-center justify-center text-muted-foreground text-sm">
               {item.qty}
             </span>
           </div>
           <div className="flex-1 min-w-0 items-start align-top">
-            <div className="font-semibold text-sm mb-1">{item.productName}</div>
+            <div
+              className="font-semibold text-sm mb-1"
+              title={item.productName}
+            >
+              {item.productName.length > 50
+                ? `${item.productName.substring(0, 50)}...`
+                : item.productName}
+            </div>
             {item.variantOptions && item.variantOptions.length > 0 && (
               <div className="space-y-1">
                 {item.variantOptions.map((option) => (

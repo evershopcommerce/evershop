@@ -18,7 +18,7 @@ export function createConfigServer(routes) {
   });
   const config = createBaseConfig(true);
   const { plugins } = config;
-  plugins.push(new WebpackBar({ name: 'Server', color: 'orange' }));
+  plugins.push(new WebpackBar({ name: 'Server', color: '#FFA500' }));
 
   const loaders = config.module.rules;
   loaders.push({

@@ -1,4 +1,6 @@
-import { Card } from '@components/admin/Card.js';
+import { Button } from '@components/common/ui/Button.js';
+import { Card, CardContent } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { CreateVariantGroup } from './CreateVariantGroup.js';
 
@@ -10,24 +12,23 @@ export const New: React.FC<{
   const [action, setAction] = React.useState<'create' | undefined>();
   return (
     <>
-      <Card.Session>
+      <CardContent>
         {action === undefined && (
           <div>
-            <div className="justify-center text-center">
-              <div className="mb-10">
-                <span className="pr-2">
-                  This product has some variants like color or size?
-                </span>
-                <a
-                  className="text-interactive hover:underline"
-                  href="#"
+            <div className="justify-left text-left">
+              <div className="space-y-2">
+                <div>
+                  {_('This product has some variants like color or size?')}
+                </div>
+                <Button
+                  variant={'secondary'}
                   onClick={(e) => {
                     e.preventDefault();
                     setAction('create');
                   }}
                 >
-                  Create a variant group
-                </a>
+                  {_('Create a variant group')}
+                </Button>
               </div>
             </div>
           </div>
@@ -37,25 +38,12 @@ export const New: React.FC<{
             <CreateVariantGroup
               currentProductUuid={currentProductUuid}
               setGroup={setGroup}
+              onCancel={() => setAction(undefined)}
               createVariantGroupApi={createVariantGroupApi}
             />
           </div>
         )}
-      </Card.Session>
-      {action === 'create' && (
-        <Card.Session>
-          <a
-            className="text-critical hover:underline"
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              setAction(undefined);
-            }}
-          >
-            Cancel
-          </a>
-        </Card.Session>
-      )}
+      </CardContent>
     </>
   );
 };

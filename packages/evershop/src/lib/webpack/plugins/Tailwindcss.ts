@@ -1,12 +1,11 @@
+import fs from 'fs';
+import path from 'path';
+import tailwindcss from '@tailwindcss/postcss';
 import CleanCSS from 'clean-css';
 import postcss from 'postcss';
-import tailwindcss from 'tailwindcss';
 import webpack from 'webpack';
 import { Route } from '../../../types/route.js';
 import { error } from '../../log/logger.js';
-import { getTailwindConfig } from '../util/getTailwindConfig.js';
-
-const { Compilation, sources } = webpack;
 
 type WebpackCompiler = webpack.Compiler;
 type WebpackCompilation = webpack.Compilation;
@@ -20,63 +19,40 @@ export class Tailwindcss {
   }
 
   apply(compiler: WebpackCompiler): void {
-    compiler.hooks.compilation.tap(
+    compiler.hooks.afterEmit.tapAsync(
       'Tailwindcss',
-      (compilation: WebpackCompilation) => {
-        compilation.hooks.processAssets.tapAsync(
-          {
-            name: 'Tailwindcss',
-            stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE
-          },
-          async (assets, callback) => {
-            try {
-              await this.processRouteAssets(assets);
-              callback();
-            } catch (err) {
-              callback(err as Error);
-            }
-          }
-        );
+      async (compilation: WebpackCompilation, callback) => {
+        try {
+          await this.processRouteAssetsAfterEmit(compilation);
+          callback();
+        } catch (err) {
+          callback(err as Error);
+        }
       }
     );
   }
 
-  async processRouteAssets(assets: WebpackAssets): Promise<void> {
+  async processRouteAssetsAfterEmit(
+    compilation: WebpackCompilation
+  ): Promise<void> {
+    const outputPath = compilation.outputOptions.path;
+    if (!outputPath) {
+      return;
+    }
+
     const processingPromises: Promise<void>[] = [];
-    const routeJSContent = this.getRouteJSContent(assets, this.route);
-    const routeCSSAssets = this.getRouteCSSAssets(assets, this.route);
+    const routeCSSAssets = this.getRouteCSSAssets(
+      compilation.assets,
+      this.route
+    );
 
     for (const cssAsset of routeCSSAssets) {
       processingPromises.push(
-        this.processCSSWithTailwind(
-          cssAsset,
-          routeJSContent,
-          this.route,
-          assets
-        )
+        this.processCSSWithTailwindFromDisk(cssAsset, outputPath)
       );
     }
 
     await Promise.all(processingPromises);
-  }
-
-  getRouteJSContent(assets: WebpackAssets, route: Route): string {
-    let combinedJSContent = '';
-    const jsFiles = Object.keys(assets).filter((name) => {
-      // Normalize path separators for cross-platform compatibility
-      const normalizedName = name.replace(/\\/g, '/');
-      return (
-        (normalizedName.includes(route.id + '/') ||
-          /^\d/.test(normalizedName)) &&
-        normalizedName.endsWith('.js')
-      );
-    });
-    for (const jsFile of jsFiles) {
-      const source = assets[jsFile].source();
-      combinedJSContent +=
-        typeof source === 'string' ? source : source.toString();
-    }
-    return combinedJSContent;
   }
 
   getRouteCSSAssets(assets: WebpackAssets, route: Route): string[] {
@@ -93,42 +69,62 @@ export class Tailwindcss {
     return results;
   }
 
-  async processCSSWithTailwind(
+  async processCSSWithTailwindFromDisk(
     cssAssetName: string,
-    jsContent: string,
-    route: Route,
-    assets: WebpackAssets
+    outputPath: string
   ): Promise<void> {
-    const originalCSSSource = assets[cssAssetName].source();
-    const originalCSS =
-      typeof originalCSSSource === 'string'
-        ? originalCSSSource
-        : originalCSSSource.toString();
+    const cssFilePath = path.resolve(outputPath, cssAssetName);
 
-    const tailwindDirectives = `
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+    // Read the CSS file from disk
+    if (!fs.existsSync(cssFilePath)) {
+      error(`CSS file not found: ${cssFilePath}`);
+      return;
+    }
 
-`;
-    const cssWithDirectives = tailwindDirectives + originalCSS;
-    const tailwindConfig = await getTailwindConfig(route.isAdmin);
-    Object.assign(tailwindConfig, {
-      content: [{ raw: jsContent, extension: 'js' }]
-    });
+    const originalCSS = fs.readFileSync(cssFilePath, 'utf-8');
+
+    // Process CSS with Tailwind
+    let processedCSS = originalCSS;
+
+    if (cssAssetName.includes(this.route.id)) {
+      // Get the directory where the CSS file is located
+      const cssDir = path.dirname(cssFilePath);
+
+      // Find all JS files in the same directory (already on disk)
+      const jsFiles = fs
+        .readdirSync(cssDir)
+        .filter((file) => file.endsWith('.js'));
+
+      if (jsFiles.length === 0) {
+        error(`No JS files found in ${cssDir}`);
+        return;
+      }
+
+      // Reference the JS files for Tailwind scanning
+      const sourceDirectives = jsFiles
+        .map((file) => `@source "./${file}";`)
+        .join('\n');
+
+      processedCSS = `${sourceDirectives}
+${originalCSS}`;
+    }
 
     try {
-      const result = await postcss([tailwindcss(tailwindConfig)]).process(
-        cssAssetName.includes(route.id) ? cssWithDirectives : originalCSS,
-        { from: undefined }
-      );
+      // Process with Tailwind
+      const result = await postcss([tailwindcss()]).process(processedCSS, {
+        from: cssFilePath
+      });
+
+      // Minify the result
       const cleanCSS = new CleanCSS({
-        level: 2, // Advanced optimizations
+        level: 2,
         returnPromise: true
       });
 
       const minified = await cleanCSS.minify(result.css);
-      assets[cssAssetName] = new sources.RawSource(minified.styles);
+
+      // Write the processed CSS back to disk
+      fs.writeFileSync(cssFilePath, minified.styles, 'utf-8');
     } catch (e) {
       error(e);
     }

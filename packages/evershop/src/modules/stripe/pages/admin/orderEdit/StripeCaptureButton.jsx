@@ -1,6 +1,8 @@
-import { Card } from '@components/admin/Card';
-import Button from '@components/common/Button';
 import RenderIfTrue from '@components/common/RenderIfTrue';
+import { Button } from '@components/common/ui/Button';
+import { Card } from '@components/common/ui/Card';
+import { CardContent } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -32,14 +34,16 @@ export default function StripeCaptureButton({
   return (
     <RenderIfTrue
       condition={
-        paymentStatus.code === 'authorized' && paymentMethod === 'stripe'
+        paymentStatus.code === 'stripe_authorized' && paymentMethod === 'stripe'
       }
     >
-      <Card.Session>
+      <CardContent>
         <div className="flex justify-end">
-          <Button title="Capture" onAction={onAction} isLoading={isLoading} />
+          <Button onClick={onAction} isLoading={isLoading}>
+            {_('Capture Payment')}
+          </Button>
         </div>
-      </Card.Session>
+      </CardContent>
     </RenderIfTrue>
   );
 }

@@ -4,10 +4,34 @@ extend type Order {
   createShipmentApi: String!
   cancelApi: String!
   shipment: Shipment
+  """Items still to ship (shippable items with remaining qty > 0). Admin-only."""
+  unshippedItems: [UnshippedOrderItem!]!
+  metaData: JSON
+  updateMetafieldsApi: String!
+}
+
+"""
+An order item with remaining qty to ship. Filtered to shippable items only
+— digital items (`noShippingRequired: true`) never appear here. Admin-only:
+the storefront never surfaces "what's left to ship" — that's fulfillment
+metadata.
+"""
+type UnshippedOrderItem {
+  uuid: String!
+  orderItemId: Int!
+  productSku: String!
+  productName: String!
+  qtyOrdered: Int!
+  qtyUnshipped: Int!
 }
 
 extend type Shipment {
-  updateShipmentApi: String!
+  """Per-shipment delivered action — `POST /api/shipments/:uuid/markDelivered`."""
+  markDeliveredApi: String!
+  """Per-shipment cancel action — `POST /api/shipments/:uuid/cancel`."""
+  cancelShipmentApi: String!
+  """Per-shipment void-label action — `DELETE /api/shipments/:uuid/label`. Always present; the admin UI hides the button when the carrier doesn't implement voidLabel or when the shipment has no label_url."""
+  voidShipmentLabelApi: String!
 }
 
 extend type Query {

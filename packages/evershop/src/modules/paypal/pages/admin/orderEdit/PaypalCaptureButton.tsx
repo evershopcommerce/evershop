@@ -1,6 +1,7 @@
-import { Card } from '@components/admin/Card.js';
-import Button from '@components/common/Button.js';
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
+import { Button } from '@components/common/ui/Button.js';
+import { Card, CardContent } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -43,14 +44,16 @@ export default function PaypalCaptureButton({
   return (
     <RenderIfTrue
       condition={
-        paymentMethod === 'paypal' && paymentStatus.code === 'authorized'
+        paymentMethod === 'paypal' && paymentStatus.code === 'paypal_authorized'
       }
     >
-      <Card.Session>
+      <CardContent>
         <div className="flex justify-end">
-          <Button title="Capture" onAction={onAction} isLoading={isLoading} />
+          <Button onClick={onAction} isLoading={isLoading}>
+            {_('Capture Payment')}
+          </Button>
         </div>
-      </Card.Session>
+      </CardContent>
     </RenderIfTrue>
   );
 }

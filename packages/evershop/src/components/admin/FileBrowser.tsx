@@ -1,8 +1,10 @@
-import Button from '@components/common/Button.js';
+import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import './FileBrowser.scss';
 import { useQuery } from 'urql';
 import Spinner from '@components/admin/Spinner.js';
+import { Input } from '@components/common/ui/Input.js';
 
 const GetApisQuery = `
   query Query ($filters: [FilterInput!]) {
@@ -131,7 +133,7 @@ const FileBrowser: React.FC<{
   const createFolder = (e, folder) => {
     e.preventDefault();
     if (!folder || !folder.trim()) {
-      setError('Invalid folder name');
+      setError(_('Invalid folder name'));
       return;
     }
     const path = currentPath.map((f) => f.name);
@@ -168,7 +170,7 @@ const FileBrowser: React.FC<{
     });
 
     if (!file) {
-      setError('No file selected');
+      setError(_('No file selected'));
     } else {
       const path = currentPath.map((f) => f.name);
       path.push(file.name);
@@ -198,7 +200,7 @@ const FileBrowser: React.FC<{
     });
 
     if (!file) {
-      setError('No file selected');
+      setError(_('No file selected'));
     } else {
       onInsert(file.url);
     }
@@ -233,8 +235,6 @@ const FileBrowser: React.FC<{
   };
 
   // Create a function to fetch files and folders to avoid code duplication
-  const [apiReady, setApiReady] = React.useState(false);
-
   const fetchFilesAndFolders = React.useCallback(() => {
     if (!browserApiRef.current) {
       return;
@@ -258,28 +258,29 @@ const FileBrowser: React.FC<{
       .finally(() => setLoading(false));
   }, [currentPath]);
 
-  // Track when the browserApiRef becomes available
-  React.useEffect(() => {
-    if (browserApiRef.current && browserApiRef.current !== '' && !apiReady) {
-      setApiReady(true);
-    }
-  }, [browserApiRef.current, apiReady]);
-
-  // Fetch data when either the path changes or the API becomes ready
-  React.useEffect(() => {
-    if (apiReady) {
-      fetchFilesAndFolders();
-    }
-  }, [apiReady, currentPath, fetchFilesAndFolders]);
-
   const [result] = useQuery({
     query: GetApisQuery
   });
   const { data, fetching, error: err } = result;
+
+  if (data) {
+    browserApiRef.current = data.browserApi;
+    deleteApiRef.current = data.deleteApi;
+    uploadApiRef.current = data.uploadApi;
+    folderCreateApiRef.current = data.folderCreateApi;
+  }
+
+  // Fetch files and folders when APIs are ready
+  React.useEffect(() => {
+    if (data) {
+      fetchFilesAndFolders();
+    }
+  }, [currentPath, fetchFilesAndFolders, data]);
+
   if (err) {
     return (
-      <p className="text-critical">
-        There was an error fetching file browser APIs.
+      <p className="text-destructive">
+        {_('There was an error fetching file browser APIs.')}
         {err.message}
       </p>
     );
@@ -290,62 +291,61 @@ const FileBrowser: React.FC<{
         <Spinner width={30} height={30} />
       </div>
     );
-  } else {
-    browserApiRef.current = data.browserApi;
-    deleteApiRef.current = data.deleteApi;
-    uploadApiRef.current = data.uploadApi;
-    folderCreateApiRef.current = data.folderCreateApi;
-    return (
-      <div className="file-browser">
-        {loading === true && (
-          <div className="fixed top-0 left-0 bottom-0 right-0 flex justify-center">
-            <Spinner width={30} height={30} />
-          </div>
-        )}
-        <div className="content">
-          <div className="flex justify-end">
-            <a
-              href="#"
-              onClick={(e) => closeFileBrowser(e)}
-              className="text-interactive fill-current"
+  }
+
+  return (
+    <div className="file-browser">
+      {loading === true && (
+        <div className="fixed top-0 left-0 bottom-0 right-0 flex justify-center">
+          <Spinner width={30} height={30} />
+        </div>
+      )}
+      <div className="content">
+        <div className="flex justify-end">
+          <a
+            href="#"
+            onClick={(e) => closeFileBrowser(e)}
+            className="text-interactive fill-current"
+          >
+            <svg
+              style={{ width: '2rem' }}
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <svg
-                style={{ width: '2rem' }}
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </a>
-          </div>
-          <div>
-            <div className="grid grid-cols-4 gap-5">
-              <div className="col-span-1">
-                <div className="current-path mb-10">
-                  <div className="flex">
-                    <div className="pr-2">You are here:</div>
-                    <div>
-                      <a
-                        href="#"
-                        onClick={(e) => onSelectFolderFromBreadcrumb(e, 0)}
-                        className="text-interactive hover:underline"
-                      >
-                        Root
-                      </a>
-                    </div>
-                    {currentPath.map((f, index) => (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </a>
+        </div>
+        <div>
+          <div className="grid grid-cols-4 gap-5">
+            <div className="col-span-1">
+              <div className="current-path mb-10">
+                <div className="flex">
+                  <div className="pr-2">{_('You are here:')}</div>
+                  <div>
+                    <a
+                      href="#"
+                      onClick={(e) => onSelectFolderFromBreadcrumb(e, 0)}
+                      className="text-primary hover:underline"
+                    >
+                      {_('Root')}
+                    </a>
+                  </div>
+                  {currentPath
+                    .filter((f) => f.name !== '')
+                    .map((f, index) => (
                       <div key={index}>
                         <span>/</span>
                         <a
-                          className="text-interactive hover:underline"
+                          className="text-primary hover:underline"
                           href="#"
                           onClick={(e) =>
                             onSelectFolderFromBreadcrumb(e, f.index)
@@ -355,118 +355,118 @@ const FileBrowser: React.FC<{
                         </a>
                       </div>
                     ))}
-                  </div>
-                </div>
-                <ul className="mt-4 mb-4">
-                  {folders.map((f, i) => (
-                    <li
-                      key={i}
-                      className="text-interactive fill-current flex list-group-item"
-                    >
-                      <svg
-                        style={{ width: '2rem', height: '2rem' }}
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                        />
-                      </svg>
-                      <a
-                        className="pl-2 hover:underline"
-                        href="#"
-                        onClick={(e) => onSelectFolder(e, f)}
-                      >
-                        {f}
-                      </a>
-                    </li>
-                  ))}
-                  {folders.length === 0 && (
-                    <li className="list-group-item">
-                      <span>There is no sub folder.</span>
-                    </li>
-                  )}
-                </ul>
-                <div className=" justify-between">
-                  <div className="form-field mb-0">
-                    <input
-                      type="text"
-                      placeholder="New folder"
-                      ref={newFolderRefInput}
-                    />
-                  </div>
-                  <div className="mt-2">
-                    <a
-                      href="#"
-                      onClick={(e) =>
-                        createFolder(e, newFolderRefInput.current?.value)
-                      }
-                      className="text-interactive hover:underline"
-                    >
-                      Create
-                    </a>
-                  </div>
                 </div>
               </div>
-              <div className="col-span-3">
-                <div className="error text-critical mb-5">{error}</div>
-                <div className="tool-bar grid grid-cols-3 gap-2 mb-5">
-                  <Button
-                    variant="danger"
-                    outline
-                    title="Delete image"
-                    onAction={() => deleteFile()}
-                  />
-                  <Button
-                    variant="primary"
-                    title="Insert image"
-                    onAction={() => insertFile()}
-                  />
-                  <Button
-                    title="Upload image"
-                    variant="secondary"
-                    onAction={() => {
-                      (
-                        document.getElementById(
-                          'upload-image'
-                        ) as HTMLInputElement
-                      ).click();
-                    }}
-                  />
-                  <label
-                    className="self-center"
-                    id="upload-image-label"
-                    htmlFor="upload-image"
+              <ul className="mt-4 mb-4">
+                {folders.map((f, i) => (
+                  <li
+                    key={i}
+                    className="text-primary fill-current flex list-group-item"
                   >
-                    <a className="invisible">
-                      <input
-                        id="upload-image"
-                        type="file"
-                        multiple
-                        onChange={onUpload}
+                    <svg
+                      style={{ width: '2rem', height: '2rem' }}
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
                       />
+                    </svg>
+                    <a
+                      className="pl-2 hover:underline"
+                      href="#"
+                      onClick={(e) => onSelectFolder(e, f)}
+                    >
+                      {f}
                     </a>
-                  </label>
-                </div>
-                {files.length === 0 && <div>There is no file to display.</div>}
-                <div className="grid grid-cols-9 gap-2">
-                  {files.map((f) => (
-                    <File file={f} select={onSelectFile} key={f.name} />
-                  ))}
-                </div>
+                  </li>
+                ))}
+                {folders.length === 0 && (
+                  <li className="list-group-item">
+                    <span>{_('There is no sub folder.')}</span>
+                  </li>
+                )}
+              </ul>
+              <div className="justify-start items-center gap-2 flex">
+                <Input
+                  type="text"
+                  placeholder={_('New folder')}
+                  ref={newFolderRefInput}
+                />
+                <Button
+                  onClick={(e) =>
+                    createFolder(e, newFolderRefInput.current?.value)
+                  }
+                  variant={'outline'}
+                >
+                  {_('Create')}
+                </Button>
+              </div>
+            </div>
+            <div className="col-span-3">
+              <div className="error text-destructive mb-5">{error}</div>
+              <div className="tool-bar grid grid-cols-3 gap-2 mb-5">
+                <Button
+                  variant="destructive"
+                  title={_('Delete image')}
+                  onClick={() => deleteFile()}
+                >
+                  {_('Delete')}
+                </Button>
+                <Button
+                  variant="default"
+                  title={_('Insert image')}
+                  onClick={() => insertFile()}
+                >
+                  {_('Insert')}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    (
+                      document.getElementById(
+                        'upload-image'
+                      ) as HTMLInputElement
+                    ).click();
+                  }}
+                >
+                  {_('Upload')}
+                </Button>
+                <label
+                  className="self-center"
+                  id="upload-image-label"
+                  htmlFor="upload-image"
+                >
+                  <a className="invisible">
+                    <input
+                      id="upload-image"
+                      type="file"
+                      multiple
+                      onChange={onUpload}
+                    />
+                  </a>
+                </label>
+              </div>
+              {files.length === 0 && (
+                <div>{_('There is no file to display.')}</div>
+              )}
+              <div className="grid grid-cols-9 gap-2">
+                {files.map((f) => (
+                  <File file={f} select={onSelectFile} key={f.name} />
+                ))}
               </div>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export { FileBrowser };

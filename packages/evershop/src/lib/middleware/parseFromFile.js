@@ -53,7 +53,7 @@ export function parseFromFile(path) {
       m.after = !m.after ? ['escapeHtml', 'auth'] : m.after;
     }
   } else if (m.id !== 'context' && m.id !== 'errorHandler') {
-    m.before = !m.before ? ['buildQuery'] : m.before;
+    m.before = !m.before ? ['notFound'] : m.before;
     m.after = !m.after ? ['auth'] : m.after;
   }
 

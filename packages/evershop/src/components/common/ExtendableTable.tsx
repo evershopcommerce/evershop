@@ -1,4 +1,12 @@
 import Area from '@components/common/Area.js';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@components/common/ui/Table.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
@@ -152,6 +160,7 @@ export function ExtendableTable<T = any>({
       onSort={onSort}
       currentSort={currentSort}
     >
+      <Area id={name} />
       <TableContent
         loading={loading}
         noHeader={noHeader}
@@ -180,7 +189,7 @@ function TableContent<T = any>({
   emptyMessage: string;
   className: string;
 }) {
-  const { columns, tableData, tableName } = useTableContext<T>();
+  const { columns, tableData } = useTableContext<T>();
 
   const handleSort = (key: string) => {
     if (!onSort) return;
@@ -194,15 +203,14 @@ function TableContent<T = any>({
 
   return (
     <>
-      <Area id={'shoppingCartItems'} />
-      <table className={className}>
+      <Table className={className}>
         {!noHeader && (
-          <thead>
-            <tr>
+          <TableHeader>
+            <TableRow>
               {columns
                 .filter((col) => !col.isRemoved)
                 .map((col) => (
-                  <th
+                  <TableHead
                     key={col.key}
                     className={`${col.header.className} ${
                       col.sortable ? 'cursor-pointer' : ''
@@ -210,33 +218,33 @@ function TableContent<T = any>({
                     onClick={() => col.sortable && handleSort(col.key)}
                     style={{ width: col.width }}
                   >
-                    <div className="flex items-center space-x-1">
-                      <span>{col.header.label}</span>
-                      {col.sortable && currentSort?.key === col.key && (
-                        <span className="text-blue-500">
-                          {currentSort.direction === 'asc' ? '↑' : '↓'}
-                        </span>
-                      )}
-                    </div>
-                  </th>
+                    <span>{col.header.label}</span>
+                    {col.sortable && currentSort?.key === col.key && (
+                      <span className="text-blue-500">
+                        {currentSort.direction === 'asc' ? '↑' : '↓'}
+                      </span>
+                    )}
+                  </TableHead>
                 ))}
-            </tr>
-          </thead>
+            </TableRow>
+          </TableHeader>
         )}
-        <tbody className="divide-y divide-gray-200">
+        <TableBody>
           {tableData.length === 0 ? (
-            <tr>
-              <td colSpan={columns.filter((col) => !col.isRemoved).length}>
+            <TableRow>
+              <TableCell
+                colSpan={columns.filter((col) => !col.isRemoved).length}
+              >
                 {emptyMessage}
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ) : (
             tableData.map((row, rowIndex) => (
-              <tr key={rowIndex}>
+              <TableRow key={rowIndex}>
                 {columns
                   .filter((col) => !col.isRemoved)
                   .map((col) => (
-                    <td
+                    <TableCell
                       key={col.key}
                       className={col.className}
                       style={{ width: col.width }}
@@ -244,13 +252,13 @@ function TableContent<T = any>({
                       {col.render
                         ? col.render(row, rowIndex, loading)
                         : row[col.key]}
-                    </td>
+                    </TableCell>
                   ))}
-              </tr>
+              </TableRow>
             ))
           )}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </>
   );
 }

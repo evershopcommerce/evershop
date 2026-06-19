@@ -3,17 +3,14 @@ import { pathToFileURL } from 'url';
 import { inspect } from 'util';
 import JSON5 from 'json5';
 import { getEnabledWidgets } from '../../../lib/widget/widgetManager.js';
+import { getAllRouteComponents } from '../../componee/getComponentsByRoute.js';
 import { error } from '../../log/logger.js';
-import { generateComponentKey } from '../util/keyGenerator.js';
+import { getRoutes } from '../../router/Router.js';
+import { generateComponentKey } from '../../util/keyGenerator.js';
 
-export default function AreaLoader(c) {
-  this.cacheable(false);
-  const components = this.getOptions().getComponents();
-  const { route } = this.getOptions();
+function buildComponentsPerRoute(components, imports) {
   const areas = {};
-  const imports = [];
   components.forEach((module) => {
-    this.addDependency(module);
     if (!fs.existsSync(module)) {
       return;
     }
@@ -31,7 +28,13 @@ export default function AreaLoader(c) {
         const layout = JSON5.parse(check);
         const id = generateComponentKey(module);
         const url = pathToFileURL(module).toString();
-        imports.push(`import ${id} from '${url}';`);
+        // Check if this import already exists by url
+        // Get all key of current imports
+        const keys = Array.from(imports.keys());
+        const exists = keys.find((key) => key.url === url);
+        if (!exists) {
+          imports.set({ id, url }, `import ${id} from '${url}';`);
+        }
         areas[layout.areaId] = areas[layout.areaId] || {};
         areas[layout.areaId][id] = {
           id,
@@ -46,30 +49,107 @@ export default function AreaLoader(c) {
       }
     }
   });
-  const widgets = getEnabledWidgets();
-  areas['*'] = areas['*'] || {};
+
+  return areas;
+}
+
+const buildWidgetComponentsPerRoute = (route, widgets, imports) => {
+  const components = {};
   widgets.forEach((widget) => {
-    const url = pathToFileURL(
-      route.isAdmin ? widget.settingComponent : widget.component
-    ).toString();
-    imports.push(`import ${widget.type} from '${url}';`);
-    areas['*'][widget.type] = {
-      id: widget.type,
+    const componentPath = route.isAdmin
+      ? widget.settingComponent
+      : widget.component;
+    const url = pathToFileURL(componentPath).toString();
+    // Check if this import already exists by url
+    // Get all key of current imports
+    const keys = Array.from(imports.keys());
+    const exists = keys.find((key) => key.url === url);
+    const id = generateComponentKey(
+      route.isAdmin ? `admin_widget_${widget.type}` : `widget_${widget.type}`
+    );
+    if (!exists) {
+      imports.set({ id: id, url }, `import ${id} from '${url}';`);
+    }
+    components[id] = {
+      id: id,
       sortOrder: widget.sortOrder || 0,
       component: {
-        default: `---${widget.type}---`
+        default: `---${id}---`
       }
     };
+
+    // Admin bundles also ship each widget's previewComponent under a
+    // separate wildcard-area key (`admin_widget_preview_<type>`). The
+    // page-builder Widgets-palette hover card (`WidgetPreviewCard`) looks
+    // it up directly from `Area.defaultProps.components[route]['*']`. We
+    // don't route this through `<Area>` because Area picks exactly one
+    // component per widget type — and we need two for admin (settings +
+    // preview).
+    if (route.isAdmin && widget.previewComponent) {
+      const previewUrl = pathToFileURL(widget.previewComponent).toString();
+      const previewId = generateComponentKey(
+        `admin_widget_preview_${widget.type}`
+      );
+      const previewExists = Array.from(imports.keys()).find(
+        (key) => key.url === previewUrl
+      );
+      if (!previewExists) {
+        imports.set(
+          { id: previewId, url: previewUrl },
+          `import ${previewId} from '${previewUrl}';`
+        );
+      }
+      components[previewId] = {
+        id: previewId,
+        sortOrder: 0,
+        component: {
+          default: `---${previewId}---`
+        }
+      };
+    }
   });
-  const content = `${imports.join(
+  return components;
+};
+
+export default function AreaLoader(c) {
+  const isAdmin = this.getOptions().isAdmin;
+  this.cacheable(false);
+  const components = getAllRouteComponents(isAdmin);
+  const routes = getRoutes().filter(
+    (route) => route.isApi === false && route.isAdmin === isAdmin
+  );
+  const allRootComponents = {};
+  const widgets = getEnabledWidgets();
+  const imports = new Map(); // This map has a key as an object {id, url} to avoid duplicate imports
+
+  try {
+    Object.keys(components).forEach((routeId) => {
+      allRootComponents[routeId] = buildComponentsPerRoute(
+        components[routeId],
+        imports
+      );
+      const route = routes.find((r) => r.id === routeId);
+      const widgetComponents = buildWidgetComponentsPerRoute(
+        route,
+        widgets,
+        imports
+      );
+      Object.assign(allRootComponents[routeId], { '*': widgetComponents });
+    });
+  } catch (e) {
+    error('Error in AreaLoader:');
+    error(e);
+  }
+  const content = `${Array.from(imports.values()).join(
     '\r\n'
-  )}\r\nArea.defaultProps.components = ${inspect(areas, { depth: 5 })
+  )}\r\nconst components = ${inspect(allRootComponents, { depth: 5 })
     .replace(/"---/g, '')
     .replace(/---"/g, '')
     .replace(/'---/g, '')
-    .replace(/---'/g, '')} ;`;
-  const result = c
-    .replace('/** render */', content)
-    .replace('/eHot', `/eHot/${route.id}`);
+    .replace(
+      /---'/g,
+      ''
+    )}\r\nArea.defaultProps.components = components[window.eContext.config.pageMeta.route.id] ;\r\n`;
+  const result = c.replace('/** render */', content);
   return result;
 }

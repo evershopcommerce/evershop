@@ -5,6 +5,9 @@
 <p align="center">
   <h1 align="center">EverShop</h1>
 </p>
+<p align="center">
+  <a href="https://trendshift.io/repositories/212" target="_blank"><img src="https://trendshift.io/api/badge/repositories/212" alt="evershopcommerce%2Fevershop | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+</p>
 <h4 align="center">
     <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a> |
     <a href="https://demo.evershop.io/">Demo</a>
@@ -93,6 +96,14 @@ If you add some more information such as your thoughts and vision about the feat
 
 
 Please refer to our [Contribution Guidelines](./CONTRIBUTING.md) and [Code of Conduct](./CODE_OF_CONDUCT.md).
+
+## 🚀 The Future of EverShop
+
+EverShop is seeing rapid organic growth and strong adoption from the developer community. We are now scaling our operations and building **EverShop Cloud**.
+
+If you are a strategic investor interested in the future of Node.js commerce and our mission to set a new standard for modern eCommerce, we’d love to share our vision and roadmap with you.
+
+📩 **Get in touch:** support@evershop.io
 
 ## License
 

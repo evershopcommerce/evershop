@@ -1,6 +1,6 @@
-import Button from '@components/common/Button.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
+import { Button } from '@components/common/ui/Button.js';
 import {
   Coupon,
   CouponActions,
@@ -48,9 +48,8 @@ export function CouponForm() {
               </div>
               <div className="col-span-1">
                 <Button
-                  title={state.appliedCoupon ? _('Remove') : _('Apply')}
                   isLoading={state.isLoading}
-                  onAction={async () => {
+                  onClick={async () => {
                     if (state.appliedCoupon) {
                       await actions.removeCoupon();
                     } else {
@@ -60,9 +59,10 @@ export function CouponForm() {
                       }
                     }
                   }}
-                  variant={state.appliedCoupon ? 'danger' : 'primary'}
-                  className="text-base"
-                />
+                  variant={state.appliedCoupon ? 'destructive' : 'default'}
+                >
+                  {state.appliedCoupon ? _('Remove') : _('Apply')}
+                </Button>
               </div>
             </div>
           </Form>

@@ -1,12 +1,37 @@
-import { Card } from '@components/admin/Card';
-import { Filter } from '@components/admin/grid/Filter';
+import { GridPagination } from '@components/admin/grid/GridPagination';
 import { SortableHeader } from '@components/admin/grid/header/Sortable';
-import { Pagination } from '@components/admin/grid/Pagination';
 import { Status } from '@components/admin/Status.js';
 import Area from '@components/common/Area';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
+import { Button } from '@components/common/ui/Button.js';
+import { ButtonGroup } from '@components/common/ui/ButtonGroup.js';
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { Checkbox } from '@components/common/ui/Checkbox.js';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@components/common/ui/Select.js';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow
+} from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -30,45 +55,47 @@ function Actions({ customers = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Disable',
+      name: _('Disable'),
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} customers`,
-          content: 'Are you sure?',
+          heading: _('Disable ${count} customers', {
+            count: selectedIds.length
+          }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
-            variant: 'primary'
+            variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Disable',
+            title: _('Disable'),
             onAction: async () => {
               await updateCustomers(0);
             },
-            variant: 'critical',
-            isLoading: false
+            variant: 'destructive'
           }
         });
       }
     },
     {
-      name: 'Enable',
+      name: _('Enable'),
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} customers`,
-          content: 'Are you sure?',
+          heading: _('Enable ${count} customers', {
+            count: selectedIds.length
+          }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
-            variant: 'primary'
+            variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Enable',
+            title: _('Enable'),
             onAction: async () => {
               await updateCustomers(1);
             },
-            variant: 'critical',
-            isLoading: false
+            variant: 'destructive'
           }
         });
       }
@@ -76,31 +103,27 @@ function Actions({ customers = [], selectedIds = [] }) {
   ];
 
   return (
-    <tr>
+    <TableRow>
       {selectedIds.length === 0 && null}
       {selectedIds.length > 0 && (
-        <td style={{ borderTop: 0 }} colSpan="100">
-          <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
-              {selectedIds.length} selected
-            </a>
+        <TableCell colSpan="100">
+          <ButtonGroup>
             {actions.map((action, i) => (
-              <a
+              <Button
                 key={i}
-                href="#"
+                variant={'outline'}
                 onClick={(e) => {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
-                <span>{action.name}</span>
-              </a>
+                {action.name}
+              </Button>
             ))}
-          </div>
-        </td>
+          </ButtonGroup>
+        </TableCell>
       )}
-    </tr>
+    </TableRow>
   );
 }
 
@@ -130,242 +153,232 @@ export default function CustomerGrid({
 
   return (
     <Card>
-      <Card.Session
-        title={
-          <Form submitBtn={false} id="customerGridFilter">
-            <div className="flex gap-5 justify-center items-center">
-              <Area
-                id="customerGridFilter"
-                noOuter
-                coreComponents={[
-                  {
-                    component: {
-                      default: () => (
-                        <InputField
-                          name="keyword"
-                          placeholder="Search"
-                          defaultValue={
-                            currentFilters.find((f) => f.key === 'keyword')
-                              ?.value
-                          }
-                          onKeyPress={(e) => {
-                            // If the user press enter, we should submit the form
-                            if (e.key === 'Enter') {
-                              const url = new URL(document.location);
-                              const keyword = e.target?.value;
-                              if (keyword) {
-                                url.searchParams.set('keyword', keyword);
-                              } else {
-                                url.searchParams.delete('keyword');
-                              }
-                              window.location.href = url;
-                            }
-                          }}
-                        />
-                      )
-                    },
-                    sortOrder: 5
-                  },
-                  {
-                    component: {
-                      default: () => (
-                        <Filter
-                          options={[
-                            {
-                              label: 'Enabled',
-                              value: '1',
-                              onSelect: () => {
-                                const url = new URL(document.location);
-                                url.searchParams.set('status', 1);
-                                window.location.href = url;
-                              }
-                            },
-                            {
-                              label: 'Disabled',
-                              value: '0',
-                              onSelect: () => {
-                                const url = new URL(document.location);
-                                url.searchParams.set('status', 0);
-                                window.location.href = url;
-                              }
-                            }
-                          ]}
-                          selectedOption={
-                            currentFilters.find((f) => f.key === 'status')
-                              ? currentFilters.find((f) => f.key === 'status')
-                                  .value === '1'
-                                ? 'Enabled'
-                                : 'Disabled'
-                              : undefined
-                          }
-                          title="Status"
-                        />
-                      )
-                    },
-                    sortOrder: 10
-                  }
-                ]}
-                currentFilters={currentFilters}
-              />
-            </div>
-          </Form>
-        }
-        actions={[
-          {
-            variant: 'interactive',
-            name: 'Clear filter',
-            onAction: () => {
-              // Just get the url and remove all query params
-              const url = new URL(document.location);
-              url.search = '';
-              window.location.href = url.href;
-            }
-          }
-        ]}
-      />
-      <table className="listing sticky">
-        <thead>
-          <tr>
-            <th className="align-bottom">
-              <div className="form-field mb-0">
-                <input
-                  type="checkbox"
-                  onChange={(e) => {
-                    if (e.target.checked)
-                      setSelectedRows(customers.map((c) => c.uuid));
-                    else setSelectedRows([]);
-                  }}
-                />
-              </div>
-            </th>
+      <CardHeader className="flex justify-between">
+        <Form submitBtn={false} id="customerGridFilter">
+          <div className="flex gap-5 justify-center items-center">
             <Area
-              id="customerGridHeader"
+              id="customerGridFilter"
               noOuter
               coreComponents={[
                 {
                   component: {
                     default: () => (
-                      <SortableHeader
-                        title="Full Name"
-                        name="full_name"
-                        currentFilters={currentFilters}
+                      <InputField
+                        name="keyword"
+                        placeholder={_('Search')}
+                        defaultValue={
+                          currentFilters.find((f) => f.key === 'keyword')?.value
+                        }
+                        onKeyPress={(e) => {
+                          // If the user press enter, we should submit the form
+                          if (e.key === 'Enter') {
+                            const url = new URL(document.location);
+                            const keyword = e.target?.value;
+                            if (keyword) {
+                              url.searchParams.set('keyword', keyword);
+                            } else {
+                              url.searchParams.delete('keyword');
+                            }
+                            window.location.href = url;
+                          }
+                        }}
                       />
+                    )
+                  },
+                  sortOrder: 5
+                },
+                {
+                  component: {
+                    default: () => (
+                      <Select
+                        value={
+                          currentFilters.find((f) => f.key === 'status')?.value
+                        }
+                        onValueChange={(value) => {
+                          const url = new URL(document.location);
+                          url.searchParams.set('status', value);
+                          window.location.href = url.href;
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue>{_('Status')}</SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>{_('Status')}</SelectLabel>
+                            <SelectItem value="1">{_('Enabled')}</SelectItem>
+                            <SelectItem value="0">{_('Disabled')}</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     )
                   },
                   sortOrder: 10
-                },
-                {
-                  component: {
-                    default: () => (
-                      <SortableHeader
-                        title="Email"
-                        name="email"
-                        currentFilters={currentFilters}
-                      />
-                    )
-                  },
-                  sortOrder: 15
-                },
-                {
-                  component: {
-                    default: () => (
-                      <SortableHeader
-                        title="Status"
-                        name="status"
-                        currentFilters={currentFilters}
-                      />
-                    )
-                  },
-                  sortOrder: 20
-                },
-                {
-                  component: {
-                    default: () => (
-                      <SortableHeader
-                        title="Created At"
-                        name="created_at"
-                        currentFilters={currentFilters}
-                      />
-                    )
-                  },
-                  sortOrder: 25
                 }
               ]}
+              currentFilters={currentFilters}
             />
-          </tr>
-        </thead>
-        <tbody>
-          <Actions
-            customers={customers}
-            selectedIds={selectedRows}
-            setSelectedRows={setSelectedRows}
-          />
-          {customers.map((c) => (
-            <tr key={c.customerId}>
-              <td>
+          </div>
+        </Form>
+        <CardAction>
+          <Button
+            variant="link"
+            className={'hover:cursor-pointer'}
+            onClick={() => {
+              const url = new URL(document.location);
+              url.search = '';
+              window.location.href = url.href;
+            }}
+          >
+            {_('Clear filter')}
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableCell className="align-bottom">
                 <div className="form-field mb-0">
-                  <input
-                    type="checkbox"
-                    checked={selectedRows.includes(c.uuid)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedRows(selectedRows.concat([c.uuid]));
-                      } else {
-                        setSelectedRows(
-                          selectedRows.filter((row) => row !== c.uuid)
-                        );
-                      }
+                  <Checkbox
+                    onCheckedChange={(checked) => {
+                      if (checked)
+                        setSelectedRows(customers.map((c) => c.uuid));
+                      else setSelectedRows([]);
                     }}
                   />
                 </div>
-              </td>
+              </TableCell>
               <Area
-                id="customerGridRow"
-                row={c}
+                id="customerGridHeader"
                 noOuter
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
                     component: {
                       default: () => (
-                        <CustomerName name={c.fullName} url={c.editUrl} />
+                        <SortableHeader
+                          title={_('Full Name')}
+                          name="full_name"
+                          currentFilters={currentFilters}
+                        />
                       )
                     },
                     sortOrder: 10
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => <td>{c.email}</td>
+                      default: () => (
+                        <SortableHeader
+                          title={_('Email')}
+                          name="email"
+                          currentFilters={currentFilters}
+                        />
+                      )
                     },
                     sortOrder: 15
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <Status status={parseInt(c.status, 10)} />
+                      default: () => (
+                        <SortableHeader
+                          title={_('Status')}
+                          name="status"
+                          currentFilters={currentFilters}
+                        />
                       )
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: () => <td>{c.createdAt.text}</td>
+                      default: () => (
+                        <SortableHeader
+                          title={_('Created At')}
+                          name="created_at"
+                          currentFilters={currentFilters}
+                        />
+                      )
                     },
                     sortOrder: 25
                   }
                 ]}
               />
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {customers.length === 0 && (
-        <div className="flex w-full justify-center">
-          There is no customer to display
-        </div>
-      )}
-      <Pagination total={total} limit={limit} page={page} />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <Actions
+              customers={customers}
+              selectedIds={selectedRows}
+              setSelectedRows={setSelectedRows}
+            />
+            {customers.map((c) => (
+              <TableRow key={c.customerId}>
+                <TableCell>
+                  <div className="form-field mb-0">
+                    <Checkbox
+                      checked={selectedRows.includes(c.uuid)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setSelectedRows(selectedRows.concat([c.uuid]));
+                        } else {
+                          setSelectedRows(
+                            selectedRows.filter((row) => row !== c.uuid)
+                          );
+                        }
+                      }}
+                    />
+                  </div>
+                </TableCell>
+                <Area
+                  id="customerGridRow"
+                  row={c}
+                  noOuter
+                  selectedRows={selectedRows}
+                  setSelectedRows={setSelectedRows}
+                  coreComponents={[
+                    {
+                      component: {
+                        default: () => (
+                          <CustomerName name={c.fullName} url={c.editUrl} />
+                        )
+                      },
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: ({ areaProps }) => (
+                          <TableCell>{c.email}</TableCell>
+                        )
+                      },
+                      sortOrder: 15
+                    },
+                    {
+                      component: {
+                        default: ({ areaProps }) => (
+                          <Status status={parseInt(c.status, 10)} />
+                        )
+                      },
+                      sortOrder: 20
+                    },
+                    {
+                      component: {
+                        default: () => <TableCell>{c.createdAt.text}</TableCell>
+                      },
+                      sortOrder: 25
+                    }
+                  ]}
+                />
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        {customers.length === 0 && (
+          <div className="flex w-full justify-center mt-3">
+            {_('There is no customer to display')}
+          </div>
+        )}
+        <GridPagination total={total} limit={limit} page={page} />
+      </CardContent>
     </Card>
   );
 }

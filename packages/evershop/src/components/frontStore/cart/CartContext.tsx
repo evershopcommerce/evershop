@@ -18,8 +18,10 @@ const ShippingMethodsQuery = `
   query GetCartShippingMethods($country: String!, $province: String, $postcode: String) {
     myCart {
       availableShippingMethods(country: $country, province: $province, postcode: $postcode) {
+        providerCode
         code
         name
+        carrier
         cost {
           value
           text
@@ -51,6 +53,7 @@ export interface CartItem {
   productName: string;
   productUrl: string;
   thumbnail?: string;
+  noShippingRequired: boolean;
   productWeight: {
     value: number;
     unit: string;
@@ -118,7 +121,7 @@ export interface CartItem {
   variantGroupId?: number;
   removeApi: string; // API endpoint to remove item from cart
   updateQtyApi: string; // API endpoint to update item quantity
-  errors?: any[]; // Validation errors for this item
+  errors?: string[]; // Validation errors for this item
 }
 
 export interface PaymentMethod {
@@ -160,6 +163,7 @@ export interface CartData {
   customerEmail?: string; // Optional customer email
   customerFullName?: string; // Optional customer full name
   coupon?: string; // Coupon code applied to cart
+  noShippingRequired: boolean;
   shippingMethod?: string; // Selected shipping method code
   shippingMethodName?: string; // Selected shipping method name
   paymentMethod?: string; // Selected payment method code
@@ -240,6 +244,14 @@ export interface CartData {
     name: string;
   }[];
   availableShippingMethods: {
+    /**
+     * Required. Identifies the provider this method came from — Core, USPS,
+     * EasyPost, etc. The server-side GraphQL field is `String!`. The
+     * storefront passes it through to `addShippingMethod` so the cart can
+     * route validation to the correct provider's `validateMethod`.
+     * Silently defaulting to `'core'` mis-routes non-core methods.
+     */
+    providerCode: string;
     code: string;
     name: string;
     cost?: {
@@ -250,7 +262,7 @@ export interface CartData {
   // Errors
   errors: CartError[];
   error: string | null;
-  [extendedFields: string]: any; // Allow third-party extensions to add fields
+  [extendedFields: string]: unknown; // Allow third-party extensions to add fields
 }
 
 // Complete cart state with detailed loading states
@@ -304,7 +316,11 @@ interface CartDispatch {
     payload: { qty: number; action: 'increase' | 'decrease' }
   ) => Promise<void>;
   addPaymentMethod: (code: string, name: string) => Promise<void>;
-  addShippingMethod: (code: string, name: string) => Promise<void>;
+  addShippingMethod: (
+    code: string,
+    name: string,
+    providerCode: string
+  ) => Promise<void>;
   addShippingAddress: (address: Address) => Promise<void>;
   addBillingAddress: (address: Address) => Promise<void>;
   addContactInfo: (contactInfo: { email: string }) => Promise<void>;
@@ -413,6 +429,7 @@ const initialEmptyState: CartState = {
     addItemApi: '', // initial addItemApi
     items: [],
     totalQty: 0,
+    noShippingRequired: false,
     totalWeight: { value: 0, unit: 'kg' },
     billingAddress: undefined,
     shippingAddress: undefined,
@@ -791,9 +808,18 @@ export const CartProvider = ({
 
   // Add shipping method
   const addShippingMethod = useCallback(
-    async (code: string, name: string) => {
+    async (code: string, name: string, providerCode: string) => {
       if (!state.data) {
         throw new Error(_('Cannot add shipping method: cart not initialized'));
+      }
+      if (!providerCode) {
+        // No more silent default to 'core' — the storefront must thread
+        // providerCode from `availableShippingMethods.providerCode`
+        // (server-side `String!`). Defaulting hid non-core mis-routes
+        // behind a "method no longer available" error from resolveShippingQuote.
+        throw new Error(
+          _('Cannot add shipping method: providerCode is required')
+        );
       }
 
       try {
@@ -806,7 +832,11 @@ export const CartProvider = ({
           fetch(state.data!.addShippingMethodApi, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ method_code: code, method_name: name })
+            body: JSON.stringify({
+              provider_code: providerCode,
+              method_code: code,
+              method_name: name
+            })
           })
         );
 

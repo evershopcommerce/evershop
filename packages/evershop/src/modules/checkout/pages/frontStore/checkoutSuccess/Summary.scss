@@ -23,7 +23,6 @@ body {
 
 .summary__row {
   display: grid;
-  margin-bottom: 0.625rem;
   grid-gap: 0.625rem;
   grid-template-columns: 8.75rem auto;
   > div {
@@ -33,8 +32,6 @@ body {
   }
   &.grand-total {
     border-top: 1px solid var(--divider);
-    margin-top: 0.625rem;
-    padding-top: 0.625rem;
     .grand-total-value {
       font-size: 1.25rem;
       font-weight: bold;

@@ -12,6 +12,14 @@ export default function MyAccount() {
       <div className="page-width mt-7 grid grid-cols-1 md:grid-cols-3 gap-7">
         <div className="col-span-1 md:col-span-2">
           <OrderHistory title={_('Recent Orders')} />
+          <div className="mt-2">
+            <a
+              href="/account/orders"
+              className="text-sm text-primary hover:underline"
+            >
+              {_('See all orders →')}
+            </a>
+          </div>
         </div>
         <div className="col-span-1">
           <AccountInfo title={_('Account Information')} showLogout />

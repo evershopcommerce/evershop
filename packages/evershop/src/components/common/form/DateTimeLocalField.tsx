@@ -1,12 +1,19 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
+import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
+import {
+  InputGroup,
+  InputGroupInput
+} from '@components/common/ui/InputGroup.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import {
   useFormContext,
   RegisterOptions,
   FieldPath,
-  FieldValues
+  FieldValues,
+  Controller
 } from 'react-hook-form';
 
 interface DateTimeLocalFieldProps<T extends FieldValues = FieldValues>
@@ -35,19 +42,13 @@ export function DateTimeLocalField<T extends FieldValues = FieldValues>({
   ...props
 }: DateTimeLocalFieldProps<T>) {
   const {
-    register,
-    unregister,
+    control,
     formState: { errors }
   } = useFormContext<T>();
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
 
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
-
-  React.useEffect(() => {
-    return () => {
-      unregister(name);
-    };
-  }, [name, unregister]);
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
 
   const { valueAsNumber, valueAsDate, ...cleanValidation } = validation || {};
   const validationRules = {
@@ -75,37 +76,46 @@ export function DateTimeLocalField<T extends FieldValues = FieldValues>({
   };
 
   return (
-    <div
-      className={`form-field ${wrapperClassName} ${fieldError ? 'error' : ''}`}
+    <Field
+      data-invalid={fieldError ? 'true' : 'false'}
+      className={wrapperClassName}
     >
       {label && (
-        <label htmlFor={fieldId}>
-          {label}
-          {required && <span className="required-indicator">*</span>}
-          {helperText && <Tooltip content={helperText} position="top" />}
-        </label>
+        <FieldLabel htmlFor={fieldId}>
+          <>
+            {label}
+            {required && <span className="text-destructive">*</span>}
+            {helperText && <Tooltip content={helperText} position="top" />}
+          </>
+        </FieldLabel>
       )}
 
-      <input
-        id={fieldId}
-        type="datetime-local"
-        min={min}
-        max={max}
-        step={step}
-        {...register(name, validationRules)}
-        className={className}
-        aria-invalid={fieldError !== undefined ? 'true' : 'false'}
-        aria-describedby={
-          fieldError !== undefined ? `${fieldId}-error` : undefined
-        }
-        {...props}
+      <Controller
+        name={resolvedName}
+        control={control}
+        rules={validationRules}
+        render={({ field }) => (
+          <InputGroup>
+            <InputGroupInput
+              {...field}
+              value={field.value ?? ''}
+              id={fieldId}
+              type="datetime-local"
+              min={min}
+              max={max}
+              step={step}
+              className={className}
+              aria-invalid={fieldError !== undefined ? 'true' : 'false'}
+              aria-describedby={
+                fieldError !== undefined ? `${fieldId}-error` : undefined
+              }
+              {...props}
+            />
+          </InputGroup>
+        )}
       />
 
-      {fieldError && (
-        <p id={`${fieldId}-error`} className="field-error">
-          {fieldError}
-        </p>
-      )}
-    </div>
+      {fieldError && <FieldError>{fieldError}</FieldError>}
+    </Field>
   );
 }

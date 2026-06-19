@@ -1,6 +1,6 @@
 import Spinner from '@components/admin/Spinner.js';
-import Button from '@components/common/Button.js';
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
+import { Button } from '@components/common/ui/Button.js';
 import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
@@ -37,24 +37,24 @@ const TestCards: React.FC<{
         {showTestCard === 'success' && (
           <div>
             <div>
-              <b>Test success:</b>
+              <b>{_('Test success:')}</b>
             </div>
             <div className="text-xs text-gray-600">
               Test card number: 4242 4242 4242 4242
             </div>
-            <div className="text-xs text-gray-600">Test card expiry: 04/26</div>
+            <div className="text-xs text-gray-600">Test card expiry: 04/99</div>
             <div className="text-xs text-gray-600">Test card CVC: 242</div>
           </div>
         )}
         {showTestCard === 'failure' && (
           <div>
             <div>
-              <b>Test failure:</b>
+              <b>{_('Test failure:')}</b>
             </div>
             <div className="text-xs text-gray-600">
               Test card number: 4000 0000 0000 9995
             </div>
-            <div className="text-xs text-gray-600">Test card expiry: 04/26</div>
+            <div className="text-xs text-gray-600">Test card expiry: 04/99</div>
             <div className="text-xs text-gray-600">Test card CVC: 242</div>
           </div>
         )}
@@ -90,17 +90,19 @@ const TestCards: React.FC<{
         </div>
         <div className="self-center flex space-x-2 pb-2">
           <Button
-            onAction={testSuccess}
-            title="Test success"
-            outline
-            variant="primary"
-          />
+            onClick={testSuccess}
+            title={_('Test success')}
+            variant="default"
+          >
+            {_('Test success')}
+          </Button>
           <Button
-            onAction={testFailure}
-            title="Test failure"
-            variant="danger"
-            outline
-          />
+            onClick={testFailure}
+            title={_('Test failure')}
+            variant="destructive"
+          >
+            {_('Test failure')}
+          </Button>
         </div>
       </div>
     </div>
@@ -247,7 +249,7 @@ export function CheckoutForm({
     <>
       <RenderIfTrue condition={!!(stripe && elements)}>
         <div>
-          <div className="stripe-form">
+          <div className="stripe-form float-left w-full">
             {stripePublishableKey &&
               stripePublishableKey.startsWith('pk_test') && (
                 <TestCards
@@ -328,7 +330,7 @@ const StripeApp: React.FC<StripeAppProps> = React.memo(
     );
 
     return (
-      <div className="stripe__app">
+      <div className="stripe__app py-3">
         <Elements stripe={stripeLoader(stripePublishableKey)} options={options}>
           <CheckoutForm
             stripePublishableKey={stripePublishableKey}
@@ -367,7 +369,7 @@ export default function StripeMethod({
   useEffect(() => {
     registerPaymentComponent('stripe', {
       nameRenderer: () => (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <span>{setting.stripeDisplayName}</span>
           <Cards width={100} />
         </div>
@@ -386,23 +388,34 @@ export default function StripeMethod({
         const { checkout } = useCheckoutDispatch();
         const { loadingStates, orderPlaced } = useCheckout();
         const handleClick = async (e: React.MouseEvent) => {
-          e.preventDefault();
-          const validateStripe = (window as any)?.validateStripePayment;
-          if (validateStripe) {
-            await validateStripe();
+          try {
+            e.preventDefault();
+            const validateStripe = (window as any)?.validateStripePayment;
+            if (validateStripe) {
+              const isValid = await validateStripe();
+              if (!isValid) return;
+            }
+            // If validation passed, proceed with order placement
+            await checkout();
+          } catch (error) {
+            toast.error(
+              error instanceof Error
+                ? error.message
+                : _('An unexpected error occurred. Please try again.')
+            );
           }
-          // If validation passed, proceed with order placement
-          await checkout();
         };
 
         const isDisabled = loadingStates.placingOrder || orderPlaced;
 
         return (
-          <button
+          <Button
+            variant={'default'}
+            size={'xl'}
             type="button"
             onClick={handleClick}
             disabled={isDisabled}
-            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-4 px-6 rounded-lg font-semibold text-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:from-indigo-500 disabled:to-purple-600"
+            className="w-full bg-linear-to-r from-indigo-500 to-purple-600 text-white py-4 px-6 rounded-lg font-semibold text-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transform transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:from-indigo-500 disabled:to-purple-600"
           >
             <span className="flex items-center justify-center space-x-2">
               {loadingStates.placingOrder ? (
@@ -453,7 +466,7 @@ export default function StripeMethod({
                 </>
               )}
             </span>
-          </button>
+          </Button>
         );
       }
     });
@@ -463,7 +476,7 @@ export default function StripeMethod({
 }
 
 export const layout = {
-  areaId: 'checkoutForm',
+  areaId: 'checkoutFormAfter',
   sortOrder: 10
 };
 

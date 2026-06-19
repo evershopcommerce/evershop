@@ -1,4 +1,5 @@
 import isEqual from 'react-fast-compare';
+import type { ValueRegistry } from '../../types/registry.js';
 
 let locked = false;
 
@@ -280,6 +281,22 @@ export function getValueSync<T>(
   return val;
 }
 
+/**
+ * Add a processor for a known registry value (typed).
+ */
+export function addProcessor<K extends keyof ValueRegistry>(
+  name: K,
+  callback: SyncProcessor<ValueRegistry[K]> | AsyncProcessor<ValueRegistry[K]>,
+  priority?: number
+): void;
+/**
+ * Add a processor for a custom registry value.
+ */
+export function addProcessor<T = unknown>(
+  name: string,
+  callback: SyncProcessor<T> | AsyncProcessor<T>,
+  priority?: number
+): void;
 export function addProcessor<T>(
   name: string,
   callback: SyncProcessor<T> | AsyncProcessor<T>,
@@ -288,6 +305,20 @@ export function addProcessor<T>(
   return registry.addProcessor(name, callback, priority);
 }
 
+/**
+ * Add a final (priority-1000) processor for a known registry value (typed).
+ */
+export function addFinalProcessor<K extends keyof ValueRegistry>(
+  name: K,
+  callback: SyncProcessor<ValueRegistry[K]> | AsyncProcessor<ValueRegistry[K]>
+): void;
+/**
+ * Add a final (priority-1000) processor for a custom registry value.
+ */
+export function addFinalProcessor<T = unknown>(
+  name: string,
+  callback: SyncProcessor<T> | AsyncProcessor<T>
+): void;
 export function addFinalProcessor(
   name: string,
   callback: SyncProcessor<any> | AsyncProcessor<any>

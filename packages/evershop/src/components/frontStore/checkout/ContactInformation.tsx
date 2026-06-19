@@ -1,5 +1,20 @@
+import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
+import { Button } from '@components/common/ui/Button.js';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemTitle
+} from '@components/common/ui/Item.js';
 import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
@@ -10,6 +25,7 @@ import {
   useCustomerDispatch
 } from '@components/frontStore/customer/CustomerContext.jsx';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { CircleUser } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -49,56 +65,34 @@ const LoggedIn: React.FC<{
   };
 
   return (
-    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-      <div className="flex items-start justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="flex-shrink-0">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <svg
-                className="w-6 h-6 text-blue-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-            </div>
+    <Item variant={'outline'}>
+      <ItemContent>
+        <ItemTitle>
+          <div className="flex items-center space-x-2">
+            <svg
+              className="w-4 h-4 text-primary"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="text-sm font-medium text-primary">
+              {_('Logged in as')} {fullName}
+            </span>
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center space-x-2">
-              <svg
-                className="w-4 h-4 text-blue-500"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <h3 className="text-sm font-medium text-blue-800">
-                {_('Logged in as')} {fullName}
-              </h3>
-            </div>
-            <p className="text-sm text-blue-600 mt-1">{email}</p>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={handleLogout}
-          disabled={isLoggingOut}
-          className="ml-3 text-sm text-blue-700 hover:text-blue-900 underline disabled:opacity-50 disabled:cursor-not-allowed"
-        >
+        </ItemTitle>
+        <ItemDescription>{email}</ItemDescription>
+      </ItemContent>
+      <ItemActions>
+        <Button onClick={handleLogout} disabled={isLoggingOut}>
           {isLoggingOut ? _('Logging out...') : _('Logout')}
-        </button>
-      </div>
-    </div>
+        </Button>
+      </ItemActions>
+    </Item>
   );
 };
 
@@ -136,7 +130,13 @@ const Guest: React.FC<{
       const formData = form.getValues();
       const loginEmail = formData?.contact?.email;
       const password = formData?.contact?.password;
-      await login(loginEmail, password, window.location.href);
+      await login(
+        {
+          email: loginEmail,
+          password: password
+        },
+        window.location.href
+      );
       toast.success(_('Successfully logged in'));
       setShowLogin(false);
     } catch (error) {
@@ -179,21 +179,16 @@ const Guest: React.FC<{
             placeholder={_('Enter your password')}
           />
           <div className="mt-4 flex gap-2">
-            <button
-              type="button"
+            <Button
               onClick={handleLogin}
               disabled={isLogging}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLogging ? _('Logging in...') : _('Log in')}
-            </button>
-            <button
-              type="button"
-              onClick={handleCancelLogin}
-              className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
-            >
+            </Button>
+            <Button variant={'outline'} onClick={handleCancelLogin}>
               {_('Cancel')}
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -204,7 +199,7 @@ const Guest: React.FC<{
           <button
             type="button"
             onClick={handleLoginClick}
-            className="underline text-blue-600 hover:text-blue-800"
+            className="underline text-primary hover:cursor-pointer"
           >
             {_('Log in')}
           </button>
@@ -218,17 +213,32 @@ export function ContactInformation() {
   const { data: cart } = useCartState();
 
   return (
-    <div className="checkout-contact checkout-step">
-      <h1 className="checkout-step-title">{_('Contact Information')}</h1>
-      {customer ? (
-        <LoggedIn
-          fullName={customer.fullName}
-          email={customer.email}
-          uuid={customer.uuid}
-        />
-      ) : (
-        <Guest email={cart.customerEmail || ''} />
-      )}
-    </div>
+    <>
+      <Area id="checkoutContactInformationBefore" />
+      <div className="checkout-contact checkout-step">
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              <div className="flex items-center gap-2">
+                <CircleUser className="w-5 h-5" />
+                <span>{_('Contact Information')}</span>
+              </div>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {customer ? (
+              <LoggedIn
+                fullName={customer.fullName}
+                email={customer.email}
+                uuid={customer.uuid}
+              />
+            ) : (
+              <Guest email={cart.customerEmail || ''} />
+            )}
+          </CardContent>
+        </Card>
+      </div>
+      <Area id="checkoutContactInformationAfter" />
+    </>
   );
 }

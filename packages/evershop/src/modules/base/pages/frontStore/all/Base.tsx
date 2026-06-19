@@ -7,7 +7,7 @@ import {
 import {
   CustomerProvider,
   Customer
-} from '@components/frontStore/customer/CustomerContext.jsx';
+} from '@components/frontStore/customer/CustomerContext.js';
 import { Footer } from '@components/frontStore/Footer.js';
 import { Header } from '@components/frontStore/Header.js';
 import React from 'react';
@@ -46,9 +46,13 @@ export default function Base({
       >
         <LoadingBar />
         <Header />
-        <main className="content">
-          <Area id="content" noOuter />
-        </main>
+        <Area
+          id="content"
+          className="content page-width"
+          isGlobal
+          wrapper="main"
+          editableInPageBuilder
+        />
         <Footer copyRight={themeConfig.copyRight} />
       </CartProvider>
     </CustomerProvider>
@@ -74,6 +78,7 @@ export const query = `
       applyCouponApi
       removeCouponApi
       availableShippingMethods {
+        providerCode
         code
         name
         cost {
@@ -104,6 +109,7 @@ export const query = `
         text
       }
       addAddressApi
+      updateProfileApi
       addresses {
         addressId
         uuid
@@ -169,6 +175,7 @@ export const fragments = `
     customerEmail
     customerFullName
     coupon
+    noShippingRequired
     shippingMethod
     shippingMethodName
     paymentMethod

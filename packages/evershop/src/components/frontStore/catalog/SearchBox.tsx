@@ -1,6 +1,12 @@
 import { Image } from '@components/common/Image.js';
+import { Input } from '@components/common/ui/Input.js';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput
+} from '@components/common/ui/InputGroup.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { XMarkIcon } from '@heroicons/react/24/solid';
+import { Search, X } from 'lucide-react';
 import React, { useRef, useState, ReactNode, useCallback } from 'react';
 import { useClient } from 'urql';
 
@@ -47,7 +53,7 @@ export interface SearchResult {
   image?: string;
   price?: string;
   type?: 'product' | 'category' | 'page';
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface SearchBoxProps {
@@ -221,14 +227,14 @@ export function SearchBox({
       if (event.key === 'Enter') {
         setShowResults(false);
         const url = new URL(searchPageUrl, window.location.origin);
-        url.searchParams.set('keyword', InputRef.current?.value || '');
+        url.searchParams.set('keyword', keyword);
         window.location.href = url.toString();
       } else if (event.key === 'Escape') {
         setShowResults(false);
         setShowing(false);
       }
     },
-    [searchPageUrl]
+    [searchPageUrl, keyword]
   );
 
   const handleFocus = useCallback(() => {
@@ -248,23 +254,12 @@ export function SearchBox({
   }, []);
 
   const defaultSearchIcon = () => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ width: '1.5rem', height: '1.5rem' }}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-      />
-    </svg>
+    <Search className="w-5 h-5 text-foreground hover:text-primary" />
   );
 
-  const defaultCloseIcon = () => <XMarkIcon width="1.5rem" height="1.5rem" />;
+  const defaultCloseIcon = () => (
+    <X className="w-5 h-5 text-foreground hover:text-primary" />
+  );
 
   return (
     <div className="search__box">
@@ -342,33 +337,23 @@ const defaultSearchInput = (props: {
   placeholder: string;
   ref: React.RefObject<HTMLInputElement | null>;
 }) => (
-  <div className="form__field flex items-center justify-center relative flex-grow">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ width: '1rem', height: '1rem' }}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      className="absolute left-2 pointer-events-none"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+  <div className="form__field flex items-center justify-center relative grow">
+    <InputGroup>
+      <InputGroupAddon>
+        <Search />
+      </InputGroupAddon>
+      <InputGroupInput
+        ref={props.ref}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
+        onKeyDown={props.onKeyDown}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
+        enterKeyHint="done"
+        className="w-full focus:outline-none"
       />
-    </svg>
-    <input
-      ref={props.ref}
-      placeholder={props.placeholder}
-      value={props.value}
-      onChange={(e) => props.onChange(e.target.value)}
-      onKeyDown={props.onKeyDown}
-      onFocus={props.onFocus}
-      onBlur={props.onBlur}
-      enterKeyHint="done"
-      className="pl-8 p-3 border border-gray-300 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-    />
+    </InputGroup>
   </div>
 );
 
@@ -379,10 +364,10 @@ const defaultSearchResults = (props: {
   isLoading: boolean;
 }) => {
   return (
-    <div className="search__results absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-b-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+    <div className="search__results absolute top-full left-0 right-0 bg-white border border-border rounded-b-lg shadow-lg z-50 max-h-64 overflow-y-auto">
       {props.isLoading && (
         <div className="p-3 text-center text-gray-500">
-          <span>Searching...</span>
+          <span>{_('Searching...')}</span>
         </div>
       )}
       {!props.isLoading && props.results.length === 0 && (
@@ -394,7 +379,7 @@ const defaultSearchResults = (props: {
         props.results.map((result) => (
           <div
             key={result.id}
-            className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+            className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-border last:border-b-0"
             onClick={(e) => {
               e.preventDefault();
               props.onSelect(result);
@@ -414,16 +399,12 @@ const defaultSearchResults = (props: {
                 alt={result.title}
                 width={100}
                 height={100}
-                className="w-10 h-10 object-cover rounded mr-3 flex-shrink-0"
+                className="w-10 h-10 object-cover rounded mr-3 shrink-0"
               />
             )}
             <div className="flex-1 min-w-0">
-              <div className="font-medium text-gray-900 truncate">
-                {result.title}
-              </div>
-              {result.price && (
-                <div className="text-sm text-gray-600">{result.price}</div>
-              )}
+              <div className="font-medium truncate">{result.title}</div>
+              {result.price && <div className="text-sm">{result.price}</div>}
               {result.type && (
                 <div className="text-xs text-gray-400 capitalize">
                   {result.type}

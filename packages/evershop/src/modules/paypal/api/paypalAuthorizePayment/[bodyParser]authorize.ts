@@ -12,6 +12,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import addOrderActivityLog from '../../../oms/services/addOrderActivityLog.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { createAxiosInstance } from '../../services/requester.js';
 
@@ -46,7 +47,7 @@ export default async (
       );
 
       if (responseData.data.status === 'COMPLETED') {
-        await updatePaymentStatus(order.order_id, 'authorized');
+        await updatePaymentStatus(order.order_id, 'paypal_authorized');
         // Add transaction data to database
         await insert('payment_transaction')
           .given({
@@ -69,13 +70,12 @@ export default async (
           .execute(pool);
 
         // Save order activities
-        await insert('order_activity')
-          .given({
-            order_activity_order_id: order.order_id,
-            comment: `Customer authorized the payment using PayPal. Transaction ID: ${responseData.data.purchase_units[0].payments.authorizations[0].id}`,
-            customer_notified: 0
-          })
-          .execute(pool);
+        await addOrderActivityLog(
+          order.order_id,
+          `Customer authorized the payment using PayPal. Transaction ID: ${responseData.data.purchase_units[0].payments.authorizations[0].id}`,
+          false,
+          await getConnection(pool)
+        );
 
         response.status(OK);
         response.json({

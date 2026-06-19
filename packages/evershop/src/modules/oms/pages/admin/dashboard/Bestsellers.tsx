@@ -1,8 +1,22 @@
-import { Card } from '@components/admin/Card.js';
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import './Bestsellers.scss';
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import {
+  Table,
+  TableRow,
+  TableBody,
+  TableCell
+} from '@components/common/ui/Table.js';
 
 interface BestSellersProps {
   bestSellers: Array<{
@@ -27,31 +41,30 @@ export default function BestSellers({
   listUrl
 }: BestSellersProps) {
   return (
-    <Card
-      title="Best Sellers"
-      actions={[
-        {
-          name: 'All products',
-          onAction: () => {
-            window.location.href = listUrl;
-          }
-        }
-      ]}
-    >
-      <Card.Session>
-        <table className="listing bestsellers">
-          <tbody>
+    <Card>
+      <CardHeader>
+        <CardTitle>{_('Best Sellers')}</CardTitle>
+        <CardDescription>{_('A list of best selling products')}</CardDescription>
+        <CardAction>
+          <a href={listUrl} className="text-sm text-primary hover:underline">
+            {_('View All Products')}
+          </a>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableBody>
             {bestSellers.length === 0 && (
-              <tr>
-                <td align="left">
-                  Look like you just started. No bestsellers yet.
-                </td>
-                <td> </td>
-              </tr>
+              <TableRow>
+                <TableCell align="left">
+                  {_('Look like you just started. No bestsellers yet.')}
+                </TableCell>
+                <TableCell> </TableCell>
+              </TableRow>
             )}
             {bestSellers.map((p, i) => (
-              <tr key={i}>
-                <td>
+              <TableRow key={i}>
+                <TableCell>
                   <div className=" flex justify-left">
                     <div className="flex justify-start gap-2 items-center">
                       <div className="grid-thumbnail text-border border border-divider p-2 rounded">
@@ -77,15 +90,15 @@ export default function BestSellers({
                       </div>
                     </div>
                   </div>
-                </td>
-                <td />
-                <td>{p.price.regular.text}</td>
-                <td>{p.soldQty} sold</td>
-              </tr>
+                </TableCell>
+                <TableCell />
+                <TableCell>{p.price.regular.text}</TableCell>
+                <TableCell>{_('${qty} sold', { qty: String(p.soldQty) })}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
-      </Card.Session>
+          </TableBody>
+        </Table>
+      </CardContent>
     </Card>
   );
 }

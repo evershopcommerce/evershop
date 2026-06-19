@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/shippingProviders/core/methods/:id",
+  "access": "private"
+}

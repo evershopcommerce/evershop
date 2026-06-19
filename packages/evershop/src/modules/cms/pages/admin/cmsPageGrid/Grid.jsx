@@ -1,11 +1,27 @@
-import { Card } from '@components/admin/Card';
+import { GridPagination } from '@components/admin/grid/GridPagination';
 import { SortableHeader } from '@components/admin/grid/header/Sortable';
-import { Pagination } from '@components/admin/grid/Pagination';
 import { Status } from '@components/admin/Status.js';
 import Area from '@components/common/Area';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
+import { Button } from '@components/common/ui/Button.js';
+import { ButtonGroup } from '@components/common/ui/ButtonGroup.js';
+import { Card } from '@components/common/ui/Card';
+import {
+  CardAction,
+  CardContent,
+  CardHeader
+} from '@components/common/ui/Card.js';
+import { Checkbox } from '@components/common/ui/Checkbox.js';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow
+} from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -43,67 +59,64 @@ function Actions({ pages = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Disable',
+      name: _('Disable'),
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} pages`,
-          content: 'Are you sure?',
+          heading: _('Disable ${count} pages', { count: selectedIds.length }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
-            variant: 'primary'
+            variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Disable',
+            title: _('Disable'),
             onAction: async () => {
               await updatePages(0);
             },
-            variant: 'critical',
-            isLoading: false
+            variant: 'destructive'
           }
         });
       }
     },
     {
-      name: 'Enable',
+      name: _('Enable'),
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} pages`,
-          content: 'Are you sure?',
+          heading: _('Enable ${count} pages', { count: selectedIds.length }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
-            variant: 'primary'
+            variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Enable',
+            title: _('Enable'),
             onAction: async () => {
               await updatePages(1);
             },
-            variant: 'critical',
-            isLoading: false
+            variant: 'destructive'
           }
         });
       }
     },
     {
-      name: 'Delete',
+      name: _('Delete'),
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} pages`,
-          content: <div>Can&apos;t be undone</div>,
+          heading: _('Delete ${count} pages', { count: selectedIds.length }),
+          content: <div>{_("Can't be undone")}</div>,
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
-            variant: 'primary'
+            variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Delete',
+            title: _('Delete'),
             onAction: async () => {
               await deletePages();
             },
-            variant: 'critical',
-            isLoading
+            variant: 'destructive'
           }
         });
       }
@@ -111,31 +124,27 @@ function Actions({ pages = [], selectedIds = [] }) {
   ];
 
   return (
-    <tr>
+    <TableRow>
       {selectedIds.length === 0 && null}
       {selectedIds.length > 0 && (
-        <td style={{ borderTop: 0 }} colSpan="100">
-          <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
-              {selectedIds.length} selected
-            </a>
+        <TableCell colSpan="100">
+          <ButtonGroup>
             {actions.map((action, i) => (
-              <a
+              <Button
                 key={i}
-                href="#"
+                variant={'outline'}
                 onClick={(e) => {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
-                <span>{action.name}</span>
-              </a>
+                {action.name}
+              </Button>
             ))}
-          </div>
-        </td>
+          </ButtonGroup>
+        </TableCell>
       )}
-    </tr>
+    </TableRow>
   );
 }
 
@@ -167,166 +176,167 @@ export default function CMSPageGrid({
 
   return (
     <Card>
-      <Card.Session
-        title={
-          <Form submitBtn={false} id="pageGridFilter">
-            <Area
-              id="cmsPageGridFilter"
-              noOuter
-              coreComponents={[
-                {
-                  component: {
-                    default: () => (
-                      <InputField
-                        name="name"
-                        placeholder="Search"
-                        defaultValue={
-                          currentFilters.find((f) => f.key === 'name')?.value
-                        }
-                        onKeyPress={(e) => {
-                          // If the user press enter, we should submit the form
-                          if (e.key === 'Enter') {
-                            const url = new URL(document.location);
-                            const name = e.target?.value;
-                            if (name) {
-                              url.searchParams.set('name[operation]', 'like');
-                              url.searchParams.set('name[value]', name);
-                            } else {
-                              url.searchParams.delete('name[operation]');
-                              url.searchParams.delete('name[value]');
-                            }
-                            window.location.href = url;
+      <CardHeader className="flex justify-between">
+        <Form submitBtn={false} id="pageGridFilter">
+          <Area
+            id="cmsPageGridFilter"
+            noOuter
+            coreComponents={[
+              {
+                component: {
+                  default: () => (
+                    <InputField
+                      name="name"
+                      placeholder={_('Search')}
+                      defaultValue={
+                        currentFilters.find((f) => f.key === 'name')?.value
+                      }
+                      onKeyPress={(e) => {
+                        // If the user press enter, we should submit the form
+                        if (e.key === 'Enter') {
+                          const url = new URL(document.location);
+                          const name = e.target?.value;
+                          if (name) {
+                            url.searchParams.set('name[operation]', 'like');
+                            url.searchParams.set('name[value]', name);
+                          } else {
+                            url.searchParams.delete('name[operation]');
+                            url.searchParams.delete('name[value]');
                           }
-                        }}
-                      />
-                    )
-                  },
-                  sortOrder: 10
-                }
-              ]}
-            />
-          </Form>
-        }
-        actions={[
-          {
-            variant: 'interactive',
-            name: 'Clear filter',
-            onAction: () => {
+                          window.location.href = url;
+                        }
+                      }}
+                    />
+                  )
+                },
+                sortOrder: 10
+              }
+            ]}
+          />
+        </Form>
+        <CardAction>
+          <Button
+            variant={'link'}
+            onClick={() => {
               // Just get the url and remove all query params
               const url = new URL(document.location);
               url.search = '';
               window.location.href = url.href;
-            }
-          }
-        ]}
-      />
-      <table className="listing sticky">
-        <thead>
-          <tr>
-            <th className="align-bottom">
-              <div className="form-field mb-0">
-                <input
-                  type="checkbox"
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedRows(pages.map((p) => p.uuid));
-                    } else {
-                      setSelectedRows([]);
-                    }
-                  }}
-                />
-              </div>
-            </th>
-            <Area
-              className=""
-              id="pageGridHeader"
-              noOuter
-              coreComponents={[
-                {
-                  component: {
-                    default: () => (
-                      <SortableHeader
-                        title="Name"
-                        name="name"
-                        currentFilters={currentFilters}
-                      />
-                    )
-                  },
-                  sortOrder: 10
-                },
-                {
-                  component: {
-                    default: () => (
-                      <SortableHeader
-                        title="Status"
-                        name="status"
-                        currentFilters={currentFilters}
-                      />
-                    )
-                  },
-                  sortOrder: 20
-                }
-              ]}
-            />
-          </tr>
-        </thead>
-        <tbody>
-          <Actions
-            pages={pages}
-            selectedIds={selectedRows}
-            setSelectedRows={setSelectedRows}
-          />
-          {pages.map((p, i) => (
-            <tr key={i}>
-              <td style={{ width: '2rem' }}>
+            }}
+          >
+            {_('Clear filter')}
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableCell>
                 <div className="form-field mb-0">
-                  <input
-                    type="checkbox"
-                    checked={selectedRows.includes(p.uuid)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedRows(selectedRows.concat([p.uuid]));
+                  <Checkbox
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        setSelectedRows(pages.map((p) => p.uuid));
                       } else {
-                        setSelectedRows(
-                          selectedRows.filter((row) => row !== p.uuid)
-                        );
+                        setSelectedRows([]);
                       }
                     }}
                   />
                 </div>
-              </td>
+              </TableCell>
               <Area
                 className=""
-                id="pageGridRow"
-                row={p}
+                id="pageGridHeader"
                 noOuter
                 coreComponents={[
                   {
                     component: {
-                      default: () => <PageName url={p.editUrl} name={p.name} />
+                      default: () => (
+                        <SortableHeader
+                          title={_('Name')}
+                          name="name"
+                          currentFilters={currentFilters}
+                        />
+                      )
                     },
                     sortOrder: 10
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <Status status={parseInt(p.status, 10)} />
+                      default: () => (
+                        <SortableHeader
+                          title={_('Status')}
+                          name="status"
+                          currentFilters={currentFilters}
+                        />
                       )
                     },
                     sortOrder: 20
                   }
                 ]}
               />
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {pages.length === 0 && (
-        <div className="flex w-full justify-center">
-          There is no page to display
-        </div>
-      )}
-      <Pagination total={total} limit={limit} page={page} />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <Actions
+              pages={pages}
+              selectedIds={selectedRows}
+              setSelectedRows={setSelectedRows}
+            />
+            {pages.map((p, i) => (
+              <TableRow key={i}>
+                <TableCell style={{ width: '2rem' }}>
+                  <div className="form-field mb-0">
+                    <Checkbox
+                      checked={selectedRows.includes(p.uuid)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setSelectedRows(selectedRows.concat([p.uuid]));
+                        } else {
+                          setSelectedRows(
+                            selectedRows.filter((row) => row !== p.uuid)
+                          );
+                        }
+                      }}
+                    />
+                  </div>
+                </TableCell>
+                <Area
+                  className=""
+                  id="pageGridRow"
+                  row={p}
+                  noOuter
+                  coreComponents={[
+                    {
+                      component: {
+                        default: () => (
+                          <PageName url={p.editUrl} name={p.name} />
+                        )
+                      },
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: ({ areaProps }) => (
+                          <Status status={parseInt(p.status, 10)} />
+                        )
+                      },
+                      sortOrder: 20
+                    }
+                  ]}
+                />
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        {pages.length === 0 && (
+          <div className="flex w-full justify-center mt-2">
+            {_('There is no page to display')}
+          </div>
+        )}
+        <GridPagination total={total} limit={limit} page={page} />
+      </CardContent>
     </Card>
   );
 }

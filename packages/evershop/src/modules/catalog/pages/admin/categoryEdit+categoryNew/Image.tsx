@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './Image.scss';
-import { Card } from '@components/admin/Card.js';
 import { Image, ImageUploader } from '@components/admin/ImageUploader.js';
 import { InputField } from '@components/common/form/InputField.js';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { useFormContext } from 'react-hook-form';
 
 interface ImageProps {
@@ -24,8 +31,14 @@ export default function Image({ category }: ImageProps) {
   }, [image, setValue]);
 
   return (
-    <Card title="Category banner">
-      <Card.Session>
+    <Card>
+      <CardHeader>
+        <CardTitle>{_('Category Image')}</CardTitle>
+        <CardDescription>
+          {_('Upload an image for the category.')}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
         <ImageUploader
           onUpload={(images) => {
             if (images.length > 0) {
@@ -42,8 +55,8 @@ export default function Image({ category }: ImageProps) {
             Math.floor(Math.random() * (9999 - 1000)) + 1000
           }/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`}
         />
-        <InputField type="hidden" defaultValue={image?.url} name="image" />
-      </Card.Session>
+        <InputField type="hidden" value={image?.url} name="image" />
+      </CardContent>
     </Card>
   );
 }

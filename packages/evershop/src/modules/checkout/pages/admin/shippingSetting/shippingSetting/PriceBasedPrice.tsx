@@ -1,4 +1,15 @@
 import { NumberField } from '@components/common/form/NumberField.js';
+import { Button } from '@components/common/ui/Button.js';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
@@ -40,66 +51,67 @@ export function PriceBasedPrice({ lines }: PriceBasedPriceProps) {
 
   return (
     <div className="my-5">
-      <table className="border-collapse divide-y">
-        <thead>
-          <tr>
-            <th className="border-none">Min Price</th>
-            <th className="border-none">Shipping Cost</th>
-            <th className="border-none">Action</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="border-none">{_('Min Price')}</TableHead>
+            <TableHead className="border-none">{_('Shipping Cost')}</TableHead>
+            <TableHead className="border-none">{_('Action')}</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {fields.map((field, index) => (
-            <tr key={field.id} className="border-divider py-5">
-              <td className="border-none">
+            <TableRow key={field.id} className="border-border py-5">
+              <TableCell>
                 <NumberField
                   name={`price_based_cost.${index}.min_price`}
-                  placeholder="Min Price"
+                  placeholder={_('Min Price')}
                   required
-                  validation={{ required: 'Min price is required' }}
+                  validation={{ required: _('Min price is required') }}
                 />
-              </td>
-              <td className="border-none">
+              </TableCell>
+              <TableCell>
                 <NumberField
                   name={`price_based_cost.${index}.cost`}
-                  placeholder="Shipping Cost"
+                  placeholder={_('Shipping Cost')}
                   required
-                  validation={{ required: 'Shipping cost is required' }}
+                  validation={{ required: _('Shipping cost is required') }}
                 />
-              </td>
-              <td className="border-none">
+              </TableCell>
+              <TableCell>
                 {fields.length > 1 && (
                   <button
                     type="button"
                     onClick={() => remove(index)}
-                    className="text-critical"
+                    className="text-destructive"
                   >
-                    Delete
+                    {_('Delete')}
                   </button>
                 )}
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={3} className="border-none">
-              <button
+        </TableBody>
+        <TableFooter className="border-border">
+          <TableRow>
+            <TableCell colSpan={3} className="border-none">
+              <Button
                 type="button"
-                className="text-interactive"
+                size={'sm'}
+                variant={'outline'}
                 onClick={() => {
                   append({
-                    min_price: undefined,
+                    min_weight: undefined,
                     cost: undefined
                   });
                 }}
               >
-                + Add Line
-              </button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+                {_('+ Add Line')}
+              </Button>
+            </TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
     </div>
   );
 }

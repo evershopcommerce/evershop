@@ -1,4 +1,5 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface WidgetEditPageHeadingProps {
@@ -14,7 +15,11 @@ export default function WidgetEditPageHeading({
   return (
     <PageHeading
       backUrl={backUrl}
-      heading={widget ? `Editing widget ${widget.name}` : 'Create a new widget'}
+      heading={
+        widget
+          ? _('Editing widget ${name}', { name: widget.name })
+          : _('Create a new widget')
+      }
     />
   );
 }
@@ -30,7 +35,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    page: widget(id: getContextValue("widgetId", null)) {
+    widget(id: getContextValue("widgetId", null)) {
       name
     }
     backUrl: url(routeId: "widgetGrid")

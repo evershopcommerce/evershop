@@ -1,5 +1,6 @@
 import { NavigationItemGroup } from '@components/admin/NavigationItemGroup';
-import { UsersIcon } from '@heroicons/react/24/solid';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { User } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -7,12 +8,12 @@ export default function CustomerMenuGroup({ customerGrid }) {
   return (
     <NavigationItemGroup
       id="customerMenuGroup"
-      name="Customer"
+      name={_('Customer')}
       items={[
         {
-          Icon: UsersIcon,
+          Icon: User,
           url: customerGrid,
-          title: 'Customers'
+          title: _('Customers')
         }
       ]}
     />

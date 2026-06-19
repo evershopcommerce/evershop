@@ -1,11 +1,9 @@
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
-import { FolderIcon as Folder } from '@heroicons/react/24/outline';
-import { MinusIcon } from '@heroicons/react/24/outline';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useQuery } from 'urql';
 import './CategoryTree.scss';
 import RenderIfTrue from '@components/common/RenderIfTrue.jsx';
+import { Folder, Minus, Plus } from 'lucide-react';
 
 export interface CategoryTreeItem {
   categoryId: number;
@@ -79,7 +77,7 @@ function CategoryItem({
 
   if (error) {
     return (
-      <li className="text-critical">
+      <li className="text-destructive">
         <span>{error.message}</span>
       </li>
     );
@@ -101,15 +99,15 @@ function CategoryItem({
             }}
           >
             {expanded ? (
-              <ChevronDownIcon width={15} height={15} />
+              <Minus width={15} height={15} />
             ) : (
-              <ChevronRightIcon width={15} height={15} />
+              <Plus width={15} height={15} />
             )}
           </a>
         )}
         {!category.hasChildren && (
-          <span className="text-gray-400">
-            <MinusIcon width={11} height={15} />
+          <span>
+            <Minus width={15} height={15} />
           </span>
         )}
         <a
@@ -171,10 +169,12 @@ function CategoryTree({ selectedCategories, onSelect }: CategoryTreeProps) {
     return <Skeleton />;
   }
   if (error) {
-    return <p className="text-critical">{error.message}</p>;
+    return <p className="text-destructive">{error.message}</p>;
   }
   if (!data || !data.categories || data.categories.items.length === 0) {
-    return <div className="text-gray-400 text-md">There is no category</div>;
+    return (
+      <div className="text-gray-400 text-md">{_('There is no category')}</div>
+    );
   }
 
   return (

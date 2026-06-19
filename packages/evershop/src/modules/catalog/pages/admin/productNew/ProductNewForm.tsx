@@ -1,6 +1,7 @@
 import { FormButtons } from '@components/admin/FormButtons.js';
 import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -32,7 +33,7 @@ export default function ProductNewForm({
       if (result.error) {
         toast.error(result.error.message);
       } else {
-        toast.success('Product created successfully');
+        toast.success(_('Product created successfully'));
         const editUrl = result.data.links.find(
           (link) => link.rel === 'edit'
         ).href;

@@ -1,4 +1,4 @@
-import { ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { ShoppingBag } from 'lucide-react';
 import React from 'react';
 
 export const DefaultMiniCartIcon = ({
@@ -28,17 +28,13 @@ export const DefaultMiniCartIcon = ({
     >
       {syncStatus.syncing ? (
         <div className="w-6 h-6 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-gray-700"></div>
+          <div className="animate-spin rounded-full h-4 w-4 border-2 border-border"></div>
         </div>
       ) : (
-        <ShoppingBagIcon
-          width={24}
-          height={24}
-          className="text-gray-700 hover:text-gray-900 transition-colors"
-        />
+        <ShoppingBag className="w-5 h-5 text-foreground hover:text-primary" />
       )}
       {showItemCount && totalQty > 0 && !syncStatus.syncing && (
-        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+        <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full h-4 w-4 flex items-center justify-center font-normal">
           {totalQty > 99 ? '99+' : totalQty}
         </span>
       )}

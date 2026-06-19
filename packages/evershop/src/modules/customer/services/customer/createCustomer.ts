@@ -12,7 +12,7 @@ import {
   getConnection,
   pool
 } from '../../../../lib/postgres/connection.js';
-import { hookable } from '../../../../lib/util/hookable.js';
+import { hookable, hookBefore, hookAfter } from '../../../../lib/util/hookable.js';
 import {
   hashPassword,
   verifyPassword
@@ -21,6 +21,7 @@ import {
   getValue,
   getValueSync
 } from '../../../../lib/util/registry.js';
+import { CustomerRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import customerDataSchema from './customerDataSchema.json' with { type: 'json' };
 
@@ -53,9 +54,7 @@ function validateCustomerDataBeforeInsert<T extends CustomerData>(data: T): T {
 }
 
 async function insertCustomerData<T extends CustomerData>(data: T, connection: PoolClient) {
-  const customer = await insert('customer').given(data).execute(connection);
-  // Delete password from customer object
-  delete customer.password;
+  const customer = await insert('customer').given(data).execute(connection) as CustomerRow;
   return customer;
 }
 
@@ -64,7 +63,7 @@ async function insertCustomerData<T extends CustomerData>(data: T, connection: P
  * @param {Object} data
  * @param {Object} context
  */
-async function createCustomer<T extends CustomerData>(data: T, context: Record<string, unknown> = {}) {
+async function createCustomer<T extends CustomerData>(data: T, context: Record<string, unknown> = {}): Promise<CustomerRow> {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -101,8 +100,10 @@ async function createCustomer<T extends CustomerData>(data: T, context: Record<s
 
     // If status = 1, Emit event customer_registered
     // In case of status = 0, the custom extension will need to emit the event
-    if (parseInt(customer.status, 10) === 1) {
+    if (parseInt(customer.status.toString(), 10) === 1) {
       await emit('customer_registered', customer);
+    } else {
+      await emit('account_created', customer);
     }
 
     await commit(connection);
@@ -118,7 +119,7 @@ async function createCustomer<T extends CustomerData>(data: T, context: Record<s
  * @param {Object} data
  * @param {Object} context
  */
-export default async <T extends CustomerData>(data: T, context: Record<string, unknown> = {}): Promise<T> => {
+export default async <T extends CustomerData>(data: T, context: Record<string, unknown> = {}): Promise<CustomerRow> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');
@@ -126,3 +127,55 @@ export default async <T extends CustomerData>(data: T, context: Record<string, u
   const customer = await hookable(createCustomer, context)(data, context);
   return customer;
 };
+
+export function hookBeforeInsertCustomerData(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    data: CustomerData,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('insertCustomerData', callback, priority);
+}
+
+export function hookAfterInsertCustomerData(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    data: CustomerData,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('insertCustomerData', callback, priority);
+}
+
+export function hookBeforeCreateCustomer(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    data: CustomerData,
+    context: Record<string, unknown>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('createCustomer', callback, priority);
+}
+
+export function hookAfterCreateCustomer(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    data: CustomerData,
+    context: Record<string, unknown>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('createCustomer', callback, priority);
+}

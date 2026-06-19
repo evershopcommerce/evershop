@@ -28,7 +28,7 @@ export type EventSubscriber<T extends EventName> = (
  * ```typescript
  * import { createSubscriber } from '@evershop/evershop/lib/event/subscriber';
  *
- * export default createSubscriber('order.placed', async (data) => {
+ * export default createSubscriber('order_placed', async (data) => {
  *   // data is automatically typed
  *   await sendEmail(data.orderId);
  * });

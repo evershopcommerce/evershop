@@ -1,3 +1,4 @@
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 import { ItemVariantOptions } from './ItemVariantOptions.js';
 
@@ -17,20 +18,24 @@ export function Name({
   productUrl,
   variantOptions = []
 }: NameProps) {
+  const truncatedName = name.length > 30 ? `${name.substring(0, 30)}...` : name;
+
   return (
-    <td>
-      <div className="product-column">
+    <TableCell className="w-auto min-w-0">
+      <div className="product-column overflow-hidden">
         <div>
           <span className="font-semibold">
-            <a href={productUrl}>{name}</a>
+            <a href={productUrl} title={name}>
+              {truncatedName}
+            </a>
           </span>
         </div>
-        <div className="text-gray-500">
+        <div className="text-muted-foreground">
           <span className="font-semibold">SKU: </span>
           <span>{productSku}</span>
         </div>
         <ItemVariantOptions options={variantOptions} />
       </div>
-    </td>
+    </TableCell>
   );
 }

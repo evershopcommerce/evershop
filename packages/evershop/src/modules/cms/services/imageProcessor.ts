@@ -4,6 +4,7 @@ import sharp from 'sharp';
 import { CONSTANTS } from '../../../lib/helpers.js';
 import { debug } from '../../../lib/log/logger.js';
 import { getEnabledTheme } from '../../../lib/util/getEnabledTheme.js';
+import { secureFetch } from '../../../lib/util/secureFetch.js';
 
 const hasTransparency = async (imageBuffer: Buffer): Promise<boolean> => {
   try {
@@ -76,6 +77,11 @@ export const imageProcessor = async (
   const isExternalUrl = src.startsWith('http://') || src.startsWith('https://');
 
   if (!isExternalUrl) {
+    // Collapse any accidental duplicate slashes (e.g. `/assets//file.jpg`
+    // produced by older FileBrowser builds). Without this the regex below
+    // captured a leading `/` in the asset path and the file lookup failed.
+    src = src.replace(/\/{2,}/g, '/');
+
     // Get the currently enabled theme (if any)
     const enabledTheme = getEnabledTheme();
 
@@ -207,9 +213,11 @@ export const imageProcessor = async (
         // Not in cache, fetch from external URL
       }
 
-      // Fetch image from external URL
+      // Fetch image from external URL. `secureFetch` blocks SSRF to internal /
+      // non-public addresses (loopback, link-local metadata, private ranges,
+      // DNS rebinding, and redirects to any of those).
       try {
-        const response = await fetch(src);
+        const response = await secureFetch(src);
         if (!response.ok) {
           throw new Error(
             `Failed to fetch image: ${response.status} ${response.statusText}`

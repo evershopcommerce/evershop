@@ -14,6 +14,7 @@ export interface OgInfo {
 export interface PageMetaInfo {
   route: {
     id: string;
+    isAdmin: boolean;
     path: string;
     params: Record<string, string>;
     url: string;

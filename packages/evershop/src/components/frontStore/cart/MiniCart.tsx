@@ -10,6 +10,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 
 interface MiniCartProps {
   cartUrl?: string;
+  checkoutUrl?: string;
   dropdownPosition?: 'left' | 'right';
   showItemCount?: boolean;
   CartIconComponent?: React.FC<{
@@ -34,6 +35,7 @@ interface MiniCartProps {
 
 export function MiniCart({
   cartUrl = '/cart',
+  checkoutUrl = '/checkout',
   dropdownPosition = 'right',
   showItemCount = true,
   CartIconComponent,
@@ -99,6 +101,7 @@ export function MiniCart({
           dropdownPosition={dropdownPosition}
           onClose={handleDropdownClose}
           cartUrl={cartUrl}
+          checkoutUrl={checkoutUrl}
           setIsDropdownOpen={setIsDropdownOpen}
         />
       )}

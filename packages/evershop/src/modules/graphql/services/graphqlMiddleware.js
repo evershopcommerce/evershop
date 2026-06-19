@@ -1,5 +1,7 @@
 import { execute, parse, validateSchema } from 'graphql';
+import { pool } from '../../../lib/postgres/connection.js';
 import { OK } from '../../../lib/util/httpStatus.js';
+import { createLinkLoaders } from '../../../lib/widget/linkResolver.js';
 import { getContext } from './contextHelper.js';
 
 export const graphqlMiddleware = (schema) =>
@@ -20,9 +22,16 @@ export const graphqlMiddleware = (schema) =>
       if (validationErrors.length > 0) {
         next(new Error(validationErrors[0].message));
       } else {
+        // Build the context value once per request. linkLoaders are
+        // request-scoped: their per-request cache must NOT leak across
+        // requests, so we create fresh loaders here.
+        const contextValue = {
+          ...getContext(request),
+          linkLoaders: createLinkLoaders(pool)
+        };
         const data = await execute({
           schema,
-          contextValue: getContext(request),
+          contextValue,
           document,
           variableValues: variables
         });

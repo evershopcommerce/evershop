@@ -1,4 +1,4 @@
-import Button from '@components/common/Button';
+import { Button } from '@components/common/ui/Button.js';
 import { assign } from '@evershop/evershop/lib/util/assign';
 import { produce } from 'immer';
 import PropTypes from 'prop-types';
@@ -6,7 +6,13 @@ import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
 
 import './Alert.scss';
-import { Card } from '@components/admin/Card';
+import { Card } from '@components/common/ui/Card';
+import {
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
 
 const AlertContext = React.createContext();
 export const useAlertContext = () => React.useContext(AlertContext);
@@ -92,39 +98,35 @@ function Alert({ children }) {
               role="dialog"
             >
               <div className="modal">
-                <button
-                  type="button"
-                  className="modal-close-button text-icon"
-                  onClick={() => dispatch({ type: 'closing' })}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="1.5rem"
-                    className="w-6 h-6"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-                <Card title={alert.heading}>
-                  <Card.Session>{alert.content}</Card.Session>
+                <Card>
+                  {alert.heading && (
+                    <CardHeader>
+                      <CardTitle>{alert.heading}</CardTitle>
+                    </CardHeader>
+                  )}
+                  <CardContent>{alert.content}</CardContent>
                   {(alert.primaryAction !== undefined ||
                     alert.secondaryAction !== undefined) && (
-                    <Card.Session>
-                      <div className="flex justify-end space-x-2">
+                    <CardFooter>
+                      <div className="flex justify-end space-x-2 w-full">
                         {alert.primaryAction && (
-                          <Button {...alert.primaryAction} />
+                          <Button
+                            onClick={alert.primaryAction.onAction}
+                            variant={alert.primaryAction.variant}
+                          >
+                            {alert.primaryAction.title}
+                          </Button>
                         )}
                         {alert.secondaryAction && (
-                          <Button {...alert.secondaryAction} />
+                          <Button
+                            onClick={alert.secondaryAction.onAction}
+                            variant={alert.secondaryAction.variant}
+                          >
+                            {alert.secondaryAction.title}
+                          </Button>
                         )}
                       </div>
-                    </Card.Session>
+                    </CardFooter>
                   )}
                 </Card>
               </div>

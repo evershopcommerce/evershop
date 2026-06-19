@@ -1,9 +1,8 @@
 import { error } from '../../../../lib/log/logger.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
-import { CheckoutData } from '../../../../types/checkoutData.js';
-import { EvershopResponse } from '../../../../types/index.js';
 import { EvershopRequest } from '../../../../types/request.js';
+import { EvershopResponse } from '../../../../types/response.js';
 import { checkout } from '../../services/checkout.js';
 
 export default async (
@@ -13,6 +12,7 @@ export default async (
 ) => {
   try {
     const { cart_id } = request.params;
+    const cartId = Array.isArray(cart_id) ? cart_id[0] : cart_id;
     const checkoutData = {
       ...request.body,
       customer: {
@@ -27,7 +27,7 @@ export default async (
         fullName: customer.full_name
       };
     }
-    const order = await checkout(cart_id, checkoutData);
+    const order = await checkout(cartId, checkoutData);
     response.status(OK);
     response.$body = {
       data: {

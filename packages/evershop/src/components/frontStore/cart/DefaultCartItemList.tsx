@@ -6,9 +6,9 @@ import {
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { CartItem } from '@components/frontStore/cart/CartContext.js';
+import { ItemQuantity } from '@components/frontStore/cart/ItemQuantity.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { ItemQuantity } from './ItemQuantity.js';
 
 interface CartItemsTableProps {
   items: CartItem[];
@@ -39,7 +39,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
           : row.productPrice?.text;
         return (
           <div className="flex justify-start gap-4">
-            <div>
+            <div className="shrink-0">
               {row.thumbnail ? (
                 <Image
                   src={row.thumbnail}
@@ -52,19 +52,24 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
                 <ProductNoThumbnail width={80} height={80} />
               )}
             </div>
-            <div className="font-medium flex flex-col gap-1 items-start h-full">
-              <span className="font-semibold">{row.productName}</span>
+            <div className="font-medium flex flex-col gap-1 items-start h-full min-w-0 flex-1">
+              <div className="font-semibold wrap-break-word w-full">
+                {row.productName}
+              </div>
               {row.variantOptions?.map((option) => (
-                <span key={option.optionId} className="text-xs text-muted">
-                  {option.attributeName}: {option.optionText}
+                <span key={option.optionId} className="text-xs">
+                  <span>{option.attributeName}</span>:{' '}
+                  <span className="text-muted-foreground">
+                    {option.optionText}
+                  </span>
                 </span>
               ))}
-              <span className="text-sm text-muted">
+              <span className="text-sm text-muted-foreground">
                 {priceValue} x {row.qty}
               </span>
               <a
                 href="#"
-                className="text-red-500 text-sm"
+                className="text-destructive text-sm"
                 onClick={(e) => {
                   e.preventDefault();
                   onRemoveItem?.(row.cartItemId);
@@ -73,7 +78,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
                 {_('Remove')}
               </a>
               {row.errors?.map((error, index) => (
-                <span key={index} className="text-xs text-red-500">
+                <span key={index} className="text-xs text-destructive">
                   {error}
                 </span>
               ))}
@@ -84,11 +89,11 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
     },
     {
       key: 'qty',
-      header: { label: _('Quantity'), className: 'text-center' },
+      header: { label: _('Quantity'), className: 'text-right' },
       sortable: true,
       render: (row) => {
         return (
-          <div className="text-left">
+          <div className="flex justify-end">
             <ItemQuantity
               initialValue={row.qty}
               cartItemId={row.cartItemId}
@@ -104,7 +109,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
                   >
                     −
                   </button>
-                  <span className="min-w-[3rem] text-center">{quantity}</span>
+                  <span className="min-w-12 text-center">{quantity}</span>
                   <button
                     onClick={increase}
                     disabled={loading}
@@ -121,7 +126,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
     },
     {
       key: 'lineTotal',
-      header: { label: _('Total'), className: 'flex justify-end' },
+      header: { label: _('Total'), className: 'text-right' },
       sortable: true,
       render: (row) => {
         const totalValue = showPriceIncludingTax
@@ -144,7 +149,7 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
 
   return (
     <>
-      <Area id="miniCartItemListBefore" noOuter />
+      <Area id="cartItemListBefore" noOuter />
       <ExtendableTable
         name="shoppingCartItems"
         columns={columns}
@@ -153,19 +158,28 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
         emptyMessage={_('Your cart is empty')}
         onSort={onSort}
         currentSort={currentSort}
-        className="cart__items__table border-none table-auto border-spacing-y-2 border-separate w-full"
+        className="cart__items__table border-none table-fixed border-spacing-y-2 border-separate w-full"
       />
-      <Area id="miniCartItemListAfter" noOuter />
+      <Area id="cartItemListAfter" noOuter />
       <style>
         {`
         .cart__items__table th, .cart__items__table td {
           padding: 0.75rem;
+          white-space: normal;
         }
         .cart__items__table th {
           border: none;
         }
         .cart__items__table td {
           border: none;
+        }
+        .cart__items__table th:first-child,
+        .cart__items__table td:first-child {
+          width: 60%;
+        }
+        .cart__items__table th:nth-child(2),
+        .cart__items__table td:nth-child(2) {
+          width: 25%;
         }
       `}
       </style>

@@ -48,17 +48,25 @@ function hook(
   hooks.sort((a, b) => a.priority - b.priority);
 }
 
-export function hookAfter(
+export function hookAfter<
+  TContext = any,
+  TResult = any,
+  TArgs extends any[] = any[]
+>(
   funcName: string,
-  callback: Function,
+  callback: (
+    this: TContext,
+    result: TResult,
+    ...args: TArgs
+  ) => void | Promise<void>,
   priority: number = 10
 ): void {
   hook(funcName, callback, priority, HookPosition.AFTER);
 }
 
-export function hookBefore(
+export function hookBefore<TContext = any, TArgs extends any[] = any[]>(
   funcName: string,
-  callback: Function,
+  callback: (this: TContext, ...args: TArgs) => void | Promise<void>,
   priority: number = 10
 ): void {
   hook(funcName, callback, priority, HookPosition.BEFORE);

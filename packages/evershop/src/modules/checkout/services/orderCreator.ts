@@ -11,53 +11,59 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
-import { hookable } from '../../../lib/util/hookable.js';
-import { PaymentStatus, ShipmentStatus } from '../../../types/order.js';
+import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
+import type { OrderRow, InsertResultWithRow } from '../../../types/db/index.js';
+import { PaymentStatus } from '../../../types/order.js';
+import addOrderActivityLog from '../../oms/services/addOrderActivityLog.js';
 import { resolveOrderStatus } from '../../oms/services/updateOrderStatus.js';
 import { Cart } from './cart/Cart.js';
 import { validateBeforeCreateOrder } from './orderValidator.js';
 
-export interface OrderCreateResult {
-  insertId: number;
-  order_id: number;
-  sid: string | null; // Nullable
-  intergration_order_id: string | null; // Nullable
-  uuid: string;
-  order_number: string;
-  cart_id: number;
-  currency: string;
-  customer_id: number;
-  customer_email: string;
-  customer_full_name: string;
-  user_ip: string;
-  user_agent: string;
-  coupon: string;
-  shipping_fee_excl_tax: number;
-  shipping_fee_incl_tax: number;
-  discount_amount: number;
-  sub_total: number;
-  sub_total_incl_tax: number;
-  sub_total_with_discount: number;
-  sub_total_with_discount_incl_tax: number;
-  total_qty: number;
-  total_weight: number;
-  tax_amount: number;
-  tax_amount_before_discount: number;
-  shipping_tax_amount: number;
-  shipping_note: string;
-  grand_total: number;
-  shipping_method: string;
-  shipping_method_name: string;
-  shipping_address_id: number;
-  payment_method: string | null; // Nullable
-  billing_address_id: number;
-  shipment_status: string;
-  payment_status: string;
-  created_at: string; // timestamp with timezone
-  updated_at: string; // timestamp with timezone
-  total_tax_amount: number;
-  status: string;
+// ============================================================================
+// Hook Type Exports - Import these when registering hooks for type safety
+// ============================================================================
+
+/** Context available in saveOrder hooks via 'this' */
+export interface SaveOrderContext {
+  cart: Cart;
 }
+
+/** Arguments passed to saveOrder function */
+export type SaveOrderArgs = [cart: Cart, connection: PoolClient];
+
+/** Context available in saveOrderItems hooks via 'this' */
+export interface SaveOrderItemsContext {
+  cart: Cart;
+}
+
+/** Arguments passed to saveOrderItems function */
+export type SaveOrderItemsArgs = [
+  cart: Cart,
+  orderId: number,
+  connection: PoolClient
+];
+
+/** Context available in disableCart hooks via 'this' */
+export interface DisableCartContext {
+  cart: Cart;
+}
+
+/** Arguments passed to disableCart function */
+export type DisableCartArgs = [cartId: number, connection: PoolClient];
+
+/** Context available in createOrderFunc hooks via 'this' */
+export interface CreateOrderContext {
+  cart: Cart;
+}
+
+/** Arguments passed to createOrderFunc function */
+export type CreateOrderArgs = [cart: Cart];
+
+// ============================================================================
+// Order Result Type - Extends DB type with insert result
+// ============================================================================
+
+export type CreateOrderResult = InsertResultWithRow<OrderRow>;
 
 async function disableCart(cartId: number, connection: PoolClient) {
   const cart = await update('cart')
@@ -67,24 +73,22 @@ async function disableCart(cartId: number, connection: PoolClient) {
   return cart;
 }
 
-async function saveOrder<T = OrderCreateResult>(
+async function saveOrder<T = CreateOrderResult>(
   cart: Cart,
   connection: PoolClient
 ): Promise<T> {
-  const shipmentStatusList = getConfig(
-    'oms.order.shipmentStatus',
-    {}
-  ) as ShipmentStatus[];
-  const paymentStatusList = getConfig(
-    'oms.order.paymentStatus',
-    {}
-  ) as PaymentStatus[];
-  let defaultShipmentStatus;
-  Object.keys(shipmentStatusList).forEach((key) => {
-    if (shipmentStatusList[key].isDefault) {
-      defaultShipmentStatus = key;
-    }
-  });
+  const paymentStatusList = getConfig('oms.order.paymentStatus', {}) as Record<
+    string,
+    PaymentStatus
+  >;
+  // `order.shipment_status` holds an order-level ROLLUP value (one of
+  // `pending` / `partially_shipped` / `shipped` / `partially_delivered` /
+  // `delivered` / `canceled`), not a per-shipment status code. A brand-new
+  // order has zero shipments by construction → the rollup is `pending`
+  // ("no items shipped yet"). Hardcoded here; the rollup recompute that
+  // runs after the order items are inserted will overwrite this if the
+  // order is all-digital (→ rollup short-circuits to `delivered`).
+  const defaultShipmentStatus = 'pending';
 
   let defaultPaymentStatus;
   Object.keys(paymentStatusList).forEach((key) => {
@@ -92,15 +96,19 @@ async function saveOrder<T = OrderCreateResult>(
       defaultPaymentStatus = key;
     }
   });
-  // Save the shipping address
-  const cartShippingAddress = await select()
-    .from('cart_address')
-    .where('cart_address_id', '=', cart.getData('shipping_address_id'))
-    .load(connection);
-  delete cartShippingAddress.uuid;
-  const shipAddr = await insert('order_address')
-    .given(cartShippingAddress)
-    .execute(connection);
+  let shipAddr;
+  if (cart.getData('shipping_address_id')) {
+    // Save the shipping address
+    const cartShippingAddress = await select()
+      .from('cart_address')
+      .where('cart_address_id', '=', cart.getData('shipping_address_id'))
+      .load(connection);
+    delete cartShippingAddress.uuid;
+    shipAddr = await insert('order_address')
+      .given(cartShippingAddress)
+      .execute(connection);
+  }
+
   // Save the billing address
   const cartBillingAddress = await select()
     .from('cart_address')
@@ -130,7 +138,7 @@ async function saveOrder<T = OrderCreateResult>(
       order_number:
         10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1,
       // FIXME: Must be structured
-      shipping_address_id: shipAddr.insertId,
+      shipping_address_id: shipAddr ? shipAddr.insertId : null,
       billing_address_id: billAddr.insertId,
       status: orderStatus,
       payment_status: defaultPaymentStatus,
@@ -161,18 +169,7 @@ async function saveOrderItems(
   return savedItems;
 }
 
-async function saveOrderActivity(orderID: number, connection: PoolClient) {
-  // Save order activities
-  await insert('order_activity')
-    .given({
-      order_activity_order_id: orderID,
-      comment: 'Order created',
-      customer_notified: 0 // TODO: check config of SendGrid
-    })
-    .execute(connection);
-}
-
-async function createOrderFunc<T extends OrderCreateResult>(cart: Cart) {
+async function createOrderFunc<T extends CreateOrderResult>(cart: Cart) {
   // Start creating order
   const connection = await getConnection(pool);
   try {
@@ -191,8 +188,24 @@ async function createOrderFunc<T extends OrderCreateResult>(cart: Cart) {
     // Save order items
     await hookable(saveOrderItems, { cart })(cart, order.insertId, connection);
 
+    // Multi-shipment refactor (A3): recompute order.shipment_status from the
+    // rollup now that items are in the DB. For all-digital orders this writes
+    // `'delivered'` (vacuously true — no shippable items). For physical orders
+    // it stays `'pending'`. The bootstrap `hookAfter('changeShipmentStatus')`
+    // re-runs psoMapping so order.status reflects the new shipment_status.
+    // Replaces the legacy `createShipmentForVirtualProductsOrder` hook.
+    const { recomputeOrderShipmentStatus } = await import(
+      '../../oms/services/recomputeOrderShipmentStatus.js'
+    );
+    await recomputeOrderShipmentStatus(order.insertId, connection);
+
     // Save order activity
-    await hookable(saveOrderActivity, { cart })(order.insertId, connection);
+    await addOrderActivityLog(
+      order.insertId,
+      `Order has been created`,
+      false,
+      connection
+    );
 
     // Disable the cart
     await hookable(disableCart, { cart })(cart.getData('cart_id'), connection);
@@ -211,7 +224,7 @@ async function createOrderFunc<T extends OrderCreateResult>(cart: Cart) {
  * @returns {Promise<Object>} - The created order object
  * @throws {Error} - If the order creation fails due to validation errors or database issues
  */
-export const createOrder = async <T extends OrderCreateResult>(
+export const createOrder = async <T extends CreateOrderResult>(
   cart: Cart
 ): Promise<T> => {
   const order = await hookable(createOrderFunc<T>, {
@@ -219,3 +232,107 @@ export const createOrder = async <T extends OrderCreateResult>(
   })(cart);
   return order;
 };
+
+export function hookBeforeDisableCart(
+  callback: (
+    this: { cart: Cart },
+    ...args: [
+    cartId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('disableCart', callback, priority);
+}
+
+export function hookAfterDisableCart(
+  callback: (
+    this: { cart: Cart },
+    ...args: [
+    cartId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('disableCart', callback, priority);
+}
+
+export function hookBeforeSaveOrder(
+  callback: (
+    this: { cart: Cart },
+    ...args: [
+    cart: Cart,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('saveOrder', callback, priority);
+}
+
+export function hookAfterSaveOrder(
+  callback: (
+    this: { cart: Cart },
+    ...args: [
+    cart: Cart,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('saveOrder', callback, priority);
+}
+
+export function hookBeforeSaveOrderItems(
+  callback: (
+    this: { cart: Cart },
+    ...args: [
+    cart: Cart,
+    orderId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('saveOrderItems', callback, priority);
+}
+
+export function hookAfterSaveOrderItems(
+  callback: (
+    this: { cart: Cart },
+    ...args: [
+    cart: Cart,
+    orderId: number,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('saveOrderItems', callback, priority);
+}
+
+export function hookBeforeCreateOrderFunc(
+  callback: (
+    this: { cart: Cart },
+    ...args: [
+    cart: Cart
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('createOrderFunc', callback, priority);
+}
+
+export function hookAfterCreateOrderFunc(
+  callback: (
+    this: { cart: Cart },
+    ...args: [
+    cart: Cart
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('createOrderFunc', callback, priority);
+}

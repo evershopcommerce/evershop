@@ -1,0 +1,37 @@
+"""
+A shipping provider registered in the system (Core, USPS, FedEx, …).
+
+Registry-only — the in-memory registry IS the source of truth, populated
+at bootstrap by every provider extension's `registerShippingProvider(...)`
+call. There is no persisted state: installed = enabled, secrets live in
+`process.env`, per-zone state lives on `ShippingZoneProvider.config`.
+"""
+type ShippingProvider {
+  code: String!
+  name: String!
+  description: String
+  """Per-zone config form fields (ZoneConfigField[]). Null/empty if none."""
+  zoneConfigFields: JSON
+}
+
+"""
+A zone-provider attachment row — many-to-many between zones and registered
+providers. Holds per-zone provider config (e.g., per-zone markup).
+"""
+type ShippingZoneProvider {
+  shippingZoneProviderId: Int!
+  uuid: String!
+  zoneId: Int!
+  """Soft reference to a registered provider's `code`."""
+  providerCode: String!
+  provider: ShippingProvider
+  isEnabled: Boolean!
+  sortOrder: Int!
+  """Per-zone provider config; shape per provider.zoneConfigSchema. Opaque JSON."""
+  config: JSON
+}
+
+extend type Query {
+  shippingProviders: [ShippingProvider!]!
+  shippingProvider(code: String!): ShippingProvider
+}

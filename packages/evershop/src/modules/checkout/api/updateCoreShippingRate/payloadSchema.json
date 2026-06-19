@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "is_enabled": { "type": "boolean" },
+    "cost": { "type": ["string", "number", "null"] },
+    "condition_type": {
+      "type": ["string", "null"],
+      "enum": ["price", "weight", null]
+    },
+    "min": { "type": ["string", "number", "null"] },
+    "max": { "type": ["string", "number", "null"] },
+    "price_based_cost": { "type": ["array", "null"] },
+    "weight_based_cost": { "type": ["array", "null"] }
+  },
+  "additionalProperties": false
+}

@@ -1,32 +1,32 @@
 import React from 'react';
 import './LoginForm.scss';
 import Area from '@components/common/Area.js';
-import Button from '@components/common/Button.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
-import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
+import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { LockKeyhole, Mail } from 'lucide-react';
 
 interface LoginFormProps {
   authUrl: string;
   dashboardUrl: string;
 }
 
-const SubmitButton: React.FC<{ formId: string }> = ({ formId }) => {
+const SubmitButton: React.FC = () => {
   const {
     formState: { isSubmitting }
   } = useFormContext();
   return (
-    <div className="form-submit-button flex border-t border-divider mt-4 pt-4 justify-between">
+    <div className="form-submit-button flex border-t border-border mt-4 pt-4 justify-between">
       <Button
-        title="SIGN IN"
-        onAction={() => {
-          (document.getElementById(formId) as HTMLFormElement).dispatchEvent(
-            new Event('submit', { cancelable: true, bubbles: true })
-          );
-        }}
+        type="submit"
+        size="lg"
         isLoading={isSubmitting}
-      />
+        className="uppercase"
+      >
+        {_('Sign In')}
+      </Button>
     </div>
   );
 };
@@ -44,6 +44,11 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
 
   return (
     <div className="admin-login-form">
+      <style>{`
+        .header {
+          display: none !important;
+        }
+      `}</style>
       <div className="flex items-center justify-center mb-7">
         <svg
           width="60"
@@ -66,7 +71,7 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
           />
         </svg>
       </div>
-      {error && <div className="text-critical py-2">{error}</div>}
+      {error && <div className="text-destructive py-2">{error}</div>}
       <Form
         action={authUrl}
         method="POST"
@@ -76,18 +81,19 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
       >
         <Area
           id="adminLoginForm"
+          className="space-y-3"
           coreComponents={[
             {
               component: {
                 default: (
                   <EmailField
-                    prefixIcon={<EnvelopeIcon className="h-5 w-5" />}
-                    label="Email"
+                    prefixIcon={<Mail className="h-5 w-5" />}
+                    label={_('Email')}
                     name="email"
-                    placeholder="Email"
+                    placeholder={_('Email')}
                     required
                     validation={{
-                      required: 'Email is required'
+                      required: _('Email is required')
                     }}
                   />
                 )
@@ -98,13 +104,13 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
               component: {
                 default: (
                   <PasswordField
-                    prefixIcon={<LockClosedIcon className="h-5 w-5" />}
-                    label="Password"
+                    prefixIcon={<LockKeyhole className="h-5 w-5" />}
+                    label={_('Password')}
                     name="password"
-                    placeholder="Password"
+                    placeholder={_('Password')}
                     required
                     validation={{
-                      required: 'Password is required'
+                      required: _('Password is required')
                     }}
                     showToggle
                   />
@@ -114,12 +120,11 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
             },
             {
               component: {
-                default: <SubmitButton formId="adminLoginForm" />
+                default: <SubmitButton />
               },
               sortOrder: 30
             }
           ]}
-          noOuter
         />
       </Form>
     </div>

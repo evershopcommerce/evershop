@@ -1,6 +1,13 @@
-import { Card } from '@components/admin/Card.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface CmsPageSeoProps {
@@ -14,39 +21,45 @@ interface CmsPageSeoProps {
 
 export default function Seo({ page }: CmsPageSeoProps) {
   return (
-    <Card title="Search Engine Optimization">
-      <Card.Session>
-        <div className="space-y-2">
+    <Card>
+      <CardHeader>
+        <CardTitle>{_('SEO Information')}</CardTitle>
+        <CardDescription>
+          {_('Provide the SEO details for the CMS page.')}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
           <InputField
             id="urlKey"
             name="url_key"
-            label="URL Key"
-            placeholder="Enter URL key"
+            label={_('URL Key')}
+            placeholder={_('Enter URL key')}
             defaultValue={page?.urlKey}
             required
-            validation={{ required: 'URL key is required' }}
-            helperText="This is the URL path for the CMS page."
+            validation={{ required: _('URL key is required') }}
+            helperText={_('This is the URL path for the CMS page.')}
           />
 
           <InputField
             id="metaTitle"
             name="meta_title"
-            label="Meta Title"
-            placeholder="Enter meta title"
+            label={_('Meta Title')}
+            placeholder={_('Enter meta title')}
             defaultValue={page?.metaTitle}
             required
-            validation={{ required: 'Meta title is required' }}
-            helperText="This is the meta title for the CMS page."
+            validation={{ required: _('Meta title is required') }}
+            helperText={_('This is the meta title for the CMS page.')}
           />
 
           <TextareaField
             name="meta_description"
-            label="Meta Description"
-            placeholder="Enter meta description"
+            label={_('Meta Description')}
+            placeholder={_('Enter meta description')}
             defaultValue={page?.metaDescription}
           />
         </div>
-      </Card.Session>
+      </CardContent>
     </Card>
   );
 }

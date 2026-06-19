@@ -12,6 +12,7 @@ interface HeadTagsProps {
     keywords: string[];
     canonicalUrl: string;
     favicon: string;
+    alternates?: Array<{ hreflang: string; href: string }>;
     ogInfo: {
       locale: string;
       title: string;
@@ -39,7 +40,15 @@ interface HeadTagsProps {
   };
 }
 export default function HeadTags({
-  pageInfo: { title, description, keywords, canonicalUrl, ogInfo, favicon },
+  pageInfo: {
+    title,
+    description,
+    keywords,
+    canonicalUrl,
+    ogInfo,
+    favicon,
+    alternates
+  },
   themeConfig: {
     headTags: { metas, links, scripts, base }
   }
@@ -76,6 +85,14 @@ export default function HeadTags({
         <meta name="keywords" content={keywords.join(', ')} />
       )}
       {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+      {alternates?.map((alternate) => (
+        <link
+          key={alternate.hreflang}
+          rel="alternate"
+          hrefLang={alternate.hreflang}
+          href={alternate.href}
+        />
+      ))}
       {base && <base {...base} />}
       <Og
         type={ogInfo.type}
@@ -85,6 +102,12 @@ export default function HeadTags({
         siteName={ogInfo.siteName}
         image={ogInfo.image}
         locale={ogInfo.locale}
+        alternateLocales={(alternates ?? [])
+          .map((alternate) => alternate.hreflang)
+          .filter(
+            (hreflang) =>
+              hreflang !== 'x-default' && hreflang !== ogInfo.locale
+          )}
         twitterCard={ogInfo.twitterCard}
         twitterSite={ogInfo.twitterSite}
         twitterCreator={ogInfo.twitterCreator}
@@ -107,6 +130,10 @@ export const query = `
       keywords
       canonicalUrl
       favicon
+      alternates {
+        hreflang
+        href
+      }
       ogInfo {
         locale
         title

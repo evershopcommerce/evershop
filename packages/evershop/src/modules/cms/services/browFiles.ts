@@ -43,6 +43,13 @@ const localFileBrowser = {
     if (!existsSync(targetPath)) {
       throw new Error('Requested path does not exist');
     } else {
+      // Strip leading/trailing slashes from the input path so the joined
+      // relative path doesn't start with `/`. `buildUrl('staticAsset', ['x'])`
+      // appends to `/assets/`, so an input like `/x` produced `/assets//x`
+      // (double slash) and broke the storefront `imageProcessor` lookup.
+      const cleanPath = path.replace(/^\/+|\/+$/g, '');
+      const relative = (name: string) =>
+        cleanPath ? `${cleanPath}/${name}` : name;
       return {
         folders: readdirSync(targetPath, {
           withFileTypes: true
@@ -54,7 +61,7 @@ const localFileBrowser = {
         })
           .filter((dirent) => dirent.isFile())
           .map((f) => ({
-            url: buildUrl('staticAsset', [`${path}/${f.name}`]),
+            url: buildUrl('staticAsset', [relative(f.name)]),
             name: f.name
           }))
       };

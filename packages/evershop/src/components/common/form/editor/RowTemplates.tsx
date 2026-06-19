@@ -8,8 +8,8 @@ function RowTemplates({ addRow }: { addRow: (row: any) => void }) {
     1: () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="48"
-        height="48"
+        width="30"
+        height="30"
         viewBox="0 0 48 48"
         aria-hidden="true"
         focusable="false"
@@ -21,8 +21,8 @@ function RowTemplates({ addRow }: { addRow: (row: any) => void }) {
     '1:1': () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="48"
-        height="48"
+        width="30"
+        height="30"
         viewBox="0 0 48 48"
         aria-hidden="true"
         focusable="false"
@@ -34,8 +34,8 @@ function RowTemplates({ addRow }: { addRow: (row: any) => void }) {
     '1:2': () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="48"
-        height="48"
+        width="30"
+        height="30"
         viewBox="0 0 48 48"
         aria-hidden="true"
         focusable="false"
@@ -47,8 +47,8 @@ function RowTemplates({ addRow }: { addRow: (row: any) => void }) {
     '2:1': () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="48"
-        height="48"
+        width="30"
+        height="30"
         viewBox="0 0 48 48"
         aria-hidden="true"
         focusable="false"
@@ -60,8 +60,8 @@ function RowTemplates({ addRow }: { addRow: (row: any) => void }) {
     '2:3': () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="48"
-        height="48"
+        width="30"
+        height="30"
         viewBox="0 0 48 48"
         aria-hidden="true"
         focusable="false"
@@ -74,8 +74,8 @@ function RowTemplates({ addRow }: { addRow: (row: any) => void }) {
     '3:2': () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="48"
-        height="48"
+        width="30"
+        height="30"
         viewBox="0 0 48 48"
         aria-hidden="true"
         focusable="false"
@@ -88,8 +88,8 @@ function RowTemplates({ addRow }: { addRow: (row: any) => void }) {
     '1:1:1': () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="48"
-        height="48"
+        width="30"
+        height="30"
         viewBox="0 0 48 48"
         aria-hidden="true"
         focusable="false"
@@ -101,8 +101,8 @@ function RowTemplates({ addRow }: { addRow: (row: any) => void }) {
     '1:2:1': () => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="48"
-        height="48"
+        width="30"
+        height="30"
         viewBox="0 0 48 48"
         aria-hidden="true"
         focusable="false"
@@ -113,7 +113,7 @@ function RowTemplates({ addRow }: { addRow: (row: any) => void }) {
     )
   };
   return (
-    <div className="row-templates flex justify-center gap-7 border border-divider px-3">
+    <div className="row-templates flex flex-wrap justify-center gap-3 px-3">
       {Object.keys(templates).map((key) => (
         <a
           key={key}

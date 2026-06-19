@@ -12,7 +12,6 @@ import { AppStateContextValue, Config } from '../../../../types/appContext.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
-import { getNotifications } from '../../services/notifications.js';
 
 export default async (request: EvershopRequest, response, next) => {
   try {
@@ -36,9 +35,15 @@ export default async (request: EvershopRequest, response, next) => {
         setPageMetaInfo(request, {
           route: {
             id: route.id,
+            isAdmin: route.isAdmin,
             path: route.path,
             url: getContextValue(request, 'currentUrl'),
-            params: request.params
+            params: Object.fromEntries(
+              Object.entries(request.params).map(([key, value]) => [
+                key,
+                Array.isArray(value) ? value[0] : value
+              ])
+            )
           }
         });
         let widgetInstances;
@@ -49,11 +54,20 @@ export default async (request: EvershopRequest, response, next) => {
           widgetInstances = await loadWidgetInstances(request);
         }
         widgetInstances = widgetInstances.map((widget) => {
-          const newWidget = {
+          const newWidget: Record<string, unknown> = {
             sortOrder: widget.sortOrder,
             areaId: widget.areaId,
             type: widget.type,
-            id: `e${widget.uuid.replace(/-/g, '')}`
+            id: `e${widget.uuid.replace(/-/g, '')}`,
+            // Phase 3c: page builder needs the raw uuid + settings so the
+            // iframe chrome and `<Editable>` can identify the widget and
+            // build full-replace settings UPDATE ops without an extra
+            // round-trip.
+            uuid: widget.uuid,
+            // The page-builder admin's move/duplicate handlers consult this
+            // to operate on overlay-applied sortOrder instead of source.
+            placementUuid: (widget as { placementUuid?: string }).placementUuid,
+            settings: widget.settings ?? {}
           };
           if (route.isAdmin) {
             newWidget.areaId = 'widget_setting_form';
@@ -72,18 +86,15 @@ export default async (request: EvershopRequest, response, next) => {
             'appConfig',
             {
               tax: {
-                priceIncludingTax: getConfig<boolean>(
+                priceIncludingTax: getConfig(
                   'pricing.tax.price_including_tax',
                   false
                 )
               },
               catalog: {
                 imageDimensions: {
-                  width: getConfig<number>('catalog.product.image.width', 1200),
-                  height: getConfig<number>(
-                    'catalog.product.image.height',
-                    1200
-                  )
+                  width: getConfig('catalog.product.image.width', 1200),
+                  height: getConfig('catalog.product.image.height', 1200)
                 }
               },
               pageMeta: pageMeta

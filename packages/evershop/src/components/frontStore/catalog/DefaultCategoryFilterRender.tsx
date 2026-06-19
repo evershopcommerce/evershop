@@ -1,3 +1,5 @@
+import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { Label } from '@components/common/ui/Label.js';
 import {
   CategoryFilter,
   FilterInput,
@@ -15,7 +17,7 @@ export const DefaultCategoryFilterRender: React.FC<{
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
-    let newFilters = [...currentFilters];
+    let newFilters = currentFilters.map((f) => ({ ...f }));
     const existingFilter = newFilters.find((f) => f.key === 'cat');
 
     if (checked) {
@@ -76,18 +78,13 @@ export const DefaultCategoryFilterRender: React.FC<{
   const filteredCategories = getFilteredCategories();
 
   return (
-    <div className="category__filter__section border-b border-gray-200 pb-2 mb-2">
+    <div className="category__filter__section border-b border-border pb-2 mb-2">
       <div className="filter__header flex items-center justify-between mb-3">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="flex items-center space-x-2 text-left flex-1 hover:text-blue-600 transition-colors"
+          className="flex items-center justify-between text-left flex-1 hover:text-primary transition-colors"
         >
-          <span className="font-medium">Categories</span>
-          {selectedCount > 0 && (
-            <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-              {selectedCount}
-            </span>
-          )}
+          <span className="font-medium">{_('Categories')}</span>
           <svg
             className={`w-4 h-4 transition-transform ${
               isCollapsed ? 'rotate-180' : ''
@@ -108,8 +105,8 @@ export const DefaultCategoryFilterRender: React.FC<{
         {selectedCount > 0 && (
           <button
             onClick={clearCategoryFilter}
-            className="text-gray-400 hover:text-red-500 text-sm transition-colors"
-            title="Clear categories"
+            className="text-muted-foreground hover:text-destructive text-sm transition-colors"
+            title={_('Clear categories')}
           >
             ✕
           </button>
@@ -118,18 +115,6 @@ export const DefaultCategoryFilterRender: React.FC<{
 
       {!isCollapsed && (
         <div className="filter__content">
-          {categories.length > 5 && (
-            <div className="mb-3">
-              <input
-                type="text"
-                placeholder="Search categories..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          )}
-
           <div className="category__options space-y-2 max-h-48 overflow-y-auto">
             {filteredCategories.length > 0 ? (
               filteredCategories.map((category) => {
@@ -137,33 +122,24 @@ export const DefaultCategoryFilterRender: React.FC<{
                   category.categoryId.toString()
                 );
                 return (
-                  <label
+                  <div
                     key={category.categoryId}
-                    className={`flex items-center space-x-3 cursor-pointer p-2 rounded hover:bg-gray-50 transition-colors ${
-                      isSelected ? 'bg-blue-50 border border-blue-200' : ''
-                    }`}
+                    className={`flex items-center space-x-3 cursor-pointer py-2`}
                   >
-                    <input
-                      type="checkbox"
+                    <Checkbox
+                      id={`category-${category.categoryId}`}
                       checked={isSelected}
-                      onChange={(e) =>
+                      onCheckedChange={(checked) =>
                         handleCategoryChange(
                           category.categoryId.toString(),
-                          e.target.checked
+                          checked
                         )
                       }
-                      className="form-checkbox h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     />
-                    <span
-                      className={`text-sm ${
-                        isSelected
-                          ? 'font-medium text-blue-900'
-                          : 'text-gray-700'
-                      }`}
-                    >
+                    <Label htmlFor={`category-${category.categoryId}`}>
                       {category.name}
-                    </span>
-                  </label>
+                    </Label>
+                  </div>
                 );
               })
             ) : (

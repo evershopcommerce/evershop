@@ -1,5 +1,6 @@
 {
   "methods": ["GET"],
   "path": "/product/:uuid",
-  "name": "Product single page"
+  "name": "Product single page",
+  "editable": true
 }

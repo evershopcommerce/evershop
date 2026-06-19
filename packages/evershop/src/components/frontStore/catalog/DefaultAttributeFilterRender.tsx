@@ -1,3 +1,6 @@
+import { Button } from '@components/common/ui/Button.js';
+import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { Label } from '@components/common/ui/Label.js';
 import {
   FilterableAttribute,
   FilterInput,
@@ -105,20 +108,14 @@ export const DefaultAttributeFilterRender: React.FC<{
         return (
           <div
             key={attribute.attributeCode}
-            className="attribute__filter__section border-b border-gray-200 pb-2 mb-2"
+            className="attribute__filter__section border-b border-border pb-2 mb-2"
           >
-            {/* Header with title, count, and collapse toggle */}
             <div className="filter__header flex items-center justify-between mb-3">
               <button
                 onClick={() => toggleCollapse(attribute.attributeCode)}
-                className="flex items-center space-x-2 text-left flex-1 hover:text-blue-600 transition-colors"
+                className="flex items-center justify-between text-left flex-1 hover:text-primary transition-colors"
               >
                 <span className="font-medium">{attribute.attributeName}</span>
-                {selectedCount > 0 && (
-                  <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                    {selectedCount}
-                  </span>
-                )}
                 <svg
                   className={`w-4 h-4 transition-transform ${
                     isCollapsed ? 'rotate-180' : ''
@@ -137,32 +134,31 @@ export const DefaultAttributeFilterRender: React.FC<{
               </button>
 
               {selectedCount > 0 && (
-                <button
+                <Button
+                  variant={'link'}
                   onClick={() => clearAttributeFilter(attribute.attributeCode)}
-                  className="text-gray-400 hover:text-red-500 text-sm transition-colors"
-                  title="Clear all"
+                  className="hover:text-destructive text-sm transition-colors"
+                  title={_('Clear all')}
                 >
                   ✕
-                </button>
+                </Button>
               )}
             </div>
 
             {!isCollapsed && (
               <div className="filter__content">
-                {/* Search input for attributes with many options */}
                 {attribute.options.length > 5 && (
                   <div className="mb-3">
-                    <input
-                      type="text"
-                      placeholder={`Search ${attribute.attributeName.toLowerCase()}...`}
+                    <Checkbox
                       value={searchTerms[attribute.attributeCode] || ''}
-                      onChange={(e) =>
+                      onCheckedChange={(checked) =>
                         setSearchTerms((prev) => ({
                           ...prev,
-                          [attribute.attributeCode]: e.target.value
+                          [attribute.attributeCode]: checked
+                            ? checked.toString()
+                            : ''
                         }))
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 )}
@@ -175,40 +171,31 @@ export const DefaultAttributeFilterRender: React.FC<{
                         option.optionId.toString()
                       );
                       return (
-                        <label
+                        <div
                           key={option.optionId}
-                          className={`flex items-center space-x-3 cursor-pointer p-2 rounded hover:bg-gray-50 transition-colors ${
-                            isSelected
-                              ? 'bg-blue-50 border border-blue-200'
-                              : ''
-                          }`}
+                          className={`flex items-center space-x-2 cursor-pointer py-2`}
                         >
-                          <input
-                            type="checkbox"
+                          <Checkbox
                             checked={isSelected}
-                            onChange={(e) =>
+                            id={`${attribute.attributeCode}-${option.optionId}`}
+                            onCheckedChange={(checked) =>
                               handleAttributeChange(
                                 attribute.attributeCode,
                                 option.optionId.toString(),
-                                e.target.checked
+                                checked
                               )
                             }
-                            className="form-checkbox h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                           />
-                          <span
-                            className={`text-sm ${
-                              isSelected
-                                ? 'font-medium text-blue-900'
-                                : 'text-gray-700'
-                            }`}
+                          <Label
+                            htmlFor={`${attribute.attributeCode}-${option.optionId}`}
                           >
                             {option.optionText}
-                          </span>
-                        </label>
+                          </Label>
+                        </div>
                       );
                     })
                   ) : (
-                    <div className="text-gray-500 text-sm text-center py-4">
+                    <div className="text-muted-foreground text-sm text-center py-4">
                       {_('No options found for "${code}"', {
                         code: searchTerms[attribute.attributeCode]
                       })}
@@ -218,11 +205,14 @@ export const DefaultAttributeFilterRender: React.FC<{
 
                 {!searchTerms[attribute.attributeCode] &&
                   attribute.options.length > 10 && (
-                    <button className="text-blue-600 text-sm mt-2 hover:underline">
+                    <Button
+                      variant={'link'}
+                      className="text-primary text-sm mt-2 hover:underline"
+                    >
                       {_('Show all ${count} options', {
                         count: attribute.options.length.toString()
                       })}
-                    </button>
+                    </Button>
                   )}
               </div>
             )}

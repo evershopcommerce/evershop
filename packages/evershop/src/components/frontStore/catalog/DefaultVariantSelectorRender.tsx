@@ -1,9 +1,9 @@
-import React from 'react';
-import './VariantSelector.scss';
+import { Button } from '@components/common/ui/Button.js';
 import {
   VariantAttributeGroupProps,
   VariantOptionItemProps
 } from '@components/frontStore/catalog/VariantSelector.js';
+import React from 'react';
 
 const DefaultVariantOptionItem: React.FC<VariantOptionItemProps> = ({
   option,
@@ -11,18 +11,18 @@ const DefaultVariantOptionItem: React.FC<VariantOptionItemProps> = ({
   isSelected,
   onSelect
 }) => {
-  let className = '';
+  let className = 'group ';
   if (isSelected) {
-    className = 'selected';
+    className += 'selected';
   }
   if (option.available === false) {
-    className = 'un-available';
+    className += 'un-available';
   }
 
   return (
     <li key={option.optionId} className={className}>
-      <a
-        href="#"
+      <Button
+        variant={isSelected ? 'default' : 'outline'}
         onClick={async (e) => {
           e.preventDefault();
           if (option.available === false) {
@@ -30,9 +30,10 @@ const DefaultVariantOptionItem: React.FC<VariantOptionItemProps> = ({
           }
           await onSelect(attribute.attributeCode, option.optionId);
         }}
+        className={'group-[.selected]:border-primary'}
       >
         {option.optionText}
-      </a>
+      </Button>
     </li>
   );
 };

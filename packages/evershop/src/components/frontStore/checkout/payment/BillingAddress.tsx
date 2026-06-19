@@ -1,28 +1,48 @@
+import { Button } from '@components/common/ui/Button.js';
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle
+} from '@components/common/ui/Item.js';
+import { Label } from '@components/common/ui/Label.js';
+import {
+  RadioGroup,
+  RadioGroupItem
+} from '@components/common/ui/RadioGroup.js';
 import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
+import {
+  Address,
+  CustomerAddressGraphql
+} from '@evershop/evershop/types/customerAddress';
 import React, { useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
 export function BillingAddress({
-  billingAddress
+  billingAddress,
+  addBillingAddress,
+  addingBillingAddress,
+  noShippingRequired
 }: {
   billingAddress?: CustomerAddressGraphql;
+  addBillingAddress?: (address: Address) => Promise<void>;
+  addingBillingAddress?: boolean;
+  noShippingRequired: boolean;
 }) {
   const { form, checkoutData } = useCheckout();
   const { updateCheckoutData } = useCheckoutDispatch();
   const {
-    register,
     setValue,
     getValues,
+    trigger,
     formState: { disabled }
   } = form;
 
-  // Watch shipping address changes
   const shippingAddress = useWatch({
     control: form.control,
     name: 'shippingAddress'
@@ -33,16 +53,12 @@ export function BillingAddress({
     name: 'billingAddress'
   });
 
-  // State for radio selection
-  const [useSameAddress, setUseSameAddress] = useState(true);
+  const [useSameAddress, setUseSameAddress] = useState(!noShippingRequired);
 
-  // Effect to sync billing address with shipping when "same address" is selected
   useEffect(() => {
     if (useSameAddress && shippingAddress) {
-      // Copy shipping address to billing address
       updateCheckoutData({ billingAddress: shippingAddress });
     } else if (!useSameAddress) {
-      // Clear billing address when switching to different address
       setValue('billingAddress', billingAddress);
     }
   }, [useSameAddress, checkoutData.shippingAddress]);
@@ -67,90 +83,103 @@ export function BillingAddress({
     }
   };
 
+  const handleGoToPayment = async () => {
+    const isValid = await trigger('billingAddress');
+
+    if (isValid && addBillingAddress) {
+      const billingAddressData = getValues('billingAddress');
+      await addBillingAddress(billingAddressData);
+    }
+  };
+
   return (
     <div className="billing-address-section">
-      <h3 className="text-lg font-medium mb-4">{_('Billing Address')}</h3>
+      <Item className="py-0 px-0">
+        <ItemContent className="gap-2">
+          <ItemTitle>{_('Billing Address')}</ItemTitle>
+          <RadioGroup
+            value={useSameAddress ? 'same' : 'different'}
+            onValueChange={(value) => {
+              handleAddressOptionChange(value as string);
+            }}
+          >
+            {!noShippingRequired ? (
+              <>
+                <Item variant={'outline'}>
+                  <ItemContent>
+                    <ItemTitle>
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem id="same-address" value="same" />
+                        <Label htmlFor="same-address">
+                          {_('Same as shipping address')}
+                        </Label>
+                      </div>
+                    </ItemTitle>
+                  </ItemContent>
+                </Item>
+                <Item variant={'outline'}>
+                  <ItemContent>
+                    <ItemTitle>
+                      <div className="flex items-center space-x-3">
+                        <RadioGroupItem
+                          id="different-address"
+                          value="different"
+                        />
+                        <Label htmlFor="different-address">
+                          {_('Use a different billing address')}
+                        </Label>
+                      </div>
+                    </ItemTitle>
 
-      {/* Radio options */}
-      <div className="mb-6 space-y-3">
-        <div
-          className={`border rounded-lg transition-all duration-200 cursor-pointer ${
-            useSameAddress
-              ? 'border-blue-500 bg-blue-50'
-              : 'border-gray-200 hover:border-gray-300'
-          }`}
-        >
-          <div className="p-3">
-            <div className="flex items-center space-x-3">
-              <input
-                type="radio"
-                id="same-address"
-                value="same"
-                checked={useSameAddress}
-                onChange={(e) => handleAddressOptionChange(e.target.value)}
-                className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-              />
-              <div>
-                <a
-                  href="#"
-                  className="font-normal cursor-pointer text-gray-900"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAddressOptionChange('same');
-                  }}
-                >
-                  {_('Same as shipping address')}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={`border rounded-lg transition-all overflow-hidden duration-200  ${
-            !useSameAddress
-              ? 'border-blue-500 bg-blue-50'
-              : 'border-gray-200 hover:border-gray-300'
-          }`}
-        >
-          <div className="p-3">
-            <div className="flex items-center space-x-3">
-              <input
-                type="radio"
-                {...register('useSameAddres')}
-                id="different-address"
-                value="different"
-                checked={!useSameAddress}
-                onChange={(e) => handleAddressOptionChange(e.target.value)}
-                className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-              />
-              <div>
-                <a
-                  href="#"
-                  className="font-normal cursor-pointer text-gray-900"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAddressOptionChange('different');
-                  }}
-                >
-                  {_('Use a different billing address')}
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Billing address form inside the card */}
-          {!useSameAddress && (
-            <div className="border-t border-gray-200 p-3 bg-white">
-              <CustomerAddressForm
-                areaId="checkoutBillingAddressForm"
-                fieldNamePrefix="billingAddress"
-                address={undefined} // Always start empty for different address
-              />
-            </div>
-          )}
-        </div>
-      </div>
+                    {!useSameAddress && (
+                      <ItemDescription className="text-inherit mt-3 overflow-visible">
+                        <div className="text-inherit bg-white">
+                          <CustomerAddressForm
+                            areaId="checkoutBillingAddressForm"
+                            fieldNamePrefix="billingAddress"
+                            countryScope="all"
+                            address={undefined} // Always start empty for different address
+                          />
+                          {noShippingRequired && (
+                            <Button
+                              onClick={() => handleGoToPayment()}
+                              variant="default"
+                              isLoading={addingBillingAddress}
+                            >
+                              {_('Continue to payment')}
+                            </Button>
+                          )}
+                        </div>
+                      </ItemDescription>
+                    )}
+                  </ItemContent>
+                </Item>
+              </>
+            ) : (
+              <ItemDescription className="text-inherit mt-3 overflow-visible">
+                <div className="text-inherit bg-white">
+                  <CustomerAddressForm
+                    areaId="checkoutBillingAddressForm"
+                    fieldNamePrefix="billingAddress"
+                    countryScope="all"
+                    address={undefined} // Always start empty for different address
+                  />
+                  {noShippingRequired && (
+                    <Button
+                      onClick={() => handleGoToPayment()}
+                      variant="default"
+                      isLoading={addingBillingAddress}
+                      className="mt-4"
+                    >
+                      {_('Continue to payment')}
+                    </Button>
+                  )}
+                </div>
+              </ItemDescription>
+            )}
+          </RadioGroup>
+        </ItemContent>
+      </Item>
     </div>
   );
 }

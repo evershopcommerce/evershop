@@ -1,5 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
+import sanitizeHtml from 'sanitize-html';
 import { v4 as uuidv4 } from 'uuid';
+import { localizeUrl } from '../../../../../lib/locale/localeContext.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
@@ -8,6 +10,16 @@ import { ProductCollection } from '../../../services/ProductCollection.js';
 
 export default {
   Product: {
+    // `Product.weight: Weight!` is non-null in the schema, but the DB
+    // column allows null (digital products and partially-seeded fixtures
+    // ship with `weight = NULL`). Coerce to 0 so downstream `Weight.value:
+    // Float!` doesn't blow up either with "Cannot return null for
+    // non-nullable field Product.weight" or "Float cannot represent NaN".
+    // Weight.value resolver does `parseFloat(raw)`, so we pass a number.
+    weight: (product) => {
+      const w = parseFloat(product?.weight);
+      return Number.isFinite(w) ? w : 0;
+    },
     url: async (product, _, { pool }) => {
       // Get the url rewrite for this product
       const urlRewrite = await select()
@@ -15,18 +27,21 @@ export default {
         .where('entity_uuid', '=', product.uuid)
         .and('entity_type', '=', 'product')
         .load(pool);
-      if (!urlRewrite) {
-        return buildUrl('productView', { uuid: product.uuid });
-      } else {
-        return urlRewrite.request_path;
-      }
+      // localizeUrl adds the /<locale> prefix for non-default storefront locales
+      // (no-op for the default locale / admin context), spec §6.18.
+      return localizeUrl(
+        urlRewrite
+          ? urlRewrite.request_path
+          : buildUrl('productView', { uuid: product.uuid })
+      );
     },
     description: ({ description }) => {
       if (!description) {
         return [];
       }
       try {
-        return JSON.parse(description);
+        const json = JSON.parse(description);
+        return json;
       } catch (e) {
         // This is for backward compatibility. If the description is not a JSON string then it is a raw HTML block
         const rowId = `r__${uuidv4()}`;

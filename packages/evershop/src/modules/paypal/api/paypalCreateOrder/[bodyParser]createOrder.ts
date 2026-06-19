@@ -1,6 +1,6 @@
 import { select, update } from '@evershop/postgres-query-builder';
 import type { PurchaseUnit, CreateOrderRequestBody } from '@paypal/paypal-js';
-import { error } from '../../../../lib/log/logger.js';
+import { debug, error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
@@ -95,7 +95,10 @@ export default async (
                 value: catalogPriceInclTax
                   ? toPrice(item.final_price_incl_tax)
                   : toPrice(item.final_price)
-              }
+              },
+              category: item.no_shipping_required
+                ? 'DIGITAL_GOODS'
+                : 'PHYSICAL_GOODS'
             })),
             amount: finalAmount
           }
@@ -125,11 +128,15 @@ export default async (
       if (shippingAddress) {
         const address: any = {
           address_line_1: shippingAddress.address_1,
-          address_line_2: shippingAddress.address_2,
-          admin_area_2: shippingAddress.city,
           postal_code: shippingAddress.postcode,
           country_code: shippingAddress.country
         };
+        if (shippingAddress.address_2) {
+          address.address_line_2 = shippingAddress.address_2;
+        }
+        if (shippingAddress.city) {
+          address.admin_area_2 = shippingAddress.city;
+        }
         if (shippingAddress.province) {
           address.admin_area_1 = shippingAddress.province.split('-').pop();
         }
@@ -141,19 +148,9 @@ export default async (
           address
         };
       } else {
-        // This is digital order, no shipping address
-        orderData.purchase_units[0].shipping = {
-          address: {
-            address_line_1: 'No shipping address',
-            address_line_2: 'No shipping address',
-            admin_area_1: 'No shipping address',
-            admin_area_2: 'No shipping address',
-            postal_code: 'No shipping address',
-            country_code: 'No shipping address'
-          }
-        };
+        orderData.application_context = orderData.application_context || {};
+        orderData.application_context.shipping_preference = 'NO_SHIPPING';
       }
-
       const finalPaypalOrderData = getValueSync<CreateOrderRequestBody>(
         'finalPaypalOrderData',
         orderData,
@@ -188,6 +185,8 @@ export default async (
           }
         });
       } else {
+        debug('PayPal create order error');
+        debug(data);
         // Re-active the cart
         await update('cart')
           .given({ status: true })

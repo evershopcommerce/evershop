@@ -9,6 +9,7 @@ import {
   TOKEN_TYPES,
   verifyRefreshToken
 } from '../../../../lib/util/jwt.js';
+import { buildAdminUserPayload } from '../../services/buildAdminUserPayload.js';
 
 export default async (request, response, next) => {
   const { refreshToken } = request.body;
@@ -41,16 +42,13 @@ export default async (request, response, next) => {
       });
     }
 
-    // Generate new access token
-    const payload = decoded.user;
+    // Generate new access token using fresh user data
+    const userPayload = buildAdminUserPayload(adminUser);
     const newAccessToken = generateToken(
-      {
-        user: payload
-      },
+      { user: userPayload },
       TOKEN_TYPES.ADMIN
     );
     return response.json({
-      success: true,
       data: {
         accessToken: newAccessToken
       }

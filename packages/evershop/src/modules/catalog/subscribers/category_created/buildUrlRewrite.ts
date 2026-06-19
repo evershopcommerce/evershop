@@ -3,9 +3,9 @@ import {
   insertOnUpdate,
   select
 } from '@evershop/postgres-query-builder';
+import { EventSubscriber } from '../../../../lib/event/subscriber.js';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
-import { EventSubscriber } from '../../../../lib/event/subscriber.js';
 
 const buildUrlReWrite: EventSubscriber<'category_created'> = async (data) => {
   const categoryId = data.category_id;

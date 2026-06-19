@@ -7,9 +7,41 @@ type Route {
   isAdmin: Boolean!
   name: String!
   path: String!
-  method: [String!]!
+  methods: [String!]!
+  """
+  True when the route opts into page-builder editing via
+  `"editable": true` in its `route.json`. Picker / page-switcher use
+  this to surface a curated list of editable routes. Mirrors the
+  Area-level `editableInPageBuilder` flag in naming.
+  """
+  editableInPageBuilder: Boolean!
+  """
+  A concrete URL the page-builder iframe can load to preview the route.
+  For static routes this matches `path`. For routes with URL params
+  (e.g. `/category/:uuid`) the resolver substitutes a sample entity so
+  the preview renders something visible. Falls back to `path` when no
+  sample is available.
+  """
+  previewPath: String
+  """
+  Populated for routes whose URL pattern resolves to a single entity
+  (e.g. an individual CMS page). Null for collection-style routes
+  (product list, category page) where the URL serves many entities.
+  """
+  assignedEntity: AssignedEntity
+}
+
+"""
+A specific entity bound to a route, used by the page builder to
+distinguish entity-level edits (this specific CMS page) from
+route-level edits (all pages on this route).
+"""
+type AssignedEntity {
+  urn: String!
+  label: String
 }
 
 extend type Query {
   routes: [Route!]!
+  route(id: String!): Route
 }

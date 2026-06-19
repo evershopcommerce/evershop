@@ -8,11 +8,13 @@ import { createBaseConfig } from '../createBaseConfig.js';
 import { getRouteBuildPath } from '../getRouteBuildPath.js';
 import { getRouteBuildSubPath } from '../getRouteBuildSubPath.js';
 import { isBuildRequired } from '../isBuildRequired.js';
-import { Tailwindcss } from '../plugins/Tailwindcss.js';
+import { InjectTailwindSources } from '../plugins/InjectTailwindSources.js';
+import { getTailwindSources } from '../util/getTailwindSources.js';
 
 export function createConfigClient(routes) {
   const extenions = getEnabledExtensions();
   const config = createBaseConfig(false);
+  const tailwindSources = getTailwindSources();
   const { plugins } = config;
   const entry = {};
   routes.forEach((route) => {
@@ -70,12 +72,12 @@ export function createConfigClient(routes) {
         publicPath: '/assets/'
       })
     );
-    plugins.push(new Tailwindcss(route));
+    //plugins.push(new Tailwindcss(route));
   });
 
   const loaders = config.module.rules;
   loaders.push({
-    test: /\.(css|scss)$/i,
+    test: /\.css$/i,
     use: [
       MiniCssExtractPlugin.loader,
       {
@@ -85,9 +87,46 @@ export function createConfigClient(routes) {
         }
       },
       {
+        loader: 'postcss-loader',
+        options: {
+          postcssOptions: {
+            plugins: [
+              InjectTailwindSources(tailwindSources),
+              '@tailwindcss/postcss',
+              'autoprefixer'
+            ]
+          }
+        }
+      }
+    ]
+  });
+
+  loaders.push({
+    test: /\.scss$/i,
+    use: [
+      MiniCssExtractPlugin.loader,
+      {
+        loader: 'css-loader',
+        options: {
+          url: false
+        }
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          postcssOptions: {
+            plugins: [
+              InjectTailwindSources(tailwindSources),
+              '@tailwindcss/postcss',
+              'autoprefixer'
+            ]
+          }
+        }
+      },
+      {
         loader: 'sass-loader',
         options: {
-          sassOptions: { implementation: 'sass' },
+          implementation: 'sass',
           api: 'modern'
         }
       }

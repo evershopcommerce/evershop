@@ -37,7 +37,8 @@ export const registerCartItemTaxPercentField = (fields) => {
               } else {
                 const cart = this.getCart();
                 const addressId =
-                  baseCalculationAddress === 'billingAddress'
+                  baseCalculationAddress === 'billingAddress' ||
+                  cart.getData('no_shipping_required') === true
                     ? cart.getData('billing_address_id')
                     : cart.getData('shipping_address_id');
 
@@ -67,7 +68,7 @@ export const registerCartItemTaxPercentField = (fields) => {
           }
         }
       ],
-      dependencies: ['cart_id', 'tax_class_id']
+      dependencies: ['cart_id', 'tax_class_id', 'no_shipping_required']
     }
   ]);
   return newFields;

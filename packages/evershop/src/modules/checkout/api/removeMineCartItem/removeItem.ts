@@ -12,7 +12,9 @@ export default async (request: EvershopRequest, response, next) => {
   try {
     const { sessionID, customer } = request.locals;
     const myCart = await getMyCart(sessionID || ' ', customer?.customer_id);
-    const { item_id } = request.params;
+    const { item_id } = Array.isArray(request.params.item_id)
+      ? { item_id: request.params.item_id[0] }
+      : { item_id: request.params.item_id };
     if (!myCart) {
       response.status(INVALID_PAYLOAD);
       response.json({

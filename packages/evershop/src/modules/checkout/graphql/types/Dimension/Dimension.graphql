@@ -1,0 +1,19 @@
+"""
+Represents a dimension value in the store's dimension unit
+(`shop.dimensionUnit`). Mirrors the `Weight` type.
+"""
+type Dimension {
+  value: Float!
+  unit: String!
+  text: String!
+}
+
+"""
+A package (parcel) dimension trio. Carried by cart and order items as a
+snapshot of the product's package at add-to-cart / placement time.
+"""
+type PackageDimensions {
+  length: Dimension!
+  width: Dimension!
+  height: Dimension!
+}

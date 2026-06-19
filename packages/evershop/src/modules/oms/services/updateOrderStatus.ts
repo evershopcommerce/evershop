@@ -15,7 +15,9 @@ import Topo from '@hapi/topo';
 import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
-import { hookable } from '../../../lib/util/hookable.js';
+import { hookable, hookAfter, hookBefore } from '../../../lib/util/hookable.js';
+import { getValueSync } from '../../../lib/util/registry.js';
+import { OrderRow } from '../../../types/db/index.js';
 import { PaymentStatus, ShipmentStatus } from '../../../types/order.js';
 
 function getOrderStatusFlow() {
@@ -37,6 +39,32 @@ function getOrderStatusFlow() {
   }
 }
 
+/**
+ * Rollup outputs that live in `ROLLUP_DISPLAY` and `order.shipment_status` but
+ * never as a registered entry in `oms.order.shipmentStatus`. The order-status
+ * existence check has to tolerate these — the rollup writes them directly to
+ * `order.shipment_status` after every shipment change, then `hookAfter('changeShipmentStatus')`
+ * calls back here. Without this allowance, the first partial shipment on any
+ * order throws inside the `updateShipmentStatus` transaction and rolls back.
+ *
+ * `pending` joined the rollup-only set after §1 of the change-notes pass —
+ * we removed `pending` and `processing` from the shipment status registry
+ * because no per-shipment row uses the `pending` phase anymore. But the
+ * ORDER-level rollup still uses `'pending'` to mean "no items shipped yet"
+ * (the canonical case: an order with one canceled shipment rolls up to
+ * `pending`). Without `pending` here, canceling the only shipment on an
+ * order throws "Shipment status 'pending' is invalid."
+ */
+const ROLLUP_ONLY_SHIPMENT_STATUSES = new Set([
+  'pending',
+  'partially_shipped',
+  'partially_delivered',
+  // Item-math output when some (not all) items are canceled and nothing has
+  // shipped. `canceled` itself IS a registered shipment status, so it's not
+  // listed here — only the partial summary word is rollup-only.
+  'partially_canceled'
+]);
+
 export function resolveOrderStatus(
   paymentStatus: string,
   shipmentStatus: string
@@ -45,25 +73,34 @@ export function resolveOrderStatus(
   const shipmentStatusList = getConfig(
     'oms.order.shipmentStatus',
     {}
-  ) as ShipmentStatus[];
-  const paymentStatusList = getConfig(
-    'oms.order.paymentStatus',
-    {}
-  ) as PaymentStatus[];
+  ) as Record<string, ShipmentStatus>;
+  const paymentStatusList = getConfig('oms.order.paymentStatus', {}) as Record<
+    string,
+    PaymentStatus
+  >;
   const psoMapping = getConfig('oms.order.psoMapping', {});
   const shipmentStatusDefination = shipmentStatusList[shipmentStatus];
   const paymentStatusDefination = paymentStatusList[paymentStatus];
-  if (!shipmentStatusDefination || !paymentStatusDefination) {
+  if (!paymentStatusDefination) {
     throw new Error(
-      'Either shipment status or payment status is invalid. Can not update order status'
+      'Payment status is invalid. Can not update order status'
     );
   }
+  if (
+    !shipmentStatusDefination &&
+    !ROLLUP_ONLY_SHIPMENT_STATUSES.has(shipmentStatus)
+  ) {
+    throw new Error(
+      `Shipment status '${shipmentStatus}' is invalid. Can not update order status`
+    );
+  }
+  const finalPsoMapping = getValueSync('psoMapping', psoMapping, {});
   // Reverse the order status list to get the highest priority status first
   const nextStatus =
-    psoMapping[`${paymentStatus}:${shipmentStatus}`] ||
-    psoMapping[`*:${shipmentStatus}`] ||
-    psoMapping[`${paymentStatus}:*`] ||
-    psoMapping['*:*'];
+    finalPsoMapping[`${paymentStatus}:${shipmentStatus}`] ||
+    finalPsoMapping[`*:${shipmentStatus}`] ||
+    finalPsoMapping[`${paymentStatus}:*`] ||
+    finalPsoMapping['*:*'];
   if (!nextStatus || !orderStatusList[nextStatus]) {
     throw new Error(
       'Can not found a valid order status from the current shipment and payment status'
@@ -72,6 +109,14 @@ export function resolveOrderStatus(
   return nextStatus;
 }
 
+/**
+ * This function means to be private and should not be called outside of this module. It will not perform any validation and directly update the order status.
+ * You should consider updating the payment status and shipment status only, and let the system to update the order status automatically.
+ *
+ * @param orderId
+ * @param status
+ * @param connection
+ */
 async function updateOrderStatus(
   orderId: number,
   status: string,
@@ -95,7 +140,7 @@ async function addOrderStatusChangeEvents(
     .given({
       name: 'order_status_updated',
       data: {
-        order_id: orderId,
+        orderId: orderId,
         before,
         after
       }
@@ -110,12 +155,16 @@ export async function changeOrderStatus(
 ) {
   const statusFlow = getOrderStatusFlow();
   const connection = conn || (await getConnection(pool));
-  const order = await select()
+  const order = (await select()
     .from('order')
     .where('order_id', '=', orderId)
-    .load(connection, false);
+    .load(connection, false)) as OrderRow | null;
   if (!order) {
     throw new Error('Order not found');
+  }
+
+  if (order.status === status) {
+    return;
   }
   // Do not allow to revert the status
   if (statusFlow.indexOf(order.status) > statusFlow.indexOf(status)) {
@@ -135,7 +184,12 @@ export async function changeOrderStatus(
     await hookable(addOrderStatusChangeEvents, {
       order,
       status
-    })(order.order_id, order.status.toString(), status, connection);
+    })(
+      order.order_id,
+      order.status ? order.status.toString() : 'unknown',
+      status,
+      connection
+    );
 
     if (!conn) {
       await commit(connection);
@@ -147,4 +201,76 @@ export async function changeOrderStatus(
     }
     throw err;
   }
+}
+
+export function hookBeforeUpdateOrderStatus(
+  callback: (
+    this: {
+      order: OrderRow;
+      status: string;
+    },
+    ...args: [
+      orderId: number,
+      status: string,
+      connection: PoolClient,
+      ...args: any[]
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('updateOrderStatus', callback, priority);
+}
+
+export function hookAfterUpdateOrderStatus(
+  callback: (
+    this: {
+      order: OrderRow;
+      status: string;
+    },
+    ...args: [
+      orderId: number,
+      status: string,
+      connection: PoolClient,
+      ...args: any[]
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('updateOrderStatus', callback, priority);
+}
+
+export function hookBeforeAddOrderStatusChangeEvents(
+  callback: (
+    this: {
+      order: OrderRow;
+      status: string;
+    },
+    ...args: [
+      orderId: number,
+      before: string,
+      after: string,
+      connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('addOrderStatusChangeEvents', callback, priority);
+}
+
+export function hookAfterAddOrderStatusChangeEvents(
+  callback: (
+    this: {
+      order: OrderRow;
+      status: string;
+    },
+    ...args: [
+      orderId: number,
+      before: string,
+      after: string,
+      connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('addOrderStatusChangeEvents', callback, priority);
 }

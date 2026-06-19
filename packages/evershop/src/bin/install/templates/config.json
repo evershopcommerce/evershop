@@ -3,6 +3,7 @@
     "currency": "USD",
     "language": "en",
     "weightUnit": "kg",
+    "dimensionUnit": "cm",
     "timezone": "UTC"
   },
   "system": {

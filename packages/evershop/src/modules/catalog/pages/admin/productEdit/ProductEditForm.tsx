@@ -1,6 +1,7 @@
 import Area from '@components/common/Area.js';
-import Button from '@components/common/Button.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
+import { Button } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
@@ -13,24 +14,26 @@ const FormButton: React.FC<{
     formState: { isSubmitting }
   } = useFormContext();
   return (
-    <div className="form-submit-button flex border-t border-divider mt-4 pt-4 justify-between">
+    <div className="form-submit-button flex border-t border-border mt-4 pt-4 justify-between">
       <Button
-        title="Cancel"
-        variant="danger"
-        outline
-        onAction={() => {
+        size={'lg'}
+        variant="destructive"
+        onClick={() => {
           window.location.href = cancelUrl;
         }}
-      />
+      >
+        {_('Cancel')}
+      </Button>
       <Button
-        title="Save"
-        onAction={() => {
+        onClick={() => {
           (document.getElementById(formId) as HTMLFormElement).dispatchEvent(
             new Event('submit', { cancelable: true, bubbles: true })
           );
         }}
         isLoading={isSubmitting}
-      />
+      >
+        {_('Save')}
+      </Button>
     </div>
   );
 };
@@ -62,7 +65,7 @@ export default function ProductEditForm({
       if (result.error) {
         toast.error(result.error.message);
       } else {
-        toast.success('Product updated successfully');
+        toast.success(_('Product updated successfully'));
         form.setValue('product_id', result.data.uuid);
       }
     } catch (error) {

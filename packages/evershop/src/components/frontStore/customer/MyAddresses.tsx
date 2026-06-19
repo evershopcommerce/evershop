@@ -1,8 +1,16 @@
 import { AddressSummary } from '@components/common/customer/address/AddressSummary.jsx';
 import { CheckboxField } from '@components/common/form/CheckboxField.js';
 import { Form } from '@components/common/form/Form.js';
-import { Modal } from '@components/common/modal/Modal.js';
-import { useModal } from '@components/common/modal/useModal.js';
+import { Button } from '@components/common/ui/Button.js';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@components/common/ui/Dialog.js';
+import { Item, ItemActions, ItemContent } from '@components/common/ui/Item.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import {
   ExtendedCustomerAddress,
@@ -17,71 +25,89 @@ const Address: React.FC<{
   address: ExtendedCustomerAddress;
 }> = ({ address }) => {
   const { updateAddress, deleteAddress } = useCustomerDispatch();
-  const modal = useModal();
-  const classes = address.isDefault ? 'border-2 border-interactive' : '';
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const classes = address.isDefault ? 'border-2 border-primary' : '';
   return (
-    <div className={`bg-white p-5 shadow rounded ${classes}`}>
-      <AddressSummary address={address} />
-      <div className="flex justify-between items-center mt-2">
-        <a
-          href="#"
-          className="text-interactive hover:underline"
-          onClick={(e) => {
-            e.preventDefault();
-            modal.open();
-          }}
-        >
-          {_('Edit')}
-        </a>
-        <a
-          href="#"
-          className="text-critical hover:underline"
-          onClick={async (e) => {
-            e.preventDefault();
-            try {
-              await deleteAddress(address.addressId);
-              toast.success(_('Address has been deleted successfully!'));
-            } catch (error) {
-              toast.error(error.message);
-            }
-          }}
-        >
-          {_('Delete')}
-        </a>
-      </div>
-      <Modal title="Edit Address" onClose={modal.close} isOpen={modal.isOpen}>
-        <Form
-          id="customerAddressForm"
-          method="PATCH"
-          onSubmit={async (data) => {
-            await updateAddress(address.addressId, data);
-            modal.close();
-          }}
-          onSuccess={(response) => {
-            if (!response.error) {
-              modal.close();
-              toast.success(_('Address has been updated successfully!'));
-            } else {
-              toast.error(response.error.message);
-            }
-          }}
-        >
-          <CustomerAddressForm address={address} fieldNamePrefix="" />
-          <CheckboxField
-            label={_('Set as default')}
-            defaultChecked={address.isDefault}
-            name="is_default"
-          />
-        </Form>
-      </Modal>
-    </div>
+    <Item variant={'outline'} className={`${classes}`}>
+      <ItemContent>
+        <AddressSummary address={address} />
+      </ItemContent>
+      <ItemActions>
+        <div className="flex flex-col items-start gap-1">
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger>
+              <Button
+                variant="outline"
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+              >
+                {_('Edit')}
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{_('Edit Address')}</DialogTitle>
+              </DialogHeader>
+              <Form
+                id="customerAddressForm"
+                method="PATCH"
+                onSubmit={async (data) => {
+                  try {
+                    await updateAddress(address.uuid as string, data);
+                    setDialogOpen(false);
+                    toast.success(_('Address has been updated successfully!'));
+                  } catch (error) {
+                    toast.error(
+                      error instanceof Error ? error.message : String(error)
+                    );
+                  }
+                }}
+              >
+                <CustomerAddressForm
+                  address={address}
+                  fieldNamePrefix=""
+                  countryScope="all"
+                />
+                <div className="mt-3">
+                  <CheckboxField
+                    label={_('Set as default')}
+                    defaultChecked={address.isDefault}
+                    defaultValue={address.isDefault}
+                    name="is_default"
+                  />
+                </div>
+              </Form>
+            </DialogContent>
+            <DialogFooter>
+              <Button
+                variant="destructive"
+                onClick={async (e) => {
+                  e.preventDefault();
+                  try {
+                    await deleteAddress(address.uuid as string);
+                    toast.success(_('Address has been deleted successfully!'));
+                  } catch (error) {
+                    toast.error(
+                      error instanceof Error ? error.message : String(error)
+                    );
+                  }
+                }}
+              >
+                {_('Delete')}
+              </Button>
+            </DialogFooter>
+          </Dialog>
+        </div>
+      </ItemActions>
+    </Item>
   );
 };
 
 export function MyAddresses({ title }: { title?: string }) {
   const { customer } = useCustomer();
   const { addAddress } = useCustomerDispatch();
-  const modal = useModal();
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   if (!customer) {
     return null;
   }
@@ -97,58 +123,56 @@ export function MyAddresses({ title }: { title?: string }) {
           {_('You have no addresses saved')}
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-3">
         {customer.addresses.map((address) => (
           <Address key={address.uuid} address={address} />
         ))}
       </div>
-      <br />
-      <a
-        href="#"
-        className="text-interactive underline"
-        onClick={(e) => {
-          e.preventDefault();
-          modal.open();
-        }}
-      >
-        {_('Add new address')}
-      </a>
-      <Modal
-        title={_('Add new address')}
-        onClose={modal.close}
-        isOpen={modal.isOpen}
-      >
-        <Form
-          id="customerAddressForm"
-          method={'POST'}
-          onSubmit={async (data) => {
-            try {
-              await addAddress(data as ExtendedCustomerAddress);
-              toast.success(_('Address has been saved successfully!'));
-            } catch (error) {
-              toast.error(error.message);
-            }
-          }}
-          onSuccess={(response) => {
-            if (!response.error) {
-              modal.close();
-              toast.success(_('Address has been saved successfully!'));
-              setTimeout(() => {
-                window.location.reload();
-              }, 1500);
-            } else {
-              toast.error(response.error.message);
-            }
-          }}
-        >
-          <CustomerAddressForm address={undefined} fieldNamePrefix="" />
-          <CheckboxField
-            label={_('Set as default')}
-            defaultChecked={false}
-            name="is_default"
-          />
-        </Form>
-      </Modal>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogTrigger>
+          <Button
+            variant="outline"
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
+            {_('Add new address')}
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{_('Add new address')}</DialogTitle>
+          </DialogHeader>
+          <Form
+            id="customerAddressForm"
+            method={'POST'}
+            onSubmit={async (data) => {
+              try {
+                await addAddress(data as ExtendedCustomerAddress);
+                setDialogOpen(false);
+                toast.success(_('Address has been saved successfully!'));
+              } catch (error) {
+                toast.error(
+                  error instanceof Error ? error.message : String(error)
+                );
+              }
+            }}
+          >
+            <CustomerAddressForm
+              address={undefined}
+              fieldNamePrefix=""
+              countryScope="all"
+            />
+            <div className="mt-3">
+              <CheckboxField
+                label={_('Set as default')}
+                defaultChecked={false}
+                name="is_default"
+              />
+            </div>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

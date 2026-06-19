@@ -1,4 +1,5 @@
 import { select, value } from '@evershop/postgres-query-builder';
+import { localizeUrl } from '../../../../../lib/locale/localeContext.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 
 export default {
@@ -24,7 +25,11 @@ export default {
 
       const items = (await query.execute(pool)).map((i) => ({
         name: i.name,
-        url: i.request_path || buildUrl('categoryView', { uuid: i.uuid })
+        // Category nav links — localized to the request locale (the url_rewrite
+        // request_path is the canonical/unprefixed path). No-op for the default locale.
+        url: localizeUrl(
+          i.request_path || buildUrl('categoryView', { uuid: i.uuid })
+        )
       }));
 
       return { items };

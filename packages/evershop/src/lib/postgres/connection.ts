@@ -6,18 +6,16 @@ import { getConfig } from '../util/getConfig.js';
 
 // Use env for the database connection, maintain the backward compatibility
 const connectionSetting: PoolConfig = {
-  host: process.env.DB_HOST || getConfig('system.database.host'),
-  port:
-    (process.env.DB_PORT as unknown as number) ||
-    (getConfig('system.database.port') as unknown as number),
-  user: process.env.DB_USER || getConfig('system.database.user'),
-  password: process.env.DB_PASSWORD || getConfig('system.database.password'),
-  database: process.env.DB_NAME || getConfig('system.database.database'),
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT as unknown as number,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   max: 20
 };
 
 // Support SSL
-const sslMode = process.env.DB_SSLMODE || getConfig('system.database.ssl_mode');
+const sslMode = process.env.DB_SSLMODE;
 switch (sslMode) {
   case 'disable': {
     connectionSetting.ssl = false;
@@ -57,15 +55,19 @@ switch (sslMode) {
   }
 }
 
-const pool = new Pool(connectionSetting);
-// Set the timezone
-pool.on('connect', (client) => {
-  const timeZone = getConfig('shop.timezone', 'UTC');
-  client.query(`SET TIMEZONE TO "${timeZone}";`);
-});
+// onConnect is awaited by pg before the client is handed to user code,
+// unlike pool.on('connect', ...) which is not awaited (deprecated in pg@8.19.0).
+// Cast needed because @types/pg doesn't yet declare onConnect in PoolConfig.
+const pool = new Pool({
+  ...connectionSetting,
+  onConnect: async (client: import('pg').PoolClient) => {
+    const timeZone = getConfig('shop.timezone', 'UTC');
+    await client.query(`SET TIMEZONE TO "${timeZone}";`);
+  }
+} as PoolConfig);
 
 async function getConnection(): Promise<PoolClient> {
   return await pool.connect();
 }
 
-export { pool, getConnection };
+export { pool, getConnection, connectionSetting };

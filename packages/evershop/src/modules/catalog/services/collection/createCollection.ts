@@ -5,38 +5,27 @@ import {
   insert
 } from '@evershop/postgres-query-builder';
 import type { PoolClient } from '@evershop/postgres-query-builder';
-import { JSONSchemaType } from 'ajv';
 import { getConnection } from '../../../../lib/postgres/connection.js';
-import { hookable } from '../../../../lib/util/hookable.js';
-import { getValueSync, getValue } from '../../../../lib/util/registry.js';
-import { getAjv } from '../../../base/services/getAjv.js';
-import collectionDataSchema from './collectionDataSchema.json' with { type: 'json' };
+import {
+  hookable,
+  hookBefore,
+  hookAfter
+} from '../../../../lib/util/hookable.js';
+import { getValue } from '../../../../lib/util/registry.js';
+import { Row, sanitizeRawHtml } from '../../../../lib/util/sanitizeHtml.js';
+import type { CollectionRow } from '../../../../types/db/index.js';
 
 export type CollectionData = {
   name: string;
-  description: string;
   code: string;
-  [key: string]: any;
+  description?: Row[];
+  [key: string]: unknown;
 };
 
-function validateCollectionDataBeforeInsert(data: CollectionData) {
-  const ajv = getAjv();
-  (collectionDataSchema as JSONSchemaType<any>).required = ['name', 'description', 'code'];
-  const jsonSchema = getValueSync(
-    'createCollectionDataJsonSchema',
-    collectionDataSchema,
-    {}
-  );
-  const validate = ajv.compile(jsonSchema);
-  const valid = validate(data);
-  if (valid) {
-    return data;
-  } else {
-    throw new Error(validate.errors[0].message);
-  }
-}
-
-async function insertCollectionData(data: CollectionData, connection: PoolClient) {
+async function insertCollectionData(
+  data: CollectionData,
+  connection: PoolClient
+): Promise<CollectionRow & { insertId: number }> {
   const collection = await insert('collection').given(data).execute(connection);
   return collection;
 }
@@ -46,14 +35,23 @@ async function insertCollectionData(data: CollectionData, connection: PoolClient
  * @param {Object} data
  * @param {Object} context
  */
-async function createCollection(data: CollectionData, context: Record<string, any>) {
+async function createCollection(
+  data: CollectionData,
+  context: Record<string, any>
+): Promise<CollectionRow & { insertId: number }> {
   const connection = await getConnection();
   await startTransaction(connection);
   const hookContext = { connection, ...context };
   try {
-    const collectionData = await getValue('collectionDataBeforeCreate', data);
-    // Validate collection data
-    validateCollectionDataBeforeInsert(collectionData);
+    const collectionData = await getValue<CollectionData>(
+      'collectionDataBeforeCreate',
+      data,
+      {}
+    );
+    // Sanitize raw HTML blocks in EditorJS content
+    if (collectionData.description) {
+      sanitizeRawHtml(collectionData.description);
+    }
 
     // Insert collection data
     const collection = await hookable(insertCollectionData, hookContext)(
@@ -74,7 +72,10 @@ async function createCollection(data: CollectionData, context: Record<string, an
  * @param {Object} data
  * @param {Object} context
  */
-export default async (data: CollectionData, context: Record<string, any>) => {
+export default async (
+  data: CollectionData,
+  context: Record<string, any>
+): Promise<CollectionRow & { insertId: number }> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');
@@ -82,3 +83,43 @@ export default async (data: CollectionData, context: Record<string, any>) => {
   const collection = await hookable(createCollection)(data, context);
   return collection;
 };
+
+export function hookBeforeInsertCollectionData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [data: CollectionData, connection: PoolClient]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('insertCollectionData', callback, priority);
+}
+
+export function hookAfterInsertCollectionData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [data: CollectionData, connection: PoolClient]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('insertCollectionData', callback, priority);
+}
+
+export function hookBeforeCreateCollection(
+  callback: (
+    this: Record<string, any>,
+    ...args: [data: CollectionData, context: Record<string, any>]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('createCollection', callback, priority);
+}
+
+export function hookAfterCreateCollection(
+  callback: (
+    this: Record<string, any>,
+    ...args: [data: CollectionData, context: Record<string, any>]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('createCollection', callback, priority);
+}

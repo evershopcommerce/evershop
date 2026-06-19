@@ -7,8 +7,8 @@ import JSON5 from 'json5';
 import { getComponentsByRoute } from '../../lib/componee/getComponentsByRoute.js';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { error } from '../../lib/log/logger.js';
+import { generateComponentKey } from '../../lib/util/keyGenerator.js';
 import { getRouteBuildPath } from '../../lib/webpack/getRouteBuildPath.js';
-import { generateComponentKey } from '../../lib/webpack/util/keyGenerator.js';
 import { parseGraphql } from '../../lib/webpack/util/parseGraphql.js';
 import { getEnabledWidgets } from '../../lib/widget/widgetManager.js';
 /**
@@ -71,14 +71,40 @@ export async function buildEntry(routes, clientOnly = false) {
         const url = route.isAdmin
           ? pathToFileURL(widget.settingComponent).toString()
           : pathToFileURL(widget.component).toString();
-        imports.push(`import ${widget.type} from '${url}';`);
-        areas['*'][widget.type] = {
-          id: widget.type,
+        const id = generateComponentKey(
+          route.isAdmin
+            ? `admin_widget_${widget.type}`
+            : `widget_${widget.type}`
+        );
+        imports.push(`import ${id} from '${url}';`);
+        areas['*'][id] = {
+          id,
           sortOrder: widget.sortOrder || 0,
           component: {
-            default: `---${widget.type}---`
+            default: `---${id}---`
           }
         };
+
+        // Admin bundles also ship each widget's previewComponent under a
+        // separate wildcard-area key (`admin_widget_preview_<type>`). The
+        // page-builder Widgets-palette hover card (`WidgetPreviewCard`) looks
+        // it up directly from `Area.defaultProps.components['*']`. Mirror
+        // AreaLoader's dev-mode behavior here so production builds also have
+        // the preview registry.
+        if (route.isAdmin && widget.previewComponent) {
+          const previewUrl = pathToFileURL(widget.previewComponent).toString();
+          const previewId = generateComponentKey(
+            `admin_widget_preview_${widget.type}`
+          );
+          imports.push(`import ${previewId} from '${previewUrl}';`);
+          areas['*'][previewId] = {
+            id: previewId,
+            sortOrder: 0,
+            component: {
+              default: `---${previewId}---`
+            }
+          };
+        }
       });
       contentClient += '\r\n';
       contentClient += imports.join('\r\n');

@@ -2,6 +2,7 @@ import Area from '@components/common/Area.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import { ReactSelectCreatableField } from '@components/common/form/ReactSelectCreatableField.js';
 import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { Coupon } from './General.js';
 
@@ -32,12 +33,13 @@ export default function CustomerCondition({
   return (
     <Area
       id="couponCustomerCondition"
+      className="space-y-3"
       coreComponents={[
         {
           component: {
             default: () => (
               <ReactSelectField
-                label="Customer groups"
+                label={_('Customer groups')}
                 name="user_condition.groups"
                 options={customerGroups.map((group) => ({
                   value: group.value.toString(),
@@ -59,8 +61,8 @@ export default function CustomerCondition({
             default: (
               <ReactSelectCreatableField
                 name="user_condition.emails"
-                label="Customer emails"
-                placeholder="Enter customer emails"
+                label={_('Customer emails')}
+                placeholder={_('Enter customer emails')}
                 isMulti={true}
                 options={(condition?.emails || []).map((email) => ({
                   value: email as string,
@@ -77,12 +79,16 @@ export default function CustomerCondition({
           component: {
             default: (
               <NumberField
-                label="Customer's purchase"
-                placeholder="Enter purchased amount"
-                defaultValue={condition?.purchased || 0}
+                label={_("Customer's purchase")}
+                placeholder={_('Enter purchased amount')}
+                defaultValue={
+                  parseInt(condition?.purchased as unknown as string) || 0
+                }
                 name="user_condition.purchased"
                 min={0}
-                helperText="Minimum purchased amount. This only applies to registered customers."
+                helperText={_(
+                  'Minimum purchased amount. This only applies to registered customers.'
+                )}
               />
             )
           },

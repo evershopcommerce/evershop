@@ -1,3 +1,4 @@
+import { select } from '@evershop/postgres-query-builder';
 import { error } from '../../lib/log/logger.js';
 import { pool } from '../../lib/postgres/connection.js';
 import { merge } from '../../lib/util/merge.js';
@@ -6,11 +7,18 @@ import { getProductsBaseQuery } from '../catalog/services/getProductsBaseQuery.j
 import { registerCartBaseFields } from '../checkout/services/cart/registerCartBaseFields.js';
 import { registerCartItemBaseFields } from './services/cart/registerCartItemBaseFields.js';
 import { sortFields } from './services/cart/sortFields.js';
+import { coreShippingProvider } from './services/shipping/core/coreProvider.js';
+import { registerShippingProvider } from './services/shipping/registry.js';
 
 export default () => {
   addProcessor('cartFields', registerCartBaseFields, 0);
 
   addProcessor('cartItemFields', registerCartItemBaseFields, 0);
+
+  // Register Core as a first-class shipping provider. Other providers
+  // (USPS, FedEx, EasyPost, …) register themselves from their own
+  // module bootstrap files and become siblings of Core.
+  registerShippingProvider(coreShippingProvider);
 
   addFinalProcessor('cartFields', (fields) => {
     try {
@@ -35,6 +43,24 @@ export default () => {
   addProcessor('cartItemProductLoaderFunction', () => async (id) => {
     const productQuery = getProductsBaseQuery();
     const product = await productQuery.where('product_id', '=', id).load(pool);
+    // Merge the product's package (parcel size) onto the row so the cart-item
+    // dimension fields and the `cartPackages` packing strategy can read it
+    // without their own queries. NULL package_id (legacy/virtual products)
+    // leaves the fields undefined — downstream degrades gracefully.
+    if (product && product.package_id) {
+      const pkg = await select()
+        .from('package')
+        .where('package_id', '=', product.package_id)
+        .load(pool);
+      if (pkg) {
+        product.package_uuid = pkg.uuid;
+        product.package_name = pkg.name;
+        product.package_length = pkg.length;
+        product.package_width = pkg.width;
+        product.package_height = pkg.height;
+        product.package_weight = pkg.weight; // tare
+      }
+    }
     return product;
   });
 
@@ -46,6 +72,20 @@ export default () => {
           properties: {
             showShippingNote: {
               type: 'boolean'
+            }
+          }
+        },
+        shop: {
+          type: 'object',
+          properties: {
+            // Unit for package dimensions (`package` table, cart/order item
+            // snapshots). Pinned to the `Dimensions.unit` vocabulary in
+            // oms/types/carrier.ts so no mapping layer is needed. Same model
+            // as shop.weightUnit: store-wide, values reinterpreted (not
+            // converted) if changed after data exists.
+            dimensionUnit: {
+              type: 'string',
+              enum: ['cm', 'mm', 'in']
             }
           }
         }

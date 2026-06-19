@@ -1,6 +1,13 @@
 import { AttributeGroupSelector } from '@components/admin/AttributeGroupSelector.js';
-import { Modal } from '@components/common/modal/Modal.js';
-import { useModal } from '@components/common/modal/useModal.js';
+import { Button } from '@components/common/ui/Button.js';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export const AttributeGroupConditionValueSelector: React.FC<{
@@ -8,18 +15,14 @@ export const AttributeGroupConditionValueSelector: React.FC<{
   updateCondition: (values: number | Array<number>) => void;
   isMulti: boolean;
 }> = ({ selectedValues, updateCondition, isMulti }) => {
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const skus = Array.isArray(selectedValues) ? selectedValues : [];
   const selectedIds = React.useRef(skus || []);
-  const modal = useModal({
-    onAfterClose: () => {
-      updateCondition(selectedIds.current);
-    }
-  });
 
   const onSelect = (id) => {
     if (!isMulti) {
       selectedIds.current = [id];
-      modal.close();
+      setDialogOpen(false);
     } else {
       const prev = selectedIds.current;
       if (!prev.includes(id)) {
@@ -34,43 +37,50 @@ export const AttributeGroupConditionValueSelector: React.FC<{
   };
 
   return (
-    <div>
-      <a
-        href="#"
-        className="text-interactive hover:underline"
-        onClick={(e) => {
-          e.preventDefault();
-          modal.open();
-        }}
-      >
-        {selectedIds.current.map((id, index) => (
-          <span key={id}>
-            {index === 0 && <span className="italic">&lsquo;{id}&rsquo;</span>}
-            {index === 1 && (
-              <span> and {selectedIds.current.length - 1} more</span>
-            )}
-          </span>
-        ))}
-        {selectedIds.current.length === 0 && (
-          <span>Choose Attribute Groups</span>
-        )}
-      </a>
-      <Modal
-        title="Select Attribute Groups"
-        onClose={modal.close}
-        isOpen={modal.isOpen}
-      >
-        <div className="overflow-auto" style={{ maxHeight: '60vh' }}>
-          <AttributeGroupSelector
-            onSelect={onSelect}
-            onUnSelect={onUnSelect}
-            selectedAttributeGroups={selectedIds.current.map((id) => ({
-              attributeGroupId: id,
-              uuid: undefined
-            }))}
-          />
-        </div>
-      </Modal>
-    </div>
+    <Dialog
+      open={dialogOpen}
+      onOpenChange={(open) => setDialogOpen(open)}
+      onOpenChangeComplete={(open) => {
+        if (!open) {
+          updateCondition(selectedIds.current);
+        }
+      }}
+    >
+      <DialogTrigger>
+        <Button variant={'link'}>
+          {selectedIds.current.map((id, index) => (
+            <span key={id}>
+              {index === 0 && (
+                <span className="italic">&lsquo;{id}&rsquo;</span>
+              )}
+              {index === 1 && (
+                <span>
+                  {' '}
+                  {_('and ${count} more', {
+                    count: String(selectedIds.current.length - 1)
+                  })}
+                </span>
+              )}
+            </span>
+          ))}
+          {selectedIds.current.length === 0 && (
+            <span>{_('Choose Attribute Groups')}</span>
+          )}
+        </Button>
+      </DialogTrigger>
+      <DialogContent className={'max-w-[60vw]'}>
+        <DialogHeader>
+          <DialogTitle>{_('Choose Attribute Groups')}</DialogTitle>
+        </DialogHeader>
+        <AttributeGroupSelector
+          onSelect={onSelect}
+          onUnSelect={onUnSelect}
+          selectedAttributeGroups={selectedIds.current.map((id) => ({
+            attributeGroupId: id,
+            uuid: undefined
+          }))}
+        />
+      </DialogContent>
+    </Dialog>
   );
 };

@@ -1,204 +1,191 @@
-import { Card } from '@components/admin/Card.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import { RadioGroupField } from '@components/common/form/RadioGroupField.js';
+import { SelectField } from '@components/common/form/SelectField.js';
+import { Button } from '@components/common/ui/Button.js';
+import { Card, CardContent } from '@components/common/ui/Card.js';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { Trash2 } from 'lucide-react';
 import React from 'react';
-import { useFormContext, Controller, Control } from 'react-hook-form';
-import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
-const components = {
-  DropdownIndicator: null
-};
-
-const createOption = (label) => ({
-  label,
-  value: label
-});
-
-const AreaInput: React.FC<{
-  values: {
-    label: string;
-    value: string;
-  }[];
-  control: Control<any>;
-}> = ({ values, control }) => {
-  const [inputValue, setInputValue] = React.useState('');
-
-  const handleKeyDown = (event, onChange, value) => {
-    if (!inputValue) return;
-    switch (event.key) {
-      case 'Enter':
-      case 'Tab':
-        const newOption = createOption(inputValue);
-        onChange([...value, newOption]);
-        setInputValue('');
-        event.preventDefault();
-        break;
-      default:
-        break;
-    }
-  };
-
-  return (
-    <Controller
-      name="area"
-      control={control}
-      defaultValue={values.map((v) => v.value)}
-      render={({ field }) => (
-        <CreatableSelect
-          components={components}
-          inputValue={inputValue}
-          isClearable
-          isMulti
-          menuIsOpen={false}
-          onChange={(newValue) => {
-            const stringArray = newValue
-              ? newValue.map((option) => option.value)
-              : [];
-            field.onChange(stringArray);
-          }}
-          onInputChange={(newValue) => setInputValue(newValue)}
-          onKeyDown={(event) =>
-            handleKeyDown(
-              event,
-              (newOptions) => {
-                const stringArray = newOptions.map((option) => option.value);
-                field.onChange(stringArray);
-              },
-              field.value
-                ? field.value.map((val) =>
-                    typeof val === 'string' ? createOption(val) : val
-                  )
-                : []
-            )
-          }
-          placeholder="Type area and press enter..."
-          value={
-            field.value
-              ? field.value.map((val) =>
-                  typeof val === 'string' ? createOption(val) : val
-                )
-              : []
-          }
-        />
-      )}
-    />
-  );
-};
+interface Placement {
+  route: string;
+  area: string;
+  sortOrder?: number;
+  entityUrn?: string | null;
+}
 
 interface GeneralProps {
   widget?: {
     name?: string;
     status?: number;
-    sortOrder?: number;
-    area?: string[];
-    route?: string[];
+    placements?: Placement[];
   };
   routes: Array<{
     value: string;
     label: string;
     isApi: boolean;
     isAdmin: boolean;
-    method: string[];
+    methods: string[];
   }>;
 }
 
 export default function General({ widget, routes }: GeneralProps) {
-  const { register, control } = useFormContext();
-  const allRoutes = [
-    {
-      value: 'all',
-      label: 'All',
-      isAdmin: false,
-      isApi: false,
-      method: ['GET']
-    },
+  const { control } = useFormContext();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'placements'
+  });
+
+  // Pages a widget can be placed on: storefront GET routes (single method,
+  // not API / admin), plus an "All pages" pseudo-route.
+  const pageOptions = [
+    { value: 'all', label: _('All pages') },
     ...routes
+      .filter(
+        (r) =>
+          r.isApi === false &&
+          r.isAdmin === false &&
+          r.methods.includes('GET') &&
+          r.methods.length === 1
+      )
+      .map((r) => ({ value: r.value, label: r.label }))
   ];
+
+  // Seed the rows from the widget's existing route-level placements. Entity
+  // scoped placements (a specific CMS page) are managed in the page builder,
+  // so they're filtered out here and left untouched on save. New widgets have
+  // no placements yet — start with one blank row.
+  React.useEffect(() => {
+    if (fields.length > 0) return;
+    const existing = (widget?.placements ?? []).filter(
+      (p) => p.entityUrn == null
+    );
+    if (existing.length > 0) {
+      existing.forEach((p) =>
+        append(
+          { route: p.route, area: p.area, sort_order: p.sortOrder ?? 0 },
+          { shouldFocus: false }
+        )
+      );
+    } else {
+      append({ route: 'all', area: '', sort_order: 0 }, { shouldFocus: false });
+    }
+  }, [widget, fields.length, append]);
 
   return (
     <Card>
-      <Card.Session title="Name">
+      <CardContent>
         <InputField
           name="name"
           defaultValue={widget?.name}
+          label={_('Name')}
           required
-          validation={{ required: 'Name is required' }}
-          placeholder="Name"
+          validation={{ required: _('Name is required') }}
+          placeholder={_('Name')}
         />
-      </Card.Session>
-      <Card.Session title="Status">
+      </CardContent>
+      <CardContent className="pt-3 border-t border-border">
         <RadioGroupField
           name="status"
+          label={_('Status')}
           defaultValue={widget?.status}
           required
-          validation={{ required: 'Status is required' }}
+          validation={{ required: _('Status is required') }}
           options={[
-            { value: 0, label: 'Disabled' },
-            { value: 1, label: 'Enabled' }
+            { value: 0, label: _('Disabled') },
+            { value: 1, label: _('Enabled') }
           ]}
         />
-      </Card.Session>
-      <Card.Session title="Area">
-        <AreaInput
-          control={control}
-          values={
-            widget?.area?.length
-              ? widget.area.map((a) => ({ value: a, label: a }))
-              : []
-          }
-        />
-      </Card.Session>
-      <Card.Session title="Page">
-        <Controller
-          name="route"
-          control={control}
-          defaultValue={
-            widget?.route
-              ? widget.route // Keep as string array
-              : []
-          }
-          render={({ field }) => (
-            <Select
-              options={allRoutes.filter(
-                (r) =>
-                  r.isApi === false &&
-                  r.isAdmin === false &&
-                  r.method.includes('GET') &&
-                  r.method.length === 1
-              )}
-              hideSelectedOptions
-              isMulti
-              aria-label="Select pages"
-              onChange={(selectedOptions) => {
-                const stringArray = selectedOptions
-                  ? selectedOptions.map((option) => option.value)
-                  : [];
-                field.onChange(stringArray);
-              }}
-              value={allRoutes.filter((r) => field.value?.includes(r.value))}
-              className="page-select relative z-50"
-            />
+      </CardContent>
+      <CardContent className="pt-3 border-t border-border">
+        <div className="text-sm font-medium">{_('Placements')}</div>
+        <p className="text-sm text-muted-foreground mt-1">
+          {_(
+            'Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.'
           )}
-        />
-      </Card.Session>
-      <Card.Session title="Sort order">
-        <NumberField
-          name="sort_order"
-          defaultValue={widget?.sortOrder}
-          placeholder="Sort Order"
-          validation={{
-            required: 'Sort order is required',
-            min: {
-              value: 0,
-              message: 'Sort order must be a positive number'
-            }
-          }}
-          required
-          helperText="The order in which this widget will be displayed. Lower numbers appear first."
-        />
-      </Card.Session>
+        </p>
+        <Table className="mt-3">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="border-none">{_('Page')}</TableHead>
+              <TableHead className="border-none">{_('Area')}</TableHead>
+              <TableHead className="border-none w-20">{_('Sort')}</TableHead>
+              <TableHead className="border-none w-10" />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {fields.map((field, index) => (
+              <TableRow key={field.id} className="border-border align-top">
+                <TableCell className="px-1">
+                  <SelectField
+                    name={`placements.${index}.route`}
+                    options={pageOptions}
+                    placeholder={_('Select page')}
+                    required
+                    validation={{ required: _('Page is required') }}
+                  />
+                </TableCell>
+                <TableCell className="px-1">
+                  <InputField
+                    name={`placements.${index}.area`}
+                    placeholder={_('e.g. content')}
+                    required
+                    validation={{ required: _('Area is required') }}
+                  />
+                </TableCell>
+                <TableCell className="px-1">
+                  <NumberField
+                    name={`placements.${index}.sort_order`}
+                    placeholder="0"
+                  />
+                </TableCell>
+                <TableCell className="px-1">
+                  {fields.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => remove(index)}
+                      className="text-muted-foreground hover:text-destructive p-1"
+                      title={_('Remove placement')}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter className="bg-transparent">
+            <TableRow className="border-none hover:bg-transparent">
+              <TableCell colSpan={4} className="border-none px-1">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={() =>
+                    append(
+                      { route: 'all', area: '', sort_order: 0 },
+                      { shouldFocus: false }
+                    )
+                  }
+                >
+                  {_('+ Add placement')}
+                </Button>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </CardContent>
     </Card>
   );
 }
@@ -213,16 +200,19 @@ export const query = `
     widget(id: getContextValue("widgetId", null)) {
       name
       status
-      sortOrder
-      area
-      route
+      placements {
+        route
+        area
+        sortOrder
+        entityUrn
+      }
     }
     routes {
       value: id
       label: name
       isApi
       isAdmin
-      method
+      methods
     }
   }
 `;

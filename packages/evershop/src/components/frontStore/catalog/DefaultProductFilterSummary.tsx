@@ -1,4 +1,10 @@
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle
+} from '@components/common/ui/Item.js';
+import {
   CategoryFilter,
   FilterableAttribute,
   FilterInput,
@@ -89,17 +95,19 @@ export const DefaultProductFilterSummary: React.FC<{
     return null;
   }
   return (
-    <div className="active-filters mb-4 p-3 bg-blue-50 rounded-lg">
-      <div className="text-sm font-medium text-blue-900 mb-2">
-        {_('Active Filters')}:
-      </div>
-      <div className="space-y-1">
-        {filterSummary.map((summary, index) => (
-          <div key={index} className="text-sm text-blue-800">
-            {summary}
+    <Item variant={'outline'} className="mb-3">
+      <ItemContent>
+        <ItemTitle>{_('Active Filters')}</ItemTitle>
+        <ItemDescription>
+          <div className="space-y-2">
+            {filterSummary.map((summary, index) => (
+              <div key={index} className="text-sm">
+                {summary}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
+        </ItemDescription>
+      </ItemContent>
+    </Item>
   );
 };

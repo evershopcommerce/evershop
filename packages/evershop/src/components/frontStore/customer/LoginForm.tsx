@@ -1,11 +1,12 @@
 import Area from '@components/common/Area.js';
-import Button from '@components/common/Button.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
+import { Button } from '@components/common/ui/Button.js';
 import { useCustomerDispatch } from '@components/frontStore/customer/CustomerContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
+import { cn } from '@evershop/evershop/lib/util/cn';
+import { LockKeyhole, Mail } from 'lucide-react';
 import React from 'react';
 
 const SubmitButton: React.FC<{ formId: string }> = ({ formId }) => {
@@ -13,16 +14,19 @@ const SubmitButton: React.FC<{ formId: string }> = ({ formId }) => {
     formState: { isSubmitting }
   } = useFormContext();
   return (
-    <div className="form-submit-button flex border-t border-divider mt-4 pt-4 justify-between">
+    <div className="form-submit-button flex border-t border-border mt-4 pt-4 justify-between">
       <Button
-        title={_('Sign In')}
-        onAction={() => {
+        className={'w-full'}
+        size={'lg'}
+        onClick={() => {
           (document.getElementById(formId) as HTMLFormElement).dispatchEvent(
             new Event('submit', { cancelable: true, bubbles: true })
           );
         }}
         isLoading={isSubmitting}
-      />
+      >
+        {_(isSubmitting ? 'Signing In...' : 'Sign In')}
+      </Button>
     </div>
   );
 };
@@ -36,7 +40,7 @@ export const CustomerLoginForm: React.FC<{
 }> = ({ title, subtitle, redirectUrl, onError, className }) => {
   const { login } = useCustomerDispatch();
   return (
-    <div className={`login__form ${className}`}>
+    <div className={cn(`login__form`, className)}>
       <div className="login__form__inner w-full">
         <Area id="customerLoginFormTitleBefore" noOuter />
         {title && (
@@ -56,7 +60,14 @@ export const CustomerLoginForm: React.FC<{
           method="POST"
           onSubmit={async (data) => {
             try {
-              await login(data.email, data.password, redirectUrl);
+              await login(
+                {
+                  email: data.email,
+                  password: data.password,
+                  ...data
+                },
+                redirectUrl
+              );
             } catch (error) {
               onError?.(error);
             }
@@ -66,12 +77,13 @@ export const CustomerLoginForm: React.FC<{
         >
           <Area
             id="customerLoginForm"
+            className="space-y-3"
             coreComponents={[
               {
                 component: {
                   default: (
                     <InputField
-                      prefixIcon={<EnvelopeIcon className="h-5 w-5" />}
+                      prefixIcon={<Mail className="h-5 w-5" />}
                       label={_('Email')}
                       name="email"
                       placeholder={_('Email')}
@@ -88,7 +100,7 @@ export const CustomerLoginForm: React.FC<{
                 component: {
                   default: (
                     <PasswordField
-                      prefixIcon={<LockClosedIcon className="h-5 w-5" />}
+                      prefixIcon={<LockKeyhole className="h-5 w-5" />}
                       label={_('Password')}
                       name="password"
                       placeholder={_('Password')}

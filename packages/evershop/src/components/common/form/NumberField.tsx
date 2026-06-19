@@ -1,8 +1,15 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
+import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput
+} from '@components/common/ui/InputGroup.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { useFormContext, RegisterOptions } from 'react-hook-form';
+import { useFormContext, RegisterOptions, Controller } from 'react-hook-form';
 
 interface NumberFieldProps {
   name: string;
@@ -51,11 +58,12 @@ export function NumberField({
   ...props
 }: NumberFieldProps) {
   const {
-    register,
+    control,
     formState: { errors }
   } = useFormContext();
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
+  const resolvedName = useScopedFieldName(name);
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
 
   const validationRules: RegisterOptions = {
     setValueAs: (value) => {
@@ -71,10 +79,6 @@ export function NumberField({
       return isNaN(numValue) ? null : numValue;
     }
   };
-
-  if (defaultValue !== undefined && !isNaN(defaultValue)) {
-    validationRules.value = defaultValue;
-  }
 
   if (validation) {
     Object.assign(validationRules, validation);
@@ -123,101 +127,89 @@ export function NumberField({
     };
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    let numValue: number | null = null;
-
-    if (inputValue !== '') {
-      if (allowDecimals) {
-        numValue = parseFloat(inputValue);
-      } else {
-        numValue = parseInt(inputValue, 10);
-      }
-    }
-
-    if (onChange) {
-      onChange(numValue);
-    }
-  };
-
   const inputStep = step !== undefined ? step : allowDecimals ? 'any' : '1';
 
-  const hasIcons = prefixIcon || suffixIcon;
-  const baseInputClassName = `${fieldError ? 'error' : ''} ${
+  const inputClassName = `${fieldError ? 'error' : ''} ${
     unit ? 'has-unit' : ''
-  } ${className || ''}`;
-  const iconInputClassName = `${fieldError !== undefined ? 'error' : ''} ${
-    className || ''
-  } ${hasIcons ? '!pr-3' : ''} ${prefixIcon ? '!pl-10' : ''} ${
+  } ${className || ''} ${prefixIcon ? '!pl-10' : ''} ${
     suffixIcon ? '!pr-10' : ''
   }`.trim();
 
-  const renderInput = (useIconStyles = false) => (
-    <input
-      id={fieldId}
-      type="number"
-      placeholder={placeholder}
-      disabled={disabled}
-      min={min}
-      max={max}
-      step={inputStep}
-      className={useIconStyles ? iconInputClassName : baseInputClassName}
-      aria-invalid={fieldError ? 'true' : 'false'}
-      aria-describedby={fieldError ? `${fieldId}-error` : undefined}
-      {...register(name, validationRules)}
-      onChange={(e) => {
-        register(name).onChange(e);
-        handleChange(e);
-      }}
-      {...props}
+  const renderInput = () => (
+    <Controller
+      name={resolvedName}
+      control={control}
+      defaultValue={defaultValue ?? null}
+      rules={validationRules}
+      render={({ field }) => (
+        <InputGroupInput
+          {...field}
+          id={fieldId}
+          type="number"
+          placeholder={placeholder}
+          disabled={disabled}
+          min={min}
+          max={max}
+          step={inputStep}
+          className={inputClassName}
+          aria-invalid={fieldError ? 'true' : 'false'}
+          aria-describedby={fieldError ? `${fieldId}-error` : undefined}
+          value={field.value ?? ''}
+          onChange={(e) => {
+            const inputValue = e.target.value;
+            let numValue: number | null = null;
+
+            if (inputValue !== '') {
+              if (allowDecimals) {
+                numValue = parseFloat(inputValue);
+              } else {
+                numValue = parseInt(inputValue, 10);
+              }
+              numValue = isNaN(numValue) ? null : numValue;
+            }
+
+            field.onChange(numValue);
+            if (onChange) {
+              onChange(numValue);
+            }
+          }}
+          {...props}
+        />
+      )}
     />
   );
 
   return (
-    <div className={`form-field ${wrapperClassName || ''}`.trim()}>
+    <Field
+      data-invalid={fieldError ? 'true' : 'false'}
+      className={wrapperClassName}
+    >
       {label && (
-        <label htmlFor={fieldId}>
-          {label}
-          {required && <span className="required-indicator">*</span>}
-          {helperText && <Tooltip content={helperText} position="top" />}
-        </label>
+        <FieldLabel htmlFor={fieldId}>
+          <>
+            {label}
+            {required && <span className="text-destructive">*</span>}
+            {helperText && <Tooltip content={helperText} position="top" />}
+          </>
+        </FieldLabel>
       )}
-
-      {hasIcons ? (
-        <div
-          className={`input__wrapper relative flex group items-center`.trim()}
-        >
-          {prefixIcon && (
-            <div className="prefix absolute left-3 z-10 flex items-center justify-center">
-              {prefixIcon}
-            </div>
-          )}
-          {renderInput(true)}
-          {suffixIcon && (
-            <div className="suffix absolute right-3 z-10 flex items-center justify-center">
-              {suffixIcon}
-            </div>
-          )}
-        </div>
-      ) : unit ? (
-        <div className="number-field-container">
-          {unitPosition === 'left' && (
-            <span className="number-unit">{unit}</span>
-          )}
-          {renderInput()}
-          {unitPosition === 'right' && (
-            <span className="number-unit">{unit}</span>
-          )}
-        </div>
-      ) : (
-        renderInput()
-      )}
-
-      {fieldError && (
-        <p id={`${fieldId}-error`} className="field-error">
-          {fieldError}
-        </p>
-      )}
-    </div>
+      <InputGroup>
+        {renderInput()}
+        {prefixIcon && (
+          <InputGroupAddon align={'inline-start'}>{prefixIcon}</InputGroupAddon>
+        )}
+        {suffixIcon && (
+          <InputGroupAddon align={'inline-end'}>{suffixIcon}</InputGroupAddon>
+        )}
+        {unit && (
+          <InputGroupAddon
+            align={unitPosition === 'right' ? 'inline-end' : 'inline-start'}
+          >
+            {unit}
+          </InputGroupAddon>
+        )}
+      </InputGroup>
+      {fieldError && <FieldError>{fieldError}</FieldError>}
+    </Field>
   );
 }

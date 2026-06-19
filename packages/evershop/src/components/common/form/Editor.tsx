@@ -1,7 +1,10 @@
 import { FileBrowser } from '@components/admin/FileBrowser.js';
 import { getColumnClasses } from '@components/common/form/editor/GetColumnClasses.js';
 import { getRowClasses } from '@components/common/form/editor/GetRowClasses.js';
+import { RawToolWrapper } from '@components/common/form/editor/RawToolWrapper.js';
 import { RowTemplates } from '@components/common/form/editor/RowTemplates.js';
+import { useScopedFormContext } from '@components/common/page-builder/WidgetSettingsScope.js';
+import { Field, FieldLabel } from '@components/common/ui/Field.js';
 import {
   DndContext,
   closestCenter,
@@ -17,7 +20,8 @@ import {
   useSortable,
   verticalListSortingStrategy
 } from '@dnd-kit/sortable';
-import { XCircleIcon } from '@heroicons/react/24/outline';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
@@ -48,16 +52,22 @@ async function loadEditorJSQuote(): Promise<any> {
   return Quote;
 }
 
-async function loadEditorJSRaw(): Promise<any> {
-  const { default: RawTool } = await import('@editorjs/raw');
-  return RawTool;
-}
+// Using custom RawToolWrapper instead to fix backspace issues
+// async function loadEditorJSRaw(): Promise<any> {
+//   const { default: RawTool } = await import('@editorjs/raw');
+//   return RawTool;
+// }
 
 const SortableRow: React.FC<{
   row: Row;
   removeRow: (rowId: string) => void;
+  moveRowUp: (rowId: string) => void;
+  moveRowDown: (rowId: string) => void;
   children: React.ReactNode;
-}> = ({ row, removeRow, children }) => {
+}> = ({ row, removeRow, moveRowUp, moveRowDown, children }) => {
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const actionsRef = React.useRef<HTMLDivElement>(null);
+
   const {
     attributes,
     listeners,
@@ -73,46 +83,124 @@ const SortableRow: React.FC<{
     transform: transform ? `translateY(${transform.y}px)` : undefined,
     transition,
     opacity: isDragging ? 0.5 : 1,
-    position: 'relative',
-    zIndex: isDragging ? 1 : 0
+    position: 'relative'
   } as React.CSSProperties;
+
+  React.useEffect(() => {
+    if (!dropdownOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        actionsRef.current &&
+        !actionsRef.current.contains(e.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [dropdownOpen]);
 
   return (
     <div
-      className="border row__container mt-5"
+      className="row__container mt-3 first:mt-0 rounded-md"
       id={row.id}
       ref={setNodeRef}
       style={style}
     >
-      <div className="config p-3 flex justify-between bg-[#cccccc] items-center">
-        <div className="drag__icon cursor-move" {...attributes} {...listeners}>
+      <div
+        className="row__actions"
+        ref={actionsRef}
+        style={dropdownOpen ? { opacity: 1, pointerEvents: 'all' } : undefined}
+      >
+        <button
+          type="button"
+          className="row__actions-btn"
+          {...attributes}
+          {...listeners}
+          onClick={() => setDropdownOpen((prev) => !prev)}
+        >
           <svg
-            viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
-            fill="#949494"
-            width={20}
-            height={20}
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
           >
-            <g>
-              <path fill="none" d="M0 0h24v24H0z" />
-              <path
-                fillRule="nonzero"
-                d="M14 6h2v2h5a1 1 0 0 1 1 1v7.5L16 13l.036 8.062 2.223-2.15L20.041 22H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zm8 11.338V21a1 1 0 0 1-.048.307l-1.96-3.394L22 17.338zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z"
-              />
-            </g>
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="2.6"
+              d="M9.40999 7.29999H9.4"
+            ></path>
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="2.6"
+              d="M14.6 7.29999H14.59"
+            ></path>
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="2.6"
+              d="M9.30999 12H9.3"
+            ></path>
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="2.6"
+              d="M14.6 12H14.59"
+            ></path>
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="2.6"
+              d="M9.40999 16.7H9.4"
+            ></path>
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeWidth="2.6"
+              d="M14.6 16.7H14.59"
+            ></path>
           </svg>
-        </div>
-        <div>
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              removeRow(row.id);
-            }}
-          >
-            <XCircleIcon color="#d72c0d" width={20} height={20} />
-          </a>
-        </div>
+        </button>
+        {dropdownOpen && (
+          <div className="row__dropdown">
+            <button
+              type="button"
+              className="row__dropdown-item"
+              onClick={() => {
+                moveRowUp(row.id);
+                setDropdownOpen(false);
+              }}
+            >
+              <ArrowUp width={14} height={14} />
+              <span>{_('Move up')}</span>
+            </button>
+            <button
+              type="button"
+              className="row__dropdown-item"
+              onClick={() => {
+                moveRowDown(row.id);
+                setDropdownOpen(false);
+              }}
+            >
+              <ArrowDown width={14} height={14} />
+              <span>{_('Move down')}</span>
+            </button>
+            <button
+              type="button"
+              className="row__dropdown-item row__dropdown-item--danger"
+              onClick={() => {
+                removeRow(row.id);
+                setDropdownOpen(false);
+              }}
+            >
+              <Trash2 width={14} height={14} />
+              <span>{_('Delete')}</span>
+            </button>
+          </div>
+        )}
       </div>
       {children}
     </div>
@@ -141,7 +229,7 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
     onUpload: (fileUrl: string) => void;
     onError: (error: string) => void;
   } | null>(null);
-  const { register, setValue } = useFormContext();
+  const { register, setValue } = useScopedFormContext();
   const [rows, setRows] = React.useState(
     value
       ? value.map((row) => {
@@ -198,7 +286,7 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
       const Header = await loadEditorJSHeader();
       const List = await loadEditorJSList();
       const Quote = await loadEditorJSQuote();
-      const RawTool = await loadEditorJSRaw();
+      // Using RawToolWrapper instead of loading from @editorjs/raw
       setValue(name, rows);
       rows.forEach((row) => {
         row.columns.forEach((column) => {
@@ -206,12 +294,15 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
             editors.current[column.id] = {};
             editors.current[column.id].instance = new EditorJS({
               holder: column.id,
-              placeholder: 'Type / to see the available blocks',
+              placeholder: _('Type / to see the available blocks'),
               minHeight: 0,
               tools: {
                 header: Header,
                 list: List,
-                raw: RawTool,
+                raw: {
+                  class: RawToolWrapper,
+                  inlineToolbar: false
+                },
                 quote: Quote,
                 image: {
                   class: ImageTool,
@@ -261,47 +352,71 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
     setRows(rows.filter((i) => i.id !== rowId));
   };
 
+  const moveRowUp = (rowId: string) => {
+    setRows((prevRows) => {
+      const index = prevRows.findIndex((r) => r.id === rowId);
+      if (index <= 0) return prevRows;
+      return arrayMove(prevRows, index, index - 1);
+    });
+  };
+
+  const moveRowDown = (rowId: string) => {
+    setRows((prevRows) => {
+      const index = prevRows.findIndex((r) => r.id === rowId);
+      if (index >= prevRows.length - 1) return prevRows;
+      return arrayMove(prevRows, index, index + 1);
+    });
+  };
+
   const addRow = (row) => {
     setRows(rows.concat(row));
   };
 
   return (
-    <div className="editor form-field-container">
-      <label htmlFor="description mt-4">{label}</label>
-      <div className="prose prose-xl max-w-none">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={rows.map((row) => row.id)}
-            strategy={verticalListSortingStrategy}
+    <Field className="editor form-field-container gap-2">
+      <FieldLabel htmlFor="description">{label}</FieldLabel>
+      <div className="prose prose-sm max-w-none">
+        <div className="border border-border p-3 rounded">
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
           >
-            <div id="rows">
-              {rows.map((row) => (
-                // Grid template columns based on the number of columns in the row
-                <SortableRow key={row.id} row={row} removeRow={removeRow}>
-                  <div
-                    className={`row grid p-5 divide-x divide-dashed ${row.className}`}
-                    style={{
-                      minHeight: '30px'
-                    }}
+            <SortableContext
+              items={rows.map((row) => row.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <div id="rows">
+                {rows.map((row) => (
+                  // Grid template columns based on the number of columns in the row
+                  <SortableRow
+                    key={row.id}
+                    row={row}
+                    removeRow={removeRow}
+                    moveRowUp={moveRowUp}
+                    moveRowDown={moveRowDown}
                   >
-                    {row.columns.map((column) => (
-                      <div
-                        className={`column p-3 ${column.className}`}
-                        key={column.id}
-                      >
-                        <div id={column.id} />
-                      </div>
-                    ))}
-                  </div>
-                </SortableRow>
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
+                    <div
+                      className={`row grid divide-x gap-x-3 divide-dashed ${row.className}`}
+                      style={{
+                        minHeight: '30px'
+                      }}
+                    >
+                      {row.columns.map((column) => (
+                        <div
+                          className={`column  ${column.className}`}
+                          key={column.id}
+                        >
+                          <div id={column.id} />
+                        </div>
+                      ))}
+                    </div>
+                  </SortableRow>
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
+        </div>
         <div className="flex justify-center">
           <div className="flex justify-center flex-col mt-5">
             <RowTemplates addRow={addRow} />
@@ -319,6 +434,6 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
           isMultiple={false}
         />
       )}
-    </div>
+    </Field>
   );
 };

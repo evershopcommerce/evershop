@@ -1,25 +1,37 @@
 import Area from '@components/common/Area.js';
 import { Alert } from '@components/common/modal/Alert.js';
 import React from 'react';
+import { Route } from '../../../../types/route.js';
+import { FETCH_LOCALE_PATCH } from './fetchLocalePatch.js';
 
 interface ServerHtmlProps {
+  route: Route;
   css: string[];
   js: string[];
   appContext: string;
 }
-function ServerHtml({ css, js, appContext }: ServerHtmlProps) {
+function ServerHtml({ route, css, js, appContext }: ServerHtmlProps) {
+  const classes = route.isAdmin
+    ? `admin ${route.id}`
+    : `frontStore ${route.id}`;
   return (
     <>
       <head>
         <meta charSet="utf-8" />
         <script dangerouslySetInnerHTML={{ __html: appContext }} />
+        {/* Storefront only: carry the page locale on same-origin REST XHRs (cart/
+            checkout/customer) via an X-Locale header (spec §6.13). Admin is single-
+            language, so it's not patched. */}
+        {!route.isAdmin && (
+          <script dangerouslySetInnerHTML={{ __html: FETCH_LOCALE_PATCH }} />
+        )}
         {css.map((source, index) => (
           <style key={index} dangerouslySetInnerHTML={{ __html: source }} />
         ))}
         <Area noOuter id="head" />
       </head>
-      <body id="body">
-        <div id="app" className="bg-background">
+      <body id="body" className={classes}>
+        <div id="app">
           <Alert>
             <Area id="body" className="wrapper" />
           </Alert>

@@ -1,5 +1,8 @@
 import { SimplePagination } from '@components/common/SimplePagination.js';
-import { CheckIcon } from '@heroicons/react/24/outline';
+import { Button } from '@components/common/ui/Button.js';
+import { Input } from '@components/common/ui/Input.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { Check } from 'lucide-react';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
@@ -134,8 +137,8 @@ const ProductSelector: React.FC<{
 
   if (error) {
     return (
-      <p className="text-critical">
-        There was an error fetching products.
+      <p className="text-destructive">
+        {_('There was an error fetching products.')}
         {error.message}
       </p>
     );
@@ -144,17 +147,15 @@ const ProductSelector: React.FC<{
   return (
     <div>
       <div className="p-2">
-        <div className="form-field">
-          <input
-            type="text"
-            value={inputValue || ''}
-            placeholder="Search products"
-            onChange={(e) => {
-              setInputValue(e.target.value);
-              setLoading(true);
-            }}
-          />
-        </div>
+        <Input
+          type="text"
+          value={inputValue || ''}
+          placeholder={_('Search products')}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+            setLoading(true);
+          }}
+        />
       </div>
       {(fetching || loading) && <ProductListSkeleton />}
       {!fetching && data && !loading && (
@@ -162,9 +163,13 @@ const ProductSelector: React.FC<{
           {data.products.items.length === 0 && (
             <div className="p-2 border border-divider rounded flex justify-center items-center">
               {inputValue ? (
-                <p>No products found for query &quot;{inputValue}&rdquo;</p>
+                <p>
+                  {_('No products found for query "${query}"', {
+                    query: inputValue
+                  })}
+                </p>
               ) : (
-                <p>You have no products to display</p>
+                <p>{_('You have no products to display')}</p>
               )}
             </div>
           )}
@@ -203,9 +208,8 @@ const ProductSelector: React.FC<{
               </div>
               <div className="col-span-2 text-right">
                 {!isProductSelected(product, internalSelectedProducts) && (
-                  <button
-                    type="button"
-                    className="button secondary"
+                  <Button
+                    variant={'outline'}
                     onClick={async (e) => {
                       e.preventDefault();
                       await selectProduct(
@@ -215,13 +219,11 @@ const ProductSelector: React.FC<{
                       );
                     }}
                   >
-                    Select
-                  </button>
+                    {_('Select')}
+                  </Button>
                 )}
                 {isProductSelected(product, internalSelectedProducts) && (
-                  <a
-                    className="button primary"
-                    href="#"
+                  <Button
                     onClick={(e) => {
                       e.preventDefault();
                       unSelectProduct(
@@ -231,8 +233,8 @@ const ProductSelector: React.FC<{
                       );
                     }}
                   >
-                    <CheckIcon width={'1.2rem'} height={'1.2rem'} />
-                  </a>
+                    <Check width={'1.2rem'} height={'1.2rem'} />
+                  </Button>
                 )}
               </div>
             </div>

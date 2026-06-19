@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { toast } from 'react-toastify';
 import uniqid from 'uniqid';
@@ -55,7 +56,7 @@ const Upload: React.FC<{
       .then((response) => {
         const contentType = response.headers.get('content-type');
         if (!contentType || !contentType.includes('application/json')) {
-          throw new TypeError('Something wrong. Please try again');
+          throw new TypeError(_('Something wrong. Please try again'));
         }
 
         return response.json();
@@ -70,7 +71,7 @@ const Upload: React.FC<{
             }))
           );
         } else {
-          toast.error(get(response, 'error.message', 'Failed!'));
+          toast.error(get(response, 'error.message', _('Failed!')));
         }
       })
       .catch((error) => {
@@ -85,8 +86,11 @@ const Upload: React.FC<{
   const id = uniqid();
   return (
     <div className="uploader grid-item">
-      <div className="uploader-icon">
-        <label htmlFor={id}>
+      <div className="uploader-icon text-primary w-full h-full">
+        <label
+          htmlFor={id}
+          className="w-full h-full flex items-center justify-center cursor-pointer"
+        >
           {uploading ? (
             <Spinner
               width={isSingleMode ? 40 : 25}
@@ -94,10 +98,6 @@ const Upload: React.FC<{
             />
           ) : (
             <svg
-              style={{
-                width: isSingleMode ? '30px' : '30px',
-                height: isSingleMode ? '30px' : '30px'
-              }}
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
               viewBox="0 0 20 20"
@@ -140,8 +140,10 @@ const Image: React.FC<{
 
   // Assign classes based on mode
   const classes = isSingleMode
-    ? 'image'
-    : `image grid-item ${isFirst ? 'first-item' : ''}`;
+    ? 'image border border-border rounded-lg'
+    : `image border border-border rounded-lg grid-item ${
+        isFirst ? 'first-item' : ''
+      }`;
 
   return (
     <div className={classes} id={image.uuid}>
@@ -152,7 +154,7 @@ const Image: React.FC<{
         <span
           role="button"
           tabIndex={0}
-          className={`remove cursor-pointer text-critical fill-current ${
+          className={`remove cursor-pointer text-destructive fill-current ${
             isSingleMode ? 'single-mode-remove' : ''
           }`}
           onClick={async () => {
@@ -411,7 +413,12 @@ export function ImageUploader({
   const { data, fetching, error } = result;
 
   if (error) {
-    return <p className="text-critical">There was an error:{error.message}</p>;
+    return (
+      <p className="text-destructive">
+        {_('There was an error:')}
+        {error.message}
+      </p>
+    );
   } else if (fetching) {
     return <ImageUploaderSkeleton itemCount={isMultiple ? 5 : 1} />;
   } else {
