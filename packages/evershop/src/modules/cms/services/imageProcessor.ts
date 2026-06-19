@@ -3,6 +3,7 @@ import path from 'path';
 import sharp from 'sharp';
 import { CONSTANTS } from '../../../lib/helpers.js';
 import { debug } from '../../../lib/log/logger.js';
+import { secureFetch } from '../../../lib/util/secureFetch.js';
 
 const hasTransparency = async (imageBuffer: Buffer): Promise<boolean> => {
   try {
@@ -203,9 +204,11 @@ export const imageProcessor = async (
         // Not in cache, fetch from external URL
       }
 
-      // Fetch image from external URL
+      // Fetch image from external URL. `secureFetch` blocks SSRF to internal /
+      // non-public addresses (loopback, link-local metadata, private ranges,
+      // DNS rebinding, and redirects to any of those).
       try {
-        const response = await fetch(src);
+        const response = await secureFetch(src);
         if (!response.ok) {
           throw new Error(
             `Failed to fetch image: ${response.status} ${response.statusText}`

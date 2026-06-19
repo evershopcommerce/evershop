@@ -54,7 +54,7 @@ const Address: React.FC<{
                 method="PATCH"
                 onSubmit={async (data) => {
                   try {
-                    await updateAddress(address.addressId, data);
+                    await updateAddress(address.uuid as string, data);
                     setDialogOpen(false);
                     toast.success(_('Address has been updated successfully!'));
                   } catch (error) {
@@ -67,6 +67,7 @@ const Address: React.FC<{
                   <CheckboxField
                     label={_('Set as default')}
                     defaultChecked={address.isDefault}
+                    defaultValue={address.isDefault}
                     name="is_default"
                   />
                 </div>
@@ -78,7 +79,7 @@ const Address: React.FC<{
                 onClick={async (e) => {
                   e.preventDefault();
                   try {
-                    await deleteAddress(address.addressId);
+                    await deleteAddress(address.uuid as string);
                     toast.success(_('Address has been deleted successfully!'));
                   } catch (error) {
                     toast.error(error.message);
