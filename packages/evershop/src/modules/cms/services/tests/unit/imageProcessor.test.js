@@ -54,6 +54,15 @@ await jest.unstable_mockModule('../../../../../lib/helpers.js', () => ({
   }
 }));
 
+// Mock the secureFetch module so external-URL tests don't make real requests.
+// imageProcessor fetches external images through secureFetch (the SSRF guard).
+await jest.unstable_mockModule('../../../../../lib/util/secureFetch.js', () => ({
+  secureFetch: jest.fn(),
+  assertAllowedUrl: jest.fn(),
+  getAllowedImageHosts: jest.fn(() => [])
+}));
+const { secureFetch } = await import('../../../../../lib/util/secureFetch.js');
+
 // Import imageProcessor only after mocking helpers
 const { imageProcessor } = await import('../../imageProcessor.js');
 
@@ -694,8 +703,8 @@ describe('Cache key generation', () => {
   });
 
   test('Should handle external URLs in cache key', async () => {
-    // Mock fetch for external URLs
-    global.fetch = jest.fn().mockResolvedValue({
+    // Mock secureFetch for external URLs
+    secureFetch.mockResolvedValue({
       ok: true,
       arrayBuffer: () => sharp(testImagePath).toBuffer()
     });
@@ -711,8 +720,8 @@ describe('Cache key generation', () => {
     const fileExistsResult = await fileExists(result.path);
     expect(fileExistsResult).toBe(true);
 
-    // Clean up the global mock
-    delete global.fetch;
+    // Clean up the mock
+    secureFetch.mockReset();
   });
 });
 
@@ -725,17 +734,17 @@ describe('Error handling', () => {
   });
 
   test('Should handle external URL fetch errors gracefully', async () => {
-    global.fetch = jest.fn().mockRejectedValue(new Error('Network error'));
+    secureFetch.mockRejectedValue(new Error('Network error'));
 
     await expect(
       imageProcessor('https://example.com/image.jpg', 200, 80)
     ).rejects.toThrow('Image not found or processing failed');
 
-    delete global.fetch;
+    secureFetch.mockReset();
   });
 
   test('Should handle unsuccessful HTTP response', async () => {
-    global.fetch = jest.fn().mockResolvedValue({
+    secureFetch.mockResolvedValue({
       ok: false,
       status: 404,
       statusText: 'Not Found'
@@ -745,7 +754,7 @@ describe('Error handling', () => {
       imageProcessor('https://example.com/image.jpg', 200, 80)
     ).rejects.toThrow('Image not found or processing failed');
 
-    delete global.fetch;
+    secureFetch.mockReset();
   });
 
   test('Should handle invalid URL format', async () => {

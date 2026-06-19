@@ -270,10 +270,10 @@ interface CustomerDispatchContextValue {
     addressData: Omit<ExtendedCustomerAddress, 'id'>
   ) => Promise<ExtendedCustomerAddress>;
   updateAddress: (
-    addressId: string | number,
+    uuid: string,
     addressData: Partial<ExtendedCustomerAddress>
   ) => Promise<ExtendedCustomerAddress>;
-  deleteAddress: (addressId: string | number) => Promise<void>;
+  deleteAddress: (uuid: string) => Promise<void>;
   updateProfile: (data: {
     full_name?: string;
     email?: string;
@@ -507,11 +507,11 @@ export function CustomerProvider({
   // Update address function
   const updateAddress = useCallback(
     async (
-      addressId: string | number,
+      uuid: string,
       addressData: Partial<ExtendedCustomerAddress>
     ): Promise<ExtendedCustomerAddress> => {
       const address = state.customer?.addresses?.find(
-        (addr) => addr.addressId === addressId
+        (addr) => addr.uuid === uuid
       );
       if (!address?.updateApi) {
         throw new Error(_('Update address API not available'));
@@ -553,9 +553,9 @@ export function CustomerProvider({
 
   // Delete address function
   const deleteAddress = useCallback(
-    async (addressId: string | number): Promise<void> => {
+    async (uuid: string): Promise<void> => {
       const address = state.customer?.addresses?.find(
-        (addr) => addr.addressId === addressId
+        (addr) => addr.uuid === uuid
       );
       if (!address?.deleteApi) {
         throw new Error(_('Delete address API not available'));

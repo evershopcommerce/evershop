@@ -2,6 +2,7 @@ import path from 'path';
 import { JSONSchemaType } from 'ajv';
 import config from 'config';
 import { CONSTANTS } from '../../lib/helpers.js';
+import { warning } from '../../lib/log/logger.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
@@ -10,7 +11,19 @@ import { registerDefaultPageCollectionFilters } from '../../modules/cms/services
 import { registerDefaultWidgetCollectionFilters } from '../../modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 import { Route } from '../../types/route.js';
 
-export default () => {
+export default (context: { command?: string } = {}) => {
+  // Warn (non-blocking) at server boot if the image proxy allowlist is unset.
+  // Without IMAGE_ALLOWED_HOSTS the /images endpoint will not fetch any external
+  // image — only local media/public/theme images are processed.
+  if (
+    (context.command === 'start' || context.command === 'dev') &&
+    !process.env.IMAGE_ALLOWED_HOSTS?.trim()
+  ) {
+    warning(
+      'IMAGE_ALLOWED_HOSTS is not set. The /images endpoint will not optimize external images — only local media/public/theme images are processed. Set IMAGE_ALLOWED_HOSTS to a comma-separated list of trusted hosts (e.g. "cdn.example.com,images.internal") to allow fetching external images.'
+    );
+  }
+
   addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
