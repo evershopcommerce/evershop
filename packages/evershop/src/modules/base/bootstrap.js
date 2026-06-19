@@ -1,8 +1,13 @@
 import { loadAllLocales } from '../../lib/locale/dictionary.js';
+import { assertValidHomeUrlEnv } from '../../lib/util/getBaseUrl.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
 
 export default async () => {
+  // Fail fast if EVERSHOP_HOME_URL is set to something that isn't a valid
+  // http(s) URL. Throwing here halts boot (build/dev/start all wrap bootstrap
+  // in a try/catch that exits), before any broken absolute URL can be emitted.
+  assertValidHomeUrlEnv();
   // Build the runtime locale registry from disk (spec §6.2/§6.3). `translate()` and
   // `_()` now read this registry / the per-request ALS context — no separate loadCsv.
   await loadAllLocales();
