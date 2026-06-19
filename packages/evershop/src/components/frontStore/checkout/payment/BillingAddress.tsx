@@ -137,6 +137,7 @@ export function BillingAddress({
                           <CustomerAddressForm
                             areaId="checkoutBillingAddressForm"
                             fieldNamePrefix="billingAddress"
+                            countryScope="all"
                             address={undefined} // Always start empty for different address
                           />
                           {noShippingRequired && (
@@ -160,6 +161,7 @@ export function BillingAddress({
                   <CustomerAddressForm
                     areaId="checkoutBillingAddressForm"
                     fieldNamePrefix="billingAddress"
+                    countryScope="all"
                     address={undefined} // Always start empty for different address
                   />
                   {noShippingRequired && (

@@ -58,11 +58,17 @@ const Address: React.FC<{
                     setDialogOpen(false);
                     toast.success(_('Address has been updated successfully!'));
                   } catch (error) {
-                    toast.error(error.message);
+                    toast.error(
+                      error instanceof Error ? error.message : String(error)
+                    );
                   }
                 }}
               >
-                <CustomerAddressForm address={address} fieldNamePrefix="" />
+                <CustomerAddressForm
+                  address={address}
+                  fieldNamePrefix=""
+                  countryScope="all"
+                />
                 <div className="mt-3">
                   <CheckboxField
                     label={_('Set as default')}
@@ -82,7 +88,9 @@ const Address: React.FC<{
                     await deleteAddress(address.uuid as string);
                     toast.success(_('Address has been deleted successfully!'));
                   } catch (error) {
-                    toast.error(error.message);
+                    toast.error(
+                      error instanceof Error ? error.message : String(error)
+                    );
                   }
                 }}
               >
@@ -144,11 +152,17 @@ export function MyAddresses({ title }: { title?: string }) {
                 setDialogOpen(false);
                 toast.success(_('Address has been saved successfully!'));
               } catch (error) {
-                toast.error(error.message);
+                toast.error(
+                  error instanceof Error ? error.message : String(error)
+                );
               }
             }}
           >
-            <CustomerAddressForm address={undefined} fieldNamePrefix="" />
+            <CustomerAddressForm
+              address={undefined}
+              fieldNamePrefix=""
+              countryScope="all"
+            />
             <div className="mt-3">
               <CheckboxField
                 label={_('Set as default')}
