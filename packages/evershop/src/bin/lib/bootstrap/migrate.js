@@ -45,7 +45,12 @@ async function migrateModule(module, connection = null) {
         dirent.name.match(/^Version-(\d+\.\d+\.\d+)\.js$/)
     )
     .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
-    .sort((first, second) => semver.lt(first, second));
+    // `semver.compare` returns -1/0/1 — a valid Array.sort comparator. The
+    // previous `semver.lt` returned a boolean (true→1, false→0), which never
+    // emits a negative value, so the list was left in readdir (lexicographic)
+    // order where `1.0.10` sorts before `1.0.2`. That ran migrations out of
+    // order (e.g. checkout's 1.0.10 ALTER before its 1.0.8 CREATE).
+    .sort((first, second) => semver.compare(first, second));
 
   const currentInstalledVersion = await getCurrentInstalledVersion(
     module.name,
