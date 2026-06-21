@@ -13,6 +13,8 @@
     "build": "node ./packages/evershop/dist/bin/build/index.js",
     "build-fast": "evershop build -- --skip-minify",
     "setup": "evershop install",
+    "user:create": "evershop user:create",
+    "seed": "evershop seed",
     "theme:active": "evershop theme:active",
     "theme:twizz": "evershop theme:twizz",
     "theme:create": "evershop theme:create",
