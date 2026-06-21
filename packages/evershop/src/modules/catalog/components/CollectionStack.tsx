@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react';
 export interface CollectionStackRow {
   id: string;
   title: string;
+  subText?: string | null;
   source?: string | null;
   viewAllLink?: string | null;
   viewAllLabel?: string | null;
@@ -106,6 +107,16 @@ export default function CollectionStack({
               </a>
             )}
           </div>
+          {row.subText && (
+            <Editable
+              as="p"
+              multiline
+              fieldPath={`settings.collections.${i}.subText`}
+              className="evershop-collection-stack__subtext mb-4 text-sm text-foreground/80 md:text-base"
+            >
+              {row.subText}
+            </Editable>
+          )}
           <ProductList
             products={row.products}
             gridColumns={productCount}
@@ -138,6 +149,7 @@ export const query = `
       rows {
         id
         title
+        subText
         source
         viewAllLink
         viewAllLabel

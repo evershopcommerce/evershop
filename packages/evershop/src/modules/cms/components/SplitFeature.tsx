@@ -4,12 +4,12 @@ import { ctaButtonVariant } from '@components/common/page-builder/fields/CtaFiel
 import type { CtaValue } from '@components/common/page-builder/fields/CtaField.js';
 import {
   Editable,
+  EditableMarkdown,
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
 import { ImagePlus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { renderInlineMarkdown } from '../../../lib/util/markdownInline.js';
 
 /**
  * Split feature — a 50/50 promo block: image on one side, copy panel on
@@ -161,9 +161,13 @@ export default function SplitFeature({ splitFeatureWidget }: SplitFeatureProps) 
         {heading}
       </Editable>
       {body && (
-        <p className="evershop-split-feature__body text-sm text-foreground/80 md:text-base">
-          {renderInlineMarkdown(body)}
-        </p>
+        <EditableMarkdown
+          as="p"
+          fieldPath="settings.body"
+          className="evershop-split-feature__body text-sm text-foreground/80 md:text-base"
+        >
+          {body}
+        </EditableMarkdown>
       )}
       {cta && cta.label && cta.url && (
         <div className="evershop-split-feature__ctas mt-2">

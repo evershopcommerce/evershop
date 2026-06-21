@@ -1,7 +1,9 @@
 import { Image } from '@components/common/Image.js';
-import { Editable } from '@components/common/page-builder/index.js';
+import {
+  Editable,
+  EditableMarkdown
+} from '@components/common/page-builder/index.js';
 import React from 'react';
-import { renderInlineMarkdown } from '../../../lib/util/markdownInline.js';
 
 /**
  * Brand story — an editorial block with four layout variants. Eyebrow,
@@ -74,13 +76,21 @@ function Copy({
       >
         {heading}
       </Editable>
-      <p className="evershop-brand-story__body text-sm text-foreground/80 md:text-base">
-        {renderInlineMarkdown(body)}
-      </p>
+      <EditableMarkdown
+        as="p"
+        fieldPath="settings.body"
+        className="evershop-brand-story__body text-sm text-foreground/80 md:text-base"
+      >
+        {body}
+      </EditableMarkdown>
       {bodySecondary && (
-        <p className="evershop-brand-story__body evershop-brand-story__body--secondary text-sm text-foreground/80 md:text-base">
-          {renderInlineMarkdown(bodySecondary)}
-        </p>
+        <EditableMarkdown
+          as="p"
+          fieldPath="settings.bodySecondary"
+          className="evershop-brand-story__body evershop-brand-story__body--secondary text-sm text-foreground/80 md:text-base"
+        >
+          {bodySecondary}
+        </EditableMarkdown>
       )}
       {link && link.label && link.url && (
         <a
@@ -151,13 +161,21 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
           </blockquote>
         )}
         <div className="evershop-brand-story__copy mt-6">
-          <p className="evershop-brand-story__body text-sm text-foreground/80 md:text-base">
-            {renderInlineMarkdown(body)}
-          </p>
+          <EditableMarkdown
+            as="p"
+            fieldPath="settings.body"
+            className="evershop-brand-story__body text-sm text-foreground/80 md:text-base"
+          >
+            {body}
+          </EditableMarkdown>
           {bodySecondary && (
-            <p className="evershop-brand-story__body evershop-brand-story__body--secondary mt-3 text-sm text-foreground/80 md:text-base">
-              {renderInlineMarkdown(bodySecondary)}
-            </p>
+            <EditableMarkdown
+              as="p"
+              fieldPath="settings.bodySecondary"
+              className="evershop-brand-story__body evershop-brand-story__body--secondary mt-3 text-sm text-foreground/80 md:text-base"
+            >
+              {bodySecondary}
+            </EditableMarkdown>
           )}
           {link && link.label && link.url && (
             <a

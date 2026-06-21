@@ -1,3 +1,4 @@
+import { Editable } from '@components/common/page-builder/index.js';
 import React from 'react';
 
 /**
@@ -58,13 +59,18 @@ export default function FooterMenu({ footerMenuWidget }: FooterMenuProps) {
   const { columns = [] } = footerMenuWidget ?? {};
 
   // Keep a column only if it carries a title or at least one usable link.
-  const visible = columns.filter(
-    (c) =>
-      c &&
-      ((typeof c.title === 'string' && c.title.trim().length > 0) ||
-        (Array.isArray(c.links) &&
-          c.links.some((l) => l && l.label && l.url)))
-  );
+  // Track each column's index in the original settings array so an inline
+  // title edit writes back to `settings.columns.${originalIndex}.title` even
+  // after empty columns are filtered out of the render.
+  const visible = columns
+    .map((col, originalIndex) => ({ col, originalIndex }))
+    .filter(
+      ({ col: c }) =>
+        c &&
+        ((typeof c.title === 'string' && c.title.trim().length > 0) ||
+          (Array.isArray(c.links) &&
+            c.links.some((l) => l && l.label && l.url)))
+    );
   if (visible.length === 0) return null;
 
   const cols = Math.min(Math.max(visible.length, 1), 6);
@@ -84,7 +90,7 @@ export default function FooterMenu({ footerMenuWidget }: FooterMenuProps) {
           { ['--evershop-footer-cols' as string]: cols } as React.CSSProperties
         }
       >
-        {visible.map((col) => {
+        {visible.map(({ col, originalIndex }) => {
           const links = (col.links ?? []).filter(
             (l) => l && l.label && l.url
           );
@@ -96,9 +102,13 @@ export default function FooterMenu({ footerMenuWidget }: FooterMenuProps) {
               className="evershop-footer-menu__column space-y-3"
             >
               {hasTitle && (
-                <div className="evershop-footer-menu__title text-xs font-semibold uppercase tracking-wider opacity-60">
+                <Editable
+                  as="div"
+                  fieldPath={`settings.columns.${originalIndex}.title`}
+                  className="evershop-footer-menu__title text-xs font-semibold uppercase tracking-wider opacity-60"
+                >
                   {col.title}
-                </div>
+                </Editable>
               )}
               {links.length > 0 && (
                 <ul className="evershop-footer-menu__links space-y-2.5">

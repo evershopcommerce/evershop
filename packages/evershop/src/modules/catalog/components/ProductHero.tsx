@@ -2,12 +2,12 @@
 import { Image } from '@components/common/Image.js';
 import {
   Editable,
+  EditableMarkdown,
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
 import { ImagePlus, ShoppingBag } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { renderInlineMarkdown } from '../../../lib/util/markdownInline.js';
 
 /**
  * Product hero — single-product spotlight. A mini-PDP embedded on the
@@ -165,9 +165,13 @@ export default function ProductHero({ productHeroWidget }: ProductHeroProps) {
       </h2>
       {price && <div className="evershop-product-hero__price text-xl font-semibold">{price}</div>}
       {copy && (
-        <p className="evershop-product-hero__body text-sm text-foreground/80 md:text-base">
-          {renderInlineMarkdown(copy)}
-        </p>
+        <EditableMarkdown
+          as="p"
+          fieldPath="settings.copy"
+          className="evershop-product-hero__body text-sm text-foreground/80 md:text-base"
+        >
+          {copy}
+        </EditableMarkdown>
       )}
       <div className="evershop-product-hero__ctas mt-2 flex flex-wrap gap-2">
         <a

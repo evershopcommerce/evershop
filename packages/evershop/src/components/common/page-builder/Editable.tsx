@@ -70,6 +70,11 @@ interface EditableProps {
   className?: string;
   /** Current text. Must be a string. */
   children?: string;
+  /** Focus the element on mount (used by click-to-edit wrappers like
+   *  `EditableMarkdown`, which mount us in direct response to a click). */
+  focusOnMount?: boolean;
+  /** Called after the element blurs and its pending edit has flushed. */
+  onBlur?: () => void;
 }
 
 export function Editable({
@@ -77,7 +82,9 @@ export function Editable({
   multiline = false,
   as: Tag = 'span',
   className,
-  children = ''
+  children = '',
+  focusOnMount = false,
+  onBlur
 }: EditableProps): React.ReactElement {
   // Defer page-builder detection until after mount so the first render is
   // identical between SSR and hydration.
@@ -102,6 +109,8 @@ export function Editable({
       multiline={multiline}
       widgetUid={widgetUid}
       widgetSettings={widgetSettings}
+      focusOnMount={focusOnMount}
+      onBlur={onBlur}
     >
       {children}
     </EditableInPreview>
@@ -116,6 +125,8 @@ interface PreviewProps {
   widgetUid: string;
   widgetSettings: Record<string, unknown>;
   children: string;
+  focusOnMount?: boolean;
+  onBlur?: () => void;
 }
 
 /**
@@ -161,7 +172,9 @@ function EditableInPreview({
   multiline,
   widgetUid,
   widgetSettings,
-  children
+  children,
+  focusOnMount = false,
+  onBlur
 }: PreviewProps): React.ReactElement {
   const ref = useRef<HTMLElement | null>(null);
   const isFocused = useRef(false);
@@ -169,6 +182,24 @@ function EditableInPreview({
   // Inject the hover/focus outline stylesheet once per iframe document.
   useEffect(() => {
     ensureEditableStyleInjected();
+  }, []);
+
+  // When a wrapper mounts us in response to a click (click-to-edit), grab
+  // focus and drop the caret at the end so the user can type immediately.
+  // Runs after the innerText-sync layout effect below, so the element
+  // already holds the text.
+  useEffect(() => {
+    if (!focusOnMount || !ref.current) return;
+    const el = ref.current;
+    el.focus();
+    const sel = typeof window !== 'undefined' ? window.getSelection() : null;
+    if (sel) {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
   }, []);
 
   // Sync from prop only when the user isn't typing — preserves cursor.
@@ -211,15 +242,18 @@ function EditableInPreview({
 
   const handleBlur = useCallback(() => {
     isFocused.current = false;
-    if (!ref.current) return;
     // Cancel any pending input debounce — we're flushing now so the
     // post is immediate.
     if (inputDebounceRef.current) {
       clearTimeout(inputDebounceRef.current);
       inputDebounceRef.current = null;
     }
-    flushSettings(ref.current.innerText);
-  }, [flushSettings]);
+    if (ref.current) {
+      flushSettings(ref.current.innerText);
+    }
+    // Let a click-to-edit wrapper flip back to its formatted view.
+    onBlur?.();
+  }, [flushSettings, onBlur]);
 
   const handleInput = useCallback(
     (e: React.FormEvent<HTMLElement>) => {

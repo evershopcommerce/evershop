@@ -10,6 +10,7 @@ empty means the row's "View all" is suppressed.
 type CollectionStackRow {
   id: String!
   title: String!
+  subText: String
   source: String
   viewAllLink: String
   viewAllLabel: String

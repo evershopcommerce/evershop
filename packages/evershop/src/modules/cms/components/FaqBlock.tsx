@@ -1,8 +1,10 @@
 import { Editor } from '@components/common/Editor.js';
 import { Row } from '@components/common/form/Editor.js';
-import { Editable } from '@components/common/page-builder/index.js';
+import {
+  Editable,
+  EditableMarkdown
+} from '@components/common/page-builder/index.js';
 import React from 'react';
-import { renderInlineMarkdown } from '../../../lib/util/markdownInline.js';
 
 /**
  * FAQ block — a flexible mix of prose sections (rendered through the
@@ -148,9 +150,13 @@ export default function FaqBlock({ faqBlockWidget }: FaqBlockProps) {
                         ▶
                       </span>
                     </summary>
-                    <div className="evershop-faq-block__answer mt-2 text-sm text-foreground/80">
-                      {renderInlineMarkdown(item.answer)}
-                    </div>
+                    <EditableMarkdown
+                      as="div"
+                      fieldPath={`settings.sections.${sectionIdx}.items.${itemIdx}.answer`}
+                      className="evershop-faq-block__answer mt-2 text-sm text-foreground/80"
+                    >
+                      {item.answer}
+                    </EditableMarkdown>
                   </details>
                 ))}
               </div>

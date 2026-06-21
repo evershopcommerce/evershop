@@ -55,6 +55,7 @@ export default {
             return {
               id: row.id || row.source,
               title: row.title,
+              subText: row.subText || null,
               source: row.source,
               viewAllLink: viewAllLink || null,
               viewAllLabel: row.viewAllLabel || 'View all →',

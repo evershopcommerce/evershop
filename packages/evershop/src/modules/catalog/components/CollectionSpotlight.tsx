@@ -2,12 +2,12 @@
 import { Image } from '@components/common/Image.js';
 import {
   Editable,
+  EditableMarkdown,
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { ProductList } from '@components/frontStore/catalog/ProductList.js';
 import { ImagePlus, Sparkles } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { renderInlineMarkdown } from '../../../lib/util/markdownInline.js';
 
 /**
  * Collection spotlight — a big cover image on one side, an editorial copy
@@ -203,9 +203,13 @@ export default function CollectionSpotlight({
         {heading || collectionName || ''}
       </Editable>
       {body && (
-        <p className="evershop-collection-spotlight__body text-sm text-foreground/80 md:text-base">
-          {renderInlineMarkdown(body)}
-        </p>
+        <EditableMarkdown
+          as="p"
+          fieldPath="settings.body"
+          className="evershop-collection-spotlight__body text-sm text-foreground/80 md:text-base"
+        >
+          {body}
+        </EditableMarkdown>
       )}
       <ProductList
         products={previewProducts}

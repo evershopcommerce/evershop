@@ -1,6 +1,7 @@
 import {
   asArray,
   drawerInputClass,
+  drawerTextareaClass,
   Field,
   RepeatableAccordion,
   Section,
@@ -17,6 +18,7 @@ import React from 'react';
 interface CollectionRow {
   id: string;
   title: string;
+  subText: string;
   source: string;
   viewAllLink: string | null;
   viewAllLabel: string;
@@ -38,6 +40,7 @@ function makeBlankRow(): CollectionRow {
         ? crypto.randomUUID()
         : `r-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     title: 'New collection',
+    subText: '',
     source: '',
     viewAllLink: null,
     viewAllLabel: 'View all →'
@@ -129,6 +132,20 @@ export default function CollectionStackSetting({
                   }
                   placeholder={_('The Linen Edit')}
                   className={drawerInputClass}
+                />
+              </Field>
+              <Field
+                label={_('Sub-text')}
+                hint={_('Optional. Shown under the row heading.')}
+              >
+                <textarea
+                  value={item.subText || ''}
+                  onChange={(e) =>
+                    updateRow(index, { subText: e.target.value })
+                  }
+                  placeholder={_('A short description for this row')}
+                  rows={2}
+                  className={drawerTextareaClass}
                 />
               </Field>
               <Field label={_('Collection')}>
@@ -227,6 +244,7 @@ export const query = `
       rows {
         id
         title
+        subText
         source
         viewAllLink
         viewAllLabel

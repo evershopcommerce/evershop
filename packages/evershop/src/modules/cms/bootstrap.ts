@@ -252,7 +252,7 @@ export default (context: { command?: string } = {}) => {
     category: 'content',
     icon: 'Type',
     defaultSettings: {
-      className: 'page-width',
+      className: '',
       // Empty rows array. Rendering an empty `text-block-widget` div is fine —
       // the user opens Settings on the newly-added widget and authors the
       // first row themselves via the EditorJS form. The previous default was
@@ -562,8 +562,7 @@ export default (context: { command?: string } = {}) => {
       imageHeight: null,
       eyebrow: 'OUR STORY',
       heading: 'Made by hand, in small batches',
-      body:
-        'Three or four sentences of brand narrative — origin, materials, point of view.',
+      body: 'Three or four sentences of brand narrative — origin, materials, point of view.',
       bodySecondary: 'A second short paragraph if the story needs it.',
       link: { label: 'Read more', url: '/about', newTab: false },
       pullQuote: null,
@@ -946,10 +945,7 @@ export default (context: { command?: string } = {}) => {
       CONSTANTS.MODULESPATH,
       'cms/components/SectionSetting.js'
     ),
-    component: path.resolve(
-      CONSTANTS.MODULESPATH,
-      'cms/components/Section.js'
-    ),
+    component: path.resolve(CONSTANTS.MODULESPATH, 'cms/components/Section.js'),
     previewComponent: path.resolve(
       CONSTANTS.MODULESPATH,
       'cms/components/SectionPreview.js'

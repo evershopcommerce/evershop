@@ -1,4 +1,5 @@
 export { Editable } from './Editable.js';
+export { EditableMarkdown } from './EditableMarkdown.js';
 export { PageBuilderBridge } from './PageBuilderBridge.js';
 export {
   WidgetContextProvider,
