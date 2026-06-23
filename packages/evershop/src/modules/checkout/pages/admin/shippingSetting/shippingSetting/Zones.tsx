@@ -3,6 +3,8 @@ import { Button } from '@components/common/ui/Button.js';
 import {
   Dialog,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
@@ -78,6 +80,9 @@ export function Zones({
           </DialogTrigger>
         </div>
         <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{_('Create New Zone')}</DialogTitle>
+          </DialogHeader>
           <ZoneForm
             formMethod="POST"
             saveZoneApi={createShippingZoneApi}

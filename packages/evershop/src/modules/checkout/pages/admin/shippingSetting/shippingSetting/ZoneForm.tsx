@@ -2,11 +2,19 @@ import Spinner from '@components/admin/Spinner.jsx';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@components/common/ui/Accordion.js';
 import { Button } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { cn } from '@evershop/evershop/lib/util/cn';
 import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import Select, { StylesConfig } from 'react-select';
 import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 import type { ShippingZone } from './Zone.js';
@@ -39,6 +47,24 @@ interface CountryOption {
 }
 
 /**
+ * Shared react-select props that portal the dropdown menu to <body>. The form
+ * scrolls inside a height-capped container and the province accordion clips
+ * with overflow-hidden, either of which would otherwise cut the menu off.
+ * Fixed positioning keeps it anchored to the control, and z-index 1300 lifts it
+ * above the dialog (z-1200). base-ui's modal dialog treats clicks on this
+ * post-render injected menu as "inside", so selecting an option won't close the
+ * dialog (see floating-ui useDismiss third-party-element handling).
+ */
+const MENU_PORTAL_PROPS = {
+  menuPortalTarget:
+    typeof document !== 'undefined' ? document.body : undefined,
+  menuPosition: 'fixed' as const,
+  styles: {
+    menuPortal: (base) => ({ ...base, zIndex: 1300 })
+  } as StylesConfig<any, boolean>
+};
+
+/**
  * Zone create/edit form with multi-country support.
  *
  * Form state:
@@ -69,6 +95,11 @@ export function ZoneForm({
     if (!initialProvincesByCountry[cc]) initialProvincesByCountry[cc] = [];
     initialProvincesByCountry[cc].push(p.code);
   });
+  // Expand the countries that already have province restrictions on mount, so
+  // edit mode surfaces existing restrictions without the user hunting for them.
+  const defaultOpenCountries = Object.keys(initialProvincesByCountry).filter(
+    (cc) => initialProvincesByCountry[cc].length > 0
+  );
 
   const form = useForm({
     defaultValues: {
@@ -150,84 +181,110 @@ export function ZoneForm({
       }}
       form={form}
     >
-      <div className="space-y-3">
-        <InputField
-          name="name"
-          label={_('Zone Name')}
-          aria-label={_('Zone Name')}
-          placeholder={_('e.g., EU, US-West')}
-          required
-          validation={{ required: _('Zone name is required') }}
-          defaultValue={zone?.name}
-        />
-        <ReactSelectField
-          name="countries"
-          label={_('Countries')}
-          aria-label={_('Countries')}
-          placeholder={_('Select countries')}
-          required
-          validation={{
-            required: _('At least one country is required'),
-            validate: (v: unknown) =>
-              (Array.isArray(v) && v.length > 0) ||
-              _('At least one country is required')
-          }}
-          options={data.countries}
-          hideSelectedOptions
-          isMulti
-          defaultValue={initialCountries}
-        />
+      <div className="flex flex-col">
+        {/* Scroll the fields when the form is tall so the dialog never grows
+            past the viewport; the Save footer below stays pinned. */}
+        <div className="space-y-3 overflow-y-auto pr-1 max-h-[calc(100vh-13rem)]">
+          <InputField
+            name="name"
+            label={_('Zone Name')}
+            aria-label={_('Zone Name')}
+            placeholder={_('e.g., EU, US-West')}
+            required
+            validation={{ required: _('Zone name is required') }}
+            defaultValue={zone?.name}
+          />
+          <ReactSelectField
+            name="countries"
+            label={_('Countries')}
+            aria-label={_('Countries')}
+            placeholder={_('Select countries')}
+            required
+            validation={{
+              required: _('At least one country is required'),
+              validate: (v: unknown) =>
+                (Array.isArray(v) && v.length > 0) ||
+                _('At least one country is required')
+            }}
+            options={data.countries}
+            hideSelectedOptions
+            isMulti
+            defaultValue={initialCountries}
+            {...MENU_PORTAL_PROPS}
+          />
 
-        {selectedCountries.length > 0 && (
-          <div className="border-t pt-3 border-border">
-            <label className="text-sm font-medium">
-              {_('Province Restrictions')}
-            </label>
-            <p className="text-xs text-muted-foreground mb-2">
-              {_(
-                "Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions."
-              )}
-            </p>
-            <div className="space-y-3">
-              {selectedCountries.map((cc: string) => {
-                const country = countriesByCode.get(cc);
-                if (!country) return null;
-                const value = provincesByCountry[cc] ?? [];
-                const options = country.provinces ?? [];
-                return (
-                  <div key={cc} className="border rounded p-3 border-border">
-                    <div className="font-medium mb-1">
-                      {country.label}{' '}
-                      <span className="text-xs text-muted-foreground">
-                        ({country.value})
-                      </span>
-                    </div>
-                    {options.length === 0 ? (
-                      <p className="text-xs italic text-muted-foreground">
-                        {_(
-                          'No subdivisions available — whole country is covered.'
+          {selectedCountries.length > 0 && (
+            <div className="border-t pt-3 border-border">
+              <label className="text-sm font-medium">
+                {_('Province Restrictions')}
+              </label>
+              <p className="text-xs text-muted-foreground mb-2">
+                {_(
+                  "Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions."
+                )}
+              </p>
+              <Accordion
+                multiple
+                defaultValue={defaultOpenCountries}
+                className="border rounded border-border divide-y divide-border"
+              >
+                {selectedCountries.map((cc: string) => {
+                  const country = countriesByCode.get(cc);
+                  if (!country) return null;
+                  const value = provincesByCountry[cc] ?? [];
+                  const options = country.provinces ?? [];
+                  const summary =
+                    options.length === 0 || value.length === 0
+                      ? _('Whole country')
+                      : _('${count} selected', {
+                          count: String(value.length)
+                        });
+                  return (
+                    <AccordionItem key={cc} value={cc} className="px-3">
+                      <AccordionTrigger className="py-3">
+                        <span className="flex flex-1 items-center justify-between pr-2">
+                          <span>
+                            <span className="font-medium">
+                              {country.label}
+                            </span>{' '}
+                            <span className="text-xs text-muted-foreground">
+                              ({country.value})
+                            </span>
+                          </span>
+                          <span className="text-xs text-muted-foreground font-normal">
+                            {summary}
+                          </span>
+                        </span>
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        {options.length === 0 ? (
+                          <p className="text-xs italic text-muted-foreground">
+                            {_(
+                              'No subdivisions available — whole country is covered.'
+                            )}
+                          </p>
+                        ) : (
+                          <PerCountryProvinces
+                            country={country}
+                            value={value}
+                            onChange={(next) => {
+                              setProvincesByCountry((prev) => ({
+                                ...prev,
+                                [cc]: next
+                              }));
+                            }}
+                          />
                         )}
-                      </p>
-                    ) : (
-                      <PerCountryProvinces
-                        country={country}
-                        value={value}
-                        onChange={(next) => {
-                          setProvincesByCountry((prev) => ({
-                            ...prev,
-                            [cc]: next
-                          }));
-                        }}
-                      />
-                    )}
-                  </div>
-                );
-              })}
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+              </Accordion>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
-        <div className="flex justify-end gap-2 pt-2">
+        <div className="flex justify-end gap-2 pt-3 mt-3 border-t border-border">
           <Button
             title={_('Save')}
             variant="default"
@@ -243,9 +300,11 @@ export function ZoneForm({
 }
 
 /**
- * Multi-select of provinces for a given country. Uses react-select via a tiny
- * wrapper — kept inline because the parent's form binds the country list
- * but not the per-country provinces (those are managed in local state).
+ * Multi-select of provinces for a given country. Uses react-select, styled to
+ * match the Countries field — kept inline because the parent's form binds the
+ * country list but not the per-country provinces (those are managed in local
+ * state, so this stays a plain controlled component rather than a
+ * form-bound ReactSelectField).
  */
 function PerCountryProvinces({
   country,
@@ -258,20 +317,33 @@ function PerCountryProvinces({
 }) {
   const options = country.provinces;
   return (
-    <select
-      multiple
-      className="w-full border rounded px-2 py-1 text-sm h-32 border-border"
-      value={value}
-      onChange={(e) => {
-        const next = Array.from(e.target.selectedOptions).map((o) => o.value);
-        onChange(next);
+    <Select
+      isMulti
+      options={options}
+      value={options.filter((option) => value.includes(option.value))}
+      onChange={(selected) => {
+        onChange((selected ?? []).map((option) => option.value));
       }}
-    >
-      {options.map((p) => (
-        <option key={p.value} value={p.value}>
-          {p.label}
-        </option>
-      ))}
-    </select>
+      placeholder={_('Select provinces')}
+      hideSelectedOptions
+      className="text-sm"
+      classNamePrefix="react-select"
+      {...MENU_PORTAL_PROPS}
+      classNames={{
+        control: (state) =>
+          cn(
+            'min-h-auto border border-input rounded-md shadow-xs transition-[color,box-shadow]',
+            state.isFocused && 'border-ring ring-[3px] ring-ring/50'
+          ),
+        input: () => 'outline-none shadow-none',
+        menu: () => 'bg-popover border border-input rounded-md shadow-md',
+        option: (state) =>
+          cn(
+            'px-3 py-2 cursor-pointer',
+            state.isSelected && 'bg-primary text-primary-foreground',
+            state.isFocused && !state.isSelected && 'bg-accent'
+          )
+      }}
+    />
   );
 }
