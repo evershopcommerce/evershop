@@ -1,5 +1,8 @@
 import { Image } from '@components/common/Image.js';
-import { Editable } from '@components/common/page-builder/index.js';
+import {
+  Editable,
+  EditableImageOverlay
+} from '@components/common/page-builder/index.js';
 import React from 'react';
 
 /**
@@ -207,6 +210,14 @@ export default function BentoGrid({ bentoGridWidget }: BentoGridProps) {
           isHero
           originalIndex={hero.originalIndex}
         />
+        <EditableImageOverlay
+          empty={!hero.tile.image}
+          desktop={{
+            urlField: `settings.tiles.${hero.originalIndex}.image`,
+            widthField: `settings.tiles.${hero.originalIndex}.imageWidth`,
+            heightField: `settings.tiles.${hero.originalIndex}.imageHeight`
+          }}
+        />
       </a>
       {/* Smalls */}
       {smalls.map(({ tile, originalIndex }, i) => (
@@ -230,6 +241,14 @@ export default function BentoGrid({ bentoGridWidget }: BentoGridProps) {
             tile={tile}
             isHero={false}
             originalIndex={originalIndex}
+          />
+          <EditableImageOverlay
+            empty={!tile.image}
+            desktop={{
+              urlField: `settings.tiles.${originalIndex}.image`,
+              widthField: `settings.tiles.${originalIndex}.imageWidth`,
+              heightField: `settings.tiles.${originalIndex}.imageHeight`
+            }}
           />
         </a>
       ))}

@@ -4,6 +4,7 @@ import { ctaButtonVariant } from '@components/common/page-builder/fields/CtaFiel
 import type { CtaValue } from '@components/common/page-builder/fields/CtaField.js';
 import {
   Editable,
+  EditableImage,
   EditableMarkdown,
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
@@ -110,10 +111,14 @@ export default function SplitFeature({ splitFeatureWidget }: SplitFeatureProps) 
     setInPb(isPageBuilderActive());
   }, []);
 
-  if (!image || !heading) {
-    if (inPb)
-      return <Placeholder imagePosition={imagePosition ?? 'left'} />;
+  // Storefront hides an incomplete block (no image or no heading). In the
+  // builder a missing heading shows the full placeholder, but a heading with
+  // no image renders the real layout so the image can be added inline.
+  if (!inPb && (!image || !heading)) {
     return null;
+  }
+  if (inPb && !heading) {
+    return <Placeholder imagePosition={imagePosition ?? 'left'} />;
   }
   const reverse = imagePosition === 'right';
   const verticalClass = ALIGN_CLASS[verticalAlign ?? 'center'];
@@ -128,15 +133,26 @@ export default function SplitFeature({ splitFeatureWidget }: SplitFeatureProps) 
   // taller of image vs copy — no `minHeight` floor and no cover crop.
   const imagePanel = (
     <div className="evershop-split-feature__image-panel w-full overflow-hidden bg-muted/30">
-      <Image
-        src={image}
-        alt={imageAlt || ''}
-        width={intrinsicWidth}
-        height={intrinsicHeight}
-        objectFit={imageFit === 'contain' ? 'contain' : 'cover'}
-        sizes="(max-width: 768px) 100vw, 50vw"
-        className="evershop-split-feature__image block w-full"
-      />
+      <EditableImage
+        empty={!image}
+        desktop={{
+          urlField: 'settings.image',
+          widthField: 'settings.width',
+          heightField: 'settings.height'
+        }}
+      >
+        {image ? (
+          <Image
+            src={image}
+            alt={imageAlt || ''}
+            width={intrinsicWidth}
+            height={intrinsicHeight}
+            objectFit={imageFit === 'contain' ? 'contain' : 'cover'}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="evershop-split-feature__image block w-full"
+          />
+        ) : null}
+      </EditableImage>
     </div>
   );
 

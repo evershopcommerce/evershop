@@ -1,5 +1,7 @@
 export { Editable } from './Editable.js';
 export { EditableMarkdown } from './EditableMarkdown.js';
+export { EditableImage, EditableImageOverlay } from './EditableImage.js';
+export type { ImageFieldMapping } from './EditableImage.js';
 export { PageBuilderBridge } from './PageBuilderBridge.js';
 export {
   WidgetContextProvider,

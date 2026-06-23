@@ -6,6 +6,7 @@ import {
 } from '@components/common/page-builder/fields/CtaField.js';
 import {
   Editable,
+  EditableImage,
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
@@ -56,15 +57,16 @@ const ANCHOR_CLASS: Record<ContentAnchor, { box: string; text: string }> = {
 };
 
 // Renders the banner image. When `mobileSrc` is set, swaps in the mobile
-// asset below the md breakpoint via CSS-toggled siblings. Two `<Image>`
-// elements is the simplest path that preserves each asset's intrinsic
-// aspect ratio (the alternative — a `<picture>` with one `<source>` plus
-// a fallback `<img>` — only swaps the source bytes, not the box aspect,
+// asset below the `sm` breakpoint (640px) via CSS-toggled siblings — so the
+// mobile image is a PHONE asset and tablets (≥640px) get the desktop image.
+// Two `<Image>` elements is the simplest path that preserves each asset's
+// intrinsic aspect ratio (the alternative — a `<picture>` with one `<source>`
+// plus a fallback `<img>` — only swaps the source bytes, not the box aspect,
 // so a mobile portrait crop would render in the desktop landscape box).
 //
-// On mobile, only the mobile `<Image>` is visible (`md:hidden`); the
-// desktop one is `display: none` and is deferred from download by every
-// modern browser. Same in reverse on desktop.
+// Below `sm`, only the mobile `<Image>` is visible (`sm:hidden`); the desktop
+// one is `display: none` and is deferred from download by every modern
+// browser. Same in reverse at `sm` and up.
 function BannerImage({
   src,
   width,
@@ -106,7 +108,7 @@ function BannerImage({
         alt={alt}
         priority
         sizes="100vw"
-        className="evershop-banner__image evershop-banner__image--mobile md:hidden"
+        className="evershop-banner__image evershop-banner__image--mobile sm:hidden"
       />
       <Image
         src={src}
@@ -115,7 +117,7 @@ function BannerImage({
         alt={alt}
         priority
         sizes="100vw"
-        className="evershop-banner__image evershop-banner__image--desktop hidden md:block"
+        className="evershop-banner__image evershop-banner__image--desktop hidden sm:block"
       />
     </>
   );
@@ -207,8 +209,30 @@ export default function Banner({
 
   const cls = ALIGNMENT_CLASS[alignment ?? 'center'] ?? 'justify-center';
 
+  // Settings-field mappings for inline image editing (desktop + mobile
+  // override). Shared by the empty-state placeholder and the rendered image so
+  // a merchant can add the FIRST image inline, not only replace an existing one.
+  const desktopImageMap = {
+    urlField: 'settings.src',
+    widthField: 'settings.width',
+    heightField: 'settings.height'
+  };
+  const mobileImageMap = {
+    urlField: 'settings.mobileImage',
+    widthField: 'settings.mobileImageWidth',
+    heightField: 'settings.mobileImageHeight'
+  };
+
   if (!src) {
-    if (inPb) return <Placeholder alignment={alignment ?? 'center'} />;
+    // In the page builder, keep the empty placeholder inline-editable so the
+    // "Desktop / Mobile" pick affordance appears on a freshly-dropped banner.
+    if (inPb) {
+      return (
+        <EditableImage desktop={desktopImageMap} mobile={mobileImageMap}>
+          <Placeholder alignment={alignment ?? 'center'} />
+        </EditableImage>
+      );
+    }
     return null;
   }
 
@@ -248,13 +272,22 @@ export default function Banner({
     />
   );
 
+  // Inline image editing in the page builder. Wraps the whole image slot (both
+  // the desktop and mobile <Image>s) and offers a Desktop / Mobile replace
+  // affordance. Passthrough on the live storefront.
+  const editableImageEl = (
+    <EditableImage desktop={desktopImageMap} mobile={mobileImageMap}>
+      {imageEl}
+    </EditableImage>
+  );
+
   if (!hasOverlay) {
     const wrapped = link ? (
       <a href={link} className="inline-block">
-        {imageEl}
+        {editableImageEl}
       </a>
     ) : (
-      imageEl
+      editableImageEl
     );
     return <div className={`banner-widget w-full flex ${cls}`}>{wrapped}</div>;
   }
@@ -323,7 +356,7 @@ export default function Banner({
 
   const figure = (
     <div className="evershop-banner__figure relative inline-block max-w-full">
-      {imageEl}
+      {editableImageEl}
       <OverlayScrim tint={tint} opacity={op} />
       {overlay}
     </div>

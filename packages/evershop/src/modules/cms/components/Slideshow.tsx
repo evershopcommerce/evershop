@@ -1,5 +1,8 @@
 import { Image } from '@components/common/Image.js';
-import { Editable } from '@components/common/page-builder/index.js';
+import {
+  Editable,
+  EditableImageOverlay
+} from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
@@ -525,7 +528,7 @@ export default function Slideshow({
             // keyboard-interactive control — the wrapping <a> handles activation.
             // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
             <div
-              className={`evershop-slideshow__view relative w-full overflow-hidden ${aspectClass}`}
+              className={`evershop-slideshow__view group relative w-full overflow-hidden ${aspectClass}`}
               onClick={(e) => {
                 if (
                   wholeSlideHref &&
@@ -540,8 +543,11 @@ export default function Slideshow({
                   responsive image. */}
               {slide.mobileImage ? (
                 <picture>
+                  {/* Mobile image is a PHONE asset: it applies below 640px
+                      (Tailwind `sm`), so tablets (≥640px) get the desktop
+                      image — aligned with Banner's `sm` swap. */}
                   <source
-                    media="(max-width: 767px)"
+                    media="(max-width: 639px)"
                     srcSet={slide.mobileImage}
                   />
                   <Image
@@ -650,6 +656,15 @@ export default function Slideshow({
                   </div>
                 </div>
               )}
+              <EditableImageOverlay
+                empty={!slide.image}
+                desktop={{
+                  urlField: `settings.slides.${idx}.image`,
+                  widthField: `settings.slides.${idx}.width`,
+                  heightField: `settings.slides.${idx}.height`
+                }}
+                mobile={{ urlField: `settings.slides.${idx}.mobileImage` }}
+              />
             </div>
           );
 

@@ -1,9 +1,11 @@
 import { Image } from '@components/common/Image.js';
 import {
   Editable,
-  EditableMarkdown
+  EditableImage,
+  EditableMarkdown,
+  isPageBuilderActive
 } from '@components/common/page-builder/index.js';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 /**
  * Brand story — an editorial block with four layout variants. Eyebrow,
@@ -123,10 +125,22 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
     pullQuote,
     imageSize
   } = brandStoryWidget;
+  const [inPb, setInPb] = useState(false);
+  useEffect(() => {
+    setInPb(isPageBuilderActive());
+  }, []);
+
   if (!heading) return null;
   // Fall back to a hero-scale 4:5 portrait when dimensions aren't stored.
   const intrinsicWidth = imageWidth && imageWidth > 0 ? imageWidth : 1200;
   const intrinsicHeight = imageHeight && imageHeight > 0 ? imageHeight : 1500;
+
+  // Single image, no mobile variant. Shared by all three image render spots.
+  const imageMap = {
+    urlField: 'settings.image',
+    widthField: 'settings.imageWidth',
+    heightField: 'settings.imageHeight'
+  };
 
   if (layout === 'pull-quote') {
     return (
@@ -195,18 +209,26 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
   if (layout === 'centered') {
     return (
       <div className="evershop-brand-story evershop-brand-story--centered mx-auto max-w-[720px] py-6 md:py-10">
-        {image && (
+        {(image || inPb) && (
           <div className="evershop-brand-story__image-wrapper mx-auto mb-6 h-32 w-32 overflow-hidden rounded-full bg-muted/30">
-            <Image
-              src={image}
-              alt={imageAlt || ''}
-              width={intrinsicWidth}
-              height={intrinsicHeight}
-              objectFit="cover"
-              sizes="128px"
-              className="evershop-brand-story__image h-full w-full"
-              style={{ aspectRatio: 'auto' }}
-            />
+            <EditableImage
+              empty={!image}
+              className="h-full w-full"
+              desktop={imageMap}
+            >
+              {image ? (
+                <Image
+                  src={image}
+                  alt={imageAlt || ''}
+                  width={intrinsicWidth}
+                  height={intrinsicHeight}
+                  objectFit="cover"
+                  sizes="128px"
+                  className="evershop-brand-story__image h-full w-full"
+                  style={{ aspectRatio: 'auto' }}
+                />
+              ) : null}
+            </EditableImage>
           </div>
         )}
         <Copy
@@ -242,18 +264,24 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
       {!reverse && (
         <>
           <div className={`evershop-brand-story__image-panel ${imageSpan} order-1`}>
-            {image && (
-              <Image
-                src={image}
-                alt={imageAlt || ''}
-                width={intrinsicWidth}
-                height={intrinsicHeight}
-                objectFit="cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="evershop-brand-story__image h-full max-h-[600px] w-full"
-                style={{ aspectRatio: 'auto' }}
-              />
-            )}
+            <EditableImage
+              empty={!image}
+              className="h-full max-h-[600px] w-full"
+              desktop={imageMap}
+            >
+              {image ? (
+                <Image
+                  src={image}
+                  alt={imageAlt || ''}
+                  width={intrinsicWidth}
+                  height={intrinsicHeight}
+                  objectFit="cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="evershop-brand-story__image h-full max-h-[600px] w-full"
+                  style={{ aspectRatio: 'auto' }}
+                />
+              ) : null}
+            </EditableImage>
           </div>
           <div className={`evershop-brand-story__copy-panel ${copySpan} order-2 flex items-center md:order-2`}>
             <Copy
@@ -269,18 +297,24 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
       {reverse && (
         <>
           <div className={`evershop-brand-story__image-panel ${imageSpan} order-1 md:order-2`}>
-            {image && (
-              <Image
-                src={image}
-                alt={imageAlt || ''}
-                width={intrinsicWidth}
-                height={intrinsicHeight}
-                objectFit="cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="evershop-brand-story__image h-full max-h-[600px] w-full"
-                style={{ aspectRatio: 'auto' }}
-              />
-            )}
+            <EditableImage
+              empty={!image}
+              className="h-full max-h-[600px] w-full"
+              desktop={imageMap}
+            >
+              {image ? (
+                <Image
+                  src={image}
+                  alt={imageAlt || ''}
+                  width={intrinsicWidth}
+                  height={intrinsicHeight}
+                  objectFit="cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="evershop-brand-story__image h-full max-h-[600px] w-full"
+                  style={{ aspectRatio: 'auto' }}
+                />
+              ) : null}
+            </EditableImage>
           </div>
           <div className={`evershop-brand-story__copy-panel ${copySpan} order-2 flex items-center md:order-1`}>
             <Copy

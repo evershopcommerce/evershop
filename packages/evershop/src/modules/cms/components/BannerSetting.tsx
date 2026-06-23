@@ -1,4 +1,3 @@
- 
 import { FileBrowser } from '@components/admin/FileBrowser.js';
 import {
   AnchorPicker,
@@ -447,7 +446,9 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
       <Section title={_('Overlay copy')}>
         <Field
           label={_('Eyebrow')}
-          hint={_('Small all-caps label above the heading. E.g. "LIMITED EDITION".')}
+          hint={_(
+            'Small all-caps label above the heading. E.g. "LIMITED EDITION".'
+          )}
         >
           <input
             type="text"
@@ -502,7 +503,9 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
         </Field>
         <Field
           label={_('Tint')}
-          hint={_('A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.')}
+          hint={_(
+            'A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.'
+          )}
         >
           <Segmented<OverlayTint>
             value={tintV}
@@ -554,15 +557,17 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
             </button>
           </>
         ) : (
-          <button
-            type="button"
-            onClick={() =>
-              setValue('settings.cta', BLANK_CTA, { shouldDirty: true })
-            }
-            className="text-xs font-medium text-primary hover:underline"
-          >
-            {_('+ Add a primary CTA')}
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={() =>
+                setValue('settings.cta', BLANK_CTA, { shouldDirty: true })
+              }
+              className="text-xs font-medium text-primary hover:underline"
+            >
+              {_('+ Add a primary CTA')}
+            </button>
+          </>
         )}
         {ctaV && cta2V && (
           <>
@@ -588,19 +593,22 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
           </>
         )}
         {ctaV && !cta2V && (
-          <button
-            type="button"
-            onClick={() =>
-              setValue(
-                'settings.cta2',
-                { ...BLANK_CTA, label: _('Learn more'), style: 'secondary' },
-                { shouldDirty: true }
-              )
-            }
-            className="text-xs font-medium text-primary hover:underline"
-          >
-            {_('+ Add a secondary CTA')}
-          </button>
+          <>
+            <br />
+            <button
+              type="button"
+              onClick={() =>
+                setValue(
+                  'settings.cta2',
+                  { ...BLANK_CTA, label: _('Learn more'), style: 'secondary' },
+                  { shouldDirty: true }
+                )
+              }
+              className="text-xs font-medium text-primary hover:underline"
+            >
+              {_('+ Add a secondary CTA')}
+            </button>
+          </>
         )}
       </Section>
 

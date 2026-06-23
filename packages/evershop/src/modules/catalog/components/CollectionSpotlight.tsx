@@ -2,6 +2,7 @@
 import { Image } from '@components/common/Image.js';
 import {
   Editable,
+  EditableImage,
   EditableMarkdown,
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
@@ -159,28 +160,38 @@ export default function CollectionSpotlight({
   // the inline ratio.
   const imagePanel = (
     <div className="evershop-collection-spotlight__image-wrapper relative aspect-[4/5] overflow-hidden bg-muted/30 md:aspect-auto md:h-full">
-      {image ? (
-        <Image
-          src={image}
-          alt={imageAlt || ''}
-          width={intrinsicWidth}
-          height={intrinsicHeight}
-          sizes="(max-width: 768px) 100vw, 60vw"
-          className="evershop-collection-spotlight__image"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            aspectRatio: 'auto'
-          }}
-        />
-      ) : (
-        <div className="evershop-collection-spotlight__placeholder flex h-full items-center justify-center text-sm text-muted-foreground">
-          Collection cover
-        </div>
-      )}
+      {/* className h-full w-full so EditableImage fills the relative wrapper
+          in the canvas and stays the positioning context for the absolute
+          <Image> (production is display:contents — zero layout impact).
+          `empty` shows an inline "add image" affordance before a cover is set. */}
+      <EditableImage
+        empty={!image}
+        className="h-full w-full"
+        desktop={{
+          urlField: 'settings.image',
+          widthField: 'settings.imageWidth',
+          heightField: 'settings.imageHeight'
+        }}
+      >
+        {image ? (
+          <Image
+            src={image}
+            alt={imageAlt || ''}
+            width={intrinsicWidth}
+            height={intrinsicHeight}
+            sizes="(max-width: 768px) 100vw, 60vw"
+            className="evershop-collection-spotlight__image"
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              aspectRatio: 'auto'
+            }}
+          />
+        ) : null}
+      </EditableImage>
     </div>
   );
 

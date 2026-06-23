@@ -561,8 +561,12 @@ export default {
       { heading, tiles, columns, aspect, layout, labelPosition },
       { linkLoaders }
     ) => {
+      // Keep tiles with a label even when they have no image yet, so the page
+      // builder can render them with an inline "add image" affordance. The
+      // storefront still hides imageless tiles — that filter lives in the
+      // CategoryMosaic component (which knows whether it's in the builder).
       const safeTiles = (Array.isArray(tiles) ? tiles : []).filter(
-        (t) => t && typeof t === 'object' && t.image && t.label
+        (t) => t && typeof t === 'object' && t.label
       );
       // tile.link is a plain string (URN or URL).
       const resolvedTiles = await Promise.all(

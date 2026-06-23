@@ -2,6 +2,7 @@
 import { Image } from '@components/common/Image.js';
 import {
   Editable,
+  EditableImageOverlay,
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { ImagePlus } from 'lucide-react';
@@ -51,6 +52,18 @@ const ASPECT_PADDING: Record<MosaicAspect, string> = {
   landscape: '66.66%'
 };
 
+// Responsive column counts: 2-up on phones, scaling to the configured count on
+// wider screens. Literal class strings so Tailwind's scanner emits them (a
+// dynamic `grid-cols-${n}` would be purged).
+const MOSAIC_GRID_COLS: Record<number, string> = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-2',
+  3: 'grid-cols-2 md:grid-cols-3',
+  4: 'grid-cols-2 md:grid-cols-4',
+  5: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-5',
+  6: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-6'
+};
+
 function effectiveColumns(
   tiles: MosaicTile[],
   columns: number | null
@@ -85,10 +98,9 @@ function Placeholder({
         </Editable>
       )}
       <div
-        className="evershop-category-mosaic__tiles grid gap-4"
-        style={{
-          gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))`
-        }}
+        className={`evershop-category-mosaic__tiles grid gap-4 ${
+          MOSAIC_GRID_COLS[count] ?? 'grid-cols-2 md:grid-cols-3'
+        }`}
       >
         {Array.from({ length: count }, (_, i) => (
           <div key={i} className="evershop-category-mosaic__tile evershop-category-mosaic__tile--placeholder block">
@@ -130,9 +142,11 @@ export default function CategoryMosaic({
   }, []);
   // Preserve the original settings index alongside the filter so inline
   // editing can write back to `settings.tiles.${originalIndex}.label`.
+  // In the builder we keep imageless tiles so each one shows an inline
+  // "add image" affordance; the live storefront still requires an image.
   const visible = tiles
     .map((tile, originalIndex) => ({ tile, originalIndex }))
-    .filter(({ tile }) => tile && tile.image && tile.label);
+    .filter(({ tile }) => tile && tile.label && (inPb || tile.image));
   if (visible.length === 0) {
     if (inPb) {
       // Use the configured-but-unfilled tiles' count when present so the
@@ -170,10 +184,9 @@ export default function CategoryMosaic({
         </Editable>
       )}
       <div
-        className="evershop-category-mosaic__tiles grid gap-4"
-        style={{
-          gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`
-        }}
+        className={`evershop-category-mosaic__tiles grid gap-4 ${
+          MOSAIC_GRID_COLS[cols] ?? 'grid-cols-2 md:grid-cols-3'
+        }`}
       >
         {visible.map(({ tile, originalIndex }, i) => {
           const span = asymmetric && i === 0 ? 2 : 1;
@@ -192,24 +205,30 @@ export default function CategoryMosaic({
                 className="evershop-category-mosaic__image-wrapper relative overflow-hidden bg-muted/30"
                 style={{ paddingTop: aspectPadding }}
               >
-                <Image
-                  src={tile.image}
-                  alt={tile.imageAlt || ''}
-                  width={
-                    tile.imageWidth && tile.imageWidth > 0
-                      ? tile.imageWidth
-                      : 800
-                  }
-                  height={
-                    tile.imageHeight && tile.imageHeight > 0
-                      ? tile.imageHeight
-                      : 800
-                  }
-                  objectFit="cover"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className="evershop-category-mosaic__image absolute inset-0 h-full w-full transition-transform duration-200 group-hover:scale-[1.03]"
-                  style={{ aspectRatio: 'auto' }}
-                />
+                {tile.image ? (
+                  <Image
+                    src={tile.image}
+                    alt={tile.imageAlt || ''}
+                    width={
+                      tile.imageWidth && tile.imageWidth > 0
+                        ? tile.imageWidth
+                        : 800
+                    }
+                    height={
+                      tile.imageHeight && tile.imageHeight > 0
+                        ? tile.imageHeight
+                        : 800
+                    }
+                    objectFit="cover"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className="evershop-category-mosaic__image absolute inset-0 h-full w-full transition-transform duration-200 group-hover:scale-[1.03]"
+                    style={{ aspectRatio: 'auto' }}
+                  />
+                ) : (
+                  <div className="evershop-category-mosaic__image-placeholder absolute inset-0 flex items-center justify-center text-muted-foreground">
+                    <ImagePlus className="h-6 w-6" />
+                  </div>
+                )}
                 {labelPosition === 'overlay' && (
                   <>
                     <div
@@ -230,6 +249,14 @@ export default function CategoryMosaic({
                     </div>
                   </>
                 )}
+                <EditableImageOverlay
+                  empty={!tile.image}
+                  desktop={{
+                    urlField: `settings.tiles.${originalIndex}.image`,
+                    widthField: `settings.tiles.${originalIndex}.imageWidth`,
+                    heightField: `settings.tiles.${originalIndex}.imageHeight`
+                  }}
+                />
               </div>
               {labelPosition === 'below' && (
                 <div className="evershop-category-mosaic__label evershop-category-mosaic__label--below mt-2 flex items-center justify-between text-foreground">

@@ -1,3 +1,4 @@
+import { FileBrowser } from '@components/admin/FileBrowser.js';
 import { Toaster, toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
@@ -259,6 +260,13 @@ export default function Editor({
   const [selectedWidget, setSelectedWidget] = useState<SelectedWidget | null>(
     null
   );
+  // Inline image editing — `EditableImage` in the canvas posts `edit-image`;
+  // this holds the target widget + the settings fields to write once the
+  // FileBrowser pick resolves.
+  const [imageEdit, setImageEdit] = useState<{
+    widgetUid: string;
+    fields: { urlField: string; widthField?: string; heightField?: string };
+  } | null>(null);
   // Tracks the most recently clicked Layers row so the panel can highlight
   // it visually. Independent from `selectedWidget` (which controls the
   // settings drawer) — clicking a layer no longer opens the drawer.
@@ -1040,7 +1048,25 @@ export default function Editor({
       const targetArea = opts?.area ?? PRIMARY_AREA;
       const targetRoute = opts?.isGlobal ? 'all' : route.id;
 
-      if (pendingParent) {
+      // Is this a drop into a column container? The "+ Add to Column" flow sets
+      // `pendingParent`; a drag-drop only carries the synthetic
+      // `columnsContainer_<parentUid>_col_<index>` target area. Parse it so BOTH
+      // paths run the child branch below — children ALWAYS follow their parent's
+      // route, never `isGlobal` (which a child would otherwise inherit from a
+      // surrounding global Area like `content`, wrongly forcing route='all').
+      const columnAreaMatch = targetArea.match(
+        /^columnsContainer_(.+)_col_(\d+)$/
+      );
+      const childContext =
+        pendingParent ??
+        (columnAreaMatch
+          ? {
+              parentUid: columnAreaMatch[1],
+              columnIndex: Number(columnAreaMatch[2])
+            }
+          : null);
+
+      if (childContext) {
         // Child widget — same shape as a top-level widget, but its placement
         // targets the parent's synthetic Area
         // `columnsContainer_<parentUid>_col_<index>`. The placement's route
@@ -1048,7 +1074,7 @@ export default function Editor({
         // child rides along on every route; otherwise it sticks to the
         // route the user is currently editing.
         const parent = (layerWidgets as any[]).find(
-          (w) => w?.uuid === pendingParent.parentUid
+          (w) => w?.uuid === childContext.parentUid
         );
         const parentRoutes: string[] = Array.isArray(parent?.placements)
           ? parent.placements
@@ -1056,17 +1082,22 @@ export default function Editor({
               .map((p: any) => p.route)
           : [];
         const childRoute = parentRoutes.includes('all') ? 'all' : route.id;
-        const childArea = `columnsContainer_${pendingParent.parentUid}_col_${pendingParent.columnIndex}`;
+        const childArea = `columnsContainer_${childContext.parentUid}_col_${childContext.columnIndex}`;
         // Sort within the column: a high default that leaves room for
         // pre-existing children; the visible reorder logic in moveWidget
         // displaces past the neighbor's sort_order anyway.
         const siblingCount =
           parent && Array.isArray(parent.columns)
             ? parent.columns.find(
-                (c: any) => c.index === pendingParent.columnIndex
+                (c: any) => c.index === childContext.columnIndex
               )?.widgets?.length ?? 0
             : 0;
-        const childSortOrder = 100 + siblingCount;
+        // A drag carries an iframe-computed drop position; click-to-add (the
+        // "+ Add to Column" flow) has none, so it appends past existing children.
+        const childSortOrder =
+          typeof opts?.sortOrder === 'number' && !Number.isNaN(opts.sortOrder)
+            ? opts.sortOrder
+            : 100 + siblingCount;
 
         const placementUuid = uuidv4();
         const widgetOk = await postOperation({
@@ -1982,6 +2013,48 @@ export default function Editor({
     [layerWidgets, performDeleteWidget]
   );
 
+  // Read an image's natural dimensions admin-side (mirrors ImagePickerField),
+  // so inline image picks persist width/height like the drawer does.
+  const loadImageDimensions = (
+    url: string
+  ): Promise<{ width: number; height: number } | null> =>
+    new Promise((resolve) => {
+      const img = new window.Image();
+      img.onload = () =>
+        resolve({ width: img.naturalWidth, height: img.naturalHeight });
+      img.onerror = () => resolve(null);
+      img.src = url;
+    });
+
+  // FileBrowser pick handler for inline image editing. Writes the chosen URL
+  // (+ captured dimensions) into the page form; the per-uid debounce collapses
+  // it into a single op — same path as the drawer's ImagePickerField.
+  const handlePickImage = async (file: string) => {
+    if (!imageEdit) return;
+    const { widgetUid, fields } = imageEdit;
+    setImageEdit(null);
+    const url = (file || '').replace(/\/{2,}/g, '/');
+    const base = `block.${widgetUid}`;
+    const dims =
+      url && (fields.widthField || fields.heightField)
+        ? await loadImageDimensions(url)
+        : null;
+    pageForm.setValue(`${base}.${fields.urlField}` as any, url, {
+      shouldDirty: true,
+      shouldTouch: true
+    });
+    if (dims && fields.widthField) {
+      pageForm.setValue(`${base}.${fields.widthField}` as any, dims.width, {
+        shouldDirty: true
+      });
+    }
+    if (dims && fields.heightField) {
+      pageForm.setValue(`${base}.${fields.heightField}` as any, dims.height, {
+        shouldDirty: true
+      });
+    }
+  };
+
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       if (event.origin !== window.location.origin) return;
@@ -2008,6 +2081,15 @@ export default function Editor({
             type: 'add-to-column';
             parentUid: string;
             columnIndex: number;
+          }
+        | {
+            type: 'edit-image';
+            widgetUid: string;
+            fields: {
+              urlField: string;
+              widthField?: string;
+              heightField?: string;
+            };
           }
         | null;
       if (!msg) return;
@@ -2047,6 +2129,11 @@ export default function Editor({
           fullSettings,
           { shouldDirty: true, shouldTouch: true }
         );
+        return;
+      }
+      if (msg.type === 'edit-image') {
+        // Open the FileBrowser over the canvas for this widget+field(s).
+        setImageEdit({ widgetUid: msg.widgetUid, fields: msg.fields });
         return;
       }
       if (msg.type === 'add-to-column') {
@@ -2697,6 +2784,21 @@ export default function Editor({
             )}
           </main>
         </div>
+
+        {/* FileBrowser is its own fixed full-screen modal (`.file-browser`
+            is position:fixed inset-0 with its own close button) — render it
+            bare, like the EditorJS image tool does. The z-[1300] wrapper forms
+            a stacking context so it sits above the page-builder editor shell
+            (z-[1100]); FileBrowser's z-[1000] alone would be hidden behind it. */}
+        {imageEdit && (
+          <div className="relative z-[1300]">
+            <FileBrowser
+              isMultiple={false}
+              onInsert={handlePickImage}
+              close={() => setImageEdit(null)}
+            />
+          </div>
+        )}
 
         <PublishDialog
           open={isPublishDialogOpen}

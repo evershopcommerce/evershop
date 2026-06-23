@@ -2,6 +2,7 @@
 import { Image } from '@components/common/Image.js';
 import {
   Editable,
+  EditableImage,
   EditableMarkdown,
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
@@ -132,20 +133,27 @@ export default function ProductHero({ productHeroWidget }: ProductHeroProps) {
 
   const imagePanel = (
     <div className="evershop-product-hero__image-panel overflow-hidden bg-muted/30">
-      {displayImage ? (
-        <Image
-          src={displayImage}
-          alt={displayAlt}
-          width={intrinsicWidth}
-          height={intrinsicHeight}
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="evershop-product-hero__image block w-full"
-        />
-      ) : (
-        <div className="evershop-product-hero__placeholder flex aspect-square items-center justify-center text-sm text-muted-foreground">
-          Product image
-        </div>
-      )}
+      {/* `empty` (no override and no product image) shows an inline "add image"
+          affordance; picking writes the override `settings.image`. */}
+      <EditableImage
+        empty={!displayImage}
+        desktop={{
+          urlField: 'settings.image',
+          widthField: 'settings.imageWidth',
+          heightField: 'settings.imageHeight'
+        }}
+      >
+        {displayImage ? (
+          <Image
+            src={displayImage}
+            alt={displayAlt}
+            width={intrinsicWidth}
+            height={intrinsicHeight}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="evershop-product-hero__image block w-full"
+          />
+        ) : null}
+      </EditableImage>
     </div>
   );
 

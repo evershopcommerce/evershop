@@ -1,6 +1,9 @@
  
 import { Image } from '@components/common/Image.js';
-import { Editable } from '@components/common/page-builder/index.js';
+import {
+  Editable,
+  EditableImageOverlay
+} from '@components/common/page-builder/index.js';
 import React from 'react';
 
 /**
@@ -112,6 +115,14 @@ export default function TieredCategories({
                     style={{ aspectRatio: 'auto' }}
                   />
                 )}
+                <EditableImageOverlay
+                  empty={!group.image}
+                  desktop={{
+                    urlField: `settings.groups.${originalIndex}.image`,
+                    widthField: `settings.groups.${originalIndex}.imageWidth`,
+                    heightField: `settings.groups.${originalIndex}.imageHeight`
+                  }}
+                />
               </div>
             </ParentTag>
             <div className="evershop-tiered-categories__content">
