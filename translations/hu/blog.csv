@@ -1,0 +1,99 @@
+A short description shown on the category page,A kategóriaoldalon megjelenő rövid leírás
+A short summary shown in listings,A listákban megjelenő rövid összefoglaló
+Add a meta description to control the text shown here.,Adjon meg egy metaleírást az itt megjelenő szöveg vezérléséhez.
+All,Összes
+All categories,Összes kategória
+Applies to posts in this category.,Az ebben a kategóriában lévő bejegyzésekre vonatkozik.
+Approve,Jóváhagyás
+Approved,Jóváhagyva
+Author,Szerző
+Blog,Blog
+Blog Categories,Blogkategóriák
+Blog Comments,Blogkommentek
+Blog Posts,Blogbejegyzések
+Blog Tags,Blogcímkék
+By,Szerző:
+Cancel reply,Válasz elvetése
+"Category, author, tags and thumbnail.","Kategória, szerző, címkék és bélyegkép."
+Closed — no new comments,Lezárva — nincsenek új hozzászólások
+Columns (1-4),Oszlopok (1-4)
+Comment,Hozzászólás
+Comment Policy,Hozzászólási szabályzat
+Comments,Hozzászólások
+Configure URL key and meta information for this blog category.,Állítsa be az URL-kulcsot és a metaadatokat ehhez a blogkategóriához.
+Copied!,Másolva!
+Copy link,Hivatkozás másolása
+Create a new post,Új bejegyzés létrehozása
+Create a new tag,Új címke létrehozása
+Delete ${count} comments,${count} hozzászólás törlése
+Delete ${count} posts,${count} bejegyzés törlése
+Delete ${count} tags,${count} címke törlése
+Disable ${count} categories,${count} kategória letiltása
+Email (not published),E-mail (nem jelenik meg)
+Enable ${count} categories,${count} kategória engedélyezése
+Enter category name,Adja meg a kategória nevét
+Enter post title,Adja meg a bejegyzés címét
+Enter tag name,Adja meg a címke nevét
+Excerpt,Kivonat
+Featured posts,Kiemelt bejegyzések
+Leave a comment,Hagyjon hozzászólást
+Leave blank to auto-generate,Hagyja üresen az automatikus generáláshoz
+Mark spam,Megjelölés spamként
+Max posts,Max. bejegyzések
+Moderated — hold for review,Moderált — felülvizsgálatra fenntartva
+Name and status for this blog category.,Név és állapot ehhez a blogkategóriához.
+New post,Új bejegyzés
+New tag,Új címke
+No comments yet. Be the first!,Még nincsenek hozzászólások. Legyen Ön az első!
+No posts in this category yet.,Még nincsenek bejegyzések ebben a kategóriában.
+No posts match,Nincs találat
+No posts published yet.,Még nincsenek közzétett bejegyzések.
+No posts with this tag yet.,Még nincsenek bejegyzések ezzel a címkével.
+No posts yet,Még nincsenek bejegyzések
+Open page in a new tab,Oldal megnyitása új lapon
+Open — auto-approve,Nyitott — automatikus jóváhagyás
+Organize,Rendezés
+Pending,Függőben
+Post Title,Bejegyzés címe
+Post comment,Hozzászólás közzététele
+Post created successfully!,A bejegyzés sikeresen létrejött!
+Post title is required,A bejegyzés címe kötelező
+Posts,Bejegyzések
+Publish ${count} posts,${count} bejegyzés közzététele
+Published,Közzétéve
+Published posts are visible on the storefront.,A közzétett bejegyzések láthatók az áruházban.
+React,Reagálás
+Related posts,Kapcsolódó bejegyzések
+Reply,Válasz
+Reply to ${name},Válasz neki: ${name}
+Search Engine Optimization,Keresőoptimalizálás
+Search posts to feature,Bejegyzések keresése kiemeléshez
+Search result preview,Találati előnézet
+Select a category,Válasszon kategóriát
+Select an author,Válasszon szerzőt
+Select tags,Válasszon címkéket
+Short Description,Rövid leírás
+Something went wrong. Please try again.,"Valami hiba történt. Kérjük, próbálja újra."
+Spam,Spam
+Submitting…,Küldés…
+Tag,Címke
+Tag Name,Címke neve
+Tag created successfully!,A címke sikeresen létrejött!
+Tag name is required,A címke neve kötelező
+Tags,Címkék
+Thanks! Your comment is awaiting moderation.,Köszönjük! A hozzászólása moderálásra vár.
+The URL path segment under /blog/.,Az URL útvonalszakasz a /blog/ alatt.
+The URL path segment under /blog/category/.,Az URL útvonalszakasz a /blog/category/ alatt.
+The URL path segment under /blog/tag/.,Az URL útvonalszakasz a /blog/tag/ alatt.
+"The post title, status and content.","A bejegyzés címe, állapota és tartalma."
+The tag name.,A címke neve.
+There is no comment to display,Nincs megjeleníthető hozzászólás
+There is no post to display,Nincs megjeleníthető bejegyzés
+There is no tag to display,Nincs megjeleníthető címke
+URL key is auto-generated from the name if left blank.,"Az URL-kulcs automatikusan a névből jön létre, ha üresen hagyja."
+URL key is auto-generated from the title if left blank.,"Az URL-kulcs automatikusan a címből jön létre, ha üresen hagyja."
+Unpublish,Közzététel visszavonása
+Unpublish ${count} posts,${count} bejegyzés közzétételének visszavonása
+Untitled page,Névtelen oldal
+Your comment,Az Ön hozzászólása
+min read,perc olvasás

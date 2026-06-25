@@ -1,0 +1,5 @@
+{
+  "methods": ["DELETE"],
+  "path": "/blog/tags/:id",
+  "access": "private"
+}

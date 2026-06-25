@@ -1,0 +1,47 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": ["string", "integer"],
+      "enum": ["0", "1", 0, 1],
+      "errorMessage": {
+        "enum": "Status must be 0 or 1"
+      }
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "Category name is required"
+      }
+    },
+    "url_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "errorMessage": {
+        "pattern": "URL key must contain only lowercase letters, numbers, and hyphens"
+      }
+    },
+    "comment_policy": {
+      "type": "string",
+      "enum": ["open", "moderated", "closed"],
+      "errorMessage": {
+        "enum": "Comment policy must be one of: open, moderated, closed"
+      }
+    },
+    "short_description": {
+      "type": ["string", "null"]
+    },
+    "position": {
+      "type": ["integer", "string", "null"]
+    },
+    "meta_title": {
+      "type": ["string", "null"]
+    },
+    "meta_description": {
+      "type": ["string", "null"]
+    }
+  },
+  "additionalProperties": true,
+  "required": ["name"]
+}

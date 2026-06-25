@@ -18,6 +18,9 @@ type OgInfo {
   twitterCard: String
   twitterSite: String
   twitterCreator: String
+  publishedTime: String
+  authors: [String]
+  tags: [String]
 }
 
 """

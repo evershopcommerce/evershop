@@ -65,7 +65,7 @@ export default function General({ page }: CmsPageGeneralProps) {
             <label htmlFor="content" className="block mb-2 font-medium">
               {_('Content')}
             </label>
-            <Editor name="content" value={page?.content || []} />
+            <Editor name="content" value={page?.content || []} enableProductList />
           </div>
         </div>
       </CardContent>

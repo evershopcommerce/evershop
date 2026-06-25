@@ -25,6 +25,9 @@ interface HeadTagsProps {
       twitterSite: string;
       twitterCreator: string;
       twitterImage: string;
+      publishedTime?: string;
+      authors?: string[];
+      tags?: string[];
     };
   };
   themeConfig: {
@@ -112,6 +115,9 @@ export default function HeadTags({
         twitterSite={ogInfo.twitterSite}
         twitterCreator={ogInfo.twitterCreator}
         twitterImage={ogInfo.twitterImage}
+        publishedTime={ogInfo.publishedTime}
+        authors={ogInfo.authors}
+        tags={ogInfo.tags}
       />
     </>
   );
@@ -146,6 +152,9 @@ export const query = `
         twitterSite
         twitterCreator
         twitterImage
+        publishedTime
+        authors
+        tags
       }
     }
     themeConfig {

@@ -1,0 +1,6 @@
+{
+  "methods": ["GET"],
+  "path": "/blog",
+  "name": "Blog",
+  "editable": true
+}

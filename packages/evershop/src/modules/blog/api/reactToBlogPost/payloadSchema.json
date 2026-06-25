@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": ["like", "love", "clap", "insightful"]
+    }
+  },
+  "required": ["type"],
+  "additionalProperties": true
+}

@@ -64,6 +64,11 @@ export default {
       );
     },
     breadcrumbs: async (root, args, context) => {
+      // Pages may pre-set their own breadcrumbs via setPageMetaInfo; honor them.
+      const presetCrumbs = get(context, 'pageInfo.breadcrumbs');
+      if (Array.isArray(presetCrumbs) && presetCrumbs.length > 0) {
+        return presetCrumbs;
+      }
       // Strip query string first — in page-builder preview the URL carries
       // `?changeset=…&ajax=true`, so `originalUrl === '/'` would never match
       // and the homepage would render a breadcrumb that production doesn't.
@@ -193,7 +198,14 @@ export default {
             'pageInfo.ogInfo.twitterCreator',
             await getSetting('storeName', 'Evershop')
           ),
-          twitterImage: get(context, 'pageInfo.ogInfo.twitterImage', image)
+          twitterImage: get(context, 'pageInfo.ogInfo.twitterImage', image),
+          publishedTime: get(
+            context,
+            'pageInfo.ogInfo.publishedTime',
+            undefined
+          ),
+          authors: get(context, 'pageInfo.ogInfo.authors', undefined),
+          tags: get(context, 'pageInfo.ogInfo.tags', undefined)
         },
         context
       );

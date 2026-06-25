@@ -23,7 +23,7 @@ import {
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react';
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useClient } from 'urql';
 import { v4 as uuidv4 } from 'uuid';
 import './Editor.scss';
 
@@ -35,6 +35,13 @@ async function loadEditorJS(): Promise<any> {
 async function loadEditorJSImage(): Promise<any> {
   const { default: ImageTool } = await import('@evershop/editorjs-image');
   return ImageTool;
+}
+
+async function loadEditorJSProductList(): Promise<any> {
+  const { default: ProductListTool } = await import(
+    '@evershop/editorjs-product-list'
+  );
+  return ProductListTool;
 }
 
 async function loadEditorJSHeader(): Promise<any> {
@@ -221,9 +228,134 @@ export interface EditorProps {
   name: string;
   value?: Row[];
   label?: string;
+  /**
+   * Opt-in: enable the Product List block for this editor. Default OFF.
+   */
+  enableProductList?: boolean;
 }
 
-export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
+export const Editor: React.FC<EditorProps> = ({
+  name,
+  value = [],
+  label,
+  enableProductList = false
+}) => {
+  const client = useClient();
+  // Data source for the Product List tool's built-in search modal.
+  const searchProducts = React.useCallback(
+    async (
+      keyword: string,
+      { page, limit }: { page: number; limit: number }
+    ) => {
+      const filters: Array<{ key: string; operation: string; value: string }> =
+        [
+          { key: 'page', operation: 'eq', value: String(page) },
+          { key: 'limit', operation: 'eq', value: String(limit) }
+        ];
+      if (keyword) {
+        filters.unshift({ key: 'keyword', operation: 'eq', value: keyword });
+      }
+
+      const result = await client
+        .query(
+          `query SearchProducts($filters: [FilterInput!]) {
+            products(filters: $filters) {
+              items {
+                productId
+                uuid
+                sku
+                name
+                url
+                status
+                price { regular { value text } special { value text } }
+                image { url alt }
+                inventory { isInStock }
+              }
+              total
+            }
+          }`,
+          { filters }
+        )
+        .toPromise();
+
+      const items = (result.data?.products?.items ?? []).map((p: any) => ({
+        productId: p.productId,
+        uuid: p.uuid,
+        sku: p.sku,
+        name: p.name,
+        url: p.url,
+        image: p.image?.url ? { url: p.image.url, alt: p.image.alt } : null,
+        price: {
+          regular: p.price?.regular
+            ? { value: p.price.regular.value, text: p.price.regular.text }
+            : undefined,
+          special: p.price?.special
+            ? { value: p.price.special.value, text: p.price.special.text }
+            : undefined
+        },
+        inStock: p.inventory?.isInStock,
+        status: p.status
+      }));
+
+      return { items, total: result.data?.products?.total ?? items.length };
+    },
+    [client]
+  );
+
+  // Re-resolve saved products by sku to live data, so the editor reflects each
+  // product's current status/stock/price (not the snapshot from selection time).
+  const resolveProducts = React.useCallback(
+    async (skus: string[]) => {
+      if (!skus || skus.length === 0) {
+        return [];
+      }
+      const result = await client
+        .query(
+          `query ResolveProducts($filters: [FilterInput!]) {
+            products(filters: $filters) {
+              items {
+                productId
+                uuid
+                sku
+                name
+                url
+                status
+                price { regular { value text } special { value text } }
+                image { url alt }
+                inventory { isInStock }
+              }
+            }
+          }`,
+          {
+            filters: [
+              { key: 'sku', operation: 'in', value: skus.join(',') },
+              { key: 'limit', operation: 'eq', value: String(skus.length) }
+            ]
+          }
+        )
+        .toPromise();
+      return (result.data?.products?.items ?? []).map((p: any) => ({
+        productId: p.productId,
+        uuid: p.uuid,
+        sku: p.sku,
+        name: p.name,
+        url: p.url,
+        image: p.image?.url ? { url: p.image.url, alt: p.image.alt } : null,
+        price: {
+          regular: p.price?.regular
+            ? { value: p.price.regular.value, text: p.price.regular.text }
+            : undefined,
+          special: p.price?.special
+            ? { value: p.price.special.value, text: p.price.special.text }
+            : undefined
+        },
+        inStock: p.inventory?.isInStock,
+        status: p.status
+      }));
+    },
+    [client]
+  );
+
   const [openFileBrowser, setOpenFileBrowser] = React.useState(false);
   const [fileBrowser, setFileBrowser] = React.useState<{
     onUpload: (fileUrl: string) => void;
@@ -286,6 +418,9 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
       const Header = await loadEditorJSHeader();
       const List = await loadEditorJSList();
       const Quote = await loadEditorJSQuote();
+      const ProductListTool = enableProductList
+        ? await loadEditorJSProductList()
+        : null;
       // Using RawToolWrapper instead of loading from @editorjs/raw
       setValue(name, rows);
       rows.forEach((row) => {
@@ -322,7 +457,20 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
                       setOpenFileBrowser(true);
                     }
                   }
-                }
+                },
+                ...(ProductListTool
+                  ? {
+                      productList: {
+                        class: ProductListTool,
+                        config: {
+                          defaultColumns: 4,
+                          pageSize: 20,
+                          searchProducts,
+                          resolveProducts
+                        }
+                      }
+                    }
+                  : {})
               },
               data: column.data,
               onChange: (api) => {
@@ -376,7 +524,7 @@ export const Editor: React.FC<EditorProps> = ({ name, value = [], label }) => {
     <Field className="editor form-field-container gap-2">
       <FieldLabel htmlFor="description">{label}</FieldLabel>
       <div className="prose prose-sm max-w-none">
-        <div className="border border-border p-3 rounded">
+        <div className="border border-border px-3 rounded">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
