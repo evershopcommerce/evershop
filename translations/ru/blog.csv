@@ -1,0 +1,99 @@
+A short description shown on the category page,"Краткое описание, отображаемое на странице категории"
+A short summary shown in listings,"Краткое резюме, отображаемое в списках"
+Add a meta description to control the text shown here.,"Добавьте мета-описание, чтобы управлять текстом, показанным здесь."
+All,Все
+All categories,Все категории
+Applies to posts in this category.,Применяется к записям в этой категории.
+Approve,Одобрить
+Approved,Одобрено
+Author,Автор
+Blog,Блог
+Blog Categories,Категории блога
+Blog Comments,Комментарии блога
+Blog Posts,Записи блога
+Blog Tags,Теги блога
+By,От
+Cancel reply,Отменить ответ
+"Category, author, tags and thumbnail.","Категория, автор, теги и миниатюра."
+Closed — no new comments,Закрыто — новые комментарии не принимаются
+Columns (1-4),Столбцы (1-4)
+Comment,Комментарий
+Comment Policy,Политика комментариев
+Comments,Комментарии
+Configure URL key and meta information for this blog category.,Настройте URL-ключ и мета-информацию для этой категории блога.
+Copied!,Скопировано!
+Copy link,Копировать ссылку
+Create a new post,Создать новую запись
+Create a new tag,Создать новый тег
+Delete ${count} comments,Удалить ${count} комментариев
+Delete ${count} posts,Удалить ${count} записей
+Delete ${count} tags,Удалить ${count} тегов
+Disable ${count} categories,Отключить ${count} категорий
+Email (not published),Эл. почта (не публикуется)
+Enable ${count} categories,Включить ${count} категорий
+Enter category name,Введите название категории
+Enter post title,Введите заголовок записи
+Enter tag name,Введите название тега
+Excerpt,Отрывок
+Featured posts,Избранные записи
+Leave a comment,Оставить комментарий
+Leave blank to auto-generate,Оставьте пустым для автогенерации
+Mark spam,Отметить как спам
+Max posts,Макс. записей
+Moderated — hold for review,На модерации — отложено для проверки
+Name and status for this blog category.,Название и статус этой категории блога.
+New post,Новая запись
+New tag,Новый тег
+No comments yet. Be the first!,Пока нет комментариев. Будьте первым!
+No posts in this category yet.,Пока нет записей в этой категории.
+No posts match,Нет подходящих записей
+No posts published yet.,Пока нет опубликованных записей.
+No posts with this tag yet.,Пока нет записей с этим тегом.
+No posts yet,Пока нет записей
+Open page in a new tab,Открыть страницу в новой вкладке
+Open — auto-approve,Открыто — автоодобрение
+Organize,Упорядочить
+Pending,В ожидании
+Post Title,Заголовок записи
+Post comment,Отправить комментарий
+Post created successfully!,Запись успешно создана!
+Post title is required,Заголовок записи обязателен
+Posts,Записи
+Publish ${count} posts,Опубликовать ${count} записей
+Published,Опубликовано
+Published posts are visible on the storefront.,Опубликованные записи видны в магазине.
+React,Реагировать
+Related posts,Похожие записи
+Reply,Ответить
+Reply to ${name},Ответить ${name}
+Search Engine Optimization,Поисковая оптимизация
+Search posts to feature,Найти записи для продвижения
+Search result preview,Предпросмотр результата поиска
+Select a category,Выберите категорию
+Select an author,Выберите автора
+Select tags,Выберите теги
+Short Description,Краткое описание
+Something went wrong. Please try again.,"Что-то пошло не так. Пожалуйста, попробуйте снова."
+Spam,Спам
+Submitting…,Отправка…
+Tag,Тег
+Tag Name,Название тега
+Tag created successfully!,Тег успешно создан!
+Tag name is required,Название тега обязательно
+Tags,Теги
+Thanks! Your comment is awaiting moderation.,Спасибо! Ваш комментарий ожидает модерации.
+The URL path segment under /blog/.,Сегмент URL-пути под /blog/.
+The URL path segment under /blog/category/.,Сегмент URL-пути под /blog/category/.
+The URL path segment under /blog/tag/.,Сегмент URL-пути под /blog/tag/.
+"The post title, status and content.","Заголовок, статус и содержание записи."
+The tag name.,Название тега.
+There is no comment to display,Нет комментариев для отображения
+There is no post to display,Нет записей для отображения
+There is no tag to display,Нет тегов для отображения
+URL key is auto-generated from the name if left blank.,"URL-ключ генерируется автоматически из названия, если оставить пустым."
+URL key is auto-generated from the title if left blank.,"URL-ключ генерируется автоматически из заголовка, если оставить пустым."
+Unpublish,Снять с публикации
+Unpublish ${count} posts,Снять с публикации ${count} записей
+Untitled page,Страница без названия
+Your comment,Ваш комментарий
+min read,мин. чтения

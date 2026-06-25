@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": ["string", "integer"],
+      "enum": ["0", "1", 0, 1]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "Post name is required"
+      }
+    },
+    "url_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "short_description": {
+      "type": ["string", "null"]
+    },
+    "description": {
+      "type": "array",
+      "skipEscape": true,
+      "items": {
+        "type": "object"
+      }
+    },
+    "category_id": {
+      "type": ["integer", "string", "null"]
+    },
+    "author_id": {
+      "type": ["integer", "string", "null"]
+    },
+    "thumbnail": {
+      "type": ["string", "null"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": ["integer", "string"]
+      }
+    },
+    "published_at": {
+      "type": ["string", "null"]
+    },
+    "meta_title": {
+      "type": ["string", "null"]
+    },
+    "meta_description": {
+      "type": ["string", "null"]
+    }
+  },
+  "additionalProperties": true,
+  "required": ["name"]
+}

@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/blog/comments/:id",
+  "access": "private"
+}

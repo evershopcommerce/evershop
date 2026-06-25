@@ -162,6 +162,7 @@
     "@editorjs/quote": "^2.6.0",
     "@editorjs/raw": "^2.5.0",
     "@evershop/editorjs-image": "^1.1.0",
+    "@evershop/editorjs-product-list": "^1.0.0",
     "@evershop/postgres-query-builder": "^2.0.1",
     "@evershop/sonner": "^2.0.7",
     "@graphql-tools/load-files": "^6.6.1",

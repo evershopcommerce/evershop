@@ -1,0 +1,99 @@
+A short description shown on the category page,En kort beskrivelse som vises på kategorisiden
+A short summary shown in listings,Et kort sammendrag som vises i lister
+Add a meta description to control the text shown here.,Legg til en metabeskrivelse for å styre teksten som vises her.
+All,Alle
+All categories,Alle kategorier
+Applies to posts in this category.,Gjelder innlegg i denne kategorien.
+Approve,Godkjenn
+Approved,Godkjent
+Author,Forfatter
+Blog,Blogg
+Blog Categories,Bloggkategorier
+Blog Comments,Bloggkommentarer
+Blog Posts,Blogginnlegg
+Blog Tags,Bloggetiketter
+By,Av
+Cancel reply,Avbryt svar
+"Category, author, tags and thumbnail.","Kategori, forfatter, etiketter og miniatyrbilde."
+Closed — no new comments,Lukket — ingen nye kommentarer
+Columns (1-4),Kolonner (1-4)
+Comment,Kommentar
+Comment Policy,Kommentarregler
+Comments,Kommentarer
+Configure URL key and meta information for this blog category.,Konfigurer URL-nøkkel og metainformasjon for denne bloggkategorien.
+Copied!,Kopiert!
+Copy link,Kopier lenke
+Create a new post,Opprett et nytt innlegg
+Create a new tag,Opprett en ny etikett
+Delete ${count} comments,Slett ${count} kommentarer
+Delete ${count} posts,Slett ${count} innlegg
+Delete ${count} tags,Slett ${count} etiketter
+Disable ${count} categories,Deaktiver ${count} kategorier
+Email (not published),E-post (ikke publisert)
+Enable ${count} categories,Aktiver ${count} kategorier
+Enter category name,Skriv inn kategorinavn
+Enter post title,Skriv inn innleggstittel
+Enter tag name,Skriv inn etikettnavn
+Excerpt,Utdrag
+Featured posts,Utvalgte innlegg
+Leave a comment,Legg igjen en kommentar
+Leave blank to auto-generate,La stå tomt for å generere automatisk
+Mark spam,Merk som spam
+Max posts,Maks innlegg
+Moderated — hold for review,Moderert — holdes tilbake for gjennomgang
+Name and status for this blog category.,Navn og status for denne bloggkategorien.
+New post,Nytt innlegg
+New tag,Ny etikett
+No comments yet. Be the first!,Ingen kommentarer ennå. Vær den første!
+No posts in this category yet.,Ingen innlegg i denne kategorien ennå.
+No posts match,Ingen innlegg samsvarer
+No posts published yet.,Ingen innlegg publisert ennå.
+No posts with this tag yet.,Ingen innlegg med denne etiketten ennå.
+No posts yet,Ingen innlegg ennå
+Open page in a new tab,Åpne siden i en ny fane
+Open — auto-approve,Åpen — automatisk godkjenning
+Organize,Organiser
+Pending,Venter
+Post Title,Innleggstittel
+Post comment,Publiser kommentar
+Post created successfully!,Innlegget ble opprettet!
+Post title is required,Innleggstittel er påkrevd
+Posts,Innlegg
+Publish ${count} posts,Publiser ${count} innlegg
+Published,Publisert
+Published posts are visible on the storefront.,Publiserte innlegg er synlige i butikken.
+React,Reager
+Related posts,Relaterte innlegg
+Reply,Svar
+Reply to ${name},Svar til ${name}
+Search Engine Optimization,Søkemotoroptimalisering
+Search posts to feature,Søk etter innlegg å fremheve
+Search result preview,Forhåndsvisning av søkeresultat
+Select a category,Velg en kategori
+Select an author,Velg en forfatter
+Select tags,Velg etiketter
+Short Description,Kort beskrivelse
+Something went wrong. Please try again.,Noe gikk galt. Vennligst prøv igjen.
+Spam,Spam
+Submitting…,Sender…
+Tag,Etikett
+Tag Name,Etikettnavn
+Tag created successfully!,Etiketten ble opprettet!
+Tag name is required,Etikettnavn er påkrevd
+Tags,Etiketter
+Thanks! Your comment is awaiting moderation.,Takk! Kommentaren din venter på moderering.
+The URL path segment under /blog/.,URL-banesegmentet under /blog/.
+The URL path segment under /blog/category/.,URL-banesegmentet under /blog/category/.
+The URL path segment under /blog/tag/.,URL-banesegmentet under /blog/tag/.
+"The post title, status and content.","Innleggets tittel, status og innhold."
+The tag name.,Etikettnavnet.
+There is no comment to display,Det er ingen kommentar å vise
+There is no post to display,Det er ingen innlegg å vise
+There is no tag to display,Det er ingen etikett å vise
+URL key is auto-generated from the name if left blank.,URL-nøkkelen genereres automatisk fra navnet hvis den står tom.
+URL key is auto-generated from the title if left blank.,URL-nøkkelen genereres automatisk fra tittelen hvis den står tom.
+Unpublish,Avpubliser
+Unpublish ${count} posts,Avpubliser ${count} innlegg
+Untitled page,Side uten tittel
+Your comment,Kommentaren din
+min read,min lesing

@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/blog/tags/:id",
+  "access": "private"
+}

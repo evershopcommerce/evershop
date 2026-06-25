@@ -1,0 +1,99 @@
+A short description shown on the category page,Ангиллын хуудсанд харагдах товч тайлбар
+A short summary shown in listings,Жагсаалтад харагдах товч хураангуй
+Add a meta description to control the text shown here.,Энд харагдах текстийг хянахын тулд мета тайлбар нэмнэ үү.
+All,Бүгд
+All categories,Бүх ангилал
+Applies to posts in this category.,Энэ ангиллын нийтлэлд хамаарна.
+Approve,Зөвшөөрөх
+Approved,Зөвшөөрсөн
+Author,Зохиогч
+Blog,Блог
+Blog Categories,Блогийн ангилал
+Blog Comments,Блогийн сэтгэгдэл
+Blog Posts,Блогийн нийтлэл
+Blog Tags,Блогийн шошго
+By,Бичсэн
+Cancel reply,Хариултыг цуцлах
+"Category, author, tags and thumbnail.","Ангилал, зохиогч, шошго ба жижиг зураг."
+Closed — no new comments,Хаалттай — шинэ сэтгэгдэл байхгүй
+Columns (1-4),Багана (1-4)
+Comment,Сэтгэгдэл
+Comment Policy,Сэтгэгдлийн бодлого
+Comments,Сэтгэгдэл
+Configure URL key and meta information for this blog category.,Энэ блогийн ангиллын URL түлхүүр болон мета мэдээллийг тохируулна уу.
+Copied!,Хуулсан!
+Copy link,Холбоосыг хуулах
+Create a new post,Шинэ нийтлэл үүсгэх
+Create a new tag,Шинэ шошго үүсгэх
+Delete ${count} comments,${count} сэтгэгдэл устгах
+Delete ${count} posts,${count} нийтлэл устгах
+Delete ${count} tags,${count} шошго устгах
+Disable ${count} categories,${count} ангилал идэвхгүй болгох
+Email (not published),Имэйл (нийтлэгдэхгүй)
+Enable ${count} categories,${count} ангилал идэвхжүүлэх
+Enter category name,Ангиллын нэрийг оруулна уу
+Enter post title,Нийтлэлийн гарчгийг оруулна уу
+Enter tag name,Шошгоны нэрийг оруулна уу
+Excerpt,Хэсэгчлэл
+Featured posts,Онцлох нийтлэл
+Leave a comment,Сэтгэгдэл үлдээх
+Leave blank to auto-generate,Автоматаар үүсгэхийн тулд хоосон орхино уу
+Mark spam,Спам гэж тэмдэглэх
+Max posts,Хамгийн их нийтлэл
+Moderated — hold for review,Хянагдсан — хянахаар хүлээлгэв
+Name and status for this blog category.,Энэ блогийн ангиллын нэр ба төлөв.
+New post,Шинэ нийтлэл
+New tag,Шинэ шошго
+No comments yet. Be the first!,Одоогоор сэтгэгдэл алга. Хамгийн түрүүнд бичээрэй!
+No posts in this category yet.,Энэ ангилалд одоогоор нийтлэл алга.
+No posts match,Тохирох нийтлэл алга
+No posts published yet.,Одоогоор нийтлэгдсэн нийтлэл алга.
+No posts with this tag yet.,Энэ шошготой нийтлэл одоогоор алга.
+No posts yet,Одоогоор нийтлэл алга
+Open page in a new tab,Хуудсыг шинэ табд нээх
+Open — auto-approve,Нээлттэй — автоматаар зөвшөөрөх
+Organize,Зохион байгуулах
+Pending,Хүлээгдэж буй
+Post Title,Нийтлэлийн гарчиг
+Post comment,Сэтгэгдэл нийтлэх
+Post created successfully!,Нийтлэл амжилттай үүсгэгдлээ!
+Post title is required,Нийтлэлийн гарчиг шаардлагатай
+Posts,Нийтлэл
+Publish ${count} posts,${count} нийтлэл нийтлэх
+Published,Нийтлэгдсэн
+Published posts are visible on the storefront.,Нийтлэгдсэн нийтлэл дэлгүүрт харагдана.
+React,Хариу үзүүлэх
+Related posts,Холбоотой нийтлэл
+Reply,Хариулах
+Reply to ${name},${name}-д хариулах
+Search Engine Optimization,Хайлтын системийн оновчлол
+Search posts to feature,Онцлох нийтлэл хайх
+Search result preview,Хайлтын үр дүнгийн урьдчилсан харагдац
+Select a category,Ангилал сонгоно уу
+Select an author,Зохиогч сонгоно уу
+Select tags,Шошго сонгоно уу
+Short Description,Товч тайлбар
+Something went wrong. Please try again.,Алдаа гарлаа. Дахин оролдоно уу.
+Spam,Спам
+Submitting…,Илгээж байна…
+Tag,Шошго
+Tag Name,Шошгоны нэр
+Tag created successfully!,Шошго амжилттай үүсгэгдлээ!
+Tag name is required,Шошгоны нэр шаардлагатай
+Tags,Шошго
+Thanks! Your comment is awaiting moderation.,Баярлалаа! Таны сэтгэгдэл хяналтыг хүлээж байна.
+The URL path segment under /blog/.,/blog/ доорх URL замын хэсэг.
+The URL path segment under /blog/category/.,/blog/category/ доорх URL замын хэсэг.
+The URL path segment under /blog/tag/.,/blog/tag/ доорх URL замын хэсэг.
+"The post title, status and content.","Нийтлэлийн гарчиг, төлөв ба агуулга."
+The tag name.,Шошгоны нэр.
+There is no comment to display,Харуулах сэтгэгдэл алга
+There is no post to display,Харуулах нийтлэл алга
+There is no tag to display,Харуулах шошго алга
+URL key is auto-generated from the name if left blank.,Хоосон орхивол URL түлхүүр нэрнээс автоматаар үүснэ.
+URL key is auto-generated from the title if left blank.,Хоосон орхивол URL түлхүүр гарчгаас автоматаар үүснэ.
+Unpublish,Нийтлэлээс хасах
+Unpublish ${count} posts,${count} нийтлэлийг нийтлэлээс хасах
+Untitled page,Гарчиггүй хуудас
+Your comment,Таны сэтгэгдэл
+min read,мин унших

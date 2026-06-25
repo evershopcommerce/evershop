@@ -30,7 +30,10 @@ import { UrnService } from './services/UrnService.js';
   },
   { service: 'cms', type: 'page', description: 'CMS page' },
   { service: 'oms', type: 'order', description: 'Customer order' },
-  { service: 'customer', type: 'customer', description: 'Customer account' }
+  { service: 'customer', type: 'customer', description: 'Customer account' },
+  { service: 'blog', type: 'post', description: 'Blog post' },
+  { service: 'blog', type: 'category', description: 'Blog category' },
+  { service: 'blog', type: 'tag', description: 'Blog tag' }
 ].forEach(registerUrnSchema);
 
 export const CatalogUrn = {
@@ -48,6 +51,12 @@ export const CmsUrn = {
 
 export const OmsUrn = {
   order: (uuid: string) => UrnService.build('oms', 'order', uuid)
+};
+
+export const BlogUrn = {
+  post: (uuid: string) => UrnService.build('blog', 'post', uuid),
+  category: (uuid: string) => UrnService.build('blog', 'category', uuid),
+  tag: (uuid: string) => UrnService.build('blog', 'tag', uuid)
 };
 
 export const CustomerUrn = {

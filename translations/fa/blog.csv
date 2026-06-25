@@ -1,0 +1,99 @@
+A short description shown on the category page,توضیح کوتاهی که در صفحه دسته‌بندی نمایش داده می‌شود
+A short summary shown in listings,خلاصه کوتاهی که در فهرست‌ها نمایش داده می‌شود
+Add a meta description to control the text shown here.,برای کنترل متن نمایش‌داده‌شده در اینجا، یک متا توضیحات اضافه کنید.
+All,همه
+All categories,همه دسته‌بندی‌ها
+Applies to posts in this category.,برای نوشته‌های این دسته‌بندی اعمال می‌شود.
+Approve,تأیید
+Approved,تأیید شد
+Author,نویسنده
+Blog,وبلاگ
+Blog Categories,دسته‌بندی‌های وبلاگ
+Blog Comments,نظرات وبلاگ
+Blog Posts,نوشته‌های وبلاگ
+Blog Tags,برچسب‌های وبلاگ
+By,توسط
+Cancel reply,لغو پاسخ
+"Category, author, tags and thumbnail.",دسته‌بندی، نویسنده، برچسب‌ها و تصویر بندانگشتی.
+Closed — no new comments,بسته — بدون نظر جدید
+Columns (1-4),ستون‌ها (1-4)
+Comment,نظر
+Comment Policy,سیاست نظرات
+Comments,نظرات
+Configure URL key and meta information for this blog category.,کلید URL و اطلاعات متا را برای این دسته‌بندی وبلاگ پیکربندی کنید.
+Copied!,کپی شد!
+Copy link,کپی پیوند
+Create a new post,ایجاد نوشته جدید
+Create a new tag,ایجاد برچسب جدید
+Delete ${count} comments,حذف ${count} نظر
+Delete ${count} posts,حذف ${count} نوشته
+Delete ${count} tags,حذف ${count} برچسب
+Disable ${count} categories,غیرفعال کردن ${count} دسته‌بندی
+Email (not published),ایمیل (منتشر نمی‌شود)
+Enable ${count} categories,فعال کردن ${count} دسته‌بندی
+Enter category name,نام دسته‌بندی را وارد کنید
+Enter post title,عنوان نوشته را وارد کنید
+Enter tag name,نام برچسب را وارد کنید
+Excerpt,گزیده
+Featured posts,نوشته‌های ویژه
+Leave a comment,نظر بگذارید
+Leave blank to auto-generate,برای تولید خودکار خالی بگذارید
+Mark spam,علامت‌گذاری به‌عنوان هرزنامه
+Max posts,حداکثر نوشته‌ها
+Moderated — hold for review,در حال بررسی — نگه‌داشته برای بازبینی
+Name and status for this blog category.,نام و وضعیت این دسته‌بندی وبلاگ.
+New post,نوشته جدید
+New tag,برچسب جدید
+No comments yet. Be the first!,هنوز نظری نیست. اولین نفر باشید!
+No posts in this category yet.,هنوز نوشته‌ای در این دسته‌بندی نیست.
+No posts match,هیچ نوشته‌ای مطابقت ندارد
+No posts published yet.,هنوز نوشته‌ای منتشر نشده است.
+No posts with this tag yet.,هنوز نوشته‌ای با این برچسب نیست.
+No posts yet,هنوز نوشته‌ای نیست
+Open page in a new tab,باز کردن صفحه در زبانه جدید
+Open — auto-approve,باز — تأیید خودکار
+Organize,سازمان‌دهی
+Pending,در انتظار
+Post Title,عنوان نوشته
+Post comment,ارسال نظر
+Post created successfully!,نوشته با موفقیت ایجاد شد!
+Post title is required,عنوان نوشته الزامی است
+Posts,نوشته‌ها
+Publish ${count} posts,انتشار ${count} نوشته
+Published,منتشر شد
+Published posts are visible on the storefront.,نوشته‌های منتشرشده در فروشگاه نمایش داده می‌شوند.
+React,واکنش
+Related posts,نوشته‌های مرتبط
+Reply,پاسخ
+Reply to ${name},پاسخ به ${name}
+Search Engine Optimization,بهینه‌سازی موتور جستجو
+Search posts to feature,جستجوی نوشته‌ها برای ویژه‌سازی
+Search result preview,پیش‌نمایش نتیجه جستجو
+Select a category,یک دسته‌بندی انتخاب کنید
+Select an author,یک نویسنده انتخاب کنید
+Select tags,برچسب‌ها را انتخاب کنید
+Short Description,توضیح کوتاه
+Something went wrong. Please try again.,مشکلی پیش آمد. لطفاً دوباره تلاش کنید.
+Spam,هرزنامه
+Submitting…,در حال ارسال…
+Tag,برچسب
+Tag Name,نام برچسب
+Tag created successfully!,برچسب با موفقیت ایجاد شد!
+Tag name is required,نام برچسب الزامی است
+Tags,برچسب‌ها
+Thanks! Your comment is awaiting moderation.,متشکریم! نظر شما در انتظار بررسی است.
+The URL path segment under /blog/.,بخش مسیر URL زیر /blog/.
+The URL path segment under /blog/category/.,بخش مسیر URL زیر /blog/category/.
+The URL path segment under /blog/tag/.,بخش مسیر URL زیر /blog/tag/.
+"The post title, status and content.",عنوان، وضعیت و محتوای نوشته.
+The tag name.,نام برچسب.
+There is no comment to display,هیچ نظری برای نمایش وجود ندارد
+There is no post to display,هیچ نوشته‌ای برای نمایش وجود ندارد
+There is no tag to display,هیچ برچسبی برای نمایش وجود ندارد
+URL key is auto-generated from the name if left blank.,اگر خالی بماند، کلید URL به‌طور خودکار از نام تولید می‌شود.
+URL key is auto-generated from the title if left blank.,اگر خالی بماند، کلید URL به‌طور خودکار از عنوان تولید می‌شود.
+Unpublish,لغو انتشار
+Unpublish ${count} posts,لغو انتشار ${count} نوشته
+Untitled page,صفحه بدون عنوان
+Your comment,نظر شما
+min read,دقیقه مطالعه

@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/blog/comments/:id/like",
+  "access": "public"
+}

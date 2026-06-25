@@ -27,6 +27,18 @@ const PREVIEW_SAMPLERS = {
               ON cps.cms_page_description_cms_page_id = p.cms_page_id
             WHERE p.status = true
             ORDER BY p.cms_page_id LIMIT 1`
+  },
+  blogPostView: {
+    param: 'uuid',
+    sql: 'SELECT uuid FROM blog_post WHERE status = 1 ORDER BY blog_post_id LIMIT 1'
+  },
+  blogCategoryView: {
+    param: 'uuid',
+    sql: 'SELECT uuid FROM blog_category WHERE status = 1 ORDER BY blog_category_id LIMIT 1'
+  },
+  blogTagView: {
+    param: 'uuid',
+    sql: 'SELECT uuid FROM blog_tag ORDER BY blog_tag_id LIMIT 1'
   }
 };
 

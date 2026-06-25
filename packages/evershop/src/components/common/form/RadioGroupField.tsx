@@ -105,7 +105,7 @@ export function RadioGroupField<T extends FieldValues = FieldValues>({
                 field.onChange(option.value);
               }
             }}
-            className={className}
+            className={`${className} gap-1`}
             aria-invalid={fieldError !== undefined ? 'true' : 'false'}
             aria-describedby={
               fieldError !== undefined ? `${fieldId}-error` : undefined

@@ -1,10 +1,16 @@
 
 import { drawerInputClass } from '@components/common/page-builder/drawer/index.js';
+import { BlogPicker } from '@components/common/page-builder/pickers/BlogPicker.js';
 import { CategoryPicker } from '@components/common/page-builder/pickers/CategoryPicker.js';
 import { PagePicker } from '@components/common/page-builder/pickers/PagePicker.js';
 import { ProductPicker } from '@components/common/page-builder/pickers/ProductPicker.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CatalogUrn, CmsUrn, UrnService } from '@evershop/evershop/lib/urn';
+import {
+  BlogUrn,
+  CatalogUrn,
+  CmsUrn,
+  UrnService
+} from '@evershop/evershop/lib/urn';
 import React, { useState } from 'react';
 
 /**
@@ -34,15 +40,31 @@ function parseUrn(value: string | undefined | null): ParsedLinkUrn | null {
   if (service === 'catalog' && type === 'product') return { kind: 'product', id: uuid };
   if (service === 'catalog' && type === 'category') return { kind: 'category', id: uuid };
   if (service === 'cms' && type === 'page') return { kind: 'page', id: uuid };
+  if (service === 'blog' && type === 'post')
+    return { kind: 'blogPost', id: uuid };
+  if (service === 'blog' && type === 'category')
+    return { kind: 'blogCategory', id: uuid };
+  if (service === 'blog' && type === 'tag')
+    return { kind: 'blogTag', id: uuid };
   return null;
 }
 
-export type LinkKind = 'page' | 'category' | 'product' | 'custom';
+export type LinkKind =
+  | 'page'
+  | 'category'
+  | 'product'
+  | 'blogPost'
+  | 'blogCategory'
+  | 'blogTag'
+  | 'custom';
 
 const TABS: { value: LinkKind; label: string }[] = [
   { value: 'page', label: _('Page') },
   { value: 'category', label: _('Category') },
   { value: 'product', label: _('Product') },
+  { value: 'blogPost', label: _('Blog post') },
+  { value: 'blogCategory', label: _('Blog category') },
+  { value: 'blogTag', label: _('Blog tag') },
   { value: 'custom', label: _('Custom URL') }
 ];
 
@@ -126,6 +148,45 @@ export function LinkPicker({
             onChange({
               url: CatalogUrn.product(r.uuid),
               kind: 'product',
+              label: r.name
+            })
+          }
+        />
+      )}
+      {tab === 'blogPost' && (
+        <BlogPicker
+          kind="post"
+          selectedUuid={parsed?.kind === 'blogPost' ? parsed.id : null}
+          onPick={(r) =>
+            onChange({
+              url: BlogUrn.post(r.uuid),
+              kind: 'blogPost',
+              label: r.name
+            })
+          }
+        />
+      )}
+      {tab === 'blogCategory' && (
+        <BlogPicker
+          kind="category"
+          selectedUuid={parsed?.kind === 'blogCategory' ? parsed.id : null}
+          onPick={(r) =>
+            onChange({
+              url: BlogUrn.category(r.uuid),
+              kind: 'blogCategory',
+              label: r.name
+            })
+          }
+        />
+      )}
+      {tab === 'blogTag' && (
+        <BlogPicker
+          kind="tag"
+          selectedUuid={parsed?.kind === 'blogTag' ? parsed.id : null}
+          onPick={(r) =>
+            onChange({
+              url: BlogUrn.tag(r.uuid),
+              kind: 'blogTag',
               label: r.name
             })
           }
