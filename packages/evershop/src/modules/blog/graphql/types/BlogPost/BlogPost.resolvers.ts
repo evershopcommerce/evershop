@@ -5,8 +5,8 @@ import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { BlogPostCollection } from '../../../services/BlogPostCollection.js';
 import { getBlogCategoriesBaseQuery } from '../../../services/getBlogCategoriesBaseQuery.js';
 import { getPostsBaseQuery } from '../../../services/getPostsBaseQuery.js';
-import { readingTime } from '../../../services/readingTime.js';
 import { REACTION_TYPES } from '../../../services/reaction/reactionTypes.js';
+import { readingTime } from '../../../services/readingTime.js';
 
 export default {
   Query: {
