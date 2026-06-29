@@ -119,7 +119,7 @@ export default async (request: EvershopRequest, response, next) => {
             } as AppStateContextValue
           });
         } else {
-          render(request, response);
+          render(request, response, next);
         }
       }
     }

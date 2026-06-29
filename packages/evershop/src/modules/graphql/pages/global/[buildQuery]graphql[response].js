@@ -73,17 +73,23 @@ export default async function graphql(request, response, next) {
             document,
             variableValues: graphqlVariables
           });
+          // Render with whatever data resolved instead of aborting the whole
+          // page on the first field error. A single failing or non-critical
+          // resolver (e.g. "related products") should degrade that area, not
+          // turn the entire SSR response into a 500. Field errors are logged;
+          // partial `data.data` (or {} on total failure) is passed through.
           if (data.errors) {
-            next(data.errors[0]);
-          } else {
-            response.locals = response.locals || {};
-            response.locals.graphqlResponse = JSON.parse(
-              JSON.stringify(data.data)
+            data.errors.forEach((e) =>
+              debug(`GraphQL field error: ${e.message}`)
             );
-            // Get id and props from the queryRaw object and assign to response.locals.propsMap
-            response.locals.propsMap = propsMap;
-            next();
           }
+          response.locals = response.locals || {};
+          response.locals.graphqlResponse = data.data
+            ? JSON.parse(JSON.stringify(data.data))
+            : {};
+          // Get id and props from the queryRaw object and assign to response.locals.propsMap
+          response.locals.propsMap = propsMap;
+          next();
         }
       }
     }
