@@ -4,6 +4,7 @@ import {
   isInPageBuilderIframe,
   markPageBuilderActive
 } from './pageBuilderMode.js';
+import { ensureChromeStyleInjected } from './WidgetChrome.js';
 
 /**
  * Listens for `data-update` postMessages from the admin window and applies
@@ -102,6 +103,12 @@ export function PageBuilderBridge(): null {
     markPageBuilderActive();
 
     ensureGlobalsOutlineStyle();
+    // The chrome stylesheet carries the `[data-evershop-pb-dropzone]` sizing /
+    // visibility rules. `WidgetChrome` injects it too, but only mounts per
+    // existing widget — so on a route with no widgets the drop zones would
+    // have no CSS and stay invisible / zero-height. Inject here (always
+    // mounted in the iframe) so drop zones work on a fresh, empty store.
+    ensureChromeStyleInjected();
 
     // Capture-phase link guard: edit mode disables in-preview navigation.
     // The page-builder session lives in the iframe's URL (`?changeset=`),
@@ -153,6 +160,22 @@ export function PageBuilderBridge(): null {
         | Partial<GlobalsViewMessage>
         | null;
       if (!raw) return;
+
+      // Drag lifecycle: the admin posts `pb-drag-start` / `pb-drag-end` when a
+      // palette drag begins / ends. Toggling `body[data-evershop-pb-drag]`
+      // reveals every drop zone via the chrome CSS. `WidgetChrome` also
+      // listens, but only when a widget is mounted — handling it here too
+      // makes drops work on a route with no widgets. Setting / removing the
+      // attribute is idempotent, so both listeners firing is harmless.
+      const dragType = (raw as { type?: string }).type;
+      if (dragType === 'pb-drag-start') {
+        document.body.setAttribute('data-evershop-pb-drag', 'true');
+        return;
+      }
+      if (dragType === 'pb-drag-end') {
+        document.body.removeAttribute('data-evershop-pb-drag');
+        return;
+      }
 
       // Globals-view toggle: outline `[data-evershop-global]` areas.
       if ((raw as GlobalsViewMessage).type === 'globals-view') {

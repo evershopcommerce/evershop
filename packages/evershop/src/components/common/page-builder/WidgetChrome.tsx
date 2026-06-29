@@ -89,7 +89,17 @@ const CHROME_CSS = `
   }
 `;
 
-function ensureChromeStyleInjected(): void {
+/**
+ * Inject the page-builder chrome stylesheet (widget outlines, toolbar
+ * visibility, and — critically — the `[data-evershop-pb-dropzone]` sizing /
+ * visibility rules) once per document. Idempotent via the element-id guard.
+ *
+ * Exported because the drop-zone rules must exist even on a route with **no
+ * widgets** (a fresh store): `WidgetChrome` only mounts per existing widget,
+ * so `PageBuilderBridge` (always mounted in the iframe) also calls this to
+ * guarantee the stylesheet is present regardless of widget count.
+ */
+export function ensureChromeStyleInjected(): void {
   if (typeof document === 'undefined') return;
   if (document.getElementById(CHROME_STYLE_ID)) return;
   const el = document.createElement('style');
