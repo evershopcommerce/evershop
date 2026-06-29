@@ -171,11 +171,9 @@ export function createBaseConfig(isServer) {
 
   config.optimization = {};
 
-  // Check if the flag --skip-minify is set
-  const skipMinify = process.argv.includes('--skip-minify');
   if (isProductionMode()) {
     config.optimization = Object.assign(config.optimization, {
-      minimize: !skipMinify,
+      minimize: true,
       minimizer: [
         new SwcMinifyWebpackPlugin({
           compress: true,
@@ -184,8 +182,7 @@ export function createBaseConfig(isServer) {
           sourceMap: true,
           keep_classnames: false,
           keep_fnames: false,
-          safari10: true,
-          sourceMap: true
+          safari10: true
         })
       ]
     });

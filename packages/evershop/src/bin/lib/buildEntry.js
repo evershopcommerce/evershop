@@ -16,7 +16,7 @@ import { getEnabledWidgets } from '../../lib/widget/widgetManager.js';
  */
 export async function buildEntry(routes, clientOnly = false) {
   const widgets = getEnabledWidgets();
-  await Promise.all(
+  const serverEntries = await Promise.all(
     routes.map(async (route) => {
       const imports = [];
       const subPath = getRouteBuildPath(route);
@@ -61,7 +61,7 @@ export async function buildEntry(routes, clientOnly = false) {
       let contentClient = `
       import React from 'react';
       import ReactDOM from 'react-dom';
-      import { Area } from '@evershop/evershop/components/common';
+      import { Area, setAreaComponents } from '@evershop/evershop/components/common';
       import {${
         route.isAdmin ? 'HydrateAdmin' : 'HydrateFrontStore'
       }} from '@evershop/evershop/components/common';
@@ -88,9 +88,9 @@ export async function buildEntry(routes, clientOnly = false) {
         // Admin bundles also ship each widget's previewComponent under a
         // separate wildcard-area key (`admin_widget_preview_<type>`). The
         // page-builder Widgets-palette hover card (`WidgetPreviewCard`) looks
-        // it up directly from `Area.defaultProps.components['*']`. Mirror
-        // AreaLoader's dev-mode behavior here so production builds also have
-        // the preview registry.
+        // it up via `getAreaComponents(routeId)['*']`. Mirror AreaLoader's
+        // dev-mode behavior here so production builds also have the preview
+        // registry.
         if (route.isAdmin && widget.previewComponent) {
           const previewUrl = pathToFileURL(widget.previewComponent).toString();
           const previewId = generateComponentKey(
@@ -106,16 +106,17 @@ export async function buildEntry(routes, clientOnly = false) {
           };
         }
       });
-      contentClient += '\r\n';
-      contentClient += imports.join('\r\n');
-      contentClient += '\r\n';
-      contentClient += `Area.defaultProps.components = ${inspect(areas, {
-        depth: 5
-      })
+      // Serialize the areas map to an object literal whose values reference the
+      // imported component bindings (the `---id---` markers become bare ids).
+      const areasLiteral = inspect(areas, { depth: 5 })
         .replace(/"---/g, '')
         .replace(/---"/g, '')
         .replace(/'---/g, '')
-        .replace(/---'/g, '')} `;
+        .replace(/---'/g, '');
+      contentClient += '\r\n';
+      contentClient += imports.join('\r\n');
+      contentClient += '\r\n';
+      contentClient += `setAreaComponents('${route.id}', ${areasLiteral});`;
       contentClient += '\r\n';
       contentClient += `ReactDOM.hydrate(
         ${
@@ -134,40 +135,64 @@ export async function buildEntry(routes, clientOnly = false) {
       );
 
       if (!clientOnly) {
-        /** Build query */
+        /** Per-route merged GraphQL query — consumed at runtime by the
+         * buildQuery middleware, independent of the server bundle. */
         const query = `${JSON.stringify(parseGraphql(components))}`;
-
-        // Loop through the widgets config and add the query to the widgets
-        let contentServer = `import React from 'react'; `;
-        contentServer += '\r\n';
-        contentServer += `import ReactDOM from 'react-dom'; `;
-        contentServer += '\r\n';
-        contentServer += `import { Area } from '@evershop/evershop/components/common';`;
-        contentServer += '\r\n';
-        contentServer += `import { renderHtml } from '@evershop/evershop/components/common';\r\n`;
-        contentServer += imports.join('\r\n');
-        contentServer += '\r\n';
-        contentServer += `export default renderHtml;\r\n`;
-        contentServer += `Area.defaultProps.components = ${inspect(areas, {
-          depth: 5
-        })
-          .replace(/"---/g, '')
-          .replace(/---"/g, '')
-          .replace(/'---/g, '')
-          .replace(/---'/g, '')} `;
-
         if (!fs.existsSync(path.resolve(subPath, 'server'))) {
           await mkdir(path.resolve(subPath, 'server'), { recursive: true });
         }
         await writeFile(
-          path.resolve(subPath, 'server', 'entry.js'),
-          contentServer
-        );
-        await writeFile(
           path.resolve(subPath, 'server', 'query.graphql'),
           query
         );
+        // Phase 2: collect this route's component imports + registration so the
+        // per-context server bundle (written after the loop) imports every
+        // component once and registers every route's component map.
+        return {
+          context: route.isAdmin ? 'admin' : 'frontStore',
+          imports,
+          registration: `setAreaComponents('${route.id}', ${areasLiteral});`
+        };
       }
+      return null;
+    })
+  );
+
+  if (clientOnly) {
+    return;
+  }
+
+  // Phase 2: write ONE server (SSR) entry per context. Each imports every one of
+  // its routes' components (deduped — webpack builds the shared module graph
+  // once) and registers each route's map; `renderHtml` + `Area` select the
+  // current route at render time. Replaces the old per-route server entries and
+  // their per-bundle vendor duplication.
+  const byContext = {};
+  for (const entry of serverEntries) {
+    if (!entry) {
+      continue;
+    }
+    const bucket = (byContext[entry.context] = byContext[entry.context] || {
+      imports: new Map(),
+      registrations: []
+    });
+    entry.imports.forEach((imp) => bucket.imports.set(imp, true));
+    bucket.registrations.push(entry.registration);
+  }
+  await Promise.all(
+    Object.entries(byContext).map(async ([context, bucket]) => {
+      let contentServer = `import React from 'react';\r\n`;
+      contentServer += `import ReactDOM from 'react-dom';\r\n`;
+      contentServer += `import { Area, setAreaComponents } from '@evershop/evershop/components/common';\r\n`;
+      contentServer += `import { renderHtml } from '@evershop/evershop/components/common';\r\n`;
+      contentServer += [...bucket.imports.keys()].join('\r\n');
+      contentServer += '\r\n';
+      contentServer += `export default renderHtml;\r\n`;
+      contentServer += bucket.registrations.join('\r\n');
+      contentServer += '\r\n';
+      const serverDir = path.resolve(CONSTANTS.BUILDPATH, context, 'server');
+      await mkdir(serverDir, { recursive: true });
+      await writeFile(path.resolve(serverDir, 'entry.js'), contentServer);
     })
   );
 }

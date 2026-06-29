@@ -7,6 +7,7 @@ import { getPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
 import { Config } from '../../types/appContext.js';
 import { EvershopRequest } from '../../types/request.js';
 import { EvershopResponse } from '../../types/response.js';
+import { CONSTANTS } from '../helpers.js';
 import { getPageDictionary } from '../locale/dictionary.js';
 import { getLocaleContext } from '../locale/localeContext.js';
 import { error } from '../log/logger.js';
@@ -119,8 +120,14 @@ function renderDevelopment(
 
 function renderProduction(request, response, next?) {
   const route = request.currentRoute;
+  // Phase 2: one server (SSR) bundle per context — `frontStore/server/index.js`
+  // or `admin/server/index.js` — instead of one bundle per route. The bundle
+  // registers every route's component map; `renderHtml` + `Area` select the
+  // current route via `getAreaComponents(route.id)` at render time. Client
+  // assets (below) stay per-route.
   const serverIndexPath = path.resolve(
-    getRouteBuildPath(route),
+    CONSTANTS.BUILDPATH,
+    route.isAdmin ? 'admin' : 'frontStore',
     'server',
     'index.js'
   );
