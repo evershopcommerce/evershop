@@ -785,13 +785,24 @@ export default function Editor({
   }, [rolloutPlansResult.data]);
   const pageRoutes = useMemo(
     () =>
-      allRoutes.filter(
-        (r: any) =>
-          r.editableInPageBuilder === true &&
-          !r.isApi &&
-          !r.isAdmin &&
-          typeof r.path === 'string'
-      ),
+      allRoutes
+        .filter(
+          (r: any) =>
+            r.editableInPageBuilder === true &&
+            !r.isApi &&
+            !r.isAdmin &&
+            typeof r.path === 'string'
+        )
+        // Homepage first, then alphabetical by display name. The raw `routes`
+        // query returns scan/registration order, which reads as random in the
+        // switcher and Pages tab; a stable, predictable order is friendlier.
+        // `.filter` already returned a fresh array, so sorting in place is safe.
+        .sort((a: any, b: any) => {
+          if (a.id === b.id) return 0;
+          if (a.id === 'homepage') return -1;
+          if (b.id === 'homepage') return 1;
+          return (a.name ?? '').localeCompare(b.name ?? '');
+        }),
     [allRoutes]
   );
 
