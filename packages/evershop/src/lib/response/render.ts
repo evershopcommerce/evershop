@@ -117,7 +117,7 @@ function renderDevelopment(
   `);
 }
 
-function renderProduction(request, response) {
+function renderProduction(request, response, next?) {
   const route = request.currentRoute;
   const serverIndexPath = path.resolve(
     getRouteBuildPath(route),
@@ -165,12 +165,19 @@ function renderProduction(request, response) {
     })
     .catch((e) => {
       error(e);
+      // This render runs inside a floated promise, so a throw here never reaches
+      // the calling middleware's try/catch. Without forwarding it, the request
+      // hangs until the socket/requestTimeout fires (no status, no body). Hand it
+      // to the error handler so the client gets a proper 500 instead.
+      if (typeof next === 'function' && !response.headersSent) {
+        next(e);
+      }
     });
 }
 
-export function render(request, response) {
+export function render(request, response, next?) {
   if (isProductionMode()) {
-    renderProduction(request, response);
+    renderProduction(request, response, next);
   } else {
     renderDevelopment(request, response);
   }
