@@ -28,7 +28,6 @@ function ThumbnailField({
 
   React.useEffect(() => {
     setValue(name, defaultValue ?? '');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const current = defaultValue

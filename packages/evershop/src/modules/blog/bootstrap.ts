@@ -1,5 +1,5 @@
-import { select } from '@evershop/postgres-query-builder';
 import path from 'path';
+import { select } from '@evershop/postgres-query-builder';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { buildUrl } from '../../lib/router/buildUrl.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
