@@ -81,7 +81,7 @@ const buildWidgetComponentsPerRoute = (route, widgets, imports) => {
     // Admin bundles also ship each widget's previewComponent under a
     // separate wildcard-area key (`admin_widget_preview_<type>`). The
     // page-builder Widgets-palette hover card (`WidgetPreviewCard`) looks
-    // it up directly from `Area.defaultProps.components[route]['*']`. We
+    // it up via `getAreaComponents(routeId)['*']`. We
     // don't route this through `<Area>` because Area picks exactly one
     // component per widget type — and we need two for admin (settings +
     // preview).
@@ -140,16 +140,23 @@ export default function AreaLoader(c) {
     error('Error in AreaLoader:');
     error(e);
   }
-  const content = `${Array.from(imports.values()).join(
-    '\r\n'
-  )}\r\nconst components = ${inspect(allRootComponents, { depth: 5 })
+  // Inject the `setAreaComponents` import here (at webpack time) rather than
+  // relying on one in Index.jsx: that source import is unused in Index.jsx
+  // itself (only the code injected below uses it), so swc elides it during the
+  // src→dist compile and the injected call would hit `setAreaComponents is not
+  // defined`. Injecting it post-swc, in the same module text webpack parses,
+  // resolves the binding. Path must match Index.jsx's `@components/common/Area`
+  // so it's the same module instance whose registry `<Area>` reads.
+  const content = `import { setAreaComponents } from '@components/common/Area';\r\n${Array.from(
+    imports.values()
+  ).join('\r\n')}\r\nconst components = ${inspect(allRootComponents, { depth: 5 })
     .replace(/"---/g, '')
     .replace(/---"/g, '')
     .replace(/'---/g, '')
     .replace(
       /---'/g,
       ''
-    )}\r\nArea.defaultProps.components = components[window.eContext.config.pageMeta.route.id] ;\r\n`;
+    )}\r\nObject.entries(components).forEach(([rid, map]) => setAreaComponents(rid, map));\r\n`;
   const result = c.replace('/** render */', content);
   return result;
 }

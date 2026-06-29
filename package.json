@@ -11,7 +11,6 @@
     "dev": "node ./packages/evershop/dist/bin/dev/index.js",
     "start": "node ./packages/evershop/dist/bin/start/index.js",
     "build": "node ./packages/evershop/dist/bin/build/index.js",
-    "build-fast": "evershop build -- --skip-minify",
     "setup": "evershop install",
     "user:create": "evershop user:create",
     "seed": "evershop seed",

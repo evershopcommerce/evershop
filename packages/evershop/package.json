@@ -130,7 +130,6 @@
     "dev": "node ./dist/bin/dev/index.js",
     "start": "node ./dist/bin/start/index.js",
     "build": "node ./dist/bin/build/index.js",
-    "build-fast": "evershop build -- --skip-minify",
     "user:create": "evershop user:create",
     "user:changePassword": "evershop user:changePassword",
     "test": "jest"

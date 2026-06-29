@@ -1,4 +1,5 @@
-import Area from '@components/common/Area.js';
+import { getAreaComponents } from '@components/common/Area.js';
+import { useAppState } from '@components/common/context/app.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { generateComponentKey } from '@evershop/evershop/lib/util/keyGenerator';
 import React, { useMemo } from 'react';
@@ -30,8 +31,8 @@ const ESTIMATED_H = 220;
  * Doesn't go through `<Area>` because Area's lookup picks at most one
  * component per widget type (setting OR storefront) — adding a third
  * "preview" variant would invasively change Area's contract. Instead we
- * read `Area.defaultProps.components['*']` directly and pull the preview
- * component out of the wildcard map.
+ * read the current route's wildcard map via `getAreaComponents(routeId)['*']`
+ * and pull the preview component out of it.
  *
  * `pointer-events: none` so the card never blocks drag/click on the row.
  */
@@ -40,19 +41,17 @@ export function WidgetPreviewCard({
   rect,
   anchorX
 }: WidgetPreviewCardProps): React.ReactElement {
+  const routeId = useAppState()?.config?.pageMeta?.route?.id;
   const PreviewComponent = useMemo(() => {
     const key = generateComponentKey(`admin_widget_preview_${widget.code}`);
-    // Area.defaultProps.components is route-scoped at runtime: AreaLoader sets
-    // it to `components[currentRouteId]`. The page-builder editor route bundle
-    // contains every widget's preview under wildcard area '*'.
-    const components =
-      ((Area as unknown) as { defaultProps?: { components?: any } })
-        .defaultProps?.components ?? {};
+    // Pull the preview component from the current route's wildcard ('*') map.
+    // The page-builder editor route bundle registers every widget's preview there.
+    const components = getAreaComponents(routeId);
     const wildcard = components?.['*'] ?? {};
     const entry = wildcard?.[key];
     const cmp = entry?.component?.default;
     return typeof cmp === 'function' || typeof cmp === 'object' ? cmp : null;
-  }, [widget.code]);
+  }, [widget.code, routeId]);
 
   // Vertically center on the row, but clamp to viewport.
   const vh = typeof window !== 'undefined' ? window.innerHeight : 800;

@@ -64,6 +64,21 @@ interface Components {
   };
 }
 
+// Route-keyed component registry. Replaces the legacy `Area.defaultProps.components`
+// data-channel — function-component `defaultProps` is ignored in React 19, which
+// would silently blank every page. Prod client bundles register exactly one route;
+// the dev loader and the (future) single server bundle register every route. `Area`
+// selects the current request's route below via the app-state context.
+const areaComponentRegistry: Record<string, Components> = {};
+
+export function setAreaComponents(routeId: string, map: Components): void {
+  areaComponentRegistry[routeId] = map;
+}
+
+export function getAreaComponents(routeId: string | undefined): Components {
+  return (routeId && areaComponentRegistry[routeId]) || {};
+}
+
 interface AreaProps {
   className?: string;
   coreComponents?: Component[];
@@ -220,15 +235,21 @@ function Area(props: AreaProps) {
   const inPageBuilder = useIsInPageBuilderIframe();
   const {
     id,
-    coreComponents,
-    wrapperProps,
-    noOuter,
-    wrapper,
+    coreComponents = [],
+    wrapperProps = {},
+    noOuter = false,
+    wrapper = 'div',
     className,
-    components,
+    components: componentsProp,
     isGlobal,
     editableInPageBuilder
   } = props;
+
+  // Route-scoped component map. Sourced from the registry (populated by the route
+  // entry / dev loader), keyed by the current request's route. An explicit
+  // `components` prop is still honored if one is ever passed directly.
+  const currentRouteId = context?.config?.pageMeta?.route?.id;
+  const components = componentsProp ?? getAreaComponents(currentRouteId);
 
   const areaComponents = (() => {
     const areaCoreComponents = coreComponents || [];
@@ -497,14 +518,6 @@ function Area(props: AreaProps) {
     </WrapperComponent>
   );
 }
-
-Area.defaultProps = {
-  className: undefined,
-  coreComponents: [],
-  noOuter: false,
-  wrapper: 'div',
-  wrapperProps: {}
-};
 
 export { Area };
 export default Area;
