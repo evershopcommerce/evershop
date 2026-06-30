@@ -522,7 +522,9 @@ export default function StoreSetting({
                       value: t.code,
                       label: t.name
                     }))}
-                    helperText={_('Timezone used to display dates in the store.')}
+                    helperText={_(
+                      'Timezone used to display dates in the store.'
+                    )}
                   />
                   <SelectField
                     name="weightUnit"

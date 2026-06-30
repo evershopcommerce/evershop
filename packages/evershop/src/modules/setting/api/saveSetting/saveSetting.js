@@ -56,8 +56,12 @@ export default async (request, response, next) => {
     const promises = [];
     Object.keys(body).forEach((key) => {
       const value = body[key];
-      // Check if the value is a object or array
-      if (typeof value === 'object') {
+      // Arrays/objects are persisted as JSON. Guard against null explicitly: `typeof null ===
+      // 'object'`, so without the `!== null` check an absent optional field (e.g. storeEmail /
+      // storePhoneNumber, which the resolver defaults to null) would be JSON.stringified to the
+      // literal string "null" and shown as "null" in the form after saving. Null/undefined
+      // scalars are stored as an empty string instead.
+      if (value !== null && typeof value === 'object') {
         promises.push(
           insertOnUpdate('setting', ['name'])
             .given({
@@ -72,7 +76,7 @@ export default async (request, response, next) => {
           insertOnUpdate('setting', ['name'])
             .given({
               name: key,
-              value,
+              value: value ?? '',
               is_json: 0
             })
             .execute(connection, false)
