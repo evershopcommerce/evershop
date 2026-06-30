@@ -1,4 +1,5 @@
 import { getConfig } from '../../../lib/util/getConfig.js';
+import { getStoreCurrency } from '../../setting/services/setting.js';
 
 export type RoundType = 'up' | 'down' | 'round';
 export function toPrice(value: string, forDisplay: boolean = false) {
@@ -26,7 +27,7 @@ export function toPrice(value: string, forDisplay: boolean = false) {
   if (!forDisplay) {
     return price;
   } else {
-    const currency = getConfig('shop.currency', 'USD');
+    const currency = getStoreCurrency();
     const language = getConfig('shop.language', 'en');
     return new Intl.NumberFormat(language, {
       style: 'currency',

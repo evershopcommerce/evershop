@@ -1,8 +1,9 @@
-import { getConfig } from '../../../../../lib/util/getConfig.js';
 import {
   getAdditionalLanguages,
   getAdminLanguage,
-  getStoreLanguage
+  getStoreCurrency,
+  getStoreLanguage,
+  getStoreTimezone
 } from '../../../services/setting.js';
 
 export default {
@@ -33,15 +34,8 @@ export default {
     // full enabled set is always default + these (getEnabledLanguages, server-side).
     storeLanguages: () => getAdditionalLanguages(),
     adminLanguage: () => getAdminLanguage(),
-    storeCurrency: () => getConfig('shop.currency', 'USD'),
-    storeTimeZone: (setting) => {
-      const storeTimeZone = setting.find((s) => s.name === 'storeTimeZone');
-      if (storeTimeZone) {
-        return storeTimeZone.value;
-      } else {
-        return 'America/New_York';
-      }
-    },
+    storeCurrency: () => getStoreCurrency(),
+    storeTimeZone: () => getStoreTimezone(),
     storePhoneNumber: (setting) => {
       const storePhoneNumber = setting.find(
         (s) => s.name === 'storePhoneNumber'

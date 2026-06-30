@@ -1,5 +1,5 @@
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import type { ShippingItem } from '../../../../types/shippingProvider.js';
+import { getDimensionUnit } from '../../../setting/services/setting.js';
 
 /**
  * Minimal interface a cart item must satisfy. Avoids depending on the
@@ -37,9 +37,9 @@ function toInt(value: unknown): number {
  *
  * See wiki/shipping-provider-design.md → "Provider DTO principle".
  */
-/** Normalize `shop.dimensionUnit` to the `Dimensions.unit` vocabulary. */
+/** Normalize the store dimension unit (admin setting) to the `Dimensions.unit` vocabulary. */
 function dimensionUnit(): 'cm' | 'mm' | 'in' {
-  const unit = String(getConfig('shop.dimensionUnit', 'cm')).toLowerCase();
+  const unit = String(getDimensionUnit()).toLowerCase();
   return unit === 'mm' || unit === 'in' ? unit : 'cm';
 }
 

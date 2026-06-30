@@ -5,7 +5,10 @@ import { pool } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../../lib/util/registry.js';
 import { validateAddress } from '../../../../modules/customer/services/index.js';
-import { getSetting } from '../../../../modules/setting/services/setting.js';
+import {
+  getSetting,
+  getStoreCurrency
+} from '../../../../modules/setting/services/setting.js';
 import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
 import { getTaxPercent } from '../../../../modules/tax/services/getTaxPercent.js';
 import { getTaxRates } from '../../../../modules/tax/services/getTaxRates.js';
@@ -41,9 +44,8 @@ export function registerCartBaseFields(fields) {
     {
       key: 'currency',
       resolvers: [
-        async function resolver() {
-          const currency = getConfig('shop.currency', 'USD');
-          return currency;
+        function resolver() {
+          return getStoreCurrency();
         }
       ]
     },

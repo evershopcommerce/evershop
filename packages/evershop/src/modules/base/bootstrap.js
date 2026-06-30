@@ -21,12 +21,6 @@ export default async () => {
               type: 'string',
               format: 'uri'
             },
-            weightUnit: {
-              type: 'string'
-            },
-            currency: {
-              type: 'string'
-            },
             language: {
               type: 'string'
             },

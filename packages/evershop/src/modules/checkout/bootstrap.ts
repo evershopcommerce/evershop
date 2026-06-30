@@ -74,21 +74,10 @@ export default () => {
               type: 'boolean'
             }
           }
-        },
-        shop: {
-          type: 'object',
-          properties: {
-            // Unit for package dimensions (`package` table, cart/order item
-            // snapshots). Pinned to the `Dimensions.unit` vocabulary in
-            // oms/types/carrier.ts so no mapping layer is needed. Same model
-            // as shop.weightUnit: store-wide, values reinterpreted (not
-            // converted) if changed after data exists.
-            dimensionUnit: {
-              type: 'string',
-              enum: ['cm', 'mm', 'in']
-            }
-          }
         }
+        // `shop.dimensionUnit` used to be declared here. It is an admin setting now
+        // (read via getDimensionUnit in modules/setting/services); config.json keeps
+        // working as an untyped legacy fallback, so no schema entry is needed.
       }
     });
     return schema;

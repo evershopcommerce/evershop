@@ -1,4 +1,4 @@
-import { getConfig } from '../util/getConfig.js';
+import { getStoreCurrency } from '../../modules/setting/services/setting.js';
 import { MAX_DEPTH } from './types.js';
 import type { FieldDescriptor, Validation } from './types.js';
 
@@ -50,8 +50,8 @@ function compileScalar(field: FieldDescriptor): JSONSchema {
     case 'boolean':
       return { type: 'boolean' };
     case 'money': {
-      // currency must match the store currency (spec §3.6)
-      const currency = getConfig('shop.currency', '');
+      // currency must match the store currency (spec §3.6) — admin setting, legacy config fallback
+      const currency = getStoreCurrency();
       return {
         type: 'object',
         properties: {
