@@ -1,6 +1,7 @@
 import Handlebars from 'handlebars';
 import {
   getSetting,
+  getStoreCurrency,
   getStoreLanguage
 } from '../../modules/setting/services/setting.js';
 import { countries } from '../locale/countries.js';
@@ -42,7 +43,7 @@ Handlebars.registerHelper('currency', function (value) {
 
   return new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency: getConfig('shop.currency', 'USD'),
+    currency: getStoreCurrency(),
     minimumFractionDigits: 0,
     maximumFractionDigits: 2
   }).format(number);

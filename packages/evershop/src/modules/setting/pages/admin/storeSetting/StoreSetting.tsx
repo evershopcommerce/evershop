@@ -68,6 +68,22 @@ const CountriesQuery = `
   }
 `;
 
+// Pinned to the `Weight.unit` / `Dimension.unit` vocabularies (see oms/types/carrier.ts and
+// the createShipment normalizer). These are display labels only — stored weights/dimensions
+// are unit-less numbers, so changing the unit relabels existing data, it does not convert it.
+const WEIGHT_UNITS = [
+  { value: 'kg', label: 'Kilogram (kg)' },
+  { value: 'g', label: 'Gram (g)' },
+  { value: 'lb', label: 'Pound (lb)' },
+  { value: 'oz', label: 'Ounce (oz)' }
+];
+
+const DIMENSION_UNITS = [
+  { value: 'cm', label: 'Centimeter (cm)' },
+  { value: 'mm', label: 'Millimeter (mm)' },
+  { value: 'in', label: 'Inch (in)' }
+];
+
 const Province: React.FC<{
   selectedCountry: string;
   selectedProvince: string;
@@ -282,14 +298,22 @@ const StoreEmail: React.FC<{ storeEmail: string }> = ({ storeEmail }) => {
   );
 };
 
+interface CodeName {
+  code: string;
+  name: string;
+}
+
 interface StoreSettingProps {
   saveSettingApi: string;
+  timezones: CodeName[];
+  currencies: CodeName[];
   setting: {
     storeName: string;
     storeDescription: string;
     storeLanguage: string;
     storeLanguages: string[];
     adminLanguage: string;
+    storeTimeZone: string;
     storePhoneNumber: string;
     storeEmail: string;
     storeCountry: string;
@@ -299,18 +323,23 @@ interface StoreSettingProps {
     storePostalCode: string;
     metaData?: Record<string, unknown>;
     storeCurrency?: string;
+    weightUnit?: string;
+    dimensionUnit?: string;
     shopMetafieldsApi?: string;
   };
 }
 
 export default function StoreSetting({
   saveSettingApi,
+  timezones,
+  currencies,
   setting: {
     storeName,
     storeDescription,
     storeLanguage,
     storeLanguages,
     adminLanguage,
+    storeTimeZone,
     storePhoneNumber,
     storeEmail,
     storeCountry,
@@ -320,6 +349,8 @@ export default function StoreSetting({
     storePostalCode,
     metaData,
     storeCurrency,
+    weightUnit,
+    dimensionUnit,
     shopMetafieldsApi
   }
 }: StoreSettingProps) {
@@ -466,6 +497,49 @@ export default function StoreSetting({
                 storeLanguages={storeLanguages}
                 adminLanguage={adminLanguage}
               />
+              <CardContent className="pt-3 border-t border-border">
+                <CardTitle>{_('Regional & Units')}</CardTitle>
+                <div className="grid grid-cols-2 gap-5 mt-5">
+                  <SelectField
+                    name="storeCurrency"
+                    label={_('Currency')}
+                    defaultValue={storeCurrency}
+                    required
+                    options={currencies.map((c) => ({
+                      value: c.code,
+                      label: `${c.name} (${c.code})`
+                    }))}
+                    helperText={_(
+                      'Default currency for new carts and price display. Existing orders keep their own currency.'
+                    )}
+                  />
+                  <SelectField
+                    name="storeTimeZone"
+                    label={_('Timezone')}
+                    defaultValue={storeTimeZone}
+                    required
+                    options={timezones.map((t) => ({
+                      value: t.code,
+                      label: t.name
+                    }))}
+                    helperText={_('Timezone used to display dates in the store.')}
+                  />
+                  <SelectField
+                    name="weightUnit"
+                    label={_('Weight unit')}
+                    defaultValue={weightUnit}
+                    required
+                    options={WEIGHT_UNITS}
+                  />
+                  <SelectField
+                    name="dimensionUnit"
+                    label={_('Dimension unit')}
+                    defaultValue={dimensionUnit}
+                    required
+                    options={DIMENSION_UNITS}
+                  />
+                </div>
+              </CardContent>
               <CardFooter>
                 <div className="flex justify-end w-full">
                   <Button
@@ -502,6 +576,14 @@ export const layout = {
 export const query = `
   query Query {
     saveSettingApi: url(routeId: "saveSetting")
+    timezones {
+      code
+      name
+    }
+    currencies {
+      code
+      name
+    }
     setting {
       storeName
       storeDescription
@@ -518,6 +600,8 @@ export const query = `
       storePostalCode
       metaData
       storeCurrency
+      weightUnit
+      dimensionUnit
       shopMetafieldsApi
     }
   }

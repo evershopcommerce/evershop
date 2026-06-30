@@ -1,12 +1,12 @@
-import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { getDimensionUnit } from '../../../../setting/services/setting.js';
 
 export default {
   Dimension: {
     value: (raw) => parseFloat(raw),
-    unit: () => getConfig('shop.dimensionUnit', 'cm'),
+    unit: () => getDimensionUnit(),
     text: (raw) => {
       const value = parseFloat(raw);
-      const unit = getConfig('shop.dimensionUnit', 'cm');
+      const unit = getDimensionUnit();
       return `${value} ${unit}`;
     }
   },

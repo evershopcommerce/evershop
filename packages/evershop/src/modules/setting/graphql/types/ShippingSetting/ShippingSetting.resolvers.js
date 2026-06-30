@@ -1,4 +1,7 @@
-import { getConfig } from '../../../../../lib/util/getConfig.js';
+import {
+  getDimensionUnit,
+  getWeightUnit
+} from '../../../services/setting.js';
 
 export default {
   Setting: {
@@ -12,7 +15,7 @@ export default {
         return ['US'];
       }
     },
-    weightUnit: () => getConfig('shop.weightUnit', 'kg'),
-    dimensionUnit: () => getConfig('shop.dimensionUnit', 'cm')
+    weightUnit: () => getWeightUnit(),
+    dimensionUnit: () => getDimensionUnit()
   }
 };

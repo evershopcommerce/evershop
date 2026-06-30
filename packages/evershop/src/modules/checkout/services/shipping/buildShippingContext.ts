@@ -1,4 +1,3 @@
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import type { Address } from '../../../../types/customerAddress.js';
 import type {
   ShippingZoneRow,
@@ -8,6 +7,7 @@ import type {
   ShippingContext,
   ShippingProvider
 } from '../../../../types/shippingProvider.js';
+import { getStoreCurrency } from '../../../setting/services/setting.js';
 import { getOriginAddress } from './getOriginAddress.js';
 import { serializeItems } from './serializeItems.js';
 
@@ -63,8 +63,7 @@ export async function buildShippingContext(
   const items = serializeItems(cart);
 
   const currency =
-    (cart.getData('currency') as string | undefined) ||
-    (getConfig('shop.currency', 'USD') as string);
+    (cart.getData('currency') as string | undefined) || getStoreCurrency();
 
   return {
     origin,

@@ -1,6 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
+import { getStoreCurrency } from '../../../setting/services/setting.js';
 
 export default async (request, response, next) => {
   const query = select();
@@ -29,7 +30,7 @@ export default async (request, response, next) => {
       cancelled += 1;
     }
   });
-  const currency = getConfig('shop.currency', 'USD');
+  const currency = getStoreCurrency();
   const language = getConfig('shop.language', 'en');
   const formatedTotal = new Intl.NumberFormat(language, {
     style: 'currency',

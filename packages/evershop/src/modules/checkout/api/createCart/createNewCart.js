@@ -1,13 +1,13 @@
 import { select } from '@evershop/postgres-query-builder';
 import { translate } from '../../../../lib/locale/translate/translate.js';
 import { pool } from '../../../../lib/postgres/connection.js';
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
   OK
 } from '../../../../lib/util/httpStatus.js';
 import { setContextValue } from '../../../graphql/services/contextHelper.js';
+import { getStoreCurrency } from '../../../setting/services/setting.js';
 import { Cart } from '../../services/cart/Cart.js';
 import { saveCart } from '../../services/saveCart.js';
 
@@ -15,7 +15,7 @@ export default async (request, response, next) => {
   try {
     const { items, customer_full_name, customer_email } = request.body;
     const cartData = {
-      currency: getConfig('shop.currency', 'USD')
+      currency: getStoreCurrency()
     };
     if (customer_full_name) {
       cartData.customer_full_name = customer_full_name;

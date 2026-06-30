@@ -4,11 +4,14 @@ type ConfigStructure = {
   shop: {
     language: string;
     timezone: string;
-    currency: string;
-    weightUnit: string;
-    /** Unit for package dimensions: 'cm' | 'mm' | 'in' (default 'cm'). */
-    dimensionUnit: string;
     homeUrl: string;
+    // NOTE: `currency`, `weightUnit` and `dimensionUnit` are intentionally absent — they are
+    // admin settings now (the `setting` table), read via getStoreCurrency / getWeightUnit /
+    // getDimensionUnit in modules/setting/services; config.json is only a legacy fallback, read
+    // untyped there (getLegacyConfig). `timezone` and `language` stay typed because they are
+    // still read directly/operationally — `shop.timezone` sets the DB session in connection.ts
+    // (before any query, so it can't be a DB setting), and `shop.language` is the locale system's
+    // synchronous fallback across translate/render/formatters.
   };
   system: {
     file_storage: string;

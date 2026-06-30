@@ -22,12 +22,14 @@ import {
   type PackingCandidate
 } from '../../checkout/services/cart/packing.js';
 import {
+  getDimensionUnit,
   getStoreAddress,
   getStoreCity,
   getStoreCountry,
   getStoreName,
   getStorePostalCode,
-  getStoreProvince
+  getStoreProvince,
+  getWeightUnit
 } from '../../setting/services/setting.js';
 import type {
   Carrier,
@@ -324,17 +326,17 @@ async function buildCreateLabelInput(
     postcode: postcode ?? '',
     country: country ?? ''
   };
-  // Weight unit is store-wide (`shop.weightUnit`); `order_item.product_weight`
+  // Weight unit is store-wide (admin setting `weightUnit`); `order_item.product_weight`
   // is stored in that unit. Normalize to the `Weight.unit` vocabulary.
-  const rawUnit = String(getConfig('shop.weightUnit', 'kg'))
+  const rawUnit = String(getWeightUnit())
     .toLowerCase()
     .replace(/s$/, '');
   const weightUnit = (['kg', 'g', 'lb', 'oz'] as const).find(
     (u) => u === rawUnit
   ) ?? 'kg';
-  // Dimension unit is store-wide (`shop.dimensionUnit`); the order_item
+  // Dimension unit is store-wide (admin setting `dimensionUnit`); the order_item
   // package snapshot is stored in that unit.
-  const rawDimUnit = String(getConfig('shop.dimensionUnit', 'cm')).toLowerCase();
+  const rawDimUnit = String(getDimensionUnit()).toLowerCase();
   const dimensionUnit = (['cm', 'mm', 'in'] as const).find(
     (u) => u === rawDimUnit
   ) ?? 'cm';
