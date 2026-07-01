@@ -69,6 +69,28 @@ export default function HeadTags({
     });
   }, []);
 
+  // `.ico` / `.svg` are served as-is (the image endpoint resizes via sharp,
+  // which handles neither). A raster favicon (PNG/JPG/WebP) is downscaled to the
+  // standard tab sizes plus a 180px Apple touch icon, all through `/images`.
+  const renderFavicon = () => {
+    if (!favicon) {
+      return null;
+    }
+    const lower = favicon.toLowerCase().split('?')[0];
+    if (lower.endsWith('.ico') || lower.endsWith('.svg')) {
+      return <link rel="icon" href={favicon} />;
+    }
+    const icon = (size: number) =>
+      `/images?src=${encodeURIComponent(favicon)}&w=${size}&h=${size}&q=90&f=png`;
+    return (
+      <>
+        <link rel="icon" type="image/png" sizes="32x32" href={icon(32)} />
+        <link rel="icon" type="image/png" sizes="16x16" href={icon(16)} />
+        <link rel="apple-touch-icon" sizes="180x180" href={icon(180)} />
+      </>
+    );
+  };
+
   return (
     <>
       <title>{title}</title>
@@ -83,7 +105,7 @@ export default function HeadTags({
       {scripts.map((script, index) => (
         <script key={index} {...script} />
       ))}
-      {favicon && <link rel="icon" href={favicon} />}
+      {renderFavicon()}
       {keywords && keywords.length > 0 && (
         <meta name="keywords" content={keywords.join(', ')} />
       )}

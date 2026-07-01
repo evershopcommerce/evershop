@@ -287,27 +287,21 @@ export async function buildEmailBodyFromTemplate(
  * @returns The prepared email data with store information.
  */
 async function prepareData(data: EmailData): Promise<EmailData> {
-  const logoConfig = getConfig('themeConfig.logo');
-  let logo;
-  if (logoConfig) {
-    const url = logoConfig.src || '';
-    // check if url is absolute
-    if (url && !/^https?:\/\//i.test(url)) {
-      logo = {
-        src: `${getBaseUrl()}${url}`,
-        alt: logoConfig?.alt || '',
-        height: logoConfig?.height ? String(logoConfig.height) : undefined,
-        width: logoConfig?.width ? String(logoConfig.width) : undefined
-      };
-    } else {
-      logo = {
-        src: url,
-        alt: logoConfig?.alt || '',
-        height: logoConfig?.height ? String(logoConfig.height) : undefined,
-        width: logoConfig?.width ? String(logoConfig.width) : undefined
-      };
-    }
-  }
+  // The logo is an admin setting (Store Setting → Branding). The email needs an
+  // ABSOLUTE, email-safe image, so it is served through the /images endpoint as a
+  // sized PNG (WebP/AVIF are unreliable in Outlook and older mail clients). When
+  // unset, `logo` stays undefined and each template's {{#if storeInfo.logo}} skips it.
+  const logoSetting = await getSetting<string>('logo', '');
+  const logo = logoSetting
+    ? {
+        src: `${getBaseUrl()}/images?src=${encodeURIComponent(
+          logoSetting
+        )}&w=360&q=85&f=png`,
+        alt: await getSetting('storeName', 'Evershop'),
+        // Display width only (2× source for crisp retina); height stays auto.
+        width: '180'
+      }
+    : undefined;
   const addressCountry = await getSetting('storeCountry', 'US');
   const addressProvince = await getSetting('storeProvince', '');
   const addressCity = await getSetting('storeCity', '');
