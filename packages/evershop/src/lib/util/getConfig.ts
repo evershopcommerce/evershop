@@ -97,12 +97,6 @@ type ConfigStructure = {
     };
   };
   themeConfig: {
-    logo: {
-      alt: string | undefined;
-      src: string | undefined;
-      width: number | undefined;
-      height: number | undefined;
-    };
     headTags: {
       links: any[];
       metas: any[];

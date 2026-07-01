@@ -11,7 +11,6 @@ import { buildHreflangAlternates } from '../../../../../lib/locale/localeResolut
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { get } from '../../../../../lib/util/get.js';
 import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
-import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../../../lib/util/registry.js';
 import { OgInfo } from '../../../../../types/pageMeta.js';
 import { getSetting } from '../../../../setting/services/setting.js';
@@ -36,7 +35,12 @@ export default {
         get(context, 'currentUrl')
       ),
       favicon: async () => {
-        // Check if a file named favicon.ico exists in the public folder
+        // Admin-uploaded favicon wins; HeadTags derives the sized link tags.
+        const fav = await getSetting<string>('favicon', '');
+        if (fav) {
+          return fav;
+        }
+        // Otherwise fall back to a favicon.ico dropped in the public folder.
         try {
           await access(path.resolve(CONSTANTS.PUBLICPATH, 'favicon.ico'));
           return getBaseUrl() + '/assets/favicon.ico';
@@ -155,19 +159,28 @@ export default {
       }
     },
     ogInfo: async (root, args, context): Promise<OgInfo> => {
-      let logo = getConfig('themeConfig.logo.src');
       const baseUrl = getBaseUrl();
-      // Check if logo is a full URL
-      // If logo is not set, use default /images/logo.png
-      if (logo && !logo.startsWith('http')) {
-        // If logo is a relative path, convert to absolute URL
-        logo = `${baseUrl}${logo}`;
-      }
+      // Prefer the admin "social sharing image"; otherwise fall back to the logo
+      // (admin setting → themeConfig). The (relative) value is passed as the
+      // `/images` source so the processor reads it locally, while the og:image
+      // meta value itself stays absolute as social crawlers require.
+      const social = await getSetting<string>('socialSharingImage', '');
+      const logoSrc = await getSetting<string>('logo', '');
+      const buildImage = (src: string, params: string) =>
+        `${baseUrl}/images?src=${encodeURIComponent(src)}&${params}`;
+      const socialImage = social ? buildImage(social, 'w=1200&q=80&f=jpeg') : '';
+      const logoImage = logoSrc
+        ? buildImage(logoSrc, 'w=1200&q=80&h=675&f=png')
+        : '';
       const image = get(
         context,
         'pageInfo.ogInfo.image',
-        logo ? `${baseUrl}/images?src=${logo}&w=1200&q=80&h=675&f=png` : ''
+        socialImage || logoImage
       );
+      // A dedicated social image (or a page-level override) earns the large
+      // Twitter card; the bare logo fallback stays a small summary card.
+      const hasRichImage =
+        Boolean(social) || Boolean(get(context, 'pageInfo.ogInfo.image'));
 
       return getValueSync<OgInfo>(
         'ogInfo',
@@ -187,7 +200,11 @@ export default {
           siteName: get(context, 'pageInfo.ogInfo.siteName', root.siteName),
           type: get(context, 'pageInfo.ogInfo.type', 'website'),
           locale: get(context, 'pageInfo.ogInfo.locale', root.locale),
-          twitterCard: get(context, 'pageInfo.ogInfo.twitterCard', 'summary'),
+          twitterCard: get(
+            context,
+            'pageInfo.ogInfo.twitterCard',
+            hasRichImage ? 'summary_large_image' : 'summary'
+          ),
           twitterSite: get(
             context,
             'pageInfo.ogInfo.twitterSite',

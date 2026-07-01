@@ -1,3 +1,4 @@
+import { BrandAssetUploader } from '@components/admin/BrandAssetUploader.js';
 import { StandaloneMetafieldCard } from '@components/admin/metafield/StandaloneMetafieldCard.js';
 import { SettingMenu } from '@components/admin/SettingMenu.js';
 import Spinner from '@components/admin/Spinner.js';
@@ -326,6 +327,12 @@ interface StoreSettingProps {
     weightUnit?: string;
     dimensionUnit?: string;
     shopMetafieldsApi?: string;
+    logo?: string;
+    logoWidth?: string;
+    logoHeight?: string;
+    favicon?: string;
+    socialSharingImage?: string;
+    gaMeasurementId?: string;
   };
 }
 
@@ -351,7 +358,13 @@ export default function StoreSetting({
     storeCurrency,
     weightUnit,
     dimensionUnit,
-    shopMetafieldsApi
+    shopMetafieldsApi,
+    logo,
+    logoWidth,
+    logoHeight,
+    favicon,
+    socialSharingImage,
+    gaMeasurementId
   }
 }: StoreSettingProps) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
@@ -542,6 +555,83 @@ export default function StoreSetting({
                   />
                 </div>
               </CardContent>
+              <CardContent className="pt-3 border-t border-border">
+                <CardTitle>{_('Branding')}</CardTitle>
+                <CardDescription>
+                  {_(
+                    'Your logo, favicon, and the image shown when your store is shared on social media.'
+                  )}
+                </CardDescription>
+                <div className="space-y-8 mt-5">
+                  <div>
+                    <div className="font-medium mb-1">{_('Logo')}</div>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {_(
+                        'Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.'
+                      )}
+                    </p>
+                    <BrandAssetUploader
+                      name="logo"
+                      defaultValue={logo}
+                      previewType="logo"
+                      widthName="logoWidth"
+                      heightName="logoHeight"
+                      defaultWidth={logoWidth}
+                      defaultHeight={logoHeight}
+                    />
+                  </div>
+                  <div>
+                    <div className="font-medium mb-1">{_('Favicon')}</div>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {_(
+                        'The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.'
+                      )}
+                    </p>
+                    <BrandAssetUploader
+                      name="favicon"
+                      defaultValue={favicon}
+                      previewType="favicon"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-medium mb-1">
+                      {_('Social sharing image')}
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {_(
+                        'The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.'
+                      )}
+                    </p>
+                    <BrandAssetUploader
+                      name="socialSharingImage"
+                      defaultValue={socialSharingImage}
+                      previewType="social"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+              <CardContent className="pt-3 border-t border-border">
+                <CardTitle>{_('Analytics')}</CardTitle>
+                <div className="mt-5">
+                  <InputField
+                    name="gaMeasurementId"
+                    label={_('Google Analytics 4 Measurement ID')}
+                    placeholder="G-XXXXXXXXXX"
+                    defaultValue={gaMeasurementId}
+                    helperText={_(
+                      'Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.'
+                    )}
+                    validation={{
+                      pattern: {
+                        value: /^G-[A-Z0-9]+$/i,
+                        message: _(
+                          'Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX'
+                        )
+                      }
+                    }}
+                  />
+                </div>
+              </CardContent>
               <CardFooter>
                 <div className="flex justify-end w-full">
                   <Button
@@ -605,6 +695,12 @@ export const query = `
       weightUnit
       dimensionUnit
       shopMetafieldsApi
+      logo
+      logoWidth
+      logoHeight
+      favicon
+      socialSharingImage
+      gaMeasurementId
     }
   }
 `;
