@@ -6,12 +6,12 @@ export interface CustomerEditPageHeadingProps {
   backUrl: string;
   customer?: {
     fullName: string;
-  };
+  } | null;
 }
 
 export default function CustomerEditPageHeading({
   backUrl,
-  customer
+  customer = null
 }: CustomerEditPageHeadingProps) {
   return (
     <PageHeading
@@ -24,10 +24,6 @@ export default function CustomerEditPageHeading({
     />
   );
 }
-
-CustomerEditPageHeading.defaultProps = {
-  customer: null
-};
 
 export const layout = {
   areaId: 'content',

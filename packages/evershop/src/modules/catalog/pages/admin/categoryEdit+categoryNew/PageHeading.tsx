@@ -11,7 +11,7 @@ export interface CategoryEditPageHeadingProps {
 
 export default function CategoryEditPageHeading({
   backUrl,
-  category
+  category = {}
 }: CategoryEditPageHeadingProps) {
   return (
     <PageHeading
@@ -24,10 +24,6 @@ export default function CategoryEditPageHeading({
     />
   );
 }
-
-CategoryEditPageHeading.defaultProps = {
-  category: {}
-};
 
 export const layout = {
   areaId: 'content',

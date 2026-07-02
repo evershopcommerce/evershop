@@ -41,3 +41,6 @@ extensions
 /design-kit
 /wiki
 /CLAUDE.md
+
+# Playwright MCP test artifacts
+.playwright-mcp/

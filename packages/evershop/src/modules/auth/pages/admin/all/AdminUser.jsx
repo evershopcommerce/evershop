@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { toast } from 'react-toastify';
 
-export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
+export default function AdminUser({ adminUser = null, logoutUrl, loginPage }) {
   const logout = async () => {
     const response = await fetch(logoutUrl, {
       method: 'GET',
@@ -75,10 +75,6 @@ AdminUser.propTypes = {
   }),
   loginPage: PropTypes.string.isRequired,
   logoutUrl: PropTypes.string.isRequired
-};
-
-AdminUser.defaultProps = {
-  adminUser: null
 };
 
 export const layout = {

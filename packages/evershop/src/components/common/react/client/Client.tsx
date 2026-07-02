@@ -2,6 +2,7 @@ import Area from '@components/common/Area.js';
 import { AppProvider } from '@components/common/context/app.js';
 import { Alert } from '@components/common/modal/Alert.js';
 import { PageBuilderBridge } from '@components/common/page-builder/index.js';
+import { ErrorBoundary } from '@components/common/react/ErrorBoundary.js';
 import Head from '@components/common/react/Head.js';
 import React from 'react';
 import { createClient, Provider } from 'urql';
@@ -32,7 +33,9 @@ export function App({ children }: AppProps) {
       <Provider value={client}>
         <Alert>
           <Head />
-          <Area id="body" className="wrapper" />
+          <ErrorBoundary>
+            <Area id="body" className="wrapper" />
+          </ErrorBoundary>
         </Alert>
       </Provider>
       {children}
