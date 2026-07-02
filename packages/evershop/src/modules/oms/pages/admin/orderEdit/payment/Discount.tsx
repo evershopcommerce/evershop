@@ -2,11 +2,11 @@ import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface DiscountProps {
-  discount?: string;
+  discount?: string | number;
   code?: string;
 }
 
-export function Discount({ discount, code }: DiscountProps) {
+export function Discount({ discount = 0, code = undefined }: DiscountProps) {
   return (
     <div className="flex items-start justify-between gap-4">
       <span className="text-sm text-muted-foreground min-w-[8.75rem]">
@@ -21,8 +21,3 @@ export function Discount({ discount, code }: DiscountProps) {
     </div>
   );
 }
-
-Discount.defaultProps = {
-  code: undefined,
-  discount: 0
-};

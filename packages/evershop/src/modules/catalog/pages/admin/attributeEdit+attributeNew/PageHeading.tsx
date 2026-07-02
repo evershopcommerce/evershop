@@ -11,7 +11,7 @@ export interface AttributeEditPageHeadingProps {
 
 export default function AttributeEditPageHeading({
   backUrl,
-  attribute
+  attribute = {}
 }: AttributeEditPageHeadingProps) {
   return (
     <PageHeading
@@ -24,10 +24,6 @@ export default function AttributeEditPageHeading({
     />
   );
 }
-
-AttributeEditPageHeading.defaultProps = {
-  attribute: {}
-};
 
 export const layout = {
   areaId: 'content',

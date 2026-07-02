@@ -49,14 +49,8 @@ interface ProductSortingProps {
   count: number;
 }
 
-const defaultSortOptions: SortOption[] = [
-  { code: '', name: _('Default'), label: _('Default') },
-  { code: 'price', name: _('Price'), label: _('Price') },
-  { code: 'name', name: _('Name'), label: _('Name') }
-];
-
 export function ProductSorting({
-  sortOptions = defaultSortOptions,
+  sortOptions,
   defaultSortBy = '',
   defaultSortOrder = 'asc',
   showSortDirection = true,
@@ -70,23 +64,31 @@ export function ProductSorting({
 }: ProductSortingProps) {
   const AppContextDispatch = useAppDispatch();
 
-  const [sortBy, setSortBy] = React.useState<string>(() => {
-    // Check if this is browser or server
-    if (typeof window !== 'undefined') {
-      const params = new URL(document.location.href).searchParams;
-      return params.get('ob') || defaultSortBy;
-    }
-    return defaultSortBy;
-  });
+  // Compute default sort options at render time (not module scope) so `_()` uses
+  // the request/client-active dictionary. A module-scope `_()` freezes the
+  // translation at import time, which differs between the SSR bundle (imported
+  // before any request sets the locale) and the client (locale already loaded),
+  // producing a React 19 hydration text mismatch (and an untranslated SSR label).
+  const resolvedSortOptions: SortOption[] = sortOptions ?? [
+    { code: '', name: _('Default'), label: _('Default') },
+    { code: 'price', name: _('Price'), label: _('Price') },
+    { code: 'name', name: _('Name'), label: _('Name') }
+  ];
 
-  const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>(() => {
-    // Check if this is browser or server
-    if (typeof window !== 'undefined') {
-      const params = new URL(document.location.href).searchParams;
-      return (params.get('od') as 'asc' | 'desc') || defaultSortOrder;
-    }
-    return defaultSortOrder;
-  });
+  // Initialize to the defaults so the first client render matches the SSR output.
+  // Reading the URL during the initial render (via `typeof window`) makes the
+  // server (no window -> default) and client (window -> URL value) render
+  // different sort labels — a React 19 hydration mismatch on sorted deep-links
+  // (e.g. ?ob=price). The URL is applied after hydration in the effect below.
+  const [sortBy, setSortBy] = React.useState<string>(defaultSortBy);
+  const [sortOrder, setSortOrder] =
+    React.useState<'asc' | 'desc'>(defaultSortOrder);
+
+  React.useEffect(() => {
+    const params = new URL(window.location.href).searchParams;
+    setSortBy(params.get('ob') || defaultSortBy);
+    setSortOrder((params.get('od') as 'asc' | 'desc') || defaultSortOrder);
+  }, [defaultSortBy, defaultSortOrder]);
 
   const defaultSortChangeHandler = useCallback(
     async (newSortState: SortState) => {
@@ -199,13 +201,13 @@ export function ProductSorting({
       <div className="sort-select grow">
         {renderSortSelect
           ? renderSortSelect({
-              options: sortOptions,
+              options: resolvedSortOptions,
               value: sortBy,
               onChange: onChangeSort,
               disabled
             })
           : defaultSortSelect({
-              options: sortOptions,
+              options: resolvedSortOptions,
               value: sortBy,
               onChange: onChangeSort,
               disabled

@@ -195,7 +195,7 @@ export const LANGUAGES = [
 ];
 
 function LanguageOptions(props) {
-  const { languages, children } = props;
+  const { languages = [], children } = props;
 
   const options = LANGUAGES.filter((l) => {
     if (languages) return languages.indexOf(l.value) !== -1;
@@ -211,10 +211,6 @@ function LanguageOptions(props) {
 LanguageOptions.propTypes = {
   children: PropTypes.node.isRequired,
   languages: PropTypes.arrayOf(PropTypes.string)
-};
-
-LanguageOptions.defaultProps = {
-  languages: []
 };
 
 export { LanguageOptions };

@@ -6,11 +6,11 @@ export interface WidgetEditPageHeadingProps {
   backUrl: string;
   widget?: {
     name: string;
-  };
+  } | null;
 }
 export default function WidgetEditPageHeading({
   backUrl,
-  widget
+  widget = null
 }: WidgetEditPageHeadingProps) {
   return (
     <PageHeading
@@ -23,10 +23,6 @@ export default function WidgetEditPageHeading({
     />
   );
 }
-
-WidgetEditPageHeading.defaultProps = {
-  widget: null
-};
 
 export const layout = {
   areaId: 'content',

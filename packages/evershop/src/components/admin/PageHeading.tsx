@@ -2,7 +2,7 @@ import Area from '@components/common/Area.js';
 import React from 'react';
 import './PageHeading.scss';
 
-function BackIcon({ backUrl }: { backUrl?: string }) {
+function BackIcon({ backUrl = undefined }: { backUrl?: string }) {
   if (!backUrl) return null;
   return (
     <a
@@ -23,10 +23,6 @@ function BackIcon({ backUrl }: { backUrl?: string }) {
   );
 }
 
-BackIcon.defaultProps = {
-  backUrl: undefined
-};
-
 function Heading({ heading }: { heading: string }) {
   return (
     <div className="self-center">
@@ -40,7 +36,7 @@ export interface PageHeadingProps {
   heading: string;
 }
 
-function PageHeading({ backUrl, heading }: PageHeadingProps) {
+function PageHeading({ backUrl = undefined, heading }: PageHeadingProps) {
   if (!heading) {
     return null;
   }
@@ -77,9 +73,5 @@ function PageHeading({ backUrl, heading }: PageHeadingProps) {
     </div>
   );
 }
-
-PageHeading.defaultProps = {
-  backUrl: undefined
-};
 
 export { PageHeading };

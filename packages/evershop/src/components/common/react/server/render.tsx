@@ -1,7 +1,7 @@
 import { AppProvider } from '@components/common/context/app.js';
 import ServerHtml from '@components/common/react/server/Server.js';
 import React from 'react';
-import { renderToString } from 'react-dom/server.js';
+import { renderToString } from 'react-dom/server';
 import { setSSRContext } from '../../../../lib/locale/activeDictionary.js';
 
 function renderHtml(route, js, css, contextData, langCode) {

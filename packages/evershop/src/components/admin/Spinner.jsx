@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function Spinner({ width, height }) {
+/**
+ * @param {object} props
+ * @param {number | string} [props.width]
+ * @param {number | string} [props.height]
+ */
+function Spinner({ width = 60, height = 60 }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -30,13 +35,8 @@ function Spinner({ width, height }) {
 }
 
 Spinner.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number
-};
-
-Spinner.defaultProps = {
-  width: 60,
-  height: 60
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 export default Spinner;

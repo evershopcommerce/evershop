@@ -6,7 +6,9 @@ interface CopyRightProps {
   };
 }
 export default function CopyRight({
-  themeConfig: { copyRight }
+  themeConfig: { copyRight } = {
+    copyRight: '© 2025 Evershop. All Rights Reserved.'
+  }
 }: CopyRightProps) {
   return (
     <div className="copyright">
@@ -14,12 +16,6 @@ export default function CopyRight({
     </div>
   );
 }
-
-CopyRight.defaultProps = {
-  themeConfig: {
-    copyRight: '© 2025 Evershop. All Rights Reserved.'
-  }
-};
 
 export const layout = {
   areaId: 'footerLeft',

@@ -60,8 +60,8 @@ export async function buildEntry(routes, clientOnly = false) {
 
       let contentClient = `
       import React from 'react';
-      import ReactDOM from 'react-dom';
-      import { Area, setAreaComponents } from '@evershop/evershop/components/common';
+      import { hydrateRoot } from 'react-dom/client.js';
+      import { Area, setAreaComponents, reportClientError } from '@evershop/evershop/components/common';
       import {${
         route.isAdmin ? 'HydrateAdmin' : 'HydrateFrontStore'
       }} from '@evershop/evershop/components/common';
@@ -118,13 +118,17 @@ export async function buildEntry(routes, clientOnly = false) {
       contentClient += '\r\n';
       contentClient += `setAreaComponents('${route.id}', ${areasLiteral});`;
       contentClient += '\r\n';
-      contentClient += `ReactDOM.hydrate(
+      contentClient += `hydrateRoot(
+        document.getElementById('app'),
         ${
           route.isAdmin
             ? 'React.createElement(HydrateAdmin, null)'
             : 'React.createElement(HydrateFrontStore, null)'
         },
-        document.getElementById('app')
+        {
+          onUncaughtError: function (error, info) { reportClientError('uncaught', error, info); },
+          onRecoverableError: function (error, info) { reportClientError('recoverable', error, info); }
+        }
       );`;
       if (!fs.existsSync(path.resolve(subPath, 'client'))) {
         await mkdir(path.resolve(subPath, 'client'), { recursive: true });
@@ -182,7 +186,6 @@ export async function buildEntry(routes, clientOnly = false) {
   await Promise.all(
     Object.entries(byContext).map(async ([context, bucket]) => {
       let contentServer = `import React from 'react';\r\n`;
-      contentServer += `import ReactDOM from 'react-dom';\r\n`;
       contentServer += `import { Area, setAreaComponents } from '@evershop/evershop/components/common';\r\n`;
       contentServer += `import { renderHtml } from '@evershop/evershop/components/common';\r\n`;
       contentServer += [...bucket.imports.keys()].join('\r\n');

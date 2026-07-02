@@ -146,17 +146,12 @@ function CategoryItem({
   );
 }
 
-CategoryItem.defaultProps = {
-  category: {},
-  selectedCategory: {}
-};
-
 interface CategoryTreeProps {
   selectedCategories?: CategoryTreeItem[];
   onSelect: (category: CategoryTreeItem) => void;
 }
 
-function CategoryTree({ selectedCategories, onSelect }: CategoryTreeProps) {
+function CategoryTree({ selectedCategories = [], onSelect }: CategoryTreeProps) {
   const [result] = useQuery({
     query: categoriesQuery,
     variables: {
@@ -190,9 +185,5 @@ function CategoryTree({ selectedCategories, onSelect }: CategoryTreeProps) {
     </ul>
   );
 }
-
-CategoryTree.defaultProps = {
-  selectedCategories: []
-};
 
 export { CategoryTree };

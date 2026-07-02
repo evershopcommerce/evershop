@@ -8,7 +8,12 @@ import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export function Results({ keyword, results = {} }) {
+/**
+ * @param {object} props
+ * @param {string} [props.keyword]
+ * @param {any} [props.results]
+ */
+export function Results({ keyword = undefined, results = [] }) {
   const { customers = [], products = [], orders = [] } = results;
 
   // Determine which tabs have data
@@ -118,9 +123,4 @@ Results.propTypes = {
       )
     })
   )
-};
-
-Results.defaultProps = {
-  keyword: undefined,
-  results: []
 };

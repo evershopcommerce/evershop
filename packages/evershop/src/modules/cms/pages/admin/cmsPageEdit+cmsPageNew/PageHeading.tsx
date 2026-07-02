@@ -6,12 +6,12 @@ export interface CmsGridPageHeadingProps {
   backUrl: string;
   page?: {
     name?: string;
-  };
+  } | null;
 }
 
 export default function CmsGridPageHeading({
   backUrl,
-  page
+  page = null
 }: CmsGridPageHeadingProps) {
   return (
     <div className="w-2/3 mx-auto">
@@ -24,10 +24,6 @@ export default function CmsGridPageHeading({
     </div>
   );
 }
-
-CmsGridPageHeading.defaultProps = {
-  page: null
-};
 
 export const layout = {
   areaId: 'content',

@@ -4,12 +4,12 @@ import React from 'react';
 
 export interface CouponEditPageHeadingProps {
   backUrl: string;
-  coupon?: { coupon: string };
+  coupon?: { coupon: string } | null;
 }
 
 export default function CouponEditPageHeading({
   backUrl,
-  coupon
+  coupon = null
 }: CouponEditPageHeadingProps) {
   return (
     <PageHeading
@@ -22,10 +22,6 @@ export default function CouponEditPageHeading({
     />
   );
 }
-
-CouponEditPageHeading.defaultProps = {
-  coupon: null
-};
 
 export const layout = {
   areaId: 'content',
