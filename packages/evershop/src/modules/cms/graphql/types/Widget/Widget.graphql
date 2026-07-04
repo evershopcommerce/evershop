@@ -585,8 +585,15 @@ extend type Query {
   as an overlay before filtering/grouping so the result matches what the
   page-builder iframe renders for that token. Without `changeset`, returns
   source state only.
+
+  `entityUrn` scopes the result to an entity-level editor session (e.g. one
+  landing page). When set, placements are kept when `entity_urn IS NULL`
+  (route-level / shared) OR `entity_urn = entityUrn` (this entity's content),
+  with the entity-scoped placement winning at a shared (area, sortOrder) cell —
+  the same rule the storefront loader applies, so Layers matches the canvas.
+  When null (route-level editor), only `entity_urn IS NULL` placements show.
   """
-  widgetsForRoute(route: String!, changeset: String): [Widget!]!
+  widgetsForRoute(route: String!, changeset: String, entityUrn: String): [Widget!]!
   widgetTypes: [WidgetType]
   widgetType(code: String!): WidgetType
   textWidget(text: String, className: String): TextBlockWidget
