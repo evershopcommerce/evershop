@@ -139,14 +139,29 @@ const categoryLoader: LinkLoaderFactory = linkLoaderFromBatch(
 const pageLoader: LinkLoaderFactory = linkLoaderFromBatch(
   async (uuids, pool) => {
     if (uuids.length === 0) return [];
-    const rows = await select('uuid', 'url_key')
-      .from('cms_page')
-      .where('uuid', 'IN', [...uuids])
+    // CMS pages are served at a root-level friendly path (`/<url_key>`) via a
+    // `url_rewrite` row (entity_type 'cms_page'), kept current by
+    // `syncPageUrlRewrite` on create/update — the same rename-safe pattern as
+    // product/category above. Read the resolved path straight from
+    // `url_rewrite`: `url_key` lives on `cms_page_description`, not `cms_page`,
+    // so the old `select('uuid','url_key').from('cms_page')` threw (missing
+    // column) and every page link resolved to null — an unclickable menu item.
+    const rows = await select('entity_uuid', 'request_path')
+      .from('url_rewrite')
+      .where('entity_type', '=', 'cms_page')
+      .and('entity_uuid', 'IN', [...uuids])
       .execute(pool);
     const m = new Map<string, string>(
-      rows.map((r: any) => [r.uuid, localizeUrl(`/${r.url_key}`)])
+      rows.map((r: any) => [r.entity_uuid, r.request_path])
     );
-    return uuids.map((u) => m.get(u) ?? null);
+    // localizeUrl adds the /<locale> prefix for non-default storefront locales
+    // (no-op for the default locale / admin), matching the Product/Category
+    // `url` resolvers. Null when the page has no rewrite so the widget can
+    // suppress the anchor.
+    return uuids.map((u) => {
+      const path = m.get(u);
+      return path ? localizeUrl(path) : null;
+    });
   }
 );
 
