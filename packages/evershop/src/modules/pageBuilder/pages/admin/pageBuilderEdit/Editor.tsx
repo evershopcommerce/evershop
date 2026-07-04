@@ -63,8 +63,8 @@ const CHANGESET_OPS_QUERY = `
 `;
 
 const LAYERS_QUERY = `
-  query LayersForRoute($route: String!, $changeset: String) {
-    widgetsForRoute(route: $route, changeset: $changeset) {
+  query LayersForRoute($route: String!, $changeset: String, $entityUrn: String) {
+    widgetsForRoute(route: $route, changeset: $changeset, entityUrn: $entityUrn) {
       uuid
       name
       type
@@ -679,8 +679,15 @@ export default function Editor({
     // Pass the changeset token so the resolver applies this draft's overlay
     // before grouping/filtering — Layers stays in sync with what the iframe
     // actually renders (palette adds, deletes, moves, inline-edits all
-    // reflect immediately instead of only after publish).
-    variables: { route: route.id, changeset: changeset.token },
+    // reflect immediately instead of only after publish). `entityUrn` scopes
+    // the result to an entity-level session (e.g. one landing page) so Layers
+    // shows the page's own widgets plus the shared route-level ones — matching
+    // the canvas. Null in a route-level editor (unchanged behavior).
+    variables: {
+      route: route.id,
+      changeset: changeset.token,
+      entityUrn: scopeEntityUrn
+    },
     pause: true
   });
   const rawLayerWidgets = (layersResult.data as any)?.widgetsForRoute ?? [];
@@ -869,8 +876,17 @@ export default function Editor({
     // sort_order. Refetch on mount and after every preview-push so that
     // toolbar actions always operate on fresh state, even when the user
     // hasn't opened the Layers tab.
+    //
+    // `route.id`, `changeset.token` and `scopeEntityUrn` are in the dep list
+    // because this is a paused query (`pause: true`): its variables only take
+    // effect when `refetchLayers` is invoked. The entity scope resolves via the
+    // page-level GraphQL data, so `scopeEntityUrn` can be null on the first
+    // commit and become the entity URN a tick later. Without it here the single
+    // mount refetch would fire with the stale null scope and never re-run — the
+    // Layers panel would show only route-level widgets and miss the entity's own
+    // (landing page / entity-scoped CMS page).
     refetchLayers({ requestPolicy: 'network-only' });
-  }, [reloadCounter, refetchLayers]);
+  }, [reloadCounter, refetchLayers, route.id, changeset.token, scopeEntityUrn]);
 
   // In page scope, preview the SELECTED page's real URL (`/<url_key>`) so its
   // own entity-scoped placements layer in (cmsPageView sets the page URN from

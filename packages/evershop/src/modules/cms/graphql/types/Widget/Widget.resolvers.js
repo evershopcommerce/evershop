@@ -56,12 +56,23 @@ async function resolveLinkObject(link, linkLoaders) {
  * Children of children (nested containers) get `_overlayColumns` set
  * recursively so the Layers panel can render arbitrary nesting depth.
  */
-function computeOverlayColumns(parentUuid, widgetMap, placementMap) {
+function computeOverlayColumns(
+  parentUuid,
+  widgetMap,
+  placementMap,
+  entityUrn,
+  route
+) {
   const prefix = `${COLUMNS_AREA_PREFIX}${parentUuid}_col_`;
   const groups = new Map();
   for (const p of placementMap.values()) {
     const area = p.area || '';
     if (!area.startsWith(prefix)) continue;
+    // Match loadStorefrontWidgets' candidate filter so nested children track
+    // the canvas: keep placements on 'all'/the current route whose entity_urn
+    // is NULL (shared) or equals this entity-scoped session's URN.
+    if (p.route !== 'all' && p.route !== route) continue;
+    if (p.entity_urn != null && p.entity_urn !== entityUrn) continue;
     const child = widgetMap.get(p.widget_instance_uuid);
     if (!child || child.status === false) continue;
     const idxRaw = area.slice(prefix.length);
@@ -85,7 +96,9 @@ function computeOverlayColumns(parentUuid, widgetMap, placementMap) {
           camel._overlayColumns = computeOverlayColumns(
             child.uuid,
             widgetMap,
-            placementMap
+            placementMap,
+            entityUrn,
+            route
           );
           return camel;
         })
@@ -142,7 +155,7 @@ export default {
      * `_overlayPlacements` / `_overlayColumns` private fields set here so
      * they don't re-query source SQL and lose the overlay merge.
      */
-    widgetsForRoute: async (_, { route, changeset }, { pool }) => {
+    widgetsForRoute: async (_, { route, changeset, entityUrn = null }, { pool }) => {
       // 1. Load source widget_instance state.
       const widgetRows = await pool.query(
         `SELECT widget_instance_id, uuid, name, type, settings, status,
@@ -199,16 +212,22 @@ export default {
       }
 
       // 5. Walk widgets, keeping only those with at least one route-matching,
-      //    non-entity-scoped, non-synthetic placement. Compute min sort for
-      //    ordering. Attach overlay-applied placements + columns as private
-      //    fields the GraphQL field resolvers will short-circuit on.
+      //    non-synthetic placement that is route-level (entity_urn IS NULL) OR
+      //    scoped to this editor session's entity. Mirrors the storefront
+      //    loader (loadStorefrontWidgets) so the Layers panel matches the
+      //    canvas: an entity-scoped editor (e.g. a landing page) shows the
+      //    page's own widgets PLUS the shared route-level ones. When
+      //    `entityUrn` is null (route-level editor) only NULL placements pass —
+      //    unchanged behavior. Compute min sort for ordering. Attach
+      //    overlay-applied placements + columns as private fields the GraphQL
+      //    field resolvers will short-circuit on.
       const result = [];
       for (const widget of widgetMap.values()) {
         if (widget.status === false) continue;
         const placements = placementsByWidget.get(widget.uuid) ?? [];
         const visiblePlacements = placements.filter(
           (p) =>
-            p.entity_urn == null &&
+            (p.entity_urn == null || p.entity_urn === entityUrn) &&
             (p.route === 'all' || p.route === route) &&
             !(p.area || '').startsWith(COLUMNS_AREA_PREFIX)
         );
@@ -225,7 +244,9 @@ export default {
         camel._overlayColumns = computeOverlayColumns(
           widget.uuid,
           widgetMap,
-          placementMap
+          placementMap,
+          entityUrn,
+          route
         );
         result.push({ widget: camel, minSort });
       }
