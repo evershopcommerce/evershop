@@ -26,7 +26,6 @@ export default async (
       required: b.required,
       translatable: b.translatable,
       visibleToCustomer: b.visibleToCustomer,
-      referenceType: b.referenceType,
       validations: b.validations,
       appearance: b.appearance,
       subFields: b.subFields,

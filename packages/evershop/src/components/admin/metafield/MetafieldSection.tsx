@@ -37,41 +37,37 @@ interface Props {
   ownerType: string;
   /** Current values (the entity's meta_data) to prefill the form for editing. */
   values?: Record<string, unknown>;
-  /** Store currency (shop.currency) used for `money` fields. */
-  currency?: string;
 }
 
 /** Human-readable preview of a single scalar value, or null when not set. */
 function formatScalar(type: string, value: unknown): string | null {
   if (value === '' || value === undefined || value === null) return null;
   if (type === 'boolean') return value ? _('Yes') : _('No');
-  if (type === 'money') {
-    const v = value as { amount?: unknown; currency?: string };
-    if (
-      v &&
-      typeof v === 'object' &&
-      v.amount !== undefined &&
-      v.amount !== ''
-    ) {
-      return `${v.amount} ${v.currency ?? ''}`.trim();
-    }
-    return null;
-  }
-  if (type === 'reference') {
-    const v = value as { referenceType?: string; id?: unknown };
-    if (v && typeof v === 'object' && v.id !== undefined && v.id !== '') {
-      return `${v.referenceType ?? ''} #${v.id}`.trim();
-    }
-    return null;
-  }
-  if (type === 'json') {
-    return typeof value === 'string' ? value : JSON.stringify(value);
-  }
   return String(value);
+}
+
+/** Plain-text snippet of block-editor content for the collapsed preview row. */
+function richTextPreview(value: unknown): string | null {
+  if (!Array.isArray(value)) return null;
+  const parts: string[] = [];
+  for (const row of value as any[]) {
+    for (const col of row?.columns ?? []) {
+      for (const block of col?.data?.blocks ?? []) {
+        if (typeof block?.data?.text === 'string') {
+          parts.push(block.data.text.replace(/<[^>]*>/g, ''));
+        } else if (Array.isArray(block?.data?.items)) {
+          parts.push(block.data.items.map(String).join(', '));
+        }
+      }
+    }
+  }
+  const text = parts.join(' ').replace(/\s+/g, ' ').trim();
+  return text || null;
 }
 
 /** Preview text for a field's current value (lists joined with • ), or null. */
 function formatPreview(def: Definition, value: unknown): string | null {
+  if (def.type === 'rich_text') return richTextPreview(value);
   if (def.type === 'group') {
     if (def.isList) {
       const n = Array.isArray(value)
@@ -110,11 +106,11 @@ function formatPreview(def: Definition, value: unknown): string | null {
  */
 function MetafieldRow({
   def,
-  currency,
+  initialValue,
   onEditDefinition
 }: {
   def: Definition;
-  currency: string;
+  initialValue?: unknown;
   onEditDefinition: () => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -177,36 +173,48 @@ function MetafieldRow({
         ) : null}
       </div>
       <div className="col-span-2">
-        {!open ? (
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            data-testid={`mf-preview-${def.key}`}
-            className="flex w-full items-start justify-between gap-2 rounded-md border border-transparent px-2 py-1.5 text-left hover:border-divider hover:bg-muted/40"
-          >
-            <span
-              className={
-                preview === null
-                  ? 'text-sm italic text-muted-foreground'
-                  : 'line-clamp-2 break-words text-sm'
-              }
-            >
-              {preview === null ? _('Not set') : preview}
-            </span>
-            <Pencil className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-          </button>
-        ) : null}
-        <div className={open ? '' : 'hidden'}>
-          <MetafieldValueInput field={def} name={name} currency={currency} />
-          <button
-            type="button"
-            onClick={handleDone}
-            data-testid={`mf-done-${def.key}`}
-            className="mt-2 text-sm text-primary hover:underline"
-          >
-            {_('Done')}
-          </button>
-        </div>
+        {def.type === 'rich_text' ? (
+          // Block editor: render inline (always visible). It must not mount inside
+          // a hidden container, and a one-line preview can't represent it.
+          <MetafieldValueInput
+            field={def}
+            name={name}
+            initialValue={initialValue}
+          />
+        ) : (
+          <>
+            {!open ? (
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                data-testid={`mf-preview-${def.key}`}
+                className="flex w-full items-start justify-between gap-2 rounded-md border border-transparent px-2 py-1.5 text-left hover:border-divider hover:bg-muted/40"
+              >
+                <span
+                  className={
+                    preview === null
+                      ? 'text-sm italic text-muted-foreground'
+                      : 'line-clamp-2 break-words text-sm'
+                  }
+                >
+                  {preview === null ? _('Not set') : preview}
+                </span>
+                <Pencil className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+              </button>
+            ) : null}
+            <div className={open ? '' : 'hidden'}>
+              <MetafieldValueInput field={def} name={name} />
+              <button
+                type="button"
+                onClick={handleDone}
+                data-testid={`mf-done-${def.key}`}
+                className="mt-2 text-sm text-primary hover:underline"
+              >
+                {_('Done')}
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -218,11 +226,7 @@ function MetafieldRow({
  * text, expand to edit) that contributes a `metafields` object to the parent form
  * payload, and offers an "Add field" popup plus a read-only "View JSON".
  */
-export function MetafieldSection({
-  ownerType,
-  values,
-  currency = 'USD'
-}: Props) {
+export function MetafieldSection({ ownerType, values }: Props) {
   const [definitions, setDefinitions] = useState<Definition[]>([]);
   const [loading, setLoading] = useState(true);
   const [addOpen, setAddOpen] = useState(false);
@@ -320,7 +324,11 @@ export function MetafieldSection({
               <MetafieldRow
                 key={`${def.namespace}.${def.key}`}
                 def={def}
-                currency={currency}
+                initialValue={
+                  (values as Record<string, Record<string, unknown>> | undefined)?.[
+                    def.namespace
+                  ]?.[def.key]
+                }
                 onEditDefinition={() => setEditDef(def)}
               />
             ))}

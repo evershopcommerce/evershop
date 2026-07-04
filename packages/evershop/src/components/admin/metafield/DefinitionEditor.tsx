@@ -22,14 +22,14 @@ const TYPE_OPTIONS = [
   { value: 'date', label: _('Date') },
   { value: 'color', label: _('Color') },
   { value: 'url', label: 'URL' },
-  { value: 'money', label: _('Money') },
-  { value: 'json', label: 'JSON' },
-  { value: 'reference', label: _('Reference') },
   { value: 'group', label: _('Group') }
 ];
 
-// Sub-fields are one level deep in the editor (scalars only — no nested groups).
-const SUB_TYPE_OPTIONS = TYPE_OPTIONS.filter((o) => o.value !== 'group');
+// Sub-fields are one level deep, scalar leaves only — no nested groups and no
+// block-editor `rich_text` (which is a single top-level field).
+const SUB_TYPE_OPTIONS = TYPE_OPTIONS.filter(
+  (o) => o.value !== 'group' && o.value !== 'rich_text'
+);
 
 const FORM_ID = 'metafieldDefinitionForm';
 

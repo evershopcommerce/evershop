@@ -16,7 +16,7 @@ export default {
     editUrl: ({ uuid }) => buildUrl('orderEdit', { id: uuid }),
     createShipmentApi: ({ uuid }) => buildUrl('createShipment', { id: uuid }),
     cancelApi: ({ uuid }) => buildUrl('cancelOrder', { id: uuid }),
-    metaData: (order) => order.metaData ?? order.meta_data ?? {},
+    metaData: (order) => order.metaData ?? {},
     updateMetafieldsApi: ({ uuid }) =>
       buildUrl('updateOrderMetafields', { id: uuid }),
     customerUrl: async ({ customerId }, _, { pool }) => {

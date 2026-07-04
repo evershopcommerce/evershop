@@ -1,4 +1,3 @@
-import { getStoreCurrency } from '../../modules/setting/services/setting.js';
 import { MAX_DEPTH } from './types.js';
 import type { FieldDescriptor, Validation } from './types.js';
 
@@ -36,7 +35,6 @@ function compileScalar(field: FieldDescriptor): JSONSchema {
   switch (field.type) {
     case 'short_text':
     case 'long_text':
-    case 'rich_text':
     case 'url':
       return { type: 'string' };
     case 'color':
@@ -49,33 +47,6 @@ function compileScalar(field: FieldDescriptor): JSONSchema {
       return { type: 'number' };
     case 'boolean':
       return { type: 'boolean' };
-    case 'money': {
-      // currency must match the store currency (spec §3.6) — admin setting, legacy config fallback
-      const currency = getStoreCurrency();
-      return {
-        type: 'object',
-        properties: {
-          amount: { type: 'number' },
-          currency: currency
-            ? { type: 'string', const: currency }
-            : { type: 'string' }
-        },
-        required: ['amount', 'currency'],
-        additionalProperties: false
-      };
-    }
-    case 'reference':
-      return {
-        type: 'object',
-        properties: {
-          referenceType: { type: 'string' },
-          id: { type: ['integer', 'string'] }
-        },
-        required: ['referenceType', 'id'],
-        additionalProperties: false
-      };
-    case 'json':
-      return {}; // arbitrary JSON — opaque, bypasses the depth guard
     default:
       return {};
   }
@@ -91,6 +62,12 @@ export function compileField(
   depth = 1,
   max = MAX_DEPTH
 ): JSONSchema {
+  // rich_text holds EverShop block-editor content, validated opaquely. A single
+  // value is a Row[]; a list is an array of `{ content: Row[] }` items. Either
+  // way the top level is an array.
+  if (field.type === 'rich_text') {
+    return { type: 'array' };
+  }
   let schema: JSONSchema;
   if (field.type === 'group') {
     if (depth >= max) {

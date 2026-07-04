@@ -3,10 +3,7 @@ import {
   type MetaData
 } from '../../../../../lib/metafield/index.js';
 
-type CustomerParent = { metaData?: MetaData; meta_data?: MetaData };
-
-const metaOf = (customer: CustomerParent): MetaData =>
-  customer.metaData ?? customer.meta_data ?? {};
+type CustomerParent = { metaData?: MetaData };
 
 export default {
   Customer: {
@@ -15,7 +12,7 @@ export default {
       { namespace }: { namespace?: string },
       { user }: { user?: unknown }
     ) =>
-      shapeMetafields(metaOf(customer), 'customer', {
+      shapeMetafields(customer.metaData ?? {}, 'customer', {
         audience: user ? 'admin' : 'customer',
         namespace
       }),
@@ -24,7 +21,7 @@ export default {
       { namespace, key }: { namespace: string; key: string },
       { user }: { user?: unknown }
     ) => {
-      const all = await shapeMetafields(metaOf(customer), 'customer', {
+      const all = await shapeMetafields(customer.metaData ?? {}, 'customer', {
         audience: user ? 'admin' : 'customer',
         namespace
       });

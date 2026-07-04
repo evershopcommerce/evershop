@@ -8,9 +8,6 @@ export type MetafieldType =
   | 'date'
   | 'color'
   | 'url'
-  | 'money'
-  | 'json'
-  | 'reference'
   | 'group';
 
 export const METAFIELD_TYPES: MetafieldType[] = [
@@ -23,9 +20,6 @@ export const METAFIELD_TYPES: MetafieldType[] = [
   'date',
   'color',
   'url',
-  'money',
-  'json',
-  'reference',
   'group'
 ];
 
@@ -57,8 +51,6 @@ export interface FieldDescriptor {
   translatable?: boolean;
   validations?: Validation[];
   appearance?: Record<string, unknown>;
-  /** Opaque label for `reference` targets; the consumer dereferences it. */
-  referenceType?: string;
   subFields?: FieldDescriptor[];
 }
 

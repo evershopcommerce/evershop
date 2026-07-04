@@ -1,3 +1,4 @@
+import { Editor, type Row } from '@components/common/form/Editor.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
@@ -32,7 +33,6 @@ export interface FieldDescriptor {
   type: string;
   isList?: boolean;
   required?: boolean;
-  referenceType?: string;
   validations?: Validation[];
   subFields?: FieldDescriptor[];
 }
@@ -117,41 +117,6 @@ function toValidationRules(
   return Object.keys(rules).length ? rules : undefined;
 }
 
-/** Money: amount only — currency is fixed to the store currency (shop.currency). */
-function MoneyInput({ name, currency }: { name: string; currency: string }) {
-  const { control } = useFormContext();
-  return (
-    <Controller
-      control={control}
-      name={name as never}
-      render={({ field }) => {
-        const v =
-          field.value && typeof field.value === 'object'
-            ? (field.value as { amount?: number })
-            : {};
-        return (
-          <div className="flex items-center gap-2">
-            <Input
-              type="number"
-              step="any"
-              placeholder="0.00"
-              value={v.amount ?? ''}
-              onChange={(e) => {
-                const raw = e.target.value;
-                field.onChange(
-                  raw === '' ? undefined : { amount: Number(raw), currency }
-                );
-              }}
-              className="flex-1"
-            />
-            <span className="text-sm text-muted-foreground">{currency}</span>
-          </div>
-        );
-      }}
-    />
-  );
-}
-
 /** URL: uses the LinkPicker (page / category / product / custom URL). */
 function UrlInput({ name }: { name: string }) {
   const { control } = useFormContext();
@@ -173,12 +138,10 @@ function UrlInput({ name }: { name: string }) {
 function ScalarInput({
   field,
   name,
-  currency,
   isSubField
 }: {
   field: FieldDescriptor;
   name: string;
-  currency: string;
   isSubField?: boolean;
 }) {
   const validation = toValidationRules(field, !isSubField);
@@ -188,16 +151,6 @@ function ScalarInput({
         <TextareaField
           name={name}
           rows={3}
-          placeholder={_('Enter text')}
-          validation={validation}
-        />
-      );
-    case 'rich_text':
-      // A full WYSIWYG can be swapped in later; a textarea is a safe default.
-      return (
-        <TextareaField
-          name={name}
-          rows={6}
           placeholder={_('Enter text')}
           validation={validation}
         />
@@ -228,27 +181,6 @@ function ScalarInput({
       return <InputField name={name} type="color" validation={validation} />;
     case 'url':
       return <UrlInput name={name} />;
-    case 'money':
-      return <MoneyInput name={name} currency={currency} />;
-    case 'reference':
-      return (
-        <div className="flex gap-2">
-          <InputField
-            name={`${name}.referenceType`}
-            defaultValue={field.referenceType}
-            placeholder={_('Reference type')}
-            wrapperClassName="w-44"
-          />
-          <InputField
-            name={`${name}.id`}
-            type="number"
-            placeholder={_('ID')}
-            wrapperClassName="flex-1"
-          />
-        </div>
-      );
-    case 'json':
-      return <TextareaField name={name} rows={4} placeholder="{ }" />;
     case 'short_text':
     default:
       return (
@@ -273,7 +205,7 @@ function ListItemInput({
   onChange: (value: unknown) => void;
 }) {
   const str = value === undefined || value === null ? '' : String(value);
-  if (type === 'long_text' || type === 'rich_text') {
+  if (type === 'long_text') {
     return (
       <Textarea
         rows={2}
@@ -416,12 +348,10 @@ function ListValueEditor({
 /** Labelled sub-field inputs for a group (one object's worth). */
 function GroupFields({
   subFields,
-  name,
-  currency
+  name
 }: {
   subFields: FieldDescriptor[];
   name: string;
-  currency: string;
 }) {
   return (
     <div className="space-y-3">
@@ -434,7 +364,6 @@ function GroupFields({
           <MetafieldValueInput
             field={sub}
             name={`${name}.${sub.key}`}
-            currency={currency}
             isSubField
           />
         </div>
@@ -446,12 +375,10 @@ function GroupFields({
 /** Repeater of group cards (the `group` + isList case), one card per object. */
 function GroupListRepeater({
   field,
-  name,
-  currency
+  name
 }: {
   field: FieldDescriptor;
   name: string;
-  currency: string;
 }) {
   const { control } = useFormContext();
   const { fields, append, remove, move } = useFieldArray({
@@ -469,7 +396,6 @@ function GroupListRepeater({
             <GroupFields
               subFields={field.subFields || []}
               name={`${name}.${index}`}
-              currency={currency}
             />
           </div>
           <div className="flex flex-col gap-1 pt-1">
@@ -516,6 +442,86 @@ function GroupListRepeater({
 }
 
 /**
+ * Repeater of block Editors — the `rich_text` + isList case. Each item is one
+ * block document stored as `{ content: Row[] }` (an object so useFieldArray's
+ * add/remove/reorder reshuffle cleanly). Each Editor is keyed by the field-array
+ * id and seeded once from the stored value at its index.
+ */
+function RichTextListEditor({
+  name,
+  initialValue
+}: {
+  name: string;
+  initialValue?: unknown;
+}) {
+  const { control } = useFormContext();
+  const { fields, append, remove, move } = useFieldArray({
+    control,
+    name: name as never
+  });
+  const initials = Array.isArray(initialValue) ? (initialValue as any[]) : [];
+  return (
+    <div className="space-y-2">
+      {fields.map((item, index) => (
+        <div
+          key={item.id}
+          className="flex items-start gap-2 rounded-md border border-divider bg-card p-2"
+        >
+          <div className="flex-1">
+            <Editor
+              name={`${name}.${index}.content`}
+              value={
+                Array.isArray(initials[index]?.content)
+                  ? (initials[index].content as Row[])
+                  : []
+              }
+              columnToolbar={false}
+            />
+          </div>
+          <div className="flex flex-col gap-1 pt-1">
+            <button
+              type="button"
+              aria-label={_('Move up')}
+              onClick={() => move(index, index - 1)}
+              disabled={index === 0}
+              className="rounded p-1 text-muted-foreground hover:bg-muted/60 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <ChevronUp className="h-3.5 w-3.5" />
+            </button>
+            <button
+              type="button"
+              aria-label={_('Move down')}
+              onClick={() => move(index, index + 1)}
+              disabled={index === fields.length - 1}
+              className="rounded p-1 text-muted-foreground hover:bg-muted/60 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <ChevronDown className="h-3.5 w-3.5" />
+            </button>
+            <button
+              type="button"
+              aria-label={_('Remove item')}
+              onClick={() => remove(index)}
+              className="rounded p-1 text-muted-foreground hover:bg-muted/60 hover:text-destructive"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </div>
+      ))}
+      <Button
+        type="button"
+        variant="outline"
+        size="sm"
+        onClick={() => append({ content: [] } as never)}
+      >
+        <Plus className="mr-1 h-3.5 w-3.5" />
+        {_('Add item')}
+      </Button>
+    </div>
+  );
+}
+
+/**
  * Renders the value input for one field descriptor, bound to `name` in the
  * surrounding form. `choices` → React-Select; `group` → sub-fields (or a card
  * repeater when a list); other lists → the controlled list editor; otherwise a
@@ -524,15 +530,32 @@ function GroupListRepeater({
 export function MetafieldValueInput({
   field,
   name,
-  currency = 'USD',
+  initialValue,
   isSubField = false
 }: {
   field: FieldDescriptor;
   name: string;
-  currency?: string;
+  /** Stored value used to seed the block Editor for `rich_text` (see below). */
+  initialValue?: unknown;
   /** True when rendered as a group sub-field — suppresses client `required`. */
   isSubField?: boolean;
 }) {
+  // rich_text uses the EverShop block Editor, which snapshots its value once on
+  // mount. Seed it straight from the stored value (not the form state, which is
+  // populated by a later effect) so an existing entity prefills correctly.
+  if (field.type === 'rich_text') {
+    if (field.isList) {
+      return <RichTextListEditor name={name} initialValue={initialValue} />;
+    }
+    return (
+      <Editor
+        name={name}
+        value={Array.isArray(initialValue) ? (initialValue as Row[]) : []}
+        columnToolbar={false}
+      />
+    );
+  }
+
   const choices = choicesOf(field);
 
   if (
@@ -553,29 +576,13 @@ export function MetafieldValueInput({
   }
 
   if (field.type === 'group') {
-    if (field.isList)
-      return (
-        <GroupListRepeater field={field} name={name} currency={currency} />
-      );
-    return (
-      <GroupFields
-        subFields={field.subFields || []}
-        name={name}
-        currency={currency}
-      />
-    );
+    if (field.isList) return <GroupListRepeater field={field} name={name} />;
+    return <GroupFields subFields={field.subFields || []} name={name} />;
   }
 
   if (field.isList) {
     return <ListValueEditor field={field} name={name} />;
   }
 
-  return (
-    <ScalarInput
-      field={field}
-      name={name}
-      currency={currency}
-      isSubField={isSubField}
-    />
-  );
+  return <ScalarInput field={field} name={name} isSubField={isSubField} />;
 }

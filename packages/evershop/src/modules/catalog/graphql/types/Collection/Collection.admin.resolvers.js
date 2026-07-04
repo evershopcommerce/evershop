@@ -11,8 +11,7 @@ export default {
       buildUrl('updateCollection', { id: collection.uuid }),
     deleteApi: (collection) =>
       buildUrl('deleteCollection', { id: collection.uuid }),
-    metaData: (collection) =>
-      collection.metaData ?? collection.meta_data ?? {}
+    metaData: (collection) => collection.metaData ?? {}
   },
   Product: {
     removeFromCollectionUrl: async (product, _, { pool }) => {

@@ -8,7 +8,7 @@ export default {
     deleteApi: (category) => buildUrl('deleteCategory', { id: category.uuid }),
     addProductUrl: (category) =>
       buildUrl('addProductToCategory', { category_id: category.uuid }),
-    metaData: (category) => category.metaData ?? category.meta_data ?? {}
+    metaData: (category) => category.metaData ?? {}
   },
   Product: {
     removeFromCategoryUrl: async (product, _, { pool }) => {

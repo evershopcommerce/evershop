@@ -12,7 +12,6 @@ function descriptorOf(def: MetafieldDefinition): FieldDescriptor {
     required: def.required,
     validations: def.validations,
     appearance: def.appearance,
-    referenceType: def.referenceType,
     subFields: def.subFields
   };
 }
@@ -35,6 +34,35 @@ function isBlank(value: unknown): boolean {
   return value === undefined || value === null || value === '';
 }
 
+/** A single editor block carries real content (non-empty text / items / media). */
+function blockHasContent(block: any): boolean {
+  const data = block?.data;
+  if (!data || typeof data !== 'object') return false;
+  if (typeof data.text === 'string') {
+    // Strip inline HTML/whitespace: an empty paragraph block is not content.
+    return data.text.replace(/<[^>]*>/g, '').trim().length > 0;
+  }
+  if (Array.isArray(data.items)) return data.items.length > 0;
+  // image / raw / productList / etc. — any populated block counts as content.
+  return Object.keys(data).length > 0;
+}
+
+/** True when block-editor content (Row[]) has at least one non-empty block. */
+function richTextHasBlocks(rows: unknown): boolean {
+  return (
+    Array.isArray(rows) &&
+    rows.some(
+      (row: any) =>
+        Array.isArray(row?.columns) &&
+        row.columns.some(
+          (col: any) =>
+            Array.isArray(col?.data?.blocks) &&
+            col.data.blocks.some(blockHasContent)
+        )
+    )
+  );
+}
+
 /**
  * Coerce an "empty" value to `undefined` so untouched optional fields are treated
  * as not-provided rather than validated. The form serializes every field on
@@ -44,6 +72,24 @@ function isBlank(value: unknown): boolean {
  */
 function normalize(field: FieldDescriptor, value: unknown): unknown {
   if (isBlank(value)) return undefined;
+
+  // rich_text is EverShop block-editor content (Row[]). A list holds one document
+  // per item as `{ content: Row[] }`. Structurally-empty content (no blocks in any
+  // column) counts as unset — `required` is enforced and empty editor shells /
+  // empty items are dropped rather than persisted.
+  if (field.type === 'rich_text') {
+    if (field.isList) {
+      if (!Array.isArray(value)) return undefined;
+      const items = (value as any[])
+        .map((item) =>
+          item && typeof item === 'object' ? (item as any).content : undefined
+        )
+        .filter((rows) => richTextHasBlocks(rows))
+        .map((rows) => ({ content: rows }));
+      return items.length ? items : undefined;
+    }
+    return richTextHasBlocks(value) ? value : undefined;
+  }
 
   if (field.isList) {
     if (!Array.isArray(value)) return undefined;
@@ -62,19 +108,6 @@ function normalize(field: FieldDescriptor, value: unknown): unknown {
       if (nv !== undefined) out[sub.key] = nv;
     }
     return Object.keys(out).length ? out : undefined;
-  }
-
-  if (field.type === 'reference') {
-    const v = value as { referenceType?: unknown; id?: unknown };
-    // The default `referenceType` alone is not a value — an empty `id` means unset.
-    if (isBlank(v.id)) return undefined;
-    return { referenceType: v.referenceType, id: v.id };
-  }
-
-  if (field.type === 'money') {
-    const v = value as { amount?: unknown };
-    if (isBlank(v.amount)) return undefined;
-    return value;
   }
 
   return value;

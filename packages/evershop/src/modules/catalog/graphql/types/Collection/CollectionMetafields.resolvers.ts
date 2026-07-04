@@ -3,10 +3,7 @@ import {
   type MetaData
 } from '../../../../../lib/metafield/index.js';
 
-type CollectionParent = { metaData?: MetaData; meta_data?: MetaData };
-
-const metaOf = (collection: CollectionParent): MetaData =>
-  collection.metaData ?? collection.meta_data ?? {};
+type CollectionParent = { metaData?: MetaData };
 
 export default {
   Collection: {
@@ -15,7 +12,7 @@ export default {
       { namespace }: { namespace?: string },
       { user }: { user?: unknown }
     ) =>
-      shapeMetafields(metaOf(collection), 'collection', {
+      shapeMetafields(collection.metaData ?? {}, 'collection', {
         audience: user ? 'admin' : 'customer',
         namespace
       }),
@@ -24,7 +21,7 @@ export default {
       { namespace, key }: { namespace: string; key: string },
       { user }: { user?: unknown }
     ) => {
-      const all = await shapeMetafields(metaOf(collection), 'collection', {
+      const all = await shapeMetafields(collection.metaData ?? {}, 'collection', {
         audience: user ? 'admin' : 'customer',
         namespace
       });

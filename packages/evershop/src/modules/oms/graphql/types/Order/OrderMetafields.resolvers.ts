@@ -3,10 +3,7 @@ import {
   type MetaData
 } from '../../../../../lib/metafield/index.js';
 
-type OrderParent = { metaData?: MetaData; meta_data?: MetaData };
-
-const metaOf = (order: OrderParent): MetaData =>
-  order.metaData ?? order.meta_data ?? {};
+type OrderParent = { metaData?: MetaData };
 
 export default {
   Order: {
@@ -15,7 +12,7 @@ export default {
       { namespace }: { namespace?: string },
       { user }: { user?: unknown }
     ) =>
-      shapeMetafields(metaOf(order), 'order', {
+      shapeMetafields(order.metaData ?? {}, 'order', {
         audience: user ? 'admin' : 'customer',
         namespace
       }),
@@ -24,7 +21,7 @@ export default {
       { namespace, key }: { namespace: string; key: string },
       { user }: { user?: unknown }
     ) => {
-      const all = await shapeMetafields(metaOf(order), 'order', {
+      const all = await shapeMetafields(order.metaData ?? {}, 'order', {
         audience: user ? 'admin' : 'customer',
         namespace
       });

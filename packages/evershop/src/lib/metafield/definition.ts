@@ -29,7 +29,6 @@ export interface CreateDefinitionInput {
   required?: boolean;
   translatable?: boolean;
   visibleToCustomer?: boolean;
-  referenceType?: string;
   validations?: Validation[];
   appearance?: Record<string, unknown>;
   subFields?: FieldDescriptor[];
@@ -56,7 +55,6 @@ function rowToDefinition(row: Record<string, any>): MetafieldDefinition {
     required: row.required,
     translatable: row.translatable,
     visibleToCustomer: row.visible_to_customer,
-    referenceType: row.reference_type ?? undefined,
     validations: row.validations ?? [],
     appearance: row.appearance ?? {},
     subFields: row.sub_fields ?? [],
@@ -124,9 +122,6 @@ export async function createMetafieldDefinition(
   if (!input.ownerType || !input.key || !input.name || !input.type) {
     throw httpError('ownerType, key, name and type are required', 400);
   }
-  if (input.type === 'reference' && !input.referenceType) {
-    throw httpError('referenceType is required when type is "reference"', 400);
-  }
   assertCompilable(input);
 
   // Existence check — a definition with the same key may not already exist.
@@ -151,7 +146,6 @@ export async function createMetafieldDefinition(
       name: input.name,
       description: input.description ?? null,
       field_type: input.type,
-      reference_type: input.referenceType ?? null,
       is_list: input.isList ?? false,
       required: input.required ?? false,
       translatable: input.translatable ?? false,
@@ -201,8 +195,6 @@ export async function updateMetafieldDefinition(
   if (patch.translatable !== undefined) data.translatable = patch.translatable;
   if (patch.visibleToCustomer !== undefined)
     data.visible_to_customer = patch.visibleToCustomer;
-  if (patch.referenceType !== undefined)
-    data.reference_type = patch.referenceType;
   if (patch.validations !== undefined) data.validations = patch.validations;
   if (patch.appearance !== undefined) data.appearance = patch.appearance;
   if (patch.subFields !== undefined) data.sub_fields = patch.subFields;

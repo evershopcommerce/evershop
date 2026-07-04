@@ -3,10 +3,7 @@ import {
   type MetaData
 } from '../../../../../lib/metafield/index.js';
 
-type CategoryParent = { metaData?: MetaData; meta_data?: MetaData };
-
-const metaOf = (category: CategoryParent): MetaData =>
-  category.metaData ?? category.meta_data ?? {};
+type CategoryParent = { metaData?: MetaData };
 
 export default {
   Category: {
@@ -15,7 +12,7 @@ export default {
       { namespace }: { namespace?: string },
       { user }: { user?: unknown }
     ) =>
-      shapeMetafields(metaOf(category), 'category', {
+      shapeMetafields(category.metaData ?? {}, 'category', {
         audience: user ? 'admin' : 'customer',
         namespace
       }),
@@ -24,7 +21,7 @@ export default {
       { namespace, key }: { namespace: string; key: string },
       { user }: { user?: unknown }
     ) => {
-      const all = await shapeMetafields(metaOf(category), 'category', {
+      const all = await shapeMetafields(category.metaData ?? {}, 'category', {
         audience: user ? 'admin' : 'customer',
         namespace
       });
