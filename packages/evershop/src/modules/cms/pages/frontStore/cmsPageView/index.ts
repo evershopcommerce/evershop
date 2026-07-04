@@ -1,5 +1,7 @@
+import { localizeUrl } from '../../../../../lib/locale/localeContext.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { CmsUrn } from '../../../../../lib/urn/index.js';
+import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
 import { EvershopResponse } from '../../../../../types/response.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
@@ -7,6 +9,16 @@ import { getCmsPagesBaseQuery } from '../../../services/getCmsPagesBaseQuery.js'
 
 export default async (request, response: EvershopResponse, next) => {
   try {
+    // The /page/<key> URL is retired in favor of the root-level /<key>. Only a
+    // LITERAL /page/* request reaches this handler with a /page/ incoming path;
+    // the url_rewrite'd /<key> request arrives with a /<key> path, so it is
+    // never redirected (no loop). See wiki/cms-routing-redesign.md § 3.
+    const incomingPath =
+      request.localePath ?? request.originalUrl.split('?')[0];
+    if (incomingPath.startsWith('/page/')) {
+      return response.redirect(301, localizeUrl(`/${request.params.url_key}`));
+    }
+
     const query = getCmsPagesBaseQuery();
     query
       .where('cms_page_description.url_key', '=', request.params.url_key)
@@ -24,7 +36,10 @@ export default async (request, response: EvershopResponse, next) => {
       request.locals.pageBuilderEntityUrn = CmsUrn.page(page.uuid);
       setPageMetaInfo(request, {
         title: page.meta_title || page.name,
-        description: page.meta_description || page.meta_title
+        description: page.meta_description || page.meta_title,
+        // Both /<key> and (legacy) /page/<key> point at the same content —
+        // emit a canonical to the root-level URL. Required (wiki § guards).
+        canonicalUrl: getBaseUrl() + localizeUrl(`/${request.params.url_key}`)
       });
       next();
     }

@@ -6,6 +6,7 @@ import {
   update
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { CmsUrn } from '../../../../lib/urn/index.js';
 import { hookable, hookBefore, hookAfter } from '../../../../lib/util/hookable.js';
 import {
   getValue,
@@ -14,7 +15,12 @@ import {
 import { sanitizeRawHtml } from '../../../../lib/util/sanitizeHtml.js';
 import type { CmsPageRow, CmsPageDescriptionRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
+import { recordRedirect } from '../../../base/services/recordRedirect.js';
 import pageDataSchema from './pageDataSchema.json' with { type: 'json' };
+import {
+  assertUrlKeyAvailable,
+  syncPageUrlRewrite
+} from './syncPageUrlRewrite.js';
 
 function validatePageDataBeforeInsert(data): any {
   const ajv = getAjv();
@@ -43,6 +49,13 @@ async function updatePageData(uuid, data, connection): Promise<CmsPageRow & CmsP
   if (!page) {
     throw new Error('Requested page not found');
   }
+  // Snapshot the old url_key before the description update overwrites it — used
+  // for the old->new redirect below.
+  const oldUrlKey = page.url_key;
+  // On a url_key change, reject a slug that is unreachable or owned by another entity.
+  if (data.url_key && data.url_key !== oldUrlKey) {
+    await assertUrlKeyAvailable(connection, data.url_key, page.uuid);
+  }
   const newPage = await update('cms_page')
     .given(data)
     .where('uuid', '=', uuid)
@@ -59,6 +72,21 @@ async function updatePageData(uuid, data, connection): Promise<CmsPageRow & CmsP
     if (!e.message.includes('No data was provided')) {
       throw e;
     }
+  }
+
+  // Keep the root-level friendly URL in sync with the (possibly new) url_key.
+  await syncPageUrlRewrite(connection, {
+    uuid: page.uuid,
+    url_key: data.url_key ?? oldUrlKey
+  });
+
+  // On a rename, keep the old URL alive: 302 /<oldKey> -> /<newKey>.
+  if (data.url_key && data.url_key !== oldUrlKey) {
+    await recordRedirect(connection, {
+      fromPath: `/${oldUrlKey}`,
+      toPath: `/${data.url_key}`,
+      entityUrn: CmsUrn.page(page.uuid)
+    });
   }
 
   return {

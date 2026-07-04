@@ -91,6 +91,13 @@ function parseRatio(
  *   - `padding` — preset (`none|sm|md|lg|xl`) mapped to responsive
  *     Tailwind classes so mobile breakpoints don't crush the layout.
  *
+ * Responsive behavior: below `md` (768px) all columns stack full-width
+ * (single-column grid) regardless of `ratio`/`columnCount` — a narrow
+ * viewport can't fit multiple ratio-based columns without crushing their
+ * content. The ratio grid only applies from `md` up, via a CSS custom
+ * property (`--evershop-columns-grid`) read by an injected media-query
+ * rule, matching the pattern used by FooterMenu / TieredCategories.
+ *
  * Outside the page builder, `useWidgetUid` returns the widget's uuid via
  * the `WidgetContextProvider` mounted by `WidgetChrome` for every widget
  * (also outside the iframe — chrome's outer branch always wraps in
@@ -123,54 +130,72 @@ export default function Columns({
   if (!uid) return null;
 
   return (
-    <div
-      className={`evershop-columns ${paddingClass}`}
-      style={{
-        backgroundColor: wrapperBg,
-        // When a background or padding is set, the row is the visual
-        // container. Without either, render flush so the parent layout
-        // controls spacing.
-        width: '100%'
-      }}
-    >
+    <>
+      {/* Mobile stacks columns full-width; the ratio-based grid only
+       *  kicks in from `md` (768px) up, matching the breakpoint used by
+       *  FooterMenu / TieredCategories for the same reason — narrow
+       *  viewports can't fit multiple ratio columns without crushing
+       *  their content.
+       *  Note: `grid-template-columns` must live entirely in this
+       *  stylesheet (not inline on the element) — an inline style always
+       *  wins over any stylesheet rule, media query or not, so setting it
+       *  inline would make the desktop override never apply. */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `.evershop-columns__grid { grid-template-columns: 1fr; } @media (min-width: 768px) { .evershop-columns__grid { grid-template-columns: var(--evershop-columns-grid, 1fr); } }`
+        }}
+      />
       <div
-        className="evershop-columns__grid"
+        className={`evershop-columns ${paddingClass}`}
         style={{
-          display: 'grid',
-          gridTemplateColumns: gridCols,
-          gap: `${safeGap}px`,
+          backgroundColor: wrapperBg,
+          // When a background or padding is set, the row is the visual
+          // container. Without either, render flush so the parent layout
+          // controls spacing.
           width: '100%'
         }}
       >
-        {parts.map((_, i) => (
-          <div
-            key={i}
-            className={`evershop-columns__column flex flex-col ${anchorClass}`}
-            data-evershop-pb-column-uid={uid}
-            data-evershop-pb-column-index={i}
-            style={{
-              position: 'relative',
-              // Outline only inside the page builder so the user can see
-              // each column's bounds while dragging children in.
-              ...(inPb
-                ? {
-                    minHeight: 80,
-                    outline: '1px dashed rgba(0, 128, 95, 0.4)',
-                    outlineOffset: -2,
-                    padding: 8
-                  }
-                : null)
-            }}
-          >
-            <Area
-              id={`columnsContainer_${uid}_col_${i}`}
-              noOuter
-              editableInPageBuilder
-            />
-          </div>
-        ))}
+        <div
+          className="evershop-columns__grid"
+          style={
+            {
+              display: 'grid',
+              gap: `${safeGap}px`,
+              width: '100%',
+              ['--evershop-columns-grid' as string]: gridCols
+            } as React.CSSProperties
+          }
+        >
+          {parts.map((_, i) => (
+            <div
+              key={i}
+              className={`evershop-columns__column flex flex-col ${anchorClass}`}
+              data-evershop-pb-column-uid={uid}
+              data-evershop-pb-column-index={i}
+              style={{
+                position: 'relative',
+                // Outline only inside the page builder so the user can see
+                // each column's bounds while dragging children in.
+                ...(inPb
+                  ? {
+                      minHeight: 80,
+                      outline: '1px dashed rgba(0, 128, 95, 0.4)',
+                      outlineOffset: -2,
+                      padding: 8
+                    }
+                  : null)
+              }}
+            >
+              <Area
+                id={`columnsContainer_${uid}_col_${i}`}
+                noOuter
+                editableInPageBuilder
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -55,5 +55,6 @@ export { CategoryPicker } from './pickers/CategoryPicker.js';
 export { ProductPicker } from './pickers/ProductPicker.js';
 export { CollectionPicker } from './pickers/CollectionPicker.js';
 export { PagePicker } from './pickers/PagePicker.js';
+export { LandingPagePicker } from './pickers/LandingPagePicker.js';
 export { LinkPicker } from './pickers/LinkPicker.js';
 export { EntitySearchList } from './pickers/EntitySearchList.js';

@@ -6,6 +6,7 @@ import {
   startTransaction
 } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { CmsUrn } from '../../../../lib/urn/index.js';
 import {
   hookable,
   hookBefore,
@@ -15,8 +16,15 @@ import type {
   CmsPageRow,
   CmsPageDescriptionRow
 } from '../../../../types/db/index.js';
+import { clearRedirectsForEntity } from '../../../base/services/recordRedirect.js';
+import { deletePageUrlRewrite } from './syncPageUrlRewrite.js';
 
 async function deletePageData(uuid, connection): Promise<void> {
+  // Purge the page's historical redirect aliases (by entity_urn) so old URLs
+  // stop 302ing and can't 302 a re-taken slug to an unrelated page.
+  await clearRedirectsForEntity(connection, CmsUrn.page(uuid));
+  // Remove the page's root-level friendly URL so /<url_key> stops resolving.
+  await deletePageUrlRewrite(connection, uuid);
   await del('cms_page').where('uuid', '=', uuid).execute(connection);
 }
 /**

@@ -14,6 +14,10 @@ import { sanitizeRawHtml } from '../../../../lib/util/sanitizeHtml.js';
 import type { CmsPageRow, CmsPageDescriptionRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import pageDataSchema from './pageDataSchema.json' with { type: 'json' };
+import {
+  assertUrlKeyAvailable,
+  syncPageUrlRewrite
+} from './syncPageUrlRewrite.js';
 
 function validatePageDataBeforeInsert(data): any {
   const ajv = getAjv();
@@ -59,6 +63,8 @@ const _createPage = async function createPage(data, context): Promise<CmsPageRow
     const pageData = await getValue('pageDataBeforeCreate', data);
     // Validate page data
     validatePageDataBeforeInsert(pageData);
+    // Reject a url_key that would be unreachable or collide with another entity.
+    await assertUrlKeyAvailable(connection, pageData.url_key, null);
 // Sanitize raw HTML blocks in EditorJS content
     if (pageData.content) {
       sanitizeRawHtml(pageData.content);
@@ -68,6 +74,12 @@ const _createPage = async function createPage(data, context): Promise<CmsPageRow
       pageData,
       connection
     );
+
+    // Give the page a root-level friendly URL (/<url_key> -> /page/<url_key>).
+    await syncPageUrlRewrite(connection, {
+      uuid: page.uuid,
+      url_key: pageData.url_key
+    });
 
     await commit(connection);
     return page;

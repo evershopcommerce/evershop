@@ -1,6 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { getRoutes } from '../../../../../lib/router/Router.js';
+import { getEntityScope } from '../../../../../lib/util/entityScopeRegistry.js';
 import { getActiveTheme } from '../../../../../lib/util/getActiveTheme.js';
 import { NOT_FOUND } from '../../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../../types/request.js';
@@ -10,7 +11,7 @@ import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { getOrCreateDraftChangeset } from '../../../services/getOrCreateDraftChangeset.js';
 
 export default async (request: EvershopRequest, response: EvershopResponse) => {
-  const routeId = request.params.routeId;
+  const routeId = request.params.routeId as string;
   const targetRoute = getRoutes().find(
     (r: any) =>
       r.id === routeId && !r.isApi && !r.isAdmin && r.editable === true
@@ -42,6 +43,21 @@ export default async (request: EvershopRequest, response: EvershopResponse) => {
   const sessionParam =
     typeof request.query?.session === 'string' && request.query.session.length > 0
       ? String(request.query.session)
+      : null;
+
+  // Entity scope (spec 03 § 4.1). `?entity=<uuid>` scopes this editor session to
+  // a single entity (e.g. one landing page): placement writes stamp that entity's
+  // URN and the preview iframe loads its real URL. `?pbScope=route` (§ 4.7) forces
+  // route-level editing even when an entity uuid is present. Which routes are
+  // entity-scoped, and how to resolve a uuid → urn/preview path, comes from the
+  // entityScopeRegistry (see below) — no hardcoded route ids here.
+  const entityParam =
+    typeof request.query?.entity === 'string' && request.query.entity.length > 0
+      ? String(request.query.entity)
+      : null;
+  const scopeParam =
+    typeof request.query?.pbScope === 'string'
+      ? String(request.query.pbScope)
       : null;
 
   let changeset: any;
@@ -116,4 +132,23 @@ export default async (request: EvershopRequest, response: EvershopResponse) => {
   // edit mode; `rolloutContext` above is captured locally only as a defensive
   // validation that the rollout exists and points at an unpublished changeset
   // before we pin the editor to it.
+
+  // Resolve the entity scope into the two context values the editor's
+  // `pageBuilderScope` query reads. Always set them (null-safe) so the
+  // resolver + the getContextValue macro never see an undefined key.
+  let pageBuilderEntityUrn: string | null = null;
+  let pageBuilderPreviewPath: string | null = null;
+  // Entity-scoped routes (e.g. landingPageView) register a resolver in the
+  // entityScopeRegistry from their module's bootstrap — no hardcoded route ids
+  // here. `?pbScope=route` (§4.7) forces route-level editing even with an entity.
+  const entityScope = getEntityScope(routeId);
+  if (entityScope && entityParam && scopeParam !== 'route') {
+    const resolved = await entityScope.resolve(entityParam, pool);
+    if (resolved) {
+      pageBuilderEntityUrn = resolved.urn;
+      pageBuilderPreviewPath = resolved.previewPath;
+    }
+  }
+  setContextValue(request, 'pageBuilderEntityUrn', pageBuilderEntityUrn);
+  setContextValue(request, 'pageBuilderPreviewPath', pageBuilderPreviewPath);
 };

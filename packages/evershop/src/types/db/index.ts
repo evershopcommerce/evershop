@@ -1199,7 +1199,6 @@ export type TaxRateUpdate = Partial<Omit<TaxRateRow, 'tax_rate_id'>>;
 
 export interface UrlRewriteRow {
   url_rewrite_id: number;
-  language: string;
   request_path: string;
   target_path: string;
   entity_uuid: string | null;

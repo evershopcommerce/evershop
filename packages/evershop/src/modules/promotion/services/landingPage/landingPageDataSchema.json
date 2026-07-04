@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": ["boolean", "integer", "string"],
+      "enum": [true, false, 0, 1, "0", "1"]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "url_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "description": {
+      "type": ["string", "null"]
+    },
+    "meta_title": {
+      "type": ["string", "null"]
+    },
+    "meta_description": {
+      "type": ["string", "null"]
+    },
+    "publish_start": {
+      "type": ["string", "null"]
+    },
+    "publish_end": {
+      "type": ["string", "null"]
+    }
+  },
+  "required": [],
+  "additionalProperties": true
+}

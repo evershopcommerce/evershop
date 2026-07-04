@@ -45,7 +45,7 @@ const buildUrlReWrite: EventSubscriber<'category_created'> = async (data) => {
       path = `/${urlKey.url_key}${path}`;
     }
     // Insert the url rewrite rule to the url_rewrite table
-    await insertOnUpdate('url_rewrite', ['entity_uuid', 'language'])
+    await insertOnUpdate('url_rewrite', ['entity_uuid'])
       .given({
         entity_type: 'category',
         entity_uuid: categoryUuid,

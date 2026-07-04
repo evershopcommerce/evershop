@@ -7,6 +7,7 @@ import {
 } from '@evershop/postgres-query-builder';
 import type { PoolClient } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { CatalogUrn } from '../../../../lib/urn/index.js';
 import {
   hookable,
   hookBefore,
@@ -16,12 +17,16 @@ import type {
   ProductDescriptionRow,
   ProductRow
 } from '../../../../types/db/index.js';
+import { clearRedirectsForEntity } from '../../../base/services/recordRedirect.js';
 import { ProductData } from './createProduct.js';
 
 async function deleteProductData(
   uuid: string,
   connection: PoolClient
 ): Promise<void> {
+  // Purge the product's historical redirect aliases (by entity_urn) so old URLs
+  // stop 302ing and can't 302 a re-taken slug to an unrelated product.
+  await clearRedirectsForEntity(connection, CatalogUrn.product(uuid));
   await del('product').where('uuid', '=', uuid).execute(connection);
 }
 

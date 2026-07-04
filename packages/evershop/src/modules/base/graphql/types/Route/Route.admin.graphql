@@ -29,6 +29,13 @@ type Route {
   (product list, category page) where the URL serves many entities.
   """
   assignedEntity: AssignedEntity
+  """
+  Non-null when this route serves many entities of one type that the
+  page builder can scope widget placements to (e.g. `cmsPageView` serves
+  every CMS page). Drives the topbar "entity scope" selector so the client
+  need not hardcode `cmsPageView`. Null for routes with no entity dimension.
+  """
+  entityScope: EntityScope
 }
 
 """
@@ -39,6 +46,16 @@ route-level edits (all pages on this route).
 type AssignedEntity {
   urn: String!
   label: String
+}
+
+"""
+Describes a route's entity dimension for the page builder: the entity
+`type` (matches the URN service/type vocabulary, e.g. `cms_page`) and the
+GraphQL `listQuery` the selector calls to enumerate selectable entities.
+"""
+type EntityScope {
+  type: String!
+  listQuery: String!
 }
 
 extend type Query {

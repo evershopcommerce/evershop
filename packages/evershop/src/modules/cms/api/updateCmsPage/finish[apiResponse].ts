@@ -29,7 +29,7 @@ export default async (
         },
         {
           rel: 'view',
-          href: buildUrl('cmsPageView', { url_key: page?.url_key }),
+          href: `/${page?.url_key}`,
           action: 'GET',
           types: ['text/xml']
         }
