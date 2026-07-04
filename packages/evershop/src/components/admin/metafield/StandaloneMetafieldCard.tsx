@@ -18,12 +18,10 @@ import { MetafieldSection } from './MetafieldSection.js';
 export function StandaloneMetafieldCard({
   ownerType,
   values,
-  currency = 'USD',
   saveUrl
 }: {
   ownerType: string;
   values?: Record<string, unknown>;
-  currency?: string;
   saveUrl: string;
 }): React.ReactElement {
   const [submitting, setSubmitting] = useState(false);
@@ -48,11 +46,7 @@ export function StandaloneMetafieldCard({
 
   return (
     <Form id={formId} submitBtn={false} onSubmit={handleSubmit}>
-      <MetafieldSection
-        ownerType={ownerType}
-        values={values}
-        currency={currency}
-      />
+      <MetafieldSection ownerType={ownerType} values={values} />
       <div className="mt-3 flex justify-end">
         <Button
           type="button"

@@ -32,7 +32,6 @@ function ShopCustomFields({
 }: {
   setting?: {
     metaData?: Record<string, unknown>;
-    storeCurrency?: string;
     shopMetafieldsApi?: string;
   } | null;
 }): React.ReactElement | null {
@@ -44,7 +43,6 @@ function ShopCustomFields({
     <StandaloneMetafieldCard
       ownerType="shop"
       values={setting.metaData}
-      currency={setting.storeCurrency ?? 'USD'}
       saveUrl={setting.shopMetafieldsApi}
     />
   );
@@ -649,7 +647,6 @@ export default function StoreSetting({
             <ShopCustomFields
               setting={{
                 metaData,
-                storeCurrency,
                 shopMetafieldsApi
               }}
             />

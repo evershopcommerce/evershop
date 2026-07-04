@@ -6,13 +6,12 @@ export default async (connection: PoolClient) => {
     connection,
     `CREATE TYPE metafield_type AS ENUM (
       'short_text', 'long_text', 'rich_text', 'integer', 'number', 'boolean',
-      'date', 'color', 'url', 'money', 'json', 'reference', 'group'
+      'date', 'color', 'url', 'group'
     )`
   );
 
-  // The typed, reusable field declaration. owner_type / reference_type are open
-  // (plain varchar) so any entity — core or third-party — can opt in without the
-  // core enumerating it.
+  // The typed, reusable field declaration. owner_type is open (plain varchar) so
+  // any entity — core or third-party — can opt in without the core enumerating it.
   await execute(
     connection,
     `CREATE TABLE "metafield_definition" (
@@ -24,7 +23,6 @@ export default async (connection: PoolClient) => {
       "name" varchar(255) NOT NULL,
       "description" text,
       "field_type" metafield_type NOT NULL,
-      "reference_type" varchar(64),
       "is_list" boolean NOT NULL DEFAULT false,
       "required" boolean NOT NULL DEFAULT false,
       "translatable" boolean NOT NULL DEFAULT false,
@@ -37,7 +35,6 @@ export default async (connection: PoolClient) => {
       "updated_at" timestamptz NOT NULL DEFAULT now(),
       CONSTRAINT "METAFIELD_DEFINITION_UUID_UNIQUE" UNIQUE ("uuid"),
       CONSTRAINT "METAFIELD_DEFINITION_KEY_UNIQUE" UNIQUE ("owner_type", "namespace", "field_key"),
-      CONSTRAINT "METAFIELD_REFERENCE_TYPE_IFF_REFERENCE" CHECK (("field_type" = 'reference') = ("reference_type" IS NOT NULL)),
       CONSTRAINT "METAFIELD_SUB_FIELDS_IFF_GROUP" CHECK (("field_type" = 'group') = (jsonb_array_length("sub_fields") > 0))
     )`
   );

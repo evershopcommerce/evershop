@@ -14,9 +14,6 @@ export default {
     DATE: 'date',
     COLOR: 'color',
     URL: 'url',
-    MONEY: 'money',
-    JSON: 'json',
-    REFERENCE: 'reference',
     GROUP: 'group'
   }
 };

@@ -2,14 +2,12 @@ import { StandaloneMetafieldCard } from '@components/admin/metafield/StandaloneM
 import React from 'react';
 
 export default function OrderCustomFields({
-  order,
-  setting
+  order
 }: {
   order?: {
     metaData?: Record<string, unknown>;
     updateMetafieldsApi?: string;
   } | null;
-  setting?: { storeCurrency?: string } | null;
 }): React.ReactElement | null {
   // The order admin screen is a read-only view, so the metafield editor is a
   // self-contained card that PATCHes to `updateMetafieldsApi` on Save.
@@ -18,7 +16,6 @@ export default function OrderCustomFields({
     <StandaloneMetafieldCard
       ownerType="order"
       values={order.metaData}
-      currency={setting?.storeCurrency ?? 'USD'}
       saveUrl={order.updateMetafieldsApi}
     />
   );
@@ -29,16 +26,12 @@ export const layout = {
   sortOrder: 25
 };
 
-// `metaData` is admin-only; `storeCurrency` (= shop.currency) drives `money`
-// fields. The order is loaded by uuid (context key "orderId").
+// `metaData` is admin-only. The order is loaded by uuid (context key "orderId").
 export const query = `
   query Query {
     order(uuid: getContextValue("orderId")) {
       metaData
       updateMetafieldsApi
-    }
-    setting {
-      storeCurrency
     }
   }
 `;

@@ -48,9 +48,6 @@
         "date",
         "color",
         "url",
-        "money",
-        "json",
-        "reference",
         "group"
       ],
       "errorMessage": {
@@ -58,7 +55,6 @@
         "enum": "fieldType must be one of the supported metafield types"
       }
     },
-    "referenceType": { "type": "string" },
     "isList": { "type": "boolean" },
     "required": { "type": "boolean" },
     "translatable": { "type": "boolean" },

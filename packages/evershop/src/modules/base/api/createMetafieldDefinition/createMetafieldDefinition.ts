@@ -20,7 +20,6 @@ export default async (
       name: b.name,
       description: b.description,
       type: b.fieldType,
-      referenceType: b.referenceType,
       isList: b.isList,
       required: b.required,
       translatable: b.translatable,

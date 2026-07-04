@@ -16,7 +16,6 @@
     "required": { "type": "boolean" },
     "translatable": { "type": "boolean" },
     "visibleToCustomer": { "type": "boolean" },
-    "referenceType": { "type": "string" },
     "validations": { "type": "array" },
     "appearance": { "type": "object" },
     "subFields": { "type": "array" },

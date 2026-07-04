@@ -70,8 +70,9 @@ const SortableRow: React.FC<{
   removeRow: (rowId: string) => void;
   moveRowUp: (rowId: string) => void;
   moveRowDown: (rowId: string) => void;
+  showActions: boolean;
   children: React.ReactNode;
-}> = ({ row, removeRow, moveRowUp, moveRowDown, children }) => {
+}> = ({ row, removeRow, moveRowUp, moveRowDown, showActions, children }) => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const actionsRef = React.useRef<HTMLDivElement>(null);
 
@@ -114,6 +115,7 @@ const SortableRow: React.FC<{
       ref={setNodeRef}
       style={style}
     >
+      {showActions && (
       <div
         className="row__actions"
         ref={actionsRef}
@@ -209,6 +211,7 @@ const SortableRow: React.FC<{
           </div>
         )}
       </div>
+      )}
       {children}
     </div>
   );
@@ -232,13 +235,21 @@ export interface EditorProps {
    * Opt-in: enable the Product List block for this editor. Default OFF.
    */
   enableProductList?: boolean;
+  /**
+   * Show the row/column layout toolbar (RowTemplates) below the editor and the
+   * per-row actions (drag / move / delete). Default ON. Turn OFF for a simple
+   * single-column editor (e.g. metafields): the layout chrome is hidden and one
+   * column is seeded so there is always an area to type in.
+   */
+  columnToolbar?: boolean;
 }
 
 export const Editor: React.FC<EditorProps> = ({
   name,
   value = [],
   label,
-  enableProductList = false
+  enableProductList = false,
+  columnToolbar = true
 }) => {
   const client = useClient();
   // Data source for the Product List tool's built-in search modal.
@@ -362,8 +373,8 @@ export const Editor: React.FC<EditorProps> = ({
     onError: (error: string) => void;
   } | null>(null);
   const { register, setValue } = useScopedFormContext();
-  const [rows, setRows] = React.useState(
-    value
+  const [rows, setRows] = React.useState(() => {
+    const initial = value
       ? value.map((row) => {
           const rowId = `r__${uuidv4()}`;
           return {
@@ -380,8 +391,31 @@ export const Editor: React.FC<EditorProps> = ({
             })
           };
         })
-      : []
-  );
+      : [];
+    // Seed a single-column row when starting empty so the editor always has a
+    // visible, editable area instead of only the (optional) layout toolbar. With
+    // the toolbar off this is also the only way to get an initial row. An empty
+    // row is already a reachable state (add a row, type nothing), so this adds no
+    // new shape for consumers.
+    if (initial.length === 0) {
+      return [
+        {
+          id: `r__${uuidv4()}`,
+          size: 1,
+          className: getRowClasses(1),
+          columns: [
+            {
+              id: `c__${uuidv4()}`,
+              size: 1,
+              className: getColumnClasses(1),
+              data: {}
+            }
+          ]
+        }
+      ];
+    }
+    return initial;
+  });
   const editors = React.useRef({});
 
   const sensors = useSensors(
@@ -543,6 +577,7 @@ export const Editor: React.FC<EditorProps> = ({
                     removeRow={removeRow}
                     moveRowUp={moveRowUp}
                     moveRowDown={moveRowDown}
+                    showActions={columnToolbar}
                   >
                     <div
                       className={`row grid divide-x gap-x-3 divide-dashed ${row.className}`}
@@ -565,11 +600,13 @@ export const Editor: React.FC<EditorProps> = ({
             </SortableContext>
           </DndContext>
         </div>
-        <div className="flex justify-center">
-          <div className="flex justify-center flex-col mt-5">
-            <RowTemplates addRow={addRow} />
+        {columnToolbar && (
+          <div className="flex justify-center">
+            <div className="flex justify-center flex-col mt-5">
+              <RowTemplates addRow={addRow} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <input type="hidden" {...register(name)} />
       {openFileBrowser && (

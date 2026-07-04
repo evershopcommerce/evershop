@@ -14,9 +14,17 @@ function field(
 
 describe('compileField — scalars', () => {
   test('text-like types compile to a plain string schema', () => {
-    for (const type of ['short_text', 'long_text', 'rich_text', 'url'] as const) {
+    for (const type of ['short_text', 'long_text', 'url'] as const) {
       expect(compileField(field({ type }))).toEqual({ type: 'string' });
     }
+  });
+
+  test('rich_text compiles to an opaque array (block-editor content)', () => {
+    expect(compileField(field({ type: 'rich_text' }))).toEqual({ type: 'array' });
+    // Both single and list compile to an opaque top-level array.
+    expect(compileField(field({ type: 'rich_text', isList: true }))).toEqual({
+      type: 'array'
+    });
   });
 
   test('integer / number / boolean', () => {
@@ -34,18 +42,6 @@ describe('compileField — scalars', () => {
     expect(validate('#fff')).toBe(false);
   });
 
-  test('reference is a closed {referenceType, id} object', () => {
-    const schema = compileField(field({ type: 'reference', referenceType: 'product' }));
-    const validate = ajv().compile(schema);
-    expect(validate({ referenceType: 'product', id: 7 })).toBe(true);
-    expect(validate({ referenceType: 'product', id: 'uuid-str' })).toBe(true);
-    expect(validate({ referenceType: 'product' })).toBe(false); // missing id
-    expect(validate({ referenceType: 'product', id: 7, extra: 1 })).toBe(false);
-  });
-
-  test('json is unconstrained', () => {
-    expect(compileField(field({ type: 'json' }))).toEqual({});
-  });
 });
 
 describe('compileField — validations', () => {
