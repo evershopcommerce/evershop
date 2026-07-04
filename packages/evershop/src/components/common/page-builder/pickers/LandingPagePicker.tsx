@@ -1,4 +1,5 @@
 import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
 
@@ -100,11 +101,11 @@ export function LandingPagePicker({
           uuid: (item as unknown as { _uuid: string })._uuid
         })
       }
-      caption="Pick a landing page to link to."
+      caption={_('Pick a landing page to link to.')}
       emptyHint={
         debounced
-          ? `No landing pages match "${debounced}".`
-          : 'No landing pages yet.'
+          ? _('No landing pages match "${query}".', { query: debounced })
+          : _('No landing pages yet.')
       }
     />
   );

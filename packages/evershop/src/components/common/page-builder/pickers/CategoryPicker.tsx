@@ -1,4 +1,5 @@
 import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
 
@@ -98,11 +99,11 @@ export function CategoryPicker({
           uuid: (item as unknown as { _uuid: string })._uuid
         })
       }
-      caption="Pick a category to link to."
+      caption={_('Pick a category to link to.')}
       emptyHint={
         debounced
-          ? `No categories match "${debounced}".`
-          : 'No categories yet.'
+          ? _('No categories match "${query}".', { query: debounced })
+          : _('No categories yet.')
       }
     />
   );

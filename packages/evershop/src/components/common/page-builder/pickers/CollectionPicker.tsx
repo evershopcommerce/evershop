@@ -1,4 +1,5 @@
 import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
 
@@ -84,11 +85,11 @@ export function CollectionPicker({
           uuid: (item as unknown as { _uuid: string })._uuid
         })
       }
-      caption="Pick a collection."
+      caption={_('Pick a collection.')}
       emptyHint={
         debounced
-          ? `No collections match "${debounced}".`
-          : 'No collections yet.'
+          ? _('No collections match "${query}".', { query: debounced })
+          : _('No collections yet.')
       }
     />
   );
