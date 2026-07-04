@@ -118,7 +118,7 @@ export async function seedBlog(): Promise<void> {
           short_description: c.short_description ?? null
         })
         .execute(connection);
-      await insertOnUpdate('url_rewrite', ['entity_uuid', 'language'])
+      await insertOnUpdate('url_rewrite', ['entity_uuid'])
         .given({
           entity_type: 'blog_category',
           entity_uuid: cat.uuid,
@@ -145,7 +145,7 @@ export async function seedBlog(): Promise<void> {
       const tag = await insert('blog_tag')
         .given({ name: t.name, url_key: t.url_key })
         .execute(connection);
-      await insertOnUpdate('url_rewrite', ['entity_uuid', 'language'])
+      await insertOnUpdate('url_rewrite', ['entity_uuid'])
         .given({
           entity_type: 'blog_tag',
           entity_uuid: tag.uuid,
@@ -199,7 +199,7 @@ export async function seedBlog(): Promise<void> {
           meta_description: p.meta_description ?? null
         })
         .execute(connection);
-      await insertOnUpdate('url_rewrite', ['entity_uuid', 'language'])
+      await insertOnUpdate('url_rewrite', ['entity_uuid'])
         .given({
           entity_type: 'blog_post',
           entity_uuid: post.uuid,

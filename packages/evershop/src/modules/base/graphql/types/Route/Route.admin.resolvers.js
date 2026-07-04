@@ -1,4 +1,5 @@
 import { getRoutes } from '../../../../../lib/router/Router.js';
+import { getEntityScope } from '../../../../../lib/util/entityScopeRegistry.js';
 
 /**
  * Per-route sample-entity resolvers for the page-builder preview iframe.
@@ -26,7 +27,12 @@ const PREVIEW_SAMPLERS = {
             INNER JOIN cms_page_description cps
               ON cps.cms_page_description_cms_page_id = p.cms_page_id
             WHERE p.status = true
-            ORDER BY p.cms_page_id LIMIT 1`
+            ORDER BY p.cms_page_id LIMIT 1`,
+    // CMS pages live at root-level `/<url_key>` (PR1); `route.path` is still
+    // the internal `/page/:url_key`, and `/page/*` 301-redirects (dropping the
+    // `?changeset` query). Build the sampled preview at the friendly root path
+    // so the All-pages preview iframe applies the overlay instead of losing it.
+    format: (value) => `/${value}`
   },
   blogPostView: {
     param: 'uuid',
@@ -42,15 +48,36 @@ const PREVIEW_SAMPLERS = {
   }
 };
 
+
 async function resolvePreviewPath(route, pool) {
   if (!route?.path) return null;
   if (!route.path.includes(':')) return route.path;
+  // Entity-scoped routes (e.g. landingPageView) have no static PREVIEW_SAMPLER —
+  // sample the FIRST registered entity and preview it at its root-level friendly
+  // URL (`/<url_key>`). This is what the "All …" (route-level) editor scope loads
+  // when no specific entity is selected; without it the preview would be the raw
+  // `/landing/:url_key` and 404. See wiki/landing-pages.md.
+  const scope = getEntityScope(route.id);
+  if (scope) {
+    if (!pool) return route.path;
+    try {
+      const entities = await scope.list(pool);
+      if (entities[0]?.urlKey) return `/${entities[0].urlKey}`;
+    } catch {
+      // fall through to the unresolved path
+    }
+    return route.path;
+  }
   const sampler = PREVIEW_SAMPLERS[route.id];
   if (!sampler || !pool) return route.path;
   try {
     const result = await pool.query(sampler.sql);
     const value = result.rows[0]?.[sampler.param];
-    if (value) return route.path.replace(`:${sampler.param}`, value);
+    if (value) {
+      return sampler.format
+        ? sampler.format(value)
+        : route.path.replace(`:${sampler.param}`, value);
+    }
   } catch {
     // DB lookup failed — fall through to the unresolved path. The iframe
     // will render whatever the route does for an invalid param, but the
@@ -79,6 +106,16 @@ export default {
     previewPath: (route, _, { pool }) => resolvePreviewPath(route, pool),
     // Populated by per-module resolvers (e.g. cms) for routes whose
     // URL pattern resolves to a single entity. Default null.
-    assignedEntity: () => null
+    assignedEntity: () => null,
+    // Null unless a module registered this route in the entityScopeRegistry
+    // (e.g. promotion → landingPageView). Lets the editor decide whether to
+    // show the entity selector without hardcoding route ids client-side. The
+    // list is served by the generic `pageBuilderScopeEntities` query.
+    entityScope: (route) => {
+      const scope = getEntityScope(route?.id);
+      return scope
+        ? { type: scope.entityType, listQuery: 'pageBuilderScopeEntities' }
+        : null;
+    }
   }
 };

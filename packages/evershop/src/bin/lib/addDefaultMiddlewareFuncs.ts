@@ -238,11 +238,28 @@ export function addDefaultMiddlewareFuncs(app) {
       return next();
     }
 
-    // Find the matched rewrite rule base on the request path
-    const rewriteRule = await select()
-      .from('url_rewrite')
-      .where('request_path', '=', `/${path}`)
-      .load(pool);
+    // Find the matched rewrite rule based on the request path. url_rewrite only
+    // enforces UNIQUE(entity_uuid), so two entities (e.g. a landing page and a
+    // CMS page) can share a request_path. Resolve deterministically by
+    // entity_type PRECEDENCE — landing pages win a genuine collision, then
+    // cms_page, product, category, then oldest id (see wiki/landing-pages.md).
+    // The query-builder can't express a CASE order (its OrderBy holds a single
+    // field and mangles a CASE string), so this drops to raw SQL.
+    const rewriteResult = await pool.query(
+      `SELECT * FROM url_rewrite
+       WHERE request_path = $1
+       ORDER BY CASE entity_type
+           WHEN 'landing_page' THEN 0
+           WHEN 'cms_page' THEN 1
+           WHEN 'product' THEN 2
+           WHEN 'category' THEN 3
+           ELSE 4
+         END,
+         url_rewrite_id ASC
+       LIMIT 1`,
+      [`/${path}`]
+    );
+    const rewriteRule = rewriteResult.rows[0] ?? null;
 
     if (rewriteRule) {
       // Find the route

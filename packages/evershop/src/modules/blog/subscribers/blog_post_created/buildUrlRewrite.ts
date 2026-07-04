@@ -14,7 +14,7 @@ export default async (data: {
     if (!data?.url_key) {
       return;
     }
-    await insertOnUpdate('url_rewrite', ['entity_uuid', 'language'])
+    await insertOnUpdate('url_rewrite', ['entity_uuid'])
       .given({
         entity_type: 'blog_post',
         entity_uuid: data.uuid,

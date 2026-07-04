@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+import { localizeUrl } from '../locale/localeContext.js';
 import { select } from '../postgres/query.js';
 import { buildUrl } from '../router/buildUrl.js';
 import { UrnService } from '../urn/index.js';
@@ -143,10 +144,7 @@ const pageLoader: LinkLoaderFactory = linkLoaderFromBatch(
       .where('uuid', 'IN', [...uuids])
       .execute(pool);
     const m = new Map<string, string>(
-      rows.map((r: any) => [
-        r.uuid,
-        buildUrl('cmsPageView', { url_key: r.url_key })
-      ])
+      rows.map((r: any) => [r.uuid, localizeUrl(`/${r.url_key}`)])
     );
     return uuids.map((u) => m.get(u) ?? null);
   }

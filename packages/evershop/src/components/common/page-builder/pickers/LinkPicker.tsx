@@ -2,6 +2,7 @@
 import { drawerInputClass } from '@components/common/page-builder/drawer/index.js';
 import { BlogPicker } from '@components/common/page-builder/pickers/BlogPicker.js';
 import { CategoryPicker } from '@components/common/page-builder/pickers/CategoryPicker.js';
+import { LandingPagePicker } from '@components/common/page-builder/pickers/LandingPagePicker.js';
 import { PagePicker } from '@components/common/page-builder/pickers/PagePicker.js';
 import { ProductPicker } from '@components/common/page-builder/pickers/ProductPicker.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
@@ -9,6 +10,7 @@ import {
   BlogUrn,
   CatalogUrn,
   CmsUrn,
+  PromotionUrn,
   UrnService
 } from '@evershop/evershop/lib/urn';
 import React, { useState } from 'react';
@@ -40,6 +42,8 @@ function parseUrn(value: string | undefined | null): ParsedLinkUrn | null {
   if (service === 'catalog' && type === 'product') return { kind: 'product', id: uuid };
   if (service === 'catalog' && type === 'category') return { kind: 'category', id: uuid };
   if (service === 'cms' && type === 'page') return { kind: 'page', id: uuid };
+  if (service === 'promotion' && type === 'landing_page')
+    return { kind: 'landingPage', id: uuid };
   if (service === 'blog' && type === 'post')
     return { kind: 'blogPost', id: uuid };
   if (service === 'blog' && type === 'category')
@@ -51,6 +55,7 @@ function parseUrn(value: string | undefined | null): ParsedLinkUrn | null {
 
 export type LinkKind =
   | 'page'
+  | 'landingPage'
   | 'category'
   | 'product'
   | 'blogPost'
@@ -60,6 +65,7 @@ export type LinkKind =
 
 const TABS: { value: LinkKind; label: string }[] = [
   { value: 'page', label: _('Page') },
+  { value: 'landingPage', label: _('Landing page') },
   { value: 'category', label: _('Category') },
   { value: 'product', label: _('Product') },
   { value: 'blogPost', label: _('Blog post') },
@@ -124,6 +130,19 @@ export function LinkPicker({
           selectedUrl={parsed ? null : value || null}
           onPick={(r) =>
             onChange({ url: CmsUrn.page(r.uuid), kind: 'page', label: r.name })
+          }
+        />
+      )}
+      {tab === 'landingPage' && (
+        <LandingPagePicker
+          selectedUuid={parsed?.kind === 'landingPage' ? parsed.id : null}
+          selectedUrl={parsed ? null : value || null}
+          onPick={(r) =>
+            onChange({
+              url: PromotionUrn.landingPage(r.uuid),
+              kind: 'landingPage',
+              label: r.name
+            })
           }
         />
       )}

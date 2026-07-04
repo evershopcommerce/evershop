@@ -1,4 +1,5 @@
 import Area from '@components/common/Area.js';
+import { useAppState } from '@components/common/context/app.js';
 import { LoadingBar } from '@components/common/LoadingBar.js';
 import {
   CartProvider,
@@ -32,6 +33,8 @@ export default function Base({
   logoutApi,
   registerApi
 }: BaseProps) {
+  const { config } = useAppState();
+  const isLandingPage = config?.pageMeta?.route?.id === 'landingPageView';
   return (
     <CustomerProvider
       initialCustomer={customer}
@@ -47,8 +50,8 @@ export default function Base({
         <LoadingBar />
         <Header />
         <Area
-          id="content"
-          className="content page-width"
+          id={isLandingPage ? 'landing_page_content' : 'content'}
+          className="page-width min-h-36"
           wrapper="main"
           editableInPageBuilder
         />

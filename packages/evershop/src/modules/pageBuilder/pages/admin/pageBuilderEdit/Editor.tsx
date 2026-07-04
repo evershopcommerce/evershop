@@ -32,6 +32,7 @@ import {
   DeviceButton,
   type DeviceMode
 } from '../../../components/DeviceButton.js';
+import { EntityScopeSelector } from '../../../components/EntityScopeSelector.js';
 import { LayerNode, type LayerWidget } from '../../../components/LayerNode.js';
 import { LeftTabButton } from '../../../components/LeftTabButton.js';
 import { PageSwitcher } from '../../../components/PageSwitcher.js';
@@ -106,6 +107,22 @@ const PAGES_QUERY = `
   }
 `;
 
+// Entity-scope selector source (spec 03 § 4.2). Generic list of the current
+// route's scopable entities (e.g. landing pages), served by the entity-scope
+// registry; fetched client-side only when the route is entity-scoped (see the
+// `pause` on its useQuery below).
+const PAGE_BUILDER_SCOPE_ENTITIES_QUERY = `
+  query PageBuilderScopeEntities($routeId: String!) {
+    pageBuilderScopeEntities(routeId: $routeId) {
+      uuid
+      name
+      urlKey
+      urn
+      status
+    }
+  }
+`;
+
 // Used by the SessionPicker (spec § 7.8) to surface upcoming + currently
 // live rollout plans the user might want to resume editing. Past plans are
 // filtered out client-side.
@@ -164,6 +181,12 @@ interface RouteInfo {
    * backend has nothing to sample.
    */
   previewPath?: string | null;
+  /**
+   * Non-null when the route has an entity dimension the page builder can
+   * scope to (e.g. `cmsPageView` → every CMS page). Drives the topbar entity
+   * selector. `listQuery` names the GraphQL query enumerating the entities.
+   */
+  entityScope?: { type: string; listQuery: string } | null;
 }
 
 interface ChangesetInfo {
@@ -197,8 +220,20 @@ interface ChangesetInfo {
   } | null;
 }
 
+/**
+ * The editor's active entity scope for this session (spec 03 § 4). Null
+ * fields = route-level ("All CMS pages") scope: placement writes go to
+ * `entity_urn = null` and the preview uses the route's sample `previewPath`.
+ * Set by the pageBuilderEdit handler from `?entity=<page-uuid>`.
+ */
+interface PageBuilderScope {
+  entityUrn: string | null;
+  previewPath: string | null;
+}
+
 interface EditorProps {
   route: RouteInfo;
+  pageBuilderScope?: PageBuilderScope | null;
   changeset: ChangesetInfo;
   widgetTypes: WidgetType[];
   addOperationUrl: string;
@@ -241,6 +276,7 @@ interface PendingParent {
 
 export default function Editor({
   route,
+  pageBuilderScope,
   changeset,
   widgetTypes,
   addOperationUrl,
@@ -254,6 +290,12 @@ export default function Editor({
   pickerHomeUrl,
   dashboardUrl
 }: EditorProps) {
+  // Active entity-scope URN for placement writes (spec 03 § 4.3). Null =
+  // route-level: writes land on `entity_urn = null` (shown on every page of
+  // the route). A page scope stamps the CMS page URN so the placement is
+  // additive to that one page only. `'all'`-route (global) placements always
+  // stay null regardless of scope — enforced at each op site below.
+  const scopeEntityUrn = pageBuilderScope?.entityUrn ?? null;
   const [changeOrder, setChangeOrder] = useState(0);
   const [isPublishing, setIsPublishing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -742,6 +784,18 @@ export default function Editor({
   const [pagesResult] = useQuery({ query: PAGES_QUERY });
   const allRoutes = (pagesResult.data as any)?.routes ?? [];
 
+  // Entities for the scope selector — only fetched when the current route
+  // actually has an entity dimension (route-level routes pause the query).
+  const [scopeEntitiesResult] = useQuery({
+    query: PAGE_BUILDER_SCOPE_ENTITIES_QUERY,
+    variables: { routeId: route.id },
+    pause: !route.entityScope
+  });
+  const scopePages = useMemo(
+    () => (scopeEntitiesResult.data as any)?.pageBuilderScopeEntities ?? [],
+    [scopeEntitiesResult.data]
+  );
+
   // Rollout plans for the SessionPicker. Filter out past plans (already
   // ended) so the picker only surfaces things the user might still want
   // to act on. `startTime` / `endTime` are GraphQL DateTime objects with
@@ -818,10 +872,13 @@ export default function Editor({
     refetchLayers({ requestPolicy: 'network-only' });
   }, [reloadCounter, refetchLayers]);
 
-  // For dynamic routes (e.g. `/category/:uuid`) the resolver substitutes a
-  // sample entity so the iframe can actually load. Static routes return
-  // their declared `path`.
-  const previewablePath = route.previewPath || route.path;
+  // In page scope, preview the SELECTED page's real URL (`/<url_key>`) so its
+  // own entity-scoped placements layer in (cmsPageView sets the page URN from
+  // whatever URL the iframe loads). Route-level scope falls back to the
+  // resolver's sample entity for dynamic routes (e.g. `/category/:uuid`);
+  // static routes return their declared `path`.
+  const previewablePath =
+    pageBuilderScope?.previewPath || route.previewPath || route.path;
 
   const iframeSrc = useMemo(() => {
     const sep = previewablePath.includes('?') ? '&' : '?';
@@ -850,6 +907,28 @@ export default function Editor({
         : base;
     },
     [pickerHomeUrl, changeset.rolloutPlan]
+  );
+
+  // Re-scope the CURRENT route to a specific entity (CMS page uuid) or back to
+  // route-level ("All", entityUuid = null), preserving the rollout session.
+  // Distinct from editPathForRoute: that SWITCHES routes (and drops any entity
+  // scope, since the target route may not be entity-scoped); this keeps the
+  // route and toggles the `?entity` scope on it.
+  const scopeHref = useCallback(
+    (entityUuid: string | null): string => {
+      const base = `${pickerHomeUrl}/edit/${encodeURIComponent(route.id)}`;
+      const params: string[] = [];
+      if (changeset.rolloutPlan) {
+        params.push(
+          `session=${encodeURIComponent(changeset.rolloutPlan.uuid)}`
+        );
+      }
+      if (entityUuid) {
+        params.push(`entity=${encodeURIComponent(entityUuid)}`);
+      }
+      return params.length ? `${base}?${params.join('&')}` : base;
+    },
+    [pickerHomeUrl, route.id, changeset.rolloutPlan]
   );
 
   // Monotonic preview-push counter; sent with each data-update message so
@@ -1133,7 +1212,9 @@ export default function Editor({
             route: childRoute,
             area: childArea,
             sort_order: childSortOrder,
-            entity_urn: null
+            // Global ('all') children can't be page-scoped; otherwise inherit
+            // the editor's active page scope.
+            entity_urn: childRoute === 'all' ? null : scopeEntityUrn
           }
         });
         if (!placementOk) return;
@@ -1172,7 +1253,9 @@ export default function Editor({
           route: targetRoute,
           area: targetArea,
           sort_order: nextSortOrder,
-          entity_urn: null
+          // Global ('all') placements are never page-scoped; otherwise stamp
+          // the editor's active page scope (null in All-pages scope).
+          entity_urn: targetRoute === 'all' ? null : scopeEntityUrn
         }
       });
       if (!placementOk) return;
@@ -1199,7 +1282,14 @@ export default function Editor({
     // `layerWidgets` still consumed by the pendingParent branch (parent lookup
     // + child placement context). Top-level drops no longer read it — they
     // use the iframe-computed sortOrder in `opts`.
-    [postOperation, pushPreviewToIframe, route.id, pendingParent, layerWidgets]
+    [
+      postOperation,
+      pushPreviewToIframe,
+      route.id,
+      pendingParent,
+      layerWidgets,
+      scopeEntityUrn
+    ]
   );
 
   const openPublishDialog = useCallback(() => {
@@ -1679,12 +1769,14 @@ export default function Editor({
           route: targetRouteId,
           area,
           sort_order: sortOrder,
-          entity_urn: null
+          // Sharing to the global 'all' route can't be page-scoped; sharing to
+          // this route while in page scope keeps the widget on this page only.
+          entity_urn: targetRouteId === 'all' ? null : scopeEntityUrn
         }
       });
       if (ok) await pushPreviewToIframe();
     },
-    [postOperation, pushPreviewToIframe, selectedWidget?.uid]
+    [postOperation, pushPreviewToIframe, selectedWidget?.uid, scopeEntityUrn]
   );
 
   const removePlacement = useCallback(
@@ -1878,7 +1970,11 @@ export default function Editor({
           route: myPlacement?.route ?? route.id,
           area,
           sort_order: copySort,
-          entity_urn: null
+          // A copy lands in the same scope as the editor session: global if the
+          // source is on the 'all' route, otherwise the active page scope.
+          // (Increment 3 will read the source placement's own entity_urn once
+          // the Layers query selects it, to preserve cross-scope copies.)
+          entity_urn: (myPlacement?.route ?? route.id) === 'all' ? null : scopeEntityUrn
         }
       });
       pushPreviewToIframe();
@@ -1888,7 +1984,8 @@ export default function Editor({
       placementInArea,
       postOperation,
       pushPreviewToIframe,
-      route.id
+      route.id,
+      scopeEntityUrn
     ]
   );
 
@@ -2259,6 +2356,18 @@ export default function Editor({
               routesWithDraftOps={routesWithDraftOps}
               editPathForRoute={editPathForRoute}
             />
+            {route.entityScope && (
+              <>
+                <span className="text-muted-foreground/60 select-none">/</span>
+                <EntityScopeSelector
+                  pages={scopePages}
+                  currentEntityUrn={pageBuilderScope?.entityUrn ?? null}
+                  allLabel={_('All landing pages')}
+                  scopeHref={scopeHref}
+                  loading={scopeEntitiesResult.fetching}
+                />
+              </>
+            )}
             <SessionModeBadge
               rolloutPlan={changeset.rolloutPlan ?? null}
               onClick={() => setPickerOpen(true)}
@@ -2975,6 +3084,14 @@ export const query = `
       id
       name
       path
+      previewPath
+      entityScope {
+        type
+        listQuery
+      }
+    }
+    pageBuilderScope {
+      entityUrn
       previewPath
     }
     changeset(id: getContextValue("pageBuilderChangesetId")) {

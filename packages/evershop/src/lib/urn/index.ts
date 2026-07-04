@@ -33,7 +33,12 @@ import { UrnService } from './services/UrnService.js';
   { service: 'customer', type: 'customer', description: 'Customer account' },
   { service: 'blog', type: 'post', description: 'Blog post' },
   { service: 'blog', type: 'category', description: 'Blog category' },
-  { service: 'blog', type: 'tag', description: 'Blog tag' }
+  { service: 'blog', type: 'tag', description: 'Blog tag' },
+  {
+    service: 'promotion',
+    type: 'landing_page',
+    description: 'Promotion landing page'
+  }
 ].forEach(registerUrnSchema);
 
 export const CatalogUrn = {
@@ -61,6 +66,11 @@ export const BlogUrn = {
 
 export const CustomerUrn = {
   customer: (uuid: string) => UrnService.build('customer', 'customer', uuid)
+};
+
+export const PromotionUrn = {
+  landingPage: (uuid: string) =>
+    UrnService.build('promotion', 'landing_page', uuid)
 };
 
 export { UrnService };

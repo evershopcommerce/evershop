@@ -34,7 +34,7 @@ export default {
     }
   },
   CmsPage: {
-    url: ({ urlKey }) => localizeUrl(buildUrl('cmsPageView', { url_key: urlKey })),
+    url: ({ urlKey }) => localizeUrl(`/${urlKey}`),
     editUrl: ({ uuid }) => buildUrl('cmsPageEdit', { id: uuid }),
     updateApi: (page) => buildUrl('updateCmsPage', { id: page.uuid }),
     deleteApi: (page) => buildUrl('deleteCmsPage', { id: page.uuid }),
