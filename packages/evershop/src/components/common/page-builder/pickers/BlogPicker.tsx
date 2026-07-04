@@ -1,4 +1,5 @@
 import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
 
@@ -108,9 +109,11 @@ export function BlogPicker({
       onSearchChange={setSearch}
       loading={result.fetching}
       onSelect={(id, item) => onPick({ uuid: id, name: item.primary })}
-      caption={`Pick a blog ${kind} to link to.`}
+      caption={_('Pick a blog ${kind} to link to.', { kind })}
       emptyHint={
-        debounced ? `No ${kind}s match "${debounced}".` : `No ${kind}s yet.`
+        debounced
+          ? _('No ${kind}s match "${query}".', { kind, query: debounced })
+          : _('No ${kind}s yet.', { kind })
       }
     />
   );

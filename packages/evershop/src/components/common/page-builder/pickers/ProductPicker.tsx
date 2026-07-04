@@ -1,4 +1,5 @@
 import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
 
@@ -124,13 +125,13 @@ export function ProductPicker({
       }}
       caption={
         selectedUrl && !selectedUuid
-          ? `Current link: ${selectedUrl}`
-          : 'Pick a product to link to.'
+          ? _('Current link: ${url}', { url: selectedUrl })
+          : _('Pick a product to link to.')
       }
       emptyHint={
         debounced
-          ? `No products match "${debounced}".`
-          : 'No products yet.'
+          ? _('No products match "${query}".', { query: debounced })
+          : _('No products yet.')
       }
     />
   );

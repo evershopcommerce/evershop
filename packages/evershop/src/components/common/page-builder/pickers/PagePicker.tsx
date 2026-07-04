@@ -1,4 +1,5 @@
 import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
 
@@ -98,8 +99,12 @@ export function PagePicker({
           uuid: (item as unknown as { _uuid: string })._uuid
         })
       }
-      caption="Pick a CMS page to link to."
-      emptyHint={debounced ? `No pages match "${debounced}".` : 'No pages yet.'}
+      caption={_('Pick a CMS page to link to.')}
+      emptyHint={
+        debounced
+          ? _('No pages match "${query}".', { query: debounced })
+          : _('No pages yet.')
+      }
     />
   );
 }
