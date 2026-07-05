@@ -16,6 +16,22 @@ const sanitizeOptions: sanitizeHtml.IOptions = {
   }
 };
 
+/**
+ * Sanitize a single HTML string with the same allow-list used for stored
+ * rich-text. Safe to run isomorphically (sanitize-html is pure JS) and
+ * deterministic, so it can run at render time without a hydration mismatch.
+ *
+ * Use this at any `dangerouslySetInnerHTML` sink that renders
+ * user/admin-authored HTML — it strips `<script>`, event-handler attributes
+ * (`onerror`, …), and `javascript:`/`data:` URLs while keeping formatting.
+ */
+export function sanitize(html: unknown): string {
+  if (typeof html !== 'string' || html.length === 0) {
+    return '';
+  }
+  return sanitizeHtml(html, sanitizeOptions);
+}
+
 export interface Row {
   id: string;
   size: number;

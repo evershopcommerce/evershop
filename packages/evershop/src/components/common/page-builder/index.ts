@@ -9,6 +9,7 @@ export {
   useWidgetSettings
 } from './WidgetContext.js';
 export { WidgetChrome } from './WidgetChrome.js';
+export { WidgetEmptyState } from './WidgetEmptyState.js';
 export {
   WidgetSettingsScope,
   useWidgetSettingsScope,

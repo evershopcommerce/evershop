@@ -62,15 +62,19 @@ const GAP_CLASS: Record<BentoGap, string> = {
 };
 
 function smallTileSpan(totalSmall: number, index: number): string {
-  // 0-indexed `index` is within the small-tiles list.
-  // Layout rules:
-  //   1 small → spans both rows
-  //   2 smalls → stack vertically
-  //   3 smalls → top-row 2-up, bottom row spans 2 columns
-  //   4 smalls → 2×2
-  if (totalSmall === 1) return 'md:row-span-2';
+  // 0-indexed `index` is within the small-tiles list. These spans only apply on
+  // the desktop 4-column layout (`lg:`), where the hero occupies the left 2×2
+  // block and the small tiles fill the right two columns across two rows. On
+  // mobile/tablet the grid is 2-up and small tiles are always a single column.
+  // Desktop fills of the right 2×2 area, by small-tile count:
+  //   1 → fills the whole right half (mirrors the hero)
+  //   2 → two full-height columns beside the hero
+  //   3 → 2-up on top, the third spans the bottom row
+  //   4 → clean 2×2
+  if (totalSmall === 1) return 'lg:col-span-2 lg:row-span-2';
+  if (totalSmall === 2) return 'lg:row-span-2';
   if (totalSmall === 3) {
-    return index === 2 ? 'md:col-span-2' : '';
+    return index === 2 ? 'lg:col-span-2' : '';
   }
   return '';
 }
@@ -101,11 +105,16 @@ function TileBackground({
       objectFit="cover"
       sizes={
         isHero
-          ? '(max-width: 768px) 100vw, 33vw'
-          : '(max-width: 768px) 100vw, 22vw'
+          ? '(max-width: 1023px) 100vw, 50vw'
+          : '(max-width: 1023px) 50vw, 25vw'
       }
-      className="evershop-bento-grid__image absolute inset-0 h-full w-full"
-      style={{ aspectRatio: 'auto' }}
+      className="evershop-bento-grid__image absolute inset-0 h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.06]"
+      // `height: 100%` defeats the shared <Image>'s inline `height: auto`,
+      // which otherwise renders the img at its intrinsic aspect height —
+      // a few px shorter than the tile — exposing the tile's backgroundColor
+      // as a thin bar at the bottom. `aspectRatio: auto` clears its inline
+      // aspect so `object-cover` can fill the whole tile.
+      style={{ aspectRatio: 'auto', height: '100%' }}
     />
   );
 }
@@ -126,14 +135,17 @@ function TileContent({
     <div
       className={`evershop-bento-grid__content relative flex h-full flex-col justify-end gap-1 p-5 md:p-7 ${textClass}`}
     >
-      {/* Scrim for legibility when there's a background image */}
-      {tile.image && (
+      {/* Legibility scrim. Render it over a background image, and ALSO whenever
+          the tile uses light text with no image — otherwise white copy sits on
+          the raw (often light) background color at ~1.6:1. A bottom-anchored
+          dark gradient gives the text a dark backing either way. */}
+      {(tile.image || tile.textColor === 'light') && (
         <div
           aria-hidden="true"
           className={`evershop-bento-grid__overlay-tint pointer-events-none absolute inset-0 ${
             tile.textColor === 'light'
-              ? 'bg-linear-to-t from-black/55 via-black/15 to-transparent'
-              : 'bg-linear-to-t from-white/70 via-white/20 to-transparent'
+              ? 'bg-linear-to-t from-black/75 via-black/30 to-transparent'
+              : 'bg-linear-to-t from-white/80 via-white/25 to-transparent'
           }`}
         />
       )}
@@ -166,8 +178,10 @@ function TileContent({
             {tile.body}
           </Editable>
         )}
-        <div className="evershop-bento-grid__cta mt-3 inline-flex items-center gap-2 text-sm font-medium underline underline-offset-2">
-          {tile.link.label}
+        <div className="evershop-bento-grid__cta mt-3 inline-flex items-center gap-2 text-sm font-medium">
+          <span className="underline underline-offset-2">
+            {tile.link.label}
+          </span>
           <span aria-hidden="true">→</span>
         </div>
       </div>
@@ -190,7 +204,7 @@ export default function BentoGrid({ bentoGridWidget }: BentoGridProps) {
 
   return (
     <div
-      className={`evershop-bento-grid grid grid-cols-1 md:grid-cols-3 ${gapClass} py-6 md:py-10`}
+      className={`evershop-bento-grid grid grid-cols-2 lg:grid-cols-4 ${gapClass} py-6 md:py-10`}
     >
       {/* Hero */}
       <a
@@ -198,7 +212,7 @@ export default function BentoGrid({ bentoGridWidget }: BentoGridProps) {
         target={hero.tile.link.newTab ? '_blank' : undefined}
         rel={hero.tile.link.newTab ? 'noopener noreferrer' : undefined}
         aria-label={`${hero.tile.heading} — ${hero.tile.link.label}`}
-        className="evershop-bento-grid__tile evershop-bento-grid__tile--hero group relative block overflow-hidden rounded-md md:col-span-1 md:row-span-2"
+        className="evershop-bento-grid__tile evershop-bento-grid__tile--hero group relative block overflow-hidden shadow-[0_12px_30px_rgba(0,0,0,0.12)] col-span-2 lg:row-span-2"
         style={{
           backgroundColor: hero.tile.backgroundColor,
           minHeight
@@ -227,7 +241,7 @@ export default function BentoGrid({ bentoGridWidget }: BentoGridProps) {
           target={tile.link.newTab ? '_blank' : undefined}
           rel={tile.link.newTab ? 'noopener noreferrer' : undefined}
           aria-label={`${tile.heading} — ${tile.link.label}`}
-          className={`evershop-bento-grid__tile evershop-bento-grid__tile--small group relative block overflow-hidden rounded-md ${smallTileSpan(
+          className={`evershop-bento-grid__tile evershop-bento-grid__tile--small group relative block overflow-hidden shadow-[0_12px_30px_rgba(0,0,0,0.12)] ${smallTileSpan(
             totalSmall,
             i
           )}`}

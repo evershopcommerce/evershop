@@ -6,6 +6,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger
 } from '@components/common/ui/NavigationMenu.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { cn } from '@evershop/evershop/lib/util/cn';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import React from 'react';
@@ -170,7 +171,10 @@ export default function BasicMenu({
     <div className={`evershop-basic-menu ${className ?? ''}`}>
       {/* Desktop (md+): horizontal menu; a parent with children opens a
           hover/focus dropdown. The trigger itself is a real link. */}
-      <nav className="evershop-basic-menu__desktop hidden md:block">
+      <nav
+        aria-label={_('Main menu')}
+        className="evershop-basic-menu__desktop hidden md:block"
+      >
         <NavigationMenu className="evershop-basic-menu__menu max-w-full">
           <NavigationMenuList className="evershop-basic-menu__items items-center gap-1">
             {menuItems.map((item) => (
@@ -256,14 +260,17 @@ export default function BasicMenu({
           menu (e.g. a simple footer link list) renders inline with no
           hamburger — that is the one thing `isMain` controls. Both list every
           root + sub-item (no hover dropdowns on touch). */}
-      <div className="evershop-basic-menu__mobile relative md:hidden">
+      <nav
+        aria-label={_('Main menu')}
+        className="evershop-basic-menu__mobile relative md:hidden"
+      >
         {isMain ? (
           <>
             <button
               type="button"
               onClick={() => setMobileOpen((open) => !open)}
               aria-expanded={mobileOpen}
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-label={mobileOpen ? _('Close menu') : _('Open menu')}
               className="evershop-basic-menu__toggle inline-flex items-center justify-center rounded-md p-2 text-foreground transition-colors hover:bg-muted/50 focus:outline-none focus-visible:ring-1 focus-visible:ring-primary"
             >
               {mobileOpen ? (
@@ -283,7 +290,7 @@ export default function BasicMenu({
             <MobileItemList items={menuItems} isActive={isActive} />
           </div>
         )}
-      </div>
+      </nav>
     </div>
   );
 }

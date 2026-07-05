@@ -89,6 +89,17 @@ async function applyWidgetInstanceOp(
     // Theme is authoritative from the changeset — stamp it (covers legacy
     // ops recorded before server-side stamping landed).
     payload.theme = changesetTheme;
+    // Defensive idempotency, mirroring the placement INSERT guard: if a
+    // widget_instance with this uuid already exists (a re-publish, or a
+    // toggle-on/off/on history that accumulated multiple INSERT ops), a bare
+    // insert would hit the uuid unique constraint and abort the WHOLE publish
+    // transaction — a changeset that previews cleanly would fail to publish
+    // with a raw DB error. Treat the duplicate INSERT as a no-op instead.
+    const existsResult = await conn.query(
+      `SELECT 1 FROM widget_instance WHERE uuid = $1 LIMIT 1`,
+      [uuid]
+    );
+    if (existsResult.rows.length > 0) return;
     await insert('widget_instance').given(payload).execute(conn);
     return;
   }
@@ -167,6 +178,14 @@ async function applyWidgetPlacementOp(
         payload.widget_instance_uuid,
         conn
       );
+      // widget_instance_id is NOT NULL. If the uuid doesn't resolve, setting
+      // it to null yields an opaque constraint error mid-publish; raise the
+      // same clear "not found" the INSERT path does instead.
+      if (wid == null) {
+        throw new Error(
+          `Cannot update widget_placement: widget_instance with uuid "${payload.widget_instance_uuid}" not found`
+        );
+      }
       payload.widget_instance_id = wid;
       delete payload.widget_instance_uuid;
     }

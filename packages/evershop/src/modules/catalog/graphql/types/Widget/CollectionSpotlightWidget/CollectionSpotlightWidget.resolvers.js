@@ -1,5 +1,6 @@
 import { select } from '@evershop/postgres-query-builder';
 import { camelCase } from '../../../../../../lib/util/camelCase.js';
+import { resolveLink } from '../../../../../../lib/widget/linkResolver.js';
 import { getProductsByCollectionBaseQuery } from '../../../../services/getProductsByCollectionBaseQuery.js';
 import { ProductCollection } from '../../../../services/ProductCollection.js';
 
@@ -23,9 +24,11 @@ export default {
         eyebrow,
         heading,
         body,
-        previewCount
+        previewCount,
+        viewAllLink,
+        viewAllLabel
       },
-      { pool, user }
+      { pool, user, linkLoaders }
     ) => {
       // Input was widened to Float to tolerate slider mid-drag values; we
       // round + clamp to the two allowed previews here.
@@ -86,7 +89,14 @@ export default {
         previewCount: allowedCount,
         previewProducts,
         totalProducts,
-        collectionName
+        collectionName,
+        // Resolve the "View all" target (URN → current URL); a plain URL
+        // passes through. Collections have no public page, so this is an
+        // explicit merchant-chosen link rather than a hardcoded route.
+        viewAllLink: viewAllLink
+          ? (await resolveLink(viewAllLink, linkLoaders)) ?? null
+          : null,
+        viewAllLabel: viewAllLabel || null
       };
     }
   }

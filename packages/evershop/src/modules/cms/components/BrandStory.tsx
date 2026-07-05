@@ -3,6 +3,7 @@ import {
   Editable,
   EditableImage,
   EditableMarkdown,
+  WidgetEmptyState,
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import React, { useEffect, useState } from 'react';
@@ -130,7 +131,15 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
     setInPb(isPageBuilderActive());
   }, []);
 
-  if (!heading) return null;
+  if (!heading) {
+    return (
+      <WidgetEmptyState
+        type="brand_story"
+        title="Brand story"
+        hint="Add a heading in settings to build your story."
+      />
+    );
+  }
   // Fall back to a hero-scale 4:5 portrait when dimensions aren't stored.
   const intrinsicWidth = imageWidth && imageWidth > 0 ? imageWidth : 1200;
   const intrinsicHeight = imageHeight && imageHeight > 0 ? imageHeight : 1500;
@@ -225,7 +234,9 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
                   objectFit="cover"
                   sizes="128px"
                   className="evershop-brand-story__image h-full w-full"
-                  style={{ aspectRatio: 'auto' }}
+                  // Fill the fixed h-32 circular frame; height:auto would leave
+                  // a gray crescent for non-square avatars.
+                  style={{ aspectRatio: 'auto', height: '100%' }}
                 />
               ) : null}
             </EditableImage>

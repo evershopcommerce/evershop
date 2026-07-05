@@ -7,12 +7,14 @@ import {
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import {
   BAD_REQUEST,
+  FORBIDDEN,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   OK
 } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import { isForeignDraft } from '../../services/changesetOwnership.js';
 
 /**
  * POST /api/page-builder/changesets/:id/move-current
@@ -68,6 +70,13 @@ export default async (
     });
   }
 
+  const userId = (request as any).locals?.user?.admin_user_id;
+  if (!userId) {
+    return response.status(FORBIDDEN).json({
+      error: { status: FORBIDDEN, message: 'Admin auth required' }
+    });
+  }
+
   const conn = await getConnection();
   await startTransaction(conn);
   try {
@@ -81,6 +90,15 @@ export default async (
         error: {
           status: NOT_FOUND,
           message: `Changeset ${changesetId} not found`
+        }
+      });
+    }
+    if (isForeignDraft(changeset, userId)) {
+      await rollback(conn);
+      return response.status(FORBIDDEN).json({
+        error: {
+          status: FORBIDDEN,
+          message: 'You do not have access to this draft changeset'
         }
       });
     }

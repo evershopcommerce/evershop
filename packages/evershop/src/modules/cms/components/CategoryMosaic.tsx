@@ -222,7 +222,10 @@ export default function CategoryMosaic({
                     objectFit="cover"
                     sizes="(max-width: 768px) 50vw, 25vw"
                     className="evershop-category-mosaic__image absolute inset-0 h-full w-full transition-transform duration-200 group-hover:scale-[1.03]"
-                    style={{ aspectRatio: 'auto' }}
+                    // height:100% fills the aspect box; without it the shared
+                    // <Image>'s inline height:auto leaves a thin gap at the
+                    // bottom showing the tile background.
+                    style={{ aspectRatio: 'auto', height: '100%' }}
                   />
                 ) : (
                   <div className="evershop-category-mosaic__image-placeholder absolute inset-0 flex items-center justify-center text-muted-foreground">

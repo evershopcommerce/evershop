@@ -12,11 +12,13 @@ import { UrnService } from '../../../../lib/urn/index.js';
 import {
   BAD_REQUEST,
   CREATED,
+  FORBIDDEN,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND
 } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import { isForeignDraft } from '../../services/changesetOwnership.js';
 
 /**
  * POST /api/page-builder/changesets/:id/operations
@@ -49,6 +51,13 @@ export default async (
   if (!Number.isInteger(changesetId) || changesetId <= 0) {
     return response.status(BAD_REQUEST).json({
       error: { status: BAD_REQUEST, message: 'Invalid changeset id' }
+    });
+  }
+
+  const userId = (request as any).locals?.user?.admin_user_id;
+  if (!userId) {
+    return response.status(FORBIDDEN).json({
+      error: { status: FORBIDDEN, message: 'Admin auth required' }
     });
   }
 
@@ -90,16 +99,32 @@ export default async (
   const conn = await getConnection();
   await startTransaction(conn);
   try {
-    const changeset = await select()
-      .from('changeset')
-      .where('changeset_id', '=', changesetId)
-      .load(conn);
+    // Lock the changeset row for the duration of the transaction. Two tabs
+    // (or the client's parallel auto-save POSTs) can otherwise both read the
+    // same MAX(change_order) and route_cursors snapshot, insert a DUPLICATE
+    // change_order, and last-write-wins clobber the other's cursor entry —
+    // silently dropping an op from the applied window. FOR UPDATE serializes
+    // concurrent adds on the same changeset so each sees the committed state.
+    const lockRes = await conn.query(
+      'SELECT * FROM changeset WHERE changeset_id = $1 FOR UPDATE',
+      [changesetId]
+    );
+    const changeset = lockRes.rows[0];
     if (!changeset) {
       await rollback(conn);
       return response.status(NOT_FOUND).json({
         error: {
           status: NOT_FOUND,
           message: `Changeset ${changesetId} not found`
+        }
+      });
+    }
+    if (isForeignDraft(changeset, userId)) {
+      await rollback(conn);
+      return response.status(FORBIDDEN).json({
+        error: {
+          status: FORBIDDEN,
+          message: 'You do not have access to this draft changeset'
         }
       });
     }

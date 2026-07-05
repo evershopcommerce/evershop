@@ -1,4 +1,8 @@
-import { Editable } from '@components/common/page-builder/index.js';
+import {
+  Editable,
+  WidgetEmptyState
+} from '@components/common/page-builder/index.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 /**
@@ -71,7 +75,15 @@ export default function FooterMenu({ footerMenuWidget }: FooterMenuProps) {
           (Array.isArray(c.links) &&
             c.links.some((l) => l && l.label && l.url)))
     );
-  if (visible.length === 0) return null;
+  if (visible.length === 0) {
+    return (
+      <WidgetEmptyState
+        type="footer_menu"
+        title="Footer menu"
+        hint="Add a column with links in settings."
+      />
+    );
+  }
 
   const cols = Math.min(Math.max(visible.length, 1), 6);
 
@@ -82,7 +94,8 @@ export default function FooterMenu({ footerMenuWidget }: FooterMenuProps) {
           __html: `@media (min-width: 768px) { .evershop-footer-menu-grid { grid-template-columns: repeat(var(--evershop-footer-cols, 3), minmax(0, 1fr)); } }`
         }}
       />
-      <div
+      <nav
+        aria-label={_('Footer')}
         className="evershop-footer-menu evershop-footer-menu-grid grid grid-cols-2 gap-x-8 gap-y-10 py-8"
         // Custom property drives the desktop `repeat(N, …)`; the media query
         // above only applies it at ≥768px so mobile stays at two columns.
@@ -143,7 +156,7 @@ export default function FooterMenu({ footerMenuWidget }: FooterMenuProps) {
             </div>
           );
         })}
-      </div>
+      </nav>
     </>
   );
 }

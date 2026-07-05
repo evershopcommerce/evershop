@@ -2,12 +2,14 @@ import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../lib/postgres/connection.js';
 import {
   BAD_REQUEST,
+  FORBIDDEN,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   OK
 } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import { isForeignDraft } from '../../services/changesetOwnership.js';
 import { publishChangeset } from '../../services/publishChangeset.js';
 
 /**
@@ -33,6 +35,13 @@ export default async (
     });
   }
 
+  const userId = (request as any).locals?.user?.admin_user_id;
+  if (!userId) {
+    return response.status(FORBIDDEN).json({
+      error: { status: FORBIDDEN, message: 'Admin auth required' }
+    });
+  }
+
   // Existence check before opening the publish transaction.
   const existing = await select()
     .from('changeset')
@@ -43,6 +52,14 @@ export default async (
       error: {
         status: NOT_FOUND,
         message: `Changeset ${changesetId} not found`
+      }
+    });
+  }
+  if (isForeignDraft(existing, userId)) {
+    return response.status(FORBIDDEN).json({
+      error: {
+        status: FORBIDDEN,
+        message: 'You do not have access to this draft changeset'
       }
     });
   }

@@ -21,6 +21,8 @@ type CollectionSpotlightWidget {
   previewProducts: [Product!]!
   totalProducts: Int!
   collectionName: String
+  viewAllLink: String
+  viewAllLabel: String
 }
 
 extend type Query {
@@ -35,5 +37,7 @@ extend type Query {
     heading: String
     body: String
     previewCount: Int
+    viewAllLink: String
+    viewAllLabel: String
   ): CollectionSpotlightWidget
 }

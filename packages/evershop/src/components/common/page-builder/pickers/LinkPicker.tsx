@@ -13,6 +13,7 @@ import {
   PromotionUrn,
   UrnService
 } from '@evershop/evershop/lib/urn';
+import { isSafeUrl } from '@evershop/evershop/lib/util/safeUrl';
 import React, { useState } from 'react';
 
 /**
@@ -222,10 +223,18 @@ export function LinkPicker({
             placeholder="/c/sale or https://example.com"
             className={drawerInputClass}
           />
-          <div className="text-[11px] text-muted-foreground">
-            {_('Paste a URL or a relative path starting with ')}
-            <code>/</code>.
-          </div>
+          {!parsed && value && !isSafeUrl(value) ? (
+            <div className="text-[11px] text-destructive">
+              {_(
+                'Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.'
+              )}
+            </div>
+          ) : (
+            <div className="text-[11px] text-muted-foreground">
+              {_('Paste a URL or a relative path starting with ')}
+              <code>/</code>.
+            </div>
+          )}
         </div>
       )}
     </div>
