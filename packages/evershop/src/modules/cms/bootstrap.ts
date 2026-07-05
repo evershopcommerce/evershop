@@ -809,7 +809,9 @@ export default (context: { command?: string } = {}) => {
           heading: 'The Summer Edit',
           body: 'Big card — the headline of the grid.',
           link: { label: 'Shop the edit', url: '/', newTab: false },
-          textColor: 'light'
+          // Dark text on the light beige tile — 'light' shipped white-on-beige
+          // (~1.6:1) out of the box.
+          textColor: 'dark'
         },
         {
           id: 'bt-2',

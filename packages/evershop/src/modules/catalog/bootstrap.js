@@ -293,7 +293,9 @@ export default () => {
       eyebrow: 'COLLECTION',
       heading: '',
       body: null,
-      previewCount: 4
+      previewCount: 4,
+      viewAllLink: null,
+      viewAllLabel: null
     },
     enabled: true,
     schema: {
@@ -309,7 +311,9 @@ export default () => {
         eyebrow: { type: ['string', 'null'] },
         heading: { type: ['string', 'null'] },
         body: { type: ['string', 'null'] },
-        previewCount: { type: 'integer', enum: [2, 4] }
+        previewCount: { type: 'integer', enum: [2, 4] },
+        viewAllLink: { type: ['string', 'null'] },
+        viewAllLabel: { type: ['string', 'null'] }
       }
     },
     graphql: {
@@ -325,6 +329,8 @@ export default () => {
           heading: String
           body: String
           previewCount: Int
+          viewAllLink: String
+          viewAllLabel: String
         }
       `,
       settingsType: 'CollectionSpotlightSettings'

@@ -4,12 +4,13 @@ import { Row } from '@components/common/form/Editor.js';
 import { Image as ResponsiveImage } from '@components/common/Image.js';
 import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
 import { ProductList } from '@components/frontStore/catalog/ProductList.js';
+import { sanitize } from '@evershop/evershop/lib/util/sanitizeHtml';
 import React from 'react';
 import { useQuery } from 'urql';
 import './Editor.scss';
 
 const Paragraph: React.FC<{ data: { text: string } }> = ({ data }) => {
-  return <p dangerouslySetInnerHTML={{ __html: data.text }} />;
+  return <p dangerouslySetInnerHTML={{ __html: sanitize(data.text) }} />;
 };
 
 const Header: React.FC<{ data: { level: number; text: string } }> = ({
@@ -119,7 +120,7 @@ const Image: React.FC<{
 };
 
 const RawHtml: React.FC<{ data: { html: string } }> = ({ data }) => {
-  return <div dangerouslySetInnerHTML={{ __html: data.html }} />;
+  return <div dangerouslySetInnerHTML={{ __html: sanitize(data.html) }} />;
 };
 
 interface SavedProduct {

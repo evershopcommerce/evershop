@@ -1,14 +1,19 @@
+import { WidgetEmptyState } from '@components/common/page-builder/index.js';
 import {
   BlogPostCardData,
   PostListItem
 } from '@components/frontStore/blog/PostListItem.js';
 import React from 'react';
 
+// Full column ladder per setting. Blog cards carry an image + title + excerpt,
+// so they need a single column on phones and only reach 3–4 columns on real
+// desktops — jumping straight from 1 to 3/4 at `md` (768px) crushed them on
+// tablets. 2-up fills the 640–1023px range.
 const GRID_COLS: Record<number, string> = {
   1: 'grid-cols-1',
-  2: 'md:grid-cols-2',
-  3: 'md:grid-cols-3',
-  4: 'md:grid-cols-4'
+  2: 'grid-cols-1 sm:grid-cols-2',
+  3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
 };
 
 interface FeaturedBlogsProps {
@@ -26,25 +31,37 @@ export default function FeaturedBlogs({
 }: FeaturedBlogsProps) {
   const widget = featuredBlogsWidget;
   if (!widget || !widget.posts || widget.posts.length === 0) {
-    return null;
+    return (
+      <WidgetEmptyState
+        type="featured_blogs"
+        title="Featured blogs"
+        hint="Pick posts to feature in the settings panel."
+      />
+    );
   }
   const cols = widget.columns || 3;
   const gridClass = GRID_COLS[cols] || GRID_COLS[3];
 
   return (
-    <div className="featured-blogs page-width py-8">
+    // Match the shared band rhythm (py-6 md:py-10) and theme tokens used by
+    // the other widgets, and don't self-apply `page-width` — it double-pads /
+    // re-centers when the widget is dropped inside a Section or Columns. Width
+    // comes from the surrounding Area/Section like every other widget.
+    <div className="featured-blogs py-6 md:py-10">
       {widget.eyebrow && (
-        <p className="text-sm uppercase tracking-wide text-gray-500">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-foreground/70">
           {widget.eyebrow}
         </p>
       )}
       {widget.heading && (
-        <h2 className="text-2xl font-bold mb-2">{widget.heading}</h2>
+        <h2 className="mt-1 text-2xl font-semibold tracking-tight md:text-3xl">
+          {widget.heading}
+        </h2>
       )}
       {widget.subText && (
-        <p className="text-gray-600 mb-6">{widget.subText}</p>
+        <p className="mt-2 mb-6 text-muted-foreground">{widget.subText}</p>
       )}
-      <div className={`grid grid-cols-1 ${gridClass} gap-8`}>
+      <div className={`mt-6 grid ${gridClass} gap-8`}>
         {widget.posts.map((post) => (
           <PostListItem key={post.uuid} post={post} />
         ))}

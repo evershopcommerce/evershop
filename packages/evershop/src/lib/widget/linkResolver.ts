@@ -4,6 +4,7 @@ import { select } from '../postgres/query.js';
 import { buildUrl } from '../router/buildUrl.js';
 import { UrnService } from '../urn/index.js';
 import { addProcessor, getValueSync } from '../util/registry.js';
+import { isSafeUrl } from '../util/safeUrl.js';
 
 /**
  * Widget link URN + resolver.
@@ -218,7 +219,10 @@ export async function resolveLink(
   loaders: LinkLoaders | undefined
 ): Promise<string | null> {
   if (!value) return null;
-  if (!UrnService.isValid(value)) return value; // plain URL passthrough
+  // Plain URL passthrough — but drop `javascript:`/`data:` and other unsafe
+  // schemes so a hand-authored custom link can't become an href XSS on the
+  // storefront. Returning null makes the widget suppress the anchor.
+  if (!UrnService.isValid(value)) return isSafeUrl(value) ? value : null;
   const { service, type, uuid } = UrnService.parse(value);
   const loader = loaders?.[loaderKey(service, type)];
   if (!loader) return null;

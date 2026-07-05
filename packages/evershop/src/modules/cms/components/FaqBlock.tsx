@@ -2,7 +2,8 @@ import { Editor } from '@components/common/Editor.js';
 import { Row } from '@components/common/form/Editor.js';
 import {
   Editable,
-  EditableMarkdown
+  EditableMarkdown,
+  WidgetEmptyState
 } from '@components/common/page-builder/index.js';
 import React from 'react';
 
@@ -92,7 +93,15 @@ export default function FaqBlock({ faqBlockWidget }: FaqBlockProps) {
   const widthClass = MAX_WIDTH_CLASS[maxWidth ?? 'normal'];
   const singleOpen = allowMultipleOpen === false;
 
-  if (!Array.isArray(sections) || sections.length === 0) return null;
+  if (!Array.isArray(sections) || sections.length === 0) {
+    return (
+      <WidgetEmptyState
+        type="faq_block"
+        title="FAQ block"
+        hint="Add a prose or FAQ section in settings."
+      />
+    );
+  }
 
   return (
     <div className={`evershop-faq-block mx-auto ${widthClass} py-6 md:py-10`}>

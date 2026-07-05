@@ -8,6 +8,7 @@ import {
   useScopedFormContext
 } from '@components/common/page-builder/index.js';
 import { CollectionPicker } from '@components/common/page-builder/pickers/CollectionPicker.js';
+import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
@@ -24,6 +25,8 @@ interface CollectionSpotlightSettingProps {
     body?: string | null;
     previewCount?: 2 | 4;
     collectionName?: string | null;
+    viewAllLink?: string | null;
+    viewAllLabel?: string | null;
   };
 }
 
@@ -41,7 +44,9 @@ export default function CollectionSpotlightSetting({
     heading,
     body,
     previewCount,
-    collectionName
+    collectionName,
+    viewAllLink,
+    viewAllLabel
   } = collectionSpotlightWidget ?? {};
 
   const { register, setValue, watch } = useScopedFormContext();
@@ -60,6 +65,10 @@ export default function CollectionSpotlightSetting({
   const bodyV = (watch('settings.body') as string) ?? body ?? '';
   const previewCountV =
     ((watch('settings.previewCount') as number) ?? previewCount ?? 4) as 2 | 4;
+  const viewAllLinkV =
+    (watch('settings.viewAllLink') as string) ?? viewAllLink ?? '';
+  const viewAllLabelV =
+    (watch('settings.viewAllLabel') as string) ?? viewAllLabel ?? '';
 
   // The picker callback updates `_pickedName` so we can show the
   // collection name as a placeholder for the heading override.
@@ -187,6 +196,40 @@ export default function CollectionSpotlightSetting({
             onChange={(v) =>
               setValue('settings.previewCount', v, { shouldDirty: true })
             }
+          />
+        </Field>
+      </Section>
+
+      <Section title={_('View all link')}>
+        <Field
+          label={_('Link target')}
+          hint={_(
+            'Where the "View all" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.'
+          )}
+        >
+          <LinkPicker
+            value={viewAllLinkV}
+            onChange={(v) =>
+              setValue('settings.viewAllLink', v?.url || null, {
+                shouldDirty: true
+              })
+            }
+          />
+        </Field>
+        <Field
+          label={_('Link label')}
+          hint={_('Optional. Defaults to "View all N →".')}
+        >
+          <input
+            type="text"
+            value={viewAllLabelV}
+            onChange={(e) =>
+              setValue('settings.viewAllLabel', e.target.value || null, {
+                shouldDirty: true
+              })
+            }
+            placeholder={_('View all →')}
+            className={drawerInputClass}
           />
         </Field>
       </Section>

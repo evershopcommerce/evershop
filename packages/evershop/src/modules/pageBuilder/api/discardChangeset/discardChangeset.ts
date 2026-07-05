@@ -15,6 +15,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import { isForeignDraft } from '../../services/changesetOwnership.js';
 
 /**
  * POST /api/page-builder/changesets/:id/discard
@@ -77,6 +78,15 @@ export default async (
         error: {
           status: NOT_FOUND,
           message: `Changeset ${changesetId} not found`
+        }
+      });
+    }
+    if (isForeignDraft(changeset, userId)) {
+      await rollback(conn);
+      return response.status(FORBIDDEN).json({
+        error: {
+          status: FORBIDDEN,
+          message: 'You do not have access to this draft changeset'
         }
       });
     }

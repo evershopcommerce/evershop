@@ -112,7 +112,10 @@ export default function TieredCategories({
                     objectFit="cover"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="evershop-tiered-categories__image absolute inset-0 h-full w-full transition-[filter] duration-200 group-hover:brightness-90"
-                    style={{ aspectRatio: 'auto' }}
+                    // height:100% fills the aspect box; without it the shared
+                    // <Image>'s inline height:auto leaves a thin gap at the
+                    // bottom showing the tile background.
+                    style={{ aspectRatio: 'auto', height: '100%' }}
                   />
                 )}
                 <EditableImageOverlay

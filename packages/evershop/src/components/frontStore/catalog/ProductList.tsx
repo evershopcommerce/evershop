@@ -21,8 +21,12 @@ export interface ProductListProps {
 
 export const ProductList: React.FC<ProductListProps> = ({
   products = [],
-  imageWidth = 300,
-  imageHeight = 300,
+  // 720² keeps the 1:1 grid ratio but lifts the <Image> srcset cap (width × 3
+  // = 2160) so full-width product cards on retina phones get a sharp 1200–1920
+  // tile instead of the old 300² cap of ~750px. Display size is unchanged (CSS
+  // controls it). The `list` layout still clamps to 150 below.
+  imageWidth = 720,
+  imageHeight = 720,
   isLoading = false,
   emptyMessage = _('No products found'),
   className = '',

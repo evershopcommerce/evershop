@@ -73,12 +73,20 @@ export default function TrustStrip({ trustStripWidget }: TrustStripProps) {
     align === 'center' ? 'items-center text-center' : 'items-start text-left';
 
   return (
-    <div
-      className="evershop-trust-strip grid gap-4 py-6 sm:gap-6 md:py-10"
-      style={{
-        gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`
-      }}
-    >
+    <>
+      {/* Configured column count only applies from md up; mobile stacks to a
+          single column and small screens show two, so 3–6 value props don't
+          crush into ~60px cells on a phone. The count rides a CSS variable so
+          the media query can honor the arbitrary 2–6 setting. */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `@media (min-width: 768px) { .evershop-trust-grid { grid-template-columns: repeat(var(--evershop-trust-cols, 3), minmax(0, 1fr)); } }`
+        }}
+      />
+      <div
+        className="evershop-trust-strip evershop-trust-grid grid grid-cols-1 gap-4 py-6 sm:grid-cols-2 sm:gap-6 md:py-10"
+        style={{ ['--evershop-trust-cols' as string]: String(cols) } as React.CSSProperties}
+      >
       {visibleItems.map(({ item, originalIndex }, i) => {
         const Tag: React.ElementType = item.link ? 'a' : 'div';
         const linkAttrs = item.link
@@ -146,7 +154,8 @@ export default function TrustStrip({ trustStripWidget }: TrustStripProps) {
           </Tag>
         );
       })}
-    </div>
+      </div>
+    </>
   );
 }
 

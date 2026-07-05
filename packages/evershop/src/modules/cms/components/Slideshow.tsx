@@ -4,6 +4,7 @@ import {
   EditableImageOverlay
 } from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -275,11 +276,20 @@ function NextArrow({
 const DOTS_STYLE_OVERRIDES = `
 .slideshow-widget .slick-dots {
   display: block !important;
+  /* Overlay the dots on the bottom of the slide (like the arrows) instead of
+     letting them flow below it onto the page background — the indicators are
+     white, so in normal flow they're invisible on any light-background store.
+     The drop-shadow keeps them legible over a light image too. */
+  position: absolute !important;
+  bottom: 1rem !important;
+  left: 0 !important;
+  z-index: 10 !important;
   width: 100% !important;
   text-align: center !important;
   list-style: none !important;
   padding: 0 !important;
   margin: 0 !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
 }
 .slideshow-widget .slick-dots li {
   display: inline-block !important;
@@ -364,14 +374,25 @@ function DotIndicator({
 }) {
   // Active state is driven by `.slick-active` on the parent `<li>` via the
   // CSS injected above — we have no signal here. Render the inert form.
+  // The sr-only label gives slick's dot <button> an accessible name — the
+  // override CSS zeroes its font-size, so without this the button is
+  // announced as unlabeled.
+  const label = <span className="sr-only">{_('Go to slide ${n}', { n: String(index + 1) })}</span>;
   if (style === 'bars') {
-    return <span className="pb-dot-bar" />;
+    return (
+      <span className="pb-dot-bar">{label}</span>
+    );
   }
   if (style === 'numbers') {
-    return <span className="pb-dot-number">{index + 1}</span>;
+    return (
+      <span className="pb-dot-number">
+        {index + 1}
+        {label}
+      </span>
+    );
   }
   // dots — default
-  return <span className="pb-dot" />;
+  return <span className="pb-dot">{label}</span>;
 }
 
 const SliderComponent = Slider as any;
@@ -431,6 +452,19 @@ export default function Slideshow({
     };
   }, []);
 
+  // Respect prefers-reduced-motion: auto-advancing content that can't be
+  // paused is a WCAG 2.2.2 failure. Read after mount (SSR-safe) and disable
+  // autoplay for users who asked for reduced motion.
+  const [reducedMotion, setReducedMotion] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReducedMotion(mq.matches);
+    update();
+    mq.addEventListener?.('change', update);
+    return () => mq.removeEventListener?.('change', update);
+  }, []);
+
   // Slick custom dots: we map both `customPaging` (per-dot rendering) and
   // `appendDots` (container) so DotsStyle drives both shape and layout.
   // `dotsClass` provides Tailwind utility classes for the container.
@@ -440,11 +474,15 @@ export default function Slideshow({
     speed: Math.max(200, Math.min(1500, transitionSpeed)),
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: Boolean(autoplay) && !pausedByUser,
+    autoplay: Boolean(autoplay) && !pausedByUser && !reducedMotion,
     autoplaySpeed: Math.max(1000, Number(autoplaySpeed) || 3000),
     arrows: effectiveArrowsStyle !== 'hidden',
     fade: transition === 'fade',
     pauseOnHover: Boolean(pauseOnHover),
+    // Pause while any control inside the carousel has keyboard focus, so
+    // keyboard users aren't fighting the rotation (mouse-only pauseOnHover
+    // doesn't help them).
+    pauseOnFocus: true,
     adaptiveHeight: aspectRatio === 'auto',
     nextArrow:
       effectiveArrowsStyle !== 'hidden' ? (

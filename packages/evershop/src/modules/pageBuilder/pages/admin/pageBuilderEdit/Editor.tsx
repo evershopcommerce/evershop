@@ -365,6 +365,11 @@ export default function Editor({
   const saveTimersRef = useRef<Record<string, number>>({});
   const lastSavedSettingsRef = useRef<Record<string, string>>({});
   const initializedSeedsRef = useRef<Set<string>>(new Set());
+  // Set by undo/redo: the next layers refetch must OVERWRITE the page form
+  // from server truth (not just fill missing uids) and resync the saved-
+  // settings snapshots, so a widget the user edits after an undo doesn't
+  // re-emit the value the undo just reverted.
+  const forceReseedRef = useRef(false);
 
   const [activeLeftTab, setActiveLeftTab] = useState<LeftTab>('widgets');
   const [deviceMode, setDeviceMode] = useState<DeviceMode>('desktop');
@@ -414,14 +419,19 @@ export default function Editor({
 
   // Drawer pin state — persisted to localStorage. Default unpinned per
   // spec § 7.5; click on canvas wrapper deselects when not pinned.
-  const [drawerPinned, setDrawerPinned] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
+  // Initialize to the server-rendered default (false) and hydrate from
+  // localStorage AFTER mount — reading storage in the useState initializer
+  // diverges from the SSR HTML and trips React hydration error #418.
+  const [drawerPinned, setDrawerPinned] = useState<boolean>(false);
+  useEffect(() => {
     try {
-      return window.localStorage.getItem('pb_drawer_pinned') === '1';
+      if (window.localStorage.getItem('pb_drawer_pinned') === '1') {
+        setDrawerPinned(true);
+      }
     } catch {
-      return false;
+      /* ignore */
     }
-  });
+  }, []);
   const toggleDrawerPin = useCallback(() => {
     setDrawerPinned((prev) => {
       const next = !prev;
@@ -468,16 +478,20 @@ export default function Editor({
   // existing operations AND the user hasn't acknowledged this changeset
   // in this browser tab. Auto-skip otherwise.
   const sessionAckKey = `pb_session_ack_${changeset.changesetId}`;
-  const [sessionAcknowledged, setSessionAcknowledged] = useState<boolean>(
-    () => {
-      if (typeof window === 'undefined') return true;
-      try {
-        return window.sessionStorage.getItem(sessionAckKey) === '1';
-      } catch {
-        return true;
+  // Start acknowledged (picker hidden) to match SSR, then read sessionStorage
+  // after mount. Reading it in the initializer renders the picker on the
+  // client but not on the server → React hydration error #418. Revealing the
+  // picker one tick later (post-mount) is the intended on-entry behavior.
+  const [sessionAcknowledged, setSessionAcknowledged] = useState<boolean>(true);
+  useEffect(() => {
+    try {
+      if (window.sessionStorage.getItem(sessionAckKey) !== '1') {
+        setSessionAcknowledged(false);
       }
+    } catch {
+      /* ignore */
     }
-  );
+  }, [sessionAckKey]);
   const acknowledgeSession = useCallback(() => {
     setSessionAcknowledged(true);
     try {
@@ -731,16 +745,26 @@ export default function Editor({
   // editing — it only fills in missing entries.
   useEffect(() => {
     if (!Array.isArray(layerWidgets) || layerWidgets.length === 0) return;
+    // After an undo/redo the server state is authoritative — overwrite every
+    // widget's form settings from `rawSettings` and resync its saved snapshot,
+    // so the reverted value sticks and the auto-save diff sees no phantom
+    // change. Normal seeding only fills MISSING uids so it never clobbers an
+    // in-progress edit.
+    const forceReseed = forceReseedRef.current;
+    forceReseedRef.current = false;
     const current = pageForm.getValues('block') ?? {};
     const next: Record<string, { settings: Record<string, unknown> }> = {
       ...(current as any)
     };
     const visit = (w: any) => {
       if (!w?.uuid) return;
-      if (!next[w.uuid]) {
-        next[w.uuid] = {
-          settings: (w.rawSettings as Record<string, unknown>) ?? {}
-        };
+      if (forceReseed || !next[w.uuid]) {
+        const settings = (w.rawSettings as Record<string, unknown>) ?? {};
+        next[w.uuid] = { settings };
+        if (forceReseed) {
+          // Keep the auto-save baseline in lockstep with what we just wrote.
+          lastSavedSettingsRef.current[w.uuid] = JSON.stringify(settings);
+        }
       }
       if (Array.isArray(w.columns)) {
         for (const col of w.columns) {
@@ -988,6 +1012,13 @@ export default function Editor({
   const pushPreviewToIframe = useCallback(async () => {
     const iframe = iframeRef.current;
     if (!iframe || !iframe.contentWindow) return;
+    // Allocate the sequence at INITIATION, before the fetch — not at arrival.
+    // Two edits fired ~300ms apart each start a preview fetch; if the older
+    // (lower-seq) request happens to resolve last and we numbered by arrival,
+    // it would overwrite the newer edit's canvas. Numbering by initiation lets
+    // the bridge's `sequence <= last` guard drop a stale-but-late response so
+    // the newest edit always wins.
+    const seq = (previewSequenceRef.current += 1);
     // Flip the iframe's LoadingBar on immediately so the merchandiser sees
     // visible feedback during the ~200–500ms preview rebuild. The bridge
     // flips it off when the `data-update` message lands below.
@@ -1003,16 +1034,18 @@ export default function Editor({
       });
       if (!res.ok) {
         // The bridge owns the off-flip via data-update; on failure we have
-        // to clear the bar manually or it'll stay stuck at peak. Bump the
-        // sequence so the bridge accepts this empty data-update.
-        previewSequenceRef.current += 1;
+        // to clear the bar manually or it'll stay stuck at peak.
         iframe.contentWindow.postMessage(
-          { type: 'data-update', sequence: previewSequenceRef.current },
+          { type: 'data-update', sequence: seq },
           window.location.origin
         );
         return;
       }
       const json = await res.json();
+      // A newer push started while this fetch was in flight — drop this stale
+      // result entirely so it can't overwrite the move/duplicate widget cache
+      // or the canvas with older data.
+      if (seq !== previewSequenceRef.current) return;
       const eContext = json?.eContext;
       if (!eContext) return;
       // Cache overlay-applied widgets for move/duplicate handlers (see ref
@@ -1020,14 +1053,13 @@ export default function Editor({
       if (Array.isArray(eContext.widgets)) {
         overlayWidgetsRef.current = eContext.widgets;
       }
-      previewSequenceRef.current += 1;
       iframe.contentWindow.postMessage(
         {
           type: 'data-update',
           graphqlResponse: eContext.graphqlResponse,
           propsMap: eContext.propsMap,
           widgets: eContext.widgets,
-          sequence: previewSequenceRef.current
+          sequence: seq
         },
         window.location.origin
       );
@@ -1035,9 +1067,8 @@ export default function Editor({
     } catch {
       // Best-effort; if preview push fails the user can still hit refresh.
       // Clear the LoadingBar so it doesn't stay pinned at peak.
-      previewSequenceRef.current += 1;
       iframe.contentWindow?.postMessage(
-        { type: 'data-update', sequence: previewSequenceRef.current },
+        { type: 'data-update', sequence: seq },
         window.location.origin
       );
     }
@@ -1095,6 +1126,12 @@ export default function Editor({
           change_order: order
         });
         setError(null);
+        // Keep `operations` current after every op. Ops are POSTed via axios,
+        // which never invalidates the urql cache, so without this refetch the
+        // `operations.length` exit-safety gates (beforeunload, ExitConfirm,
+        // "Save as rollout") and the Pages-tab "Draft" pills stay frozen at
+        // their mount-time value — inert for everything built this session.
+        refetchOps({ requestPolicy: 'network-only' });
         return true;
       } catch (e) {
         const msg =
@@ -1107,7 +1144,7 @@ export default function Editor({
         setPendingSavesCount((n) => Math.max(0, n - 1));
       }
     },
-    [addOperationUrl, nextChangeOrder, route.id]
+    [addOperationUrl, nextChangeOrder, route.id, refetchOps]
   );
 
   const handleAddWidget = useCallback(
@@ -1391,6 +1428,11 @@ export default function Editor({
           if (typeof payload.canUndo === 'boolean') setCanUndo(payload.canUndo);
           if (typeof payload.canRedo === 'boolean') setCanRedo(payload.canRedo);
         }
+        // The undo/redo changed server state under the form's feet. Force the
+        // next layers refetch (triggered by pushPreviewToIframe's reloadCounter
+        // bump) to overwrite the form + snapshots from server truth, so a later
+        // edit can't resurrect the value we just reverted.
+        forceReseedRef.current = true;
         await pushPreviewToIframe();
       } catch (e) {
         const msg =
@@ -2709,6 +2751,19 @@ export default function Editor({
                                         { type: 'pb-drag-end' },
                                         window.location.origin
                                       );
+                                    }}
+                                    onClick={() => {
+                                      // Click-to-add: the hover card advertises
+                                      // "Click or drag to add", and the
+                                      // "+ Add to Column" flow (which sets
+                                      // pendingParent) relies on a palette click
+                                      // to insert the child. Both funnel through
+                                      // handleAddWidget — with no opts it appends
+                                      // to the primary area; with pendingParent
+                                      // set it routes into the column and clears
+                                      // the pending state.
+                                      setHoverPreview(null);
+                                      void handleAddWidget(wt);
                                     }}
                                     className="w-full text-left flex items-center gap-2.5 p-2 rounded-md hover:bg-muted/40 transition-colors group cursor-grab active:cursor-grabbing select-none"
                                   >

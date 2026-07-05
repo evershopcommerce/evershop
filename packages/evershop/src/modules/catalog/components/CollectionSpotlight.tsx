@@ -33,6 +33,9 @@ export interface CollectionSpotlightProps {
     previewProducts: any[];
     totalProducts: number;
     collectionName: string | null;
+    /** Resolved storefront URL for the "View all" CTA (null → CTA hidden). */
+    viewAllLink?: string | null;
+    viewAllLabel?: string | null;
   };
 }
 
@@ -52,7 +55,9 @@ export default function CollectionSpotlight({
     previewProducts = [],
     totalProducts,
     collectionName,
-    collection
+    collection,
+    viewAllLink,
+    viewAllLabel
   } = collectionSpotlightWidget;
   const intrinsicWidth = imageWidth && imageWidth > 0 ? imageWidth : 1200;
   const intrinsicHeight = imageHeight && imageHeight > 0 ? imageHeight : 1500;
@@ -68,15 +73,15 @@ export default function CollectionSpotlight({
       const rows = previewCount === 2 ? 1 : 2;
       const cellCount = cols * rows;
       const ph = (
-        <div className="evershop-collection-spotlight evershop-collection-spotlight--empty grid grid-cols-1 py-6 md:grid-cols-5 md:py-10">
+        <div className="evershop-collection-spotlight evershop-collection-spotlight--empty grid grid-cols-1 py-6 lg:grid-cols-2 md:py-10">
           {!reverseP ? (
             <>
-              <div className="evershop-collection-spotlight__image-panel md:col-span-3">
-                <div className="evershop-collection-spotlight__placeholder flex aspect-[4/5] items-center justify-center border-2 border-dashed border-foreground/15 bg-muted/30 text-muted-foreground">
+              <div className="evershop-collection-spotlight__image-panel lg:col-span-1">
+                <div className="evershop-collection-spotlight__placeholder flex aspect-[4/5] md:aspect-[16/9] lg:aspect-[4/5] items-center justify-center border-2 border-dashed border-foreground/15 bg-muted/30 text-muted-foreground">
                   <ImagePlus className="h-7 w-7" />
                 </div>
               </div>
-              <div className="evershop-collection-spotlight__copy-panel flex flex-col gap-4 p-6 md:col-span-2 md:p-8">
+              <div className="evershop-collection-spotlight__copy-panel flex flex-col gap-4 pt-5 lg:col-span-1 lg:p-8">
                 <div className="evershop-collection-spotlight__eyebrow flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
                   <Sparkles className="h-3 w-3" />
                   Collection
@@ -86,12 +91,7 @@ export default function CollectionSpotlight({
                   <div className="h-2 w-full rounded-sm bg-muted-foreground/20" />
                   <div className="h-2 w-2/3 rounded-sm bg-muted-foreground/20" />
                 </div>
-                <div
-                  className="evershop-collection-spotlight__items grid gap-3"
-                  style={{
-                    gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`
-                  }}
-                >
+                <div className="evershop-collection-spotlight__items grid grid-cols-1 gap-3 md:grid-cols-2">
                   {Array.from({ length: cellCount }, (_, i) => (
                     <div key={i} className="evershop-collection-spotlight__item space-y-1.5">
                       <div className="aspect-square rounded-md border-2 border-dashed border-foreground/10 bg-muted/30" />
@@ -105,7 +105,7 @@ export default function CollectionSpotlight({
             </>
           ) : (
             <>
-              <div className="evershop-collection-spotlight__copy-panel order-2 flex flex-col gap-4 p-6 md:order-1 md:col-span-2 md:p-8">
+              <div className="evershop-collection-spotlight__copy-panel order-2 flex flex-col gap-4 pt-5 lg:order-1 lg:col-span-1 lg:p-8">
                 <div className="evershop-collection-spotlight__eyebrow flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
                   <Sparkles className="h-3 w-3" />
                   Collection
@@ -115,12 +115,7 @@ export default function CollectionSpotlight({
                   <div className="h-2 w-full rounded-sm bg-muted-foreground/20" />
                   <div className="h-2 w-2/3 rounded-sm bg-muted-foreground/20" />
                 </div>
-                <div
-                  className="evershop-collection-spotlight__items grid gap-3"
-                  style={{
-                    gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`
-                  }}
-                >
+                <div className="evershop-collection-spotlight__items grid grid-cols-1 gap-3 md:grid-cols-2">
                   {Array.from({ length: cellCount }, (_, i) => (
                     <div key={i} className="evershop-collection-spotlight__item space-y-1.5">
                       <div className="aspect-square rounded-md border-2 border-dashed border-foreground/10 bg-muted/30" />
@@ -131,8 +126,8 @@ export default function CollectionSpotlight({
                 </div>
                 <div className="h-3 w-24 rounded-sm bg-muted-foreground/30" />
               </div>
-              <div className="evershop-collection-spotlight__image-panel order-1 md:order-2 md:col-span-3">
-                <div className="evershop-collection-spotlight__placeholder flex aspect-[4/5] items-center justify-center border-2 border-dashed border-foreground/15 bg-muted/30 text-muted-foreground">
+              <div className="evershop-collection-spotlight__image-panel order-1 lg:order-2 lg:col-span-1">
+                <div className="evershop-collection-spotlight__placeholder flex aspect-[4/5] md:aspect-[16/9] lg:aspect-[4/5] items-center justify-center border-2 border-dashed border-foreground/15 bg-muted/30 text-muted-foreground">
                   <ImagePlus className="h-7 w-7" />
                 </div>
               </div>
@@ -147,19 +142,27 @@ export default function CollectionSpotlight({
   const reverse = imagePosition === 'right';
   const cols = previewCount === 2 ? 2 : 2; // 2 cols for both — 2 = 1x2, 4 = 2x2
 
-  const viewAllLabel =
-    totalProducts > 0 ? `View all ${totalProducts} →` : 'View all →';
-  const viewAllUrl = collection ? `/collections/${collection}` : null;
+  // Collections have no public page, so the CTA points at a merchant-chosen
+  // link (resolved server-side), NOT a synthetic `/collections/<code>` route
+  // that always 404'd. Hidden entirely when no link is set.
+  const resolvedViewAllLabel =
+    viewAllLabel ||
+    (totalProducts > 0 ? `View all ${totalProducts} →` : 'View all →');
+  const viewAllUrl = viewAllLink || null;
 
-  // Mobile (single column): a fixed 4:5 ratio box keeps the cover from
-  // collapsing or going huge. Desktop: clear the ratio and `h-full` so the
-  // wrapper stretches to the grid row height (driven by the copy panel),
-  // and the image fills it via absolute + object-cover. Core <Image>'s
-  // inline `aspect-ratio` + `height: auto` defeat classNames, so the cover
-  // overrides go through `style` — `aspectRatio: 'auto'` is what clears
-  // the inline ratio.
+  // The spotlight stacks (image on top of copy) below `lg`, and only splits
+  // side-by-side on desktop — so the product grid gets full width and shows a
+  // comfortable 2-up on tablet instead of being crushed into a ~40% panel.
+  // Image aspect per surface:
+  //   - mobile (<md): 4:5 portrait
+  //   - tablet (md–lg): 16:9 landscape — a full-width 4:5 would be ~960px tall
+  //   - desktop (≥lg): clear the ratio + `h-full` so the cover stretches to
+  //     the side-by-side row height (driven by the copy panel).
+  // Core <Image>'s inline `aspect-ratio` + `height: auto` defeat classNames,
+  // so the cover overrides go through `style` (`aspectRatio: 'auto'` clears
+  // the inline ratio, `height: 100%` fills the box).
   const imagePanel = (
-    <div className="evershop-collection-spotlight__image-wrapper relative aspect-[4/5] overflow-hidden bg-muted/30 md:aspect-auto md:h-full">
+    <div className="evershop-collection-spotlight__image-wrapper relative aspect-[4/5] overflow-hidden bg-muted/30 md:aspect-[16/9] lg:aspect-auto lg:h-full">
       {/* className h-full w-full so EditableImage fills the relative wrapper
           in the canvas and stays the positioning context for the absolute
           <Image> (production is display:contents — zero layout impact).
@@ -179,7 +182,7 @@ export default function CollectionSpotlight({
             alt={imageAlt || ''}
             width={intrinsicWidth}
             height={intrinsicHeight}
-            sizes="(max-width: 768px) 100vw, 60vw"
+            sizes="(max-width: 1023px) 100vw, 50vw"
             className="evershop-collection-spotlight__image"
             style={{
               position: 'absolute',
@@ -196,7 +199,11 @@ export default function CollectionSpotlight({
   );
 
   const copyPanel = (
-    <div className="evershop-collection-spotlight__copy-panel flex flex-col gap-4 p-6 md:p-8">
+    <div className="evershop-collection-spotlight__copy-panel flex flex-col gap-4 pt-5 lg:p-8">
+      {/* Stacked (1-col) layout: drop the side/bottom padding so the copy and
+          product grid align edge-to-edge with the full-width image above; keep
+          a small top gap. Full padding returns only in the side-by-side (lg)
+          split. */}
       {eyebrow && (
         <Editable
           as="div"
@@ -233,24 +240,24 @@ export default function CollectionSpotlight({
           aria-label={`View all products in ${heading || collectionName}`}
           className="evershop-collection-spotlight__view-all text-sm font-medium underline underline-offset-2 hover:opacity-80"
         >
-          {viewAllLabel}
+          {resolvedViewAllLabel}
         </a>
       )}
     </div>
   );
 
   return (
-    <div className={`evershop-collection-spotlight evershop-collection-spotlight--${imagePosition ?? 'left'} grid grid-cols-1 py-6 md:grid-cols-5 md:py-10`}>
+    <div className={`evershop-collection-spotlight evershop-collection-spotlight--${imagePosition ?? 'left'} grid grid-cols-1 py-6 lg:grid-cols-2 md:py-10`}>
       {!reverse && (
         <>
-          <div className="md:col-span-3">{imagePanel}</div>
-          <div className="md:col-span-2">{copyPanel}</div>
+          <div className="lg:col-span-1">{imagePanel}</div>
+          <div className="lg:col-span-1">{copyPanel}</div>
         </>
       )}
       {reverse && (
         <>
-          <div className="order-2 md:order-1 md:col-span-2">{copyPanel}</div>
-          <div className="order-1 md:order-2 md:col-span-3">{imagePanel}</div>
+          <div className="order-2 lg:order-1 lg:col-span-1">{copyPanel}</div>
+          <div className="order-1 lg:order-2 lg:col-span-1">{imagePanel}</div>
         </>
       )}
     </div>
@@ -269,6 +276,8 @@ export const query = `
     $heading: String
     $body: String
     $previewCount: Int
+    $viewAllLink: String
+    $viewAllLabel: String
   ) {
     collectionSpotlightWidget(
       collection: $collection
@@ -281,6 +290,8 @@ export const query = `
       heading: $heading
       body: $body
       previewCount: $previewCount
+      viewAllLink: $viewAllLink
+      viewAllLabel: $viewAllLabel
     ) {
       collection
       image
@@ -294,6 +305,8 @@ export const query = `
       previewCount
       totalProducts
       collectionName
+      viewAllLink
+      viewAllLabel
       previewProducts {
         ...Product
       }
@@ -337,5 +350,7 @@ export const variables = `{
   eyebrow: getWidgetSetting("eyebrow", "COLLECTION"),
   heading: getWidgetSetting("heading"),
   body: getWidgetSetting("body"),
-  previewCount: getWidgetSetting("previewCount", 4)
+  previewCount: getWidgetSetting("previewCount", 4),
+  viewAllLink: getWidgetSetting("viewAllLink"),
+  viewAllLabel: getWidgetSetting("viewAllLabel")
 }`;
