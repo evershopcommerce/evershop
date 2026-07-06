@@ -1,5 +1,5 @@
 import { useAppState } from '@components/common/context/app.js';
-import { AreaStartDropZone } from '@components/common/page-builder/AreaStartDropZone.js';
+import { AreaDropZone } from '@components/common/page-builder/AreaDropZone.js';
 import { useIsInPageBuilderIframe } from '@components/common/page-builder/pageBuilderMode.js';
 import { WidgetChrome } from '@components/common/page-builder/WidgetChrome.js';
 import { generateComponentKey } from '@evershop/evershop/lib/util/keyGenerator';
@@ -409,7 +409,6 @@ function Area(props: AreaProps) {
           uuid={w._widgetMeta.uuid}
           type={w._widgetMeta.type}
           area={id}
-          editableInPageBuilder={editableInPageBuilder === true}
           sortOrder={Number(w.sortOrder ?? 0)}
           settings={w._widgetMeta.settings}
         >
@@ -434,42 +433,62 @@ function Area(props: AreaProps) {
       );
     }
 
-    if (!debug || rendered === null || process.env.NODE_ENV !== 'development') {
-      return rendered;
-    }
-
-    return (
-      <div
-        key={index}
-        className="evershop-debug-child"
-        style={{
-          position: 'relative',
-          outline: `1px solid ${color}40`,
-          outlineOffset: '1px'
-        }}
-      >
-        <span
+    if (
+      debug &&
+      rendered !== null &&
+      process.env.NODE_ENV === 'development'
+    ) {
+      rendered = (
+        <div
+          key={index}
+          className="evershop-debug-child"
           style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            zIndex: 9999,
-            background: `${color}cc`,
-            color: '#fff',
-            fontSize: '9px',
-            fontFamily: 'monospace',
-            padding: '1px 5px',
-            borderRadius: '0 0 0 4px',
-            lineHeight: '16px',
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none'
+            position: 'relative',
+            outline: `1px solid ${color}40`,
+            outlineOffset: '1px'
           }}
         >
-          order: {w.sortOrder ?? 0}
-        </span>
-        {rendered}
-      </div>
-    );
+          <span
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              zIndex: 9999,
+              background: `${color}cc`,
+              color: '#fff',
+              fontSize: '9px',
+              fontFamily: 'monospace',
+              padding: '1px 5px',
+              borderRadius: '0 0 0 4px',
+              lineHeight: '16px',
+              whiteSpace: 'nowrap',
+              pointerEvents: 'none'
+            }}
+          >
+            order: {w.sortOrder ?? 0}
+          </span>
+          {rendered}
+        </div>
+      );
+    }
+
+    // Drop seam after every renderable — widget instances AND layout
+    // components — so a new widget can land between or below anything the
+    // area renders, not just adjacent to existing widgets. The zone walks
+    // its tagged siblings at drop time (`computeDropSortOrder`), so no
+    // sort_order threading is needed here beyond the widget uuid used as
+    // an e2e/debug hook. Emitted only inside the page-builder iframe for
+    // areas that opted into editing; production DOM is unchanged.
+    if (rendered !== null && inPageBuilder && editableInPageBuilder) {
+      rendered = (
+        <React.Fragment key={index}>
+          {rendered}
+          <AreaDropZone areaId={id} afterUid={w._widgetMeta?.uuid} />
+        </React.Fragment>
+      );
+    }
+
+    return rendered;
   });
 
   // Drop zone above everything in the area, only emitted for areas the page
@@ -478,7 +497,7 @@ function Area(props: AreaProps) {
   // own `sortOrder` at drop time by walking sibling DOM elements that carry
   // `data-evershop-pb-sort-order` — no prop threading needed.
   const startDropZone = editableInPageBuilder ? (
-    <AreaStartDropZone areaId={id} />
+    <AreaDropZone areaId={id} variant="start" />
   ) : null;
 
   if (process.env.NODE_ENV === 'development' && debug) {

@@ -65,7 +65,7 @@ export function postToParent(message: unknown): void {
  * output matches the production storefront byte-for-byte; the post-mount
  * effect flips it to `true` when applicable.
  *
- * Pulled into its own hook so Area, WidgetChrome, and AreaStartDropZone all
+ * Pulled into its own hook so Area, WidgetChrome, and AreaDropZone all
  * share the same detection logic without re-implementing the
  * useState/useEffect pattern in each place.
  */
