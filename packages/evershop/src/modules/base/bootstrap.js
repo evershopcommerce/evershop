@@ -1,7 +1,13 @@
+import path from 'path';
+import config from 'config';
+import { registerJob } from '../../lib/cronjob/jobManager.js';
 import { loadAllLocales } from '../../lib/locale/dictionary.js';
 import { assertValidHomeUrlEnv } from '../../lib/util/getBaseUrl.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
+import { getBuiltinSitemapCollectors } from './services/sitemap/collectors/builtins.js';
+import { SITEMAP_CONFIG_DEFAULTS, getSitemapConfig } from './services/sitemap/config.js';
+import { registerSitemapCollector } from './services/sitemap/registry.js';
 
 export default async () => {
   // Fail fast if EVERSHOP_HOME_URL is set to something that isn't a valid
@@ -82,5 +88,51 @@ export default async () => {
       }
     });
     return schema;
+  });
+
+  // --- Sitemap (wiki/sitemap-design.md) ---
+  // Config defaults, a validation-schema slice, the built-in URL collectors, and the
+  // regeneration cron. Registered here (before the bootstrap lock) so the registry has the
+  // collectors and the cron child has the job.
+  config.util.setModuleDefaults('sitemap', SITEMAP_CONFIG_DEFAULTS);
+  addProcessor('configurationSchema', (schema) => {
+    merge(schema, {
+      properties: {
+        sitemap: {
+          type: 'object',
+          properties: {
+            enabled: { type: 'boolean' },
+            schedule: { type: 'string' },
+            maxUrlsPerFile: { type: 'number' },
+            maxAge: { type: 'number' },
+            hreflang: { type: 'boolean' },
+            staticPaths: { type: 'array', items: { type: 'string' } },
+            changefreq: { type: 'object' },
+            priority: { type: 'object' },
+            robots: {
+              type: 'object',
+              properties: {
+                enabled: { type: 'boolean' },
+                disallow: { type: 'array', items: { type: 'string' } }
+              }
+            }
+          }
+        }
+      }
+    });
+    return schema;
+  });
+  getBuiltinSitemapCollectors().forEach(registerSitemapCollector);
+  const sitemapConfig = getSitemapConfig();
+  registerJob({
+    name: 'generateSitemap',
+    schedule: sitemapConfig.schedule,
+    resolve: path.resolve(
+      import.meta.dirname,
+      'services',
+      'sitemap',
+      'generateSitemapJob.js'
+    ),
+    enabled: sitemapConfig.enabled
   });
 };

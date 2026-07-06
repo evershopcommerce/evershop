@@ -152,6 +152,32 @@ type ConfigStructure = {
       anonymousTokenTtlDays: number;
     };
   };
+  sitemap: {
+    enabled: boolean;
+    schedule: string;
+    maxUrlsPerFile: number;
+    maxAge: number;
+    hreflang: boolean;
+    staticPaths: string[];
+    changefreq: {
+      product: string;
+      category: string;
+      cmsPage: string;
+      landingPage: string;
+      static: string;
+    };
+    priority: {
+      product: number;
+      category: number;
+      cmsPage: number;
+      landingPage: number;
+      static: number;
+    };
+    robots: {
+      enabled: boolean;
+      disallow: string[];
+    };
+  };
 };
 
 type PathValue<T, P extends string> = P extends keyof T
