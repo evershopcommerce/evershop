@@ -1,6 +1,6 @@
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import React, { useEffect, useState } from 'react';
-import { computeDropSortOrder } from './dropSortOrder.js';
+import React, { useEffect, useRef, useState } from 'react';
+import { computeMoveSortOrder } from './dropSortOrder.js';
 import { isInPageBuilderIframe, postToParent } from './pageBuilderMode.js';
 import { WidgetContextProvider } from './WidgetContext.js';
 
@@ -86,6 +86,18 @@ const CHROME_CSS = `
   }
   body[data-evershop-pb-drag="true"] [data-evershop-global="true"] [data-evershop-pb-dropzone][data-evershop-pb-area]::before {
     background: #7c3aed;
+  }
+  /* Collapse the drop zone that follows an EMPTY renderable wrapper. A
+     layout component that renders null (e.g. Breadcrumb on the homepage,
+     where there are no breadcrumbs) still gets its display:contents
+     sort-order wrapper + trailing zone from Area.tsx — without this rule
+     two bands would stack at the same visual position (the empty wrapper
+     paints nothing between them). Hiding the trailing zone loses nothing:
+     both seams sit between the same visible neighbors, so a drop on the
+     surviving one lands identically. Widget wrappers are never :empty
+     (they always contain the chrome toolbar). */
+  body[data-evershop-pb-drag="true"] [data-evershop-pb-sort-order]:empty + [data-evershop-pb-dropzone] {
+    display: none;
   }
 `;
 
@@ -256,6 +268,11 @@ function ChromeIconButton({
  * (production storefront), it renders `children` unchanged with no extra
  * markup or context — zero overhead.
  *
+ * Drop zones are NOT emitted here — `Area.tsx` owns every seam (one
+ * `AreaDropZone` after each renderable, widget or layout component, plus
+ * the area-start zone). The chrome's only drop-related duty is carrying
+ * `data-evershop-pb-sort-order` on the wrapper so zones can walk it.
+ *
  * Selection / delete are delivered to the admin via same-origin postMessage:
  *   - { type: 'widget-selected', widgetUid, widgetType, settings }
  *   - { type: 'widget-delete',   widgetUid }
@@ -273,15 +290,6 @@ interface WidgetChromeProps {
    */
   area: string;
   /**
-   * Whether the containing Area opted into page-builder editing
-   * (`<Area editableInPageBuilder>`). When false, the after-widget drop
-   * zone is suppressed so this widget's area-level container respects its
-   * non-editable contract — selection/toolbar still render (they let the
-   * user inspect/configure existing widgets) but new drops are not allowed.
-   * `AreaStartDropZone` is gated the same way on the Area side.
-   */
-  editableInPageBuilder: boolean;
-  /**
    * The placement's sort_order. Surfaced as `data-evershop-pb-sort-order`
    * on the wrapper so adjacent drop zones can walk DOM siblings and read
    * the value when computing where a new drop should land.
@@ -295,16 +303,33 @@ export function WidgetChrome({
   uuid,
   type,
   area,
-  editableInPageBuilder,
   sortOrder,
   settings,
   children
 }: WidgetChromeProps): React.ReactElement {
   // SSR-stable: first render passes through identically to production.
   const [isClient, setIsClient] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Move up / down. Iframe owns the math (same rule as drops): compute the
+  // target sort_order from the rendered sibling order — layout components
+  // included — and send it in the message; the admin emits one UPDATE op
+  // with the value verbatim. Already first / last → null → nothing to move
+  // past, no message.
+  const postMove = (direction: 'up' | 'down') => {
+    const el = wrapperRef.current;
+    const nextSort = el ? computeMoveSortOrder(el, direction) : null;
+    if (nextSort == null) return;
+    postToParent({
+      type: direction === 'up' ? 'widget-move-up' : 'widget-move-down',
+      widgetUid: uuid,
+      area,
+      sortOrder: nextSort
+    });
+  };
 
   const inIframe = isClient && isInPageBuilderIframe();
 
@@ -338,51 +363,10 @@ export function WidgetChrome({
     );
   }
 
-  const handleDropZoneEnter = (e: React.DragEvent<HTMLDivElement>) => {
-    if (!e.dataTransfer.types.includes('application/x-evershop-widget')) return;
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-    (e.currentTarget as HTMLDivElement).setAttribute(
-      'data-evershop-pb-active',
-      'true'
-    );
-  };
-  const handleDropZoneLeave = (e: React.DragEvent<HTMLDivElement>) => {
-    (e.currentTarget as HTMLDivElement).removeAttribute(
-      'data-evershop-pb-active'
-    );
-  };
-  const handleDropZoneOver = (e: React.DragEvent<HTMLDivElement>) => {
-    if (!e.dataTransfer.types.includes('application/x-evershop-widget')) return;
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-  };
-  const handleDropAfter = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    const widgetType =
-      e.dataTransfer.getData('application/x-evershop-widget') ||
-      e.dataTransfer.getData('text/plain');
-    if (!widgetType) return;
-    const zone = e.currentTarget as HTMLDivElement;
-    zone.removeAttribute('data-evershop-pb-active');
-    document.body.removeAttribute('data-evershop-pb-drag');
-    // Iframe owns the math. Walk siblings to find prev/next sort_orders
-    // (both widgets and layout components carry the attribute) and post
-    // the pre-computed value to the admin.
-    const sortOrder = computeDropSortOrder(zone);
-    const isGlobal = !!zone.closest('[data-evershop-global="true"]');
-    postToParent({
-      type: 'pb-drop',
-      widgetType,
-      area,
-      sortOrder,
-      isGlobal
-    });
-  };
-
   return (
     <WidgetContextProvider uid={uuid} settings={settings}>
       <div
+        ref={wrapperRef}
         className="evershop-pb-widget"
         data-evershop-pb-widget-uid={uuid}
         data-evershop-pb-sort-order={sortOrder}
@@ -411,19 +395,12 @@ export function WidgetChrome({
           }}
           data-evershop-pb-toolbar
         >
-          <ChromeIconButton
-            label={_('Move up')}
-            onClick={() =>
-              postToParent({ type: 'widget-move-up', widgetUid: uuid, area })
-            }
-          >
+          <ChromeIconButton label={_('Move up')} onClick={() => postMove('up')}>
             <ArrowUpIcon />
           </ChromeIconButton>
           <ChromeIconButton
             label={_('Move down')}
-            onClick={() =>
-              postToParent({ type: 'widget-move-down', widgetUid: uuid, area })
-            }
+            onClick={() => postMove('down')}
           >
             <ArrowDownIcon />
           </ChromeIconButton>
@@ -464,25 +441,6 @@ export function WidgetChrome({
           </ChromeIconButton>
         </div>
       </div>
-      {/* Drop zone immediately AFTER this widget. Gated on
-          `editableInPageBuilder` so a widget rendered inside an Area that
-          opted out of page-builder editing doesn't expose a drop affordance.
-          (Selection / toolbar above still render — they only inspect /
-          configure / delete the existing widget, which is safe.) Visible
-          only when the body has `data-evershop-pb-drag="true"` (set by the
-          message handler above). `data-evershop-pb-area` powers the corner
-          badge CSS, `computeDropSortOrder` walks siblings at drop time. */}
-      {editableInPageBuilder && (
-        <div
-          data-evershop-pb-dropzone
-          data-evershop-pb-area={area}
-          data-evershop-pb-after={uuid}
-          onDragEnter={handleDropZoneEnter}
-          onDragLeave={handleDropZoneLeave}
-          onDragOver={handleDropZoneOver}
-          onDrop={handleDropAfter}
-        />
-      )}
     </WidgetContextProvider>
   );
 }

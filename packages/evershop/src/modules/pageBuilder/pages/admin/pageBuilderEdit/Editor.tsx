@@ -1879,17 +1879,42 @@ export default function Editor({
     [route.id]
   );
 
-  // Move a widget up or down within its area. The toolbar sends `area` so we
-  // operate on the right placement when the widget has placements in
-  // multiple areas (e.g. a basic_menu shared via 'all/headerMiddleLeft' but
-  // also placed in 'cart/content'). Works uniformly for top-level widgets
-  // and container children (children's siblings live in the same synthetic
-  // `columnsContainer_<parent>_col_<i>` area).
+  // Layout-aware move (2026-07-06). The iframe computes the target
+  // sort_order from the full rendered sibling order — layout components
+  // included — via `computeMoveSortOrder` and sends it in the move message
+  // (the same "iframe owns the math" rule as drops). We resolve the
+  // placement from `overlayWidgetsRef` (the post-overlay widgets list from
+  // the most recent preview — source state would disagree after reorders)
+  // and emit ONE UPDATE op with the value verbatim. Collision-safe without
+  // a swap: the target is the midpoint of two RENDER-ADJACENT siblings, so
+  // no third renderable can sort between them.
+  const moveWidgetTo = useCallback(
+    async (uid: string, area: string, targetSort: number) => {
+      const me = overlayWidgetsRef.current.find(
+        (w) =>
+          w.uuid === uid && Array.isArray(w.areaId) && w.areaId.includes(area)
+      );
+      if (!me?.placementUuid) return;
+      await postOperation({
+        entity_urn: `urn:evershop:cms:widget_placement:${me.placementUuid}`,
+        old_payload: { sort_order: me.sortOrder ?? 0 },
+        new_payload: { sort_order: targetSort }
+      });
+      pushPreviewToIframe();
+    },
+    [postOperation, pushPreviewToIframe]
+  );
+
+  // Legacy move fallback — used only when the move message carries no
+  // iframe-computed `sortOrder` (an older iframe bundle). Can only step
+  // over WIDGET neighbors; layout components are invisible to it.
   //
-  // Reads from `overlayWidgetsRef` — the post-overlay widgets list captured
-  // from the most recent storefront preview. The GraphQL `widgetsForRoute`
-  // resolver reads source state only and would disagree with the iframe
-  // after several reorders.
+  // The toolbar sends `area` so we operate on the right placement when the
+  // widget has placements in multiple areas (e.g. a basic_menu shared via
+  // 'all/headerMiddleLeft' but also placed in 'cart/content'). Works
+  // uniformly for top-level widgets and container children (children's
+  // siblings live in the same synthetic `columnsContainer_<parent>_col_<i>`
+  // area).
   //
   // Algorithm: swap the two placements' `sort_order` values via two UPDATE
   // ops. This gives an unambiguous reorder — the earlier `neighbor ± 1`
@@ -2271,12 +2296,20 @@ export default function Editor({
         deleteWidget(msg.widgetUid, msg.widgetType);
         return;
       }
-      if ((msg as any).type === 'widget-move-up') {
-        void moveWidget((msg as any).widgetUid, (msg as any).area, 'up');
-        return;
-      }
-      if ((msg as any).type === 'widget-move-down') {
-        void moveWidget((msg as any).widgetUid, (msg as any).area, 'down');
+      if (
+        (msg as any).type === 'widget-move-up' ||
+        (msg as any).type === 'widget-move-down'
+      ) {
+        const direction =
+          (msg as any).type === 'widget-move-up' ? 'up' : 'down';
+        const targetSort = (msg as any).sortOrder;
+        if (typeof targetSort === 'number' && !Number.isNaN(targetSort)) {
+          // Iframe-computed target (layout-aware) — store it verbatim.
+          void moveWidgetTo((msg as any).widgetUid, (msg as any).area, targetSort);
+        } else {
+          // Older iframe bundle without move math — widget-neighbor swap.
+          void moveWidget((msg as any).widgetUid, (msg as any).area, direction);
+        }
         return;
       }
       if ((msg as any).type === 'widget-duplicate') {
@@ -2366,6 +2399,7 @@ export default function Editor({
     widgetTypes,
     drawerPinned,
     moveWidget,
+    moveWidgetTo,
     duplicateWidget
   ]);
 
