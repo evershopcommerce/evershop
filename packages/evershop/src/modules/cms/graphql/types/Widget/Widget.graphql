@@ -576,7 +576,12 @@ type FaqBlockWidget {
 
 extend type Query {
   widget(id: Int): Widget
-  widgetByUuid(uuid: String!): Widget
+  """
+  A single widget by uuid. When `changeset` (a draft token) is supplied, the
+  widget's `placements` reflect that draft's overlay — staged share/route
+  changes included — instead of the published `widget_placement` table.
+  """
+  widgetByUuid(uuid: String!, changeset: String): Widget
   widgets(filters: [FilterInput]): WidgetCollection
   """
   Widgets currently rendered on the given route (top-level only — children
