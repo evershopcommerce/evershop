@@ -474,15 +474,29 @@ export default function Editor({
     return () => window.removeEventListener('mousedown', onDown);
   }, [selectedWidget, drawerPinned]);
 
-  // Session picker (spec § 7.8). Show on first mount when the draft has
-  // existing operations AND the user hasn't acknowledged this changeset
-  // in this browser tab. Auto-skip otherwise.
+  // Session picker (spec § 7.8). Show on ENTRY when the draft has existing
+  // operations (or rollout plans to resume) AND the user hasn't
+  // acknowledged this changeset in this browser tab. The show/skip
+  // decision is made ONCE per mount — latched in `entryDecision` by an
+  // effect further down, after the entry inputs (ops + rollout plans)
+  // first resolve. It must NOT be re-evaluated live: `operations.length`
+  // changes after every edit (postOperation refetches it for the
+  // exit-safety gates), and a live condition summoned the ENTRY dialog
+  // mid-session — publish reloads into a fresh empty draft (auto-skip,
+  // nothing acknowledged), then the very first edit made ops > 0 and
+  // popped "Start a page-builder session" over the user's work.
   const sessionAckKey = `pb_session_ack_${changeset.changesetId}`;
   // Start acknowledged (picker hidden) to match SSR, then read sessionStorage
   // after mount. Reading it in the initializer renders the picker on the
   // client but not on the server → React hydration error #418. Revealing the
   // picker one tick later (post-mount) is the intended on-entry behavior.
   const [sessionAcknowledged, setSessionAcknowledged] = useState<boolean>(true);
+  // True once the sessionStorage read has actually happened — the entry
+  // decision must not run against the SSR-safe initial `true`.
+  const [sessionAckChecked, setSessionAckChecked] = useState<boolean>(false);
+  const [entryDecision, setEntryDecision] = useState<
+    'pending' | 'show' | 'skip'
+  >('pending');
   useEffect(() => {
     try {
       if (window.sessionStorage.getItem(sessionAckKey) !== '1') {
@@ -491,9 +505,13 @@ export default function Editor({
     } catch {
       /* ignore */
     }
+    setSessionAckChecked(true);
   }, [sessionAckKey]);
   const acknowledgeSession = useCallback(() => {
     setSessionAcknowledged(true);
+    // Acknowledging resolves the entry question either way — if the picker
+    // is currently forced open ('show'), this is what closes it.
+    setEntryDecision('skip');
     try {
       if (typeof window !== 'undefined') {
         window.sessionStorage.setItem(sessionAckKey, '1');
@@ -502,18 +520,6 @@ export default function Editor({
       /* ignore */
     }
   }, [sessionAckKey]);
-
-  // Landing via `?session=<rollout-uuid>` already represents an explicit
-  // choice (the user clicked a rollout card in the SessionPicker, or
-  // bookmarked the URL). Auto-acknowledge so the picker doesn't re-open on
-  // the very next render — every reload otherwise looped back into the
-  // same "Start a page-builder session" dialog. The SessionModeBadge
-  // remains the manual escape hatch.
-  useEffect(() => {
-    if (changeset.rolloutPlan != null && !sessionAcknowledged) {
-      acknowledgeSession();
-    }
-  }, [changeset.rolloutPlan, sessionAcknowledged, acknowledgeSession]);
 
   // Pull the changeset's operations *before* the exit-confirm hooks below
   // so their dependency arrays can reference `operations.length` without
@@ -868,6 +874,55 @@ export default function Editor({
         )
     );
   }, [rolloutPlansResult.data]);
+
+  // The session picker's ENTRY decision (see the state block above). Runs
+  // once, as soon as the entry inputs have settled: the sessionStorage ack
+  // read, the mount-time ops refetch, and the rollout-plans query (data or
+  // error — an errored query must not wedge the decision). After the latch
+  // nothing re-evaluates, so mid-session input changes (ops refetch after
+  // every edit) can't resurrect the entry dialog.
+  useEffect(() => {
+    if (entryDecision !== 'pending') return;
+    // Landing via `?session=<rollout-uuid>` already represents an explicit
+    // choice (the user clicked a rollout card in the SessionPicker, or
+    // bookmarked the URL) — skip and acknowledge immediately; the
+    // SessionModeBadge remains the manual escape hatch.
+    if (changeset.rolloutPlan != null) {
+      acknowledgeSession();
+      return;
+    }
+    if (!sessionAckChecked) return;
+    const opsResolved = opsResult.data != null || opsResult.error != null;
+    const plansResolved =
+      rolloutPlansResult.data != null || rolloutPlansResult.error != null;
+    if (!opsResolved || !plansResolved) return;
+    if (
+      !sessionAcknowledged &&
+      (operations.length > 0 || upcomingAndLiveRolloutPlans.length > 0)
+    ) {
+      setEntryDecision('show');
+    } else {
+      // Auto-skip: this tab just started (or already owns) this session —
+      // an empty fresh draft, or an ack from a previous visit. Acknowledge
+      // so later edits and reloads in THIS tab never re-ask; a different
+      // tab (its own sessionStorage) still gets the entry picker when it
+      // finds the draft non-empty.
+      acknowledgeSession();
+    }
+  }, [
+    entryDecision,
+    changeset.rolloutPlan,
+    sessionAckChecked,
+    sessionAcknowledged,
+    opsResult.data,
+    opsResult.error,
+    rolloutPlansResult.data,
+    rolloutPlansResult.error,
+    operations.length,
+    upcomingAndLiveRolloutPlans.length,
+    acknowledgeSession
+  ]);
+
   const pageRoutes = useMemo(
     () =>
       allRoutes
@@ -3072,11 +3127,7 @@ export default function Editor({
           />
         )}
 
-        {(pickerOpen ||
-          (!sessionAcknowledged &&
-            (operations.length > 0 ||
-              upcomingAndLiveRolloutPlans.length > 0 ||
-              changeset.rolloutPlan != null))) && (
+        {(pickerOpen || entryDecision === 'show') && (
           <SessionPicker
             draftOpCount={operations.length}
             draftLastUpdated={null}
