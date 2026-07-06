@@ -201,18 +201,6 @@ export default function CategoryGrid({
                       )
                     },
                     sortOrder: 25
-                  },
-                  {
-                    component: {
-                      default: () => (
-                        <SortableHeader
-                          name="include_in_nav"
-                          title={_('Include In Menu')}
-                          currentFilters={currentFilters}
-                        />
-                      )
-                    },
-                    sortOrder: 30
                   }
                 ]}
               />
@@ -262,16 +250,6 @@ export default function CategoryGrid({
                         )
                       },
                       sortOrder: 25
-                    },
-                    {
-                      component: {
-                        default: () => (
-                          <TableCell>
-                            {c.includeInNav ? _('Yes') : _('No')}
-                          </TableCell>
-                        )
-                      },
-                      sortOrder: 30
                     }
                   ]}
                 />
@@ -298,7 +276,6 @@ CategoryGrid.propTypes = {
         uuid: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         status: PropTypes.number.isRequired,
-        includeInNav: PropTypes.number.isRequired,
         editUrl: PropTypes.string.isRequired,
         deleteApi: PropTypes.string.isRequired,
         path: PropTypes.arrayOf(
@@ -332,7 +309,6 @@ export const query = `
         uuid
         name
         status
-        includeInNav
         editUrl
         deleteApi
         path {
