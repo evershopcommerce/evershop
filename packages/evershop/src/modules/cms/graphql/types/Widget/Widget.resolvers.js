@@ -106,6 +106,55 @@ function computeOverlayColumns(
     });
 }
 
+/**
+ * Load source widget_instance + widget_placement into UUID-keyed maps and,
+ * when a draft changeset token is supplied, overlay that changeset's ops
+ * (theme-gated, preview-only — no rollouts, matching the iframe). Shared by
+ * `widgetsForRoute` (Layers panel) and `widgetByUuid` (Share drawer) so both
+ * surfaces read the SAME draft-applied placement state the iframe renders,
+ * rather than the published `widget_placement` table.
+ */
+async function buildOverlayedWidgetMaps(pool, changeset) {
+  const widgetRows = await pool.query(
+    `SELECT widget_instance_id, uuid, name, type, settings, status,
+            created_at, updated_at
+     FROM widget_instance`
+  );
+  const widgetMap = new Map();
+  for (const row of widgetRows.rows) {
+    widgetMap.set(row.uuid, row);
+  }
+
+  const placementRows = await pool.query(
+    `SELECT p.widget_placement_id, p.uuid, p.route, p.area, p.sort_order,
+            p.entity_urn, wi.uuid AS widget_instance_uuid
+     FROM widget_placement p
+     INNER JOIN widget_instance wi
+             ON wi.widget_instance_id = p.widget_instance_id`
+  );
+  const placementMap = new Map();
+  for (const row of placementRows.rows) {
+    placementMap.set(row.uuid, row);
+  }
+
+  // Preview changeset only — active rollouts are intentionally NOT applied
+  // here (matches loadStorefrontWidgets when a preview token is present, and
+  // spec 04 § 9.4's theme gate). Without a token this is source-only.
+  if (typeof changeset === 'string' && changeset.length > 0) {
+    const { ops, changesetTheme } = await loadActiveOps({
+      previewChangesetToken: changeset
+    });
+    const activeTheme = getActiveTheme();
+    if (
+      (changesetTheme === undefined || changesetTheme === activeTheme) &&
+      ops.length > 0
+    ) {
+      applyOverlayToWidgets(widgetMap, placementMap, ops);
+    }
+  }
+  return { widgetMap, placementMap };
+}
+
 export default {
   Query: {
     widget: async (root, { id }, { pool }) => {
@@ -115,11 +164,32 @@ export default {
       const widget = await query.load(pool);
       return widget ? camelCase(widget) : null;
     },
-    widgetByUuid: async (_, { uuid }, { pool }) => {
+    widgetByUuid: async (_, { uuid, changeset }, { pool }) => {
       const query = getWidgetsBaseQuery();
       query.where('uuid', '=', uuid);
       const widget = await query.load(pool);
-      return widget ? camelCase(widget) : null;
+      if (!widget) return null;
+      const camel = camelCase(widget);
+      // Draft-aware placements: overlay the editor's changeset so the Share
+      // drawer reflects staged placement changes (e.g. a route toggled off)
+      // instead of the published table. Without this the drawer re-checks a
+      // route the user just un-shared — the removal is only a staged DELETE op
+      // the published query can't see. `Widget.placements` honors
+      // `_overlayPlacements` and skips its source-SQL fallback. If the draft
+      // deleted the widget it's gone from the overlayed map → no placements.
+      if (typeof changeset === 'string' && changeset.length > 0) {
+        const { widgetMap, placementMap } = await buildOverlayedWidgetMaps(
+          pool,
+          changeset
+        );
+        camel._overlayPlacements = widgetMap.has(uuid)
+          ? [...placementMap.values()]
+              .filter((p) => p.widget_instance_uuid === uuid)
+              .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+              .map(camelCase)
+          : [];
+      }
+      return camel;
     },
     widgets: async (_, { filters = [] }, { user }) => {
       const query = getWidgetsBaseQuery();
@@ -156,51 +226,13 @@ export default {
      * they don't re-query source SQL and lose the overlay merge.
      */
     widgetsForRoute: async (_, { route, changeset, entityUrn = null }, { pool }) => {
-      // 1. Load source widget_instance state.
-      const widgetRows = await pool.query(
-        `SELECT widget_instance_id, uuid, name, type, settings, status,
-                created_at, updated_at
-         FROM widget_instance`
+      // Source widget + placement maps with the draft changeset overlaid
+      // (preview-only, theme-gated). Shared with `widgetByUuid` so the Layers
+      // panel and the Share drawer both agree with what the iframe renders.
+      const { widgetMap, placementMap } = await buildOverlayedWidgetMaps(
+        pool,
+        changeset
       );
-      const widgetMap = new Map();
-      for (const row of widgetRows.rows) {
-        widgetMap.set(row.uuid, row);
-      }
-
-      // 2. Load source widget_placement state (with widget_instance.uuid
-      //    joined so the overlay engine doesn't need to translate ids).
-      const placementRows = await pool.query(
-        `SELECT p.widget_placement_id, p.uuid, p.route, p.area, p.sort_order,
-                p.entity_urn, wi.uuid AS widget_instance_uuid
-         FROM widget_placement p
-         INNER JOIN widget_instance wi
-                 ON wi.widget_instance_id = p.widget_instance_id`
-      );
-      const placementMap = new Map();
-      for (const row of placementRows.rows) {
-        placementMap.set(row.uuid, row);
-      }
-
-      // 3. Apply overlay (preview changeset only — admin's draft state).
-      //    Active rollouts are NOT applied here on purpose: the page-builder
-      //    iframe also doesn't apply rollouts when a preview token is
-      //    present (loadStorefrontWidgets in cms/services/widget). Layers
-      //    must match the iframe.
-      if (typeof changeset === 'string' && changeset.length > 0) {
-        const { ops, changesetTheme } = await loadActiveOps({
-          previewChangesetToken: changeset
-        });
-        // Only overlay when the previewed changeset matches the active theme
-        // (spec 04 § 9.4). `changesetTheme === undefined` means the token
-        // resolved to nothing — there's no overlay to apply anyway.
-        const activeTheme = getActiveTheme();
-        if (
-          (changesetTheme === undefined || changesetTheme === activeTheme) &&
-          ops.length > 0
-        ) {
-          applyOverlayToWidgets(widgetMap, placementMap, ops);
-        }
-      }
 
       // 4. Bucket placements per widget so we can compute the per-widget
       //    children + min_sort + filtered placements list in one pass.

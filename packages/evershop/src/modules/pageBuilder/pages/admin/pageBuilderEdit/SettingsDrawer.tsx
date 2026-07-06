@@ -46,8 +46,8 @@ function persistWidth(widgetType: string, width: number): void {
 }
 
 const WIDGET_PLACEMENTS_QUERY = `
-  query WidgetPlacements($uuid: String!) {
-    widgetByUuid(uuid: $uuid) {
+  query WidgetPlacements($uuid: String!, $changeset: String) {
+    widgetByUuid(uuid: $uuid, changeset: $changeset) {
       placements {
         uuid
         route
@@ -80,6 +80,13 @@ interface PlacementRow {
 interface SettingsDrawerProps {
   widget: SelectedWidget;
   currentRouteId: string;
+  /**
+   * The editor's active draft changeset token. Passed to `widgetByUuid` so the
+   * Share panel reads DRAFT-applied placements (staged route toggles included),
+   * keeping the checkboxes in sync with the iframe rather than the published
+   * `widget_placement` table.
+   */
+  changesetToken?: string;
   shareableRoutes: SharableRoute[];
   pinned: boolean;
   onTogglePin: () => void;
@@ -92,10 +99,11 @@ interface SettingsDrawerProps {
   onRemovePlacement: (placementUuid: string) => Promise<void>;
   onClose: () => void;
   /**
-   * Optional initial placements seed. The Editor passes the overlay-applied
-   * placements from `overlayWidgetsRef` so the drawer reflects the staged
-   * (changeset) state even for widgets that haven't been published yet —
-   * the `widgetByUuid` GraphQL query reads source-only and would miss them.
+   * Optional initial placements seed for INSTANT feedback before the
+   * (overlay-aware) `widgetByUuid` query resolves. The Editor passes the
+   * overlay-applied placements it already has. Also covers a freshly-dropped
+   * widget, which isn't in the published table yet, so `widgetByUuid` returns
+   * null for it until publish.
    */
   initialPlacements?: PlacementRow[];
   /**
@@ -116,6 +124,7 @@ interface SettingsDrawerProps {
 export function SettingsDrawer({
   widget,
   currentRouteId,
+  changesetToken,
   shareableRoutes,
   pinned,
   onTogglePin,
@@ -130,17 +139,17 @@ export function SettingsDrawer({
 
   const [placementsResult, refetchPlacements] = useQuery({
     query: WIDGET_PLACEMENTS_QUERY,
-    variables: { uuid: widget.uid }
+    variables: { uuid: widget.uid, changeset: changesetToken }
   });
   const serverPlacements: PlacementRow[] =
     (placementsResult.data as any)?.widgetByUuid?.placements ?? [];
 
-  // Optimistic placement state. The GraphQL `widgetByUuid.placements`
-  // resolver reads from the published `widget_placement` table directly
-  // — it does NOT apply the changeset overlay — so toggling a route would
-  // appear to do nothing until publish. We keep a local Map keyed by
-  // routeId, seeded from the server response and mutated immediately on
-  // toggle so the UI reflects the user's intent right away.
+  // Optimistic placement state. `widgetByUuid.placements` is now overlay-aware
+  // (we pass the draft `changeset` token above), so the server response already
+  // reflects staged share changes — the old source-vs-draft desync where a
+  // route you just un-shared re-checked itself is gone. We still keep a local
+  // Map keyed by routeId for INSTANT feedback on toggle (before the refetch
+  // round-trips) and to hold a stable placement uuid per route.
   //
   // Each entry holds the placement uuid we're tracking for that route — for
   // server-known placements that's the DB uuid; for locally-added ones we

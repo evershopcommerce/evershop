@@ -2935,6 +2935,7 @@ export default function Editor({
                 widget={selectedWidget}
                 widgetTypeName={widgetTypesByCode.get(selectedWidget.type)?.name}
                 currentRouteId={route.id}
+                changesetToken={changeset.token}
                 containerRef={drawerRef}
                 shareableRoutes={pageRoutes.map((r: any) => ({
                   id: r.id,
