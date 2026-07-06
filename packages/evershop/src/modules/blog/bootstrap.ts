@@ -9,12 +9,49 @@ import {
   registerLinkLoader
 } from '../../lib/widget/linkResolver.js';
 import { registerWidget } from '../../lib/widget/widgetManager.js';
+import {
+  createEntityCollector,
+  registerSitemapCollector
+} from '../base/services/sitemap/index.js';
 import { registerDefaultBlogCategoryFilters } from './services/registerDefaultBlogCategoryFilters.js';
 import { registerDefaultBlogCommentFilters } from './services/registerDefaultBlogCommentFilters.js';
 import { registerDefaultBlogPostFilters } from './services/registerDefaultBlogPostFilters.js';
 import { registerDefaultBlogTagFilters } from './services/registerDefaultBlogTagFilters.js';
 
 export default (): void => {
+  // Sitemap: register blog URLs (posts, categories, tags — all url_rewrite-backed) so they
+  // appear in /sitemap.xml. Each becomes a sitemap-blog-<x>.xml child.
+  registerSitemapCollector(
+    createEntityCollector({
+      name: 'blog-posts',
+      table: 'blog_post',
+      entityType: 'blog_post',
+      where: 'e.status = 1', // published
+      changefreq: 'weekly',
+      priority: 0.5
+    })
+  );
+  registerSitemapCollector(
+    createEntityCollector({
+      name: 'blog-categories',
+      table: 'blog_category',
+      entityType: 'blog_category',
+      where: 'e.status = 1',
+      changefreq: 'weekly',
+      priority: 0.4
+    })
+  );
+  registerSitemapCollector(
+    createEntityCollector({
+      name: 'blog-tags',
+      table: 'blog_tag',
+      entityType: 'blog_tag',
+      updatedAtColumn: 'created_at', // blog_tag has no updated_at
+      changefreq: 'monthly',
+      priority: 0.3
+    })
+  );
+
   // Link loaders: resolve blog URNs → current URLs at request time (prefer the
   // pretty url_rewrite path, fall back to the internal route).
   const blogLinkLoader = (entityType: string, routeId: string) =>
