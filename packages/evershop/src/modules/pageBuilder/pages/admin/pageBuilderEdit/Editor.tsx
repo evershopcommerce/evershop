@@ -1542,11 +1542,17 @@ export default function Editor({
       const opCount = operations.length;
       await axios.post(publishUrl);
       setError(null);
-      // Persist the success message across the redirect so the next page's
-      // mount (a fresh editor on the same route, since the picker just
-      // bounces to the first editable route) can flash a Sonner toast. Was
-      // previously a silent reload that landed straight on the session
-      // picker, leaving the merchandiser unsure whether the publish
+      // Reload the CURRENT route rather than redirecting to the picker home
+      // (`pickerHomeUrl`), which unconditionally bounces to the homepage
+      // editor and threw the merchandiser off the page they were editing.
+      // The just-published changeset is now immutable, so the reload's
+      // `getOrCreateDraftChangeset` mints a fresh draft, and the preview
+      // iframe — loaded with the new empty changeset token — renders the
+      // baked-in source, i.e. exactly what was just published. A plain
+      // reload also preserves the route + entity scope (`?entity=…`) exactly.
+      // Persist the success message across the reload so the remounted editor
+      // can flash a Sonner toast (sessionStorage is consumed on read); a
+      // silent reload previously left the merchandiser unsure the publish
       // succeeded.
       try {
         sessionStorage.setItem(
@@ -1559,7 +1565,7 @@ export default function Editor({
         // sessionStorage can throw in private modes; non-fatal.
       }
       markIntentionalNavigation();
-      window.location.href = pickerHomeUrl;
+      window.location.reload();
     } catch (e) {
       const msg =
         (e as any)?.response?.data?.error?.message ??
@@ -1570,13 +1576,7 @@ export default function Editor({
     } finally {
       setIsPublishing(false);
     }
-  }, [
-    publishUrl,
-    pickerHomeUrl,
-    isPublishing,
-    operations.length,
-    markIntentionalNavigation
-  ]);
+  }, [publishUrl, isPublishing, operations.length, markIntentionalNavigation]);
 
   // Flash the publish-success toast after the post-publish reload lands on
   // a fresh editor instance. sessionStorage is consumed on read.

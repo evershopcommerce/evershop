@@ -12,7 +12,6 @@ import React from 'react';
 export interface CategoryStatusProps {
   category?: {
     status?: number;
-    includeInNav?: number;
     showProducts?: number;
   };
 }
@@ -35,20 +34,6 @@ export default function Status({ category }: CategoryStatusProps) {
             { label: _('Enabled'), value: 1 }
           ]}
           defaultValue={category?.status === 0 ? 0 : 1}
-          validation={{
-            required: _('This field is required')
-          }}
-        />
-      </CardContent>
-      <CardContent className="pt-6 border-t border-border">
-        <RadioGroupField
-          name="include_in_nav"
-          label={_('Include in Store Menu?')}
-          options={[
-            { label: _('No'), value: 0 },
-            { label: _('Yes'), value: 1 }
-          ]}
-          defaultValue={category?.includeInNav === 0 ? 0 : 1}
           validation={{
             required: _('This field is required')
           }}
@@ -81,7 +66,6 @@ export const query = `
   query Query {
     category(id: getContextValue("categoryId", null)) {
       status
-      includeInNav
       showProducts
     }
   }

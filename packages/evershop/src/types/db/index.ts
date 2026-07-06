@@ -249,7 +249,6 @@ export interface CategoryRow {
   uuid: string;
   status: boolean;
   parent_id: number | null;
-  include_in_nav: boolean;
   position: number | null;
   show_products: boolean;
   meta_data: Record<string, unknown>;

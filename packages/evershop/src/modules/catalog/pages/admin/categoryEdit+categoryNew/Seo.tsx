@@ -1,3 +1,4 @@
+import { SearchSnippetPreview } from '@components/admin/SearchSnippetPreview.js';
 import Area from '@components/common/Area.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
@@ -10,14 +11,39 @@ import {
 } from '@components/common/ui/Card.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
+import { useWatch } from 'react-hook-form';
 
 interface CategorySeoProps {
   category?: {
+    name?: string;
     urlKey?: string;
     metaTitle?: string;
     metaDescription?: string;
   };
 }
+
+// Live SERP preview. A category's canonical URL is root-level (`/<url_key>` for
+// top-level; nested categories prepend their parent path — see
+// catalog/subscribers/category_created/buildUrlRewrite.ts), so the prefix is
+// `/`. Watches the SEO fields plus `name` (registered on the General tab —
+// same form) so the snippet updates as the merchant types; falls back to the
+// persisted category name for the title when the meta title is blank.
+function SnippetPreview({ name }: { name?: string }) {
+  const urlKey = useWatch({ name: 'url_key' });
+  const metaTitle = useWatch({ name: 'meta_title' });
+  const metaDescription = useWatch({ name: 'meta_description' });
+  const watchedName = useWatch({ name: 'name' });
+  return (
+    <SearchSnippetPreview
+      pathPrefix="/"
+      name={watchedName ?? name}
+      urlKey={urlKey}
+      metaTitle={metaTitle}
+      metaDescription={metaDescription}
+    />
+  );
+}
+
 export default function Seo({ category }: CategorySeoProps) {
   const fields = [
     {
@@ -76,6 +102,12 @@ export default function Seo({ category }: CategorySeoProps) {
         )
       },
       sortOrder: 30
+    },
+    {
+      component: {
+        default: <SnippetPreview name={category?.name} />
+      },
+      sortOrder: 40
     }
   ];
 
@@ -106,6 +138,7 @@ export const layout = {
 export const query = `
   query Query {
     category(id: getContextValue('categoryId', null)) {
+      name
       urlKey
       metaTitle
       metaKeywords
