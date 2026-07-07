@@ -50,6 +50,20 @@ export interface EventDataRegistry {
   product_deleted: ProductRow;
 
   /**
+   * Fired after a product duplication — a create whose payload carried
+   * `duplicate_of` — committed and the source's collection memberships were
+   * copied. Subscribe to copy extension-owned product data from the source
+   * to the copy. The regular `product_created` event fires for the copy too;
+   * this event is the source→copy link.
+   */
+  product_duplicated: {
+    source_product_id: number;
+    source_product_uuid: string;
+    product_id: number;
+    product_uuid: string;
+  };
+
+  /**
    * Fired when a product image is added
    * Data: Complete product_image table row
    */

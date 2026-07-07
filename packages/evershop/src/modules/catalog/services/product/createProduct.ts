@@ -289,6 +289,15 @@ async function createProduct(data: ProductData, context: Record<string, any>): P
     return product;
   } catch (e) {
     await rollback(connection);
+    // Surface the two uniqueness collisions as human-readable errors instead
+    // of the raw constraint text — the duplicate flow prefills `<value>-copy`,
+    // which itself collides when a product is copied twice.
+    if (e.code === '23505' && e.constraint === 'PRODUCT_SKU_UNIQUE') {
+      throw new Error('This SKU is already used by another product');
+    }
+    if (e.code === '23505' && e.constraint === 'PRODUCT_URL_KEY_UNIQUE') {
+      throw new Error('This URL key is already used by another product');
+    }
     throw e;
   }
 }

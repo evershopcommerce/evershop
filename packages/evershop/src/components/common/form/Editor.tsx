@@ -517,7 +517,14 @@ export const Editor: React.FC<EditorProps> = ({
                       (c) => c.id === column.id
                     );
                     newRows[rowIdx].columns[columnIdx].data = outputData;
-                    setValue(name, newRows);
+                    // shouldDirty + shouldTouch: a content edit is a USER
+                    // edit — dirty alone can't distinguish it from the
+                    // mount-time seed above (which deliberately passes
+                    // neither), so consumers key on dirty ∩ touched.
+                    setValue(name, newRows, {
+                      shouldDirty: true,
+                      shouldTouch: true
+                    });
                     return newRows;
                   });
                 });
