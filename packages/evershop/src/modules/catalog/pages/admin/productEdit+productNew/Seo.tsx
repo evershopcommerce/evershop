@@ -23,6 +23,9 @@ interface SEOProps {
         metaDescription: string;
       }
     | undefined;
+  duplicateSource?: {
+    productId: number;
+  } | null;
 }
 
 // Live SERP preview. Products resolve at the root (`/<url_key>` — see
@@ -46,7 +49,12 @@ function SnippetPreview({ name }: { name?: string }) {
   );
 }
 
-export default function SEO({ product }: SEOProps) {
+export default function SEO({ product, duplicateSource }: SEOProps) {
+  // Duplicate mode: the url_key is unique — suffix the prefilled default.
+  const defaultUrlKey =
+    duplicateSource && product?.urlKey
+      ? `${product.urlKey}-copy`
+      : product?.urlKey;
   const fields = [
     {
       component: {
@@ -56,7 +64,7 @@ export default function SEO({ product }: SEOProps) {
             label={_('URL Key')}
             placeholder={_('Enter URL Key')}
             required
-            defaultValue={product?.urlKey}
+            defaultValue={defaultUrlKey}
             validation={{
               required: _('URL Key is required'),
               pattern: {
@@ -151,6 +159,9 @@ export const query = `
       metaTitle
       metaKeywords
       metaDescription
+    }
+    duplicateSource: product(id: getContextValue("duplicateSourceId", null)) {
+      productId
     }
   }
 `;

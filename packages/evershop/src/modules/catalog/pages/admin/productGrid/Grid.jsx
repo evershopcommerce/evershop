@@ -40,7 +40,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { ProductNameRow } from './rows/ProductName.js';
 
-function Actions({ products = [], selectedIds = [] }) {
+function Actions({ products = [], selectedIds = [], newProductUrl }) {
   const { openAlert, closeAlert } = useAlertContext();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -119,6 +119,18 @@ function Actions({ products = [], selectedIds = [] }) {
         });
       }
     },
+    // Duplicate opens the creation form prefilled from the selected product
+    // (review-before-save), so it only applies to a single selection.
+    ...(selectedIds.length === 1
+      ? [
+          {
+            name: _('Duplicate'),
+            onAction: () => {
+              window.location.href = `${newProductUrl}?duplicate=${selectedIds[0]}`;
+            }
+          }
+        ]
+      : []),
     {
       name: _('Delete'),
       onAction: () => {
@@ -178,11 +190,13 @@ Actions.propTypes = {
       updateApi: PropTypes.string.isRequired,
       deleteApi: PropTypes.string.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  newProductUrl: PropTypes.string.isRequired
 };
 
 export default function ProductGrid({
-  products: { items: products, total, currentFilters = [] }
+  products: { items: products, total, currentFilters = [] },
+  newProductUrl
 }) {
   const page = currentFilters.find((filter) => filter.key === 'page')
     ? parseInt(currentFilters.find((filter) => filter.key === 'page').value, 10)
@@ -405,6 +419,7 @@ export default function ProductGrid({
               products={products}
               selectedIds={selectedRows}
               setSelectedRows={setSelectedRows}
+              newProductUrl={newProductUrl}
             />
             {products.map((p) => (
               <TableRow key={p.uuid}>
@@ -530,7 +545,8 @@ ProductGrid.propTypes = {
         value: PropTypes.string
       })
     )
-  }).isRequired
+  }).isRequired,
+  newProductUrl: PropTypes.string.isRequired
 };
 
 export const layout = {

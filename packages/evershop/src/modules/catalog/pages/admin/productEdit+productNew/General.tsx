@@ -146,7 +146,10 @@ const CategorySelect: React.FC<{
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const onSelect = (categoryId) => {
     setCategory({ categoryId });
-    setValue('category_id', categoryId || '');
+    setValue('category_id', categoryId || '', {
+      shouldDirty: true,
+      shouldTouch: true
+    });
     setDialogOpen(false);
   };
 
@@ -163,7 +166,10 @@ const CategorySelect: React.FC<{
               }}
               onUnassign={() => {
                 setCategory(null);
-                setValue('category_id', '');
+                setValue('category_id', '', {
+                  shouldDirty: true,
+                  shouldTouch: true
+                });
               }}
             />
           </div>
@@ -237,12 +243,25 @@ interface GeneralProps {
       text: string;
     }>;
   };
+  duplicateSource?: {
+    productId: number;
+  } | null;
 }
 export default function General({
   product,
   setting,
-  productTaxClasses: { items: taxClasses }
+  productTaxClasses: { items: taxClasses },
+  duplicateSource
 }: GeneralProps) {
+  // Duplicate mode (productNew?duplicate=<uuid>): the form is prefilled from
+  // the source product, but the SKU must be unique and an identical name is
+  // ambiguous in the grid — suffix both defaults.
+  const defaultName =
+    duplicateSource && product?.name ? `${product.name} (copy)` : product?.name;
+  const defaultSku =
+    duplicateSource && product?.sku
+      ? `${product.sku}-copy`
+      : product?.sku || '';
   return (
     <Card>
       <CardHeader>
@@ -263,7 +282,7 @@ export default function General({
                     name="name"
                     placeholder={_('Enter product name')}
                     label={_('Product Name')}
-                    defaultValue={product?.name}
+                    defaultValue={defaultName}
                     required
                     helperText={_('Product name is required')}
                   />
@@ -276,7 +295,7 @@ export default function General({
               component: {
                 default: (
                   <SKUAndPrice
-                    sku={product?.sku || ''}
+                    sku={defaultSku}
                     price={
                       product?.price.regular || {
                         value: undefined
@@ -365,6 +384,9 @@ export const query = `
           name
         }
       }
+    }
+    duplicateSource: product(id: getContextValue("duplicateSourceId", null)) {
+      productId
     }
     setting {
       weightUnit
