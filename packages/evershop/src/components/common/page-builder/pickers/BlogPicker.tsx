@@ -1,4 +1,7 @@
-import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
+import {
+  EntitySearchList,
+  SearchListItem
+} from '@components/common/page-builder/pickers/EntitySearchList.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
@@ -62,13 +65,23 @@ export interface BlogPickerProps {
   selectedUuid?: string | null;
   onPick: (next: { uuid: string; name: string }) => void;
   limit?: number;
+  /**
+   * Rows pinned above the search results — e.g. a "Blog Home" shortcut in the
+   * category picker. Hidden while a search is active so results stay clean and
+   * the empty-state hint can still show. Selecting one calls `onPinnedSelect`
+   * with its id instead of the normal `onPick`.
+   */
+  pinnedItems?: SearchListItem[];
+  onPinnedSelect?: (id: string) => void;
 }
 
 export function BlogPicker({
   kind,
   selectedUuid,
   onPick,
-  limit = 10
+  limit = 10,
+  pinnedItems,
+  onPinnedSelect
 }: BlogPickerProps) {
   const cfg = CONFIG[kind];
   const [search, setSearch] = useState('');
@@ -87,7 +100,7 @@ export function BlogPicker({
     : [{ key: 'limit', operation: 'eq', value: String(limit) }];
 
   const [result] = useQuery({ query: cfg.query, variables: { filters } });
-  const items = (result.data?.[cfg.field]?.items ?? []).map(
+  const fetched: SearchListItem[] = (result.data?.[cfg.field]?.items ?? []).map(
     (e: {
       uuid: string;
       name: string;
@@ -100,6 +113,13 @@ export function BlogPicker({
       thumbnailUrl: e.thumbnail ?? null
     })
   );
+  const pinnedIds = new Set((pinnedItems ?? []).map((p) => p.id));
+  // Pinned shortcuts only show when no search is active, so a real search
+  // returns a clean list and the empty-state hint still works.
+  const items =
+    !debounced && pinnedItems && pinnedItems.length > 0
+      ? [...pinnedItems, ...fetched]
+      : fetched;
 
   return (
     <EntitySearchList
@@ -108,7 +128,12 @@ export function BlogPicker({
       search={search}
       onSearchChange={setSearch}
       loading={result.fetching}
-      onSelect={(id, item) => onPick({ uuid: id, name: item.primary })}
+      rawThumbnails
+      onSelect={(id, item) =>
+        pinnedIds.has(id)
+          ? onPinnedSelect?.(id)
+          : onPick({ uuid: id, name: item.primary })
+      }
       caption={_('Pick a blog ${kind} to link to.', { kind })}
       emptyHint={
         debounced

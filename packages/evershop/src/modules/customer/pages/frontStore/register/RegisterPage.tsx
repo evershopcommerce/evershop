@@ -10,7 +10,7 @@ interface RegisterPageProps {
 }
 export default function RegisterPage({ homeUrl, loginUrl }: RegisterPageProps) {
   return (
-    <div className="flex flex-col items-center py-10 px-4">
+    <div className="register__form flex flex-col items-center py-10 md:px-4">
       <div className="w-full max-w-md">
         <Card>
           <CardContent>

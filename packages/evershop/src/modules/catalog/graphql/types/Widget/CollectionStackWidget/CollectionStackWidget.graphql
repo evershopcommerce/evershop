@@ -25,7 +25,7 @@ use sparingly.
 type CollectionStackWidget {
   rows: [CollectionStackRow!]!
   productCount: Int!
-  showPrice: Boolean!
+  countPerRow: Int!
   divider: Boolean!
 }
 
@@ -33,7 +33,7 @@ extend type Query {
   collectionStackWidget(
     collections: JSON
     productCount: Int
-    showPrice: Boolean
+    countPerRow: Int
     divider: Boolean
   ): CollectionStackWidget
 }

@@ -1,4 +1,5 @@
 import Spinner from '@components/admin/Spinner.js';
+import { Segmented } from '@components/common/page-builder/index.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
 import { useScopedFormContext } from '@components/common/page-builder/WidgetSettingsScope.js';
 import {
@@ -134,6 +135,13 @@ function CollectionProductsSetting({
     (watch('settings.viewAllLink') as string) ?? viewAllLink ?? '';
   const viewAllLabelV =
     (watch('settings.viewAllLabel') as string) ?? viewAllLabel ?? '';
+  const countPerRowV =
+    ((watch('settings.countPerRow') as number) ?? countPerRow ?? 4) as
+      | 2
+      | 3
+      | 4
+      | 5
+      | 6;
 
   const [result, reexecuteQuery] = useQuery({
     query: SearchQuery,
@@ -375,18 +383,19 @@ function CollectionProductsSetting({
             className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </Field>
-        <Field label={_('Products per row')} hint={_('Grid columns (1–6 typical).')}>
-          <input
-            type="number"
-            min={1}
-            {...register('settings.countPerRow', {
-              required: _('Count per row is required'),
-              min: 1,
-              valueAsNumber: true
-            })}
-            defaultValue={countPerRow ?? ''}
-            placeholder={_('e.g. 4')}
-            className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+        <Field label={_('Products per row')} hint={_('Grid columns.')}>
+          <Segmented<2 | 3 | 4 | 5 | 6>
+            value={countPerRowV}
+            options={[
+              { value: 2, label: '2' },
+              { value: 3, label: '3' },
+              { value: 4, label: '4' },
+              { value: 5, label: '5' },
+              { value: 6, label: '6' }
+            ]}
+            onChange={(v) =>
+              setValue('settings.countPerRow', v, { shouldDirty: true })
+            }
           />
         </Field>
       </Section>

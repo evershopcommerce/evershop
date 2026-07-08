@@ -192,7 +192,7 @@ export default () => {
       properties: {
         collection: { type: ['string', 'null'] },
         count: { type: 'integer', minimum: 1, maximum: 48 },
-        countPerRow: { type: 'integer', enum: [1, 2, 3, 4, 6] },
+        countPerRow: { type: 'integer', enum: [1, 2, 3, 4, 5, 6] },
         heading: { type: ['string', 'null'] },
         subText: { type: ['string', 'null'] },
         viewAllLink: { type: ['string', 'null'] },
@@ -237,7 +237,7 @@ export default () => {
     defaultSettings: {
       collections: [],
       productCount: 4,
-      showPrice: true,
+      countPerRow: 4,
       divider: true
     },
     enabled: true,
@@ -246,8 +246,8 @@ export default () => {
       additionalProperties: true,
       properties: {
         collections: { type: 'array', items: { type: 'object' } },
-        productCount: { type: 'integer', enum: [2, 3, 4] },
-        showPrice: { type: ['boolean', 'null'] },
+        productCount: { type: 'integer', minimum: 1, maximum: 12 },
+        countPerRow: { type: 'integer', enum: [2, 3, 4, 5, 6] },
         divider: { type: ['boolean', 'null'] }
       }
     },
@@ -256,7 +256,7 @@ export default () => {
         type CollectionStackSettings {
           collections: JSON
           productCount: Int
-          showPrice: Boolean
+          countPerRow: Int
           divider: Boolean
         }
       `,

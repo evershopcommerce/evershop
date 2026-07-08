@@ -15,7 +15,7 @@ export default function ProductView({ product }: ProductData) {
     <ProductProvider product={product}>
       <div className="product__detail">
         <Area id="productPageTop" className="product__page__top" />
-        <div className="product__page__middle page-width">
+        <div className="product__page__middle">
           <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
             <Area
               id="productPageMiddleLeft"

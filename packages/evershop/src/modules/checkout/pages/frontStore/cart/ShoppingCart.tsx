@@ -24,7 +24,7 @@ interface ShoppingCartProps {
 export default function ShoppingCart({ checkoutUrl }: ShoppingCartProps) {
   const { data: cart } = useCartState();
   return (
-    <div className="cart page-width">
+    <div className="cart">
       {cart.items.length > 0 ? (
         <>
           <Title title={_('Shopping Cart')} />

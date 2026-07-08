@@ -20,7 +20,7 @@ export default function CategoryView({ category }: CategoryViewProps) {
     <CategoryProvider category={category}>
       <Area id="categoryPageTop" className="category__page__top" />
       <CategoryInfo />
-      <div className="page-width grid grid-cols-1 md:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
         <Area
           id="categoryLeftColumn"
           className="md:col-span-1"

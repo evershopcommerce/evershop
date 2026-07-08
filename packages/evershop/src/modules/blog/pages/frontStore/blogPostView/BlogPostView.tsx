@@ -38,7 +38,7 @@ export default function BlogPostView({ post }: BlogPostViewData) {
     return null;
   }
   return (
-    <div className="blog-post-single page-width">
+    <div className="blog-post-single">
       <article className="max-w-3xl mx-auto py-8">
         {post.category && (
           <a

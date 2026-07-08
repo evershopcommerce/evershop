@@ -26,15 +26,22 @@ export interface CollectionStackProps {
   collectionStackWidget: {
     rows: CollectionStackRow[];
     productCount: number;
-    showPrice: boolean;
+    countPerRow: number;
     divider: boolean;
   };
 }
 
 // Page-builder-only placeholder. Mirrors a single collection row with a
 // heading + view-all + N product card outlines so the merchant can see
-// the row shape before picking a collection.
-function PlaceholderRow({ productCount }: { productCount: number }) {
+// the row shape before picking a collection. `count` outlines laid out in
+// `columns` columns — matching the storefront grid.
+function PlaceholderRow({
+  count,
+  columns
+}: {
+  count: number;
+  columns: number;
+}) {
   return (
     <div className="evershop-collection-stack__row evershop-collection-stack__row--placeholder">
       <div className="evershop-collection-stack__row-header mb-4 flex items-baseline justify-between gap-3">
@@ -47,10 +54,10 @@ function PlaceholderRow({ productCount }: { productCount: number }) {
       <div
         className="evershop-collection-stack__items grid gap-4"
         style={{
-          gridTemplateColumns: `repeat(${productCount}, minmax(0, 1fr))`
+          gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`
         }}
       >
-        {Array.from({ length: productCount }, (_, i) => (
+        {Array.from({ length: count }, (_, i) => (
           <div key={i} className="evershop-collection-stack__item space-y-2">
             <div className="aspect-square rounded-md border-2 border-dashed border-foreground/15 bg-muted/30" />
             <div className="h-3 w-3/4 rounded-sm bg-muted-foreground/30" />
@@ -65,7 +72,12 @@ function PlaceholderRow({ productCount }: { productCount: number }) {
 export default function CollectionStack({
   collectionStackWidget
 }: CollectionStackProps) {
-  const { rows = [], productCount, showPrice, divider } = collectionStackWidget;
+  const {
+    rows = [],
+    productCount,
+    countPerRow,
+    divider
+  } = collectionStackWidget;
   const [inPb, setInPb] = useState(false);
   useEffect(() => {
     setInPb(isPageBuilderActive());
@@ -74,7 +86,10 @@ export default function CollectionStack({
     if (inPb) {
       return (
         <div className="evershop-collection-stack space-y-10 py-6 md:py-10">
-          <PlaceholderRow productCount={productCount || 4} />
+          <PlaceholderRow
+            count={productCount || 4}
+            columns={countPerRow || 4}
+          />
         </div>
       );
     }
@@ -119,10 +134,9 @@ export default function CollectionStack({
           )}
           <ProductList
             products={row.products}
-            gridColumns={productCount}
+            gridColumns={countPerRow}
             layout="grid"
             showAddToCart={false}
-            customAddToCartRenderer={showPrice ? undefined : () => null}
           />
           {divider && i < rows.length - 1 && (
             <hr className="evershop-collection-stack__divider mt-10 border-divider" />
@@ -137,13 +151,13 @@ export const query = `
   query Query(
     $collections: JSON
     $productCount: Int
-    $showPrice: Boolean
+    $countPerRow: Int
     $divider: Boolean
   ) {
     collectionStackWidget(
       collections: $collections
       productCount: $productCount
-      showPrice: $showPrice
+      countPerRow: $countPerRow
       divider: $divider
     ) {
       rows {
@@ -158,7 +172,7 @@ export const query = `
         }
       }
       productCount
-      showPrice
+      countPerRow
       divider
     }
   }
@@ -193,6 +207,6 @@ export const fragments = `
 export const variables = `{
   collections: getWidgetSetting("collections", []),
   productCount: getWidgetSetting("productCount", 4),
-  showPrice: getWidgetSetting("showPrice", true),
+  countPerRow: getWidgetSetting("countPerRow", 4),
   divider: getWidgetSetting("divider", true)
 }`;

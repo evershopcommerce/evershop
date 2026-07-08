@@ -34,6 +34,13 @@ export interface EntitySearchListProps {
   emptyHint?: string;
   /** Optional caption rendered above the search box. */
   caption?: string;
+  /**
+   * Render thumbnails with a plain img element instead of the resizing Image
+   * component. Use when `thumbnailUrl` can be an arbitrary external URL (e.g.
+   * blog thumbnails) that the `/images` resizer can't reliably fetch —
+   * matching how those thumbnails render everywhere else in the app.
+   */
+  rawThumbnails?: boolean;
 }
 
 export function EntitySearchList({
@@ -44,7 +51,8 @@ export function EntitySearchList({
   onSearchChange,
   loading,
   emptyHint = 'No matches.',
-  caption
+  caption,
+  rawThumbnails = false
 }: EntitySearchListProps) {
   return (
     <div className="space-y-2">
@@ -86,18 +94,25 @@ export function EntitySearchList({
                       : 'border-divider hover:bg-muted/40'
                   }`}
                 >
-                  {it.thumbnailUrl && (
-                    <Image
-                      src={it.thumbnailUrl}
-                      alt=""
-                      width={56}
-                      height={56}
-                      objectFit="cover"
-                      sizes="28px"
-                      className="h-7 w-7 shrink-0 rounded"
-                      style={{ aspectRatio: 'auto' }}
-                    />
-                  )}
+                  {it.thumbnailUrl &&
+                    (rawThumbnails ? (
+                      <img
+                        src={it.thumbnailUrl}
+                        alt=""
+                        className="h-7 w-7 shrink-0 rounded object-cover"
+                      />
+                    ) : (
+                      <Image
+                        src={it.thumbnailUrl}
+                        alt=""
+                        width={56}
+                        height={56}
+                        objectFit="cover"
+                        sizes="28px"
+                        className="h-7 w-7 shrink-0 rounded"
+                        style={{ aspectRatio: 'auto' }}
+                      />
+                    ))}
                   <div className="min-w-0 flex-1">
                     <div
                       className={`truncate ${active ? 'font-medium' : ''}`}

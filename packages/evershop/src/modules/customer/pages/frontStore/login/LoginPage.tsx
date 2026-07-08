@@ -16,7 +16,7 @@ export default function LoginPage({
   forgotPasswordUrl
 }: LoginPageProps) {
   return (
-    <div className="login__page flex flex-col items-center py-10 px-4">
+    <div className="login__page flex flex-col items-center py-10 md:px-4">
       <div className="w-full max-w-md">
         <Card>
           <CardContent>

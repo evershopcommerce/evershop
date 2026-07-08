@@ -17,7 +17,7 @@ export default function BlogHome({
 }) {
   const items = blogPosts?.items || [];
   return (
-    <div className="blog-home page-width py-8">
+    <div className="blog-home py-8">
       <h1 className="text-3xl font-bold mb-6">{_('Blog')}</h1>
       {items.length === 0 ? (
         <p className="text-gray-500">{_('No posts published yet.')}</p>

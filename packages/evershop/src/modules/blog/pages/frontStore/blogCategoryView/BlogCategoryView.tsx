@@ -24,7 +24,7 @@ export default function BlogCategoryView({
   }
   const items = category.posts?.items || [];
   return (
-    <div className="blog-category page-width py-8">
+    <div className="blog-category py-8">
       <h1 className="text-3xl font-bold mb-2">{category.name}</h1>
       {category.shortDescription && (
         <p className="text-gray-600 mb-6">{category.shortDescription}</p>

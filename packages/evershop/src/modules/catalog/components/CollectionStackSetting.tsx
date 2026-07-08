@@ -28,7 +28,7 @@ interface CollectionStackSettingProps {
   collectionStackWidget?: {
     collections?: CollectionRow[];
     productCount?: number;
-    showPrice?: boolean;
+    countPerRow?: number;
     divider?: boolean;
   };
 }
@@ -53,7 +53,7 @@ export default function CollectionStackSetting({
   const {
     collections: initialCollections = [],
     productCount,
-    showPrice,
+    countPerRow,
     divider
   } = collectionStackWidget ?? {};
 
@@ -64,12 +64,14 @@ export default function CollectionStackSetting({
     initialCollections
   );
   const productCountV =
-    ((watch('settings.productCount') as number) ?? productCount ?? 4) as
+    (watch('settings.productCount') as number) ?? productCount ?? 4;
+  const countPerRowV =
+    ((watch('settings.countPerRow') as number) ?? countPerRow ?? 4) as
       | 2
       | 3
-      | 4;
-  const showPriceV =
-    (watch('settings.showPrice') as boolean | null) ?? showPrice ?? true;
+      | 4
+      | 5
+      | 6;
   const dividerV =
     (watch('settings.divider') as boolean | null) ?? divider ?? true;
 
@@ -190,26 +192,42 @@ export default function CollectionStackSetting({
       </Section>
 
       <Section title={_('Layout')}>
-        <Field label={_('Products per row')}>
-          <Segmented<2 | 3 | 4>
+        <Field
+          label={_('Product count')}
+          hint={_('Total products to show per collection.')}
+        >
+          <input
+            type="number"
+            min={1}
+            max={12}
             value={productCountV}
+            onChange={(e) => {
+              const n = Math.round(Number(e.target.value));
+              // Clamp to the widget schema's 1–12 range so an emptied or
+              // out-of-range field can never fail AJV validation on save.
+              const safe = Number.isFinite(n)
+                ? Math.min(12, Math.max(1, n))
+                : 4;
+              setValue('settings.productCount', safe, { shouldDirty: true });
+            }}
+            className={drawerInputClass}
+          />
+        </Field>
+        <Field label={_('Products per row')}>
+          <Segmented<2 | 3 | 4 | 5 | 6>
+            value={countPerRowV}
             options={[
               { value: 2, label: '2' },
               { value: 3, label: '3' },
-              { value: 4, label: '4' }
+              { value: 4, label: '4' },
+              { value: 5, label: '5' },
+              { value: 6, label: '6' }
             ]}
             onChange={(v) =>
-              setValue('settings.productCount', v, { shouldDirty: true })
+              setValue('settings.countPerRow', v, { shouldDirty: true })
             }
           />
         </Field>
-        <Toggle
-          label={_('Show price')}
-          checked={showPriceV}
-          onChange={(v) =>
-            setValue('settings.showPrice', v, { shouldDirty: true })
-          }
-        />
         <Toggle
           label={_('Show divider between rows')}
           checked={dividerV}
@@ -232,13 +250,13 @@ export const query = `
   query Query(
     $collections: JSON
     $productCount: Int
-    $showPrice: Boolean
+    $countPerRow: Int
     $divider: Boolean
   ) {
     collectionStackWidget(
       collections: $collections
       productCount: $productCount
-      showPrice: $showPrice
+      countPerRow: $countPerRow
       divider: $divider
     ) {
       rows {
@@ -250,7 +268,7 @@ export const query = `
         viewAllLabel
       }
       productCount
-      showPrice
+      countPerRow
       divider
     }
   }
@@ -259,6 +277,6 @@ export const query = `
 export const variables = `{
   collections: getWidgetSetting("collections", []),
   productCount: getWidgetSetting("productCount", 4),
-  showPrice: getWidgetSetting("showPrice", true),
+  countPerRow: getWidgetSetting("countPerRow", 4),
   divider: getWidgetSetting("divider", true)
 }`;
