@@ -14,12 +14,12 @@ import {
   DialogTitle
 } from '@components/common/ui/Dialog.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import { Code, Cog, Pencil, Plus, Tags } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFormContext, useFormState } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { DefinitionEditor } from './DefinitionEditor.js';
 import {
   MetafieldValueInput,

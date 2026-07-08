@@ -18,9 +18,9 @@ import {
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
 import { Input } from '@components/common/ui/Input.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 
 const ProductsQuery = `

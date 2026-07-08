@@ -2,11 +2,11 @@ import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
 import { Badge } from '@components/common/ui/Badge.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { TableCell } from '@components/common/ui/Table.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 interface GroupRowProps {
   groups: Array<{

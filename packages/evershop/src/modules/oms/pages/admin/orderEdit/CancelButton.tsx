@@ -11,10 +11,10 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 interface CancelButtonProps {
   order: {

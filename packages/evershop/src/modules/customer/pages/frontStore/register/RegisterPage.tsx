@@ -1,8 +1,8 @@
 import { Card, CardContent } from '@components/common/ui/Card.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { CustomerRegistrationForm } from '@components/frontStore/customer/RegistrationForm.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 interface RegisterPageProps {
   homeUrl: string;

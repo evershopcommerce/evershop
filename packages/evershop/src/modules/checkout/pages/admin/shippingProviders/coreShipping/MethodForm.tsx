@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle
 } from '@components/common/ui/Dialog.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   Table,
   TableBody,
@@ -21,7 +22,6 @@ import {
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { RatePanel } from './RatePanel.js';
 
 interface ZoneInfo {

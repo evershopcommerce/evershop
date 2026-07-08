@@ -5,10 +5,10 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import './Lifetimesales.scss';
 

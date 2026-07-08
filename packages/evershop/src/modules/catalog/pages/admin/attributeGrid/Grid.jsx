@@ -15,6 +15,7 @@ import {
   CardHeader
 } from '@components/common/ui/Card.js';
 import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   Table,
   TableHead,
@@ -27,7 +28,6 @@ import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
 import { AttributeNameRow } from './rows/AttributeName.js';
 import { GroupRow } from './rows/GroupRow.js';
 

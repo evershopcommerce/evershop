@@ -9,13 +9,13 @@ import {
   AccordionTrigger
 } from '@components/common/ui/Accordion.js';
 import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { cn } from '@evershop/evershop/lib/util/cn';
 import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import Select, { StylesConfig } from 'react-select';
-import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 import type { ShippingZone } from './Zone.js';
 

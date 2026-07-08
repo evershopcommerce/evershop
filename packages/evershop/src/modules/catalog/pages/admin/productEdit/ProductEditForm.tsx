@@ -2,10 +2,10 @@ import Area from '@components/common/Area.js';
 import { Form, useFormContext } from '@components/common/form/Form.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
 import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 /**
  * Fired by components living OUTSIDE the form provider (the heading's

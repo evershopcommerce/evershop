@@ -1,11 +1,11 @@
 import { Button } from '@components/common/ui/Button.js';
 import { ConfirmDialog } from '@components/common/ui/ConfirmDialog.js';
 import { Label } from '@components/common/ui/Label.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import { Check, Clock, Edit2, ExternalLink, X } from 'lucide-react';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { hasTrackingCapability } from './carrierCaps.js';
 import { PhaseBadge } from './phaseBadge.js';
 

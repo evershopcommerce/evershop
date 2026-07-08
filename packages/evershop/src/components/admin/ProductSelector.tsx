@@ -1,10 +1,10 @@
 import { SimplePagination } from '@components/common/SimplePagination.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Input } from '@components/common/ui/Input.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Check } from 'lucide-react';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 import { AtLeastOne } from '../../types/atLeastOne.js';
 import { ProductListSkeleton } from './ProductListSkeleton.js';

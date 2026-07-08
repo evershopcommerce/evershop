@@ -1,11 +1,11 @@
 import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
-import { toast } from 'react-toastify';
 
 interface CashOnDeliveryMethodProps {
   setting: {

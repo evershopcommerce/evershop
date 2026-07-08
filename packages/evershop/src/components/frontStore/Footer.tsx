@@ -1,5 +1,4 @@
 import Area from '@components/common/Area.js';
-import { Toaster } from '@components/common/ui/Sonner.js';
 import React from 'react';
 
 interface FooterProps {
@@ -142,7 +141,6 @@ export function Footer({ copyRight }: FooterProps) {
           }
         ]}
       />
-      <Toaster />
     </footer>
   );
 }

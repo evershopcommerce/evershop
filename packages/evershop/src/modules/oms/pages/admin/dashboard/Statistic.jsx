@@ -6,9 +6,9 @@ import {
   CardTitle,
   CardContent
 } from '@components/common/ui/Card.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import {
   Area,
   AreaChart,

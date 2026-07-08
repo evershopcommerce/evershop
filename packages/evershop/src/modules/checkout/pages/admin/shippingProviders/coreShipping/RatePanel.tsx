@@ -5,11 +5,11 @@ import { SelectField } from '@components/common/form/SelectField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
 import { Button } from '@components/common/ui/Button.js';
 import { ConfirmDialog } from '@components/common/ui/ConfirmDialog.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { PriceBasedPrice } from '../../shippingSetting/shippingSetting/PriceBasedPrice.js';
 import { WeightBasedPrice } from '../../shippingSetting/shippingSetting/WeightBasedPrice.js';
 

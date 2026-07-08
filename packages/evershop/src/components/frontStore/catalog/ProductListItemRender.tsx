@@ -1,11 +1,11 @@
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { AddToCart } from '@components/frontStore/cart/AddToCart.js';
 import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { ReactNode } from 'react';
-import { toast } from 'react-toastify';
 
 export const ProductListItemRender = ({
   product,
