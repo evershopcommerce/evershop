@@ -154,10 +154,11 @@ export function Form<T extends FieldValues = FieldValues>({
           <div className="mt-4">
             <Button
               title={submitBtnText}
+              // `type="submit"` submits through the form's own `onSubmit`
+              // (which runs `handleSubmit`) and also covers Enter-to-submit. An
+              // extra onClick calling handleSubmit here would fire the pipeline
+              // a second time — two validate+POST passes per click.
               type="submit"
-              onClick={() => {
-                handleSubmit(handleFormSubmit, onValidationError)();
-              }}
               isLoading={isSubmitting || loading}
             >
               {submitBtnText}
