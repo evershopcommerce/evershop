@@ -2,6 +2,7 @@ import { InputField } from '@components/common/form/InputField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import {
   asArray,
+  Segmented,
   useArraySetting
 } from '@components/common/page-builder/index.js';
 import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
@@ -37,8 +38,14 @@ export default function FeaturedBlogsSetting({
   featuredBlogsWidget?: any;
 }) {
   const settings = featuredBlogsWidget ?? {};
-  const { setValue, getValues } = useScopedFormContext();
+  const { setValue, getValues, watch } = useScopedFormContext();
   const selected = useArraySetting<string>('settings.postUuids', []);
+  const columnsV =
+    ((watch('settings.columns') as number) ?? settings.columns ?? 3) as
+      | 1
+      | 2
+      | 3
+      | 4;
 
   const [search, setSearch] = useState('');
   const [debounced, setDebounced] = useState('');
@@ -129,16 +136,26 @@ export default function FeaturedBlogsSetting({
         label={_('Sub text')}
         defaultValue={settings.subText ?? ''}
       />
-      <div className="grid grid-cols-2 gap-3">
-        <NumberField
-          name="settings.count"
-          label={_('Max posts')}
-          defaultValue={settings.count ?? 3}
-        />
-        <NumberField
-          name="settings.columns"
-          label={_('Columns (1-4)')}
-          defaultValue={settings.columns ?? 3}
+      <NumberField
+        name="settings.count"
+        label={_('Max posts')}
+        defaultValue={settings.count ?? 3}
+      />
+      <div className="space-y-1.5">
+        <div className="text-[11px] font-semibold tracking-wide text-foreground/80">
+          {_('Columns')}
+        </div>
+        <Segmented<1 | 2 | 3 | 4>
+          value={columnsV}
+          options={[
+            { value: 1, label: '1' },
+            { value: 2, label: '2' },
+            { value: 3, label: '3' },
+            { value: 4, label: '4' }
+          ]}
+          onChange={(v) =>
+            setValue('settings.columns', v, { shouldDirty: true })
+          }
         />
       </div>
 

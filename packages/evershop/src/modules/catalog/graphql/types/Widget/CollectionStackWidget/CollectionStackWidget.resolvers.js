@@ -18,12 +18,14 @@ export default {
   Query: {
     collectionStackWidget: async (
       _,
-      { collections, productCount, showPrice, divider },
+      { collections, productCount, countPerRow, divider },
       { pool, user, linkLoaders }
     ) => {
       const pcNum = Math.round(Number(productCount));
       const safeProductCount =
-        Number.isFinite(pcNum) && pcNum >= 2 && pcNum <= 4 ? pcNum : 4;
+        Number.isFinite(pcNum) && pcNum >= 1 && pcNum <= 12 ? pcNum : 4;
+      const cprNum = Math.round(Number(countPerRow));
+      const safeCountPerRow = [2, 3, 4, 5, 6].includes(cprNum) ? cprNum : 4;
       const rawCollections = Array.isArray(collections) ? collections : [];
 
       const rows = await Promise.all(
@@ -67,7 +69,7 @@ export default {
       return {
         rows: rows.filter(Boolean),
         productCount: safeProductCount,
-        showPrice: showPrice !== undefined ? Boolean(showPrice) : true,
+        countPerRow: safeCountPerRow,
         divider: divider !== undefined ? Boolean(divider) : true
       };
     }
