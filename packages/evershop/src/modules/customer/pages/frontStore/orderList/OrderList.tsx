@@ -16,7 +16,7 @@ export default function OrderList() {
   const orders = customer?.orders ?? [];
 
   return (
-    <div className="page-width mt-7">
+    <div className="mt-7">
       <h1 className="text-2xl mb-4">{_('Your Orders')}</h1>
       {orders.length === 0 ? (
         <div className="text-muted-foreground italic">

@@ -19,8 +19,8 @@ import React, { useEffect, useState } from 'react';
  *
  * Knobs:
  *   - `width: 'wide' | 'boxed'` — `wide` breaks out edge-to-edge via the
- *     100vw + negative-margin trick; `boxed` stays inside whatever the
- *     theme wraps it in. The theme owns the boxed max-width.
+ *     100vw + negative-margin trick; `boxed` caps at the theme's 1200px
+ *     page width and centers (so it's boxed even in a full-bleed area).
  *   - `padding: 'none' | 'sm' | 'md' | 'lg' | 'xl'` — responsive vertical +
  *     horizontal pads, same scale as the Columns widget.
  *   - `background` — CSS color applied to the entire section.
@@ -58,12 +58,21 @@ const PADDING_CLASS: Record<SectionPadding, string> = {
 
 // "Wide" breaks out edge-to-edge regardless of whatever container the
 // theme wraps the page in. The 100vw + negative-margin trick is widely
-// understood and works in every modern browser. We don't apply this to
-// `boxed` — those sections stay inside their natural parent so the theme
-// owns the max-width.
+// understood and works in every modern browser.
+//
+// "Boxed" caps itself at the same 1200px reading width as the theme's
+// `.page-width` container and centers, so it stays visibly boxed even when
+// dropped into a full-bleed area that isn't already `.page-width`. When it IS
+// nested in a `.page-width` parent (the usual case), the max-width is a no-op
+// and it just fills the parent as before. We mirror page-width's max-width
+// here rather than applying the `.page-width` class itself — that class also
+// re-adds horizontal padding, which would double-pad and misalign a section
+// already inside the page-width content area (see FeaturedBlogs.tsx). Keep
+// this value in sync with `.page-width` in global.scss. Horizontal spacing
+// stays owned by the section's own `padding` knob.
 const WIDTH_CLASS: Record<SectionWidth, string> = {
   wide: 'relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen',
-  boxed: 'relative w-full'
+  boxed: 'relative w-full max-w-[1200px] mx-auto'
 };
 
 export default function Section({

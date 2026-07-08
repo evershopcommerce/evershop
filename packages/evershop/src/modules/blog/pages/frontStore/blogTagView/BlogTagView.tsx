@@ -23,7 +23,7 @@ export default function BlogTagView({
   }
   const items = tag.posts?.items || [];
   return (
-    <div className="blog-tag page-width py-8">
+    <div className="blog-tag py-8">
       <p className="text-sm uppercase tracking-wide text-gray-500 mb-1">
         {_('Tag')}
       </p>

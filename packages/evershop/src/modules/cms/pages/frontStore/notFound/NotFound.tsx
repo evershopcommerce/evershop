@@ -38,7 +38,7 @@ interface NotFoundProps {
 }
 export default function NotFound({ continueShoppingUrl }: NotFoundProps) {
   return (
-    <div className="page-width mt-6">
+    <div className="mt-6">
       <div className="pt-4">
         <Area
           id="notfound-page"

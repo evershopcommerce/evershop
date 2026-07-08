@@ -12,7 +12,7 @@ interface CmsPageViewProps {
 }
 export default function CmsPageView({ page }: CmsPageViewProps) {
   return (
-    <div className="page-width">
+    <div>
       <div className="prose prose-base max-w-none">
         <h1 className="cms__page__heading text-center text-3xl">{page.name}</h1>
         <Editor rows={page.content} />

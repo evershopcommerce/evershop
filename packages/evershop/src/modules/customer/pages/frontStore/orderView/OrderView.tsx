@@ -52,9 +52,7 @@ function whenShipped(shipment: Shipment): string {
   // Direct pending → delivered transitions leave `shippedAt` NULL; fall back
   // to deliveredAt, then to createdAt, per the wiki guidance for templates
   // that need a "when did it ship" line.
-  return (
-    shipment.shippedAt ?? shipment.deliveredAt ?? shipment.createdAt ?? ''
-  );
+  return shipment.shippedAt ?? shipment.deliveredAt ?? shipment.createdAt ?? '';
 }
 
 /**
@@ -70,17 +68,19 @@ function whenShipped(shipment: Shipment): string {
 export default function OrderView({ order }: OrderViewProps) {
   if (!order) {
     return (
-      <div className="page-width mt-7">
+      <div className="mt-7">
         <h1 className="text-2xl mb-4">{_('Order not found')}</h1>
         <p className="text-muted-foreground">
-          {_('We could not find this order. It may have been removed, or it may belong to a different account.')}
+          {_(
+            'We could not find this order. It may have been removed, or it may belong to a different account.'
+          )}
         </p>
       </div>
     );
   }
 
   return (
-    <div className="page-width mt-7 space-y-5">
+    <div className="mt-7 space-y-5">
       <div>
         <a
           href="/account/orders"
@@ -112,9 +112,12 @@ export default function OrderView({ order }: OrderViewProps) {
         </div>
       </header>
 
-      {(order.shippingMethodName || order.shippingMethodData?.snapshot?.name) && (
+      {(order.shippingMethodName ||
+        order.shippingMethodData?.snapshot?.name) && (
         <section>
-          <div className="text-sm text-muted-foreground">{_('You paid for')}</div>
+          <div className="text-sm text-muted-foreground">
+            {_('You paid for')}
+          </div>
           <div className="font-semibold">
             {order.shippingMethodData?.snapshot?.name ??
               order.shippingMethodName}
@@ -176,19 +179,23 @@ export default function OrderView({ order }: OrderViewProps) {
 
                   {(shippedText || shipment.deliveredAt || trackHref) && (
                     <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                      {shipment.phase === 'delivered' && shipment.deliveredAt && (
-                        <span>
-                          {_('Delivered')} {new Date(shipment.deliveredAt).toLocaleString()}
-                        </span>
-                      )}
+                      {shipment.phase === 'delivered' &&
+                        shipment.deliveredAt && (
+                          <span>
+                            {_('Delivered')}{' '}
+                            {new Date(shipment.deliveredAt).toLocaleString()}
+                          </span>
+                        )}
                       {shipment.phase === 'shipped' && shippedText && (
                         <span>
-                          {_('Shipped')} {new Date(shippedText).toLocaleString()}
+                          {_('Shipped')}{' '}
+                          {new Date(shippedText).toLocaleString()}
                         </span>
                       )}
                       {shipment.phase === 'canceled' && shipment.canceledAt && (
                         <span>
-                          {_('Canceled')} {new Date(shipment.canceledAt).toLocaleString()}
+                          {_('Canceled')}{' '}
+                          {new Date(shipment.canceledAt).toLocaleString()}
                         </span>
                       )}
                       {trackHref && (
@@ -275,4 +282,3 @@ export const query = `
     }
   }
 `;
-

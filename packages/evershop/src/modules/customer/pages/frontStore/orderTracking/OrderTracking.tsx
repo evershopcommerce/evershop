@@ -43,9 +43,7 @@ interface OrderTrackingProps {
 }
 
 function whenShipped(shipment: Shipment): string {
-  return (
-    shipment.shippedAt ?? shipment.deliveredAt ?? shipment.createdAt ?? ''
-  );
+  return shipment.shippedAt ?? shipment.deliveredAt ?? shipment.createdAt ?? '';
 }
 
 /**
@@ -67,10 +65,14 @@ export default function OrderTracking({
         : _('This tracking link is no longer valid');
     const body =
       trackingTokenStatus === 'expired'
-        ? _('Tracking links are good for a limited time. Sign in to your account to see the current status of your order.')
-        : _('We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.');
+        ? _(
+            'Tracking links are good for a limited time. Sign in to your account to see the current status of your order.'
+          )
+        : _(
+            'We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.'
+          );
     return (
-      <div className="page-width mt-7 space-y-4 max-w-md">
+      <div className="mt-7 space-y-4 max-w-md">
         <h1 className="text-2xl font-semibold">{title}</h1>
         <p className="text-muted-foreground">{body}</p>
         <div>
@@ -86,7 +88,7 @@ export default function OrderTracking({
   }
 
   return (
-    <div className="page-width mt-7 space-y-5">
+    <div className="mt-7 space-y-5">
       <header className="border-b border-divider pb-3">
         <h1 className="text-2xl font-semibold">
           {_('Order')} #{order.orderNumber}
@@ -109,9 +111,12 @@ export default function OrderTracking({
         </div>
       </header>
 
-      {(order.shippingMethodName || order.shippingMethodData?.snapshot?.name) && (
+      {(order.shippingMethodName ||
+        order.shippingMethodData?.snapshot?.name) && (
         <section>
-          <div className="text-sm text-muted-foreground">{_('You paid for')}</div>
+          <div className="text-sm text-muted-foreground">
+            {_('You paid for')}
+          </div>
           <div className="font-semibold">
             {order.shippingMethodData?.snapshot?.name ??
               order.shippingMethodName}
@@ -173,12 +178,13 @@ export default function OrderTracking({
 
                   {(shippedText || shipment.deliveredAt || trackHref) && (
                     <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                      {shipment.phase === 'delivered' && shipment.deliveredAt && (
-                        <span>
-                          {_('Delivered')}{' '}
-                          {new Date(shipment.deliveredAt).toLocaleString()}
-                        </span>
-                      )}
+                      {shipment.phase === 'delivered' &&
+                        shipment.deliveredAt && (
+                          <span>
+                            {_('Delivered')}{' '}
+                            {new Date(shipment.deliveredAt).toLocaleString()}
+                          </span>
+                        )}
                       {shipment.phase === 'shipped' && shippedText && (
                         <span>
                           {_('Shipped')}{' '}
