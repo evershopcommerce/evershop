@@ -15,6 +15,7 @@ import {
   ItemDescription,
   ItemTitle
 } from '@components/common/ui/Item.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
@@ -27,7 +28,6 @@ import {
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { CircleUser } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 
 const LoggedIn: React.FC<{
   fullName: string;

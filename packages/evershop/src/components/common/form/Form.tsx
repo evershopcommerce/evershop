@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import {
@@ -9,7 +10,6 @@ import {
   SubmitHandler,
   UseFormReturn
 } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 interface FormProps<T extends FieldValues = FieldValues>
   extends Omit<

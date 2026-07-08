@@ -1,12 +1,5 @@
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import React from 'react';
-import { toast } from 'react-toastify';
-import uniqid from 'uniqid';
-import { useQuery } from 'urql';
-import { get } from '../../lib/util/get.js';
-import './ImageUploader.scss';
 import Spinner from '@components/admin/Spinner.js';
-import { ImageUploaderSkeleton } from './ImageUploaderSkeleton.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   DndContext,
   closestCenter,
@@ -23,6 +16,13 @@ import {
   useSortable
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import React from 'react';
+import uniqid from 'uniqid';
+import { useQuery } from 'urql';
+import { get } from '../../lib/util/get.js';
+import { ImageUploaderSkeleton } from './ImageUploaderSkeleton.js';
+import './ImageUploader.scss';
 
 export interface Image {
   uuid: string;

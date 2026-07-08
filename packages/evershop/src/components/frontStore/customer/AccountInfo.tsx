@@ -2,6 +2,7 @@ import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   useCustomer,
   useCustomerDispatch
@@ -9,7 +10,6 @@ import {
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Mail, Pencil, User } from 'lucide-react';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 interface AccountInfoProps {
   title?: string;

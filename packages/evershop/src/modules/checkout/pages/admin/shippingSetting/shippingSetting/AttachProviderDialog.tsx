@@ -5,12 +5,12 @@ import { SelectField } from '@components/common/form/SelectField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
 import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 import type { RegisterOptions } from 'react-hook-form';
 import { FormProvider, useForm, useFormContext } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 import type { ShippingZone } from './Zone.js';
 

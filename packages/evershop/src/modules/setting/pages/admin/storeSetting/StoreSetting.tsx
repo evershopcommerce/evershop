@@ -22,9 +22,9 @@ import {
 } from '@components/common/ui/Card.js';
 import { Item } from '@components/common/ui/Item.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
-import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 
 function ShopCustomFields({
@@ -379,7 +379,7 @@ export default function StoreSetting({
   // Form's default success toast, so we raise it here.
   const onSuccess = (result: { warnings?: string[] }) => {
     toast.success(_('Saved successfully!'));
-    (result?.warnings ?? []).forEach((message) => toast.warn(message));
+    (result?.warnings ?? []).forEach((message) => toast.warning(message));
   };
 
   return (

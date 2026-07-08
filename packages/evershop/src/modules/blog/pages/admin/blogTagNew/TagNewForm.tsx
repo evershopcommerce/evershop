@@ -1,9 +1,9 @@
 import { FormButtons } from '@components/admin/FormButtons.js';
 import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 interface BlogTagNewFormProps {
   action: string;

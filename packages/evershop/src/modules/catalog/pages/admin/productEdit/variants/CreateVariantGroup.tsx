@@ -1,10 +1,10 @@
 import Spinner from '@components/admin/Spinner.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 import { VariantGroup } from '../VariantGroup.js';
 

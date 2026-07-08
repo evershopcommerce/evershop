@@ -11,6 +11,7 @@ import {
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
 import { Item, ItemActions, ItemContent } from '@components/common/ui/Item.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import {
   ExtendedCustomerAddress,
@@ -19,7 +20,6 @@ import {
 } from '@components/frontStore/customer/CustomerContext.jsx';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 const Address: React.FC<{
   address: ExtendedCustomerAddress;

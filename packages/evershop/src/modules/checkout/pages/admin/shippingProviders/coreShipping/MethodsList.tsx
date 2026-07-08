@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   Table,
   TableBody,
@@ -19,7 +20,6 @@ import {
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 import { MethodForm } from './MethodForm.js';
 

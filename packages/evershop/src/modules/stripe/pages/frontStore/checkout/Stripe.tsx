@@ -1,6 +1,7 @@
 import Spinner from '@components/admin/Spinner.js';
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
 import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { useCartState } from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
@@ -15,7 +16,6 @@ import {
 } from '@stripe/react-stripe-js';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import smallUnit from 'zero-decimal-currencies';
 
 const TestCards: React.FC<{

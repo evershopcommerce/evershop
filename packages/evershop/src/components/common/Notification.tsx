@@ -1,8 +1,7 @@
 import { useAppState } from '@components/common/context/app.js';
+import { Toaster, toast } from '@components/common/ui/Sonner.js';
 import { get } from '@evershop/evershop/lib/util/get';
 import React from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import './Notification.scss';
 
 export default function Notification() {
   const notify = (type, message) => {
@@ -31,7 +30,7 @@ export default function Notification() {
 
   return (
     <div>
-      <ToastContainer hideProgressBar autoClose={false} />
+      <Toaster />
     </div>
   );
 }

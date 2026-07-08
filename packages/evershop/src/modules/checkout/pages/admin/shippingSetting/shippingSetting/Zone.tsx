@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   Table,
   TableBody,
@@ -20,7 +21,6 @@ import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import { MapPin, Truck } from 'lucide-react';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { AttachProviderDialog } from './AttachProviderDialog.js';
 import { ZoneForm } from './ZoneForm.js';
 import { ZoneProviderConfigDialog } from './ZoneProviderConfigDialog.js';

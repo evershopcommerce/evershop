@@ -6,11 +6,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@components/common/ui/DropdownMenu.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { LogOut } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 export default function AdminUser({ adminUser = null, logoutUrl, loginPage }) {
   const logout = async () => {

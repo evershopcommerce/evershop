@@ -5,9 +5,9 @@ import { useAlertContext } from '@components/common/modal/Alert.js';
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
 import { Button } from '@components/common/ui/Button.js';
 import { CardContent } from '@components/common/ui/Card.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 interface StripeRefundButtonProps {
   refundAPI: string;

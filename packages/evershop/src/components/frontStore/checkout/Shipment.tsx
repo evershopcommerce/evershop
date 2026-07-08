@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   useCartDispatch,
   useCartState
@@ -19,7 +20,6 @@ import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { MapPin } from 'lucide-react';
 import React, { useEffect, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 export function Shipment() {
   const {

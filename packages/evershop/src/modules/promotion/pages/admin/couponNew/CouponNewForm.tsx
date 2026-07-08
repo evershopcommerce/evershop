@@ -8,9 +8,9 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 interface CouponNewFormProps {
   action: string;
