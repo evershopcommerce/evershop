@@ -75,6 +75,12 @@ const TABS: { value: LinkKind; label: string }[] = [
   { value: 'custom', label: _('Custom URL') }
 ];
 
+// The blog home is a fixed storefront route (`/blog`) with no entity id, so it
+// can't be a URN like the other blog links — it's stored as this static path
+// and surfaced as a pinned shortcut at the top of the Blog category picker.
+const BLOG_HOME_PATH = '/blog';
+const BLOG_HOME_ID = '__blog_home__';
+
 export interface LinkPickerProps {
   value: string;
   onChange: (next: { url: string; kind: LinkKind; label?: string }) => void;
@@ -97,7 +103,11 @@ export function LinkPicker({
   // If the stored value is a URN, the kind is derivable from it — open
   // on that tab regardless of the explicit `initialKind` hint.
   const parsed = parseUrn(value);
-  const effectiveInitial: LinkKind = parsed ? parsed.kind : initialKind;
+  const effectiveInitial: LinkKind = parsed
+    ? parsed.kind
+    : value === BLOG_HOME_PATH
+      ? 'blogCategory'
+      : initialKind;
   const [tab, setTab] = useState<LinkKind>(
     visibleTabs.find((t) => t.value === effectiveInitial)?.value ??
       visibleTabs[0].value
@@ -189,7 +199,27 @@ export function LinkPicker({
       {tab === 'blogCategory' && (
         <BlogPicker
           kind="category"
-          selectedUuid={parsed?.kind === 'blogCategory' ? parsed.id : null}
+          selectedUuid={
+            value === BLOG_HOME_PATH
+              ? BLOG_HOME_ID
+              : parsed?.kind === 'blogCategory'
+                ? parsed.id
+                : null
+          }
+          pinnedItems={[
+            {
+              id: BLOG_HOME_ID,
+              primary: _('Blog Home'),
+              secondary: _('All posts')
+            }
+          ]}
+          onPinnedSelect={() =>
+            onChange({
+              url: BLOG_HOME_PATH,
+              kind: 'blogCategory',
+              label: _('Blog Home')
+            })
+          }
           onPick={(r) =>
             onChange({
               url: BlogUrn.category(r.uuid),

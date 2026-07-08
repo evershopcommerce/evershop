@@ -214,6 +214,7 @@ export default function FeaturedBlogsSetting({
           search={search}
           onSearchChange={setSearch}
           loading={result.fetching}
+          rawThumbnails
           onSelect={(id) => add(id)}
           caption={_('Search posts to feature')}
           emptyHint={debounced ? _('No posts match') : _('No posts yet')}
