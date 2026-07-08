@@ -139,7 +139,9 @@ export function FileField<T extends FieldValues = FieldValues>({
         </div>
       )}
 
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

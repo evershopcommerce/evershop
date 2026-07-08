@@ -119,7 +119,9 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
           )}
         </div>
 
-        {fieldError && <FieldError>{fieldError}</FieldError>}
+        {fieldError && (
+          <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+        )}
       </Field>
     );
   }
@@ -195,7 +197,9 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
         </fieldset>
       )}
 
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

@@ -209,7 +209,9 @@ export function NumberField({
           </InputGroupAddon>
         )}
       </InputGroup>
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

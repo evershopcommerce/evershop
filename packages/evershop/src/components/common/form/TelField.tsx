@@ -111,7 +111,9 @@ export function TelField<T extends FieldValues = FieldValues>({
           <InputGroupAddon align={'inline-end'}>{suffixIcon}</InputGroupAddon>
         )}
       </InputGroup>
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }
