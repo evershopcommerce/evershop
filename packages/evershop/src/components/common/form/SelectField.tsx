@@ -156,7 +156,9 @@ export function SelectField<T extends FieldValues = FieldValues>({
           </Select>
         )}
       />
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

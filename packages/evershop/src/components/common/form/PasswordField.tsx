@@ -136,7 +136,9 @@ export function PasswordField<T extends FieldValues = FieldValues>({
           </InputGroupAddon>
         )}
       </InputGroup>
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

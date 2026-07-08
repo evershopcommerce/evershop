@@ -91,7 +91,9 @@ export function InputField<T extends FieldValues = FieldValues>({
     return (
       <div>
         {renderInput()}
-        {fieldError && <FieldError>{fieldError}</FieldError>}
+        {fieldError && (
+          <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+        )}
       </div>
     );
   }
@@ -119,7 +121,9 @@ export function InputField<T extends FieldValues = FieldValues>({
           <InputGroupAddon align={'inline-end'}>{suffixIcon}</InputGroupAddon>
         )}
       </InputGroup>
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

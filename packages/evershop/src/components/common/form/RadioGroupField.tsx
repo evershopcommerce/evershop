@@ -132,7 +132,9 @@ export function RadioGroupField<T extends FieldValues = FieldValues>({
         )}
       />
 
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

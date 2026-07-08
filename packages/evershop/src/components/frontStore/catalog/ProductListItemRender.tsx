@@ -97,7 +97,7 @@ export const ProductListItemRender = ({
           </div>
 
           {showAddToCart && (
-            <div className="product__list__actions invisible transform translate-y-2 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0">
+            <div className="product__list__actions invisible transform translate-y-2 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0 group-focus-within:visible group-focus-within:translate-y-0 [@media(hover:none)]:visible [@media(hover:none)]:translate-y-0">
               {customAddToCartRenderer ? (
                 customAddToCartRenderer(product)
               ) : (
@@ -170,7 +170,7 @@ export const ProductListItemRender = ({
         </div>
       </a>
       {showAddToCart && (
-        <div className="product__list__actions p-4 invisible transform translate-y-4 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0">
+        <div className="product__list__actions p-4 invisible transform translate-y-4 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0 group-focus-within:visible group-focus-within:translate-y-0 [@media(hover:none)]:visible [@media(hover:none)]:translate-y-0">
           {customAddToCartRenderer ? (
             customAddToCartRenderer(product)
           ) : (
