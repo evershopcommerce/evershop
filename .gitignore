@@ -44,3 +44,6 @@ extensions
 
 # Playwright MCP test artifacts
 .playwright-mcp/
+.impeccable
+PRODUCT.md
+storefront

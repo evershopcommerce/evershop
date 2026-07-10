@@ -6,6 +6,12 @@ import type { AttributeData as UpdateAttributeData } from '../modules/catalog/se
 import type { CategoryData } from '../modules/catalog/services/category/createCategory.js';
 import type { CollectionData } from '../modules/catalog/services/collection/createCollection.js';
 import type { ProductData } from '../modules/catalog/services/product/createProduct.js';
+import type {
+  FileBrowserProvider,
+  FileDeleterProvider,
+  FileUploaderProvider,
+  FolderCreatorProvider
+} from '../modules/cms/services/storage/types.js';
 import type { WidgetData } from '../modules/cms/services/widget/createWidget.js';
 import type { CustomerData } from '../modules/customer/services/customer/createCustomer.js';
 import type { CouponData } from '../modules/promotion/services/coupon/createCoupon.js';
@@ -105,6 +111,17 @@ export interface ValueRegistry {
   createWidgetDataJsonSchema: AnySchemaObject;
   /** AJV JSON schema used to validate widget data on update */
   updateWidgetDataJsonSchema: AnySchemaObject;
+
+  // ── CMS: File storage ─────────────────────────────────────────────────────
+
+  /** Storage backend for file uploads (context `config` = active provider id) */
+  fileUploader: FileUploaderProvider;
+  /** Storage backend for the admin file-manager listing */
+  fileBrowser: FileBrowserProvider;
+  /** Storage backend for file deletion (idempotent — missing file is a no-op) */
+  fileDeleter: FileDeleterProvider;
+  /** Storage backend for folder creation */
+  folderCreator: FolderCreatorProvider;
 
   // ── OMS ───────────────────────────────────────────────────────────────────
 
