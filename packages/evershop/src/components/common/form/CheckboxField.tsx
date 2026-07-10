@@ -131,8 +131,8 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
       data-invalid={fieldError ? 'true' : 'false'}
       className={wrapperClassName}
     >
-      {label && (
-        <fieldset>
+      <fieldset>
+        {label && (
           <FieldLegend>
             <>
               {label}
@@ -140,8 +140,9 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
               {helperText && <Tooltip content={helperText} position="top" />}
             </>
           </FieldLegend>
+        )}
 
-          <Controller
+        <Controller
             name={resolvedName}
             control={control}
             rules={validationRules}
@@ -193,9 +194,8 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
                 })}
               </div>
             )}
-          />
-        </fieldset>
-      )}
+        />
+      </fieldset>
 
       {fieldError && (
         <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>

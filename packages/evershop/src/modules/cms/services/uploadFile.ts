@@ -2,9 +2,9 @@ import fs from 'fs/promises';
 import path from 'path';
 import { CONSTANTS } from '../../../lib/helpers.js';
 import { buildUrl } from '../../../lib/router/buildUrl.js';
-import { getConfig } from '../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../lib/util/registry.js';
 import { FileBrowser } from './browFiles.js';
+import { getFileStorageProvider } from './storage/storageConfig.js';
 
 export interface UploadedFile extends FileBrowser {
   mimetype: string;
@@ -29,7 +29,7 @@ export const uploadFile = async (
     'fileUploader',
     localUploader,
     {
-      config: getConfig('system.file_storage')
+      config: getFileStorageProvider()
     },
     (value) =>
       // The value must be an object with an upload method

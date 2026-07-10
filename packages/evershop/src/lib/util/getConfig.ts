@@ -15,8 +15,34 @@ type ConfigStructure = {
   };
   system: {
     file_storage: string;
+    // NOTE: `s3` / `azure` are declared non-optional so ConfigPath can derive
+    // `system.s3.*` paths (keyof an optional member resolves to never) — at
+    // runtime they are absent unless the operator configures them, so read
+    // individual keys, never the whole object.
+    s3: {
+      region?: string;
+      bucket?: string;
+      accessKeyId?: string;
+      secretAccessKey?: string;
+      endpoint?: string;
+      forcePathStyle?: boolean;
+      baseUrl?: string;
+    };
+    azure: {
+      connectionString?: string;
+      containerName?: string;
+      containerAccess?: string;
+      baseUrl?: string;
+    };
+    gcs: {
+      bucket?: string;
+      serviceAccountKey?: string;
+      baseUrl?: string;
+    };
     admin_collection_size?: number;
     upload_allowed_mime_types: string[];
+    upload_max_file_size?: number;
+    upload_max_file_size_per_type?: Record<string, number>;
     theme?: string;
     extensions: Array<{
       name: string;

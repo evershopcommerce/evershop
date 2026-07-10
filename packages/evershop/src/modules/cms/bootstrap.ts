@@ -6,21 +6,50 @@ import { warning } from '../../lib/log/logger.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
+import { registerAllowedImageHostsProvider } from '../../lib/util/secureFetch.js';
 import { registerWidget } from '../../lib/widget/widgetManager.js';
 import { registerDefaultPageCollectionFilters } from '../../modules/cms/services/registerDefaultPageCollectionFilters.js';
 import { registerDefaultWidgetCollectionFilters } from '../../modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 import { Route } from '../../types/route.js';
+import {
+  azureFileBrowser,
+  azureFileDeleter,
+  azureFileUploader,
+  azureFolderCreator
+} from './services/storage/azure/azureStorage.js';
+import {
+  gcsFileBrowser,
+  gcsFileDeleter,
+  gcsFileUploader,
+  gcsFolderCreator
+} from './services/storage/gcs/gcsStorage.js';
+import {
+  s3FileBrowser,
+  s3FileDeleter,
+  s3FileUploader,
+  s3FolderCreator
+} from './services/storage/s3/s3Storage.js';
+import { getFileStorageImageHosts } from './services/storage/storageConfig.js';
 
 export default (context: { command?: string } = {}) => {
+  // The /images proxy automatically allows the host of the active cloud file
+  // storage (S3 bucket / Azure account / CDN base URL) — without this, every
+  // storefront image stored on S3/Azure would be refused by the allowlist.
+  // The callback runs per check, so it sees settings saved after boot.
+  registerAllowedImageHostsProvider(getFileStorageImageHosts);
+
   // Warn (non-blocking) at server boot if the image proxy allowlist is unset.
   // Without IMAGE_ALLOWED_HOSTS the /images endpoint will not fetch any external
-  // image — only local media/public/theme images are processed.
+  // image — only local media/public/theme images are processed. Storage hosts
+  // derivable from config/env suppress the warning; settings-only setups are
+  // not visible here (the setting cache is warmed after this module loads).
   if (
     (context.command === 'start' || context.command === 'dev') &&
-    !process.env.IMAGE_ALLOWED_HOSTS?.trim()
+    !process.env.IMAGE_ALLOWED_HOSTS?.trim() &&
+    getFileStorageImageHosts().length === 0
   ) {
     warning(
-      'IMAGE_ALLOWED_HOSTS is not set. The /images endpoint will not optimize external images — only local media/public/theme images are processed. Set IMAGE_ALLOWED_HOSTS to a comma-separated list of trusted hosts (e.g. "cdn.example.com,images.internal") to allow fetching external images.'
+      'IMAGE_ALLOWED_HOSTS is not set. The /images endpoint will not optimize external images — only local media/public/theme images are processed. Set IMAGE_ALLOWED_HOSTS to a comma-separated list of trusted hosts (e.g. "cdn.example.com,images.internal") to allow fetching external images. (When S3/Azure file storage is configured, its host is allowed automatically.)'
     );
   }
 
@@ -138,13 +167,107 @@ export default (context: { command?: string } = {}) => {
           properties: {
             file_storage: {
               type: 'string',
-              enum: ['local']
+              enum: ['local', 's3', 'azure', 'gcs']
+            },
+            s3: {
+              type: 'object',
+              properties: {
+                region: { type: 'string' },
+                bucket: { type: 'string' },
+                accessKeyId: { type: 'string' },
+                secretAccessKey: { type: 'string' },
+                endpoint: { type: 'string' },
+                forcePathStyle: { type: 'boolean' },
+                baseUrl: { type: 'string' }
+              }
+            },
+            azure: {
+              type: 'object',
+              properties: {
+                connectionString: { type: 'string' },
+                containerName: { type: 'string' },
+                containerAccess: { type: 'string', enum: ['private', 'blob'] },
+                baseUrl: { type: 'string' }
+              }
+            },
+            gcs: {
+              type: 'object',
+              properties: {
+                bucket: { type: 'string' },
+                serviceAccountKey: { type: 'string' },
+                baseUrl: { type: 'string' }
+              }
+            },
+            upload_allowed_mime_types: {
+              type: 'array',
+              items: { type: 'string' }
+            },
+            upload_max_file_size: {
+              type: 'number',
+              exclusiveMinimum: 0
+            },
+            upload_max_file_size_per_type: {
+              type: 'object',
+              additionalProperties: { type: 'number', exclusiveMinimum: 0 }
             }
           }
         }
       }
     });
     return schema;
+  });
+
+  // Built-in cloud storage providers. Selection happens per call through the
+  // registry context (`config` = the active provider id from settings/config),
+  // so third-party providers registered by extensions keep working —
+  // extensions bootstrap after core modules and their processors run later.
+  addProcessor('fileUploader', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 's3' ? s3FileUploader : value;
+  });
+  addProcessor('fileBrowser', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 's3' ? s3FileBrowser : value;
+  });
+  addProcessor('fileDeleter', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 's3' ? s3FileDeleter : value;
+  });
+  addProcessor('folderCreator', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 's3' ? s3FolderCreator : value;
+  });
+  addProcessor('fileUploader', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'azure' ? azureFileUploader : value;
+  });
+  addProcessor('fileBrowser', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'azure' ? azureFileBrowser : value;
+  });
+  addProcessor('fileDeleter', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'azure' ? azureFileDeleter : value;
+  });
+  addProcessor('folderCreator', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'azure' ? azureFolderCreator : value;
+  });
+  addProcessor('fileUploader', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'gcs' ? gcsFileUploader : value;
+  });
+  addProcessor('fileBrowser', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'gcs' ? gcsFileBrowser : value;
+  });
+  addProcessor('fileDeleter', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'gcs' ? gcsFileDeleter : value;
+  });
+  addProcessor('folderCreator', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'gcs' ? gcsFolderCreator : value;
   });
 
   const defaultThemeConfig = {

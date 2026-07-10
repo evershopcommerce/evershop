@@ -3,19 +3,52 @@ import { Agent, buildConnector, fetch as undiciFetch } from 'undici';
 const REQUEST_TIMEOUT_MS = 15000;
 
 /**
- * Hosts the image proxy (`/images?src=…`) is allowed to fetch from, read from
- * the `IMAGE_ALLOWED_HOSTS` environment variable (comma-separated). This is a
- * strict allowlist: any host not listed — public or private — is refused. It
- * both blocks SSRF (loopback, link-local metadata, private ranges, …) and stops
- * the endpoint from being abused as a free image-optimization proxy for
- * arbitrary third-party images. When unset/empty, no external host is allowed
- * (only local media/public/theme images are processed).
+ * Modules can contribute additional allowed hosts beyond the env variable — the
+ * cms module registers one that derives the active cloud file-storage host
+ * (S3 bucket / Azure account / CDN base URL) from configuration, so operators
+ * don't have to duplicate it in `IMAGE_ALLOWED_HOSTS`. Providers run on every
+ * check; one that throws is skipped so a misconfigured provider can never take
+ * image serving down.
+ */
+type AllowedImageHostsProvider = () => string[];
+
+const allowedImageHostsProviders: AllowedImageHostsProvider[] = [];
+
+export function registerAllowedImageHostsProvider(
+  provider: AllowedImageHostsProvider
+): void {
+  allowedImageHostsProviders.push(provider);
+}
+
+/**
+ * Hosts the image proxy (`/images?src=…`) is allowed to fetch from: the
+ * `IMAGE_ALLOWED_HOSTS` environment variable (comma-separated) plus any hosts
+ * contributed by registered providers. This is a strict allowlist: any host
+ * not listed — public or private — is refused. It both blocks SSRF (loopback,
+ * link-local metadata, private ranges, …) and stops the endpoint from being
+ * abused as a free image-optimization proxy for arbitrary third-party images.
+ * When the env variable is unset and no provider contributes a host, no
+ * external host is allowed (only local media/public/theme images are
+ * processed).
  */
 export function getAllowedImageHosts(): string[] {
-  return (process.env.IMAGE_ALLOWED_HOSTS || '')
+  const fromEnv = (process.env.IMAGE_ALLOWED_HOSTS || '')
     .split(',')
     .map((host) => host.trim().toLowerCase())
     .filter(Boolean);
+  const fromProviders = allowedImageHostsProviders.flatMap((provider) => {
+    try {
+      return provider();
+    } catch {
+      return [];
+    }
+  });
+  return [
+    ...new Set([
+      ...fromEnv,
+      ...fromProviders.map((host) => host.trim().toLowerCase()).filter(Boolean)
+    ])
+  ];
 }
 
 function isAllowedHost(host: string | undefined | null): boolean {
