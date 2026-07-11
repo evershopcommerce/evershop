@@ -5,7 +5,8 @@ const REQUEST_TIMEOUT_MS = 15000;
 /**
  * Modules can contribute additional allowed hosts beyond the env variable — the
  * cms module registers one that derives the active cloud file-storage host
- * (S3 bucket / Azure account / CDN base URL) from configuration, so operators
+ * (S3 bucket / Azure account / GCS / CDN base URL) from configuration, so
+ * operators
  * don't have to duplicate it in `IMAGE_ALLOWED_HOSTS`. Providers run on every
  * check; one that throws is skipped so a misconfigured provider can never take
  * image serving down.

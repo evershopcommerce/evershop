@@ -33,8 +33,9 @@ import { getFileStorageImageHosts } from './services/storage/storageConfig.js';
 
 export default (context: { command?: string } = {}) => {
   // The /images proxy automatically allows the host of the active cloud file
-  // storage (S3 bucket / Azure account / CDN base URL) — without this, every
-  // storefront image stored on S3/Azure would be refused by the allowlist.
+  // storage (S3 bucket / Azure account / GCS / CDN base URL) — without this,
+  // every storefront image stored in the cloud would be refused by the
+  // allowlist.
   // The callback runs per check, so it sees settings saved after boot.
   registerAllowedImageHostsProvider(getFileStorageImageHosts);
 
@@ -49,7 +50,7 @@ export default (context: { command?: string } = {}) => {
     getFileStorageImageHosts().length === 0
   ) {
     warning(
-      'IMAGE_ALLOWED_HOSTS is not set. The /images endpoint will not optimize external images — only local media/public/theme images are processed. Set IMAGE_ALLOWED_HOSTS to a comma-separated list of trusted hosts (e.g. "cdn.example.com,images.internal") to allow fetching external images. (When S3/Azure file storage is configured, its host is allowed automatically.)'
+      'IMAGE_ALLOWED_HOSTS is not set. The /images endpoint will not optimize external images — only local media/public/theme images are processed. Set IMAGE_ALLOWED_HOSTS to a comma-separated list of trusted hosts (e.g. "cdn.example.com,images.internal") to allow fetching external images. (When S3/Azure/GCS file storage is configured, its host is allowed automatically.)'
     );
   }
 
