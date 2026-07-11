@@ -12,9 +12,17 @@ const GA4_ID_PATTERN = /^G-[A-Z0-9]+$/i;
 
 /**
  * Loads Google Analytics 4 when a Measurement ID is configured in the store
- * settings. Injection happens client-side in an effect — not as SSR'd <script>
- * tags — so it runs identically in dev (client render) and prod (SSR), and the
- * one-time guard keeps a re-mount / re-hydration from double-counting page_view.
+ * settings. The gtag scripts are injected into `document.head` from a client
+ * effect, and the `__evershopGaLoaded` guard keeps a re-mount / re-hydration
+ * from double-counting page_view.
+ *
+ * This component lives in the `body` area, NOT `head`, on purpose. Head-area
+ * components are server-rendered but never hydrated on the client in
+ * production: `Hydrate`/`HydrateFrontStore` mount only `<Area id="body">`,
+ * whereas the dev client renders the whole tree (head included, via `Head`'s
+ * portal). An effect on a `head`-area component therefore runs in dev but
+ * NEVER in production — which is why GA rendered in dev only. The `body` area
+ * is hydrated in both, so the injection effect fires in both.
  */
 export default function GoogleAnalytics({
   setting: { gaMeasurementId }
@@ -50,7 +58,7 @@ export default function GoogleAnalytics({
 }
 
 export const layout = {
-  areaId: 'head',
+  areaId: 'body',
   sortOrder: 1
 };
 
