@@ -1,6 +1,6 @@
 import Area from '@components/common/Area.js';
-import AccountInfo from '@components/frontStore/customer/AccountInfo.js';
 import { AccountHeader } from '@components/frontStore/customer/AccountHeader.js';
+import AccountInfo from '@components/frontStore/customer/AccountInfo.js';
 import { AccountNav } from '@components/frontStore/customer/AccountNav.js';
 import { MyAddresses } from '@components/frontStore/customer/MyAddresses.js';
 import OrderHistory from '@components/frontStore/customer/OrderHistory.js';

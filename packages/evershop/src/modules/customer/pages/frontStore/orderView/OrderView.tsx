@@ -159,7 +159,7 @@ export default function OrderView({ order }: OrderViewProps) {
                     : order.subTotal.text
                 }
                 total={order.grandTotal.text}
-                shippingMethod={order.shippingMethodName}
+                shippingMethod={order.shippingMethodName || undefined}
                 coupon={order.coupon || ''}
                 discountAmount={order.discountAmount.text}
                 taxAmount={order.totalTaxAmount.text}
