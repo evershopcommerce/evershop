@@ -74,7 +74,7 @@ export const DefaultPriceFilterRender: React.FC<{
 
   return (
     <DefaultFilterWrapperRender title={_('Price')}>
-      <div className="price__filter border-b border-border pb-2 mb-2">
+      <div className="price__filter border-b border-border pb-8 mb-8">
         <div className="price__slider mb-4">
           <Slider
             min={priceRange.min}
@@ -84,7 +84,7 @@ export const DefaultPriceFilterRender: React.FC<{
           />
         </div>
 
-        <div className="flex justify-between text-small text-muted-foreground mt-2">
+        <div className="flex justify-between text-sm text-muted-foreground mt-2">
           <span>{priceRange.minText}</span>
           <span>{priceRange.maxText}</span>
         </div>
