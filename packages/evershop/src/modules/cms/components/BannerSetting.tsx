@@ -8,6 +8,7 @@ import { CtaField } from '@components/common/page-builder/fields/CtaField.js';
 import type { CtaValue } from '@components/common/page-builder/fields/CtaField.js';
 import { ImagePickerField } from '@components/common/page-builder/fields/ImagePickerField.js';
 import { MarkdownBodyField } from '@components/common/page-builder/fields/MarkdownBodyField.js';
+import { normalizeImageSrc } from '@components/common/page-builder/normalizeImageSrc.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
 import { useScopedFormContext } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Button } from '@components/common/ui/Button.js';
@@ -270,9 +271,7 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
           <FileBrowser
             isMultiple={false}
             onInsert={(file) => {
-              // Defensive normalization — older FileBrowser builds emitted
-              // `/assets//file.jpg` for media-root images.
-              const normalized = (file || '').replace(/\/{2,}/g, '/');
+              const normalized = normalizeImageSrc(file);
               setValue('settings.src', normalized);
               setOpenFileBrowser(false);
             }}

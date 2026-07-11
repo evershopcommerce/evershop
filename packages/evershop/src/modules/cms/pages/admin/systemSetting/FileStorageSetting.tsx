@@ -378,7 +378,7 @@ export default function FileStorageSetting({
                 />
                 <FieldHint>
                   {_(
-                    'Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy.'
+                    'Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.'
                   )}
                 </FieldHint>
               </>
@@ -453,7 +453,7 @@ export default function FileStorageSetting({
                 />
                 <FieldHint>
                   {_(
-                    'Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private.'
+                    'Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).'
                   )}
                 </FieldHint>
               </>
@@ -524,7 +524,7 @@ export default function FileStorageSetting({
                 />
                 <FieldHint>
                   {_(
-                    'Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant "allUsers" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization).'
+                    'Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant "allUsers" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.'
                   )}
                 </FieldHint>
               </>

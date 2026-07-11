@@ -6,6 +6,7 @@ import { Image as EvershopImage } from '@components/common/Image.js';
 import { Button } from '@components/common/ui/Button.js';
 import { ImagePlus, X } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import { normalizeImageSrc } from '../normalizeImageSrc.js';
 
 /**
  * Form field wrapper around the admin FileBrowser modal. Exposes a plain
@@ -33,11 +34,6 @@ export interface ImagePickerFieldProps {
   /** When true, the picker renders only a button (no thumb row). */
   compact?: boolean;
 }
-
-const normalize = (raw: string): string =>
-  // Defensive — older FileBrowser builds emitted `/assets//file.jpg`. Strip
-  // any consecutive slashes (but keep the leading one).
-  (raw || '').replace(/\/{2,}/g, '/');
 
 export function ImagePickerField({
   value,
@@ -80,7 +76,7 @@ export function ImagePickerField({
   }, [value]);
 
   const handleInsert = (file: string) => {
-    const next = normalize(file);
+    const next = normalizeImageSrc(file);
     onChange(next);
     setOpen(false);
     if (onLoadDimensions && next) {

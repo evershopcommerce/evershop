@@ -44,6 +44,7 @@ export type { ContentAnchor } from './drawer/AnchorPicker.js';
 
 // Form fields.
 export { ImagePickerField } from './fields/ImagePickerField.js';
+export { normalizeImageSrc } from './normalizeImageSrc.js';
 export {
   ColorSwatchField,
   DEFAULT_SWATCHES

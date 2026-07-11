@@ -1,5 +1,6 @@
  
 import { FileBrowser } from '@components/admin/FileBrowser.js';
+import { normalizeImageSrc } from '@components/common/page-builder/normalizeImageSrc.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
 import {
   useScopedFieldName,
@@ -550,12 +551,7 @@ export default function SlideshowSetting({
   const handleImagePick = (filePath: string) => {
     if (!imagePickerTarget) return;
     const { kind, slideIndex } = imagePickerTarget;
-    // Defensively collapse duplicate slashes — older FileBrowser builds
-    // emitted `/assets//file.jpg` for files at the media root, which broke
-    // the storefront image lookup. Source bug is fixed in `browFiles.ts`,
-    // but normalize here too so any client still on the old admin doesn't
-    // re-poison the saved path.
-    const normalized = (filePath || '').replace(/\/{2,}/g, '/');
+    const normalized = normalizeImageSrc(filePath);
     if (kind === 'desktop') {
       updateSlide(slideIndex, { image: normalized, width: 0, height: 0 });
       loadImageDimensions(normalized, slideIndex);

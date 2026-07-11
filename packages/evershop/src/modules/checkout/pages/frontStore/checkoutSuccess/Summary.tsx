@@ -1,9 +1,9 @@
 import React from 'react';
 import './Summary.scss';
+import { useAppState } from '@components/common/context/app.js';
 import { OrderSummaryItems } from '@components/frontStore/checkout/OrderSummaryItems.js';
 import { OrderTotalSummary } from '@components/frontStore/checkout/OrderTotalSummary.js';
 import { Order } from '@components/frontStore/customer/CustomerContext.jsx';
-import { useAppState } from '@components/common/context/app.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 
 interface SummaryProps {
