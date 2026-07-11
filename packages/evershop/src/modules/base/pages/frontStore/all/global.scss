@@ -1,17 +1,11 @@
 @layer base {
-  $font-size-sm: 0.875rem;
-  $font-size-md: 0.875rem;
-  $font-size-lg: 1rem;
-
-  $line-height-sm: 1.25;
-  $line-height-md: 1.5;
-  $line-height-lg: 2;
-
-  $font-size-base: $font-size-sm;
-
   body {
-    font-size: 100%;
-    color: #3a3a3a;
+    /* Re-skin (2026-07-10): 16px base + 1.5 line-height + token text color,
+     * matching the design reference (was 14px, line-height up to 2.0, #3a3a3a). */
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--foreground);
+
     input[type='email'],
     input[type='password'],
     input[type='tel'],
@@ -26,135 +20,66 @@
     }
   }
 
+  /* Heading scale — semibold, tight leading + tracking (reference-aligned). */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5,
+  .h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.011em;
+    color: var(--foreground);
+  }
+  h1,
+  .h1 {
+    font-size: 1.875rem;
+  }
+  h2,
+  .h2 {
+    font-size: 1.5rem;
+  }
+  h3,
+  .h3 {
+    font-size: 1.25rem;
+  }
+  h4,
+  .h4 {
+    font-size: 1.125rem;
+  }
+  h5,
+  .h5 {
+    font-size: 1rem;
+  }
+  h6,
+  .h6 {
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 768px) {
+    h1,
+    .h1 {
+      font-size: 2.25rem;
+    }
+    h2,
+    .h2 {
+      font-size: 1.875rem;
+    }
+  }
+
   @media (max-width: 640px) {
     .slide__wrapper {
       height: 30rem !important;
     }
   }
 
-  @media screen and (max-width: 767px) {
-    $font-size-base: $font-size-sm;
-    $h1-font-size: $font-size-base * 2.1;
-    $h2-font-size: $font-size-base * 1.9;
-    $h3-font-size: $font-size-base * 1.65;
-    $h4-font-size: $font-size-base * 1.45;
-    $h5-font-size: $font-size-base * 1;
-    $h6-font-size: $font-size-base;
-    body {
-      font-size: $font-size-base;
-      line-height: $line-height-sm;
-      .h1,
-      h1 {
-        font-size: $h1-font-size;
-      }
-      .h2,
-      h2 {
-        font-size: $h2-font-size;
-      }
-      .h3,
-      h3 {
-        font-size: $h3-font-size;
-      }
-      .h4,
-      h4 {
-        font-size: $h4-font-size;
-      }
-      .h5,
-      h5 {
-        font-size: $h5-font-size;
-      }
-      .h6,
-      h6 {
-        font-size: $h6-font-size;
-      }
-    }
-  }
-
-  @media (min-width: 768px) and (max-width: 1535px) {
-    $font-size-base: $font-size-md;
-    $h1-font-size: $font-size-base * 2.1;
-    $h2-font-size: $font-size-base * 1.9;
-    $h3-font-size: $font-size-base * 1.65;
-    $h4-font-size: $font-size-base * 1.45;
-    $h5-font-size: $font-size-base * 1.15;
-    $h6-font-size: $font-size-base;
-
-    body {
-      font-size: $font-size-base;
-      line-height: $line-height-md;
-      .h1,
-      h1 {
-        font-size: $h1-font-size;
-      }
-      .h2,
-      h2 {
-        font-size: $h2-font-size;
-      }
-      .h3,
-      h3 {
-        font-size: $h3-font-size;
-      }
-      .h4,
-      h4 {
-        font-size: $h4-font-size;
-      }
-      .h5,
-      h5 {
-        font-size: $h5-font-size;
-      }
-      .h6,
-      h6 {
-        font-size: $h6-font-size;
-      }
-    }
-  }
-
-  @media (min-width: 1536px) {
-    $font-size-base: $font-size-lg;
-    $h1-font-size: $font-size-base * 2.1;
-    $h2-font-size: $font-size-base * 1.9;
-    $h3-font-size: $font-size-base * 1.65;
-    $h4-font-size: $font-size-base * 1.45;
-    $h5-font-size: $font-size-base * 1.15;
-    $h6-font-size: $font-size-base;
-
-    body {
-      font-size: $font-size-base;
-      line-height: $line-height-lg;
-      .h1,
-      h1 {
-        font-size: $h1-font-size;
-      }
-      .h2,
-      h2 {
-        font-size: $h2-font-size;
-      }
-      .h3,
-      h3 {
-        font-size: $h3-font-size;
-      }
-      .h4,
-      h4 {
-        font-size: $h4-font-size;
-      }
-      .h5,
-      h5 {
-        font-size: $h5-font-size;
-      }
-      .h6,
-      h6 {
-        font-size: $h6-font-size;
-      }
-    }
-  }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: 600;
-  }
   .wrapper .content {
     min-height: calc(100vh - 50px);
   }
@@ -162,12 +87,14 @@
   .container {
     margin: 0 auto;
   }
+
+  /* Container — tighter gutter to match the reference (was 22px / 55px). */
   .page-width {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 22px;
-    @media screen and (min-width: 1200px) {
-      padding: 0 55px;
+    padding: 0 1rem;
+    @media screen and (min-width: 1024px) {
+      padding: 0 1.5rem;
     }
   }
 

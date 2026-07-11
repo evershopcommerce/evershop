@@ -12,6 +12,31 @@ export interface BlogPostCardData {
   author?: { fullName?: string | null } | null;
 }
 
+/** Author · date · reading-time meta row, shared by the card + featured post. */
+export function PostMeta({
+  post,
+  className = ''
+}: {
+  post: BlogPostCardData;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground ${className}`}
+    >
+      {post.author?.fullName && <span>{post.author.fullName}</span>}
+      {post.publishedAt && (
+        <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+      )}
+      {post.readingTime ? (
+        <span>
+          {post.readingTime} {_('min read')}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
 /**
  * A blog post card used in the index / category / tag listings.
  */
@@ -21,35 +46,30 @@ export function PostListItem({ post }: { post: BlogPostCardData }) {
       {post.thumbnail && (
         <a
           href={post.url}
-          className="block mb-3 overflow-hidden rounded-lg"
+          className="mb-4 block aspect-[16/10] overflow-hidden rounded-lg border border-border"
         >
           <img
             src={post.thumbnail}
             alt={post.name}
-            className="w-full h-48 object-cover"
+            className="h-full w-full object-cover"
           />
         </a>
       )}
-      <h2 className="text-xl font-semibold mb-1 leading-snug">
+      <h2 className="mb-2 text-xl font-semibold leading-snug tracking-tight">
         <a href={post.url} className="hover:underline">
           {post.name}
         </a>
       </h2>
-      <div className="text-sm text-gray-500 flex flex-wrap gap-x-3 mb-2">
-        {post.author?.fullName && <span>{post.author.fullName}</span>}
-        {post.publishedAt && (
-          <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
-        )}
-        {post.readingTime ? (
-          <span>
-            {post.readingTime} {_('min read')}
-          </span>
-        ) : null}
-      </div>
+      <PostMeta post={post} className="mb-3" />
       {post.shortDescription && (
-        <p className="text-gray-700 mb-2">{post.shortDescription}</p>
+        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
+          {post.shortDescription}
+        </p>
       )}
-      <a href={post.url} className="font-medium hover:underline mt-auto">
+      <a
+        href={post.url}
+        className="mt-auto text-sm font-medium text-foreground hover:underline"
+      >
         {_('Read more')} →
       </a>
     </article>

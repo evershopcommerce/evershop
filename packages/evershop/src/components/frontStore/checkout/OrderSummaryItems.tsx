@@ -52,7 +52,7 @@ const OrderSummaryItems: React.FC<{
                 {item.variantOptions.map((option) => (
                   <div
                     key={option.attributeCode}
-                    className="text-xs text-gray-700"
+                    className="text-xs text-muted-foreground"
                   >
                     {option.attributeName}: {option.optionText}
                   </div>
@@ -61,7 +61,7 @@ const OrderSummaryItems: React.FC<{
             )}
           </div>
           <div className="ml-auto text-right self-center">
-            <div className="font-semibold">
+            <div className="text-sm font-medium">
               {priceIncludingTax
                 ? item.lineTotalInclTax.text
                 : item.lineTotal.text}

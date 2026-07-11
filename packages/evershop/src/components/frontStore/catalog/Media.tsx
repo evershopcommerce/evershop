@@ -242,7 +242,7 @@ export const Media: React.FC<MediaProps> = ({
           </SliderComponent.default>
         )}
         {allImages.length === 0 && (
-          <div className="w-full h-full flex items-center justify-center py-24 bg-gray-100">
+          <div className="w-full h-full flex items-center justify-center py-24 bg-muted">
             <ProductNoThumbnail className="w-48 h-48" />
           </div>
         )}

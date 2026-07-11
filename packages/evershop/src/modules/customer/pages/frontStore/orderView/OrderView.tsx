@@ -1,3 +1,7 @@
+import { useAppState } from '@components/common/context/app.js';
+import { OrderSummaryItems } from '@components/frontStore/checkout/OrderSummaryItems.js';
+import { OrderTotalSummary } from '@components/frontStore/checkout/OrderTotalSummary.js';
+import { OrderItem } from '@components/frontStore/customer/CustomerContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
@@ -22,10 +26,10 @@ interface Shipment {
     phase: string;
   };
   phase: string;
-  shippedAt: string | null;
-  deliveredAt: string | null;
-  canceledAt: string | null;
-  createdAt: string;
+  shippedAt: { text: string } | null;
+  deliveredAt: { text: string } | null;
+  canceledAt: { text: string } | null;
+  createdAt: { text: string } | null;
   items: ShipmentItem[];
 }
 
@@ -41,6 +45,14 @@ interface Order {
   shippingMethodData: {
     snapshot?: { name?: string; cost?: number };
   } | null;
+  subTotal: { text: string };
+  subTotalInclTax: { text: string };
+  shippingFeeInclTax: { text: string };
+  shippingFeeExclTax: { text: string };
+  totalTaxAmount: { text: string };
+  discountAmount: { text: string };
+  coupon: string | null;
+  items: OrderItem[];
   shipments: Shipment[];
 }
 
@@ -48,11 +60,22 @@ interface OrderViewProps {
   order: Order | null;
 }
 
+const StatusPill: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <span className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground">
+    {children}
+  </span>
+);
+
 function whenShipped(shipment: Shipment): string {
   // Direct pending → delivered transitions leave `shippedAt` NULL; fall back
   // to deliveredAt, then to createdAt, per the wiki guidance for templates
   // that need a "when did it ship" line.
-  return shipment.shippedAt ?? shipment.deliveredAt ?? shipment.createdAt ?? '';
+  return (
+    shipment.shippedAt?.text ??
+    shipment.deliveredAt?.text ??
+    shipment.createdAt?.text ??
+    ''
+  );
 }
 
 /**
@@ -66,156 +89,173 @@ function whenShipped(shipment: Shipment): string {
  * been handed off.
  */
 export default function OrderView({ order }: OrderViewProps) {
+  const {
+    config: {
+      tax: { priceIncludingTax }
+    }
+  } = useAppState();
   if (!order) {
     return (
-      <div className="mt-7">
-        <h1 className="text-2xl mb-4">{_('Order not found')}</h1>
-        <p className="text-muted-foreground">
+      <div className="account mx-auto max-w-2xl py-10">
+        <h1 className="text-3xl font-semibold tracking-tight">
+          {_('Order not found')}
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
           {_(
             'We could not find this order. It may have been removed, or it may belong to a different account.'
           )}
         </p>
+        <a
+          href="/account/orders"
+          className="mt-6 inline-block text-sm text-muted-foreground hover:text-foreground"
+        >
+          ← {_('Back to orders')}
+        </a>
       </div>
     );
   }
 
   return (
-    <div className="mt-7 space-y-5">
-      <div>
-        <a
-          href="/account/orders"
-          className="text-sm text-primary hover:underline"
-        >
-          ← {_('All orders')}
-        </a>
-      </div>
+    <div className="account mx-auto max-w-2xl py-10">
+      <a
+        href="/account/orders"
+        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        ← {_('Back to orders')}
+      </a>
 
-      <header className="border-b border-divider pb-3">
-        <h1 className="text-2xl font-semibold">
-          {_('Order')} #{order.orderNumber}
-        </h1>
-        <div className="text-sm text-muted-foreground">
-          {order.createdAt?.text}
+      <header className="mt-4 flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">
+            {_('Order')} #{order.orderNumber}
+          </h1>
+          <div className="mt-1 text-sm text-muted-foreground">
+            {order.createdAt?.text}
+          </div>
         </div>
-        <div className="mt-2 flex flex-wrap gap-3 text-sm">
+        <div className="flex flex-wrap items-center gap-2">
           {order.shipmentStatus?.name && (
-            <span className="px-2 py-1 rounded border border-divider">
-              {order.shipmentStatus.name}
-            </span>
+            <StatusPill>{order.shipmentStatus.name}</StatusPill>
           )}
-          {order.status?.name && (
-            <span className="px-2 py-1 rounded border border-divider">
-              {order.status.name}
-            </span>
-          )}
-          <span className="font-semibold">{order.grandTotal.text}</span>
+          {order.status?.name && <StatusPill>{order.status.name}</StatusPill>}
         </div>
       </header>
 
-      {(order.shippingMethodName ||
-        order.shippingMethodData?.snapshot?.name) && (
+      <div className="mt-8 space-y-6">
         <section>
-          <div className="text-sm text-muted-foreground">
-            {_('You paid for')}
-          </div>
-          <div className="font-semibold">
-            {order.shippingMethodData?.snapshot?.name ??
-              order.shippingMethodName}
+          <h2 className="mb-3 h5">{_('Order summary')}</h2>
+          <div className="rounded-lg border border-border p-6">
+            <OrderSummaryItems items={order.items} />
+            <div className="ml-auto max-w-xs">
+              <OrderTotalSummary
+                shippingCost={
+                  priceIncludingTax
+                    ? order.shippingFeeInclTax.text
+                    : order.shippingFeeExclTax.text
+                }
+                subTotal={
+                  priceIncludingTax
+                    ? order.subTotalInclTax.text
+                    : order.subTotal.text
+                }
+                total={order.grandTotal.text}
+                shippingMethod={order.shippingMethodName}
+                coupon={order.coupon || ''}
+                discountAmount={order.discountAmount.text}
+                taxAmount={order.totalTaxAmount.text}
+              />
+            </div>
           </div>
         </section>
-      )}
 
-      <section>
-        <h2 className="text-lg font-semibold mb-2">{_('Shipments')}</h2>
-        {order.shipments.length === 0 ? (
-          <div className="text-muted-foreground italic text-sm">
-            {_('No shipments yet — your order is being prepared.')}
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {order.shipments.map((shipment) => {
-              const trackHref = shipment.trackingUrl;
-              const carrierLabel = shipment.carrierName ?? shipment.carrier;
-              const shippedText = whenShipped(shipment);
-              return (
-                <div
-                  key={shipment.uuid}
-                  className="border border-divider rounded p-3 space-y-2"
-                >
-                  <div className="flex flex-wrap justify-between items-center gap-2">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">
-                        {_('Shipment')} #{shipment.shipmentId}
-                      </span>
-                      <span className="text-xs px-2 py-1 rounded border border-divider">
-                        {shipment.status.name}
-                      </span>
-                    </div>
-                    <div className="text-sm text-muted-foreground">
+        <section>
+          <h2 className="mb-3 h5">{_('Shipments')}</h2>
+          {order.shipments.length === 0 ? (
+            <div className="rounded-lg border border-border p-4 text-sm text-muted-foreground">
+              {_('No shipments yet — your order is being prepared.')}
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {order.shipments.map((shipment) => {
+                const trackHref = shipment.trackingUrl;
+                const carrierLabel = shipment.carrierName ?? shipment.carrier;
+                const shippedText = whenShipped(shipment);
+                return (
+                  <div
+                    key={shipment.uuid}
+                    className="space-y-3 rounded-lg border border-border p-4"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium">
+                          {_('Shipment')} #{shipment.shipmentId}
+                        </span>
+                        <StatusPill>{shipment.status.name}</StatusPill>
+                      </div>
                       {carrierLabel && (
-                        <>
+                        <div className="text-sm text-muted-foreground">
                           {carrierLabel}
                           {shipment.trackingNumber && (
                             <> · {shipment.trackingNumber}</>
                           )}
-                        </>
+                        </div>
                       )}
                     </div>
-                  </div>
 
-                  <ul className="text-sm space-y-1">
-                    {shipment.items.map((item) => (
-                      <li key={item.uuid} className="flex gap-2">
-                        <span className="text-muted-foreground">•</span>
-                        <span>
-                          {item.productName ?? item.productSku ?? _('Item')}
-                        </span>
-                        <span className="text-muted-foreground">
-                          × {item.qty}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                    <ul className="space-y-1 text-sm">
+                      {shipment.items.map((item) => (
+                        <li
+                          key={item.uuid}
+                          className="flex gap-2 text-muted-foreground"
+                        >
+                          <span className="text-foreground">
+                            {item.productName ?? item.productSku ?? _('Item')}
+                          </span>
+                          <span>× {item.qty}</span>
+                        </li>
+                      ))}
+                    </ul>
 
-                  {(shippedText || shipment.deliveredAt || trackHref) && (
-                    <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                      {shipment.phase === 'delivered' &&
-                        shipment.deliveredAt && (
+                    {(shippedText ||
+                      shipment.deliveredAt?.text ||
+                      trackHref) && (
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+                        {shipment.phase === 'delivered' &&
+                          shipment.deliveredAt?.text && (
+                            <span>
+                              {_('Delivered')} {shipment.deliveredAt.text}
+                            </span>
+                          )}
+                        {shipment.phase === 'shipped' && shippedText && (
                           <span>
-                            {_('Delivered')}{' '}
-                            {new Date(shipment.deliveredAt).toLocaleString()}
+                            {_('Shipped')} {shippedText}
                           </span>
                         )}
-                      {shipment.phase === 'shipped' && shippedText && (
-                        <span>
-                          {_('Shipped')}{' '}
-                          {new Date(shippedText).toLocaleString()}
-                        </span>
-                      )}
-                      {shipment.phase === 'canceled' && shipment.canceledAt && (
-                        <span>
-                          {_('Canceled')}{' '}
-                          {new Date(shipment.canceledAt).toLocaleString()}
-                        </span>
-                      )}
-                      {trackHref && (
-                        <a
-                          href={trackHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:underline"
-                        >
-                          {_('Track shipment →')}
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </section>
+                        {shipment.phase === 'canceled' &&
+                          shipment.canceledAt?.text && (
+                            <span>
+                              {_('Canceled')} {shipment.canceledAt.text}
+                            </span>
+                          )}
+                        {trackHref && (
+                          <a
+                            href={trackHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-foreground hover:underline"
+                          >
+                            {_('Track shipment →')}
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </section>
+      </div>
     </div>
   );
 }
@@ -254,6 +294,52 @@ export const query = `
           cost
         }
       }
+      subTotal {
+        text
+      }
+      subTotalInclTax {
+        text
+      }
+      shippingFeeInclTax {
+        text
+      }
+      shippingFeeExclTax {
+        text
+      }
+      totalTaxAmount {
+        text
+      }
+      discountAmount {
+        text
+      }
+      coupon
+      items {
+        uuid
+        productName
+        thumbnail
+        productSku
+        qty
+        productUrl
+        productPrice {
+          text
+        }
+        productPriceInclTax {
+          text
+        }
+        variantOptions {
+          attributeCode
+          attributeName
+          attributeId
+          optionId
+          optionText
+        }
+        lineTotalInclTax {
+          text
+        }
+        lineTotal {
+          text
+        }
+      }
       shipments {
         uuid
         shipmentId
@@ -268,10 +354,18 @@ export const query = `
           phase
         }
         phase
-        shippedAt
-        deliveredAt
-        canceledAt
-        createdAt
+        shippedAt {
+          text
+        }
+        deliveredAt {
+          text
+        }
+        canceledAt {
+          text
+        }
+        createdAt {
+          text
+        }
         items {
           uuid
           qty

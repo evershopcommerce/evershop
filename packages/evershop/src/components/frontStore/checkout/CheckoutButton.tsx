@@ -65,7 +65,7 @@ export function CheckoutButton() {
         ) : (
           // Default checkout button when no payment method is selected or no custom button
           <Button
-            variant={'outline'}
+            variant={'default'}
             type="submit"
             size={'xl'}
             className="w-full disabled:opacity-50 disabled:cursor-not-allowed"

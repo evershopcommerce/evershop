@@ -55,7 +55,7 @@ export const ProductListItemRender = ({
               </a>
             </h3>
 
-            <div className="product__list__sku text-sm text-gray-600 mb-2">
+            <div className="product__list__sku text-sm text-muted-foreground mb-2">
               {_('SKU ${sku}', { sku: product.sku })}
             </div>
 

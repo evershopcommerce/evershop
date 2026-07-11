@@ -38,7 +38,7 @@ const DefaultVariantOptionItem: React.FC<VariantOptionItemProps> = ({
           }
           await onSelect(attribute.attributeCode, option.optionId);
         }}
-        className={'group-[.selected]:border-primary'}
+        className={'rounded-full px-4 group-[.selected]:border-primary'}
       >
         {option.optionText}
       </Button>
@@ -54,7 +54,7 @@ const DefaultVariantAttribute: React.FC<VariantAttributeGroupProps> = ({
 }) => {
   return (
     <div key={attribute.attributeCode}>
-      <div className="mb-2 text-textSubdued uppercase">
+      <div className="mb-2 text-sm font-medium">
         <span>{attribute.attributeName}</span>
       </div>
       <ul className="variant-option-list flex justify-start gap-2 flex-wrap">

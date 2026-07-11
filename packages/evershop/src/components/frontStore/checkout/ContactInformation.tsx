@@ -26,7 +26,6 @@ import {
   useCustomerDispatch
 } from '@components/frontStore/customer/CustomerContext.jsx';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CircleUser } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 const LoggedIn: React.FC<{
@@ -216,12 +215,16 @@ export function ContactInformation() {
     <>
       <Area id="checkoutContactInformationBefore" />
       <div className="checkout-contact checkout-step">
-        <Card>
+        <Card className="rounded-lg border border-border shadow-none ring-0">
           <CardHeader>
             <CardTitle>
-              <div className="flex items-center gap-2">
-                <CircleUser className="w-5 h-5" />
-                <span>{_('Contact Information')}</span>
+              <div className="flex items-center gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+                  1
+                </span>
+                <span className="text-base font-semibold">
+                  {_('Contact Information')}
+                </span>
               </div>
             </CardTitle>
           </CardHeader>

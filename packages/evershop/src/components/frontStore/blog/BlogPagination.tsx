@@ -20,11 +20,11 @@ export function BlogPagination({
   }
 
   const linkClass =
-    'border border-gray-300 rounded px-3 py-1 hover:bg-gray-100 text-sm';
-  const disabledClass = 'text-gray-300 px-3 py-1 text-sm';
+    'border border-border rounded-md px-3 py-1.5 hover:bg-muted text-sm transition-colors';
+  const disabledClass = 'text-muted-foreground/40 px-3 py-1.5 text-sm';
 
   return (
-    <nav className="blog-pagination flex items-center justify-center gap-4 mt-10">
+    <nav className="blog-pagination flex items-center justify-center gap-4 mt-12">
       {currentPage > 1 ? (
         <a href={`?page=${currentPage - 1}`} className={linkClass}>
           {_('Previous')}
@@ -32,7 +32,7 @@ export function BlogPagination({
       ) : (
         <span className={disabledClass}>{_('Previous')}</span>
       )}
-      <span className="text-sm text-gray-500">
+      <span className="text-sm text-muted-foreground">
         {_('Page')} {currentPage} / {totalPages}
       </span>
       {currentPage < totalPages ? (

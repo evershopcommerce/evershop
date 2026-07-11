@@ -46,10 +46,17 @@ export default function CheckoutPage({
       placeOrderApi={placeOrderApi}
       checkoutSuccessUrl={checkoutSuccessUrl}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-7 pt-8 pb-8">
+      <h1 className="mb-8 text-3xl font-semibold tracking-tight">
+        {_('Checkout')}
+      </h1>
+      <div className="grid grid-cols-1 gap-8 pb-16 lg:grid-cols-[1fr_400px]">
         <Form form={form} submitBtn={false}>
           <Area id="checkoutFormBefore" noOuter />
-          <div>
+          {/* No `space-y-*` here: the sections emit empty <Area> wrapper divs,
+              so space-y would give the first visible card a top margin that
+              collapses out through the <fieldset> and drops the whole column ~24px
+              below the summary. Each section carries its own `mt-6` instead. */}
+          <div className="checkout-steps">
             <ContactInformation />
             <Shipment />
             <Payment />
@@ -58,18 +65,23 @@ export default function CheckoutPage({
           <Area id="checkoutForm" noOuter />
           <Area id="checkoutFormAfter" noOuter />
         </Form>
-        <div>
+        <div className="h-fit space-y-6 lg:sticky lg:top-8">
           {showShippingNote && <ShippingNote />}
-          <CartItems>
-            {({ items, loading, showPriceIncludingTax }) => (
-              <CartSummaryItemsList
-                items={items}
-                loading={loading}
-                showPriceIncludingTax={showPriceIncludingTax}
-              />
-            )}
-          </CartItems>
-          <CartTotalSummary />
+          <div className="rounded-lg border border-border bg-card p-6">
+            <h2 className="mb-4 h4">{_('Order summary')}</h2>
+            <CartItems>
+              {({ items, loading, showPriceIncludingTax }) => (
+                <CartSummaryItemsList
+                  items={items}
+                  loading={loading}
+                  showPriceIncludingTax={showPriceIncludingTax}
+                />
+              )}
+            </CartItems>
+            <div className="mt-4">
+              <CartTotalSummary />
+            </div>
+          </div>
         </div>
       </div>
     </CheckoutProvider>

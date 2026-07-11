@@ -27,7 +27,12 @@ const List: React.FC<{
   return (
     <ListTag>
       {data.items.map((item, index) => (
-        <li key={index}>{item}</li>
+        // Items may carry inline formatting (bold/italic/links) as HTML, same
+        // as a paragraph — render it (sanitized) rather than as literal text.
+        <li
+          key={index}
+          dangerouslySetInnerHTML={{ __html: sanitize(item) }}
+        />
       ))}
     </ListTag>
   );
@@ -37,8 +42,10 @@ const Quote: React.FC<{ data: { text: string; caption?: string } }> = ({
   data
 }) => {
   return (
+    // `prose` already adds typographic quotation marks around blockquote text
+    // via ::before/::after — don't add literal ones here or they double up.
     <blockquote>
-      <p>&quot;{data.text}&quot;</p>
+      <p>{data.text}</p>
       {data.caption && <cite>- {data.caption}</cite>}
     </blockquote>
   );

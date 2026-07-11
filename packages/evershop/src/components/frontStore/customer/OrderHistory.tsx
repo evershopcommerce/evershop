@@ -1,5 +1,3 @@
-import { Image } from '@components/common/Image.js';
-import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import {
   Order,
   useCustomer
@@ -7,81 +5,57 @@ import {
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
-const OrderDetail: React.FC<{ order: Order }> = ({ order }) => {
-  return (
-    <div className="order border-divider">
-      <div className="order-inner grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className="order-items col-span-2">
-          {order.items.map((item) => (
-            <div
-              className="order-item mb-2 flex gap-5 items-center"
-              key={item.productSku}
-            >
-              <div className="thumbnail border border-divider p-2 rounded">
-                {item.thumbnail && (
-                  <Image
-                    width={50}
-                    height={50}
-                    style={{ maxWidth: '6rem' }}
-                    src={item.thumbnail}
-                    alt={item.productName}
-                  />
-                )}
-                {!item.thumbnail && (
-                  <ProductNoThumbnail width={50} height={50} />
-                )}
-              </div>
-              <div className="order-item-info">
-                <div className="order-item-name font-semibold">
-                  {item.productName}
-                </div>
-                <div className="order-item-sku italic">
-                  {_('Sku')}: #{item.productSku}
-                </div>
-                <div className="order-item-qty">
-                  {item.qty} x {item.productPrice.text}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="order-total col-span-1">
-          <div className="order-header">
-            <div className="order-number">
-              <span className="font-bold">
-                {_('Order')}: #{order.orderNumber}
-              </span>
-              <span className="italic pl-2">{order.createdAt.text}</span>
-            </div>
-          </div>
-          <div className="order-total-value font-bold">
-            {_('Total')}:{order.grandTotal.text}
-          </div>
-        </div>
+/**
+ * Re-skin (2026-07-11): compact order rows (order # + date + status pill +
+ * total) matching the /account/orders list and the reference — replaces the old
+ * item-thumbnail rows that read heavy in the narrow account column.
+ */
+const OrderRow: React.FC<{ order: Order }> = ({ order }) => (
+  <a
+    href={`/account/orders/${order.uuid}`}
+    className="flex flex-col gap-2 p-4 transition-colors hover:bg-muted/40 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <div className="text-sm font-medium">#{order.orderNumber}</div>
+      <div className="mt-0.5 text-xs text-muted-foreground">
+        {order.createdAt?.text}
       </div>
     </div>
-  );
-};
+    <div className="flex items-center gap-3">
+      {order.shipmentStatus?.name && (
+        <span className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground">
+          {order.shipmentStatus.name}
+        </span>
+      )}
+      {order.status?.name && (
+        <span className="rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground">
+          {order.status.name}
+        </span>
+      )}
+      <span className="text-sm font-medium tabular-nums">
+        {order.grandTotal.text}
+      </span>
+    </div>
+  </a>
+);
 
 export default function OrderHistory({ title }: { title?: string }) {
   const { customer } = useCustomer();
   const orders = customer?.orders || [];
   return (
-    <div className="order-history divide-y">
-      {title && <h2 className="order-history-title border-border">{title}</h2>}
-      {orders.length === 0 && (
-        <div className="order-history-empty">
+    <div className="order-history">
+      {title && <h2 className="mb-4 h4">{title}</h2>}
+      {orders.length === 0 ? (
+        <div className="text-sm text-muted-foreground">
           {_('You have not placed any orders yet')}
         </div>
-      )}
-      {orders.map((order) => (
-        <div
-          className="order-history-order border-divider py-5"
-          key={order.orderId}
-        >
-          <OrderDetail order={order} key={order.orderId} />
+      ) : (
+        <div className="order-history-list divide-y divide-border overflow-hidden rounded-lg border border-border">
+          {orders.map((order) => (
+            <OrderRow order={order} key={order.orderId} />
+          ))}
         </div>
-      ))}
+      )}
     </div>
   );
 }

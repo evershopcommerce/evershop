@@ -78,25 +78,27 @@ const Address: React.FC<{
                   />
                 </div>
               </Form>
+              <DialogFooter>
+                <Button
+                  variant="destructive"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    try {
+                      await deleteAddress(address.uuid as string);
+                      toast.success(
+                        _('Address has been deleted successfully!')
+                      );
+                    } catch (error) {
+                      toast.error(
+                        error instanceof Error ? error.message : String(error)
+                      );
+                    }
+                  }}
+                >
+                  {_('Delete')}
+                </Button>
+              </DialogFooter>
             </DialogContent>
-            <DialogFooter>
-              <Button
-                variant="destructive"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  try {
-                    await deleteAddress(address.uuid as string);
-                    toast.success(_('Address has been deleted successfully!'));
-                  } catch (error) {
-                    toast.error(
-                      error instanceof Error ? error.message : String(error)
-                    );
-                  }
-                }}
-              >
-                {_('Delete')}
-              </Button>
-            </DialogFooter>
           </Dialog>
         </div>
       </ItemActions>
@@ -114,16 +116,16 @@ export function MyAddresses({ title }: { title?: string }) {
   return (
     <div>
       {title && (
-        <div className="border-b mb-5 border-gray-200">
+        <div className="border-b mb-5 border-border">
           <h2>{_('Address Book')}</h2>
         </div>
       )}
       {customer.addresses.length === 0 && (
-        <div className="order-history-empty">
+        <div className="text-sm text-muted-foreground">
           {_('You have no addresses saved')}
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {customer.addresses.map((address) => (
           <Address key={address.uuid} address={address} />
         ))}
@@ -132,6 +134,7 @@ export function MyAddresses({ title }: { title?: string }) {
         <DialogTrigger>
           <Button
             variant="outline"
+            className="mt-4"
             onClick={(e) => {
               e.preventDefault();
             }}

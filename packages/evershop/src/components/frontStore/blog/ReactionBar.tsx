@@ -56,7 +56,7 @@ export function ReactionBar({
 
   return (
     <div className="blog-reactions flex flex-wrap items-center gap-2 mt-8">
-      <span className="text-sm text-gray-500 mr-1">{_('React')}:</span>
+      <span className="text-sm text-muted-foreground mr-1">{_('React')}:</span>
       {reactions.map((r) => (
         <button
           key={r.type}
@@ -64,13 +64,15 @@ export function ReactionBar({
           onClick={() => react(r.type)}
           className={`flex items-center gap-1 border rounded-full px-3 py-1 text-sm transition-colors ${
             r.reacted
-              ? 'border-blue-500 bg-blue-50'
-              : 'border-gray-300 hover:bg-gray-100'
+              ? 'border-foreground bg-muted'
+              : 'border-border hover:bg-muted'
           }`}
         >
           <span>{EMOJI[r.type] || '👍'}</span>
           <span className="capitalize">{r.type}</span>
-          {r.count > 0 && <span className="text-gray-500">{r.count}</span>}
+          {r.count > 0 && (
+            <span className="text-muted-foreground">{r.count}</span>
+          )}
         </button>
       ))}
     </div>

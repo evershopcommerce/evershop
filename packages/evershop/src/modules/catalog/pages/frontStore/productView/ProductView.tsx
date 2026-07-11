@@ -4,7 +4,6 @@ import {
   ProductData,
   ProductProvider
 } from '@components/frontStore/catalog/ProductContext.js';
-import { ProductSingleAttributes } from '@components/frontStore/catalog/ProductSingleAttributes.js';
 import { ProductSingleDescription } from '@components/frontStore/catalog/ProductSingleDescription.js';
 import { ProductSingleForm } from '@components/frontStore/catalog/ProductSingleForm.js';
 import { ProductSingleName } from '@components/frontStore/catalog/ProductSingleName.js';
@@ -36,11 +35,6 @@ export default function ProductView({ product }: ProductData) {
                   component: { default: <ProductSingleName /> },
                   sortOrder: 10,
                   id: 'name'
-                },
-                {
-                  component: { default: <ProductSingleAttributes /> },
-                  sortOrder: 20,
-                  id: 'attributes'
                 },
                 {
                   component: { default: <ProductSingleForm /> },

@@ -17,7 +17,6 @@ import {
 import { BillingAddress } from '@components/frontStore/checkout/payment/BillingAddress.js';
 import { PaymentMethods } from '@components/frontStore/checkout/payment/PaymentMethods.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CreditCard } from 'lucide-react';
 import React, { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -62,12 +61,16 @@ export function Payment() {
     <>
       <Area id="checkoutPaymentBefore" />
       <div className="checkout__payment space-y-6 mt-6">
-        <Card>
+        <Card className="rounded-lg border border-border shadow-none ring-0">
           <CardHeader>
             <CardTitle>
-              <div className="flex items-center gap-2">
-                <CreditCard className="w-5 h-5" />
-                <span>{_('Payment Information')}</span>
+              <div className="flex items-center gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+                  3
+                </span>
+                <span className="text-base font-semibold">
+                  {_('Payment Information')}
+                </span>
               </div>
             </CardTitle>
           </CardHeader>

@@ -1,7 +1,6 @@
 import { Area } from '@components/common/index.js';
 import { ProductList } from '@components/frontStore/catalog/ProductList.js';
 import { useSearch } from '@components/frontStore/catalog/SearchContext.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export function SearchProducts() {
@@ -10,17 +9,14 @@ export function SearchProducts() {
   return (
     <>
       <Area id="searchProductsBefore" noOuter />
-      <div>
-        <ProductList
-          products={products.items}
-          layout="grid"
-          gridColumns={3}
-          showAddToCart={true}
-        />
-        <span className="product-count italic block mt-5">
-          {_('${count} products', { count: products.total.toString() })}
-        </span>
-      </div>
+      {/* Re-skin (2026-07-10): 4-col grid (reference); the result count moved
+          into the SearchInfo heading, so no separate italic count line. */}
+      <ProductList
+        products={products.items}
+        layout="grid"
+        gridColumns={4}
+        showAddToCart={true}
+      />
       <Area id="searchProductsAfter" noOuter />
     </>
   );

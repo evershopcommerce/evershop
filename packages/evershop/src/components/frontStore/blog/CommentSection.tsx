@@ -56,23 +56,23 @@ function CommentItem({
   };
 
   return (
-    <div className={depth > 0 ? 'ml-6 mt-4 border-l border-gray-200 pl-4' : 'mt-6'}>
+    <div className={depth > 0 ? 'ml-6 mt-4 border-l border-border pl-4' : 'mt-6'}>
       <div className="flex items-center gap-2 text-sm">
         <span className="font-medium">{comment.name}</span>
         {comment.createdAt && (
-          <span className="text-gray-400">
+          <span className="text-muted-foreground">
             {new Date(comment.createdAt).toLocaleDateString()}
           </span>
         )}
       </div>
-      <div className="text-gray-700 mt-1">
+      <div className="text-foreground mt-1">
         <CommentText text={comment.comment} />
       </div>
-      <div className="flex gap-4 mt-1 text-sm text-gray-500">
+      <div className="flex gap-4 mt-1 text-sm text-muted-foreground">
         <button
           type="button"
           onClick={like}
-          className={liked ? 'text-blue-600' : 'hover:underline'}
+          className={liked ? 'text-foreground font-medium' : 'hover:underline'}
         >
           ♥ {likeCount}
         </button>
@@ -178,14 +178,16 @@ export function CommentSection({
         {_('Comments')} ({total})
       </h2>
       {comments.length === 0 && (
-        <p className="text-gray-500">{_('No comments yet. Be the first!')}</p>
+        <p className="text-muted-foreground">
+          {_('No comments yet. Be the first!')}
+        </p>
       )}
       {comments.map((c) => (
         <CommentItem key={c.uuid} comment={c} depth={0} onReply={setReplyTo} />
       ))}
 
       <form onSubmit={submit} className="mt-8 space-y-3">
-          <h3 className="text-lg font-semibold">
+          <h3 className="h4">
             {replyTo
               ? _('Reply to ${name}', { name: replyTo.name })
               : _('Leave a comment')}
@@ -194,7 +196,7 @@ export function CommentSection({
             <button
               type="button"
               onClick={() => setReplyTo(null)}
-              className="text-sm text-blue-600"
+              className="text-sm text-muted-foreground hover:text-foreground"
             >
               {_('Cancel reply')}
             </button>
@@ -214,7 +216,7 @@ export function CommentSection({
               placeholder={_('Name')}
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="border border-gray-300 rounded px-3 py-2"
+              className="border border-border rounded-md px-3 py-2"
             />
             <input
               required
@@ -222,7 +224,7 @@ export function CommentSection({
               placeholder={_('Email (not published)')}
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="border border-gray-300 rounded px-3 py-2"
+              className="border border-border rounded-md px-3 py-2"
             />
           </div>
           <textarea
@@ -231,7 +233,7 @@ export function CommentSection({
             value={form.comment}
             onChange={(e) => setForm({ ...form, comment: e.target.value })}
             rows={4}
-            className="w-full border border-gray-300 rounded px-3 py-2"
+            className="w-full border border-border rounded-md px-3 py-2"
           />
           {/* Honeypot — hidden from humans, bots fill it. */}
           <input
@@ -247,7 +249,7 @@ export function CommentSection({
           <button
             type="submit"
             disabled={submitting}
-            className="bg-gray-900 text-white rounded px-4 py-2 disabled:opacity-50"
+            className="bg-primary text-primary-foreground rounded-md px-4 py-2 disabled:opacity-50 hover:bg-primary/80 transition-colors"
           >
             {submitting ? _('Submitting…') : _('Post comment')}
           </button>

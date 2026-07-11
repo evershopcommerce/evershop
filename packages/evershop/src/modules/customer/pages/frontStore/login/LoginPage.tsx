@@ -18,11 +18,11 @@ export default function LoginPage({
   return (
     <div className="login__page flex flex-col items-center py-10 md:px-4">
       <div className="w-full max-w-md">
-        <Card>
-          <CardContent>
+        <Card className="rounded-lg border border-border py-8 shadow-none ring-0">
+          <CardContent className="px-8">
             <CustomerLoginForm
-              title={_('Welcome Back!')}
-              subtitle={_('Please sign in to your account')}
+              title={_('Sign in')}
+              subtitle={_('Welcome back — sign in to your account.')}
               redirectUrl={homeUrl}
               onError={(error) => {
                 toast.error(error.message);
@@ -31,16 +31,22 @@ export default function LoginPage({
             />
           </CardContent>
         </Card>
-        <div className="login__page__options text-center mt-4 gap-5 flex justify-center">
-          <a className="text-interactive hover:underline" href={registerUrl}>
-            {_('Create an account')}
-          </a>
+        <div className="login__page__options mt-6 flex flex-col items-center gap-2 text-sm">
           <a
-            className="text-destructive hover:underline"
+            className="text-muted-foreground hover:text-foreground hover:underline"
             href={forgotPasswordUrl}
           >
             {_('Forgot your password?')}
           </a>
+          <div className="text-muted-foreground">
+            {_('New here?')}{' '}
+            <a
+              className="font-medium text-foreground hover:underline"
+              href={registerUrl}
+            >
+              {_('Create an account')}
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -9,6 +9,7 @@ import {
   AddToCartState
 } from '@components/frontStore/cart/AddToCart.js';
 import { useProduct } from '@components/frontStore/catalog/ProductContext.js';
+import { ProductSingleAttributes } from '@components/frontStore/catalog/ProductSingleAttributes.js';
 import { VariantSelector } from '@components/frontStore/catalog/VariantSelector.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
@@ -30,13 +31,36 @@ export function ProductSingleForm() {
           {
             component: {
               default: (
-                <div className="product__single__price text-2xl">
-                  {price.regular.text}
+                <div className="product__single__price flex items-baseline gap-3">
+                  {price.special &&
+                  price.special.value < price.regular.value ? (
+                    <>
+                      <span className="text-2xl font-semibold">
+                        {price.special.text}
+                      </span>
+                      <span className="text-lg text-muted-foreground line-through">
+                        {price.regular.text}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="text-2xl font-semibold">
+                      {price.regular.text}
+                    </span>
+                  )}
                 </div>
               )
             },
             sortOrder: 5,
             id: 'price'
+          },
+          {
+            // Re-skin (2026-07-10): spec list sits just below the price
+            // (reference order), was above it at the ProductView level.
+            component: {
+              default: <ProductSingleAttributes />
+            },
+            sortOrder: 7,
+            id: 'attributes'
           },
           {
             component: {
@@ -93,7 +117,7 @@ export function ProductSingleForm() {
                                   setAddingToCart(false);
                                 });
                             }}
-                            className="w-full py-6 uppercase"
+                            className="mt-2 w-full"
                             isLoading={addingToCart || state.isLoading}
                           >
                             {_('Add to cart')}
@@ -103,7 +127,7 @@ export function ProductSingleForm() {
                       {state.isInStock === false && (
                         <Button
                           onClick={() => {}}
-                          className="w-full py-6 uppercase"
+                          className="mt-2 w-full"
                           disabled
                         >
                           {_('Sold out')}

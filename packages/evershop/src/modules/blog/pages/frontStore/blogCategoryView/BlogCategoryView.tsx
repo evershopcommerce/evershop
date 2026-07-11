@@ -27,10 +27,10 @@ export default function BlogCategoryView({
     <div className="blog-category py-8">
       <h1 className="text-3xl font-bold mb-2">{category.name}</h1>
       {category.shortDescription && (
-        <p className="text-gray-600 mb-6">{category.shortDescription}</p>
+        <p className="text-muted-foreground mb-6">{category.shortDescription}</p>
       )}
       {items.length === 0 ? (
-        <p className="text-gray-500">{_('No posts in this category yet.')}</p>
+        <p className="text-muted-foreground">{_('No posts in this category yet.')}</p>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
