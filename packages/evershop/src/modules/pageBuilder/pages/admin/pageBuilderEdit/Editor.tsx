@@ -1,4 +1,5 @@
 import { FileBrowser } from '@components/admin/FileBrowser.js';
+import { normalizeImageSrc } from '@components/common/page-builder/normalizeImageSrc.js';
 import { Toaster, toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
@@ -2279,7 +2280,7 @@ export default function Editor({
     if (!imageEdit) return;
     const { widgetUid, fields } = imageEdit;
     setImageEdit(null);
-    const url = (file || '').replace(/\/{2,}/g, '/');
+    const url = normalizeImageSrc(file);
     const base = `block.${widgetUid}`;
     const dims =
       url && (fields.widthField || fields.heightField)
