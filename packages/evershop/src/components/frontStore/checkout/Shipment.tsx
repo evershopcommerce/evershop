@@ -17,7 +17,6 @@ import {
 import { ShippingMethods } from '@components/frontStore/checkout/shipment/ShippingMethods.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { MapPin } from 'lucide-react';
 import React, { useEffect, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -177,12 +176,16 @@ export function Shipment() {
     <>
       <Area id="checkoutShipmentBefore" />
       <div className="checkout__shipment space-y-6 mt-6">
-        <Card className="transition-all overflow-hidden duration-200">
+        <Card className="rounded-lg border border-border shadow-none ring-0 transition-all overflow-hidden duration-200">
           <CardHeader>
             <CardTitle>
-              <div className="flex items-center gap-2">
-                <MapPin className="w-5 h-5" />
-                <span>{_('Shipping Address')}</span>
+              <div className="flex items-center gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+                  2
+                </span>
+                <span className="text-base font-semibold">
+                  {_('Shipping Address')}
+                </span>
               </div>
             </CardTitle>
           </CardHeader>

@@ -49,19 +49,19 @@ function ShippingMethodSkeleton() {
       {[1, 2, 3, 4].map((index) => (
         <div
           key={index}
-          className="border border-gray-200 rounded-lg p-4 mb-3 animate-pulse"
+          className="border border-border rounded-lg p-4 mb-3 animate-pulse"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="w-4 h-4 bg-gray-200 rounded-full"></div>
+              <div className="w-4 h-4 bg-muted rounded-full"></div>
               <div className="space-y-2">
-                <div className="h-4 bg-gray-200 rounded w-20"></div>
-                <div className="h-3 bg-gray-200 rounded w-40"></div>
+                <div className="h-4 bg-muted rounded w-20"></div>
+                <div className="h-3 bg-muted rounded w-40"></div>
               </div>
             </div>
             <div className="text-right space-y-1">
-              <div className="h-3 bg-gray-200 rounded w-12"></div>
-              <div className="h-4 bg-gray-200 rounded w-16"></div>
+              <div className="h-3 bg-muted rounded w-12"></div>
+              <div className="h-4 bg-muted rounded w-16"></div>
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ export function ShippingMethods({
       aria-invalid={formState.errors.shippingMethod ? 'true' : 'false'}
       tabIndex={-1}
     >
-      <Card>
+      <Card className="rounded-lg border border-border shadow-none ring-0">
         <CardHeader>
           <CardTitle>
             <div className="flex items-center gap-2">
@@ -216,7 +216,7 @@ export function ShippingMethods({
                                 </div>
                               ) : (
                                 <>
-                                  <div className="text-sm text-gray-500 line-through">
+                                  <div className="text-sm text-muted-foreground line-through">
                                     {method.cost.text}
                                   </div>
                                   <div className="font-medium text-primary uppercase">
@@ -226,7 +226,7 @@ export function ShippingMethods({
                               )}
                             </>
                           ) : (
-                            <div className="font-medium text-gray-900">
+                            <div className="font-medium text-foreground">
                               {_('Contact for pricing')}
                             </div>
                           )}

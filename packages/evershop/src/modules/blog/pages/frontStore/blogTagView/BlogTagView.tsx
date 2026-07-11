@@ -24,12 +24,12 @@ export default function BlogTagView({
   const items = tag.posts?.items || [];
   return (
     <div className="blog-tag py-8">
-      <p className="text-sm uppercase tracking-wide text-gray-500 mb-1">
+      <p className="text-sm uppercase tracking-wide text-muted-foreground mb-1">
         {_('Tag')}
       </p>
       <h1 className="text-3xl font-bold mb-6">#{tag.name}</h1>
       {items.length === 0 ? (
-        <p className="text-gray-500">{_('No posts with this tag yet.')}</p>
+        <p className="text-muted-foreground">{_('No posts with this tag yet.')}</p>
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

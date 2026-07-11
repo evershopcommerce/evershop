@@ -19,7 +19,7 @@ export function CategoryProductsFilter() {
         {(renderProps) => (
           <DefaultProductFilterRender
             renderProps={renderProps}
-            title={_('Product Filters')}
+            title={_('Filters')}
             showFilterSummary={true}
           />
         )}

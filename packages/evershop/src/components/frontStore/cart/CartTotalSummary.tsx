@@ -36,7 +36,7 @@ const Total: React.FC<{
   loading?: boolean;
 }> = ({ total, totalTaxAmount, priceIncludingTax, loading = false }) => {
   return (
-    <div className="summary__row grand-total flex justify-between py-2">
+    <div className="summary__row grand-total flex items-center justify-between border-t border-border mt-3 pt-4 text-base font-semibold">
       {(priceIncludingTax && (
         <div>
           <div className="font-bold">
@@ -69,8 +69,8 @@ const Tax: React.FC<{
   }
 
   return (
-    <div className="summary-row flex justify-between py-2">
-      <span>{_('Tax')}</span>
+    <div className="summary-row flex justify-between py-1.5">
+      <span className="text-muted-foreground">{_('Tax')}</span>
       <div>
         <div />
         <SkeletonValue loading={loading} className="text-right">
@@ -86,8 +86,8 @@ const Subtotal: React.FC<{ subTotal: string; loading?: boolean }> = ({
   loading = false
 }) => {
   return (
-    <div className="flex justify-between gap-7 py-2">
-      <div>{_('Sub total')}</div>
+    <div className="flex justify-between gap-7 py-1.5">
+      <div className="text-muted-foreground">{_('Sub total')}</div>
       <SkeletonValue loading={loading} className="text-right">
         {subTotal}
       </SkeletonValue>
@@ -147,18 +147,20 @@ const Shipping: React.FC<{
   loading?: boolean;
 }> = ({ method, cost, noShippingRequired, loading = false }) => {
   return (
-    <div className="summary-row flex justify-between gap-7 py-2">
+    <div className="summary-row flex justify-between gap-7 py-1.5">
       {noShippingRequired && (
         <>
-          <span>{_('Shipping')}</span>
-          <span className="text-gray-500 italic font-normal">
+          <span className="text-muted-foreground">{_('Shipping')}</span>
+          <span className="text-muted-foreground">
             {_('No shipping required')}
           </span>
         </>
       )}
       {method && !noShippingRequired && (
         <>
-          <span>{_('Shipping (${method})', { method })}</span>
+          <span className="text-muted-foreground">
+            {_('Shipping (${method})', { method })}
+          </span>
           <div>
             <SkeletonValue loading={loading}>{cost}</SkeletonValue>
           </div>
@@ -166,8 +168,8 @@ const Shipping: React.FC<{
       )}
       {!method && !noShippingRequired && (
         <>
-          <span>{_('Shipping')}</span>
-          <span className="text-gray-500 italic font-normal">
+          <span className="text-muted-foreground">{_('Shipping')}</span>
+          <span className="text-muted-foreground">
             {_('Select shipping method')}
           </span>
         </>
@@ -199,7 +201,7 @@ const DefaultCartSummary: React.FC<{
   taxAmount,
   total
 }) => (
-  <div className="cart__total__summary font-semibold">
+  <div className="cart__total__summary text-sm">
     <Area id="cartSummaryBeforeSubTotal" noOuter />
     <Subtotal subTotal={subTotal} loading={loading} />
     <Area id="cartSummaryAfterSubTotal" noOuter />

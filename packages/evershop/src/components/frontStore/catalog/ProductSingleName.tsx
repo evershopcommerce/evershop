@@ -7,7 +7,9 @@ export const ProductSingleName = () => {
   return (
     <>
       <Area id="productNameBefore" noOuter />
-      <h1 className="product__single__name capitalize">{name}</h1>
+      <h1 className="product__single__name capitalize text-2xl font-semibold tracking-tight md:text-3xl">
+        {name}
+      </h1>
       <Area id="productNameAfter" noOuter />
     </>
   );

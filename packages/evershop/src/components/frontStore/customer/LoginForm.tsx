@@ -44,12 +44,12 @@ export const CustomerLoginForm: React.FC<{
       <div className="login__form__inner w-full">
         <Area id="customerLoginFormTitleBefore" noOuter />
         {title && (
-          <h1 className="login__form__title text-2xl text-center mb-6">
+          <h1 className="login__form__title text-2xl font-semibold tracking-tight mb-1">
             {_(title)}
           </h1>
         )}
         {subtitle && (
-          <p className="login__form__subtitle text-center mb-6">
+          <p className="login__form__subtitle text-muted-foreground mb-6">
             {_(subtitle)}
           </p>
         )}

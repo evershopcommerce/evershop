@@ -1,7 +1,8 @@
 import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
-import { Form } from '@components/common/form/Form.js';
+import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
+import { Button } from '@components/common/ui/Button.js';
 import { toast } from '@components/common/ui/Sonner.js';
 import {
   useCustomer,
@@ -15,37 +16,60 @@ interface AccountInfoProps {
   title?: string;
   showLogout?: boolean;
 }
+
+/**
+ * Save + Cancel on one row, inside the <Form> so the submit button drives the
+ * form's own onSubmit. Reads `isSubmitting` from the form context to keep the
+ * Save spinner. Cancel uses the destructive variant.
+ */
+function AccountInfoActions({ onCancel }: { onCancel: () => void }) {
+  const {
+    formState: { isSubmitting }
+  } = useFormContext();
+  return (
+    <div className="mt-4 flex items-center gap-3">
+      <Button type="submit" isLoading={isSubmitting}>
+        {_('Save')}
+      </Button>
+      <Button type="button" variant="destructive" onClick={onCancel}>
+        {_('Cancel')}
+      </Button>
+    </div>
+  );
+}
 export default function AccountInfo({ title, showLogout }: AccountInfoProps) {
   const { customer: account } = useCustomer();
   const { logout, updateProfile } = useCustomerDispatch();
   const [isEditing, setIsEditing] = React.useState(false);
   return (
     <div className="account__details divide-y">
-      <div className="flex justify-between items-center border-border">
-        {title && <h2>{title}</h2>}
-        {showLogout && (
-          <a
-            className="text-interactive"
-            href="#"
-            onClick={async (e) => {
-              e.preventDefault();
-              try {
-                await logout();
-                window.location.href = '/';
-              } catch (error) {
-                toast.error(error.message);
-              }
-            }}
-          >
-            {_('Logout')}
-          </a>
-        )}
-      </div>
+      {(title || showLogout) && (
+        <div className="flex justify-between items-center border-border">
+          {title && <h2>{title}</h2>}
+          {showLogout && (
+            <a
+              className="text-interactive"
+              href="#"
+              onClick={async (e) => {
+                e.preventDefault();
+                try {
+                  await logout();
+                  window.location.href = '/';
+                } catch (error) {
+                  toast.error(error.message);
+                }
+              }}
+            >
+              {_('Logout')}
+            </a>
+          )}
+        </div>
+      )}
       {isEditing ? (
         <div className="account__details__form py-5">
           <Form
             id="accountInfoForm"
-            submitBtnText={_('Save')}
+            submitBtn={false}
             onSubmit={async (data) => {
               try {
                 await updateProfile({
@@ -77,33 +101,24 @@ export default function AccountInfo({ title, showLogout }: AccountInfoProps) {
                 validation={{ required: _('Email is required') }}
               />
             </div>
+            <AccountInfoActions onCancel={() => setIsEditing(false)} />
           </Form>
-          <div className="mt-3">
-            <a
-              className="text-interactive"
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsEditing(false);
-              }}
-            >
-              {_('Cancel')}
-            </a>
-          </div>
         </div>
       ) : (
-        <div className="flex justify-between items-start gap-2 py-5">
-          <div className="grid grid-cols-1 gap-2 grow">
+        <div className="flex justify-between items-start gap-2">
+          <div className="grid grid-cols-1 gap-2 grow text-sm">
             <Area
               id="accountDetails"
               coreComponents={[
                 {
                   component: {
                     default: (
-                      <div className="account__details__name flex gap-2 py-2">
-                        <div>
-                          <User width={20} height={20} />
-                        </div>
+                      <div className="account__details__name flex items-center gap-2">
+                        <User
+                          width={16}
+                          height={16}
+                          className="text-muted-foreground"
+                        />
                         <div>{account?.fullName}</div>
                       </div>
                     )
@@ -113,10 +128,12 @@ export default function AccountInfo({ title, showLogout }: AccountInfoProps) {
                 {
                   component: {
                     default: () => (
-                      <div className="account__details__email flex gap-2 py-2">
-                        <div>
-                          <Mail width={20} height={20} />
-                        </div>
+                      <div className="account__details__email flex items-center gap-2">
+                        <Mail
+                          width={16}
+                          height={16}
+                          className="text-muted-foreground"
+                        />
                         <div>{account?.email}</div>
                       </div>
                     )
@@ -128,10 +145,10 @@ export default function AccountInfo({ title, showLogout }: AccountInfoProps) {
           </div>
           <button
             type="button"
-            className="text-interactive flex items-center gap-1"
+            className="flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
             onClick={() => setIsEditing(true)}
           >
-            <Pencil width={16} height={16} />
+            <Pencil width={14} height={14} />
             {_('Edit')}
           </button>
         </div>

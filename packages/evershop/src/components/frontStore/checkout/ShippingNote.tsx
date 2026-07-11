@@ -28,7 +28,7 @@ export function ShippingNote() {
 
   return (
     <div className="checkout-shipping-note mb-5">
-      <Card>
+      <Card className="rounded-lg border border-border shadow-none ring-0">
         <CardHeader>
           <CardTitle>
             <div className="flex items-center gap-2">

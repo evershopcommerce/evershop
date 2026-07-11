@@ -17,6 +17,7 @@ import {
   ProductFilterDispatch
 } from '@components/frontStore/catalog/ProductFilter.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { SlidersHorizontal } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import React from 'react';
 
@@ -88,7 +89,7 @@ export const DefaultProductFilterRender: React.FC<{
     <ProductFilterDispatch.Provider value={contextValue}>
       <button
         onClick={() => setIsMobileFilterOpen(true)}
-        className="md:hidden w-full flex items-center justify-center space-x-2 py-3 px-4 border border-gray-300 rounded-md bg-white hover:bg-gray-50 transition-colors"
+        className="md:hidden w-full flex items-center justify-center space-x-2 py-3 px-4 border border-border rounded-md bg-white hover:bg-muted transition-colors"
       >
         <svg
           className="w-5 h-5"
@@ -161,7 +162,10 @@ export const DefaultProductFilterRender: React.FC<{
       <div className={`hidden md:block product__filters ${className}`}>
         <div className="product__filters__header flex items-center justify-between mb-4">
           {title && (
-            <h3 className="font-bold text-lg flex items-center">{title}</h3>
+            <h3 className="flex items-center gap-2 text-sm font-medium">
+              <SlidersHorizontal className="h-4 w-4" />
+              {title}
+            </h3>
           )}
 
           {activeFilterCount > 0 && (

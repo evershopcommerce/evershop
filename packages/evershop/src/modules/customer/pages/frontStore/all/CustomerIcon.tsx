@@ -1,4 +1,4 @@
-import { CircleUser } from 'lucide-react';
+import { User } from 'lucide-react';
 import React from 'react';
 
 interface UserIconProps {
@@ -17,9 +17,13 @@ export default function UserIcon({
   loginUrl
 }: UserIconProps) {
   return (
-    <div className="self-center customer-icon">
-      <a href={customer ? accountUrl : loginUrl}>
-        <CircleUser className="w-5 h-5 text-foreground hover:text-primary" />
+    <div className="customer-icon flex items-center">
+      <a
+        href={customer ? accountUrl : loginUrl}
+        aria-label={customer ? 'Account' : 'Sign in'}
+        className="rounded-md p-2 text-foreground/80 hover:bg-muted hover:text-foreground"
+      >
+        <User className="h-5 w-5" />
       </a>
     </div>
   );

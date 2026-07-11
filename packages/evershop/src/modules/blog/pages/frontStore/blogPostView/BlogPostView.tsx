@@ -13,6 +13,7 @@ import {
 } from '@components/frontStore/blog/ReactionBar.js';
 import { ShareButtons } from '@components/frontStore/blog/ShareButtons.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import React from 'react';
 
 interface BlogPostViewData {
@@ -38,49 +39,67 @@ export default function BlogPostView({ post }: BlogPostViewData) {
     return null;
   }
   return (
-    <div className="blog-post-single">
-      <article className="max-w-3xl mx-auto py-8">
-        {post.category && (
+    <div className="blog-post-single py-8 md:py-12">
+      <article className="mx-auto max-w-3xl">
+        <div className="mb-8 text-center">
           <a
-            href={post.category.url}
-            className="text-sm uppercase tracking-wide text-gray-500 hover:underline"
+            href="/blog"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
-            {post.category.name}
+            <ArrowLeft className="h-4 w-4" />
+            {_('Back to blog')}
           </a>
-        )}
-        <h1 className="text-3xl md:text-4xl font-bold mt-2 mb-3 leading-tight">
-          {post.name}
-        </h1>
-        <div className="text-sm text-gray-500 flex flex-wrap gap-x-3 mb-6">
-          {post.author?.fullName && (
-            <span>
-              {_('By')} {post.author.fullName}
-            </span>
-          )}
-          {post.publishedAt && (
-            <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
-          )}
-          {post.readingTime ? (
-            <span>
-              {post.readingTime} {_('min read')}
-            </span>
-          ) : null}
         </div>
+
+        <header className="text-center">
+          {post.category && (
+            <a
+              href={post.category.url}
+              className="inline-block rounded-full bg-muted px-3 py-1 text-xs font-medium text-foreground transition-colors hover:bg-muted/70"
+            >
+              {post.category.name}
+            </a>
+          )}
+          <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+            {post.name}
+          </h1>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
+            {post.author?.fullName && <span>{post.author.fullName}</span>}
+            {post.publishedAt && (
+              <span className="inline-flex items-center gap-1.5">
+                <Calendar className="h-4 w-4" />
+                {new Date(post.publishedAt).toLocaleDateString()}
+              </span>
+            )}
+            {post.readingTime ? (
+              <span className="inline-flex items-center gap-1.5">
+                <Clock className="h-4 w-4" />
+                {post.readingTime} {_('min read')}
+              </span>
+            ) : null}
+          </div>
+        </header>
+
         {post.thumbnail && (
           <img
             src={post.thumbnail}
             alt={post.name}
-            className="w-full rounded-lg mb-8"
+            className="mt-8 w-full rounded-lg border border-border"
           />
         )}
-        <Editor rows={post.description || []} />
+
+        <div className="mt-8">
+          <Editor rows={post.description || []} />
+        </div>
+
         {post.tags && post.tags.length > 0 && (
-          <div className="mt-10 flex flex-wrap gap-2">
+          <div className="mt-10 flex flex-wrap items-center gap-2">
+            <span className="text-sm text-muted-foreground">{_('Tags')}:</span>
             {post.tags.map((tag) => (
               <a
                 key={tag.url}
                 href={tag.url}
-                className="text-sm bg-gray-100 px-3 py-1 rounded-full hover:bg-gray-200"
+                className="rounded-full bg-muted px-3 py-1 text-sm text-foreground transition-colors hover:bg-muted/70"
               >
                 #{tag.name}
               </a>
@@ -91,9 +110,11 @@ export default function BlogPostView({ post }: BlogPostViewData) {
         <ShareButtons url={post.url} title={post.name} />
       </article>
       {post.related && post.related.length > 0 && (
-        <div className="max-w-5xl mx-auto pb-12">
-          <h2 className="text-2xl font-semibold mb-6">{_('Related posts')}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mx-auto max-w-5xl pb-4 pt-12">
+          <h2 className="mb-6 text-2xl font-semibold tracking-tight">
+            {_('Related posts')}
+          </h2>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {post.related.map((related) => (
               <PostListItem key={related.uuid} post={related} />
             ))}

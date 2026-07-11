@@ -1,26 +1,6 @@
-.checkout__summary {
-  padding-top: 3.125rem;
-  padding-bottom: 3.125rem;
-  border-left: 1px solid var(--divider);
-  position: relative;
-  padding-left: 1.25rem;
-  min-height: calc(100vh - 50px);
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 400%;
-    bottom: 0;
-    background-color: #fafafa;
-    z-index: -1;
-  }
-}
-body {
-  overflow-x: hidden;
-}
-
+/* Re-skin (2026-07-10): the order summary is now a bordered card (Tailwind in
+   Summary.tsx). The old `.checkout__summary` full-height gray side-panel (a
+   400%-wide `::after`) is gone. Only the totals-grid helpers remain. */
 .summary__row {
   display: grid;
   grid-gap: 0.625rem;
@@ -31,10 +11,12 @@ body {
     grid-template-columns: 1fr auto;
   }
   &.grand-total {
-    border-top: 1px solid var(--divider);
+    border-top: 1px solid var(--border);
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
     .grand-total-value {
-      font-size: 1.25rem;
-      font-weight: bold;
+      font-size: 1rem;
+      font-weight: 600;
     }
   }
 }
@@ -43,6 +25,6 @@ body {
   grid-row-gap: 0.625rem;
 }
 .checkout-summary-block {
-  border-top: 1px solid var(--divider);
+  border-top: 1px solid var(--border);
   padding-top: 0.625rem;
 }

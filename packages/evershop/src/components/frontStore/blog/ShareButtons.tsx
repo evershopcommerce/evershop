@@ -45,14 +45,14 @@ export function ShareButtons({
 
   return (
     <div className="blog-share flex flex-wrap items-center gap-2 mt-8">
-      <span className="text-sm text-gray-500 mr-1">{_('Share')}:</span>
+      <span className="text-sm text-muted-foreground mr-1">{_('Share')}:</span>
       {links.map((link) => (
         <a
           key={link.label}
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm border border-gray-300 rounded-full px-3 py-1 hover:bg-gray-100"
+          className="text-sm border border-border rounded-full px-3 py-1 hover:bg-muted transition-colors"
         >
           {link.label}
         </a>
@@ -64,7 +64,7 @@ export function ShareButtons({
           setCopied(true);
           setTimeout(() => setCopied(false), 1500);
         }}
-        className="text-sm border border-gray-300 rounded-full px-3 py-1 hover:bg-gray-100"
+        className="text-sm border border-border rounded-full px-3 py-1 hover:bg-muted transition-colors"
       >
         {copied ? _('Copied!') : _('Copy link')}
       </button>

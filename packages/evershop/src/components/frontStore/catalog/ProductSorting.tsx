@@ -150,7 +150,7 @@ export function ProductSorting({
       onValueChange={(value) => props.onChange(value?.code || '')}
       disabled={props.disabled}
     >
-      <SelectTrigger className="w-full">
+      <SelectTrigger className="h-8 w-auto gap-1.5 border-border bg-card text-sm">
         <SelectValue placeholder={_('Select sort')} />
       </SelectTrigger>
       <SelectContent>
@@ -198,7 +198,7 @@ export function ProductSorting({
 
   const containerContent = (
     <>
-      <div className="sort-select grow">
+      <div className="sort-select">
         {renderSortSelect
           ? renderSortSelect({
               options: resolvedSortOptions,
@@ -232,14 +232,21 @@ export function ProductSorting({
   );
 
   return (
-    <div className="flex justify-between items-center border-b border-border pb-2 mb-8">
-      <div>
-        {_('${count} Products', {
+    <div className="mb-8 flex items-center justify-between">
+      <div className="text-sm text-muted-foreground">
+        {_('${count} products', {
           count: count.toString()
         })}
       </div>
-      <div className={cn(`product-sorting flex gap-2 items-center`, className)}>
-        {containerContent}
+      <div className="flex items-center gap-2">
+        <span className="shrink-0 text-sm text-muted-foreground">
+          {_('Sort by')}
+        </span>
+        <div
+          className={cn(`product-sorting flex items-center gap-2`, className)}
+        >
+          {containerContent}
+        </div>
       </div>
     </div>
   );

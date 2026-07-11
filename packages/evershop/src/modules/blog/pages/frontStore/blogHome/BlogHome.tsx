@@ -16,21 +16,29 @@ export default function BlogHome({
   };
 }) {
   const items = blogPosts?.items || [];
+  const currentPage = blogPosts?.currentPage || 1;
+
   return (
-    <div className="blog-home py-8">
-      <h1 className="text-3xl font-bold mb-6">{_('Blog')}</h1>
+    <div className="blog-home py-8 md:py-12">
+      <div className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
+        <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+          {_('Blog')}
+        </h1>
+      </div>
       {items.length === 0 ? (
-        <p className="text-gray-500">{_('No posts published yet.')}</p>
+        <p className="text-center text-muted-foreground">
+          {_('No posts published yet.')}
+        </p>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((post) => (
               <PostListItem key={post.uuid} post={post} />
             ))}
           </div>
           <BlogPagination
             total={blogPosts?.total || 0}
-            currentPage={blogPosts?.currentPage || 1}
+            currentPage={currentPage}
           />
         </>
       )}

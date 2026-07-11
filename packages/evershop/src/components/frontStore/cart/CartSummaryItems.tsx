@@ -11,8 +11,8 @@ const CartSummarySkeleton: React.FC<{ rows?: number }> = ({ rows = 2 }) => {
       {Array.from({ length: rows }).map((_, i) => (
         <li key={i} className="flex items-center py-6 animate-pulse">
           <div className="relative mr-4">
-            <div className="w-16 h-16 bg-gray-200 rounded border border-border p-2 box-border" />
-            <span className="absolute -top-2 -right-2 bg-muted rounded-full w-6 h-6 flex items-center justify-center text-muted-foreground text-sm">
+            <div className="w-16 h-16 bg-muted rounded border border-border p-2 box-border" />
+            <span className="absolute -top-2 -right-2 bg-muted-foreground text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px]">
               {i + 1}
             </span>
           </div>
@@ -48,7 +48,7 @@ const CartSummaryItemsList: React.FC<{
   }
 
   return (
-    <ul className="item__summary__list divide-y divide-divider mb-3">
+    <ul className="item__summary__list divide-y divide-border">
       {items.map((item) => (
         <li key={item.uuid} className="flex items-start py-3">
           <div className="relative mr-4 self-center">
@@ -58,18 +58,18 @@ const CartSummaryItemsList: React.FC<{
                 height={100}
                 src={item.thumbnail}
                 alt={item.productName}
-                className="w-16 h-16 object-cover rounded border border-border p-2 box-border"
+                className="w-16 h-16 object-cover rounded-md border border-border"
               />
             )}
             {!item.thumbnail && (
-              <ProductNoThumbnail className="w-16 h-16 rounded border border-border p-2 box-border" />
+              <ProductNoThumbnail className="w-16 h-16 rounded-md border border-border" />
             )}
-            <span className="absolute -top-2 -right-2 bg-muted text-muted-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm">
+            <span className="absolute -top-2 -right-2 bg-muted-foreground text-white rounded-full h-5 w-5 flex items-center justify-center text-[10px]">
               {item.qty}
             </span>
           </div>
           <div className="flex-1 min-w-0 items-start align-top">
-            <div className="font-semibold text-sm mb-1">{item.productName}</div>
+            <div className="text-sm font-medium">{item.productName}</div>
             {item.variantOptions && item.variantOptions.length > 0 && (
               <div className="space-y-1">
                 {item.variantOptions.map((option) => (
@@ -84,7 +84,7 @@ const CartSummaryItemsList: React.FC<{
             )}
           </div>
           <div className="ml-auto text-right self-center">
-            <div className="font-semibold">
+            <div className="text-sm font-medium tabular-nums">
               {showPriceIncludingTax
                 ? item.lineTotalInclTax.text
                 : item.lineTotal.text}

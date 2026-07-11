@@ -14,7 +14,6 @@ export const DefaultCategoryFilterRender: React.FC<{
 }> = ({ categories, currentFilters }) => {
   const { updateFilter } = useProductFilter();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
     let newFilters = currentFilters.map((f) => ({ ...f }));
@@ -78,29 +77,9 @@ export const DefaultCategoryFilterRender: React.FC<{
   const filteredCategories = getFilteredCategories();
 
   return (
-    <div className="category__filter__section border-b border-border pb-2 mb-2">
+    <div className="category__filter__section border-b border-border pb-8 mb-8 last:mb-0 last:border-b-0 last:pb-0">
       <div className="filter__header flex items-center justify-between mb-3">
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="flex items-center justify-between text-left flex-1 hover:text-primary transition-colors"
-        >
-          <span className="font-medium">{_('Categories')}</span>
-          <svg
-            className={`w-4 h-4 transition-transform ${
-              isCollapsed ? 'rotate-180' : ''
-            }`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
+        <h3 className="text-sm font-semibold">{_('Categories')}</h3>
 
         {selectedCount > 0 && (
           <button
@@ -113,43 +92,44 @@ export const DefaultCategoryFilterRender: React.FC<{
         )}
       </div>
 
-      {!isCollapsed && (
-        <div className="filter__content">
-          <div className="category__options space-y-2 max-h-48 overflow-y-auto">
-            {filteredCategories.length > 0 ? (
-              filteredCategories.map((category) => {
-                const isSelected = isCategorySelected(
-                  category.categoryId.toString()
-                );
-                return (
-                  <div
-                    key={category.categoryId}
-                    className={`flex items-center space-x-3 cursor-pointer py-2`}
+      <div className="filter__content">
+        <div className="category__options space-y-2.5 max-h-48 overflow-y-auto">
+          {filteredCategories.length > 0 ? (
+            filteredCategories.map((category) => {
+              const isSelected = isCategorySelected(
+                category.categoryId.toString()
+              );
+              return (
+                <div
+                  key={category.categoryId}
+                  className="flex items-center gap-2.5 cursor-pointer"
+                >
+                  <Checkbox
+                    id={`category-${category.categoryId}`}
+                    checked={isSelected}
+                    onCheckedChange={(checked) =>
+                      handleCategoryChange(
+                        category.categoryId.toString(),
+                        checked
+                      )
+                    }
+                  />
+                  <Label
+                    htmlFor={`category-${category.categoryId}`}
+                    className="cursor-pointer font-normal leading-5 text-muted-foreground"
                   >
-                    <Checkbox
-                      id={`category-${category.categoryId}`}
-                      checked={isSelected}
-                      onCheckedChange={(checked) =>
-                        handleCategoryChange(
-                          category.categoryId.toString(),
-                          checked
-                        )
-                      }
-                    />
-                    <Label htmlFor={`category-${category.categoryId}`}>
-                      {category.name}
-                    </Label>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="text-gray-500 text-sm text-center py-4">
-                {_('No categories found for "${term}"', { term: searchTerm })}
-              </div>
-            )}
-          </div>
+                    {category.name}
+                  </Label>
+                </div>
+              );
+            })
+          ) : (
+            <div className="text-muted-foreground text-sm text-center py-4">
+              {_('No categories found for "${term}"', { term: searchTerm })}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

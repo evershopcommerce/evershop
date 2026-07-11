@@ -253,9 +253,7 @@ export function SearchBox({
     }, 150);
   }, []);
 
-  const defaultSearchIcon = () => (
-    <Search className="w-5 h-5 text-foreground hover:text-primary" />
-  );
+  const defaultSearchIcon = () => <Search className="h-5 w-5" />;
 
   const defaultCloseIcon = () => (
     <X className="w-5 h-5 text-foreground hover:text-primary" />
@@ -265,7 +263,8 @@ export function SearchBox({
     <div className="search__box">
       <a
         href="#"
-        className="search__icon"
+        aria-label="Search"
+        className="search__icon inline-flex items-center rounded-md p-2 text-foreground/80 hover:bg-muted hover:text-foreground"
         onClick={(e) => {
           e.preventDefault();
           setShowing(!showing);
@@ -366,12 +365,12 @@ const defaultSearchResults = (props: {
   return (
     <div className="search__results absolute top-full left-0 right-0 bg-white border border-border rounded-b-lg shadow-lg z-50 max-h-64 overflow-y-auto">
       {props.isLoading && (
-        <div className="p-3 text-center text-gray-500">
+        <div className="p-3 text-center text-muted-foreground">
           <span>{_('Searching...')}</span>
         </div>
       )}
       {!props.isLoading && props.results.length === 0 && (
-        <div className="p-3 text-center text-gray-500">
+        <div className="p-3 text-center text-muted-foreground">
           <span>No results found for &ldquo;{props.query}&rdquo;</span>
         </div>
       )}
@@ -379,7 +378,7 @@ const defaultSearchResults = (props: {
         props.results.map((result) => (
           <div
             key={result.id}
-            className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-border last:border-b-0"
+            className="flex items-center p-3 hover:bg-muted cursor-pointer border-b border-border last:border-b-0"
             onClick={(e) => {
               e.preventDefault();
               props.onSelect(result);
@@ -406,7 +405,7 @@ const defaultSearchResults = (props: {
               <div className="font-medium truncate">{result.title}</div>
               {result.price && <div className="text-sm">{result.price}</div>}
               {result.type && (
-                <div className="text-xs text-gray-400 capitalize">
+                <div className="text-xs text-muted-foreground capitalize">
                   {result.type}
                 </div>
               )}

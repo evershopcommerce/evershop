@@ -46,8 +46,8 @@ export default function CollectionProducts({
           className="evershop-collection-products evershop-collection-products--empty pt-7 collection__products__widget"
           data-evershop-pb-empty="collection_products"
         >
-          <div className="evershop-collection-products__placeholder border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50">
-            <div className="evershop-collection-products__icon mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white border border-gray-200 text-gray-500">
+          <div className="evershop-collection-products__placeholder border-2 border-dashed border-border rounded-lg p-8 text-center bg-muted/50">
+            <div className="evershop-collection-products__icon mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-background border border-border text-muted-foreground">
               <svg
                 width="18"
                 height="18"
@@ -65,10 +65,10 @@ export default function CollectionProducts({
                 <rect x="3" y="14" width="7" height="7" />
               </svg>
             </div>
-            <div className="text-sm font-medium text-gray-700">
+            <div className="text-sm font-medium text-foreground">
               Collection products
             </div>
-            <div className="mt-1 text-xs text-gray-500">
+            <div className="mt-1 text-xs text-muted-foreground">
               Pick a collection in the settings panel to display its products
               here.
             </div>

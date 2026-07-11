@@ -441,7 +441,7 @@ export const CompactPaginationRenderer: React.FC<{
     <div
       className={`compact-pagination flex items-center justify-between ${className}`}
     >
-      <div className="pagination-info text-sm text-gray-600">
+      <div className="pagination-info text-sm text-muted-foreground">
         {_('Showing ${showing} of ${total}', { showing, total })}
       </div>
 
@@ -449,12 +449,12 @@ export const CompactPaginationRenderer: React.FC<{
         <button
           onClick={goToPrev}
           disabled={!hasPrev || isLoading}
-          className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 py-1 text-sm border border-border rounded hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {_('Previous')}
         </button>
 
-        <span className="text-sm text-gray-600">
+        <span className="text-sm text-muted-foreground">
           {_('Page ${currentPage} of ${totalPages}', {
             currentPage: currentPage.toString(),
             totalPages: totalPages.toString()
@@ -464,7 +464,7 @@ export const CompactPaginationRenderer: React.FC<{
         <button
           onClick={goToNext}
           disabled={!hasNext || isLoading}
-          className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-3 py-1 text-sm border border-border rounded hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {_('Next')}
         </button>
@@ -507,7 +507,7 @@ export const InputPaginationRenderer: React.FC<{
 
   return (
     <div className={`input-pagination ${className}`}>
-      <div className="text-center text-sm text-gray-600 mb-4">
+      <div className="text-center text-sm text-muted-foreground mb-4">
         {getDisplayText()}
       </div>
 
@@ -515,7 +515,7 @@ export const InputPaginationRenderer: React.FC<{
         <button
           onClick={goToFirst}
           disabled={!hasPrev || isLoading}
-          className="px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+          className="px-2 py-1 text-sm border border-border rounded hover:bg-muted disabled:opacity-50"
         >
           {_('First')}
         </button>
@@ -523,7 +523,7 @@ export const InputPaginationRenderer: React.FC<{
         <button
           onClick={goToPrev}
           disabled={!hasPrev || isLoading}
-          className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+          className="px-3 py-1 text-sm border border-border rounded hover:bg-muted disabled:opacity-50"
         >
           ←
         </button>
@@ -539,7 +539,7 @@ export const InputPaginationRenderer: React.FC<{
             max={totalPages}
             value={inputPage}
             onChange={(e) => setInputPage(e.target.value)}
-            className="w-16 px-2 py-1 text-sm border border-gray-300 rounded text-center"
+            className="w-16 px-2 py-1 text-sm border border-border rounded text-center"
             disabled={isLoading}
           />
           <span className="text-sm">
@@ -557,7 +557,7 @@ export const InputPaginationRenderer: React.FC<{
         <button
           onClick={goToNext}
           disabled={!hasNext || isLoading}
-          className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+          className="px-3 py-1 text-sm border border-border rounded hover:bg-muted disabled:opacity-50"
         >
           →
         </button>
@@ -565,7 +565,7 @@ export const InputPaginationRenderer: React.FC<{
         <button
           onClick={goToLast}
           disabled={!hasNext || isLoading}
-          className="px-2 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
+          className="px-2 py-1 text-sm border border-border rounded hover:bg-muted disabled:opacity-50"
         >
           {_('Last')}
         </button>
