@@ -93,7 +93,7 @@ export function BillingAddress({
   };
 
   return (
-    <div className="billing-address-section">
+    <div className="billing-address-section mb-6">
       <Item className="py-0 px-0">
         <ItemContent className="gap-2">
           <ItemTitle>{_('Billing Address')}</ItemTitle>

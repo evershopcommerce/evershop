@@ -109,15 +109,20 @@ async function saveOrder<T = CreateOrderResult>(
       .execute(connection);
   }
 
-  // Save the billing address
-  const cartBillingAddress = await select()
-    .from('cart_address')
-    .where('cart_address_id', '=', cart.getData('billing_address_id'))
-    .load(connection);
-  delete cartBillingAddress.uuid;
-  const billAddr = await insert('order_address')
-    .given(cartBillingAddress)
-    .execute(connection);
+  // Save the billing address. Optional for zero-total orders (nothing is
+  // charged, taxed, or invoiced there) — the `billingAddress` validation
+  // rule requires it for every other order.
+  let billAddr;
+  if (cart.getData('billing_address_id')) {
+    const cartBillingAddress = await select()
+      .from('cart_address')
+      .where('cart_address_id', '=', cart.getData('billing_address_id'))
+      .load(connection);
+    delete cartBillingAddress.uuid;
+    billAddr = await insert('order_address')
+      .given(cartBillingAddress)
+      .execute(connection);
+  }
 
   const previous = await select('order_id')
     .from('order')
@@ -139,7 +144,7 @@ async function saveOrder<T = CreateOrderResult>(
         10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1,
       // FIXME: Must be structured
       shipping_address_id: shipAddr ? shipAddr.insertId : null,
-      billing_address_id: billAddr.insertId,
+      billing_address_id: billAddr ? billAddr.insertId : null,
       status: orderStatus,
       payment_status: defaultPaymentStatus,
       shipment_status: defaultShipmentStatus

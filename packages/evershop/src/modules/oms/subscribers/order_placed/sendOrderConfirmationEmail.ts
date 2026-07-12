@@ -667,16 +667,23 @@ export default async function sendOrderConfirmationEmail(
         provinces.find((p) => p.code === shippingAddress.province)?.name || '';
     }
 
-    const billingAddress = await select()
-      .from('order_address')
-      .where('order_address_id', '=', order.billing_address_id)
-      .load(pool);
+    // Zero-total orders may have no billing address — pass null through so
+    // custom templates can `{{#if billingAddress}}` it (the default template
+    // does not render billing at all).
+    const billingAddress = order.billing_address_id
+      ? await select()
+          .from('order_address')
+          .where('order_address_id', '=', order.billing_address_id)
+          .load(pool)
+      : null;
 
-    billingAddress.country_name =
-      countries.find((c) => c.code === billingAddress.country)?.name || '';
+    if (billingAddress) {
+      billingAddress.country_name =
+        countries.find((c) => c.code === billingAddress.country)?.name || '';
 
-    billingAddress.province_name =
-      provinces.find((p) => p.code === billingAddress.province)?.name || '';
+      billingAddress.province_name =
+        provinces.find((p) => p.code === billingAddress.province)?.name || '';
+    }
 
     let template;
     if (config?.templatePath) {

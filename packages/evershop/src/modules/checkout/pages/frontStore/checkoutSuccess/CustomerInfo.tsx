@@ -41,7 +41,7 @@ interface CustomerInfoProps {
       city: string;
       address1: string;
       address2: string;
-    };
+    } | null; // zero-total orders don't collect a billing address
   };
 }
 
@@ -105,14 +105,16 @@ export default function CustomerInfo({
               {paymentMethodName}
             </div>
           </div>
-          <div>
-            <h3 className="mb-2 text-sm font-semibold">
-              {_('Billing Address')}
-            </h3>
-            <div className="text-sm text-muted-foreground">
-              <AddressSummary address={billingAddress} />
+          {billingAddress && (
+            <div>
+              <h3 className="mb-2 text-sm font-semibold">
+                {_('Billing Address')}
+              </h3>
+              <div className="text-sm text-muted-foreground">
+                <AddressSummary address={billingAddress} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

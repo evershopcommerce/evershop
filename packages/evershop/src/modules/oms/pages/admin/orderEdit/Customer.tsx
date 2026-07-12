@@ -45,7 +45,7 @@ interface CustomerProps {
         code: string;
         name: string;
       };
-    };
+    } | null; // zero-total orders don't collect a billing address
   };
 }
 
@@ -103,7 +103,13 @@ export default function Customer({
       </CardContent>
       <CardContent className="border-t border-border pt-3">
         <CardTitle className="mb-2">{_('Billing address')}</CardTitle>
-        <AddressSummary address={billingAddress} />
+        {billingAddress ? (
+          <AddressSummary address={billingAddress} />
+        ) : (
+          <span className="text-muted-foreground">
+            {_('Not collected (zero-total order)')}
+          </span>
+        )}
       </CardContent>
     </Card>
   );

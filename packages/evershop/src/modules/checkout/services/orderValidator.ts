@@ -73,6 +73,31 @@ const initialValidators: Validator<Cart>[] = [
       return Boolean(data?.method_code);
     },
     errorMessage: 'Shipping method is required'
+  },
+  {
+    id: 'billingAddress',
+    /**
+     * Zero-total orders don't require a billing address — nothing is charged,
+     * taxed, or invoiced. Every other order does; historically this was only
+     * enforced by `saveOrder` crashing on the missing row. `grand_total` is
+     * registered by the promotion module — if it's unreadable, keep requiring
+     * billing (legacy behavior).
+     * @param {Cart} cart
+     * @returns {boolean}
+     */
+    func: (cart: Cart) => {
+      let total;
+      try {
+        total = cart.getData('grand_total');
+      } catch (e) {
+        total = undefined;
+      }
+      if (typeof total === 'number' && !Number.isNaN(total) && total <= 0) {
+        return true;
+      }
+      return Boolean(cart.getData('billing_address_id'));
+    },
+    errorMessage: 'Billing address is required'
   }
 ];
 
