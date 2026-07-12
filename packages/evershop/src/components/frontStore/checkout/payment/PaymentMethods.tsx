@@ -76,7 +76,7 @@ export function PaymentMethods({
   };
 
   return (
-    <div className="checkout-payment-methods mt-6">
+    <div className="checkout-payment-methods">
       <Item className="px-0 py-0">
         <ItemContent className="gap-2">
           <ItemTitle>{_('Pick a payment method')}</ItemTitle>

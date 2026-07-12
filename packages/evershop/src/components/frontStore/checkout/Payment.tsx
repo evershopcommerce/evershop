@@ -22,9 +22,19 @@ import { useWatch } from 'react-hook-form';
 
 export function Payment() {
   const {
-    data: { noShippingRequired, billingAddress, availablePaymentMethods },
+    data: {
+      noShippingRequired,
+      billingAddress,
+      availablePaymentMethods,
+      grandTotal,
+      totalQty
+    },
     loadingStates: { addingBillingAddress }
   } = useCartState();
+  // Zero-total orders don't collect a billing address. The totalQty guard
+  // matters: the pre-sync default cart state has grandTotal 0, and hiding
+  // billing for a still-loading cart would flicker the wrong way.
+  const zeroTotal = totalQty > 0 && grandTotal.value <= 0;
   const { addBillingAddress } = useCartDispatch();
   const { updateCheckoutData } = useCheckoutDispatch();
   const { form } = useCheckout();
@@ -75,13 +85,15 @@ export function Payment() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <BillingAddress
-              billingAddress={billingAddress}
-              addBillingAddress={addBillingAddress}
-              addingBillingAddress={addingBillingAddress}
-              noShippingRequired={noShippingRequired}
-            />
-            {(billingAddress || noShippingRequired === false) && (
+            {!zeroTotal && (
+              <BillingAddress
+                billingAddress={billingAddress}
+                addBillingAddress={addBillingAddress}
+                addingBillingAddress={addingBillingAddress}
+                noShippingRequired={noShippingRequired}
+              />
+            )}
+            {(billingAddress || noShippingRequired === false || zeroTotal) && (
               <>
                 <Area id="checkoutPaymentMethodsBefore" />
                 <PaymentMethods

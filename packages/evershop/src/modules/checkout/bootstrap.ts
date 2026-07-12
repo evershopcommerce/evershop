@@ -1,19 +1,42 @@
 import { select } from '@evershop/postgres-query-builder';
 import { error } from '../../lib/log/logger.js';
 import { pool } from '../../lib/postgres/connection.js';
+import { hookAfter } from '../../lib/util/hookable.js';
 import { merge } from '../../lib/util/merge.js';
 import { addFinalProcessor, addProcessor } from '../../lib/util/registry.js';
 import { getProductsBaseQuery } from '../catalog/services/getProductsBaseQuery.js';
 import { registerCartBaseFields } from '../checkout/services/cart/registerCartBaseFields.js';
 import { registerCartItemBaseFields } from './services/cart/registerCartItemBaseFields.js';
 import { sortFields } from './services/cart/sortFields.js';
+import type {
+  CreateOrderContext,
+  CreateOrderResult
+} from './services/orderCreator.js';
 import { coreShippingProvider } from './services/shipping/core/coreProvider.js';
 import { registerShippingProvider } from './services/shipping/registry.js';
+import {
+  markZeroCheckoutOrderPaid,
+  registerZeroCheckoutOrderValidation,
+  registerZeroCheckoutPaymentMethod
+} from './services/zeroCheckout.js';
 
 export default () => {
   addProcessor('cartFields', registerCartBaseFields, 0);
 
   addProcessor('cartItemFields', registerCartItemBaseFields, 0);
+
+  // Built-in zero-checkout payment method: the only method a zero-total cart
+  // accepts, hidden everywhere else. No setting — always enabled.
+  registerZeroCheckoutPaymentMethod();
+  registerZeroCheckoutOrderValidation();
+  hookAfter<CreateOrderContext, CreateOrderResult>(
+    'createOrderFunc',
+    // Wrapped: after-hooks receive (result, ...originalArgs) and the second
+    // argument would land in markZeroCheckoutOrderPaid's `complete` parameter.
+    async function markZeroCheckoutOrderPaidHook(order) {
+      await markZeroCheckoutOrderPaid(order);
+    }
+  );
 
   // Register Core as a first-class shipping provider. Other providers
   // (USPS, FedEx, EasyPost, …) register themselves from their own

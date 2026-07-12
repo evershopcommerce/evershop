@@ -624,7 +624,16 @@ export function registerCartBaseFields(fields) {
       key: 'payment_method',
       resolvers: [
         async function resolver(paymentMethod) {
-          const methods = await getAvailablePaymentMethods();
+          // `grand_total` is registered by the promotion module. Without it
+          // (no promotion module) the context stays empty and the available
+          // list behaves exactly as before zero-checkout existed.
+          let cartTotal;
+          try {
+            cartTotal = this.getData('grand_total');
+          } catch (e) {
+            cartTotal = undefined;
+          }
+          const methods = await getAvailablePaymentMethods({ cartTotal });
           if (
             paymentMethod &&
             methods.map((m) => m.code).includes(paymentMethod)
@@ -645,13 +654,20 @@ export function registerCartBaseFields(fields) {
             return null;
           }
         }
-      ]
+      ],
+      dependencies: ['grand_total']
     },
     {
       key: 'payment_method_name',
       resolvers: [
         async function resolver() {
-          const methods = await getAvailablePaymentMethods();
+          let cartTotal;
+          try {
+            cartTotal = this.getData('grand_total');
+          } catch (e) {
+            cartTotal = undefined;
+          }
+          const methods = await getAvailablePaymentMethods({ cartTotal });
           const method = methods.find(
             (m) => m.code === this.getData('payment_method')
           );
