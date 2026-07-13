@@ -1,6 +1,7 @@
 import { addProcessor, getValueSync } from '../../../lib/util/registry.js';
 import { Validator, ValidatorManager } from '../../../lib/util/validator.js';
 import { Cart } from './cart/Cart.js';
+import { getAllowGuestCheckout } from './checkoutSettings.js';
 
 const initialValidators: Validator<Cart>[] = [
   {
@@ -98,6 +99,24 @@ const initialValidators: Validator<Cart>[] = [
       return Boolean(cart.getData('billing_address_id'));
     },
     errorMessage: 'Billing address is required'
+  },
+  {
+    id: 'guestCheckout',
+    /**
+     * When guest checkout is disabled, an order can only be placed by an authenticated
+     * customer. `customer_id` is populated from the session in the cartCheckout handler
+     * (via `request.getCurrentCustomer()`), NOT from client input — so this is a real
+     * authorization gate, not a spoofable value.
+     * @param {Cart} cart
+     * @returns {boolean}
+     */
+    func: (cart: Cart) => {
+      if (getAllowGuestCheckout()) {
+        return true;
+      }
+      return Boolean(cart.getData('customer_id'));
+    },
+    errorMessage: 'You must be logged in to place an order'
   }
 ];
 

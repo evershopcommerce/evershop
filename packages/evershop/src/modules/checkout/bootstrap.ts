@@ -95,6 +95,9 @@ export default () => {
           properties: {
             showShippingNote: {
               type: 'boolean'
+            },
+            allowGuestCheckout: {
+              type: 'boolean'
             }
           }
         }

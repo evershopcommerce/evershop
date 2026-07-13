@@ -9,6 +9,7 @@ import { ContactInformation } from '@components/frontStore/checkout/ContactInfor
 import { Payment } from '@components/frontStore/checkout/Payment.js';
 import { Shipment } from '@components/frontStore/checkout/Shipment.js';
 import { ShippingNote } from '@components/frontStore/checkout/ShippingNote.js';
+import { useCustomer } from '@components/frontStore/customer/CustomerContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -19,16 +20,36 @@ interface CheckoutPageProps {
   getPaymentMethodApi: string;
   getShippingMethodApi: string;
   checkoutSuccessUrl: string;
+  loginUrl: string;
   setting: {
     showShippingNote: boolean;
+    allowGuestCheckout: boolean;
   };
 }
 
 export default function CheckoutPage({
   placeOrderApi,
   checkoutSuccessUrl,
-  setting: { showShippingNote }
+  loginUrl,
+  setting: { showShippingNote, allowGuestCheckout }
 }: CheckoutPageProps) {
+  const { customer } = useCustomer();
+  // The server middleware gates the initial page load. This handles a *logout while on the
+  // checkout page* (client-side, no reload): when guest checkout is disabled and a shopper who
+  // was signed in becomes anonymous, send them back to login with a return to checkout. The ref
+  // ensures we only act on a real logout (was authenticated → not), never on first load.
+  const wasAuthenticated = React.useRef(false);
+  React.useEffect(() => {
+    if (customer) {
+      wasAuthenticated.current = true;
+      return;
+    }
+    if (!allowGuestCheckout && wasAuthenticated.current) {
+      window.location.href = `${loginUrl}?redirect=${encodeURIComponent(
+        window.location.pathname + window.location.search
+      )}`;
+    }
+  }, [customer, allowGuestCheckout, loginUrl]);
   const [disabled, setDisabled] = React.useState(false);
   const form = useForm({
     disabled: disabled,
@@ -42,7 +63,7 @@ export default function CheckoutPage({
       form={form}
       enableForm={() => setDisabled(false)}
       disableForm={() => setDisabled(true)}
-      allowGuestCheckout={true}
+      allowGuestCheckout={allowGuestCheckout}
       placeOrderApi={placeOrderApi}
       checkoutSuccessUrl={checkoutSuccessUrl}
     >
@@ -97,8 +118,10 @@ export const query = `
   query Query {
     placeOrderApi: url(routeId: "createOrder")
     checkoutSuccessUrl: url(routeId: "checkoutSuccess")
+    loginUrl: url(routeId: "login")
     setting {
       showShippingNote
+      allowGuestCheckout
     }
   }
 `;
