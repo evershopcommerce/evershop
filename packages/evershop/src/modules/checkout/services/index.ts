@@ -6,6 +6,7 @@ export * from './getAvailablePaymentMethods.js';
 export * from './zeroCheckout.js';
 export * from './saveCart.js';
 export * from './toPrice.js';
+export * from './pricingSettings.js';
 export * from './orderCreator.js';
 export * from './orderValidator.js';
 export * from './addShippingAddress.js';

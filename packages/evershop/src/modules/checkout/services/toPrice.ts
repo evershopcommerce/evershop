@@ -1,25 +1,29 @@
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { getStoreCurrency } from '../../setting/services/setting.js';
+import { getPriceRounding, getPricePrecision } from './pricingSettings.js';
 
-export type RoundType = 'up' | 'down' | 'round';
+// `round` (nearest, default), `ceil` (always up) and `floor` (always down) are
+// the values accepted by the `pricing.rounding` config schema. `up`/`down` are
+// kept as backward-compatible aliases for `ceil`/`floor`.
+export type RoundType = 'round' | 'ceil' | 'floor' | 'up' | 'down';
 export function toPrice(value: string, forDisplay: boolean = false) {
   let price = parseFloat(value || '0');
   if (Number.isNaN(price)) {
     throw new Error('Price is not a number');
   }
-  const rounding = getConfig('pricing.rounding', 'round') as RoundType;
-  const precision = getConfig('pricing.precision', 2);
+  const rounding = getPriceRounding();
+  const precision = getPricePrecision();
   const precisionFix = 10 ** precision;
   switch (rounding) {
+    case 'ceil':
     case 'up':
       price = Math.ceil(price * precisionFix) / precisionFix;
       break;
+    case 'floor':
     case 'down':
       price = Math.floor(price * precisionFix) / precisionFix;
       break;
     case 'round':
-      price = Math.round(price * precisionFix) / precisionFix;
-      break;
     default:
       price = Math.round(price * precisionFix) / precisionFix;
       break;

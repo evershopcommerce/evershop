@@ -1,0 +1,4 @@
+extend type Setting {
+  pricingRounding: String
+  pricingPrecision: Int
+}

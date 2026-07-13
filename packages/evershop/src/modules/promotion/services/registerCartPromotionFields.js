@@ -1,7 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../lib/postgres/connection.js';
-import { getConfig } from '../../../lib/util/getConfig.js';
 import { toPrice } from '../../checkout/services/toPrice.js';
+import { getPriceIncludingTax } from '../../tax/services/taxSettings.js';
 import { validateCoupon } from './couponValidator.js';
 import { calculateDiscount } from './discountCalculator.js';
 
@@ -66,10 +66,7 @@ export function registerCartPromotionFields(fields) {
         key: 'sub_total_with_discount',
         resolvers: [
           async function resolver() {
-            const priceIncludingTax = getConfig(
-              'pricing.tax.price_including_tax',
-              false
-            );
+            const priceIncludingTax = getPriceIncludingTax();
             if (!priceIncludingTax) {
               return toPrice(
                 this.getData('sub_total') - this.getData('discount_amount')

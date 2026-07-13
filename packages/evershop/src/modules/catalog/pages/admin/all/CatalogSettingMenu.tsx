@@ -11,14 +11,16 @@ import { cn } from '@evershop/evershop/lib/util/cn';
 import { Settings } from 'lucide-react';
 import React from 'react';
 
-interface TaxSettingMenuProps {
-  taxSettingUrl: string;
+interface CatalogSettingMenuProps {
+  catalogSettingUrl: string;
 }
 
-export default function TaxSettingMenu({ taxSettingUrl }: TaxSettingMenuProps) {
+export default function CatalogSettingMenu({
+  catalogSettingUrl
+}: CatalogSettingMenuProps) {
   const isActive =
     typeof window !== 'undefined' &&
-    new URL(taxSettingUrl, window.location.origin).pathname ===
+    new URL(catalogSettingUrl, window.location.origin).pathname ===
       window.location.pathname;
 
   return (
@@ -33,25 +35,25 @@ export default function TaxSettingMenu({ taxSettingUrl }: TaxSettingMenuProps) {
         <ItemTitle>
           <div>
             <a
-              href={taxSettingUrl}
+              href={catalogSettingUrl}
               className={cn(
                 'uppercase text-xs font-semibold',
                 isActive && 'text-primary'
               )}
             >
-              {_('Pricing & Tax')}
+              {_('Catalog')}
             </a>
           </div>
         </ItemTitle>
         <ItemDescription>
-          <div>{_('Price rounding, tax calculation, classes & rates')}</div>
+          <div>{_('Product listing and image settings')}</div>
         </ItemDescription>
       </ItemContent>
       <ItemActions>
         <Button
           variant="outline"
           size="sm"
-          onClick={() => (window.location.href = taxSettingUrl)}
+          onClick={() => (window.location.href = catalogSettingUrl)}
         >
           <Settings className="h-4 w-4 mr-1" />
         </Button>
@@ -62,11 +64,11 @@ export default function TaxSettingMenu({ taxSettingUrl }: TaxSettingMenuProps) {
 
 export const layout = {
   areaId: 'settingPageMenu',
-  sortOrder: 20
+  sortOrder: 7
 };
 
 export const query = `
   query Query {
-    taxSettingUrl: url(routeId: "taxSetting")
+    catalogSettingUrl: url(routeId: "catalogSetting")
   }
 `;

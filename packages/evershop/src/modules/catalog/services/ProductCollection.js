@@ -1,8 +1,8 @@
 import { node, select, sql } from '@evershop/postgres-query-builder';
 import { pool } from '../../../lib/postgres/connection.js';
 import { camelCase } from '../../../lib/util/camelCase.js';
-import { getConfig } from '../../../lib/util/getConfig.js';
 import { getValue } from '../../../lib/util/registry.js';
+import { getShowOutOfStockProducts } from './catalogSettings.js';
 
 export class ProductCollection {
   constructor(baseQuery) {
@@ -19,7 +19,7 @@ export class ProductCollection {
     // If the user is not admin, we need to filter out the out of stock products and the disabled products
     if (!isAdmin) {
       this.baseQuery.andWhere('product.status', '=', 1);
-      if (getConfig('catalog.showOutOfStockProduct', false) === false) {
+      if (getShowOutOfStockProducts() === false) {
         this.baseQuery
           .andWhere('product_inventory.manage_stock', '=', false)
           .addNode(

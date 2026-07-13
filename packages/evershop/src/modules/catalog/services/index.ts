@@ -49,3 +49,6 @@ export * from './getCollectionsBaseQuery.js';
 export * from './getProductsBaseQuery.js';
 export * from './getProductsByCategoryBaseQuery.js';
 export * from './getProductsByCollectionBaseQuery.js';
+
+// Catalog behaviour settings (admin setting → config → default)
+export * from './catalogSettings.js';
