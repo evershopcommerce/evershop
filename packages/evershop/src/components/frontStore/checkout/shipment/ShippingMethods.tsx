@@ -11,7 +11,6 @@ import {
   ItemDescription,
   ItemTitle
 } from '@components/common/ui/Item.js';
-import { Label } from '@components/common/ui/Label.js';
 import {
   RadioGroup,
   RadioGroupItem
@@ -175,8 +174,27 @@ export function ShippingMethods({
                     }}
                   >
                     {methods.map((method: ShippingMethod) => (
+                      // The whole card selects the method, not just the radio
+                      // dot. Base UI radios react only to pointer events on
+                      // their own [role="radio"] element — a wrapping <label>
+                      // cannot activate them — so the card carries a click
+                      // handler; clicks on the radio itself are skipped
+                      // (its own handler fires onValueChange) to avoid
+                      // double-firing. The <label> stays for the radio's
+                      // accessible name (method + price).
                       <Item
                         key={method.code}
+                        render={<label />}
+                        onClick={(e: React.MouseEvent) => {
+                          if (
+                            (e.target as HTMLElement).closest('[role="radio"]')
+                          ) {
+                            return;
+                          }
+                          if (!isProcessing && currentValue !== method.code) {
+                            handleMethodSelect(method);
+                          }
+                        }}
                         className={`cursor-pointer transition-colors ${
                           currentValue === method.code
                             ? 'border-primary bg-primary-foreground/10 hover:border-primary'
@@ -191,14 +209,11 @@ export function ShippingMethods({
                               <RadioGroupItem
                                 id={`shipping-method-${method.code}`}
                                 value={method.code}
-                                onChange={() => {
-                                  !isProcessing && handleMethodSelect(method);
-                                }}
                                 disabled={isProcessing}
                               />
-                              <Label htmlFor={`shipping-method-${method.code}`}>
+                              <span className="select-none">
                                 {method.name}
-                              </Label>
+                              </span>
                             </div>
                           </ItemTitle>
                           {method.description && (

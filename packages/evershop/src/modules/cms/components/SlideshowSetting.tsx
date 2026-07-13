@@ -307,6 +307,8 @@ interface SlideData {
   id: string;
   image: string;
   mobileImage?: string;
+  mobileWidth?: number;
+  mobileHeight?: number;
   width?: number;
   height?: number;
   eyebrow?: string;
@@ -506,6 +508,12 @@ export default function SlideshowSetting({
       if (slide.image && (!slide.width || !slide.height)) {
         loadImageDimensions(slide.image, idx);
       }
+      if (
+        slide.mobileImage &&
+        (!slide.mobileWidth || !slide.mobileHeight)
+      ) {
+        loadImageDimensions(slide.mobileImage, idx, 'mobile');
+      }
     });
   }, []);
 
@@ -517,19 +525,25 @@ export default function SlideshowSetting({
     | null
   >(null);
 
-  const loadImageDimensions = (imageUrl: string, slideIndex: number) => {
+  const loadImageDimensions = (
+    imageUrl: string,
+    slideIndex: number,
+    target: 'desktop' | 'mobile' = 'desktop'
+  ) => {
     if (!imageUrl) return;
     const img = new Image();
+    const [widthKey, heightKey] =
+      target === 'mobile' ? ['mobileWidth', 'mobileHeight'] : ['width', 'height'];
     img.onload = () => {
       // Path-level setValue (rather than rebuilding the slides array) so
       // text inputs registered in the same slide row don't get remounted
       // and steal focus when the image's natural size arrives.
       setValue(
-        `settings.slides.${slideIndex}.width` as any,
+        `settings.slides.${slideIndex}.${widthKey}` as any,
         img.naturalWidth
       );
       setValue(
-        `settings.slides.${slideIndex}.height` as any,
+        `settings.slides.${slideIndex}.${heightKey}` as any,
         img.naturalHeight
       );
     };
@@ -556,7 +570,12 @@ export default function SlideshowSetting({
       updateSlide(slideIndex, { image: normalized, width: 0, height: 0 });
       loadImageDimensions(normalized, slideIndex);
     } else {
-      updateSlide(slideIndex, { mobileImage: normalized });
+      updateSlide(slideIndex, {
+        mobileImage: normalized,
+        mobileWidth: 0,
+        mobileHeight: 0
+      });
+      loadImageDimensions(normalized, slideIndex, 'mobile');
     }
     setImagePickerTarget(null);
   };
@@ -566,6 +585,8 @@ export default function SlideshowSetting({
       id: uuidv4(),
       image: '',
       mobileImage: '',
+      mobileWidth: 0,
+      mobileHeight: 0,
       width: 0,
       height: 0,
       eyebrow: '',
@@ -664,7 +685,7 @@ export default function SlideshowSetting({
             </Field>
             <Field
               label={_('Mobile image (optional)')}
-              hint={_('Used at ≤ 767 px. Falls back to the main image.')}
+              hint={_('Used below 640 px. Falls back to the main image.')}
             >
               <div className="flex items-center gap-2">
                 <div className="relative h-14 w-24 overflow-hidden rounded border border-divider bg-muted/40 flex items-center justify-center">
@@ -693,7 +714,13 @@ export default function SlideshowSetting({
                     variant="ghost"
                     size="sm"
                     type="button"
-                    onClick={() => updateSlide(idx, { mobileImage: '' })}
+                    onClick={() =>
+                      updateSlide(idx, {
+                        mobileImage: '',
+                        mobileWidth: 0,
+                        mobileHeight: 0
+                      })
+                    }
                   >
                     {_('Clear')}
                   </Button>
@@ -703,6 +730,12 @@ export default function SlideshowSetting({
             {slide.image && slide.width ? (
               <div className="text-[11px] text-muted-foreground">
                 {slide.width} × {slide.height} px
+                {slide.mobileImage && slide.mobileWidth ? (
+                  <>
+                    {' · '}
+                    {_('mobile')} {slide.mobileWidth} × {slide.mobileHeight} px
+                  </>
+                ) : null}
               </div>
             ) : null}
           </div>
@@ -1204,6 +1237,8 @@ export const query = `
         width
         height
         mobileImage
+        mobileWidth
+        mobileHeight
         eyebrow
         headline
         subText
@@ -1244,6 +1279,8 @@ export const fragments = `
     width
     height
     mobileImage
+    mobileWidth
+    mobileHeight
     eyebrow
     headline
     subText

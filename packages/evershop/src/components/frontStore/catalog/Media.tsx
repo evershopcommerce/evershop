@@ -3,7 +3,6 @@
 import React, { useState, useRef } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { Image } from '@components/common/Image.js';
 import { useCatalogImageDimensions } from '@components/common/useCatalogImageDimensions.js';
 import { useProduct } from '@components/frontStore/catalog/ProductContext.js';

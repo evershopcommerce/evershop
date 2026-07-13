@@ -260,6 +260,13 @@ input SlideInput {
   width: Float
   height: Float
   mobileImage: String
+  """
+  Real intrinsic dimensions of the mobile image, captured admin-side on
+  pick. Drive the <source> width/height so phones reserve the correct box
+  before the image loads.
+  """
+  mobileWidth: Float
+  mobileHeight: Float
   eyebrow: String
   """
   9-anchor content position: tl, tc, tr, ml, mc, mr, bl, bc, br.
@@ -306,6 +313,8 @@ type Slide {
   width: Float
   height: Float
   mobileImage: String
+  mobileWidth: Float
+  mobileHeight: Float
   eyebrow: String
   contentPosition: String
   overlayTint: String

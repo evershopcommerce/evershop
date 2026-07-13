@@ -1,4 +1,4 @@
-import { Image } from '@components/common/Image.js';
+import { buildImageSrcSet, Image } from '@components/common/Image.js';
 import {
   Editable,
   EditableImageOverlay
@@ -54,6 +54,8 @@ interface SlideData {
   id: string;
   image: string;
   mobileImage?: string;
+  mobileWidth?: number;
+  mobileHeight?: number;
   width?: number;
   height?: number;
   eyebrow?: string;
@@ -483,7 +485,11 @@ export default function Slideshow({
     // keyboard users aren't fighting the rotation (mouse-only pauseOnHover
     // doesn't help them).
     pauseOnFocus: true,
-    adaptiveHeight: aspectRatio === 'auto',
+    // No `adaptiveHeight` — it pins `.slick-list` to the current slide's
+    // height measured at mount, before a <picture>-swapped mobile source
+    // has loaded, so the list clips or letterboxes the real image. Slides
+    // are box-sized by their image (aspect-ratio below); natural flow
+    // already gives the track the tallest slide's height.
     nextArrow:
       effectiveArrowsStyle !== 'hidden' ? (
         <NextArrow
@@ -554,6 +560,22 @@ export default function Slideshow({
           const wholeSlideHref =
             slide.wholeSlideLink && slide.buttonLink ? slide.buttonLink : null;
 
+          // `aspectRatio: undefined` suppresses the shared <Image>'s hard
+          // inline `W / H` lock (right for uniform catalog grids, wrong
+          // here): a locked desktop ratio cover-crops the <picture>-swapped
+          // portrait mobile asset into a landscape box. With no inline
+          // value the browser's own attr-derived hint governs — fed by the
+          // MATCHED <source>'s width/height when present — so the box is
+          // right per breakpoint before load and follows the loaded
+          // source's intrinsic ratio after.
+          const imageStyle: React.CSSProperties = {
+            objectFit: 'cover',
+            width: '100%',
+            height: aspectRatio === 'auto' ? 'auto' : '100%',
+            objectPosition: 'center',
+            aspectRatio: undefined
+          };
+
           // Note: we always render the slide markup the same way; only the
           // outer wrapper switches between <a> and <div> when `wholeSlideLink`
           // is on. Inline-edit handlers inside the slide call
@@ -583,10 +605,23 @@ export default function Slideshow({
                 <picture>
                   {/* Mobile image is a PHONE asset: it applies below 640px
                       (Tailwind `sm`), so tablets (≥640px) get the desktop
-                      image — aligned with Banner's `sm` swap. */}
+                      image — aligned with Banner's `sm` swap. With the real
+                      mobile dimensions stored (captured on pick), the
+                      <source> carries width/height so phones reserve the
+                      mobile box BEFORE the file loads, and the srcset goes
+                      through the /images proxy for resized candidates.
+                      Legacy slides without stored dims fall back to the raw
+                      URL; their box corrects on load via intrinsic ratio. */}
                   <source
                     media="(max-width: 639px)"
-                    srcSet={slide.mobileImage}
+                    srcSet={
+                      slide.mobileWidth
+                        ? buildImageSrcSet(slide.mobileImage, slide.mobileWidth)
+                        : slide.mobileImage
+                    }
+                    sizes="100vw"
+                    width={slide.mobileWidth || undefined}
+                    height={slide.mobileHeight || undefined}
                   />
                   <Image
                     src={slide.image}
@@ -594,12 +629,7 @@ export default function Slideshow({
                     width={slide.width || 1920}
                     height={slide.height || 0}
                     className="evershop-slideshow__image"
-                    style={{
-                      objectFit: 'cover',
-                      width: '100%',
-                      height: aspectRatio === 'auto' ? 'auto' : '100%',
-                      objectPosition: 'center'
-                    }}
+                    style={imageStyle}
                     sizes="100vw"
                     priority={idx === 0}
                   />
@@ -611,12 +641,7 @@ export default function Slideshow({
                   width={slide.width || 1920}
                   height={slide.height || 0}
                   className="evershop-slideshow__image"
-                  style={{
-                    objectFit: 'cover',
-                    width: '100%',
-                    height: aspectRatio === 'auto' ? 'auto' : '100%',
-                    objectPosition: 'center'
-                  }}
+                  style={imageStyle}
                   sizes="100vw"
                   priority={idx === 0}
                 />
@@ -701,7 +726,11 @@ export default function Slideshow({
                   widthField: `settings.slides.${idx}.width`,
                   heightField: `settings.slides.${idx}.height`
                 }}
-                mobile={{ urlField: `settings.slides.${idx}.mobileImage` }}
+                mobile={{
+                  urlField: `settings.slides.${idx}.mobileImage`,
+                  widthField: `settings.slides.${idx}.mobileWidth`,
+                  heightField: `settings.slides.${idx}.mobileHeight`
+                }}
               />
             </div>
           );
@@ -769,6 +798,8 @@ export const query = `
         width
         height
         mobileImage
+        mobileWidth
+        mobileHeight
         eyebrow
         headline
         subText
@@ -809,6 +840,8 @@ export const fragments = `
     width
     height
     mobileImage
+    mobileWidth
+    mobileHeight
     eyebrow
     headline
     subText
