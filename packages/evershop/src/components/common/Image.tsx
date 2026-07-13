@@ -15,6 +15,51 @@ export type ImageProps = {
   style?: React.CSSProperties;
 } & React.ImgHTMLAttributes<HTMLImageElement>;
 
+/**
+ * Builds the `/images` proxy srcset for an image with a known intrinsic
+ * `width`. Exported so art-directed `<picture>` `<source>` elements (e.g.
+ * the slideshow's mobile variant) can serve the same resized candidates as
+ * the `<Image>` component itself.
+ */
+export function buildImageSrcSet(
+  src: string,
+  width: number,
+  sizes = '100vw',
+  quality = 75
+): string {
+  const imageSizes = parseImageSizes(sizes);
+  // Don't upscale beyond 3 times the original width, but be smarter about filtering
+  let filteredSizes = imageSizes.filter((size) => size <= width * 3);
+
+  if (filteredSizes.length < 2) {
+    // Add the original width
+    filteredSizes.push(width);
+
+    const smallerSizes = [
+      Math.round(width * 0.5), // 50% of original
+      Math.round(width * 0.75) // 75% of original
+    ].filter((size) => size >= 200 && !filteredSizes.includes(size)); // Don't go too small
+
+    filteredSizes = [...filteredSizes, ...smallerSizes];
+  }
+
+  if (!filteredSizes.includes(width)) {
+    filteredSizes.push(width);
+  }
+
+  filteredSizes = [...new Set(filteredSizes)].sort((a, b) => a - b);
+
+  return filteredSizes
+    .map((size) => {
+      // Construct the URL pointing to our image API
+      const url = `/images?src=${encodeURIComponent(
+        src
+      )}&w=${size}&q=${quality}`;
+      return `${url} ${size}w`;
+    })
+    .join(', ');
+}
+
 export function Image({
   src,
   width,
@@ -28,41 +73,7 @@ export function Image({
   objectFit = 'unset',
   ...props
 }: ImageProps): React.ReactElement | null {
-  const generateSrcSet = (): string => {
-    const imageSizes = parseImageSizes(sizes);
-    // Don't upscale beyond 3 times the original width, but be smarter about filtering
-    let filteredSizes = imageSizes.filter((size) => size <= width * 3);
-
-    if (filteredSizes.length < 2) {
-      // Add the original width
-      filteredSizes.push(width);
-
-      const smallerSizes = [
-        Math.round(width * 0.5), // 50% of original
-        Math.round(width * 0.75) // 75% of original
-      ].filter((size) => size >= 200 && !filteredSizes.includes(size)); // Don't go too small
-
-      filteredSizes = [...filteredSizes, ...smallerSizes];
-    }
-
-    if (!filteredSizes.includes(width)) {
-      filteredSizes.push(width);
-    }
-
-    filteredSizes = [...new Set(filteredSizes)].sort((a, b) => a - b);
-
-    return filteredSizes
-      .map((size) => {
-        // Construct the URL pointing to our image API
-        const url = `/images?src=${encodeURIComponent(
-          src
-        )}&w=${size}&q=${quality}`;
-        return `${url} ${size}w`;
-      })
-      .join(', ');
-  };
-
-  const srcset = generateSrcSet();
+  const srcset = buildImageSrcSet(src, width, sizes, quality);
   const fallbackSrc = `/images?src=${encodeURIComponent(
     src
   )}&w=${width}&q=${quality}`;
