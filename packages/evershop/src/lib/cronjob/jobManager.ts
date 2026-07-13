@@ -184,6 +184,21 @@ class JobManager {
   public hasJob(jobName: string): boolean {
     return this.jobs.has(jobName);
   }
+
+  /**
+   * Read-only peek at the registered jobs that does NOT freeze the manager.
+   * For diagnostic/observer callers (e.g. the dev file-watcher classifying a
+   * changed path) that may run BEFORE bootstrap finishes — using the freezing
+   * getters there turns an unlucky early file event into a fatal
+   * "read-only state" crash inside a later module's bootstrap.
+   *
+   * @returns {Job[]} Frozen copies of the registered jobs.
+   */
+  public peekJobs(): Job[] {
+    return Array.from(this.jobs.values()).map((job) =>
+      Object.freeze({ ...job })
+    );
+  }
 }
 
 const jobManager = new JobManager();
@@ -207,6 +222,17 @@ export function getAllJobs(): Job[] {
 export function getEnabledJobs(): Job[] {
   const allJobs = jobManager.getAllJobs();
   return allJobs.filter((job) => job.enabled);
+}
+
+/**
+ * Non-freezing variant of {@link getEnabledJobs} for observer/diagnostic
+ * callers that must never mutate the manager's lifecycle state — e.g. the dev
+ * file-watcher, which can run before module bootstraps have finished
+ * registering jobs.
+ * @returns {Job[]} An array of enabled jobs.
+ */
+export function peekEnabledJobs(): Job[] {
+  return jobManager.peekJobs().filter((job) => job.enabled);
 }
 
 /**
