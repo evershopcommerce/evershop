@@ -3,7 +3,9 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 import { FETCH_LOCALE_PATCH } from '../../components/common/react/server/fetchLocalePatch.js';
 import { getNotifications } from '../../modules/base/services/notifications.js';
+import { getProductImageDimensions } from '../../modules/catalog/services/catalogSettings.js';
 import { getPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
+import { getPriceIncludingTax } from '../../modules/tax/services/taxSettings.js';
 import { Config } from '../../types/appContext.js';
 import { EvershopRequest } from '../../types/request.js';
 import { EvershopResponse } from '../../types/response.js';
@@ -36,13 +38,10 @@ function buildContextData(
     'appConfig',
     {
       tax: {
-        priceIncludingTax: getConfig('pricing.tax.price_including_tax', false)
+        priceIncludingTax: getPriceIncludingTax()
       },
       catalog: {
-        imageDimensions: {
-          width: getConfig('catalog.product.image.width', 1200),
-          height: getConfig('catalog.product.image.height', 1200)
-        }
+        imageDimensions: getProductImageDimensions()
       },
       pageMeta: pageMeta
     },

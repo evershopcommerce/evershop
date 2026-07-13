@@ -111,6 +111,7 @@ type ConfigStructure = {
   };
   checkout: {
     showShippingNote: boolean;
+    allowGuestCheckout: boolean;
   };
   pricing: {
     rounding: string;

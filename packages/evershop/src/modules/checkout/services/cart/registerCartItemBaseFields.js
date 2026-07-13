@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
+import { getPriceIncludingTax } from '../../../../modules/tax/services/taxSettings.js';
 import { toPrice } from '../toPrice.js';
 
 export function registerCartItemBaseFields(fields) {
@@ -200,10 +200,7 @@ export function registerCartItemBaseFields(fields) {
       resolvers: [
         async function resolver() {
           const product = await this.getProduct();
-          const catalogPriceInclTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const catalogPriceInclTax = getPriceIncludingTax();
           if (catalogPriceInclTax) {
             const taxAmount = calculateTaxAmount(
               this.getData('tax_percent'),
@@ -223,10 +220,7 @@ export function registerCartItemBaseFields(fields) {
       key: 'tax_amount_before_discount',
       resolvers: [
         async function resolver() {
-          const catalogPriceInclTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const catalogPriceInclTax = getPriceIncludingTax();
           if (catalogPriceInclTax) {
             return calculateTaxAmount(
               this.getData('tax_percent'),
@@ -254,10 +248,7 @@ export function registerCartItemBaseFields(fields) {
       key: 'tax_amount',
       resolvers: [
         async function resolver() {
-          const priceIncludingTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const priceIncludingTax = getPriceIncludingTax();
           const discountAmount = this.getData('discount_amount');
           const discountAmountPerUnit = discountAmount / this.getData('qty');
           const finalPricePerUnit = priceIncludingTax
@@ -284,10 +275,7 @@ export function registerCartItemBaseFields(fields) {
       resolvers: [
         async function resolver() {
           const product = await this.getProduct();
-          const catalogPriceInclTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const catalogPriceInclTax = getPriceIncludingTax();
 
           if (catalogPriceInclTax) {
             return toPrice(product.price);

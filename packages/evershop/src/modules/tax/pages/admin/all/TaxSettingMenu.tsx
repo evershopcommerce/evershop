@@ -39,12 +39,12 @@ export default function TaxSettingMenu({ taxSettingUrl }: TaxSettingMenuProps) {
                 isActive && 'text-primary'
               )}
             >
-              {_('Tax Setting')}
+              {_('Pricing & Tax')}
             </a>
           </div>
         </ItemTitle>
         <ItemDescription>
-          <div>{_('Configure tax classes and tax rates')}</div>
+          <div>{_('Price rounding, tax calculation, classes & rates')}</div>
         </ItemDescription>
       </ItemContent>
       <ItemActions>

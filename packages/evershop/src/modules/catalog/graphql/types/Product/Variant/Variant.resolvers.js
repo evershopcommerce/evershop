@@ -2,7 +2,7 @@ import { select, node } from '@evershop/postgres-query-builder';
 import uniqid from 'uniqid';
 import { buildUrl } from '../../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../../lib/util/camelCase.js';
-import { getConfig } from '../../../../../../lib/util/getConfig.js';
+import { getShowOutOfStockProducts } from '../../../../services/catalogSettings.js';
 import { getProductsBaseQuery } from '../../../../services/getProductsBaseQuery.js';
 
 export default {
@@ -55,7 +55,7 @@ export default {
             'attribute.attribute_id'
           );
 
-        if (!user && getConfig('catalog.showOutOfStockProduct') === false) {
+        if (!user && getShowOutOfStockProducts() === false) {
           query
             .andWhere('product_inventory.manage_stock', '=', false)
             .addNode(

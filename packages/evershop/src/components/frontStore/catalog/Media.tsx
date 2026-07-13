@@ -5,10 +5,12 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Image } from '@components/common/Image.js';
+import { useCatalogImageDimensions } from '@components/common/useCatalogImageDimensions.js';
 import { useProduct } from '@components/frontStore/catalog/ProductContext.js';
 import './Media.scss';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { deriveProductImageSize } from '@evershop/evershop/lib/util/deriveProductImageSize';
 
 const SliderComponent = Slider as any;
 
@@ -87,16 +89,26 @@ interface MediaProps {
 }
 
 export const Media: React.FC<MediaProps> = ({
-  imageSize = { width: 600, height: 600 },
-  thumbnailSize = { width: 100, height: 100 },
-  modalSize = { width: 1200, height: 1200 }
+  imageSize: imageSizeProp,
+  thumbnailSize: thumbnailSizeProp,
+  modalSize: modalSizeProp
 }) => {
+  const catalogDimensions = useCatalogImageDimensions();
   const product = useProduct();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [isImageLoading, setIsImageLoading] = useState(false);
   const mainSliderRef = useRef<SliderType>(null);
   const modalSliderRef = useRef<SliderType>(null);
+
+  // Base target widths ≈ 2× the CSS display size (retina); heights derive from the store's
+  // configured original aspect ratio, clamped to the original resolution (no upscaling).
+  const imageSize =
+    imageSizeProp ?? deriveProductImageSize(1280, catalogDimensions);
+  const thumbnailSize =
+    thumbnailSizeProp ?? deriveProductImageSize(200, catalogDimensions);
+  const modalSize =
+    modalSizeProp ?? deriveProductImageSize(1920, catalogDimensions);
 
   const allImages: ImageWithDimensionsProps[] = [];
 
@@ -145,6 +157,7 @@ export const Media: React.FC<MediaProps> = ({
             alt={`Thumbnail ${i + 1}`}
             width={thumbnailSize.width}
             height={thumbnailSize.height}
+            sizes="100px"
             objectFit="contain"
           />
         </div>
@@ -177,6 +190,7 @@ export const Media: React.FC<MediaProps> = ({
             alt={`Thumbnail ${i + 1}`}
             width={thumbnailSize.width}
             height={thumbnailSize.height}
+            sizes="100px"
             objectFit="contain"
           />
         </div>
@@ -228,13 +242,17 @@ export const Media: React.FC<MediaProps> = ({
                 key={index}
                 className="product-image"
                 onClick={() => openModal(index)}
-                style={{ width: imageSize.width, height: imageSize.height }}
+                style={{
+                  width: '100%',
+                  aspectRatio: `${imageSize.width} / ${imageSize.height}`
+                }}
               >
                 <Image
                   src={image.url}
                   alt={image.alt || 'Product image'}
                   width={imageSize.width}
                   height={imageSize.height}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   objectFit="scale-down"
                 />
               </div>
@@ -303,6 +321,7 @@ export const Media: React.FC<MediaProps> = ({
                       alt={image.alt || 'Product image'}
                       width={fullscreenWidth}
                       height={fullscreenHeight}
+                      sizes="100vw"
                       objectFit="contain"
                     />
                   </div>

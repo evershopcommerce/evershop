@@ -10,6 +10,7 @@ import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { TelField } from '@components/common/form/TelField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
+import { ToggleField } from '@components/common/form/ToggleField.js';
 import { LANGUAGES } from '@components/common/locale/LanguageOption.js';
 import { Button } from '@components/common/ui/Button.js';
 import {
@@ -331,6 +332,7 @@ interface StoreSettingProps {
     favicon?: string;
     socialSharingImage?: string;
     gaMeasurementId?: string;
+    allowGuestCheckout?: boolean;
   };
 }
 
@@ -362,7 +364,8 @@ export default function StoreSetting({
     logoHeight,
     favicon,
     socialSharingImage,
-    gaMeasurementId
+    gaMeasurementId,
+    allowGuestCheckout
   }
 }: StoreSettingProps) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
@@ -630,6 +633,19 @@ export default function StoreSetting({
                   />
                 </div>
               </CardContent>
+              <CardContent className="pt-3 border-t border-border">
+                <CardTitle>{_('Checkout')}</CardTitle>
+                <div className="mt-4">
+                  <ToggleField
+                    name="allowGuestCheckout"
+                    label={_('Allow guest checkout')}
+                    defaultValue={allowGuestCheckout ?? true}
+                    helperText={_(
+                      'When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.'
+                    )}
+                  />
+                </div>
+              </CardContent>
               <CardFooter>
                 <div className="flex justify-end w-full">
                   <Button
@@ -698,6 +714,7 @@ export const query = `
       favicon
       socialSharingImage
       gaMeasurementId
+      allowGuestCheckout
     }
   }
 `;

@@ -1,8 +1,10 @@
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
+import { useCatalogImageDimensions } from '@components/common/useCatalogImageDimensions.js';
 import { CartItem } from '@components/frontStore/cart/CartContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { deriveProductImageSize } from '@evershop/evershop/lib/util/deriveProductImageSize';
 import React from 'react';
 
 const CartSummarySkeleton: React.FC<{ rows?: number }> = ({ rows = 2 }) => {
@@ -34,6 +36,7 @@ const CartSummaryItemsList: React.FC<{
   loading: boolean;
   showPriceIncludingTax?: boolean;
 }> = ({ items, loading, showPriceIncludingTax }) => {
+  const thumbSize = deriveProductImageSize(200, useCatalogImageDimensions());
   if (loading) {
     return <CartSummarySkeleton rows={items.length} />;
   }
@@ -54,8 +57,9 @@ const CartSummaryItemsList: React.FC<{
           <div className="relative mr-4 self-center">
             {item.thumbnail && (
               <Image
-                width={100}
-                height={100}
+                width={thumbSize.width}
+                height={thumbSize.height}
+                sizes="100px"
                 src={item.thumbnail}
                 alt={item.productName}
                 className="w-16 h-16 object-cover rounded-md border border-border"

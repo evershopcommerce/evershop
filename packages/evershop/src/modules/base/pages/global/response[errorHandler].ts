@@ -1,7 +1,6 @@
 import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
 import { render } from '../../../../lib/response/render.js';
 import { get } from '../../../../lib/util/get.js';
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
 import { getValueSync } from '../../../../lib/util/registry.js';
 import {
@@ -10,8 +9,10 @@ import {
 } from '../../../../modules/cms/services/pageMetaInfo.js';
 import { AppStateContextValue, Config } from '../../../../types/appContext.js';
 import { EvershopRequest } from '../../../../types/request.js';
+import { getProductImageDimensions } from '../../../catalog/services/catalogSettings.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
+import { getPriceIncludingTax } from '../../../tax/services/taxSettings.js';
 
 export default async (request: EvershopRequest, response, next) => {
   try {
@@ -86,16 +87,10 @@ export default async (request: EvershopRequest, response, next) => {
             'appConfig',
             {
               tax: {
-                priceIncludingTax: getConfig(
-                  'pricing.tax.price_including_tax',
-                  false
-                )
+                priceIncludingTax: getPriceIncludingTax()
               },
               catalog: {
-                imageDimensions: {
-                  width: getConfig('catalog.product.image.width', 1200),
-                  height: getConfig('catalog.product.image.height', 1200)
-                }
+                imageDimensions: getProductImageDimensions()
               },
               pageMeta: pageMeta
             },

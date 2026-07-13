@@ -2,7 +2,6 @@ import { select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValueSync } from '../../../../lib/util/registry.js';
 import { validateAddress } from '../../../../modules/customer/services/index.js';
 import {
@@ -12,6 +11,7 @@ import {
 import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
 import { getTaxPercent } from '../../../../modules/tax/services/getTaxPercent.js';
 import { getTaxRates } from '../../../../modules/tax/services/getTaxRates.js';
+import { getPriceIncludingTax } from '../../../../modules/tax/services/taxSettings.js';
 import { getAvailablePaymentMethods } from '../getAvailablePaymentMethods.js';
 import { computeFingerprintFromCart } from '../shipping/computeFingerprint.js';
 import { getShippingProvider } from '../shipping/registry.js';
@@ -486,10 +486,7 @@ export function registerCartBaseFields(fields) {
           if (this.getData('no_shipping_required')) {
             return 0;
           }
-          const priceIncludingTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const priceIncludingTax = getPriceIncludingTax();
           if (this.getData('shipping_fee_draft') === 0) {
             return 0;
           }
@@ -515,10 +512,7 @@ export function registerCartBaseFields(fields) {
           if (this.getData('no_shipping_required')) {
             return 0;
           }
-          const priceIncludingTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const priceIncludingTax = getPriceIncludingTax();
           if (this.getData('shipping_fee_draft') === 0) {
             return 0;
           }
@@ -548,10 +542,7 @@ export function registerCartBaseFields(fields) {
           if (this.getData('no_shipping_required')) {
             return 0;
           }
-          const priceIncludingTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const priceIncludingTax = getPriceIncludingTax();
           if (this.getData('shipping_fee_draft') === 0) {
             return 0;
           }

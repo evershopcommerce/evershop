@@ -15,6 +15,15 @@ export default function LoginPage({
   registerUrl,
   forgotPasswordUrl
 }: LoginPageProps) {
+  // Return the shopper to `?redirect=` after login (e.g. back to checkout when guest
+  // checkout is disabled). Only same-site relative paths are honoured (no open redirects).
+  const [redirectUrl, setRedirectUrl] = React.useState(homeUrl);
+  React.useEffect(() => {
+    const redirect = new URLSearchParams(window.location.search).get('redirect');
+    if (redirect && redirect.startsWith('/') && !redirect.startsWith('//')) {
+      setRedirectUrl(redirect);
+    }
+  }, []);
   return (
     <div className="login__page flex flex-col items-center py-10 md:px-4">
       <div className="w-full max-w-md">
@@ -23,7 +32,7 @@ export default function LoginPage({
             <CustomerLoginForm
               title={_('Sign in')}
               subtitle={_('Welcome back — sign in to your account.')}
-              redirectUrl={homeUrl}
+              redirectUrl={redirectUrl}
               onError={(error) => {
                 toast.error(error.message);
               }}

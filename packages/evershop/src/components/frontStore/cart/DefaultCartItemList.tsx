@@ -1,9 +1,11 @@
 import { Area } from '@components/common/Area.js';
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import { useCatalogImageDimensions } from '@components/common/useCatalogImageDimensions.js';
 import { CartItem } from '@components/frontStore/cart/CartContext.js';
 import { ItemQuantity } from '@components/frontStore/cart/ItemQuantity.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { deriveProductImageSize } from '@evershop/evershop/lib/util/deriveProductImageSize';
 import { Minus, Plus, Trash2 } from 'lucide-react';
 import React from 'react';
 
@@ -28,6 +30,8 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
   loading = false,
   onRemoveItem
 }) => {
+  // Fixed 96px square display (h-24 w-24 + object-cover); base 200 keeps it sharp on retina.
+  const thumbSize = deriveProductImageSize(200, useCatalogImageDimensions());
   return (
     <>
       <Area id="cartItemListBefore" noOuter />
@@ -43,8 +47,9 @@ export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
                   <Image
                     src={row.thumbnail}
                     alt={row.productName}
-                    width={96}
-                    height={96}
+                    width={thumbSize.width}
+                    height={thumbSize.height}
+                    sizes="100px"
                     objectFit="cover"
                     className="h-24 w-24 rounded-lg border border-border"
                   />

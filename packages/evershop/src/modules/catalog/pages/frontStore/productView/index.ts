@@ -2,9 +2,9 @@ import { node, select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { get } from '../../../../../lib/util/get.js';
 import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
-import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { getShowOutOfStockProducts } from '../../../services/catalogSettings.js';
 
 export default async (request, response, next) => {
   let currentProduct;
@@ -80,7 +80,7 @@ export default async (request, response, next) => {
             .where('p.variant_group_id', '=', product.variant_group_id)
             .and('p.status', '=', 1);
 
-          if (getConfig('catalog.showOutOfStockProduct') === false) {
+          if (getShowOutOfStockProducts() === false) {
             vsQuery
               .andWhere('product_inventory.manage_stock', '=', false)
               .addNode(

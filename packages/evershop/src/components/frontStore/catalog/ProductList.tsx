@@ -1,14 +1,16 @@
+import { useCatalogImageDimensions } from '@components/common/useCatalogImageDimensions.js';
 import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
 import { ProductListEmptyRender } from '@components/frontStore/catalog/ProductListEmptyRender.js';
 import { ProductListItemRender } from '@components/frontStore/catalog/ProductListItemRender.js';
 import { ProductListLoadingSkeleton } from '@components/frontStore/catalog/ProductListLoadingSkeleton.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { deriveProductImageSize } from '@evershop/evershop/lib/util/deriveProductImageSize';
 import React, { ReactNode } from 'react';
 
 export interface ProductListProps {
   products: ProductData[];
+  /** Optional base-width override; the height is derived from the store's image ratio. */
   imageWidth?: number;
-  imageHeight?: number;
   isLoading?: boolean;
   emptyMessage?: string | ReactNode;
   className?: string;
@@ -21,12 +23,7 @@ export interface ProductListProps {
 
 export const ProductList: React.FC<ProductListProps> = ({
   products = [],
-  // 720² keeps the 1:1 grid ratio but lifts the <Image> srcset cap (width × 3
-  // = 2160) so full-width product cards on retina phones get a sharp 1200–1920
-  // tile instead of the old 300² cap of ~750px. Display size is unchanged (CSS
-  // controls it). The `list` layout still clamps to 150 below.
-  imageWidth = 720,
-  imageHeight = 720,
+  imageWidth,
   isLoading = false,
   emptyMessage = _('No products found'),
   className = '',
@@ -36,6 +33,7 @@ export const ProductList: React.FC<ProductListProps> = ({
   customAddToCartRenderer,
   renderItem
 }) => {
+  const catalogDimensions = useCatalogImageDimensions();
   if (isLoading) {
     return (
       <ProductListLoadingSkeleton
@@ -73,10 +71,12 @@ export const ProductList: React.FC<ProductListProps> = ({
   })();
   const styleClasses = layout === 'grid' ? 'grid' : 'flex flex-col';
   const containerClass = `${layoutClass} ${gridClassName} ${className} ${styleClasses}`;
-  const itemImageWidth =
-    layout === 'list' ? (imageWidth > 150 ? 150 : imageWidth) : imageWidth;
-  const itemImageHeight =
-    layout === 'list' ? (imageHeight > 150 ? 150 : imageHeight) : imageHeight;
+  // Base target width ≈ 2× the CSS display size so retina / DPR-2 stays sharp (the <Image>
+  // srcset covers the rest); the height is derived from the store's configured original
+  // aspect ratio. The `list` layout renders smaller tiles.
+  const baseWidth = imageWidth ?? (layout === 'list' ? 320 : 800);
+  const { width: itemImageWidth, height: itemImageHeight } =
+    deriveProductImageSize(baseWidth, catalogDimensions);
 
   return (
     <div className={containerClass}>
