@@ -5,7 +5,6 @@ import {
   ItemDescription,
   ItemTitle
 } from '@components/common/ui/Item.js';
-import { Label } from '@components/common/ui/Label.js';
 import {
   RadioGroup,
   RadioGroupItem
@@ -105,30 +104,63 @@ export function BillingAddress({
           >
             {!noShippingRequired ? (
               <>
-                <Item variant={'outline'}>
+                {/* Whole-box click selects each option (Base UI radios only
+                    react to pointer events on their [role="radio"] element,
+                    so the boxes carry click handlers). The guard skips the
+                    radio itself and, on the second box, the controls of the
+                    expanded billing-address form. */}
+                <Item
+                  variant={'outline'}
+                  onClick={(e: React.MouseEvent) => {
+                    if (
+                      (e.target as HTMLElement).closest('[role="radio"]')
+                    ) {
+                      return;
+                    }
+                    if (!useSameAddress) {
+                      handleAddressOptionChange('same');
+                    }
+                  }}
+                  className="cursor-pointer"
+                >
                   <ItemContent>
                     <ItemTitle>
-                      <div className="flex items-center space-x-3">
+                      <label className="flex items-center space-x-3 w-full cursor-pointer">
                         <RadioGroupItem id="same-address" value="same" />
-                        <Label htmlFor="same-address">
+                        <span className="select-none">
                           {_('Same as shipping address')}
-                        </Label>
-                      </div>
+                        </span>
+                      </label>
                     </ItemTitle>
                   </ItemContent>
                 </Item>
-                <Item variant={'outline'}>
+                <Item
+                  variant={'outline'}
+                  onClick={(e: React.MouseEvent) => {
+                    if (
+                      (e.target as HTMLElement).closest(
+                        'input, button, a, select, textarea, [role="radio"], [role="combobox"]'
+                      )
+                    ) {
+                      return;
+                    }
+                    if (useSameAddress) {
+                      handleAddressOptionChange('different');
+                    }
+                  }}
+                  className="cursor-pointer"
+                >
                   <ItemContent>
                     <ItemTitle>
-                      <div className="flex items-center space-x-3">
+                      <label className="flex items-center space-x-3 w-full cursor-pointer">
                         <RadioGroupItem
                           id="different-address"
                           value="different"
                         />
-                        <Label htmlFor="different-address">
+                        <span className="select-none">
                           {_('Use a different billing address')}
-                        </Label>
-                      </div>
+                        </span>
+                      </label>
                     </ItemTitle>
 
                     {!useSameAddress && (
