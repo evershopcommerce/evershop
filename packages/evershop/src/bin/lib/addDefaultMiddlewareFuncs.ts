@@ -21,6 +21,7 @@ import isProductionMode from '../../lib/util/isProductionMode.js';
 import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminSessionCookieName.js';
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
+import { rateLimiter } from '../../modules/base/services/rateLimit.js';
 import { setPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
 import {
   getAdminLanguage,
@@ -56,6 +57,13 @@ export function addDefaultMiddlewareFuncs(app) {
   // Add theme public static middleware
   app.use(themePublicStatic);
 
+  // Rate limiter — mounted after static serving but before the session/locale
+  // lookups, so a flood is rejected with 429 before it consumes a DB connection.
+  // Skipped under test so integration suites stay deterministic.
+  if (process.env.NODE_ENV !== 'test') {
+    app.use(rateLimiter);
+  }
+
   // Express session
   const cookieSecret = getCookieSecret();
   const sess = {
@@ -74,7 +82,7 @@ export function addDefaultMiddlewareFuncs(app) {
   } as session.SessionOptions;
 
   if (isProductionMode()) {
-    app.set('trust proxy', 1);
+    // trust proxy is set centrally from TRUST_PROXY_HOPS in bin/lib/app.js.
     sess.cookie!.secure = false;
   }
 

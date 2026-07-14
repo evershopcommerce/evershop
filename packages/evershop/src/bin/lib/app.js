@@ -4,6 +4,7 @@ import { Handler } from '../../lib/middleware/Handler.js';
 import { getModuleMiddlewares } from '../../lib/middleware/index.js';
 import { loadModuleRoutes } from '../../lib/router/loadModuleRoutes.js';
 import { getRoutes } from '../../lib/router/Router.js';
+import { getTrustProxyHops } from '../../lib/util/getTrustProxyHops.js';
 import { getEnabledExtensions } from '../extension/index.js';
 import { addDefaultMiddlewareFuncs } from './addDefaultMiddlewareFuncs.js';
 import { getCoreModules } from './loadModules.js';
@@ -11,8 +12,10 @@ import { getCoreModules } from './loadModules.js';
 export const createApp = () => {
   /** Create express app */
   const app = express();
-  // Enable trust proxy
-  app.enable('trust proxy');
+  // Trust proxy — determines request.ip (and thus rate-limit bucketing). The
+  // number of proxy hops to trust is read from TRUST_PROXY_HOPS (default 1 = a
+  // single reverse proxy). See lib/util/getTrustProxyHops.ts.
+  app.set('trust proxy', getTrustProxyHops());
   /* Loading modules and initilize routes, components and services */
   const modules = getCoreModules();
 
