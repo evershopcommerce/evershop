@@ -150,8 +150,10 @@ function scopePredicate(
 /**
  * Build the WHERE predicate for one rule, or null when the rule cannot match
  * anything for this anchor (missing category, no attribute values, …).
+ * Exported for resolveUpsellProducts, which runs the same rules with a
+ * price-above constraint instead of the symmetric band.
  */
-async function rulePredicate(
+export async function rulePredicate(
   pool: PoolLike,
   params: SqlParams,
   anchor: AnchorRow,

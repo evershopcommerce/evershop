@@ -3,6 +3,7 @@ import { Pool } from 'pg';
 import migrate from '../../migration/Version-1.0.14.js';
 import { resolveCrossSellProducts } from '../../services/recommendation/resolveCrossSellProducts.js';
 import { resolveRelatedProducts } from '../../services/recommendation/resolveRelatedProducts.js';
+import { resolveUpsellProducts } from '../../services/recommendation/resolveUpsellProducts.js';
 
 /**
  * DB-backed verification of the resolution services (spec § 6.3, § 6.6,
@@ -576,4 +577,81 @@ describeDb('recommendation resolution services (scratch DB)', () => {
       await db.query('DELETE FROM product_link');
     });
   });
+
+  describe('upsell (derived shelf: related rules + price above, V2 wave 1)', () => {
+    // Pricier same-category members; the anchor sits at price 100.
+    let pU1: number;
+    let pU2: number;
+
+    beforeAll(async () => {
+      pU1 = await addProduct({ category: c1, price: 120, sales: 8 });
+      pU2 = await addProduct({ category: c1, price: 200, sales: 3 });
+    });
+
+    afterAll(async () => {
+      await db.query('DELETE FROM product WHERE product_id = ANY($1)', [
+        [pU1, pU2]
+      ]);
+    });
+
+    it('re-runs the effective rules pricier-only, sales-ranked — no manual tier, no fallback', async () => {
+      const rows = await resolveUpsellProducts(anchor, 5, db);
+      // Pricier same-category members by sales: b2 (500, 9 orders),
+      // pU1 (120, 8), pU2 (200, 3). Cheaper b1 (90) is out. Returning THREE
+      // rows against limit 5 pins the absence of the fallback rung — the
+      // related shelf would have filled the remaining slots.
+      expect(ids(rows)).toEqual([b2, pU1, pU2]);
+      expect(rows.map((row) => row.source)).toEqual([
+        'same_category',
+        'same_category',
+        'same_category'
+      ]);
+      expect(ids(rows)).not.toContain(b1);
+      // limit truncates the sales-ranked list
+      expect(ids(await resolveUpsellProducts(anchor, 2, db))).toEqual([b2, pU1]);
+    });
+
+    it('an enabled price band becomes the UPPER cap (anchor < price \u2264 anchor\u00b7(1+P%))', async () => {
+      await db.query(
+        `UPDATE product SET related_products_mode = 'custom', related_products_rules = $2
+         WHERE product_id = $1`,
+        [
+          anchor,
+          JSON.stringify({
+            enabled: true,
+            rules: [{ type: 'same_category', enabled: true }],
+            priceBand: { enabled: true, percent: 30 },
+            fallbackToBestsellers: true
+          })
+        ]
+      );
+      // cap 130: pU1 (120) stays, pU2 (200) drops
+      expect(ids(await resolveUpsellProducts(anchor, 5, db))).toEqual([pU1]);
+      await db.query(
+        `UPDATE product SET related_products_mode = 'inherit', related_products_rules = NULL
+         WHERE product_id = $1`,
+        [anchor]
+      );
+    });
+
+    it('manual_only products opt out entirely; a disabled config yields nothing', async () => {
+      await db.query(
+        `UPDATE product SET related_products_mode = 'manual_only' WHERE product_id = $1`,
+        [anchor]
+      );
+      expect(await resolveUpsellProducts(anchor, 5, db)).toEqual([]);
+      await db.query(
+        `UPDATE product SET related_products_mode = 'custom', related_products_rules = $2
+         WHERE product_id = $1`,
+        [anchor, JSON.stringify({ enabled: false, rules: [] })]
+      );
+      expect(await resolveUpsellProducts(anchor, 5, db)).toEqual([]);
+      await db.query(
+        `UPDATE product SET related_products_mode = 'inherit', related_products_rules = NULL
+         WHERE product_id = $1`,
+        [anchor]
+      );
+    });
+  });
+
 });

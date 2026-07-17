@@ -291,6 +291,9 @@ describeDb('link service + admin diagnostics (scratch DB)', () => {
         status: 400,
         message: expect.stringContaining('variant')
       });
+      // 'upsell' stays REJECTED: the upsell shelf is derived from the related
+      // rules (V2 wave 1, D-W1-8 as amended) and takes no manual links; the
+      // DB CHECK keeps the value for door-open reasons only.
       await expect(
         createProductLink(
           {

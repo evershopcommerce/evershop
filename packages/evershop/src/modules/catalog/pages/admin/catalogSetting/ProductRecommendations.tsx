@@ -85,6 +85,9 @@ export function ProductRecommendations({
           <CardDescription>
             {_(
               'Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.'
+            )}{' '}
+            {_(
+              'The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.'
             )}
           </CardDescription>
         </CardHeader>

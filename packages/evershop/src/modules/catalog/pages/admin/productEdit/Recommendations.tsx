@@ -554,7 +554,7 @@ export default function Recommendations({
         <CardTitle>{_('Recommendations')}</CardTitle>
         <CardDescription>
           {_(
-            'What the Related-products and Frequently-bought-together shelves show for this product.'
+            'What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.'
           )}
         </CardDescription>
       </CardHeader>

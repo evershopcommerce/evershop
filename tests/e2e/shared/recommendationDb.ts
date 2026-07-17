@@ -37,12 +37,16 @@ export interface RecoWorld {
   pExcluded: ProductFixture;
   /** No category — reachable only as a manual pick / FBT candidate. */
   pOther: ProductFixture;
-  /** related manual_only with ONE pick (pOther); FBT manual_only, no picks. */
+  /**
+   * related manual_only with ONE pick (pOther); FBT manual_only, no picks.
+   * manual_only also opts the product out of the DERIVED upsell shelf.
+   */
   manualAnchor: ProductFixture;
   /** Both modes manual_only with no picks — both shelves render nothing. */
   emptyAnchor: ProductFixture;
   relatedHeading: string;
   fbtHeading: string;
+  upsellHeading: string;
 }
 
 async function insertProduct(params: {
@@ -136,8 +140,10 @@ export async function createRecoWorld(): Promise<RecoWorld> {
 
   const base = { tag, groupId, taxClass, categoryId };
   const anchor = await insertProduct({ ...base, suffix: 'ANCHOR' });
-  const pGood = await insertProduct({ ...base, suffix: 'GOOD' });
-  const pBest = await insertProduct({ ...base, suffix: 'BEST' });
+  // Pricier than the anchor (20): they double as the upsell shelf's world —
+  // the derived resolver keeps only price-above rule matches.
+  const pGood = await insertProduct({ ...base, suffix: 'GOOD', price: 25 });
+  const pBest = await insertProduct({ ...base, suffix: 'BEST', price: 30 });
   const pDisabled = await insertProduct({ ...base, suffix: 'DISABLED', status: false });
   const pOos = await insertProduct({ ...base, suffix: 'OOS', inStock: false });
   const pExcluded = await insertProduct({ ...base, suffix: 'EXCLUDED', exclude: true });
@@ -202,9 +208,11 @@ export async function createRecoWorld(): Promise<RecoWorld> {
   // Route-level published placements on productView (area productPageBottom).
   const relatedHeading = `E2E Related ${tag}`;
   const fbtHeading = `E2E Together ${tag}`;
+  const upsellHeading = `E2E Upsell ${tag}`;
   for (const [type, heading, sort] of [
     ['related_products', relatedHeading, 1],
-    ['frequently_bought_together', fbtHeading, 2]
+    ['frequently_bought_together', fbtHeading, 2],
+    ['upsell_products', upsellHeading, 3]
   ] as Array<[string, string, number]>) {
     const { rows: widgetRows } = await db.query<{ widget_instance_id: number }>(
       `INSERT INTO widget_instance (name, type, settings, status)
@@ -232,7 +240,8 @@ export async function createRecoWorld(): Promise<RecoWorld> {
     manualAnchor,
     emptyAnchor,
     relatedHeading,
-    fbtHeading
+    fbtHeading,
+    upsellHeading
   };
 }
 

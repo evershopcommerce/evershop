@@ -12,8 +12,9 @@ import {
 /**
  * Manual product-link CRUD behind the § 11 API routes. Links are directional
  * (A→B does not imply B→A) and typed; 'upsell' exists in the DB CHECK for
- * door-open reasons (spec § 3) but is NOT accepted here until the feature
- * ships a surface for it.
+ * door-open reasons (spec § 3) but is NOT accepted here — the upsell shelf
+ * is DERIVED (related rules + price-above, specifications/06 D-W1-8 as
+ * amended) and takes no manual links.
  *
  * The same-representative rejection is defense-in-depth (§ 11): the DB CHECK
  * only catches literal self-links, group membership can change AFTER insert,

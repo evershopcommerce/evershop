@@ -295,6 +295,49 @@ export default () => {
   });
 
   registerWidget({
+    type: 'upsell_products',
+    name: 'Upsell products',
+    description:
+      'Pricier alternatives derived from the related-products rules for the current product page',
+    category: 'commerce',
+    icon: 'Star',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/RecommendationWidgetSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/UpsellProducts.js'
+    ),
+    previewComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/UpsellProductsPreview.js'
+    ),
+    defaultSettings: {
+      heading: 'Upgrade your pick',
+      limit: 4
+    },
+    enabled: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true,
+      properties: {
+        heading: { type: ['string', 'null'], maxLength: 255 },
+        limit: { type: 'integer', minimum: 1, maximum: 12 }
+      }
+    },
+    graphql: {
+      typeDefs: `
+        type UpsellProductsWidgetSettings {
+          heading: String
+          limit: Int
+        }
+      `,
+      settingsType: 'UpsellProductsWidgetSettings'
+    }
+  });
+
+  registerWidget({
     type: 'collection_products',
     name: 'Collection products',
     description: 'A list of products from a collection',

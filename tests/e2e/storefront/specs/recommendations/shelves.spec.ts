@@ -139,6 +139,53 @@ test.describe('storefront / recommendation shelves', () => {
     }
   });
 
+  test('upsell shelf derives pricier rule matches from the related rules — no fallback', async ({
+    page
+  }) => {
+    // The anchor (price 20) uses custom same_category rules; pBest (30) and
+    // pGood (25) are the only pricier same-category members.
+    await page.goto(`/product/${world.anchor.uuid}`);
+
+    const upsell = page
+      .locator('.evershop-recommendation-shelf')
+      .filter({ hasText: world.upsellHeading });
+    await expect(upsell).toHaveCount(1);
+    await expect(upsell.getByText(world.pBest.name)).toBeVisible();
+    await expect(upsell.getByText(world.pGood.name)).toBeVisible();
+
+    // Sales-ranked like the related shelf: pBest (9 orders) first.
+    const [bestAt, goodAt] = await namePositions(upsell, [
+      world.pBest.name,
+      world.pGood.name
+    ]);
+    expect(bestAt).toBeGreaterThanOrEqual(0);
+    expect(bestAt).toBeLessThan(goodAt);
+
+    // Same-price/cheaper products and gated ones never appear; no bestseller
+    // fill from outside the rules.
+    const text = await upsell.innerText();
+    for (const absent of [
+      world.pOther.name,
+      world.pDisabled.name,
+      world.pOos.name,
+      world.pExcluded.name,
+      world.anchor.name
+    ]) {
+      expect(text).not.toContain(absent);
+    }
+  });
+
+  test('manual_only products render no upsell shelf — the rules opt-out extends to the derived shelf', async ({
+    page
+  }) => {
+    await page.goto(`/product/${world.manualAnchor.uuid}`);
+    await expect(
+      page
+        .locator('.evershop-recommendation-shelf')
+        .filter({ hasText: world.upsellHeading })
+    ).toHaveCount(0);
+  });
+
   test('empty resolution renders no shelf at all — heading included', async ({
     page
   }) => {

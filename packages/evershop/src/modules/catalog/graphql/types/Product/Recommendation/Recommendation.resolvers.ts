@@ -1,6 +1,7 @@
 import { camelCase } from '../../../../../../lib/util/camelCase.js';
 import { resolveCrossSellProducts } from '../../../../services/recommendation/resolveCrossSellProducts.js';
 import { resolveRelatedProducts } from '../../../../services/recommendation/resolveRelatedProducts.js';
+import { resolveUpsellProducts } from '../../../../services/recommendation/resolveUpsellProducts.js';
 
 /**
  * Thin wrappers over the resolution services (spec § 8.1). The services
@@ -37,6 +38,18 @@ export default {
       { pool }: { pool: any }
     ) => {
       const rows = await resolveCrossSellProducts(
+        product.productId,
+        clampLimit(limit, 4),
+        pool
+      );
+      return rows.map((row) => camelCase(row));
+    },
+    upsellProducts: async (
+      product: { productId: number },
+      { limit }: { limit?: number },
+      { pool }: { pool: any }
+    ) => {
+      const rows = await resolveUpsellProducts(
         product.productId,
         clampLimit(limit, 4),
         pool

@@ -10,4 +10,6 @@ extend type Product {
   relatedProducts(limit: Int = 5): [Product]
   "Frequently bought together: co-purchase data gated by pair count, anchor orders, and lift; manual modes and fallback ladder per configuration."
   crossSellProducts(limit: Int = 4): [Product]
+  "Upsell: the effective related-products rules re-run with price strictly above this product (band percent = upper cap). No manual tier, no fallback; empty for manual_only products."
+  upsellProducts(limit: Int = 4): [Product]
 }
