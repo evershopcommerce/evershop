@@ -53,7 +53,7 @@ function buildComponentsPerRoute(components, imports) {
   return areas;
 }
 
-const buildWidgetComponentsPerRoute = (route, widgets, imports) => {
+export const buildWidgetComponentsPerRoute = (route, widgets, imports) => {
   const components = {};
   widgets.forEach((widget) => {
     const componentPath = route.isAdmin
@@ -70,11 +70,17 @@ const buildWidgetComponentsPerRoute = (route, widgets, imports) => {
     if (!exists) {
       imports.set({ id: id, url }, `import ${id} from '${url}';`);
     }
+    // The map KEY stays per-type (lookups recompute it from the widget type),
+    // but the emitted REFERENCE must be whichever identifier the deduped
+    // import actually declared — two widget types sharing one component file
+    // otherwise reference an import that was never emitted, and the whole
+    // bundle dies at init with "<id> is not defined".
+    const importId = exists ? exists.id : id;
     components[id] = {
       id: id,
       sortOrder: widget.sortOrder || 0,
       component: {
-        default: `---${id}---`
+        default: `---${importId}---`
       }
     };
 
@@ -99,11 +105,12 @@ const buildWidgetComponentsPerRoute = (route, widgets, imports) => {
           `import ${previewId} from '${previewUrl}';`
         );
       }
+      const previewImportId = previewExists ? previewExists.id : previewId;
       components[previewId] = {
         id: previewId,
         sortOrder: 0,
         component: {
-          default: `---${previewId}---`
+          default: `---${previewImportId}---`
         }
       };
     }

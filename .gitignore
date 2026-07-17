@@ -46,4 +46,7 @@ extensions
 .playwright-mcp/
 .impeccable
 PRODUCT.md
-storefront
+/storefront
+stress-report-*
+jmeter.log
+stress_test.py

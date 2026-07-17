@@ -11,20 +11,30 @@ import {
 } from '@components/common/ui/Card.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
+import {
+  ProductRecommendations,
+  ProductRecommendationsProps
+} from './ProductRecommendations.js';
 
 interface CatalogSettingProps {
   saveSettingApi: string;
-  setting: {
+  setting: ProductRecommendationsProps['setting'] & {
     catalogShowOutOfStockProduct?: boolean;
     catalogCollectionPageSize?: number;
     catalogProductImageWidth?: number;
     catalogProductImageHeight?: number;
   };
+  recomputeApi: string;
+  recommendationStatSummary: ProductRecommendationsProps['recommendationStatSummary'];
+  attributes?: ProductRecommendationsProps['attributes'];
 }
 
 export default function CatalogSetting({
   saveSettingApi,
-  setting
+  setting,
+  recomputeApi,
+  recommendationStatSummary,
+  attributes
 }: CatalogSettingProps) {
   return (
     <div className="main-content-inner">
@@ -106,6 +116,12 @@ export default function CatalogSetting({
                   </div>
                 </CardContent>
               </Card>
+              <ProductRecommendations
+                recomputeApi={recomputeApi}
+                setting={setting}
+                recommendationStatSummary={recommendationStatSummary}
+                attributes={attributes}
+              />
             </div>
           </Form>
         </div>
@@ -122,11 +138,41 @@ export const layout = {
 export const query = `
   query Query {
     saveSettingApi: url(routeId: "saveSetting")
+    recomputeApi: url(routeId: "recomputeRecommendationStats")
     setting {
       catalogShowOutOfStockProduct
       catalogCollectionPageSize
       catalogProductImageWidth
       catalogProductImageHeight
+      relatedProductsRules {
+        enabled
+        rules {
+          type
+          enabled
+          attributeCodes
+          scope
+        }
+        priceBand {
+          enabled
+          percent
+        }
+        fallbackToBestsellers
+      }
+      crossSellMinPairCount
+      crossSellMinAnchorOrders
+      crossSellMinLift
+      crossSellFallbackEnabled
+    }
+    recommendationStatSummary {
+      computedAt
+      totalOrderCount
+      pairCount
+    }
+    attributes(filters: [{key: "type", operation: eq, value: "select"}, {key: "limit", operation: eq, value: "100"}]) {
+      items {
+        attributeCode
+        attributeName
+      }
     }
   }
 `;

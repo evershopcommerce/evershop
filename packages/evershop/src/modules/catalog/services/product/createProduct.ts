@@ -20,7 +20,7 @@ import {
 import { sanitizeRawHtml } from '../../../../lib/util/sanitizeHtml.js';
 import type { ProductDescriptionRow, ProductRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
-import productDataSchema from './productDataSchema.json'  with { type: 'json' };
+import { productDataSchema } from './productDataSchema.js';
 
 export type ProductData = ProductInventoryData & {
   name: string,

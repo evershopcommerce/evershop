@@ -1,0 +1,13 @@
+# Settings echo for the two recommendation widgets (specifications/05 § 9.3).
+# There is no side-channel props mechanism for widget settings — Area builds
+# widget props solely from the GraphQL response — so heading/limit round-trip
+# through this field (the collectionProductsWidget precedent). Shared by both
+# widget types and by their shared settingComponent.
+type RecommendationWidget {
+  heading: String
+  limit: Int
+}
+
+extend type Query {
+  recommendationWidget(heading: String, limit: Int): RecommendationWidget
+}

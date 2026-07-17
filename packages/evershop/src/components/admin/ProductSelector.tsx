@@ -61,7 +61,13 @@ const ProductSelector: React.FC<{
     productId: string
   ) => Promise<void> | void;
   selectedProducts: Array<AtLeastOne<ProductIdentifier>>;
-}> = ({ onSelect, onUnSelect, selectedProducts }) => {
+  /**
+   * Products rendered with a disabled Select button (e.g. the anchor product
+   * and its variant-group members in the recommendation pickers — linking a
+   * sibling can never render, the resolution excludes the anchor's group).
+   */
+  disabledProductIds?: Array<string | number>;
+}> = ({ onSelect, onUnSelect, selectedProducts, disabledProductIds = [] }) => {
   const limit = 10;
   const [internalSelectedProducts, setSelectedProducts] = React.useState<
     Array<AtLeastOne<ProductIdentifier>>
@@ -210,8 +216,18 @@ const ProductSelector: React.FC<{
                 {!isProductSelected(product, internalSelectedProducts) && (
                   <Button
                     variant={'outline'}
+                    disabled={disabledProductIds.some(
+                      (id) => String(id) === String(product.productId)
+                    )}
                     onClick={async (e) => {
                       e.preventDefault();
+                      if (
+                        disabledProductIds.some(
+                          (id) => String(id) === String(product.productId)
+                        )
+                      ) {
+                        return;
+                      }
                       await selectProduct(
                         product.sku,
                         product.uuid,

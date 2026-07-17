@@ -17,7 +17,7 @@ import {
 import { sanitizeRawHtml } from '../../../../lib/util/sanitizeHtml.js';
 import type { CategoryDescriptionRow, CategoryRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
-import categoryDataSchema from './categoryDataSchema.json' with { type: 'json' };
+import { categoryDataSchema } from './categoryDataSchema.js';
 
 export type CategoryData = {
   name: string;

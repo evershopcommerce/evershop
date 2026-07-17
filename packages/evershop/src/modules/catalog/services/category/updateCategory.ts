@@ -18,7 +18,7 @@ import { getAjv } from '../../../base/services/getAjv.js';
 import { recordRedirectsBatch } from '../../../base/services/recordRedirect.js';
 import { buildEntityPath, planSubtreeRedirects } from '../redirect/pathRemap.js';
 import { resolveCategoryUrlPath } from '../redirect/resolveCategoryUrlPath.js';
-import categoryDataSchema from './categoryDataSchema.json' with { type: 'json' };
+import { categoryDataSchema } from './categoryDataSchema.js';
 import { CategoryData } from './createCategory.js';
 
 
