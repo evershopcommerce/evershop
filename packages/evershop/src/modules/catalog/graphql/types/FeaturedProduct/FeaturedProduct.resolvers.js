@@ -34,13 +34,22 @@ export default {
       query.where('product.status', '=', 1);
       query.andWhere('product.visibility', '=', 1);
       if (getShowOutOfStockProducts() === false) {
-        query
-          .andWhere('product_inventory.manage_stock', '=', false)
-          .addNode(
-            node('OR')
-              .addLeaf('AND', 'product_inventory.qty', '>', 0)
-              .addLeaf('AND', 'product_inventory.stock_availability', '=', true)
-          );
+        // Wrap the disjunction in its own node — see Variant.resolvers.js:
+        // the chained form let disabled/invisible products with stock leak
+        // into the featured list via the unguarded OR operand.
+        const stockFilter = node('AND');
+        stockFilter.addLeaf(
+          'AND',
+          'product_inventory.manage_stock',
+          '=',
+          false
+        );
+        stockFilter.addNode(
+          node('OR')
+            .addLeaf('AND', 'product_inventory.qty', '>', 0)
+            .addLeaf('AND', 'product_inventory.stock_availability', '=', true)
+        );
+        query.getWhere().addNode(stockFilter);
       }
       query.groupBy(
         'product.product_id',

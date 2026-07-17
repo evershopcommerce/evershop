@@ -1,5 +1,6 @@
 import { Button } from '@components/common/ui/Button.js';
 import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { Input } from '@components/common/ui/Input.js';
 import { Label } from '@components/common/ui/Label.js';
 import {
   FilterableAttribute,
@@ -15,6 +16,9 @@ export const DefaultAttributeFilterRender: React.FC<{
 }> = ({ availableAttributes, currentFilters }) => {
   const { updateFilter } = useProductFilter();
   const [searchTerms, setSearchTerms] = useState<{ [key: string]: string }>({});
+  const [expandedAttributes, setExpandedAttributes] = useState<{
+    [key: string]: boolean;
+  }>({});
 
   const handleAttributeChange = (
     attributeCode: string,
@@ -93,6 +97,7 @@ export const DefaultAttributeFilterRender: React.FC<{
       {availableAttributes.map((attribute) => {
         const selectedCount = getSelectedCount(attribute.attributeCode);
         const filteredOptions = getFilteredOptions(attribute);
+        const isExpanded = !!expandedAttributes[attribute.attributeCode];
 
         return (
           <div
@@ -119,21 +124,25 @@ export const DefaultAttributeFilterRender: React.FC<{
             <div className="filter__content">
               {attribute.options.length > 5 && (
                 <div className="mb-3">
-                  <Checkbox
+                  <Input
+                    type="search"
+                    placeholder={_('Search options')}
                     value={searchTerms[attribute.attributeCode] || ''}
-                    onCheckedChange={(checked) =>
+                    onChange={(e) =>
                       setSearchTerms((prev) => ({
                         ...prev,
-                        [attribute.attributeCode]: checked
-                          ? checked.toString()
-                          : ''
+                        [attribute.attributeCode]: e.target.value
                       }))
                     }
                   />
                 </div>
               )}
 
-              <div className="attribute__options space-y-2.5 max-h-48 overflow-y-auto">
+              <div
+                className={`attribute__options space-y-2.5 ${
+                  isExpanded ? '' : 'max-h-48 overflow-y-auto'
+                }`}
+              >
                 {filteredOptions.length > 0 ? (
                   filteredOptions.map((option) => {
                     const isSelected = isOptionSelected(
@@ -177,12 +186,22 @@ export const DefaultAttributeFilterRender: React.FC<{
               {!searchTerms[attribute.attributeCode] &&
                 attribute.options.length > 10 && (
                   <Button
+                    type="button"
                     variant={'link'}
                     className="text-primary text-sm mt-2 hover:underline"
+                    onClick={() =>
+                      setExpandedAttributes((prev) => ({
+                        ...prev,
+                        [attribute.attributeCode]:
+                          !prev[attribute.attributeCode]
+                      }))
+                    }
                   >
-                    {_('Show all ${count} options', {
-                      count: attribute.options.length.toString()
-                    })}
+                    {isExpanded
+                      ? _('Show less')
+                      : _('Show all ${count} options', {
+                          count: attribute.options.length.toString()
+                        })}
                   </Button>
                 )}
             </div>
