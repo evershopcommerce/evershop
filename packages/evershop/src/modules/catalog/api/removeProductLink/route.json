@@ -1,0 +1,5 @@
+{
+  "methods": ["DELETE"],
+  "path": "/products/:product_id/links/:link_uuid",
+  "access": "private"
+}

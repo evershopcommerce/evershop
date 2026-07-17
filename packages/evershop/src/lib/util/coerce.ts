@@ -22,6 +22,12 @@ export function toInt(value: unknown, fallback: number): number {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
+export function toFloat(value: unknown, fallback: number): number {
+  const parsed =
+    typeof value === 'number' ? value : parseFloat(String(value));
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
 export function toEnum<T extends string>(
   value: unknown,
   allowed: readonly T[],

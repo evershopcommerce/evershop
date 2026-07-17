@@ -108,6 +108,11 @@ type ConfigStructure = {
       };
     };
     showOutOfStockProduct: boolean;
+    crossSell: {
+      recomputeSchedule: string;
+      recomputeEnabled: boolean;
+      maxOrderKeys: number;
+    };
   };
   checkout: {
     showShippingNote: boolean;

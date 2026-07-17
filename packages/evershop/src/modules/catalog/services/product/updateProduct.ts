@@ -29,7 +29,7 @@ import {
 import { buildEntityPath } from '../redirect/pathRemap.js';
 import { resolveCategoryUrlPath } from '../redirect/resolveCategoryUrlPath.js';
 import type { ProductAttributeData, ProductData, ProductInventoryData } from './createProduct.js';
-import productDataSchema from './productDataSchema.json' with { type: 'json' };
+import { productDataSchema } from './productDataSchema.js';
 
 function validateProductDataBeforeUpdate(data: ProductData): ProductData {
   const ajv = getAjv();

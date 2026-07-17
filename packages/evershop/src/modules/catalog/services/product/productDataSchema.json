@@ -425,6 +425,49 @@
         "type": "Package must be a package id",
         "pattern": "Package must be a package id"
       }
+    },
+    "related_products_mode": {
+      "type": "string",
+      "enum": [
+        "inherit",
+        "custom",
+        "manual_only"
+      ],
+      "errorMessage": {
+        "type": "Related products mode must be a string",
+        "enum": "Related products mode must be 'inherit', 'custom', or 'manual_only'"
+      }
+    },
+    "cross_sell_mode": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "manual_only",
+        "manual_first"
+      ],
+      "errorMessage": {
+        "type": "Cross-sell mode must be a string",
+        "enum": "Cross-sell mode must be 'auto', 'manual_only', or 'manual_first'"
+      }
+    },
+    "exclude_from_recommendation": {
+      "type": [
+        "integer",
+        "string",
+        "boolean"
+      ],
+      "enum": [
+        0,
+        1,
+        "0",
+        "1",
+        true,
+        false
+      ],
+      "errorMessage": {
+        "type": "Exclude from recommendation must be a boolean, number, or string",
+        "enum": "Exclude from recommendation must be either 0, 1, '0', '1', true, or false"
+      }
     }
   },
   "additionalProperties": true

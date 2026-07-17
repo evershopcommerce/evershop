@@ -1,8 +1,11 @@
 import path from 'path';
 import config from 'config';
+import { registerJob } from '../../lib/cronjob/jobManager.js';
 import { CONSTANTS } from '../../lib/helpers.js';
+import { warning } from '../../lib/log/logger.js';
 import { validateMetafields } from '../../lib/metafield/index.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
+import { getConfig } from '../../lib/util/getConfig.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
 import { registerWidget } from '../../lib/widget/widgetManager.js';
@@ -37,6 +40,7 @@ export default () => {
   addProcessor('collectionDataBeforeUpdate', foldCollectionMetafields);
   addProcessor('cartItemFields', registerCartItemProductUrlField, 0);
   addProcessor('cartItemFields', registerCartItemVariantOptionsField, 0);
+
   addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {
@@ -65,6 +69,21 @@ export default () => {
             collectionPageSize: {
               type: 'integer',
               minimum: 1
+            },
+            crossSell: {
+              type: 'object',
+              properties: {
+                recomputeSchedule: {
+                  type: 'string'
+                },
+                recomputeEnabled: {
+                  type: 'boolean'
+                },
+                maxOrderKeys: {
+                  type: 'integer',
+                  minimum: 0
+                }
+              }
             }
           }
         },
@@ -92,9 +111,36 @@ export default () => {
       }
     },
     showOutOfStockProduct: false,
-    collectionPageSize: 20
+    collectionPageSize: 20,
+    crossSell: {
+      recomputeSchedule: '0 2 * * *',
+      recomputeEnabled: true,
+      maxOrderKeys: 0
+    }
   };
   config.util.setModuleDefaults('catalog', defaultCatalogConfig);
+
+  // Nightly co-purchase stats rebuild (spec 05 § 7.3). Must register AFTER
+  // setModuleDefaults above so the getConfig reads resolve.
+  // registerJob THROWS on an invalid cron expression or missing job file, a
+  // bootstrap throw kills startup, and the schedule is operator-editable
+  // config (even enabled:false does not bypass the validation) — a config
+  // typo must degrade to a skipped job, never a store that will not boot.
+  try {
+    registerJob({
+      name: 'recomputeProductRecommendations',
+      schedule: getConfig('catalog.crossSell.recomputeSchedule', '0 2 * * *'),
+      resolve: path.resolve(
+        CONSTANTS.MODULESPATH,
+        'catalog/services/recommendation/recomputeStatsJob.js'
+      ),
+      enabled: getConfig('catalog.crossSell.recomputeEnabled', true)
+    });
+  } catch (e) {
+    warning(
+      `Skipping recomputeProductRecommendations job registration: ${e.message}`
+    );
+  }
 
   // Default pricing configuration
   const defaultPricingConfig = {
@@ -157,6 +203,96 @@ export default () => {
     (filters) => [...filters, ...defaultPaginationFilters],
     1
   );
+
+  // Two recommendation widget types sharing one settingComponent (spec 05
+  // § 9.1) — separate types for page-builder gallery discoverability. The
+  // render components take the anchor from `currentProduct` (never from
+  // variables — buildQuery silently drops non-getWidgetSetting placeholders
+  // there), so both degrade to an empty render off product pages.
+  registerWidget({
+    type: 'related_products',
+    name: 'Related products',
+    description: 'Rule-driven related products for the current product page',
+    category: 'commerce',
+    icon: 'Sparkles',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/RecommendationWidgetSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/RelatedProducts.js'
+    ),
+    previewComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/RelatedProductsPreview.js'
+    ),
+    defaultSettings: {
+      heading: 'You may also like',
+      limit: 4
+    },
+    enabled: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true,
+      properties: {
+        heading: { type: ['string', 'null'], maxLength: 255 },
+        limit: { type: 'integer', minimum: 1, maximum: 12 }
+      }
+    },
+    graphql: {
+      typeDefs: `
+        type RelatedProductsWidgetSettings {
+          heading: String
+          limit: Int
+        }
+      `,
+      settingsType: 'RelatedProductsWidgetSettings'
+    }
+  });
+
+  registerWidget({
+    type: 'frequently_bought_together',
+    name: 'Frequently bought together',
+    description:
+      'Co-purchase recommendations for the current product page, gated by pair count and lift',
+    category: 'commerce',
+    icon: 'ShoppingBag',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/RecommendationWidgetSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/FrequentlyBoughtTogether.js'
+    ),
+    previewComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/FrequentlyBoughtTogetherPreview.js'
+    ),
+    defaultSettings: {
+      heading: 'Frequently bought together',
+      limit: 3
+    },
+    enabled: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true,
+      properties: {
+        heading: { type: ['string', 'null'], maxLength: 255 },
+        limit: { type: 'integer', minimum: 1, maximum: 12 }
+      }
+    },
+    graphql: {
+      typeDefs: `
+        type FrequentlyBoughtTogetherWidgetSettings {
+          heading: String
+          limit: Int
+        }
+      `,
+      settingsType: 'FrequentlyBoughtTogetherWidgetSettings'
+    }
+  });
 
   registerWidget({
     type: 'collection_products',
