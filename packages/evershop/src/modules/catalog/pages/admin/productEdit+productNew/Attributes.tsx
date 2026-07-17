@@ -9,18 +9,6 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
-import {
-  Item,
-  ItemContent,
-  ItemDescription,
-  ItemTitle
-} from '@components/common/ui/Item.js';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow
-} from '@components/common/ui/Table.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
@@ -191,99 +179,93 @@ export default function Attributes({
         </div>
       </CardContent>
       <CardContent>
-        <Table>
-          <TableBody>
-            {fields.map((attribute, index) => {
-              const validation =
-                attribute.is_required === 1
-                  ? {
-                      required: _('${name} is required', {
-                        name: attribute.attribute_name
-                      })
-                    }
-                  : {};
-              let Field: React.ReactNode = null;
-              switch (attribute.type) {
-                case 'text':
-                  Field = (
-                    <InputField
-                      name={`attributes.${index}.value`}
-                      required={attribute.is_required === 1}
-                      validation={validation}
-                    />
-                  );
-                  break;
-                case 'textarea':
-                  Field = (
-                    <TextareaField
-                      name={`attributes.${index}.value`}
-                      required={attribute.is_required === 1}
-                      validation={validation}
-                    />
-                  );
-                  break;
-                case 'select':
-                  Field = (
-                    <SelectField
-                      name={`attributes.${index}.value`}
-                      options={getAttributeOptions(
-                        items,
-                        attribute.attribute_id
-                      )}
-                      placeholder={_('Select an option')}
-                      validation={validation}
-                    />
-                  );
-                  break;
-                case 'multiselect':
-                  Field = (
-                    <ReactSelectField
-                      name={`attributes.${index}.value`}
-                      options={getAttributeOptions(
-                        items,
-                        attribute.attribute_id
-                      )}
-                      placeholder={_('Select options')}
-                      required={attribute.is_required === 1}
-                      validation={validation}
-                      isMulti
-                    />
-                  );
-                  break;
-                default:
-                  Field = (
-                    <InputField
-                      name={`attributes.${index}.value`}
-                      required={attribute.is_required === 1}
-                      validation={validation}
-                      placeholder={_('Enter value for ${attribute}', {
-                        attribute: attribute.attribute_name
-                      })}
-                    />
-                  );
-                  break;
-              }
-              return (
-                <TableRow key={attribute.id}>
-                  <TableCell>
-                    <span>{attribute.attribute_name}</span>
-                    {attribute.is_required === 1 && (
-                      <span className="text-destructive pl-1">*</span>
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <InputField
-                      type="hidden"
-                      value={attribute.attribute_code}
-                      name={`attributes.${index}.attribute_code`}
-                    />
-                    {Field}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        {/* Labels sit ABOVE their control (the form components' own label
+            rendering) so each control gets the card's full width — the old
+            label|input table halved it and truncated selects/multiselect
+            chips in the narrow rightSide column. */}
+        <div className="space-y-3">
+          {fields.map((attribute, index) => {
+            const required = attribute.is_required === 1;
+            const validation = required
+              ? {
+                  required: _('${name} is required', {
+                    name: attribute.attribute_name
+                  })
+                }
+              : {};
+            let Field: React.ReactNode = null;
+            switch (attribute.type) {
+              case 'text':
+                Field = (
+                  <InputField
+                    name={`attributes.${index}.value`}
+                    label={attribute.attribute_name}
+                    required={required}
+                    validation={validation}
+                  />
+                );
+                break;
+              case 'textarea':
+                Field = (
+                  <TextareaField
+                    name={`attributes.${index}.value`}
+                    label={attribute.attribute_name}
+                    required={required}
+                    validation={validation}
+                  />
+                );
+                break;
+              case 'select':
+                Field = (
+                  <SelectField
+                    name={`attributes.${index}.value`}
+                    label={attribute.attribute_name}
+                    options={getAttributeOptions(items, attribute.attribute_id)}
+                    placeholder={_('Select an option')}
+                    required={required}
+                    validation={validation}
+                  />
+                );
+                break;
+              case 'multiselect':
+                Field = (
+                  <ReactSelectField
+                    name={`attributes.${index}.value`}
+                    label={attribute.attribute_name}
+                    options={getAttributeOptions(items, attribute.attribute_id)}
+                    placeholder={_('Select options')}
+                    required={required}
+                    validation={validation}
+                    isMulti
+                  />
+                );
+                break;
+              default:
+                Field = (
+                  <InputField
+                    name={`attributes.${index}.value`}
+                    label={attribute.attribute_name}
+                    required={required}
+                    validation={validation}
+                    placeholder={_('Enter value for ${attribute}', {
+                      attribute: attribute.attribute_name
+                    })}
+                  />
+                );
+                break;
+            }
+            return (
+              <div key={attribute.id}>
+                <InputField
+                  type="hidden"
+                  value={attribute.attribute_code}
+                  name={`attributes.${index}.attribute_code`}
+                />
+                {Field}
+              </div>
+            );
+          })}
+        </div>
       </CardContent>
     </Card>
   );

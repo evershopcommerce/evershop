@@ -81,18 +81,27 @@ export default async (request, response, next) => {
             .and('p.status', '=', 1);
 
           if (getShowOutOfStockProducts() === false) {
-            vsQuery
-              .andWhere('product_inventory.manage_stock', '=', false)
-              .addNode(
-                node('OR')
-                  .addLeaf('AND', 'product_inventory.qty', '>', 0)
-                  .addLeaf(
-                    'AND',
-                    'product_inventory.stock_availability',
-                    '=',
-                    true
-                  )
-              );
+            // Wrap the disjunction in its own node — see Variant.resolvers.js:
+            // the chained form let any in-stock product store-wide leak past
+            // the variant-group and attribute filters below.
+            const stockFilter = node('AND');
+            stockFilter.addLeaf(
+              'AND',
+              'product_inventory.manage_stock',
+              '=',
+              false
+            );
+            stockFilter.addNode(
+              node('OR')
+                .addLeaf('AND', 'product_inventory.qty', '>', 0)
+                .addLeaf(
+                  'AND',
+                  'product_inventory.stock_availability',
+                  '=',
+                  true
+                )
+            );
+            vsQuery.getWhere().addNode(stockFilter);
           }
           vsQuery
             .andWhere(
