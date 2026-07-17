@@ -1,0 +1,9 @@
+# Cart-page FBT (specifications/06 D-W1-6). Lives in CATALOG — the owner of
+# the recommendation tables — extending checkout's Cart type. Non-admin file:
+# visible to both schemas, always storefront-gated (D9).
+# NOTE: a block description above `extend type` is invalid SDL (graphql-js
+# only allows descriptions on definitions) — keep this header as comments.
+extend type Cart {
+  "Frequently bought together across ALL cart items: per-pair gated co-purchase candidates aggregated over the cart (best affinity first), excluding everything already in the cart incl. variant siblings; bestseller ladder per configuration."
+  crossSellProducts(limit: Int = 4): [Product]
+}

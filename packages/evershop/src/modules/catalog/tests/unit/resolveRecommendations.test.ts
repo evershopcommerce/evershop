@@ -1,6 +1,7 @@
 import { jest, describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 import { Pool } from 'pg';
 import migrate from '../../migration/Version-1.0.14.js';
+import { resolveCartCrossSellProducts } from '../../services/recommendation/resolveCartCrossSellProducts.js';
 import { resolveCrossSellProducts } from '../../services/recommendation/resolveCrossSellProducts.js';
 import { resolveRelatedProducts } from '../../services/recommendation/resolveRelatedProducts.js';
 import { resolveUpsellProducts } from '../../services/recommendation/resolveUpsellProducts.js';
@@ -654,4 +655,163 @@ describeDb('recommendation resolution services (scratch DB)', () => {
     });
   });
 
+  // Declaration-order dependency (jest runs sibling describes in order):
+  // this block consumes the FBT describe's seeds (anchor stats, meta=100,
+  // xp/xq pairs) and must run AFTER the upsell describe's afterAll removed
+  // pU1/pU2 — do not reorder the describes.
+  describe('cart cross-sell (multi-anchor FBT, V2 wave 1)', () => {
+    const GATES = {
+      minPairCount: 3,
+      minAnchorOrders: 5,
+      minLift: 1,
+      fallbackEnabled: false
+    };
+    // The fixture is deliberately NON-collinear so every D-W1-2 ranking key
+    // is pinned independently (mutation-tested during review):
+    //   MAX vs AVG   → z (single pair 2.8) must lose to xp (MAX 3.0, AVG 2.5)
+    //   COUNT(*)     → y1 (2 anchors, SUM 10) before y2 (1 anchor, SUM 20,
+    //                  SMALLER id) — only anchors-matched puts y1 first
+    //   SUM(co)      → w2 (SUM 12, LARGER id) before w1/xq (SUM 6) — only
+    //                  total-pairs puts w2 first
+    //   id ASC       → xq before w1 (equal lift, COUNT, SUM)
+    let y2: number;
+    let y1: number;
+    let z: number;
+    let w1: number;
+    let w2: number;
+
+    beforeAll(async () => {
+      // Second cart anchor: b6 (c2), 10 eligible orders, pairs with xp/xq.
+      // xq is gated for THE ANCHOR (lift exactly 1.0) but passes for b6 —
+      // per-pair gating must keep the passing row.
+      await db.query(
+        `INSERT INTO product_stat (product_id, order_count) VALUES ($1, 10)
+         ON CONFLICT (product_id) DO UPDATE SET order_count = 10`,
+        [b6]
+      );
+      const b6Pairs: Array<[number, number]> = [
+        [xp, 4], // lift 4*100/(10*20) = 2.0 → in
+        [xq, 6] // lift 6*100/(10*50) = 1.2 → in
+      ];
+      for (const [partner, co] of b6Pairs) {
+        await db.query(
+          `INSERT INTO product_relation (product_id, related_product_id, co_purchase_count)
+           VALUES ($1, $2, $3), ($2, $1, $3)`,
+          [b6, partner, co]
+        );
+      }
+      // Creation order fixes the ids: y2 < y1 < z < w1 < w2.
+      y2 = await addProduct({});
+      y1 = await addProduct({});
+      z = await addProduct({});
+      w1 = await addProduct({});
+      w2 = await addProduct({});
+      for (const [pid, orders] of [
+        [y2, 100],
+        [y1, 25],
+        [z, 25],
+        [w1, 50],
+        [w2, 100]
+      ] as Array<[number, number]>) {
+        await db.query(
+          `INSERT INTO product_stat (product_id, order_count) VALUES ($1, $2)`,
+          [pid, orders]
+        );
+      }
+      for (const [a, b, co] of [
+        [anchor, y2, 20], // lift 20*100/(10*100) = 2.0, SUM 20, 1 anchor
+        [anchor, y1, 5], // lift 5*100/(10*25)  = 2.0 ┐ 2 anchors, SUM 10
+        [b6, y1, 5], // lift 5*100/(10*25)  = 2.0 ┘
+        [anchor, z, 7], // lift 7*100/(10*25)  = 2.8, single pair
+        [anchor, w1, 6], // lift 6*100/(10*50)  = 1.2, SUM 6
+        [anchor, w2, 12] // lift 12*100/(10*100) = 1.2, SUM 12
+      ] as Array<[number, number, number]>) {
+        await db.query(
+          `INSERT INTO product_relation (product_id, related_product_id, co_purchase_count)
+           VALUES ($1, $2, $3), ($2, $1, $3)`,
+          [a, b, co]
+        );
+      }
+    });
+
+    afterAll(async () => {
+      await db.query('DELETE FROM product WHERE product_id = ANY($1)', [
+        [y2, y1, z, w1, w2]
+      ]);
+    });
+
+    it('aggregates per-pair-gated candidates across anchors, every ranking key load-bearing', async () => {
+      const rows = await resolveCartCrossSellProducts(
+        [anchor, b6],
+        10,
+        db,
+        GATES
+      );
+      // v1 group (5.7, displays v2) > xp (MAX 3.0 — AVG would be 2.5 and
+      // lose to z) > z (2.8) > y1 (2.0, 2 anchors) > y2 (2.0, 1 anchor,
+      // SUM 20) > w2 (1.2, SUM 12) > xq (1.2, SUM 6, smaller id — its
+      // anchor pair sits at lift exactly 1.0 and stays gated; the b6 pair
+      // carries it) > w1 (1.2, SUM 6).
+      expect(ids(rows)).toEqual([v2, xp, z, y1, y2, w2, xq, w1]);
+      expect(rows.every((row) => row.source === 'co_purchase')).toBe(true);
+    });
+
+    it('excludes the whole variant group of a cart line — cart ids are variant-level', async () => {
+      // v2 in the cart resolves to representative v1: the v-group candidate
+      // (the top hit by lift) must disappear entirely. With b6 out of the
+      // cart, y1 drops to ONE matched anchor (SUM 5) — y2 (SUM 20) now
+      // outranks it, pinning SUM within equal MAX/COUNT once more.
+      const rows = await resolveCartCrossSellProducts(
+        [anchor, v2],
+        5,
+        db,
+        GATES
+      );
+      expect(ids(rows)).toEqual([xp, z, y2, y1, w2]);
+      expect(ids(rows)).not.toContain(v2);
+    });
+
+    it('skips missing lines and returns [] for empty or unknown carts', async () => {
+      expect(await resolveCartCrossSellProducts([], 5, db, GATES)).toEqual([]);
+      expect(
+        await resolveCartCrossSellProducts([9999999], 5, db, GATES)
+      ).toEqual([]);
+      // A dead line degrades to the surviving lines, never aborts.
+      const rows = await resolveCartCrossSellProducts(
+        [anchor, 9999999],
+        5,
+        db,
+        GATES
+      );
+      expect(ids(rows)).toEqual([v2, xp, z, y2, y1]);
+    });
+
+    it('fallback ladders cart categories first, then the store; a category-less cart goes straight to store bestsellers', async () => {
+      const laddered = await resolveCartCrossSellProducts([anchor, b6], 3, db, {
+        ...GATES,
+        minAnchorOrders: 200, // gates out every pair
+        fallbackEnabled: true
+      });
+      // Bestsellers across c1 ∪ c2: xq (50 orders, c2), xp (20, c2), b2 (9, c1).
+      expect(ids(laddered)).toEqual([xq, xp, b2]);
+      expect(
+        laddered.every((row) => row.source === 'category_bestsellers')
+      ).toBe(true);
+
+      // y2 has no category: the category rung is skipped and the STORE rung
+      // fills the shelf (cart rep itself excluded).
+      const store = await resolveCartCrossSellProducts([y2], 2, db, {
+        ...GATES,
+        minAnchorOrders: 200,
+        fallbackEnabled: true
+      });
+      // Store bestsellers by sales: w2 (100; y2's 100 is excluded as the
+      // cart line), then the 50-orders tie xq/w1 resolves product_id DESC —
+      // w1 has the larger id.
+      expect(ids(store)).toEqual([w2, w1]);
+      expect(store.every((row) => row.source === 'store_bestsellers')).toBe(
+        true
+      );
+    });
+  });
 });

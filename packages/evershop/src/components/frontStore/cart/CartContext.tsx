@@ -1239,6 +1239,15 @@ export const useCartState = (): CartState => {
   return context;
 };
 
+/**
+ * Non-throwing variant of useCartState for components that may render both
+ * inside and outside a CartProvider — e.g. widgets, which merchants can
+ * place into ANY area, including ones above the provider. Returns undefined
+ * when no provider is present; such placements simply stay non-reactive.
+ */
+export const useOptionalCartState = (): CartState | undefined =>
+  useContext(CartStateContext);
+
 export const useCartDispatch = (): CartDispatch => {
   const context = useContext(CartDispatchContext);
   if (!context) {

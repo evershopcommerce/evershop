@@ -9,6 +9,12 @@ import { getDb } from './db.js';
  * interrupted run idempotently. Stats rows need no marker — they cascade
  * from the products, and the "Recompute now" spec legitimately rebuilds
  * them from real order history anyway (derived data).
+ *
+ * WORKERS=1 ASSUMPTION: the sweep is GLOBAL over the marker, and three spec
+ * files (shelves, cartShelf, admin card) each build their own world with it
+ * — under parallel workers one file's beforeAll/afterAll would delete a
+ * sibling's live world mid-test. If PLAYWRIGHT_WORKERS ever goes above 1,
+ * scope the sweep by tag and move the orphan sweep to globalTeardown.
  */
 
 export interface ProductFixture {
@@ -47,6 +53,7 @@ export interface RecoWorld {
   relatedHeading: string;
   fbtHeading: string;
   upsellHeading: string;
+  cartFbtHeading: string;
 }
 
 async function insertProduct(params: {
@@ -205,15 +212,20 @@ export async function createRecoWorld(): Promise<RecoWorld> {
            computed_at = CURRENT_TIMESTAMP`
   );
 
-  // Route-level published placements on productView (area productPageBottom).
+  // Route-level published placements: three PDP shelves on productView
+  // (area productPageBottom) + the cart shelf on the cart route's always-
+  // rendered `content` area (the shoppingCart* areas vanish on empty carts,
+  // which would blind the empty-cart spec).
   const relatedHeading = `E2E Related ${tag}`;
   const fbtHeading = `E2E Together ${tag}`;
   const upsellHeading = `E2E Upsell ${tag}`;
-  for (const [type, heading, sort] of [
-    ['related_products', relatedHeading, 1],
-    ['frequently_bought_together', fbtHeading, 2],
-    ['upsell_products', upsellHeading, 3]
-  ] as Array<[string, string, number]>) {
+  const cartFbtHeading = `E2E CartTogether ${tag}`;
+  for (const [type, heading, route, area, sort] of [
+    ['related_products', relatedHeading, 'productView', 'productPageBottom', 1],
+    ['frequently_bought_together', fbtHeading, 'productView', 'productPageBottom', 2],
+    ['upsell_products', upsellHeading, 'productView', 'productPageBottom', 3],
+    ['cart_frequently_bought_together', cartFbtHeading, 'cart', 'content', 20]
+  ] as Array<[string, string, string, string, number]>) {
     const { rows: widgetRows } = await db.query<{ widget_instance_id: number }>(
       `INSERT INTO widget_instance (name, type, settings, status)
        VALUES ($1, $2, $3, TRUE)
@@ -222,8 +234,8 @@ export async function createRecoWorld(): Promise<RecoWorld> {
     );
     await db.query(
       `INSERT INTO widget_placement (widget_instance_id, route, area, sort_order)
-       VALUES ($1, 'productView', 'productPageBottom', $2)`,
-      [widgetRows[0].widget_instance_id, sort]
+       VALUES ($1, $2, $3, $4)`,
+      [widgetRows[0].widget_instance_id, route, area, sort]
     );
   }
 
@@ -241,7 +253,8 @@ export async function createRecoWorld(): Promise<RecoWorld> {
     emptyAnchor,
     relatedHeading,
     fbtHeading,
-    upsellHeading
+    upsellHeading,
+    cartFbtHeading
   };
 }
 

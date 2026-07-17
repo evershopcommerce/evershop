@@ -52,40 +52,52 @@ export function readCrossSellGates(): CrossSellGates {
 }
 
 /**
- * Gated co-purchase candidates for an anchor representative, best lift
- * first. Returns representative keys only — display members resolve
- * separately, so candidates whose group has no displayable member simply
- * yield their slot to the next candidate.
+ * Gated co-purchase candidates for a SET of anchor representatives, best
+ * affinity first (specifications/06 D-W1-2/D-W1-3). Every pair row is gated
+ * individually (per-anchor order count, per-pair lift with the NULLIF
+ * zero-denominator guard), then candidates aggregate one row per
+ * related_product_id: MAX(lift) DESC — strongest single affinity wins —
+ * then how many anchors matched, then total co-purchases, then id.
+ *
+ * For a single anchor the aggregate degenerates to exactly the original
+ * per-pair ranking (MAX/SUM over one row = the row; COUNT(*) = 1 ties):
+ * pinned by the single-anchor FBT tests, which predate this refactor.
+ *
+ * Returns representative keys only — display members resolve separately, so
+ * candidates whose group has no displayable member simply yield their slot
+ * to the next candidate.
  */
-async function queryCoPurchaseCandidates(
+export async function queryCoPurchaseCandidates(
   pool: PoolLike,
-  anchorRepKey: number,
+  anchorRepKeys: number[],
   gates: CrossSellGates,
   excludedRepKeys: number[],
   limit: number
 ): Promise<number[]> {
-  // NULLIF guards a zero denominator: core recompute never writes
-  // order_count = 0, but out-of-band rows must not turn into a
-  // division-by-zero that fails the whole PDP query (NULL is simply not > $4).
+  if (!anchorRepKeys.length) {
+    return [];
+  }
   const result = await pool.query(
     `SELECT r.related_product_id AS rep_key
      FROM product_relation r
-     INNER JOIN product_stat sa ON sa.product_id = $1
+     INNER JOIN product_stat sa ON sa.product_id = r.product_id
      INNER JOIN product_stat sb ON sb.product_id = r.related_product_id
      CROSS JOIN product_stat_meta m
-     WHERE r.product_id = $1
+     WHERE r.product_id = ANY($1)
        AND r.co_purchase_count >= $2
        AND sa.order_count >= $3
        AND (r.co_purchase_count::float * m.total_order_count)
            / NULLIF(sa.order_count::bigint * sb.order_count, 0) > $4
        AND NOT (r.related_product_id = ANY($5))
-     ORDER BY (r.co_purchase_count::float * m.total_order_count)
-              / NULLIF(sa.order_count::bigint * sb.order_count, 0) DESC,
-              r.co_purchase_count DESC,
+     GROUP BY r.related_product_id
+     ORDER BY MAX((r.co_purchase_count::float * m.total_order_count)
+                  / NULLIF(sa.order_count::bigint * sb.order_count, 0)) DESC,
+              COUNT(*) DESC,
+              SUM(r.co_purchase_count) DESC,
               r.related_product_id
      LIMIT $6`,
     [
-      anchorRepKey,
+      anchorRepKeys,
       gates.minPairCount,
       gates.minAnchorOrders,
       gates.minLift,
@@ -103,7 +115,7 @@ async function queryCoPurchaseCandidates(
  * the visibility-then-id ordering). Groups with no displayable member are
  * simply absent. Rows come back in candidate (lift) order.
  */
-async function resolveDisplayMembers(
+export async function resolveDisplayMembers(
   pool: PoolLike,
   repKeys: number[],
   limit: number
@@ -177,7 +189,7 @@ export async function resolveCrossSellProducts(
   const remaining = () => limit - picked.length;
   const candidates = await queryCoPurchaseCandidates(
     pool,
-    anchorRep,
+    [anchorRep],
     gates,
     excludedRepKeys,
     remaining() * 4

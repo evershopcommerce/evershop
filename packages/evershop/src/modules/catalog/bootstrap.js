@@ -338,6 +338,49 @@ export default () => {
   });
 
   registerWidget({
+    type: 'cart_frequently_bought_together',
+    name: 'Frequently bought together (cart)',
+    description:
+      'Co-purchase recommendations aggregated across all cart items — intended for the cart page',
+    category: 'commerce',
+    icon: 'ShoppingCart',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/RecommendationWidgetSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/CartFrequentlyBoughtTogether.js'
+    ),
+    previewComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'catalog/components/CartFrequentlyBoughtTogetherPreview.js'
+    ),
+    defaultSettings: {
+      heading: 'Frequently bought with your items',
+      limit: 4
+    },
+    enabled: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true,
+      properties: {
+        heading: { type: ['string', 'null'], maxLength: 255 },
+        limit: { type: 'integer', minimum: 1, maximum: 12 }
+      }
+    },
+    graphql: {
+      typeDefs: `
+        type CartFrequentlyBoughtTogetherWidgetSettings {
+          heading: String
+          limit: Int
+        }
+      `,
+      settingsType: 'CartFrequentlyBoughtTogetherWidgetSettings'
+    }
+  });
+
+  registerWidget({
     type: 'collection_products',
     name: 'Collection products',
     description: 'A list of products from a collection',
