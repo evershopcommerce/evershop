@@ -213,7 +213,8 @@ export const Variants: React.FC<VariantsProps> = ({
                 onValueChange={(value) =>
                   setOptionFilters((prev) => ({
                     ...prev,
-                    [attribute.attributeCode]: value === 'all' ? '' : value
+                    [attribute.attributeCode]:
+                      !value || value === 'all' ? '' : value
                   }))
                 }
               >
