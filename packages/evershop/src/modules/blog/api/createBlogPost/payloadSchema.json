@@ -2,8 +2,16 @@
   "type": "object",
   "properties": {
     "status": {
-      "type": ["string", "integer"],
-      "enum": ["0", "1", 0, 1]
+      "type": [
+        "string",
+        "integer"
+      ],
+      "enum": [
+        "0",
+        "1",
+        0,
+        1
+      ]
     },
     "name": {
       "type": "string",
@@ -17,7 +25,10 @@
       "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
     },
     "short_description": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "description": {
       "type": "array",
@@ -27,30 +38,59 @@
       }
     },
     "category_id": {
-      "type": ["integer", "string", "null"]
+      "type": [
+        "integer",
+        "string",
+        "null"
+      ]
     },
     "author_id": {
-      "type": ["integer", "string", "null"]
+      "type": [
+        "integer",
+        "string",
+        "null"
+      ]
     },
     "thumbnail": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "tags": {
       "type": "array",
       "items": {
-        "type": ["integer", "string"]
+        "type": [
+          "integer",
+          "string"
+        ]
       }
     },
     "published_at": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "meta_title": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "meta_description": {
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "metafields": {
+      "type": "object",
+      "skipEscape": true
     }
   },
   "additionalProperties": true,
-  "required": ["name"]
+  "required": [
+    "name"
+  ]
 }

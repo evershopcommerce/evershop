@@ -1,4 +1,5 @@
 import { createMetafieldDefinition } from '../../../../lib/metafield/index.js';
+import { getActiveTheme } from '../../../../lib/util/getActiveTheme.js';
 import {
   INTERNAL_SERVER_ERROR,
   OK
@@ -27,7 +28,13 @@ export default async (
       validations: b.validations,
       appearance: b.appearance,
       subFields: b.subFields,
-      position: b.position
+      position: b.position,
+      // Page-builder guideline drawer create: attribute to the active theme
+      // (resolved server-side) — same ownership boot/activate provisioning
+      // would stamp, so the deletion guard and theme:export cover it.
+      ...(b.provisionedByActiveTheme
+        ? { provisionedByTheme: getActiveTheme() ?? undefined }
+        : {})
     });
     response.status(OK);
     response.json({ data: definition });

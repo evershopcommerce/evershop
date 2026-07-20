@@ -6,6 +6,7 @@ import {
   type CreateDefinitionInput,
   type MetaData
 } from '../../../lib/metafield/index.js';
+import { buildMetaDataUpdate } from '../../../lib/metafield/metaDataSql.js';
 import { pool } from '../../../lib/postgres/connection.js';
 
 const OWNER = 'shop';
@@ -46,7 +47,8 @@ export async function setShopMetafields(
 
 /**
  * Set a single shop metafield without touching the others (out-of-band path).
- * Targeted `jsonb_set` merge on the singleton.
+ * Targeted `jsonb_set` merge on the singleton; a blank value removes the
+ * key instead of storing a JSON null.
  */
 export async function setShopMetafield(
   namespace: string,
@@ -55,14 +57,13 @@ export async function setShopMetafield(
   connection: Pool | PoolClient = pool
 ): Promise<void> {
   const validated = await validateMetafield(OWNER, namespace, key, value);
-  await connection.query(
-    `UPDATE "metafield_shop"
-        SET meta_data = jsonb_set(
-              meta_data,
-              ARRAY[$1],
-              COALESCE(meta_data -> $1, '{}'::jsonb) || jsonb_build_object($2, $3::jsonb),
-              true)
-      WHERE id = true`,
-    [namespace, key, JSON.stringify(validated)]
-  );
+  const { sql, params } = buildMetaDataUpdate({
+    table: 'metafield_shop',
+    whereClause: 'id = true',
+    idParams: [],
+    namespace,
+    key,
+    validated
+  });
+  await connection.query(sql, params);
 }

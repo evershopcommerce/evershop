@@ -1,6 +1,7 @@
 import {
   shapeMetafields,
-  type MetaData
+  type MetaData,
+  type MetafieldResolverContext
 } from '../../../../../lib/metafield/index.js';
 
 type ProductParent = { metaData?: MetaData };
@@ -10,20 +11,22 @@ export default {
     metafields: (
       product: ProductParent,
       { namespace }: { namespace?: string },
-      { user }: { user?: unknown }
+      { user, metafieldDefinitionCache }: MetafieldResolverContext
     ) =>
       shapeMetafields(product.metaData ?? {}, 'product', {
         audience: user ? 'admin' : 'customer',
-        namespace
+        namespace,
+        cache: metafieldDefinitionCache
       }),
     metafield: async (
       product: ProductParent,
       { namespace, key }: { namespace: string; key: string },
-      { user }: { user?: unknown }
+      { user, metafieldDefinitionCache }: MetafieldResolverContext
     ) => {
       const all = await shapeMetafields(product.metaData ?? {}, 'product', {
         audience: user ? 'admin' : 'customer',
-        namespace
+        namespace,
+        cache: metafieldDefinitionCache
       });
       return all.find((m) => m.key === key) ?? null;
     }

@@ -35,6 +35,7 @@ export interface FieldDescriptor {
   required?: boolean;
   validations?: Validation[];
   subFields?: FieldDescriptor[];
+  appearance?: Record<string, unknown>;
 }
 
 function choicesOf(field: FieldDescriptor): Array<string | number> | undefined {
@@ -145,13 +146,20 @@ function ScalarInput({
   isSubField?: boolean;
 }) {
   const validation = toValidationRules(field, !isSubField);
+  // The theme's declared default (appearance.placeholder) renders as the
+  // input hint so the merchant sees in the form exactly what the storefront
+  // shows while the field is unset (theme-metafields design, Decision 5).
+  const placeholder =
+    typeof field.appearance?.placeholder === 'string'
+      ? field.appearance.placeholder
+      : undefined;
   switch (field.type) {
     case 'long_text':
       return (
         <TextareaField
           name={name}
           rows={3}
-          placeholder={_('Enter text')}
+          placeholder={placeholder ?? _('Enter text')}
           validation={validation}
         />
       );
@@ -160,7 +168,7 @@ function ScalarInput({
         <NumberField
           name={name}
           allowDecimals={false}
-          placeholder="0"
+          placeholder={placeholder ?? '0'}
           validation={validation}
         />
       );
@@ -169,7 +177,7 @@ function ScalarInput({
         <NumberField
           name={name}
           allowDecimals
-          placeholder="0"
+          placeholder={placeholder ?? '0'}
           validation={validation}
         />
       );
@@ -187,7 +195,7 @@ function ScalarInput({
         <InputField
           name={name}
           type="text"
-          placeholder={_('Enter text')}
+          placeholder={placeholder ?? _('Enter text')}
           validation={validation}
         />
       );
@@ -198,11 +206,13 @@ function ScalarInput({
 function ListItemInput({
   type,
   value,
-  onChange
+  onChange,
+  placeholder
 }: {
   type: string;
   value: unknown;
   onChange: (value: unknown) => void;
+  placeholder?: string;
 }) {
   const str = value === undefined || value === null ? '' : String(value);
   if (type === 'long_text') {
@@ -210,7 +220,7 @@ function ListItemInput({
       <Textarea
         rows={2}
         value={str}
-        placeholder={_('Enter text')}
+        placeholder={placeholder ?? _('Enter text')}
         onChange={(e) => onChange(e.target.value)}
         className="flex-1"
       />
@@ -221,7 +231,7 @@ function ListItemInput({
       <Input
         type="number"
         step={type === 'integer' ? '1' : 'any'}
-        placeholder="0"
+        placeholder={placeholder ?? '0'}
         value={str}
         onChange={(e) =>
           onChange(e.target.value === '' ? '' : Number(e.target.value))
@@ -241,7 +251,9 @@ function ListItemInput({
   return (
     <Input
       type={inputType}
-      placeholder={inputType === 'text' ? _('Enter text') : undefined}
+      placeholder={
+        placeholder ?? (inputType === 'text' ? _('Enter text') : undefined)
+      }
       value={str}
       onChange={(e) => onChange(e.target.value)}
       className="flex-1"
@@ -303,6 +315,11 @@ function ListValueEditor({
                 </div>
                 <ListItemInput
                   type={field.type}
+                  placeholder={
+                    typeof field.appearance?.placeholder === 'string'
+                      ? field.appearance.placeholder
+                      : undefined
+                  }
                   value={item}
                   onChange={(v) =>
                     commit(items.map((it, j) => (j === index ? v : it)))

@@ -1,6 +1,12 @@
+import {
+  commit,
+  rollback,
+  startTransaction
+} from '@evershop/postgres-query-builder';
 import { emit } from '../event/emitter.js';
 import { pool } from '../postgres/connection.js';
 import { del, insert, select, update } from '../postgres/query.js';
+import { getActiveTheme } from '../util/getActiveTheme.js';
 import { compileField } from './compileField.js';
 import { MAX_DEPTH } from './types.js';
 import type {
@@ -33,6 +39,9 @@ export interface CreateDefinitionInput {
   appearance?: Record<string, unknown>;
   subFields?: FieldDescriptor[];
   position?: number;
+  /** Theme attribution (drawer lazy-create / programmatic seeding). The
+   *  `.given()` write drops the column silently on unmigrated DBs. */
+  provisionedByTheme?: string;
 }
 
 export type UpdateDefinitionInput = Partial<CreateDefinitionInput>;
@@ -42,7 +51,7 @@ function httpError(message: string, status: number): Error {
 }
 
 /** Map a DB row (snake_case columns) to the API-facing definition shape. */
-function rowToDefinition(row: Record<string, any>): MetafieldDefinition {
+export function rowToDefinition(row: Record<string, any>): MetafieldDefinition {
   return {
     uuid: row.uuid,
     ownerType: row.owner_type,
@@ -58,7 +67,8 @@ function rowToDefinition(row: Record<string, any>): MetafieldDefinition {
     validations: row.validations ?? [],
     appearance: row.appearance ?? {},
     subFields: row.sub_fields ?? [],
-    position: row.position
+    position: row.position,
+    provisionedByTheme: row.provisioned_by_theme ?? undefined
   };
 }
 
@@ -153,7 +163,8 @@ export async function createMetafieldDefinition(
       sub_fields: input.subFields ?? [],
       validations: input.validations ?? [],
       appearance: input.appearance ?? {},
-      position: input.position ?? 0
+      position: input.position ?? 0,
+      provisioned_by_theme: input.provisionedByTheme ?? null
     })
     .execute(pool);
 
@@ -205,22 +216,72 @@ export async function updateMetafieldDefinition(
     .where('uuid', '=', uuid)
     .execute(pool);
 
-  const definition = (await getMetafieldDefinition(uuid)) as MetafieldDefinition;
+  const definition = (await getMetafieldDefinition(
+    uuid
+  )) as MetafieldDefinition;
   await emit('metafield_definition_updated', definition as any);
   return definition;
 }
 
-export async function deleteMetafieldDefinition(uuid: string): Promise<void> {
+export async function deleteMetafieldDefinition(
+  uuid: string,
+  opts: { force?: boolean } = {}
+): Promise<void> {
   const current = await getMetafieldDefinition(uuid);
   if (!current) {
     throw httpError(`Metafield definition "${uuid}" not found`, 404);
   }
-  await del('metafield_definition').where('uuid', '=', uuid).execute(pool);
-  // Cascade value cleanup: each owning module's prune subscriber strips this
-  // key from every row of its table's meta_data.
-  await emit('metafield_definition_deleted', {
-    ownerType: current.ownerType,
-    namespace: current.namespace,
-    fieldKey: current.key
-  });
+
+  // Attribution guard: a definition provisioned by the active or an
+  // installed theme is protected — deleting it fires the WHERE-less prune
+  // fan-out and the theme would just re-seed it empty at the next boot.
+  // `force` overrides. Pre-migration rows simply lack the column, so
+  // provisionedByTheme is undefined and the guard self-disables.
+  if (!opts.force && current.provisionedByTheme) {
+    let protectedByTheme = current.provisionedByTheme === getActiveTheme();
+    if (!protectedByTheme) {
+      const reg = await pool.query(
+        `SELECT to_regclass('public.theme_install_state') AS t`
+      );
+      if (reg.rows[0]?.t) {
+        const installed = await pool.query(
+          `SELECT 1 FROM "theme_install_state" WHERE theme = $1`,
+          [current.provisionedByTheme]
+        );
+        protectedByTheme = installed.rows.length > 0;
+      }
+    }
+    if (protectedByTheme) {
+      throw httpError(
+        `"${current.namespace}.${current.key}" is provisioned by theme ` +
+          `"${current.provisionedByTheme}" — deleting it would drop stored ` +
+          `values store-wide and the theme will re-seed it. Pass force to delete anyway.`,
+        409
+      );
+    }
+  }
+
+  // One transaction for the delete and the prune-triggering event — a crash
+  // between them must not skip the prune fan-out. Attribution lives on the
+  // row itself, so there is no separate cleanup.
+  const conn = await pool.connect();
+  try {
+    await startTransaction(conn);
+    await del('metafield_definition').where('uuid', '=', uuid).execute(conn);
+    // Cascade value cleanup: each owning module's prune subscriber strips
+    // this key from every row of its table's meta_data.
+    await emit(
+      'metafield_definition_deleted',
+      {
+        ownerType: current.ownerType,
+        namespace: current.namespace,
+        fieldKey: current.key
+      },
+      conn
+    );
+    await commit(conn);
+  } catch (e) {
+    await rollback(conn);
+    throw e;
+  }
 }

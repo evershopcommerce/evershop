@@ -139,6 +139,12 @@ export const query = `
   query Query {
     post: currentBlogPost {
       uuid
+      metafields {
+        namespace
+        key
+        type
+        value
+      }
       name
       url
       description

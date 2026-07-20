@@ -31,6 +31,14 @@ async function main(): Promise<void> {
   console.log(
     `  ${preview.changesets} draft changeset(s), ${preview.rollouts} rollout plan(s)`
   );
+  if (preview.metafieldProvisions > 0) {
+    console.log(
+      kleur.yellow(
+        `  Note: ${preview.metafieldProvisions} metafield definition(s) provisioned by this theme are LEFT IN PLACE\n` +
+          `        (stored values survive; they stay visible in entity edit forms — see theme:status).`
+      )
+    );
+  }
   for (const d of preview.draftDetails) {
     console.log(kleur.dim(`    draft '${d.name}' (${d.opsCount} ops)`));
   }

@@ -2,6 +2,8 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import type { Pool } from 'pg';
 import { validate as uuidValidate, version as uuidVersion } from 'uuid';
+import { validateManifestMetafieldDefinitions } from '../metafield/provision.js';
+import type { ManifestMetafieldDefinition } from '../metafield/provision.js';
 import { isValidVersion } from './version.js';
 
 /**
@@ -38,10 +40,17 @@ export interface Manifest {
   version: string;
   widgets: WidgetRecord[];
   placements: PlacementRecord[];
+  /**
+   * Metafield definitions this theme declares (theme-metafields design).
+   * Deliberately OUTSIDE the widget SemVer/snapshot protocol: entries are
+   * ensured idempotently at `theme:active` and every server boot
+   * (`lib/metafield/provision.ts`) — no version bump needed for changes.
+   */
+  metafieldDefinitions?: ManifestMetafieldDefinition[];
 }
 
 export interface ValidationError {
-  scope: 'top-level' | 'widget' | 'placement' | 'cross-record' | 'db';
+  scope: 'top-level' | 'widget' | 'placement' | 'cross-record' | 'db' | 'metafield';
   index?: number;
   uuid?: string;
   message: string;
@@ -124,6 +133,22 @@ export async function validateManifest(
   if (!placementsOk) {
     errors.push({ scope: 'top-level', message: 'placements must be an array' });
   }
+  // Metafield definitions (optional section). Structure is checked by the
+  // strict schema in lib/metafield/provision.ts — including the refusal of
+  // `required: true`, which would break every entity save store-wide.
+  if (manifest.metafieldDefinitions !== undefined) {
+    const mfd = validateManifestMetafieldDefinitions(
+      manifest.metafieldDefinitions
+    );
+    for (const e of mfd.errors) {
+      errors.push({
+        scope: 'metafield',
+        index: e.index >= 0 ? e.index : undefined,
+        message: e.message
+      });
+    }
+  }
+
   // Only bail early when we can't iterate; otherwise collect all errors.
   if (!widgetsOk || !placementsOk) return errors;
 

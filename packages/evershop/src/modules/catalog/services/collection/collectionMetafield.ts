@@ -10,6 +10,7 @@ import {
   type CreateDefinitionInput,
   type MetaData
 } from '../../../../lib/metafield/index.js';
+import { buildMetaDataUpdate } from '../../../../lib/metafield/metaDataSql.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 
 const OWNER = 'collection';
@@ -39,7 +40,9 @@ export async function setCollectionMetafields(
 
 /**
  * Set a single collection metafield without touching the others (out-of-band
- * path). Targeted `jsonb_set` merge that creates the namespace object if missing.
+ * path). Targeted `jsonb_set` merge that creates the
+ * namespace object if missing; a blank value removes the key instead of
+ * storing a JSON null.
  */
 export async function setCollectionMetafield(
   collectionId: number,
@@ -49,14 +52,13 @@ export async function setCollectionMetafield(
   connection: Pool | PoolClient = pool
 ): Promise<void> {
   const validated = await validateMetafield(OWNER, namespace, key, value);
-  await connection.query(
-    `UPDATE "collection"
-        SET meta_data = jsonb_set(
-              meta_data,
-              ARRAY[$2],
-              COALESCE(meta_data -> $2, '{}'::jsonb) || jsonb_build_object($3, $4::jsonb),
-              true)
-      WHERE collection_id = $1`,
-    [collectionId, namespace, key, JSON.stringify(validated)]
-  );
+  const { sql, params } = buildMetaDataUpdate({
+    table: 'collection',
+    whereClause: 'collection_id = $1',
+    idParams: [collectionId],
+    namespace,
+    key,
+    validated
+  });
+  await connection.query(sql, params);
 }

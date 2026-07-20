@@ -10,6 +10,7 @@ import {
   type CreateDefinitionInput,
   type MetaData
 } from '../../../../lib/metafield/index.js';
+import { buildMetaDataUpdate } from '../../../../lib/metafield/metaDataSql.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 
 const OWNER = 'category';
@@ -39,7 +40,8 @@ export async function setCategoryMetafields(
 
 /**
  * Set a single category metafield without touching the others (out-of-band path).
- * Targeted `jsonb_set` merge that creates the namespace object if missing.
+ * Targeted `jsonb_set` merge that creates the namespace object if missing;
+ * a blank value removes the key instead of storing a JSON null.
  */
 export async function setCategoryMetafield(
   categoryId: number,
@@ -49,14 +51,13 @@ export async function setCategoryMetafield(
   connection: Pool | PoolClient = pool
 ): Promise<void> {
   const validated = await validateMetafield(OWNER, namespace, key, value);
-  await connection.query(
-    `UPDATE "category"
-        SET meta_data = jsonb_set(
-              meta_data,
-              ARRAY[$2],
-              COALESCE(meta_data -> $2, '{}'::jsonb) || jsonb_build_object($3, $4::jsonb),
-              true)
-      WHERE category_id = $1`,
-    [categoryId, namespace, key, JSON.stringify(validated)]
-  );
+  const { sql, params } = buildMetaDataUpdate({
+    table: 'category',
+    whereClause: 'category_id = $1',
+    idParams: [categoryId],
+    namespace,
+    key,
+    validated
+  });
+  await connection.query(sql, params);
 }

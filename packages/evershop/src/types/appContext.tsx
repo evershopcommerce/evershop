@@ -15,6 +15,19 @@ interface Config {
   catalog: {
     imageDimensions: { width: number; height: number };
   };
+  /** Manifest-descriptor projection for <Metafield> — the active theme's
+   *  declared fields keyed 'owner.namespace.key' (lib/metafield/projection). */
+  themeMetafieldDescriptors?: Record<
+    string,
+    {
+      type: string;
+      isList?: boolean;
+      visibleToCustomer: boolean;
+      name: string;
+      description?: string;
+      placeholder?: string;
+    }
+  >;
 }
 
 interface AppStateContextValue {

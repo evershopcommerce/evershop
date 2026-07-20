@@ -77,6 +77,12 @@ export const query = `
       showProducts
       name
       uuid
+      metafields {
+        namespace
+        key
+        type
+        value
+      }
       description
       image {
         alt

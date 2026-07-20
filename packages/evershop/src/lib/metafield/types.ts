@@ -61,6 +61,10 @@ export interface MetafieldDefinition extends FieldDescriptor {
   namespace: string;
   visibleToCustomer: boolean;
   position: number;
+  /** Theme that seeded this definition (theme.json provisioning); undefined
+   *  for merchant/extension-created fields. Drives the deletion guard,
+   *  theme:export and theme:status — see lib/metafield/provision.ts. */
+  provisionedByTheme?: string;
 }
 
 export interface ShapedMetafield {
