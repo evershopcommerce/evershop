@@ -44,6 +44,9 @@ import { WidgetPreviewCard } from '../../../components/WidgetPreviewCard.js';
 import { ConfirmDialog } from './ConfirmDialog.js';
 import { DiscardConfirmDialog } from './DiscardConfirmDialog.js';
 import { ExitConfirmDialog } from './ExitConfirmDialog.js';
+import MetafieldGuideDrawer, {
+  type MetafieldSelection
+} from './MetafieldGuideDrawer.js';
 import { PublishDialog } from './PublishDialog.js';
 import { RolloutDialog } from './RolloutDialog.js';
 import { SessionPicker } from './SessionPicker.js';
@@ -303,6 +306,11 @@ export default function Editor({
   const [selectedWidget, setSelectedWidget] = useState<SelectedWidget | null>(
     null
   );
+  // Metafield guideline drawer (V1.1) — informational only; values are live
+  // entity data and are never edited from the builder.
+  const [selectedMetafield, setSelectedMetafield] =
+    useState<MetafieldSelection | null>(null);
+  const metafieldDrawerRef = useRef<HTMLElement | null>(null);
   // Inline image editing — `EditableImage` in the canvas posts `edit-image`;
   // this holds the target widget + the settings fields to write once the
   // FileBrowser pick resolves.
@@ -474,6 +482,23 @@ export default function Editor({
     window.addEventListener('mousedown', onDown);
     return () => window.removeEventListener('mousedown', onDown);
   }, [selectedWidget, drawerPinned]);
+
+  // Outside-click close for the metafield guideline drawer — parallel to the
+  // widget drawer's effect above (no pin: the drawer is informational).
+  useEffect(() => {
+    if (!selectedMetafield) return undefined;
+    const onDown = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      const drawer = metafieldDrawerRef.current;
+      if (drawer && target && drawer.contains(target)) return;
+      if (target?.tagName === 'IFRAME') return;
+      if (target?.closest('[data-slot="alert-dialog-content"]')) return;
+      if (target?.closest('[data-slot="dialog-content"]')) return;
+      setSelectedMetafield(null);
+    };
+    window.addEventListener('mousedown', onDown);
+    return () => window.removeEventListener('mousedown', onDown);
+  }, [selectedMetafield]);
 
   // Session picker (spec § 7.8). Show on ENTRY when the draft has existing
   // operations (or rollout plans to resume) AND the user hasn't
@@ -2338,14 +2363,23 @@ export default function Editor({
               heightField?: string;
             };
           }
+        | ({ type: 'metafield-select' } & MetafieldSelection)
         | null;
       if (!msg) return;
       if (msg.type === 'widget-selected') {
+        setSelectedMetafield(null);
         setSelectedWidget({
           uid: msg.widgetUid,
           type: msg.widgetType,
           settings: msg.settings ?? {}
         });
+        return;
+      }
+      if (msg.type === 'metafield-select') {
+        // Mutually exclusive with the widget settings drawer.
+        setSelectedWidget(null);
+        const { type: _t, ...payload } = msg;
+        setSelectedMetafield(payload);
         return;
       }
       if (msg.type === 'widget-delete') {
@@ -2400,6 +2434,7 @@ export default function Editor({
         return;
       }
       if ((msg as any).type === 'pb-canvas-click') {
+        setSelectedMetafield(null);
         // Click in iframe but not on a widget. Treat as "click outside the
         // selection target": close the drawer (unless pinned) and clear
         // any active layer-row highlight to keep the panel state in sync
@@ -3062,6 +3097,13 @@ export default function Editor({
                       sortOrder: (p.sortOrder ?? p.sort_order ?? 0) as number
                     }));
                 })()}
+              />
+            )}
+            {selectedMetafield && (
+              <MetafieldGuideDrawer
+                selection={selectedMetafield}
+                onClose={() => setSelectedMetafield(null)}
+                containerRef={metafieldDrawerRef}
               />
             )}
           </main>

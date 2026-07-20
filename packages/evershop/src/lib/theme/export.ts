@@ -1,4 +1,10 @@
 import type { Pool } from 'pg';
+import { rowToDefinition } from '../metafield/definition.js';
+import {
+  provisioningAvailable,
+  sanitizeForManifest
+} from '../metafield/provision.js';
+import type { ManifestMetafieldDefinition } from '../metafield/provision.js';
 import type { Manifest, PlacementRecord, WidgetRecord } from './manifest.js';
 
 export interface ExportOpts {
@@ -64,10 +70,35 @@ export async function exportToManifest(opts: ExportOpts): Promise<Manifest> {
     sort_order: Number(r.sort_order)
   }));
 
+  // Metafield definitions this theme provisioned — manifest-declared AND
+  // lazily created via the page-builder drawer (exporting both keeps the next
+  // merchant's install from missing fields the theme renders). Keyed by
+  // provenance, not namespace: namespaces are a convention, provenance is the
+  // mechanism. Guarded for unmigrated DBs.
+  const metafieldDefinitions: ManifestMetafieldDefinition[] = [];
+  if (await provisioningAvailable(opts.pool)) {
+    const defRows = await opts.pool.query(
+      `SELECT d.*
+         FROM metafield_definition d
+        WHERE d.provisioned_by_theme = $1
+        ORDER BY d.owner_type, d.namespace, d.field_key`,
+      [opts.themeId]
+    );
+    for (const r of defRows.rows) {
+      // The admin REST surface accepts unconstrained validations/subFields;
+      // sanitize to the strict manifest shape so the exported theme.json can
+      // never fail its own validation and block activation. Definitions that
+      // cannot be expressed in the manifest schema are skipped.
+      const entry = sanitizeForManifest(rowToDefinition(r));
+      if (entry) metafieldDefinitions.push(entry);
+    }
+  }
+
   return {
     theme_name: opts.preserveThemeName ?? opts.themeId,
     version: opts.version,
     widgets,
-    placements
+    placements,
+    ...(metafieldDefinitions.length > 0 ? { metafieldDefinitions } : {})
   };
 }

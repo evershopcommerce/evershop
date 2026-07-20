@@ -1,6 +1,7 @@
 import path from 'path';
 import { select } from '@evershop/postgres-query-builder';
 import { CONSTANTS } from '../../lib/helpers.js';
+import { validateMetafields } from '../../lib/metafield/index.js';
 import { buildUrl } from '../../lib/router/buildUrl.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { addProcessor } from '../../lib/util/registry.js';
@@ -18,7 +19,31 @@ import { registerDefaultBlogCommentFilters } from './services/registerDefaultBlo
 import { registerDefaultBlogPostFilters } from './services/registerDefaultBlogPostFilters.js';
 import { registerDefaultBlogTagFilters } from './services/registerDefaultBlogTagFilters.js';
 
+// Fold an entity's submitted `metafields` into its `meta_data` column on save.
+// Runs only when `metafields` is explicitly provided (the edit form sends it),
+// so plain API updates that omit it leave `meta_data` untouched. Same pattern
+// as catalog/bootstrap.js; the services already run these registry keys and
+// `.given()` column-filters, so this is the complete write path.
+function makeMetafieldFolder(ownerType: string) {
+  return async function foldMetafields(data: Record<string, unknown> | null) {
+    if (data && data.metafields !== undefined) {
+      (data as Record<string, unknown>).meta_data = await validateMetafields(
+        ownerType,
+        data.metafields as Record<string, Record<string, unknown>>
+      );
+    }
+    return data;
+  };
+}
+
 export default (): void => {
+  const foldBlogPostMetafields = makeMetafieldFolder('blog_post');
+  addProcessor('blogPostDataBeforeCreate', foldBlogPostMetafields);
+  addProcessor('blogPostDataBeforeUpdate', foldBlogPostMetafields);
+  const foldBlogCategoryMetafields = makeMetafieldFolder('blog_category');
+  addProcessor('blogCategoryDataBeforeCreate', foldBlogCategoryMetafields);
+  addProcessor('blogCategoryDataBeforeUpdate', foldBlogCategoryMetafields);
+
   // Sitemap: register blog URLs (posts, categories, tags — all url_rewrite-backed) so they
   // appear in /sitemap.xml. Each becomes a sitemap-blog-<x>.xml child.
   registerSitemapCollector(

@@ -10,6 +10,7 @@ import {
   type CreateDefinitionInput,
   type MetaData
 } from '../../../../lib/metafield/index.js';
+import { buildMetaDataUpdate } from '../../../../lib/metafield/metaDataSql.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 
 const OWNER = 'product';
@@ -40,7 +41,8 @@ export async function setProductMetafields(
 /**
  * Set a single product metafield without touching the others (out-of-band path,
  * e.g. an extension writing a computed value). Targeted `jsonb_set` merge that
- * creates the namespace object if missing.
+ * creates the namespace object if missing; a blank value removes the key
+ * instead of storing a JSON null.
  */
 export async function setProductMetafield(
   productId: number,
@@ -50,14 +52,13 @@ export async function setProductMetafield(
   connection: Pool | PoolClient = pool
 ): Promise<void> {
   const validated = await validateMetafield(OWNER, namespace, key, value);
-  await connection.query(
-    `UPDATE "product"
-        SET meta_data = jsonb_set(
-              meta_data,
-              ARRAY[$2],
-              COALESCE(meta_data -> $2, '{}'::jsonb) || jsonb_build_object($3, $4::jsonb),
-              true)
-      WHERE product_id = $1`,
-    [productId, namespace, key, JSON.stringify(validated)]
-  );
+  const { sql, params } = buildMetaDataUpdate({
+    table: 'product',
+    whereClause: 'product_id = $1',
+    idParams: [productId],
+    namespace,
+    key,
+    validated
+  });
+  await connection.query(sql, params);
 }

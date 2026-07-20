@@ -69,6 +69,13 @@ export const layout = {
 export const query = `
 query Query {
     product: currentProduct {
+      uuid
+      metafields {
+        namespace
+        key
+        type
+        value
+      }
       name
       description
       sku

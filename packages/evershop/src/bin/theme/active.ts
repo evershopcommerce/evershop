@@ -11,6 +11,10 @@ import kleur from 'kleur';
 import ora from 'ora';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import {
+  provisionThemeMetafields,
+  type ProvisionResult
+} from '../../lib/metafield/provision.js';
 import { pool } from '../../lib/postgres/connection.js';
 import { dryRunDiff, installOrUpgrade } from '../../lib/theme/install.js';
 import {
@@ -160,6 +164,47 @@ function printCounts(counts: {
   );
 }
 
+function printProvisionResult(result: ProvisionResult): void {
+  if (
+    result.seeded.length + result.adopted.length + result.retired.length >
+    0
+  ) {
+    console.log(
+      `  Metafields: ${result.seeded.length} seeded, ` +
+        `${result.adopted.length} adopted, ${result.retired.length} retired`
+    );
+    for (const ref of result.retired) {
+      console.log(
+        kleur.dim(
+          `    retired '${ref}' — no longer declared by the manifest ` +
+            `(definition left in place; still visible in entity forms)`
+        )
+      );
+    }
+  }
+  if (result.conflicts.length > 0) {
+    console.log(
+      kleur.yellow(`  Metafield conflicts: ${result.conflicts.length} (declaration skipped, existing definition kept):`)
+    );
+    for (const c of result.conflicts) {
+      for (const d of c.details) {
+        console.log(
+          kleur.yellow(
+            `    ${c.ref}: ${d.field} declared=${JSON.stringify(d.declared)} ` +
+              `existing=${JSON.stringify(d.incumbent)} — immutable; use a new key`
+          )
+        );
+      }
+    }
+  }
+  for (const w of result.warnings) {
+    console.warn(kleur.yellow(`  metafield: ${w.message}`));
+  }
+  for (const e of result.errors) {
+    console.error(kleur.red(`  metafield: ${e.message}`));
+  }
+}
+
 /**
  * Run the manifest install pipeline (validate → soft-warn → dry-run|apply).
  * Returns false to abort activation (validation failure), true to proceed.
@@ -196,6 +241,13 @@ async function runInstallPipeline(
       console.log(kleur.bold(`Dry run — pending changes for '${themeId}':`));
       printCounts(diff.counts);
       console.log(`  Conflicts: ${diff.conflicts.length}`);
+    }
+    const declared = manifest.metafieldDefinitions?.length ?? 0;
+    if (declared > 0) {
+      console.log(
+        `  Metafield definitions declared: ${declared} (ensured on ` +
+          `activation and at every server boot — not part of the content diff)`
+      );
     }
     return false; // dry run never proceeds to config write
   }
@@ -255,6 +307,18 @@ async function runInstallPipeline(
       }
     }
   }
+
+  // Metafield definitions ensure — its own step and transaction, AFTER the
+  // installer: three installer branches commit-and-return early (fresh
+  // install, rejected, no-op) and the ensure must run on every outcome
+  // except a rejected downgrade. Idempotent; also re-runs at server boot.
+  const provision = await provisionThemeMetafields(
+    themeId,
+    manifest.metafieldDefinitions ?? [],
+    pool
+  );
+  printProvisionResult(provision);
+
   return true;
 }
 

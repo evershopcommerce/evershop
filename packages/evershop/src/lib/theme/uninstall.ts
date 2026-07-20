@@ -1,4 +1,8 @@
-import { commit, rollback, startTransaction } from '@evershop/postgres-query-builder';
+import {
+  commit,
+  rollback,
+  startTransaction
+} from '@evershop/postgres-query-builder';
 import type { Pool } from 'pg';
 import { writeAuditLog, ZERO_COUNTS } from './auditLog.js';
 
@@ -7,6 +11,10 @@ export interface UninstallPreview {
   placements: number;
   changesets: number;
   rollouts: number;
+  /** Definitions this theme provisioned — LEFT IN PLACE at uninstall
+   *  (deleting would fire the prune fan-out across entity tables); the
+   *  attribution stays on the rows so theme:status keeps reporting them. */
+  metafieldProvisions: number;
   draftDetails: Array<{ name: string; opsCount: number }>;
   rolloutDetails: Array<{ name: string; startTime: Date | null }>;
 }
@@ -40,12 +48,24 @@ export async function previewUninstall(
     `SELECT name, start_time FROM rollout_plan WHERE theme = $1 ORDER BY rollout_plan_id`,
     [themeId]
   );
+  let metafieldProvisions = 0;
+  try {
+    const prov = await pool.query<{ c: string }>(
+      `SELECT COUNT(*) AS c FROM metafield_definition
+        WHERE provisioned_by_theme = $1`,
+      [themeId]
+    );
+    metafieldProvisions = Number(prov.rows[0]?.c ?? 0);
+  } catch {
+    // Column absent on unmigrated DBs (42703) — degrade to 0.
+  }
 
   return {
     widgets: Number(widgets.rows[0]?.c ?? 0),
     placements: Number(placements.rows[0]?.c ?? 0),
     changesets: drafts.rows.length,
     rollouts: rollouts.rows.length,
+    metafieldProvisions,
     draftDetails: drafts.rows.map((r) => ({
       name: r.name,
       opsCount: Number(r.ops)
@@ -62,7 +82,10 @@ export async function previewUninstall(
  * Order respects FK direction: rollouts → changesets (cascades operations) →
  * widget_instance (cascades placements) → install state. Audit row last.
  */
-export async function applyUninstall(themeId: string, pool: Pool): Promise<void> {
+export async function applyUninstall(
+  themeId: string,
+  pool: Pool
+): Promise<void> {
   const conn = await pool.connect();
   await startTransaction(conn);
   try {
@@ -81,6 +104,21 @@ export async function applyUninstall(themeId: string, pool: Pool): Promise<void>
     await conn.query(`DELETE FROM theme_install_state WHERE theme = $1`, [
       themeId
     ]);
+    // Metafield definitions are deliberately NOT deleted (prune fan-out +
+    // merchant data outliving presentation) and their attribution lives on
+    // the definition rows, which survive — nothing to flip; theme:status
+    // derives "orphaned" from provisioned_by_theme vs active/installed.
+    let provisionsLeft = 0;
+    try {
+      const left = await conn.query<{ c: string }>(
+        `SELECT COUNT(*) AS c FROM metafield_definition
+          WHERE provisioned_by_theme = $1`,
+        [themeId]
+      );
+      provisionsLeft = Number(left.rows[0]?.c ?? 0);
+    } catch {
+      // Column absent on unmigrated DBs — skip the note.
+    }
 
     await writeAuditLog(
       conn,
@@ -92,7 +130,9 @@ export async function applyUninstall(themeId: string, pool: Pool): Promise<void>
         placements_removed: Number(placementCount.rows[0]?.c ?? 0)
       },
       [],
-      'theme content removed'
+      provisionsLeft > 0
+        ? `theme content removed; ${provisionsLeft} metafield definition(s) left in place`
+        : 'theme content removed'
     );
 
     await commit(conn);

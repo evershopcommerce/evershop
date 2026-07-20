@@ -2,6 +2,7 @@ import path from 'path';
 import config from 'config';
 import { registerJob } from '../../lib/cronjob/jobManager.js';
 import { loadAllLocales } from '../../lib/locale/dictionary.js';
+import { loadThemeMetafieldProjection } from '../../lib/metafield/projection.js';
 import { assertValidHomeUrlEnv } from '../../lib/util/getBaseUrl.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
@@ -10,6 +11,16 @@ import { SITEMAP_CONFIG_DEFAULTS, getSitemapConfig } from './services/sitemap/co
 import { registerSitemapCollector } from './services/sitemap/registry.js';
 
 export default async () => {
+  // Manifest-descriptor projection for the storefront <Metafield> component
+  // (theme-metafields design). Precomputed once — the appConfig seam is
+  // getValueSync, which rejects async processors — and merged into
+  // eContext.config on every render (both the full-render and ajax builders
+  // consume 'appConfig', so one registration covers both). `function`
+  // keyword on the processor: registry invokes callback.call(context, value).
+  const themeMetafieldDescriptors = loadThemeMetafieldProjection();
+  addProcessor('appConfig', function addThemeMetafieldDescriptors(appConfig) {
+    return { ...appConfig, themeMetafieldDescriptors };
+  });
   // Fail fast if EVERSHOP_HOME_URL is set to something that isn't a valid
   // http(s) URL. Throwing here halts boot (build/dev/start all wrap bootstrap
   // in a try/catch that exits), before any broken absolute URL can be emitted.

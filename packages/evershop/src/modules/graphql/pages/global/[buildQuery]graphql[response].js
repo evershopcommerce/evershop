@@ -6,6 +6,7 @@ import {
   validateSchema
 } from 'graphql';
 import { debug } from '../../../../lib/log/logger.js';
+import { createDefinitionCache } from '../../../../lib/metafield/definitionCache.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { isDevelopmentMode } from '../../../../lib/util/isDevelopmentMode.js';
 import { createLinkLoaders } from '../../../../lib/widget/linkResolver.js';
@@ -67,6 +68,10 @@ export default async function graphql(request, response, next) {
           // return null for every URN — leaving CTA/link fields empty
           // on SSR'd pages.
           context.linkLoaders = createLinkLoaders(pool);
+          // Request-scoped metafield definition memo — one definitions query
+          // per owner type per request instead of one per resolved field
+          // (grids would otherwise multiply it per card).
+          context.metafieldDefinitionCache = createDefinitionCache();
           const data = await execute({
             schema,
             contextValue: context,

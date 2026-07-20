@@ -56,6 +56,13 @@ export const layout = {
 export const query = `
   query Query($filters: [FilterInput]) {
     category: currentBlogCategory {
+      uuid
+      metafields {
+        namespace
+        key
+        type
+        value
+      }
       name
       shortDescription
       posts(filters: $filters) {

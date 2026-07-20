@@ -13,7 +13,11 @@ export default async (
 ) => {
   try {
     const uuid = request.params.uuid as string;
-    await deleteMetafieldDefinition(uuid);
+    // ?force=true overrides the theme-provenance guard (409 otherwise when a
+    // currently-installed theme provisioned this definition).
+    await deleteMetafieldDefinition(uuid, {
+      force: request.query.force === 'true'
+    });
     response.status(OK);
     response.json({ data: { uuid } });
   } catch (e) {

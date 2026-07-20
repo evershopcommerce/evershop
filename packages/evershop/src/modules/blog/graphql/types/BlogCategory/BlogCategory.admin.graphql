@@ -1,4 +1,5 @@
 extend type BlogCategory {
+  metaData: JSON
   editUrl: String!
   updateApi: String!
   deleteApi: String!

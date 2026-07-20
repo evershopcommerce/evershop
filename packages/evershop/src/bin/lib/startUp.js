@@ -5,6 +5,7 @@ import config from 'config';
 import spawn from 'cross-spawn';
 import { error, debug } from '../../lib/log/logger.js';
 import { Handler } from '../../lib/middleware/Handler.js';
+import { provisionActiveThemeMetafields } from '../../lib/theme/provisionOnBoot.js';
 import { lockHooks } from '../../lib/util/hookable.js';
 import isDevelopmentMode from '../../lib/util/isDevelopmentMode.js';
 import { lockRegistry } from '../../lib/util/registry.js';
@@ -53,6 +54,14 @@ export const start = async function start(context, cb) {
     error(e);
     process.exit(0);
   }
+
+  /**
+   * Theme metafield provisioning — must run AFTER migrations (bootstraps run
+   * before them, so the tables don't exist yet on a fresh DB) and only in the
+   * main web process (the cron/subscriber children below never reach this).
+   * Idempotent; never throws.
+   */
+  await provisionActiveThemeMetafields();
 
   /**
    * Get port from environment and store in Express.

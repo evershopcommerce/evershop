@@ -10,6 +10,7 @@ import {
   type CreateDefinitionInput,
   type MetaData
 } from '../../../lib/metafield/index.js';
+import { buildMetaDataUpdate } from '../../../lib/metafield/metaDataSql.js';
 import { pool } from '../../../lib/postgres/connection.js';
 
 const OWNER = 'order';
@@ -40,7 +41,9 @@ export async function setOrderMetafields(
 
 /**
  * Set a single order metafield without touching the others (out-of-band path).
- * Targeted `jsonb_set` merge that creates the namespace object if missing.
+ * Targeted `jsonb_set` merge that creates the
+ * namespace object if missing; a blank value removes the key instead of
+ * storing a JSON null.
  */
 export async function setOrderMetafield(
   orderId: number,
@@ -50,14 +53,13 @@ export async function setOrderMetafield(
   connection: Pool | PoolClient = pool
 ): Promise<void> {
   const validated = await validateMetafield(OWNER, namespace, key, value);
-  await connection.query(
-    `UPDATE "order"
-        SET meta_data = jsonb_set(
-              meta_data,
-              ARRAY[$2],
-              COALESCE(meta_data -> $2, '{}'::jsonb) || jsonb_build_object($3, $4::jsonb),
-              true)
-      WHERE order_id = $1`,
-    [orderId, namespace, key, JSON.stringify(validated)]
-  );
+  const { sql, params } = buildMetaDataUpdate({
+    table: 'order',
+    whereClause: 'order_id = $1',
+    idParams: [orderId],
+    namespace,
+    key,
+    validated
+  });
+  await connection.query(sql, params);
 }

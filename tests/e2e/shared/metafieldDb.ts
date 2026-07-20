@@ -175,3 +175,103 @@ export async function getProductMeta(
   );
   return rows[0]?.meta_data ?? {};
 }
+
+// ── Blog post (owner_type = 'blog_post') ────────────────────────────────────
+
+export interface TestBlogPost {
+  blogPostId: number;
+  uuid: string;
+}
+
+/** Insert a minimal published post (+ description row) for the suite. */
+export async function createTestBlogPost(): Promise<TestBlogPost> {
+  const db = getDb();
+  const urlKey = `e2e-mf-post-${randomUUID().slice(0, 8)}`;
+  const { rows } = await db.query<{ blog_post_id: number; uuid: string }>(
+    `INSERT INTO blog_post (status, published_at) VALUES (1, NOW())
+     RETURNING blog_post_id, uuid`
+  );
+  // `description` is block-editor Row[] JSON (the update payload schema
+  // validates it as an array) — a plain string here makes every form save 400.
+  const description = JSON.stringify([
+    {
+      id: 'r1',
+      size: 1,
+      columns: [
+        {
+          id: 'c1',
+          size: 1,
+          data: { blocks: [{ type: 'paragraph', data: { text: 'e2e body' } }] }
+        }
+      ]
+    }
+  ]);
+  await db.query(
+    `INSERT INTO blog_post_description
+       (blog_post_description_blog_post_id, name, short_description, description, url_key)
+     VALUES ($1, 'E2E Metafield Post', 'e2e', $2, $3)`,
+    [rows[0].blog_post_id, description, urlKey]
+  );
+  return { blogPostId: rows[0].blog_post_id, uuid: rows[0].uuid };
+}
+
+export async function deleteTestBlogPost(blogPostId: number): Promise<void> {
+  const db = getDb();
+  // Description cascades on delete.
+  await db.query(`DELETE FROM blog_post WHERE blog_post_id = $1`, [blogPostId]);
+}
+
+/** Replace the suite's blog-post definitions (same contract as the product seeder). */
+export async function seedBlogPostDefinitions(defs: SeedDef[]): Promise<void> {
+  const db = getDb();
+  await cleanupBlogPostDefinitions();
+  let position = 0;
+  for (const d of defs) {
+    await db.query(
+      `INSERT INTO metafield_definition
+         (owner_type, namespace, field_key, name, field_type,
+          is_list, required, validations, sub_fields, position)
+       VALUES ('blog_post', 'custom', $1, $2, $3, $4, $5, $6::jsonb, $7::jsonb, $8)`,
+      [
+        d.fieldKey,
+        d.name,
+        d.fieldType,
+        d.isList ?? false,
+        d.required ?? false,
+        JSON.stringify(d.validations ?? []),
+        JSON.stringify(d.subFields ?? []),
+        position++
+      ]
+    );
+  }
+}
+
+export async function cleanupBlogPostDefinitions(): Promise<void> {
+  const db = getDb();
+  await db.query(
+    `DELETE FROM metafield_definition WHERE owner_type = 'blog_post' AND field_key LIKE $1`,
+    [`${E2E_PREFIX}%`]
+  );
+}
+
+export async function getBlogPostMeta(
+  blogPostId: number
+): Promise<Record<string, any>> {
+  const db = getDb();
+  const { rows } = await db.query<{ meta_data: Record<string, any> }>(
+    `SELECT meta_data FROM blog_post WHERE blog_post_id = $1`,
+    [blogPostId]
+  );
+  return rows[0]?.meta_data ?? {};
+}
+
+export async function setBlogPostMeta(
+  blogPostId: number,
+  meta: Record<string, unknown>
+): Promise<void> {
+  const db = getDb();
+  await db.query(
+    `UPDATE blog_post SET meta_data = $1::jsonb WHERE blog_post_id = $2`,
+    [JSON.stringify(meta), blogPostId]
+  );
+}

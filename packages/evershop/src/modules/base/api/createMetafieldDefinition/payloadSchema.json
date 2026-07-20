@@ -1,7 +1,12 @@
 {
   "type": "object",
   "additionalProperties": false,
-  "required": ["ownerType", "fieldKey", "name", "fieldType"],
+  "required": [
+    "ownerType",
+    "fieldKey",
+    "name",
+    "fieldType"
+  ],
   "properties": {
     "ownerType": {
       "type": "string",
@@ -35,7 +40,9 @@
         "minLength": "Field name is required"
       }
     },
-    "description": { "type": "string" },
+    "description": {
+      "type": "string"
+    },
     "fieldType": {
       "type": "string",
       "enum": [
@@ -55,14 +62,33 @@
         "enum": "fieldType must be one of the supported metafield types"
       }
     },
-    "isList": { "type": "boolean" },
-    "required": { "type": "boolean" },
-    "translatable": { "type": "boolean" },
-    "visibleToCustomer": { "type": "boolean" },
-    "validations": { "type": "array" },
-    "appearance": { "type": "object" },
-    "subFields": { "type": "array" },
-    "position": { "type": "integer" }
+    "isList": {
+      "type": "boolean"
+    },
+    "required": {
+      "type": "boolean"
+    },
+    "translatable": {
+      "type": "boolean"
+    },
+    "visibleToCustomer": {
+      "type": "boolean"
+    },
+    "validations": {
+      "type": "array"
+    },
+    "appearance": {
+      "type": "object"
+    },
+    "subFields": {
+      "type": "array"
+    },
+    "position": {
+      "type": "integer"
+    },
+    "provisionedByActiveTheme": {
+      "type": "boolean"
+    }
   },
   "errorMessage": {
     "required": {
@@ -71,6 +97,6 @@
       "name": "Field name is required",
       "fieldType": "fieldType is required"
     },
-    "additionalProperties": "Unknown property in body — check the payload keys"
+    "additionalProperties": "Unknown property in body \u2014 check the payload keys"
   }
 }
