@@ -60,7 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-[support@evershop.io](mailto:support@evershop.io).
+the project maintainers.
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
@@ -129,4 +129,4 @@ https://www.contributor-covenant.org/translations.
 
 # License
 
-EverShop is licensed under the GNU General Public License v3.0
+Storefront is licensed under the GNU General Public License v3.0

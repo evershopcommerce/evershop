@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: "[BUG]"
 labels: ''
-assignees: treoden
+assignees: ""
 
 ---
 
@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 **Background (please complete the following information):**
  - NodeJS Version
  - Postgres Version
- - EverShop Version
+ - Storefront Version
  - OS: [e.g. Window, Ubuntu, Mac-OS]
  - Browser [e.g. Chrome, Safari]
 

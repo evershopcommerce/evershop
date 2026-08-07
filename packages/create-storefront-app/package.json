@@ -1,0 +1,36 @@
+{
+  "name": "create-storefront-app",
+  "version": "2.3.0",
+  "description": "Create Storefront App",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "createStorefrontApp.js",
+    "sample"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "create-storefront-app": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nttare0/storefront.git"
+  },
+  "author": "Storefront contributors",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nttare0/storefront/issues"
+  },
+  "homepage": "https://github.com/nttare0/storefront#readme",
+  "dependencies": {
+    "boxen": "^5.1.2",
+    "chalk": "^4.1.2",
+    "commander": "^9.4.1",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^10.0.0",
+    "semver": "^7.6.3",
+    "validate-npm-package-name": "^4.0.0"
+  }
+}

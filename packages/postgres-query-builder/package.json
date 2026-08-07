@@ -1,12 +1,12 @@
 {
-  "name": "@evershop/postgres-query-builder",
+  "name": "@storefront/postgres-query-builder",
   "version": "2.0.1",
   "type": "module",
   "description": "A PostgreSQL query builder for NodeJS",
   "main": "./dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evershopcommerce/evershop/tree/main/packages/postgres-query-builder"
+    "url": "git+https://github.com/nttare0/storefront/tree/main/packages/postgres-query-builder"
   },
   "keywords": [
     "PostgreSQL",
@@ -22,12 +22,12 @@
   "scripts": {
     "compile": "tsc"
   },
-  "author": "The Nguyen (https://evershop.io/)",
+  "author": "Storefront contributors",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/evershopcommerce/evershop/issues"
+    "url": "https://github.com/nttare0/storefront/issues"
   },
-  "homepage": "https://github.com/evershopcommerce/evershop/tree/main/packages/postgres-query-builder",
+  "homepage": "https://github.com/nttare0/storefront/tree/main/packages/postgres-query-builder",
   "dependencies": {
     "pg": "^8.10.0",
     "uniqid": "^5.3.0"

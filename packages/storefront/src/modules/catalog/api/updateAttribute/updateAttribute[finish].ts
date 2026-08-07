@@ -1,0 +1,11 @@
+import { StorefrontRequest } from '../../../../types/request.js';
+import updateProductAttribute from '../../services/attribute/updateProductAttribute.js';
+
+export default async (request: StorefrontRequest, response) => {
+  const result = await updateProductAttribute(
+    request.params.id,
+    request.body,
+    {}
+  );
+  return result;
+};

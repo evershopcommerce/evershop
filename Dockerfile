@@ -1,16 +1,23 @@
-FROM node:18-alpine
-WORKDIR /app
-RUN npm install -g npm@9
-COPY package*.json .
-COPY packages ./packages
-COPY themes ./themes
-COPY extensions ./extensions
-COPY public ./public
-COPY media ./media
-COPY config ./config
-COPY translations ./translations
-RUN npm install
-RUN npm run build
+FROM node:20-alpine
 
-EXPOSE 80
+WORKDIR /app
+
+# Install dependencies first so this layer is cached across source changes
+COPY package.json package-lock.json ./
+COPY packages/storefront/package.json ./packages/storefront/
+COPY packages/postgres-query-builder/package.json ./packages/postgres-query-builder/
+COPY packages/create-storefront-app/package.json ./packages/create-storefront-app/
+RUN npm ci --ignore-scripts
+
+# Application source
+COPY . .
+
+# Runtime directories the app expects to exist
+RUN mkdir -p media public config
+
+RUN npm run compile:db \
+  && npm run compile \
+  && npm run build
+
+EXPOSE 3000
 CMD ["npm", "run", "start"]
