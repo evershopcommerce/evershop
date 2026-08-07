@@ -1,8 +1,7 @@
-version: '3.8'
-
 services:
   app:
-    image: evershop/evershop:latest
+    build:
+      context: .
     restart: always
     environment:
       DB_HOST: database
@@ -10,14 +9,16 @@ services:
       DB_PASSWORD: postgres
       DB_USER: postgres
       DB_NAME: postgres
+      DB_SSLMODE: disable
     networks:
-      - myevershop
+      - storefront
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     ports:
-      - 3000:3000
-  
-  #The postgres database: 
+      - '3000:3000'
+
+  # The Postgres database
   database:
     image: postgres:16
     restart: unless-stopped
@@ -27,14 +28,19 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 10
     ports:
-      - "5432:5432"
+      - '5432:5432'
     networks:
-      - myevershop
+      - storefront
 
 networks:
-  myevershop:
-    name: MyEverShop
+  storefront:
+    name: storefront
     driver: bridge
 
 volumes:

@@ -1,0 +1,35 @@
+.header {
+  .header__middle {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Header action icons share one hit target style */
+  .header__middle__right {
+    a,
+    button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.5rem;
+      height: 2.5rem;
+      padding: 0 0.5rem;
+      border-radius: var(--radius-pill);
+      color: var(--primary);
+      transition: background-color 0.2s var(--ease-smooth),
+        color 0.2s var(--ease-smooth);
+
+      &:hover {
+        background-color: var(--surface-subdued);
+      }
+
+      svg {
+        width: 1.375rem;
+        height: 1.375rem;
+      }
+    }
+  }
+}

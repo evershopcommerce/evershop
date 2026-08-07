@@ -18,9 +18,9 @@
     "allowArbitraryExtensions": true,
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["packages/evershop/src/components/*"],
-      "@evershop/postgres-query-builder": ["packages/postgres-query-builder/src/index.ts"],
-      "@evershop/postgres-query-builder/*": ["packages/postgres-query-builder/src/*"]
+      "@components/*": ["packages/storefront/src/components/*"],
+      "@storefront/postgres-query-builder": ["packages/postgres-query-builder/src/index.ts"],
+      "@storefront/postgres-query-builder/*": ["packages/postgres-query-builder/src/*"]
     }
   },
 }

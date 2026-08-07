@@ -1,0 +1,103 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  padding: 0.625rem 1.375rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  line-height: 1.2;
+  color: var(--primary);
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease-smooth),
+    border-color 0.2s var(--ease-smooth), color 0.2s var(--ease-smooth),
+    box-shadow 0.2s var(--ease-smooth), transform 0.2s var(--ease-smooth);
+
+  &:hover {
+    text-decoration: none;
+    background-color: var(--surface-subdued);
+    border-color: var(--primary);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &.primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+
+    &:hover {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      box-shadow: var(--shadow-card);
+    }
+  }
+
+  &.danger {
+    background-color: var(--critical);
+    border-color: var(--critical);
+    color: #fff;
+
+    &:hover {
+      filter: brightness(0.94);
+      background-color: var(--critical);
+    }
+  }
+
+  /* Outline resets any filled variant back to a bordered treatment */
+  &.outline {
+    background-color: transparent;
+    box-shadow: none;
+    color: var(--primary);
+    border-color: var(--primary);
+
+    &:hover {
+      background-color: var(--primary);
+      color: #fff;
+    }
+  }
+
+  &.outline.interactive {
+    border-color: var(--interactive);
+    color: var(--interactive);
+
+    &:hover {
+      background-color: var(--interactive);
+      color: #fff;
+    }
+  }
+
+  &.outline.danger {
+    background-color: transparent;
+    border-color: var(--critical);
+    color: var(--critical);
+
+    &:hover {
+      background-color: var(--critical);
+      color: #fff;
+    }
+  }
+
+  &.loading {
+    pointer-events: none;
+    opacity: 0.85;
+
+    span {
+      opacity: 0;
+    }
+
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -1rem;
+      margin-left: -1rem;
+    }
+  }
+}

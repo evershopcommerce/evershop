@@ -5,7 +5,7 @@ A PostgreSQL query builder for NodeJS.
 ## Installation
 
 ```javascript
-npm install @evershop/postgres-query-builder
+npm install @storefront/postgres-query-builder
 ```
 
 ## Usage guide
@@ -15,7 +15,7 @@ It implements async/await.
 ### Simple select
 
 ```javascript
-const { select } = require('@evershop/postgres-query-builder');
+const { select } = require('@storefront/postgres-query-builder');
 
 const products = await select('*')
   .from('product')
@@ -26,7 +26,7 @@ const products = await select('*')
 ### More complex where
 
 ```javascript
-const { select } = require('@evershop/postgres-query-builder');
+const { select } = require('@storefront/postgres-query-builder');
 
 const products = await select('*')
   .from('product')
@@ -38,7 +38,7 @@ const products = await select('*')
 ### Event more complex where
 
 ```javascript
-const { select } = require('@evershop/postgres-query-builder');
+const { select } = require('@storefront/postgres-query-builder');
 
 const query = select('*').from('product');
 query.where('product_id', '>', 1).and('sku', 'LIKE', 'sku');
@@ -50,7 +50,7 @@ const products = await query.execute(pool);
 ### Join table
 
 ```javascript
-const { select } = require('@evershop/postgres-query-builder');
+const { select } = require('@storefront/postgres-query-builder');
 
 const query = select('*').from('product');
 query.leftJoin('price').on('product.`product_id`', '=', 'price.`product_id`');
@@ -91,7 +91,7 @@ const products = await query.execute(pool);
 
 ````javascript
 ```javascript
-const {insert} = require('@evershop/postgres-query-builder')
+const {insert} = require('@storefront/postgres-query-builder')
 
 const query = insert("user")
 .given({name: "David", email: "email@email.com", "phone": "123456", status: 1, notExistedColumn: "This will not be a part of the query"});
@@ -99,7 +99,7 @@ await query.execute(pool);
 ````
 
 ```javascript
-const { update } = require('@evershop/postgres-query-builder');
+const { update } = require('@storefront/postgres-query-builder');
 
 const query = update('user')
   .given({
@@ -123,7 +123,7 @@ const {
   startTransaction,
   commit,
   rollback
-} = require('@evershop/postgres-query-builder');
+} = require('@storefront/postgres-query-builder');
 
 const pool = new Pool(connectionSetting);
 

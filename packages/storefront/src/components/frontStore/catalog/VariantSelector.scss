@@ -1,0 +1,38 @@
+.variant-option-list {
+  li {
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    background-color: #fff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    overflow: hidden;
+    transition: border-color 0.2s var(--ease-smooth),
+      background-color 0.2s var(--ease-smooth), color 0.2s var(--ease-smooth);
+
+    a,
+    span {
+      padding: 0.5625rem 1.125rem;
+      display: block;
+      text-align: center;
+      color: inherit;
+    }
+
+    &:hover:not(.un-available) {
+      border-color: var(--primary);
+    }
+
+    &.selected {
+      background-color: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    &.un-available {
+      background-color: var(--surface-subdued);
+      border-color: var(--divider);
+      color: var(--textSubdued);
+      text-decoration: line-through;
+      cursor: not-allowed;
+    }
+  }
+}
