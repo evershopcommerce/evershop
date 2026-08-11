@@ -1,4 +1,4 @@
-import { error } from '../../lib/log/logger.js';
+import { debug, error } from '../../lib/log/logger.js';
 import { refreshSetting } from './services/setting.js';
 
 export default async () => {
@@ -12,6 +12,17 @@ export default async () => {
   try {
     await refreshSetting();
   } catch (e) {
-    error(e);
+    // Postgres 42P01 (undefined_table) is the EXPECTED state on a brand-new database:
+    // bootstraps run before migrations, so on the very first boot the `setting` table
+    // does not exist yet. Logging it as an error makes every fresh install look like a
+    // crash. Anything else (connection refused, bad credentials, …) is a real problem
+    // and keeps the loud path.
+    if ((e as { code?: string })?.code === '42P01') {
+      debug(
+        'Setting cache warm-up skipped: the setting table is not migrated yet (fresh install). The cache will load after migrations run.'
+      );
+    } else {
+      error(e);
+    }
   }
 };
