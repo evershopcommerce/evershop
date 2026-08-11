@@ -13,7 +13,7 @@ export function Header() {
       />
       {/* Re-skin (2026-07-10): reference layout — logo left, nav beside it,
           search / account / cart pushed right, constrained to the page width. */}
-      <div className="header__middle page-width flex items-center gap-6 py-4">
+      <div className="header__middle page-width flex items-center gap-6 py-6">
         <Area
           id="headerMiddleCenter"
           className="header__middle__center flex shrink-0 items-center"
