@@ -60,7 +60,11 @@ jobs:
       # because dev was merged the same day. This makes that a rule.
       - name: Tagged commit is contained in main
         run: |
-          git fetch origin main --depth=0
+          # NOT `--depth=0` — git rejects that ("depth 0 is not a positive
+          # number", exit 128). The checkout above already used fetch-depth: 0,
+          # so the full history is present; this just makes sure the origin/main
+          # ref itself exists to compare against.
+          git fetch origin main
           if ! git merge-base --is-ancestor HEAD origin/main; then
             echo "::error::v${{ inputs.version }} is not an ancestor of main. Merge to main before publishing."
             exit 1
