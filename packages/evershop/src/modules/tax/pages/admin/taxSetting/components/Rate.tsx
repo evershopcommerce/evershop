@@ -5,6 +5,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { RateForm } from './RateForm.js';
 
@@ -33,7 +34,9 @@ function Rate({ rate, getTaxClasses }: RateProps) {
         <td className="border-none py-2 w-1/5">{rate.name}</td>
         <td className="border-none py-2">{rate.country}</td>
         <td className="border-none py-2">{rate.rate}%</td>
-        <td className="border-none py-2">{rate.isCompound ? 'Yes' : 'No'}</td>
+        <td className="border-none py-2">
+          {rate.isCompound ? _('Yes') : _('No')}
+        </td>
         <td className="border-none py-2">{rate.priority}</td>
         <td className="border-none py-2">
           <DialogTrigger>
@@ -43,7 +46,7 @@ function Rate({ rate, getTaxClasses }: RateProps) {
                 e.preventDefault();
               }}
             >
-              Edit
+              {_('Edit')}
             </a>
           </DialogTrigger>
           <a
@@ -57,12 +60,12 @@ function Rate({ rate, getTaxClasses }: RateProps) {
               await getTaxClasses({ requestPolicy: 'network-only' });
             }}
           >
-            Delete
+            {_('Delete')}
           </a>
         </td>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Tax Rate</DialogTitle>
+            <DialogTitle>{_('Edit Tax Rate')}</DialogTitle>
           </DialogHeader>
           <RateForm
             saveRateApi={rate.updateApi}

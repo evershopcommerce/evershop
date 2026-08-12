@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { localizeUrl } from '../../../../../lib/locale/localeContext.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { CMSPageCollection } from '../../../services/CMSPageCollection.js';
@@ -33,7 +34,7 @@ export default {
     }
   },
   CmsPage: {
-    url: ({ urlKey }) => buildUrl('cmsPageView', { url_key: urlKey }),
+    url: ({ urlKey }) => localizeUrl(`/${urlKey}`),
     editUrl: ({ uuid }) => buildUrl('cmsPageEdit', { id: uuid }),
     updateApi: (page) => buildUrl('updateCmsPage', { id: page.uuid }),
     deleteApi: (page) => buildUrl('deleteCmsPage', { id: page.uuid }),

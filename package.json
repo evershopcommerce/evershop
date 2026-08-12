@@ -1,6 +1,6 @@
 {
   "name": "evershop",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "type": "module",
   "description": "A shopping cart platform with Express, React and Postgres",
   "workspaces": [
@@ -11,23 +11,32 @@
     "dev": "node ./packages/evershop/dist/bin/dev/index.js",
     "start": "node ./packages/evershop/dist/bin/start/index.js",
     "build": "node ./packages/evershop/dist/bin/build/index.js",
-    "build-fast": "evershop build -- --skip-minify",
     "setup": "evershop install",
+    "user:create": "evershop user:create",
+    "seed": "evershop seed",
     "theme:active": "evershop theme:active",
     "theme:twizz": "evershop theme:twizz",
     "theme:create": "evershop theme:create",
+    "theme:status": "evershop theme:status",
+    "theme:uninstall": "evershop theme:uninstall",
+    "theme:export-content": "evershop theme:export-content",
     "compile": "rimraf ./packages/evershop/dist && cd ./packages/evershop && swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
-    "compile:db": "rimraf ./packages/postgres-query-builder/dist && cd ./packages/postgres-query-builder && swc ./src/ -d dist/ --config-file .swcrc --copy-files --strip-leading-paths",
-    "compile:tsc": "rimraf ./packages/evershop/dist && cd ./packages/evershop && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,css,json}\" dist",
+    "compile:db": "rimraf ./packages/postgres-query-builder/dist && cd ./packages/postgres-query-builder && tsc",
+    "compile:tsc": "rimraf ./packages/evershop/dist && cd ./packages/evershop && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,css,json}\" dist && chmod +x ./dist/bin/evershop.js",
     "start:debug": "node ./packages/evershop/dist/bin/start/index.js --debug",
     "test": "ALLOW_CONFIG_MUTATIONS=true NODE_OPTIONS=--experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:e2e": "npm test --prefix tests/e2e",
+    "test:e2e:headed": "npm run test:headed --prefix tests/e2e",
+    "test:e2e:report": "npm run test:report --prefix tests/e2e",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./packages",
+    "release:preflight": "node scripts/release-preflight.mjs",
     "prepare": "husky install"
   },
   "author": "The Nguyen (https://evershop.io)",
   "license": "GNU GENERAL PUBLIC LICENSE 3.0",
   "devDependencies": {
     "@parcel/watcher": "^2.5.1",
+    "@playwright/test": "^1.59.1",
     "@swc/cli": "^0.7.7",
     "@swc/core": "^1.11.29",
     "@types/jest": "^29.5.14",
@@ -55,6 +64,12 @@
     "@sendgrid/mail": "^8.1.6",
     "@types/react-slick": "^0.23.13",
     "@types/uuid": "^10.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "uuid": "^13.0.0"
+  },
+  "overrides": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

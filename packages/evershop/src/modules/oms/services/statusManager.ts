@@ -6,6 +6,7 @@ import {
   PaymentStatus,
   ShipmentStatus
 } from '../../../types/order.js';
+import type { ShipmentPhase } from '../types/shipmentPhase.js';
 
 /**
  * Retrieves the list of order statuses defined in the system. The statuses are defined in the configuration under `oms.order.status`. Each status includes details such as its name, badge, whether it's the default status, and possible next statuses.
@@ -29,9 +30,7 @@ function getShipmentStatusList() {
     {
       name: string;
       badge: string;
-      progress?: string;
-      isDefault?: boolean;
-      isCancelable?: boolean;
+      phase: ShipmentPhase;
     }
   >;
   return statuses;
@@ -71,6 +70,11 @@ function registerPaymentStatus(
       'Payment status ID must be a non-empty string without spaces.'
     );
   }
+  if (getPaymentStatusList()[id]) {
+    throw new Error(
+      `Payment status "${id}" is already registered. Pick a unique code, or use addProcessor("paymentStatus", ...) to mutate an existing entry.`
+    );
+  }
   const statusConfig = {
     order: {
       paymentStatus: {
@@ -82,10 +86,16 @@ function registerPaymentStatus(
   config.util.setModuleDefaults('oms', statusConfig);
 }
 
+const VALID_PHASES: ReadonlySet<string> = new Set([
+  'shipped',
+  'delivered',
+  'canceled'
+]);
+
 /**
  * Registers a new shipment status in the system. This function must be called during the application initialization phase (e.g., in a module's `bootstrap` function).
  * @param id Unique identifier for the shipment status (e.g., "shipped", "delivered")
- * @param detail Object containing details about the shipment status (name, badge, etc.)
+ * @param detail Object containing details about the shipment status. `phase` is REQUIRED — see wiki/multi-shipment-design.md → Status model.
  * @param psoMapping Optional mapping of shipment status to order status (e.g., { "shipped": "processing" })
  */
 function registerShipmentStatus(
@@ -97,6 +107,18 @@ function registerShipmentStatus(
   if (!id || /\s/.test(id)) {
     throw new Error(
       'Shipment status ID must be a non-empty string without spaces.'
+    );
+  }
+  // Validate phase — the rollup math hard-codes the three-phase enum and needs every
+  // registered status to declare which bucket it belongs to.
+  if (!detail || typeof detail.phase !== 'string' || !VALID_PHASES.has(detail.phase)) {
+    throw new Error(
+      `Shipment status "${id}" must declare phase: 'shipped' | 'delivered' | 'canceled'.`
+    );
+  }
+  if (getShipmentStatusList()[id]) {
+    throw new Error(
+      `Shipment status "${id}" is already registered. Pick a unique code, or use addProcessor("shipmentStatus", ...) to mutate an existing entry.`
     );
   }
   const statusConfig = {
@@ -120,6 +142,11 @@ function registerOrderStatus(id: string, detail: OrderStatus) {
   if (!id || /\s/.test(id)) {
     throw new Error(
       'Order status ID must be a non-empty string without spaces.'
+    );
+  }
+  if (getOrderStatusList()[id]) {
+    throw new Error(
+      `Order status "${id}" is already registered. Pick a unique code, or use addProcessor("orderStatus", ...) to mutate an existing entry.`
     );
   }
   const statusConfig = {

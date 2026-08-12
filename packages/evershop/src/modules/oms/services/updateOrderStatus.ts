@@ -39,6 +39,32 @@ function getOrderStatusFlow() {
   }
 }
 
+/**
+ * Rollup outputs that live in `ROLLUP_DISPLAY` and `order.shipment_status` but
+ * never as a registered entry in `oms.order.shipmentStatus`. The order-status
+ * existence check has to tolerate these — the rollup writes them directly to
+ * `order.shipment_status` after every shipment change, then `hookAfter('changeShipmentStatus')`
+ * calls back here. Without this allowance, the first partial shipment on any
+ * order throws inside the `updateShipmentStatus` transaction and rolls back.
+ *
+ * `pending` joined the rollup-only set after §1 of the change-notes pass —
+ * we removed `pending` and `processing` from the shipment status registry
+ * because no per-shipment row uses the `pending` phase anymore. But the
+ * ORDER-level rollup still uses `'pending'` to mean "no items shipped yet"
+ * (the canonical case: an order with one canceled shipment rolls up to
+ * `pending`). Without `pending` here, canceling the only shipment on an
+ * order throws "Shipment status 'pending' is invalid."
+ */
+const ROLLUP_ONLY_SHIPMENT_STATUSES = new Set([
+  'pending',
+  'partially_shipped',
+  'partially_delivered',
+  // Item-math output when some (not all) items are canceled and nothing has
+  // shipped. `canceled` itself IS a registered shipment status, so it's not
+  // listed here — only the partial summary word is rollup-only.
+  'partially_canceled'
+]);
+
 export function resolveOrderStatus(
   paymentStatus: string,
   shipmentStatus: string
@@ -55,9 +81,17 @@ export function resolveOrderStatus(
   const psoMapping = getConfig('oms.order.psoMapping', {});
   const shipmentStatusDefination = shipmentStatusList[shipmentStatus];
   const paymentStatusDefination = paymentStatusList[paymentStatus];
-  if (!shipmentStatusDefination || !paymentStatusDefination) {
+  if (!paymentStatusDefination) {
     throw new Error(
-      'Either shipment status or payment status is invalid. Can not update order status'
+      'Payment status is invalid. Can not update order status'
+    );
+  }
+  if (
+    !shipmentStatusDefination &&
+    !ROLLUP_ONLY_SHIPMENT_STATUSES.has(shipmentStatus)
+  ) {
+    throw new Error(
+      `Shipment status '${shipmentStatus}' is invalid. Can not update order status`
     );
   }
   const finalPsoMapping = getValueSync('psoMapping', psoMapping, {});

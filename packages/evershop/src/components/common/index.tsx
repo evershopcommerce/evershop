@@ -1,9 +1,13 @@
-import Area from './Area.jsx';
+import Area, { setAreaComponents, getAreaComponents } from './Area.jsx';
 import { HydrateAdmin } from './react/client/HydrateAdmin.jsx';
 import { HydrateFrontStore } from './react/client/HydrateFrontStore.jsx';
+import { reportClientError } from './react/client/reportClientError.js';
 import { renderHtml } from './react/server/render.jsx';
 export { Area };
+export { setAreaComponents };
+export { getAreaComponents };
 export { HydrateFrontStore };
 export { HydrateAdmin };
 export { renderHtml };
+export { reportClientError };
 export default Area;

@@ -15,7 +15,9 @@ import {
 import { WidgetData } from './createWidget.js';
 
 async function deleteWidgetData(uuid: string, connection: PoolClient) {
-  await del('widget').where('uuid', '=', uuid).execute(connection);
+  // Renamed in cms migration 1.3.0: widget → widget_instance.
+  // widget_placement rows cascade-delete via FK ON DELETE CASCADE.
+  await del('widget_instance').where('uuid', '=', uuid).execute(connection);
 }
 
 /**
@@ -27,7 +29,7 @@ async function deleteWidget(uuid: string, context: Record<string, any>) {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
-    const query = select().from('widget');
+    const query = select().from('widget_instance');
     const widget = await query.where('uuid', '=', uuid).load(connection);
     if (!widget) {
       throw new Error('Invalid widget id');

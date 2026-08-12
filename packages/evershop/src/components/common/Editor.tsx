@@ -2,11 +2,15 @@ import { getColumnClasses } from '@components/common/form/editor/GetColumnClasse
 import { getRowClasses } from '@components/common/form/editor/GetRowClasses.js';
 import { Row } from '@components/common/form/Editor.js';
 import { Image as ResponsiveImage } from '@components/common/Image.js';
+import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
+import { ProductList } from '@components/frontStore/catalog/ProductList.js';
+import { sanitize } from '@evershop/evershop/lib/util/sanitizeHtml';
 import React from 'react';
+import { useQuery } from 'urql';
 import './Editor.scss';
 
 const Paragraph: React.FC<{ data: { text: string } }> = ({ data }) => {
-  return <p dangerouslySetInnerHTML={{ __html: data.text }} />;
+  return <p dangerouslySetInnerHTML={{ __html: sanitize(data.text) }} />;
 };
 
 const Header: React.FC<{ data: { level: number; text: string } }> = ({
@@ -23,7 +27,12 @@ const List: React.FC<{
   return (
     <ListTag>
       {data.items.map((item, index) => (
-        <li key={index}>{item}</li>
+        // Items may carry inline formatting (bold/italic/links) as HTML, same
+        // as a paragraph — render it (sanitized) rather than as literal text.
+        <li
+          key={index}
+          dangerouslySetInnerHTML={{ __html: sanitize(item) }}
+        />
       ))}
     </ListTag>
   );
@@ -33,8 +42,10 @@ const Quote: React.FC<{ data: { text: string; caption?: string } }> = ({
   data
 }) => {
   return (
+    // `prose` already adds typographic quotation marks around blockquote text
+    // via ::before/::after — don't add literal ones here or they double up.
     <blockquote>
-      <p>&quot;{data.text}&quot;</p>
+      <p>{data.text}</p>
       {data.caption && <cite>- {data.caption}</cite>}
     </blockquote>
   );
@@ -116,7 +127,107 @@ const Image: React.FC<{
 };
 
 const RawHtml: React.FC<{ data: { html: string } }> = ({ data }) => {
-  return <div dangerouslySetInnerHTML={{ __html: data.html }} />;
+  return <div dangerouslySetInnerHTML={{ __html: sanitize(data.html) }} />;
+};
+
+interface SavedProduct {
+  productId?: number;
+  uuid?: string;
+  sku: string;
+  name: string;
+  url?: string;
+  image?: { url: string; alt?: string } | null;
+  price?: {
+    regular?: { value?: number; text?: string };
+    special?: { value?: number; text?: string };
+  };
+  inStock?: boolean;
+  status?: number;
+}
+
+const PRODUCT_LIST_QUERY = `
+  query ProductListBlockProducts($filters: [FilterInput!]) {
+    products(filters: $filters) {
+      items {
+        productId
+        uuid
+        sku
+        name
+        url
+        price { regular { value text } special { value text } }
+        image { url alt }
+        inventory { isInStock }
+      }
+    }
+  }
+`;
+
+const ProductListBlock: React.FC<{
+  data: { products?: SavedProduct[]; columns?: number };
+}> = ({ data }) => {
+  const skus = (data.products ?? [])
+    .filter((p) => p && p.sku)
+    .map((p) => p.sku as string);
+
+  // Re-fetch the selected products live by sku rather than rendering the saved
+  // snapshot. The storefront `products` query returns only enabled + visible
+  // items, so a product disabled or deleted after selection simply drops out —
+  // no stale card, and no 404 when a shopper clicks it.
+  const [result] = useQuery({
+    query: PRODUCT_LIST_QUERY,
+    variables: {
+      filters: [
+        { key: 'sku', operation: 'in', value: skus.join(',') },
+        {
+          key: 'limit',
+          operation: 'eq',
+          value: String(Math.max(skus.length, 1))
+        }
+      ]
+    },
+    pause: skus.length === 0
+  });
+
+  if (skus.length === 0) {
+    return null;
+  }
+
+  const liveBySku = new Map<string, any>(
+    (result.data?.products?.items ?? []).map((p: any) => [p.sku, p])
+  );
+  const products = skus
+    .map((sku) => liveBySku.get(sku))
+    .filter(Boolean)
+    .map((p) => ({
+      productId: p.productId,
+      uuid: p.uuid ?? p.sku,
+      name: p.name,
+      sku: p.sku,
+      description: [],
+      url: p.url,
+      image: p.image?.url ? { url: p.image.url, alt: p.image.alt } : undefined,
+      price: {
+        regular: {
+          value: p.price?.regular?.value ?? 0,
+          text: p.price?.regular?.text ?? ''
+        },
+        ...(p.price?.special?.text
+          ? {
+              special: {
+                value: p.price.special.value ?? 0,
+                text: p.price.special.text
+              }
+            }
+          : {})
+      },
+      inventory: { isInStock: p.inventory?.isInStock ?? true }
+    })) as ProductData[];
+
+  if (products.length === 0) {
+    return null;
+  }
+
+  return <ProductList products={products} gridColumns={data.columns ?? 4} />;
 };
 
 const RenderEditorJS: React.FC<{
@@ -141,6 +252,8 @@ const RenderEditorJS: React.FC<{
             return <Quote key={index} data={block.data} />;
           case 'raw':
             return <RawHtml key={index} data={block.data} />;
+          case 'productList':
+            return <ProductListBlock key={index} data={block.data} />;
           default:
             return null;
         }

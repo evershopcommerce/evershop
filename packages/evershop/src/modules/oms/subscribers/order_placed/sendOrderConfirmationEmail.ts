@@ -15,6 +15,7 @@ import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValue } from '../../../../lib/util/registry.js';
 import { EventData } from '../../../../types/event.js';
+import { getStoreLanguage } from '../../../setting/services/setting.js';
 
 const TEMPLATE = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" lang="en">
@@ -666,16 +667,23 @@ export default async function sendOrderConfirmationEmail(
         provinces.find((p) => p.code === shippingAddress.province)?.name || '';
     }
 
-    const billingAddress = await select()
-      .from('order_address')
-      .where('order_address_id', '=', order.billing_address_id)
-      .load(pool);
+    // Zero-total orders may have no billing address — pass null through so
+    // custom templates can `{{#if billingAddress}}` it (the default template
+    // does not render billing at all).
+    const billingAddress = order.billing_address_id
+      ? await select()
+          .from('order_address')
+          .where('order_address_id', '=', order.billing_address_id)
+          .load(pool)
+      : null;
 
-    billingAddress.country_name =
-      countries.find((c) => c.code === billingAddress.country)?.name || '';
+    if (billingAddress) {
+      billingAddress.country_name =
+        countries.find((c) => c.code === billingAddress.country)?.name || '';
 
-    billingAddress.province_name =
-      provinces.find((p) => p.code === billingAddress.province)?.name || '';
+      billingAddress.province_name =
+        provinces.find((p) => p.code === billingAddress.province)?.name || '';
+    }
 
     let template;
     if (config?.templatePath) {
@@ -697,7 +705,10 @@ export default async function sendOrderConfirmationEmail(
       shippingAddress,
       billingAddress
     });
-    const subject = translate('Your order has been confirmed!');
+    // Off-request (event subscriber) — resolve the store locale explicitly (D7), use it
+    // for the subject and pass it to sendEmail so the body's currency/date format match.
+    const locale = await getStoreLanguage();
+    const subject = translate('Your order has been confirmed!', {}, locale);
     if (data.customer_email) {
       const args = await getValue(
         'orderConfirmationEmailArguments',
@@ -705,7 +716,8 @@ export default async function sendOrderConfirmationEmail(
           to: data.customer_email,
           subject,
           template,
-          data: dynamicData
+          data: dynamicData,
+          locale
         },
         { order }
       );

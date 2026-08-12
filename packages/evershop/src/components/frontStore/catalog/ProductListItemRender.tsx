@@ -1,11 +1,11 @@
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { AddToCart } from '@components/frontStore/cart/AddToCart.js';
 import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { ReactNode } from 'react';
-import { toast } from 'react-toastify';
 
 export const ProductListItemRender = ({
   product,
@@ -55,7 +55,7 @@ export const ProductListItemRender = ({
               </a>
             </h3>
 
-            <div className="product__list__sku text-sm text-gray-600 mb-2">
+            <div className="product__list__sku text-sm text-muted-foreground mb-2">
               {_('SKU ${sku}', { sku: product.sku })}
             </div>
 
@@ -97,7 +97,7 @@ export const ProductListItemRender = ({
           </div>
 
           {showAddToCart && (
-            <div className="product__list__actions invisible transform translate-y-2 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0">
+            <div className="product__list__actions invisible transform translate-y-2 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0 group-focus-within:visible group-focus-within:translate-y-0 [@media(hover:none)]:visible [@media(hover:none)]:translate-y-0">
               {customAddToCartRenderer ? (
                 customAddToCartRenderer(product)
               ) : (
@@ -170,7 +170,7 @@ export const ProductListItemRender = ({
         </div>
       </a>
       {showAddToCart && (
-        <div className="product__list__actions p-4 invisible transform translate-y-4 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0">
+        <div className="product__list__actions p-4 invisible transform translate-y-4 transition-all duration-300 ease-in-out group-hover:visible group-hover:translate-y-0 group-focus-within:visible group-focus-within:translate-y-0 [@media(hover:none)]:visible [@media(hover:none)]:translate-y-0">
           {customAddToCartRenderer ? (
             customAddToCartRenderer(product)
           ) : (

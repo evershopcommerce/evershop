@@ -11,6 +11,7 @@ import {
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
 import { Item, ItemActions, ItemContent } from '@components/common/ui/Item.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import {
   ExtendedCustomerAddress,
@@ -19,7 +20,6 @@ import {
 } from '@components/frontStore/customer/CustomerContext.jsx';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 const Address: React.FC<{
   address: ExtendedCustomerAddress;
@@ -54,40 +54,51 @@ const Address: React.FC<{
                 method="PATCH"
                 onSubmit={async (data) => {
                   try {
-                    await updateAddress(address.addressId, data);
+                    await updateAddress(address.uuid as string, data);
                     setDialogOpen(false);
                     toast.success(_('Address has been updated successfully!'));
                   } catch (error) {
-                    toast.error(error.message);
+                    toast.error(
+                      error instanceof Error ? error.message : String(error)
+                    );
                   }
                 }}
               >
-                <CustomerAddressForm address={address} fieldNamePrefix="" />
+                <CustomerAddressForm
+                  address={address}
+                  fieldNamePrefix=""
+                  countryScope="all"
+                />
                 <div className="mt-3">
                   <CheckboxField
                     label={_('Set as default')}
                     defaultChecked={address.isDefault}
+                    defaultValue={address.isDefault}
                     name="is_default"
                   />
                 </div>
               </Form>
+              <DialogFooter>
+                <Button
+                  variant="destructive"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    try {
+                      await deleteAddress(address.uuid as string);
+                      toast.success(
+                        _('Address has been deleted successfully!')
+                      );
+                    } catch (error) {
+                      toast.error(
+                        error instanceof Error ? error.message : String(error)
+                      );
+                    }
+                  }}
+                >
+                  {_('Delete')}
+                </Button>
+              </DialogFooter>
             </DialogContent>
-            <DialogFooter>
-              <Button
-                variant="destructive"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  try {
-                    await deleteAddress(address.addressId);
-                    toast.success(_('Address has been deleted successfully!'));
-                  } catch (error) {
-                    toast.error(error.message);
-                  }
-                }}
-              >
-                {_('Delete')}
-              </Button>
-            </DialogFooter>
           </Dialog>
         </div>
       </ItemActions>
@@ -105,16 +116,16 @@ export function MyAddresses({ title }: { title?: string }) {
   return (
     <div>
       {title && (
-        <div className="border-b mb-5 border-gray-200">
+        <div className="border-b mb-5 border-border">
           <h2>{_('Address Book')}</h2>
         </div>
       )}
       {customer.addresses.length === 0 && (
-        <div className="order-history-empty">
+        <div className="text-sm text-muted-foreground">
           {_('You have no addresses saved')}
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {customer.addresses.map((address) => (
           <Address key={address.uuid} address={address} />
         ))}
@@ -123,6 +134,7 @@ export function MyAddresses({ title }: { title?: string }) {
         <DialogTrigger>
           <Button
             variant="outline"
+            className="mt-4"
             onClick={(e) => {
               e.preventDefault();
             }}
@@ -143,11 +155,17 @@ export function MyAddresses({ title }: { title?: string }) {
                 setDialogOpen(false);
                 toast.success(_('Address has been saved successfully!'));
               } catch (error) {
-                toast.error(error.message);
+                toast.error(
+                  error instanceof Error ? error.message : String(error)
+                );
               }
             }}
           >
-            <CustomerAddressForm address={undefined} fieldNamePrefix="" />
+            <CustomerAddressForm
+              address={undefined}
+              fieldNamePrefix=""
+              countryScope="all"
+            />
             <div className="mt-3">
               <CheckboxField
                 label={_('Set as default')}

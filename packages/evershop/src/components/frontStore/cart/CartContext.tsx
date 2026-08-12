@@ -18,8 +18,10 @@ const ShippingMethodsQuery = `
   query GetCartShippingMethods($country: String!, $province: String, $postcode: String) {
     myCart {
       availableShippingMethods(country: $country, province: $province, postcode: $postcode) {
+        providerCode
         code
         name
+        carrier
         cost {
           value
           text
@@ -242,6 +244,14 @@ export interface CartData {
     name: string;
   }[];
   availableShippingMethods: {
+    /**
+     * Required. Identifies the provider this method came from — Core, USPS,
+     * EasyPost, etc. The server-side GraphQL field is `String!`. The
+     * storefront passes it through to `addShippingMethod` so the cart can
+     * route validation to the correct provider's `validateMethod`.
+     * Silently defaulting to `'core'` mis-routes non-core methods.
+     */
+    providerCode: string;
     code: string;
     name: string;
     cost?: {
@@ -306,7 +316,11 @@ interface CartDispatch {
     payload: { qty: number; action: 'increase' | 'decrease' }
   ) => Promise<void>;
   addPaymentMethod: (code: string, name: string) => Promise<void>;
-  addShippingMethod: (code: string, name: string) => Promise<void>;
+  addShippingMethod: (
+    code: string,
+    name: string,
+    providerCode: string
+  ) => Promise<void>;
   addShippingAddress: (address: Address) => Promise<void>;
   addBillingAddress: (address: Address) => Promise<void>;
   addContactInfo: (contactInfo: { email: string }) => Promise<void>;
@@ -794,9 +808,18 @@ export const CartProvider = ({
 
   // Add shipping method
   const addShippingMethod = useCallback(
-    async (code: string, name: string) => {
+    async (code: string, name: string, providerCode: string) => {
       if (!state.data) {
         throw new Error(_('Cannot add shipping method: cart not initialized'));
+      }
+      if (!providerCode) {
+        // No more silent default to 'core' — the storefront must thread
+        // providerCode from `availableShippingMethods.providerCode`
+        // (server-side `String!`). Defaulting hid non-core mis-routes
+        // behind a "method no longer available" error from resolveShippingQuote.
+        throw new Error(
+          _('Cannot add shipping method: providerCode is required')
+        );
       }
 
       try {
@@ -809,7 +832,11 @@ export const CartProvider = ({
           fetch(state.data!.addShippingMethodApi, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ method_code: code, method_name: name })
+            body: JSON.stringify({
+              provider_code: providerCode,
+              method_code: code,
+              method_name: name
+            })
           })
         );
 
@@ -1211,6 +1238,15 @@ export const useCartState = (): CartState => {
   }
   return context;
 };
+
+/**
+ * Non-throwing variant of useCartState for components that may render both
+ * inside and outside a CartProvider — e.g. widgets, which merchants can
+ * place into ANY area, including ones above the provider. Returns undefined
+ * when no provider is present; such placements simply stay non-reactive.
+ */
+export const useOptionalCartState = (): CartState | undefined =>
+  useContext(CartStateContext);
 
 export const useCartDispatch = (): CartDispatch => {
   const context = useContext(CartDispatchContext);

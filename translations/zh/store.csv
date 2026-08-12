@@ -1,0 +1,1685 @@
+Welcome Back!,欢迎回来！
+Please sign in to your account ,请登录您的账户 
+Join us for exclusive offers and order tracking,加入我们，享受专属优惠和订单追踪
+Sign Up,注册
+Signing Up...,正在注册……
+Signing In...,正在登录……
+Recent Orders,最近订单
+Address Book,地址簿
+You have no addresses saved,您尚未保存任何地址
+Add new address,添加新地址
+Address 2,地址 2
+Set as default,设为默认
+Save,保存
+Edit,编辑
+Delete,删除
+Edit Address,编辑地址
+Product Filters,商品筛选
+No products found,未找到商品
+${count} Products,${count} 件商品
+Default,默认
+Name,名称
+Contact Information,联系信息
+Your Cart,您的购物车
+Your cart is empty,您的购物车是空的
+Subtotal,小计
+View Cart (${totalQty}),查看购物车 (${totalQty})
+Shopping Cart,购物车
+Logged in as,登录身份
+Payment Information,付款信息
+Same as shipping address,与收货地址相同
+Use a different billing address,使用不同的账单地址
+Pick a payment method,选择付款方式
+Select a payment method,选择付款方式
+Complete Order,完成订单
+Add to Cart,加入购物车
+Search,搜索
+${count} orders,${count} 个订单
+${field} is required,${field} 为必填项
+${pct}% of orders cancelled,${pct}% 的订单已取消
+${pct}% of orders completed,${pct}% 的订单已完成
+${qty} sold,已售 ${qty}
+${total} lifetime sale,累计销售额 ${total}
+(Guest Checkout),（访客结账）
+(list),（列表）
+(optional),（可选）
+A coupon is already applied,已应用一张优惠券
+A group needs at least one sub-field,一个分组至少需要一个子字段
+A list of best selling products,畅销商品列表
+A list of customers who have placed the most orders,下单最多的客户列表
+A regular expression the value must match.,值必须匹配的正则表达式。
+Accepted values,接受的值
+Active,启用
+Active Filters,已启用筛选
+Add address API not available,添加地址 API 不可用
+Add custom field,添加自定义字段
+Add field,添加字段
+Add item,添加项目
+Add option,添加选项
+Add product,添加商品
+Add some items to get started,添加一些商品即可开始
+Add sub-field,添加子字段
+Adding...,正在添加……
+Address has been deleted successfully!,地址已成功删除！
+Address has been saved successfully!,地址已成功保存！
+Address has been updated successfully!,地址已成功更新！
+Address is required,地址为必填项
+Adds target=_blank rel=noopener noreferrer.,添加 target=_blank rel=noopener noreferrer。
+All items fulfilled,所有商品已履行
+All orders,所有订单
+All your past orders,您的所有历史订单
+Allow multiple,允许多选
+An unexpected error occurred. Please try again.,发生意外错误。请重试。
+Apply Filters,应用筛选
+Are you sure you want to mark the selected orders as shipped?,确定要将所选订单标记为已发货吗？
+Are you sure?,确定吗？
+Attribute Group,属性组
+Attribute code is used in API and must be unique,属性代码用于 API，必须唯一
+Attribute options,属性选项
+Attributes,属性
+Available shipping methods will appear once you provide your address details,提供地址信息后，可用的配送方式将会显示
+Best Sellers,畅销商品
+Best customers,最佳客户
+Billing address,账单地址
+Black,黑色
+Buy qty,购买数量
+Buy qty is required,购买数量为必填项
+Can not process payment. Please try again later.,无法处理付款。请稍后重试。
+Can't be undone,无法撤销
+Cancel,取消
+Cancel Order,取消订单
+Cancel shipment,取消发货
+Cancel this shipment?,取消此次发货？
+Canceled,已取消
+Cancelled,已取消
+Cannot add billing address: cart not initialized,无法添加账单地址：购物车未初始化
+Cannot add contact info: cart not initialized,无法添加联系信息：购物车未初始化
+Cannot add payment method: cart not initialized,无法添加付款方式：购物车未初始化
+Cannot add shipping address: cart not initialized,无法添加收货地址：购物车未初始化
+Cannot add shipping method: cart not initialized,无法添加配送方式：购物车未初始化
+Cannot add shipping method: providerCode is required,无法添加配送方式：providerCode 为必填项
+Cannot apply coupon: cart not initialized,无法应用优惠券：购物车未初始化
+Cannot remove coupon: cart not initialized,无法移除优惠券：购物车未初始化
+Carrier,承运商
+Carrier is required,承运商为必填项
+Cart ID is required to checkout,结账需要购物车 ID
+Cart is not initialized,购物车未初始化
+Catalog,商品目录
+Categories,分类
+Category,分类
+Charcoal,炭灰色
+Checkout success,结账成功
+Choose Product SKU,选择商品 SKU
+Choose SKU,选择 SKU
+City is required,城市为必填项
+Clear All,全部清除
+Clear Filters,清除筛选
+Clear all,全部清除
+Clear categories,清除分类
+Close fullscreen view,关闭全屏视图
+Code,代码
+Collections,系列
+Comma-separated; renders the value as a dropdown.,以逗号分隔；将值渲染为下拉菜单。
+Completed,已完成
+Configurable,可配置
+Configure tax classes and tax rates,配置税类和税率
+Confirm,确认
+Contact for pricing,联系咨询价格
+Conveniently pay with cash at your doorstep when your order is delivered.,订单送达时，您可方便地在家门口以现金付款。
+Coupon applied successfully!,优惠券应用成功！
+Coupon code is required,优惠券代码为必填项
+Coupon does not match,优惠券不匹配
+Coupon removed successfully!,优惠券移除成功！
+Cream,奶油色
+Create,创建
+Create a new attribute,创建新属性
+Create a new group,创建新分组
+Create a new package,创建新包裹
+Create shipment,创建发货
+Created,已创建
+Custom URL,自定义 URL
+Custom field created,自定义字段已创建
+Custom field updated,自定义字段已更新
+Custom fields,自定义字段
+Custom fields (JSON),自定义字段 (JSON)
+Custom fields saved,自定义字段已保存
+Customer Information,客户信息
+Customer does not have any order yet.,该客户尚无任何订单。
+Customer notes,客户备注
+Daily,每日
+Date and time must be after ${min},日期和时间必须晚于 ${min}
+Date and time must be before ${max},日期和时间必须早于 ${max}
+Date must be after ${min},日期必须晚于 ${min}
+Date must be before ${max},日期必须早于 ${max}
+Delete ${count} coupons,删除 ${count} 张优惠券
+Delete ${count} products,删除 ${count} 个商品
+Delete address API not available,删除地址 API 不可用
+Delivered,已送达
+Description,描述
+Disable,禁用
+Disable ${count} coupons,禁用 ${count} 张优惠券
+Disable ${count} customers,禁用 ${count} 位客户
+Disable ${count} products,禁用 ${count} 个商品
+Disabled,已禁用
+Discount percent,折扣百分比
+Discount percent is required,折扣百分比为必填项
+Display on Frontend?,在前台显示？
+Displays the mobile sidebar.,显示移动端侧边栏。
+Done,完成
+Drag to reorder,拖动以重新排序
+Duplicate,复制
+Edit custom field,编辑自定义字段
+Edit field settings,编辑字段设置
+Edit package,编辑包裹
+Edit tracking info,编辑物流跟踪信息
+Editing ${name},正在编辑 ${name}
+Email a shipment confirmation,发送发货确认邮件
+Email a shipment confirmation with tracking details,发送包含物流跟踪详情的发货确认邮件
+Email is required,电子邮箱为必填项
+Enable,启用
+Enable ${count} coupons,启用 ${count} 张优惠券
+Enable ${count} customers,启用 ${count} 位客户
+Enable ${count} products,启用 ${count} 个商品
+Enabled,已启用
+Enter attribute code,输入属性代码
+Enter attribute name,输入属性名称
+Enter text,输入文本
+Enter value for ${attribute},输入 ${attribute} 的值
+Enter your email,输入您的电子邮箱
+Enter your new password,输入您的新密码
+Enter your password,输入您的密码
+Error,错误
+Failed to add address,添加地址失败
+Failed to add billing address,添加账单地址失败
+Failed to add billing address.,添加账单地址失败。
+Failed to add contact info,添加联系信息失败
+Failed to add contact info.,添加联系信息失败。
+Failed to add item to cart,添加商品到购物车失败
+Failed to add payment method,添加付款方式失败
+Failed to add payment method.,添加付款方式失败。
+Failed to add product to cart,添加商品到购物车失败
+Failed to add shipping address,添加收货地址失败
+Failed to add shipping address.,添加收货地址失败。
+Failed to add shipping method,添加配送方式失败
+Failed to add shipping method.,添加配送方式失败。
+Failed to apply coupon,应用优惠券失败
+Failed to cancel shipment,取消发货失败
+Failed to checkout,结账失败
+Failed to create field,创建字段失败
+Failed to create shipment,创建发货单失败
+Failed to delete address,删除地址失败
+Failed to load custom fields,加载自定义字段失败
+Failed to mark delivered,标记为已送达失败
+Failed to place order,下单失败
+Failed to place order. Please try again.,下单失败。请重试。
+Failed to remove coupon,移除优惠券失败
+Failed to remove coupon.,移除优惠券失败。
+Failed to save custom fields,保存自定义字段失败
+Failed to set shipping method,设置配送方式失败
+Failed to set shipping note,设置配送备注失败
+Failed to update address,更新地址失败
+Failed to update field,更新字段失败
+Failed to update shipment,更新发货单失败
+Failed to update tracking info,更新物流跟踪信息失败
+Failed to void label,作废运单标签失败
+Failed!,失败！
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,适用于此实体类型的字段。添加字段后将应用于该类型的所有实体。
+File size must be less than ${maxSize},文件大小必须小于 ${maxSize}
+Filter Products,筛选商品
+Filters,筛选条件
+First,首页
+Free,免费
+Free shipping,免运费
+Free shipping ?,免运费？
+Fulfill ${count} orders,履行 ${count} 个订单
+Full Name is required,全名为必填项
+Fully shipped,已全部发货
+General,常规
+Get qty,赠送数量
+Get qty is required,赠送数量为必填项
+Ghost,幽灵样式
+Go,前往
+Go to Login,前往登录
+Go to next page,前往下一页
+Go to previous page,前往上一页
+Hello,你好
+Hide from storefront,在店面中隐藏
+ID,ID
+In Stock,有货
+Inactive,未激活
+Inclusive of tax ${totalTaxAmount},含税 ${totalTaxAmount}
+Insert,插入
+Invalid address,地址无效
+Invalid cart,购物车无效
+Invalid cart id,购物车 ID 无效
+Invalid coupon,优惠券无效
+Invalid customer,客户无效
+Invalid customer id,客户 ID 无效
+Invalid email or password,电子邮箱或密码无效
+Invalid format,格式无效
+Invalid quantity,数量无效
+Is Filterable?,是否可筛选？
+Is Required?,是否必填？
+Item,商品
+Items,商品
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,此发货单中的商品将退回到订单的未发货池中。此操作无法撤销。
+Key,键
+Key is required,键为必填项
+Label,标签
+Label voided,运单标签已作废
+Language,语言
+Last,末页
+Lifetime Sales,累计销售额
+Light gray,浅灰色
+Limit,限制
+Link,链接
+Loading,加载中
+Log in,登录
+Logging in...,正在登录…
+Logging out...,正在退出…
+Login failed,登录失败
+Logout failed,退出失败
+Look like you just started. No bestsellers yet.,看起来您刚刚起步。暂无热销商品。
+"Lowercase letters, digits, underscore. Immutable.",小写字母、数字、下划线。不可更改。
+Manage the general information of the attribute.,管理属性的常规信息。
+Manage the setting of the attribute.,管理属性的设置。
+Mark as shipped,标记为已发货
+Mark delivered,标记为已送达
+Mark shipment as delivered?,将发货单标记为已送达？
+Max length,最大长度
+Max of Y,Y 的最大值
+Max of Y is required,Y 的最大值为必填项
+Max value,最大值
+Min length,最小长度
+Min value,最小值
+Minimum quantity,最小数量
+Mint,薄荷绿
+Monthly,每月
+More,更多
+More pages,更多页面
+Move down,下移
+Move up,上移
+Multiselect,多选
+Must be at least ${n},不得小于 ${n}
+Must be at least ${n} characters,不得少于 ${n} 个字符
+Must be at most ${n},不得大于 ${n}
+Must be at most ${n} characters,不得超过 ${n} 个字符
+"Must start with a letter; lowercase letters, digits, underscore only",必须以字母开头；仅限小写字母、数字和下划线
+Name is required,名称为必填项
+New Product,新建商品
+New Widget,新建小组件
+New folder,新建文件夹
+Next,下一步
+Next slide,下一张幻灯片
+No,否
+No address data received,未收到地址数据
+"No attribute groups found for query ""${query}""","未找到与查询 ""${query}"" 匹配的属性组"
+No carriers registered,未注册任何承运商
+"No categories found for ""${term}""","未找到与 ""${term}"" 匹配的分类"
+"No categories found for query ""${query}""","未找到与查询 ""${query}"" 匹配的分类"
+"No collections found for query ""${query}""","未找到与查询 ""${query}"" 匹配的集合"
+No coupon to remove,没有可移除的优惠券
+No custom fields yet.,暂无自定义字段。
+No data available,暂无数据
+No free shipping,无免运费
+No limit,无限制
+No maximum,无上限
+No minimum,无下限
+No notes from customer,客户未留备注
+"No options found for ""${code}""","未找到 ""${code}"" 的选项"
+"No products found for query ""${query}""","未找到与查询 ""${query}"" 匹配的商品"
+No shipments yet — your order is being prepared.,暂无发货 — 您的订单正在准备中。
+No shipping is required for this order,此订单无需配送
+No shipping methods available,暂无可用的配送方式
+No shipping options are available for your location,您所在的地区暂无可用的配送选项
+No shipping required,无需配送
+No widgets match your search.,没有与您的搜索匹配的小组件。
+None,无
+Not set,未设置
+Not visible to customers,对客户不可见
+Notify customer,通知客户
+Open in new tab,在新标签页中打开
+Operator,运算符
+Option text,选项文本
+Optional help text shown to admins.,显示给管理员的可选帮助文本。
+Order Placed,已下单
+Order detail,订单详情
+Order must contain products matching all conditions below,订单必须包含满足以下所有条件的商品
+Order not found,未找到订单
+Orders,订单
+Others,其他
+Out of Stock,缺货
+Outline,描边
+Overview of sales data over selected periods,所选时间段内销售数据概览
+Overview of total sales and order status over the lifetime of your store,商店全周期总销售额与订单状态概览
+Page,页面
+Page ${currentPage} of ${totalPages},第 ${currentPage} 页，共 ${totalPages} 页
+Page not found,页面未找到
+Password is required,密码为必填项
+Password must be at least ${minLength} characters long,密码长度不得少于 ${minLength} 个字符
+Paste a URL or a relative path starting with ,粘贴 URL 或以此开头的相对路径 
+Pattern (regex),模式（正则表达式）
+Pay with PayPal,使用 PayPal 付款
+Pay with Stripe,使用 Stripe 付款
+Payment Status,付款状态
+Placing Order...,正在下单...
+Please enter a coupon code,请输入优惠券代码
+Please enter a valid URL,请输入有效的 URL
+Please enter a valid email address,请输入有效的电子邮件地址
+Please enter your email to receive a reset link,请输入您的电子邮件以接收重置链接
+Please provide billing address to proceed,请提供账单地址以继续
+Please select a payment method,请选择付款方式
+Please select a shipping method,请选择配送方式
+Please sign in to your account,请登录您的账户
+Position,位置
+Previous,上一步
+Previous slide,上一张幻灯片
+Price: ${value},价格：${value}
+Primary,主要
+Print Label,打印标签
+Processing Payment...,正在处理付款...
+Product Description,商品描述
+Product is out of stock,商品已缺货
+Product name is required,商品名称为必填项
+Product not found,未找到商品
+Product type,商品类型
+Products,商品
+Reason for cancellation,取消原因
+Reason is required,原因为必填项
+Recently placed orders by this customer,该客户近期下单记录
+Redirecting to PayPal...,正在跳转至 PayPal...
+Reference type,引用类型
+Registration failed,注册失败
+Remove item,移除项目
+Remove sub-field,移除子字段
+Required,必填
+Requires at least one item to create a cart,创建购物车至少需要一件商品
+Reset Password,重置密码
+Reset Your Password,重置您的密码
+Reset password,重置密码
+Reset your password,重置您的密码
+Root,根目录
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU 必须唯一
+SKU: ${sku},SKU：${sku}
+Sale Statistics,销售统计
+Save custom fields,保存自定义字段
+Save field,保存字段
+Saved successfully!,保存成功！
+Search attribute groups,搜索属性组
+Search categories,搜索分类
+Search collections,搜索集合
+"Search for products, orders, and other resources",搜索商品、订单及其他资源
+Search products,搜索商品
+Search results for: ${keyword},${keyword} 的搜索结果
+Search widgets…,搜索小组件…
+Searching...,正在搜索...
+Search…,搜索…
+See all orders →,查看所有订单 →
+Select,选择
+Select a carrier,选择承运商
+Select at least one item to ship,请至少选择一件商品进行发货
+Select groups the attribute belongs to,选择该属性所属的分组
+Select shipping method,选择配送方式
+Select sort,选择排序
+"Select the items going in this shipment, then add the carrier & tracking.",选择本次发货包含的商品，然后添加承运商和物流单号。
+Setting,设置
+Settings,设置
+Shipment Status,发货状态
+Shipment canceled,发货已取消
+Shipment created,发货已创建
+Shipment marked delivered,发货已标记为已送达
+Shipments,发货
+Shipped,已发货
+Shipping (${method}),配送（${method}）
+Shipping Setting,配送设置
+Show,显示
+Show all ${count} options,显示全部 ${count} 个选项
+Show on storefront,在店铺前台显示
+Showing ${showing} of ${total},显示 ${showing} / ${total}
+Showing ${start}-${end} of ${total} results,显示第 ${start}-${end} 条，共 ${total} 条结果
+Sidebar,侧边栏
+Sign in to view your orders,登录以查看您的订单
+Simple,简单
+Sky,天蓝色
+Sold out,售罄
+Some error occurred. Please try again later.,发生错误。请稍后重试。
+Some products are not available,部分商品不可用
+Something went wrong! Please try again.,出错了！请重试。
+Something went wrong. Please try again later.,出错了。请稍后重试。
+Something wrong. Please try again,出现错误，请重试
+Sort Order,排序顺序
+Sort order,排序顺序
+Status,状态
+Stock,库存
+Stripe is not loaded. Please try again.,Stripe 未加载，请重试。
+Style,样式
+Sub-fields,子字段
+Submit Cancellation,提交取消
+Successfully logged in,登录成功
+Successfully logged out,退出成功
+Tax Setting,税务设置
+Test failure,测试失败
+Test failure:,测试失败：
+Test success,测试成功
+Test success:,测试成功：
+Text,文本
+Textarea,文本域
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,承运商将把该追踪单号标记为无效。如果您仍打算发货，则需要购买新的运单标签。
+The customer will receive a delivery confirmation email.,客户将收到一封送达确认邮件。
+There is no category,没有分类
+There is no file to display.,没有可显示的文件。
+There is no sub folder.,没有子文件夹。
+There was an error:,发生错误：
+This tracking link has expired,此追踪链接已过期
+This tracking link is no longer valid,此追踪链接已失效
+Thumbnail,缩略图
+Time must be after ${min},时间必须晚于 ${min}
+Time must be before ${max},时间必须早于 ${max}
+Toggle Sidebar,切换侧边栏
+Token is invalid or expired,令牌无效或已过期
+Too many items requested,请求的项目过多
+Track,追踪
+Track shipment →,追踪发货 →
+Track your order,追踪您的订单
+Tracking info updated,追踪信息已更新
+Tracking link,追踪链接
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,追踪链接的有效期有限。请登录您的账户以查看订单的当前状态。
+Tracking number,追踪单号
+Type,类型
+Type / to see the available blocks,输入 / 查看可用的区块
+UPDATE PASSWORD,更新密码
+Update address API not available,更新地址 API 不可用
+Update field,更新字段
+Upload,上传
+Validation,验证
+Value,值
+Value must be a whole number,值必须为整数
+Value must be at least ${min},值必须至少为 ${min}
+Value must be at most ${max},值最多为 ${max}
+View All Products,查看所有商品
+View JSON,查看 JSON
+View all customers,查看所有客户
+Visible to customer,对客户可见
+Void Label,作废运单标签
+Void label,作废运单标签
+Void this shipping label?,作废此运单标签？
+"We could not find this order. It may have been removed, or it may belong to a different account.",我们找不到此订单。它可能已被删除，或属于其他账户。
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.",我们无法验证此链接。如果您是通过我们的邮件收到的，请使用最新一封邮件重试，或登录您的账户。
+We have sent you an email with a link to reset your password. Please check your inbox.,我们已向您发送了一封包含重置密码链接的邮件。请检查您的收件箱。
+Weekly,每周
+Welcome to our store!,欢迎光临本店！
+"Where you ship, shipping methods and delivery fee",配送地区、配送方式和配送费用
+White,白色
+Yes,是
+You are already logged in,您已登录
+You are here:,您当前位置：
+You have no attribute groups to display,没有可显示的属性组
+You have no categories to display,没有可显示的分类
+You have no collections to display,没有可显示的系列
+You have no products to display,没有可显示的商品
+You have not placed any orders yet.,您还没有下过任何订单。
+You paid for,您已支付
+You will be redirected to PayPal for payment processing.,您将被重定向至 PayPal 进行付款处理。
+Your Orders,您的订单
+Your order #${number} has been delivered,您的订单 #${number} 已送达
+Your order #${number} is on the way,您的订单 #${number} 正在配送中
+Your order has been confirmed!,您的订单已确认！
+Your password has been updated successfully.,您的密码已成功更新。
+across,跨
+available to ship,可发货
+breadcrumb,面包屑导航
+e.g. Care instructions,例如：保养说明
+"e.g. New, Sale, Limited",例如：新品、促销、限量
+e.g. Question,例如：问题
+e.g. care_instructions,例如：care_instructions
+e.g. question,例如：question
+item,件
+items,件
+left to ship,待发货
+of,／
+of ${count},／共 ${count}
+unit,单位
+units,单位
+${count} changes published.,已发布 ${count} 项更改。
+${count} child widgets,${count} 个子小部件
+${count} countries,${count} 个国家/地区
+${count} on ${route},${count} 个，位于 ${route}
+${count} ops total,共 ${count} 项操作
+${count} pending ops,${count} 项待处理操作
+${count} pending ops on,${count} 项待处理操作，位于
+${count} routes,${count} 个路由
+${direction} failed,${direction} 失败
+${method} — ${zone} rate,${method} — ${zone} 费率
+${method} — new rate,${method} — 新费率
+${name} attached to ${zone},${name} 已附加到 ${zone}
+${name} configuration for ${zone},${zone} 的 ${name} 配置
+${name} configuration for this zone,此区域的 ${name} 配置
+${name} configuration saved for ${zone},已保存 ${zone} 的 ${name} 配置
+${name} detached,${name} 已分离
+${name} is required,${name} 为必填项
+${title} settings,${title} 设置
+${total} changes will go live immediately.,${total} 项更改将立即生效。
+${total} items,${total} 项
+(envelope),（信封）
++ Add Line,+ 添加行
++ Add Method,+ 添加方式
++ Add Rate,+ 添加费率
++ Add placement,+ 添加投放位置
++ Attach Provider,+ 附加服务商
++ New package,+ 新建包裹
++${count} more,+${count} 更多
+", +${count} more",，+${count} 更多
+", last updated",，最后更新于
+0 for flat envelopes,扁平信封填 0
+1 change published.,已发布 1 项更改。
+1 change will go live immediately.,1 项更改将立即生效。
+1 child widget,1 个子小部件
+1 op total,共 1 项操作
+1 pending op,1 项待处理操作
+1 pending op on,1 项待处理操作，位于
+A package is required for shippable products,可配送商品需要指定包裹
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,发布计划会将您当前的编辑保存为快照，并在预定的时间窗口内自动应用。
+Action,操作
+Actions,操作
+Add,添加
+Add Products,添加商品
+Add Rate,添加费率
+Add Shipping Method,添加配送方式
+Add Tax Rate,添加税率
+Add Variant,添加变体
+Add products to this category by selecting them from the list below.,从下方列表中选择商品，将其添加到此分类。
+Add rate,添加费率
+Added,已添加
+Adding to Column ${number},添加到第 ${number} 列
+Additional languages,其他语言
+Admin panel language,管理后台语言
+Affects ${count} pages,影响 ${count} 个页面
+Affects 1 page,影响 1 个页面
+All pages,所有页面
+All registered providers are already attached to this zone.,所有已注册的提供商都已附加到此区域。
+All routes,所有路由
+Also shown on ${routes},同时显示在 ${routes}
+Also shown on ${routes} +${count},同时显示在 ${routes} +${count}
+Amount must be greater than or equal to 0,金额必须大于或等于 0
+Amount must be less than or equal to ${value} ${currency},金额必须小于或等于 ${value} ${currency}
+Apply a condition?,应用条件？
+Area,区域
+Area is required,区域为必填项
+At least one country is required,至少需要一个国家/地区
+Attach,附加
+Attach Provider to ${zone},将提供商附加到 ${zone}
+Attached Providers,已附加的提供商
+Attribute Name,属性名称
+Attribute code is required,属性代码为必填项
+Attribute created successfully!,属性创建成功！
+Attribute group,属性组
+Attribute name is required,属性名称为必填项
+Authorize only,仅授权
+Auto-saves while you edit,编辑时自动保存
+Back To Dashboard,返回仪表板
+Base calculation address,基础计算地址
+Based on cart subtotal,基于购物车小计
+Based on cart weight,基于购物车重量
+Basic configuration,基础配置
+Boolean,布尔值
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,具有按区域费率的内置配送方式。请先在 设置 → 配送 中将 Core 附加到某个区域；然后在此处添加方式并按区域配置其费率。
+Buy X get Y,买 X 送 Y
+CMS,CMS
+Calculation type,计算类型
+Can not change the attribute group of a product that is already in a variant group.,无法更改已在变体组中的产品的属性组。
+Cancel rollout,取消发布
+Cancel rollout plan?,取消发布计划？
+Canvas device width,画布设备宽度
+Capture,捕获
+Capture Payment,捕获付款
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,用于履约的承运商提示 — 永远不会在结账时显示。NewShipmentDialog 使用它来预选承运商。
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,购买运单时使用的承运商特定服务代码 (CreateLabelInput.serviceCode)。自由格式 — 请在承运商的 API 文档中核实确切的令牌。留空可让承运商选择其默认服务。
+Cash On Delivery Payment,货到付款
+"Catalog, Search",目录、搜索
+Category Image,分类图片
+Category Name,分类名称
+Category created successfully!,分类创建成功！
+Category name is required,分类名称为必填项
+Choose Attribute Groups,选择属性组
+Choose Categories,选择分类
+Choose Collections,选择系列
+Choose SKUs,选择 SKU
+Choose how much of your unpublished work to discard. The published storefront is not affected.,选择要丢弃多少未发布的工作内容。已发布的店面不受影响。
+Choose where you ship and how much you charge for shipping.,选择您的配送地点以及配送收费金额。
+Clear filter,清除筛选
+Clear filters,清除筛选
+Client ID,客户端 ID
+Client Secret,客户端密钥
+Close,关闭
+Close settings,关闭设置
+Close — continue draft,关闭 — 继续草稿
+Cms Pages,CMS 页面
+Collapse left rail,折叠左侧栏
+Collapse panel,折叠面板
+Collection Code,系列代码
+Collection Name,系列名称
+Collection code is required,系列代码为必填项
+Collection code must be alphanumeric and can include underscores or dashes.,系列代码必须为字母数字，可包含下划线或连字符。
+Collection created successfully!,系列创建成功！
+Color,颜色
+Commerce,商务
+Compound,复合
+Condition,条件
+Configure,配置
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,按区域配置费用和条件。没有费率的区域不提供此方式。
+Configure rate,配置费率
+Configure the available payment methods,配置可用的付款方式
+Configure the settings for the ${name} widget.,配置 ${name} 小部件的设置。
+Configure the tax classes that will be available to your customers at checkout.,配置结账时可供客户使用的税务类别。
+Configure your Cash On Delivery payment gateway settings,配置您的货到付款支付网关设置
+Configure your Paypal payment gateway settings,配置您的 Paypal 支付网关设置
+Configure your Stripe payment gateway settings,配置您的 Stripe 支付网关设置
+Configure your store information,配置您的商店信息
+"Conflicts with ${plan1}, ${plan2}",与 ${plan1}、${plan2} 冲突
+Conflicts with ${plan},与 ${plan} 冲突
+Conflicts with ${plan} +${count},与 ${plan} +${count} 冲突
+Conflicts with:,冲突项：
+Content,内容
+Continue a saved rollout plan,继续已保存的发布计划
+Continue your draft,继续您的草稿
+Core Shipping,Core 配送
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core 尚未附加到任何区域。请先在 设置 → 配送 中附加它。
+Cost,费用
+Cost is required,费用为必填项
+Could not start fresh,无法重新开始
+Countries,国家/地区
+"Country code (e.g., ""US""). Use ""*"" for all countries.","国家/地区代码（例如 ""US""）。使用 ""*"" 表示所有国家/地区。"
+Coupon Code,优惠券代码
+"Coupon code can only contain letters, numbers, underscores, and hyphens",优惠券代码只能包含字母、数字、下划线和连字符
+Coupon created successfully!,优惠券创建成功！
+Coupons,优惠券
+Create A New Customer,创建新客户
+Create New Package,创建新包裹
+Create New Tax Class,创建新税务类别
+Create New Zone,创建新区域
+Create a new category,创建新分类
+Create a new collection,创建新系列
+Create a new coupon,创建新优惠券
+Create a new page,创建新页面
+Create a new product,创建新产品
+Create a new variant for this product.,为此产品创建新变体。
+Create a new widget,创建新小部件
+Create a variant group,创建变体组
+Create method,创建方式
+Create new tax class,创建新税务类别
+Create rollout plan,创建发布计划
+Created At,创建时间
+Current,当前
+Customer,客户
+Customer Email,客户邮箱
+Customer conditions,客户条件
+Customer emails,客户邮箱
+Customer groups,客户组
+Customer's purchase,客户的购买
+Customers,客户
+Customers (${count}),客户 (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,${zone} 中的客户在结账时将不再看到 ${name} 的方式。您可以稍后重新附加它。
+Dashboard,仪表板
+Date,日期
+Decrease,减少
+Default carrier,默认承运商
+Default language,默认语言
+Default package,默认包裹
+Default service code,默认服务代码
+"Delete ""${name}""?","删除 ""${name}""？"
+Delete ${count} attributes,删除 ${count} 个属性
+Delete ${count} categories,删除 ${count} 个分类
+Delete ${count} collections,删除 ${count} 个系列
+Delete ${count} pages,删除 ${count} 个页面
+Delete ${count} widgets,删除 ${count} 个小部件
+Delete container widget?,删除容器小部件？
+Delete image,删除图片
+"Delete package ""${name}""?","删除包裹 ""${name}""？"
+Delete this,删除此项
+Delete this widget? This will be saved as a pending change you can publish or discard.,删除此小部件？此操作将保存为待处理更改，您可以发布或丢弃它。
+Delete widget?,删除小部件？
+Delete zone,删除区域
+"Delete zone ""${name}""?","删除区域 ""${name}""？"
+Deleted ${name},已删除 ${name}
+Deleting this,删除此项
+Deleting this container will also hide,删除此容器还将隐藏
+Description is required,描述为必填项
+Desktop,桌面
+Detach,分离
+Detach ${name}?,分离 ${name}？
+Disable ${count} pages,禁用 ${count} 个页面
+Disable ${count} widgets,禁用 ${count} 个小组件
+Disabled products will not be visible in the store and cannot be purchased.,已禁用的商品将不会在商店中显示，且无法购买。
+Discard changes on this page only,仅放弃此页面的更改
+Discard everything,放弃全部
+Discard everything in this draft,放弃此草稿中的全部内容
+Discard failed,放弃失败
+Discard pending changes?,放弃待处理的更改？
+Discard this page,放弃此页面
+Discarding…,正在放弃…
+Discount Type,折扣类型
+Discount amount,折扣金额
+Discount amount is required,折扣金额为必填项
+Discount type is required,折扣类型为必填项
+Dislay Name,显示名称
+Display Name,显示名称
+Draft,草稿
+Draft — not scheduled,草稿 — 未排定
+Drag to resize,拖动以调整大小
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.",每一行将此小组件放置在一个页面的一个区域中，并具有各自的排序顺序。数值越小越靠前显示。
+Edit ${name},编辑 ${name}
+Edit Shipping Zone,编辑配送区域
+Edit Tax Rate,编辑税率
+Edit Variant,编辑变体
+Edit Zone,编辑区域
+Edit against the live storefront. Publish immediately or save as a rollout plan.,针对线上商店进行编辑。立即发布或保存为发布计划。
+Edit rollout schedule,编辑发布排程
+Editable routes,可编辑路由
+Editing ${coupon},正在编辑 ${coupon}
+Editing ${fullName},正在编辑 ${fullName}
+Editing widget ${name},正在编辑小组件 ${name}
+Edits to a shared widget update every route it appears on.,对共享小组件的编辑会更新它所在的每个路由。
+Empty package weight,空包裹重量
+Empty weight,空重
+Enable ${count} pages,启用 ${count} 个页面
+Enable ${count} widgets,启用 ${count} 个小组件
+Enable this page to make it visible on the frontend.,启用此页面以使其在前端可见。
+Enable?,启用？
+End,结束
+End Date,结束日期
+End date,结束日期
+End time is invalid.,结束时间无效。
+End time must be after start time.,结束时间必须晚于开始时间。
+Enter Category Name,输入分类名称
+Enter Collection Name,输入系列名称
+Enter Meta Description,输入 Meta 描述
+Enter Meta Title,输入 Meta 标题
+Enter Meta description,输入 Meta 描述
+Enter Meta title,输入 Meta 标题
+Enter SKU,输入 SKU
+Enter URL Key,输入 URL 键
+Enter URL key,输入 URL 键
+Enter customer emails,输入客户邮箱
+Enter description,输入描述
+Enter group name,输入组名称
+Enter meta description,输入 Meta 描述
+Enter meta title,输入 Meta 标题
+Enter page name,输入页面名称
+Enter price,输入价格
+Enter product name,输入商品名称
+Enter purchased amount,输入购买金额
+Enter quantity,输入数量
+Enter tax class name,输入税类名称
+Enter the quantity,输入数量
+Enter weight,输入重量
+Environment,环境
+Error loading countries,加载国家/地区时出错
+Error loading methods,加载方式时出错
+Error loading packages,加载包裹时出错
+Error loading providers,加载服务商时出错
+Error loading zones,加载区域时出错
+EverShop · Back to page builder,EverShop · 返回页面构建器
+Every page rolls back to the rollout’s saved state.,每个页面都回滚到发布计划已保存的状态。
+Every page rolls back to what the rollout had saved.,每个页面都回滚到发布计划已保存的内容。
+Existing rollout plan: ${plan},现有发布计划：${plan}
+Expand,展开
+Expand left rail,展开左侧栏
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.",购物者可在默认语言之外切换到的额外语言。默认语言始终可用 — 无需在此添加。
+Failed to attach provider,附加服务商失败
+Failed to delete ${name},删除 ${name} 失败
+Failed to detach ${name},分离 ${name} 失败
+Failed to remove rate,移除税率失败
+Failed to remove zone,移除区域失败
+Failed to save change,保存更改失败
+Failed to save rate,保存税率失败
+Failed to save zone,保存区域失败
+Failed to update rollout schedule,更新发布排程失败
+Fixed discount to entire order,对整个订单的固定折扣
+Fixed discount to specific products,对特定商品的固定折扣
+Flat rate,统一费率
+"Flat rate in cart currency, tax-exclusive.",以购物车货币计的统一费率，不含税。
+Free shipping?,免运费？
+General Information,基本信息
+Give Feedback,提供反馈
+Global,全局
+Globals,全局项
+Group,组
+Group Name,组名称
+Group name is required,组名称为必填项
+Groups,组
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,半开区间 — 恰好等于 Max 的购物车被排除（该点归下一档的 Min 所有）。
+Has conflicts,存在冲突
+Heads up — ,请注意 — 
+Height,高度
+Height is required (0 for envelopes),高度为必填项（信封填 0）
+Height must be 0 or greater,高度必须为 0 或更大
+Hide global areas,隐藏全局区域
+Higest tax rate based on cart items,基于购物车商品的最高税率
+Highlight global areas on canvas,在画布上高亮全局区域
+Image,图片
+Include In Menu,包含在菜单中
+Include in Store Menu?,包含在商店菜单中？
+Increase,增加
+Insert image,插入图片
+Integer,整数
+Invalid folder name,无效的文件夹名称
+Invalid start,无效的开始时间
+Invalid window,无效的时间窗口
+Inventory,库存
+Is compound,是否复合税
+Its rates will be removed too. This cannot be undone.,其税率也将一并被移除。此操作无法撤销。
+Languages,语言
+Layers,图层
+Layout,布局
+Leave,离开
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,将某个国家/地区的列表留空以覆盖整个国家/地区。添加省份可将配送限制在特定区域。
+Leaving now may drop the most recent edits that haven’t reached the server yet.,现在离开可能会丢失尚未到达服务器的最新编辑。
+Length,长度
+Length is required,长度为必填项
+Length must be greater than 0,长度必须大于 0
+Live,线上
+Loading...,加载中...
+Long text,长文本
+Lower values appear first.,数值越小越靠前显示。
+Manage Stock,管理库存
+Manage general information about the collection.,管理系列的基本信息。
+Manage product images and gallery. Drag and drop to reorder images.,管理商品图片和图库。拖放以重新排序图片。
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)",管理配送集成及其方式（Core、USPS、FedEx、…）
+Manage tax classes and tax rates for different regions.,管理不同区域的税类和税率。
+Manage the SEO settings of the category.,管理分类的 SEO 设置。
+Manage the SEO settings.,管理 SEO 设置。
+Manage the attributes.,管理属性。
+Manage the collections associated with this product.,管理与此商品关联的系列。
+Manage the general information of the category.,管理分类的基本信息。
+Manage the general information of the product.,管理商品的基本信息。
+Manage the inventory settings of the product.,管理商品的库存设置。
+Manage the products assigned to this category.,管理分配给此分类的商品。
+Manage the products assigned to this collection.,管理分配给此系列的商品。
+Manage the shipping settings of the product.,管理商品的配送设置。
+Manage the status settings of the category.,管理分类的状态设置。
+Manage the variant group of the product.,管理产品的变体组。
+Marketing,营销
+Max ${unit},最大 ${unit}
+Max is required,最大值为必填项
+Maximum,最大值
+Maximum amount is ${value} ${currency},最大金额为 ${value} ${currency}
+Maximum quantity is required,最大数量为必填项
+Maximum quantity must be greater than or equal to 0,最大数量必须大于或等于 0
+Media,媒体
+Meta Description,Meta 描述
+Meta Title,Meta 标题
+Meta Title is required,Meta 标题为必填项
+Meta description,Meta 描述
+Meta description is required,Meta 描述为必填项
+Meta title,Meta 标题
+Meta title is required,Meta 标题为必填项
+Method,方式
+Method created,方式已创建
+Method name,方式名称
+Method name is required,方式名称为必填项
+Method updated,方式已更新
+Methods →,方式 →
+Min ${unit},最小 ${unit}
+Min Price,最低价格
+Min Weight,最小重量
+Min is required,最小值为必填项
+Min price is required,最低价格为必填项
+Min weight is required,最小重量为必填项
+Minimum purchase amount,最低购买金额
+Minimum purchase qty,最低购买数量
+Minimum purchase quantity,最低购买数量
+Minimum purchased amount. This only applies to registered customers.,最低购买金额。此项仅适用于已注册的客户。
+Minimum quantity is required,最低数量为必填项
+Missing name,缺少名称
+Money,金额
+Name is required.,名称为必填项。
+Navigation,导航
+New Attribute,新建属性
+New Category,新建分类
+New Collection,新建合集
+New Coupon,新建优惠券
+New Page,新建页面
+New Variant,新建变体
+New coupon,新建优惠券
+New rate,新建费率
+No collections,暂无合集
+No editable routes.,没有可编辑的路由。
+No file selected,未选择文件
+No methods yet — add one to start offering Core shipping.,暂无方式 — 添加一个以开始提供 Core 配送。
+No packages yet. Create one — shippable products require a package.,暂无包裹。创建一个 — 可配送产品需要包裹。
+No product to display.,没有可显示的产品。
+"No providers attached. Click ""Attach Provider"" to add one.","未附加任何提供商。点击""附加提供商""以添加。"
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","暂无费率 — 点击""添加费率""以在区域中提供此方式。"
+"No results for ""${keyword}""","没有关于""${keyword}""的结果"
+No routes have opted into page-builder editing yet.,尚无路由启用页面构建器编辑。
+No shipping required?,无需配送？
+No subdivisions available — whole country is covered.,无可用的行政区划 — 已覆盖整个国家。
+No widgets available.,没有可用的小部件。
+"No widgets match ""${query}"".","没有与""${query}""匹配的小部件。"
+No widgets on this route yet.,此路由上尚无小部件。
+No zones,暂无区域
+No zones found,未找到区域
+Not visible individually,不单独显示
+Nothing to publish,没有可发布的内容
+Nothing to redo on this page,此页面没有可重做的内容
+Nothing to undo on this page,此页面没有可撤销的内容
+Number,数字
+Option text is required,选项文本为必填项
+Optional. Added to the shipping weight for quotes and labels.,可选。计入配送重量，用于报价和标签。
+Order Number,订单编号
+Order conditions,订单条件
+Orders (${count}),订单 (${count})
+Other,其他
+Other pages keep their pending changes.,其他页面保留其待处理的更改。
+Overlaps with existing rollout: ${plans}.,与现有发布计划重叠：${plans}。
+Overlaps with existing rollouts: ${plans}.,与现有发布计划重叠：${plans}。
+Package,包裹
+Package created,包裹已创建
+Package deleted,包裹已删除
+Package saved,包裹已保存
+Packages,包裹
+Page Name,页面名称
+Page Not Found,页面未找到
+Page builder,页面构建器
+Page builder canvas,页面构建器画布
+Page created successfully!,页面创建成功！
+Page is required,页面为必填项
+Page name is required,页面名称为必填项
+Pages,页面
+Parent category,父级分类
+Payment Setting,支付设置
+Payment mode,支付模式
+Payment setting saved,支付设置已保存
+Paypal Payment,PayPal 支付
+Pending start time,待定开始时间
+Percentage discount to entire order,对整个订单的百分比折扣
+Percentage discount to specific products,对特定产品的百分比折扣
+Phone,电话
+Pick a start time to schedule this rollout.,选择开始时间以安排此发布计划。
+Pick a widget below to insert as a child.,在下方选择一个小部件作为子项插入。
+Pick up where you left off — ${count} pending changes,从上次中断处继续 — ${count} 项待处理更改
+Pick up where you left off — 1 pending change,从上次中断处继续 — 1 项待处理更改
+Pin drawer open,固定抽屉为打开状态
+Pin — keep drawer open across canvas clicks,固定 — 点击画布时保持抽屉打开
+Placed on: ${routes},放置于：${routes}
+Placements,放置位置
+Postal Code,邮政编码
+"Postcode (e.g., ""90210""). Empty for all postcodes.","邮编（例如 ""90210""）。留空表示所有邮编。"
+Preselected for new products. Exactly one package is the default.,为新产品预选。仅有一个包裹为默认项。
+Preview,预览
+Price-based tiers,基于价格的层级
+Priority,优先级
+Priority is required,优先级为必填项
+Product Name,产品名称
+Product Status,产品状态
+Product created successfully,产品创建成功
+Product updated successfully,产品更新成功
+Products (${count}),产品 (${count})
+Promotion,促销
+Proportional allocation based on cart items,基于购物车商品的按比例分配
+Provide the SEO details for the CMS page.,为 CMS 页面提供 SEO 详细信息。
+Provide the basic information for the CMS page.,为 CMS 页面提供基本信息。
+Provider,提供商
+Province Restrictions,省份限制
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.","省份代码（例如 ""CA""）。使用 ""*"" 表示所有省份。"
+Provinces,省份
+Provinces is required,省份为必填项
+Provinces:,省份：
+Publish failed,发布失败
+Publish now,立即发布
+Publish to the live storefront,发布到线上店面
+Publishable Key,可发布密钥
+Publishing…,正在发布…
+Qty is required,数量为必填项
+Quick links,快捷链接
+Rate,费率
+Rate added,费率已添加
+Rate is required,费率为必填项
+Rate removed,费率已移除
+Rate status,费率状态
+Rate updated,费率已更新
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,重做 (⇧⌘Z) — 重新应用此页面上次撤销的编辑
+Redo last undone change on this page,重做此页面上次撤销的更改
+Reference,参考
+Refund,退款
+Refund amount,退款金额
+Remove Zone,移除区域
+Remove placement,移除放置位置
+Remove rate,移除费率
+Remove this rate?,删除此费率？
+Removed,已删除
+Resize settings drawer,调整设置抽屉大小
+"Results for ""${keyword}""",“${keyword}”的搜索结果
+Revert all pages to saved state,将所有页面还原为已保存状态
+Revert everything,全部还原
+Revert this page,还原此页面
+Revert this page only,仅还原此页面
+Revert to saved state?,还原为已保存状态？
+Reverting…,正在还原…
+Rich text,富文本
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,回滚自上次保存此发布以来所做的更改。线上店面不受影响——它已反映已保存的状态。
+SEO,SEO
+SEO Information,SEO 信息
+SKU is required,SKU 为必填项
+Sale,促销
+Sandbox,沙盒
+Save Settings,保存设置
+Save as rollout plan,保存为发布计划
+Save as rollout plan and leave,保存为发布计划并离开
+Save changes,保存更改
+Save failed,保存失败
+Save method,保存方式
+Save rate,保存费率
+Saving…,正在保存…
+Schedule failed,排程失败
+Scheduled,已排程
+Search engine optimize,搜索引擎优化
+Search widgets,搜索小部件
+Secret Key,私钥
+Select Category,选择分类
+Select Parent Category,选择父级分类
+Select Products by SKU,按 SKU 选择产品
+Select a provider first,请先选择服务商
+Select a provider…,选择服务商…
+Select an option,选择一个选项
+Select category,选择分类
+Select countries,选择国家/地区
+Select operator,选择运算符
+Select options,选择选项
+Select page,选择页面
+Select products to add to this collection.,选择要添加到此系列的产品。
+Select the list of attribute,选择属性列表
+Select this option if the product is a digital product or service that does not require shipping.,如果该产品是无需配送的数字产品或服务，请选择此选项。
+Set a start time to schedule.,设置开始时间以进行排程。
+Set the status and visibility of the product.,设置产品的状态和可见性。
+Share,分享
+Shipping Cost,运费
+Shipping Providers,配送服务商
+Shipping address,配送地址
+Shipping cost is required,运费为必填项
+Shipping provider setting saved,配送服务商设置已保存
+Shipping tax class,运费税类
+Short text,短文本
+Show global areas,显示全局区域
+Show on routes,在指定路由上显示
+Show products?,显示产品？
+Show this widget on every page,在每个页面上显示此小部件
+Size (L × W × H),尺寸（长 × 宽 × 高）
+Sort,排序
+Sort order is required,排序顺序为必填项
+Sort order must be a positive number,排序顺序必须为正数
+Start,开始
+Start a page-builder session,开始页面构建会话
+Start date,开始日期
+Start new changeset,开始新的变更集
+Start time is invalid.,开始时间无效。
+State Date,开始日期
+Status is required,状态为必填项
+Stay,留在此页
+Stay on this page,留在此页面
+Stock Availability,库存可用情况
+Stop highlighting global areas,停止高亮全局区域
+Store Address,店铺地址
+Store Description,店铺描述
+Store Email,店铺邮箱
+Store Name,店铺名称
+Store Phone Number,店铺电话号码
+Store Setting,店铺设置
+Store Settings,店铺设置
+Store address,店铺地址
+Storefront,店面
+Stripe Payment,Stripe 支付
+Tablet,平板
+Take our survey,参与我们的调查
+Target Products,目标产品
+Tax Class,税类
+Tax calculation configuration,税费计算配置
+Tax class name,税类名称
+Tax class name is required,税类名称为必填项
+Tax classes,税类
+Tax rate has been saved successfully!,税率已成功保存！
+Tax setting has been saved successfully!,税费设置已成功保存！
+The box or envelope this product ships in. Applies to all variants of this product.,此产品配送时使用的箱子或信封。适用于该产品的所有变体。
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,您用于配送的箱子和信封。每个可配送产品都会引用其中一个——其尺寸和空重决定运费报价和标签。
+The conditions related to the customer for the coupon to be applied.,应用优惠券所需的与客户相关的条件。
+The conditions related to the order for the coupon to be applied.,应用优惠券所需的与订单相关的条件。
+The default package cannot be deleted,默认包装无法删除
+The draft holds ${count} saved changes you can publish later.,草稿中保存了 ${count} 项更改，您可以稍后发布。
+The draft holds 1 saved change you can publish later.,草稿中保存了 1 项更改，您可以稍后发布。
+The draft is deleted.,草稿已删除。
+The draft itself is deleted.,草稿本身已删除。
+The general information about the coupon.,有关优惠券的基本信息。
+"The language of the admin panel, independent of the storefront.",管理面板的语言，与店面无关。
+The method will no longer apply to this zone.,该方式将不再适用于此区域。
+The minimum quantity of items required in the order to qualify for this coupon.,订单中符合此优惠券条件所需的最小商品数量。
+The minimum total amount required for the order to qualify for this coupon.,订单符合此优惠券条件所需的最低总金额。
+The rollout plan,发布计划
+The storefront's primary language. Pages in this language have no URL prefix.,店面的主要语言。使用此语言的页面没有 URL 前缀。
+The type of discount applied by the coupon.,优惠券所应用的折扣类型。
+The zone this rate applies to.,此费率适用的区域。
+"There is no ""Select"" attribute available.",没有可用的“Select”属性。
+There is no attribute to display,没有可显示的属性
+There is no category to display,没有可显示的分类
+There is no collections to display,没有可显示的系列
+There is no coupon to display,没有可显示的优惠券
+There is no customer to display,没有可显示的客户
+There is no order to display,没有可显示的订单
+There is no page to display,没有可显示的页面
+There is no widget to display,没有可显示的小部件
+There was an error fetching attribute groups.,获取属性组时出错。
+There was an error fetching categories.,获取分类时出错。
+There was an error fetching collections.,获取系列时出错。
+There was an error fetching file browser APIs.,获取文件浏览器 API 时出错。
+There was an error fetching products.,获取产品时出错。
+This cannot be undone. Packages still assigned to products can't be removed.,此操作无法撤销。仍分配给产品的包装无法删除。
+This changeset has no operations yet.,此变更集尚无任何操作。
+This field is required,此字段为必填项
+This is the URL path for the CMS page.,这是 CMS 页面的 URL 路径。
+This is the address used to calculate tax rates.,这是用于计算税率的地址。
+This is the meta title for the CMS page.,这是 CMS 页面的 Meta 标题。
+This is the name of the CMS page that will be displayed in the admin panel.,这是将在管理面板中显示的 CMS 页面名称。
+This is the tax class applied to shipping costs.,这是适用于运费的税类。
+This product has some variants like color or size?,此产品是否有颜色或尺寸等变体？
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,此服务商没有按区域的配置。方式和按区域费率在该服务商自己的管理区域中管理。
+This removes the zone along with its provider attachments and rates. This cannot be undone.,这将删除该区域及其服务商关联和费率。此操作无法撤销。
+This route has unpublished changes in your draft,此路由在您的草稿中有未发布的更改
+This will be saved as a pending change you can publish or discard.,这将保存为待处理更改，您可以发布或放弃。
+Tiered,分级
+Type is required,类型为必填项
+URL Key,URL 键
+URL Key is required,URL 键为必填项
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens",URL 键必须为小写，且只能包含字母、数字和连字符
+URL key,URL 键
+URL key is required,URL 键为必填项
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,URL 键必须为小写，且只能包含字母数字字符和连字符
+Unassign,取消分配
+Undo (⌘Z) — undoes your last edit on this page,撤销 (⌘Z) — 撤销您在此页面上的上一次编辑
+Undo / Redo,撤销 / 重做
+Undo last change on this page,撤销此页面上的上一次更改
+Unknown,未知
+Unlink,取消链接
+Unpin drawer,取消固定抽屉
+Unpin — drawer will close when you click empty canvas,取消固定 — 点击空白画布时抽屉将关闭
+Unpublished changes,未发布的更改
+Unsaved changes,未保存的更改
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,更新此发布计划的名称和生效时间窗口。内容编辑在编辑器中单独管理。
+Update the variant details and attributes here.,在此更新变体详情和属性。
+Updated,已更新
+Upload an image for the category.,为该分类上传图片。
+Used Times,使用次数
+Value is required,值为必填项
+Variant Group,变体组
+Variant created successfully,变体创建成功
+Variant updated successfully,变体更新成功
+Version ${version},版本 ${version}
+Visibility,可见性
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,可见性决定商品在商店中显示的位置，不影响商品的可售性。
+Visitors will see the new layout on their next page load.,访客将在下次加载页面时看到新布局。
+Webhook Secret Key,Webhook 密钥
+Weight,重量
+Weight must be 0 or greater,重量必须大于或等于 0
+Weight must be a positive number,重量必须为正数
+Weight-based tiers,基于重量的档位
+Widget Settings,组件设置
+Widget created successfully!,组件创建成功！
+Widgets,组件
+Width,宽度
+Width is required,宽度为必填项
+Width must be greater than 0,宽度必须大于 0
+Will roll out automatically: ${range},将自动发布：${range}
+Working…,处理中…
+Worldwide,全球
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,您在此草稿中有 ${count} 项更改尚未发布。
+You have ${count} changes still saving.,您有 ${count} 项更改仍在保存中。
+You have 1 change in this draft that hasn’t been published yet.,您在此草稿中有 1 项更改尚未发布。
+You have 1 change still saving.,您有 1 项更改仍在保存中。
+Your draft is safe on the server — you can come back and publish it any time.,您的草稿已安全保存在服务器上 — 您可以随时回来发布。
+Your edits on other pages stay in the draft.,您在其他页面上的编辑将保留在草稿中。
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,您的 webhook 网址应为：https://yourdomain.com/api/stripe/webhook
+Zone,区域
+Zone Name,区域名称
+Zone Rates,区域费率
+Zone created,区域已创建
+Zone is required,区域为必填项
+Zone name is required,区域名称为必填项
+Zone removed,区域已移除
+Zone updated,区域已更新
+Zones served,服务区域
+and ${count} more,以及另外 ${count} 项
+container will also hide,容器也将被隐藏
+current page,当前页面
+e.g. Small Box,例如：小盒子
+e.g. Summer Sale 2026,例如：2026 夏季促销
+e.g. content,例如：content
+"e.g., 10.00",例如：10.00
+"e.g., EU, US-West",例如：EU、US-West
+"e.g., Express",例如：快递
+"e.g., FEDEX_GROUND, usps_priority",例如：FEDEX_GROUND、usps_priority
+every page,每个页面
+indefinite,无限期
+open,打开
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.",发布将立即生效，且无法从此界面撤销。如需暂存，请取消并选择“安排发布”。
+quantity of products are matched bellow conditions(All),符合以下所有条件的商品数量
+subtotal,小计
+to a storefront route's,到店面路由的
+to make it appear here.,以使其显示在此处。
+weight,重量
+widget? This will be saved as a pending change you can publish or discard.,组件？这将保存为一项待处理的更改，您可以发布或放弃。
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,将被移除，实时店面将停止应用其编辑。底层变更集及其待处理的内容编辑将被保留。
+— None —,— 无 —
+Cash On Delivery,货到付款
+Please select a valid payment method,请选择有效的付款方式
+Show ${label} width,显示 ${label} 宽度
+Column ${index},列 ${index}
+Switch page,切换页面
+Search pages…,搜索页面…
+Search pages,搜索页面
+Save your pending edits — the live storefront will catch up,保存您的待处理编辑 — 实时店面将随之更新
+No changes to save — the rollout matches the editor,没有需要保存的更改 — 发布内容与编辑器一致
+More rollout actions,更多发布操作
+Revert to saved state…,还原到已保存状态…
+Roll back the editor to what the rollout currently shows on the storefront,将编辑器回滚到发布内容当前在店面上显示的状态
+Nothing to revert — the editor matches the saved state,无需还原 — 编辑器与已保存状态一致
+Cancel rollout plan…,取消发布计划…
+Remove the schedule — the changeset is preserved,移除计划安排 — 变更集将被保留
+Publish,发布
+More publish options,更多发布选项
+Apply all edits to the live storefront immediately,立即将所有编辑应用到实时店面
+Save as rollout plan…,另存为发布计划…
+Schedule these edits to roll out at a future time,安排这些编辑在未来某个时间发布
+Discard pending changes…,放弃待处理的更改…
+Choose between discarding the whole draft or just this page,选择放弃整个草稿或仅放弃此页面
+Switch session,切换会话
+New changeset,新建变更集
+Rollout: ${name},发布：${name}
+Click or drag to add,点击或拖动以添加
+Background color,背景颜色
+Text color,文字颜色
+Dwell time,停留时间
+Time each announcement stays visible (in addition to the 400ms slide transition).,每条公告保持可见的时间（在 400ms 滑动过渡之外）。
+Announcements,公告
+Add announcement,添加公告
+Untitled,无标题
+Free shipping on orders over $50,订单满 $50 免运费
+Optional. Makes the entire row a clickable link.,可选。使整行成为可点击的链接。
+Link label,链接标签
+Optional. Displayed after the content; defaults to the content itself.,可选。显示在内容之后；默认为内容本身。
+Shop now,立即购买
+Dark,深色
+Light,浅色
+Gradient,渐变
+Left,左对齐
+Center,居中
+Right,右对齐
+Selected image,已选图片
+No image selected,未选择图片
+Replace,替换
+Clear,清除
+Reflects the alignment below.,反映下方的对齐方式。
+Banner Image,横幅图片
+Mobile image,移动端图片
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,可选。在 768px 断点以下时替换显示。为空时回退到上方图片 — 常用于同一场景的竖向裁剪图。
+Alignment,对齐方式
+Overlay copy,叠加文案
+Eyebrow,眉标
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".",标题上方的小号全大写标签。例如“LIMITED EDITION”。
+LIMITED EDITION,限量版
+Heading,标题
+The Summer Edit,夏季精选
+Sub-text,副文本
+One short supporting sentence.,一句简短的辅助说明。
+Overlay placement,叠加位置
+Content position,内容位置
+Where the overlay text sits on the image.,叠加文字在图片上的位置。
+Tint,色调蒙层
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,叠加文字后方的遮罩层，以提高可读性。深色 / 渐变会自动将文字变为白色。
+Tint opacity,蒙层不透明度
+Call to actions,行动号召
+Remove primary CTA,移除主 CTA
++ Add a primary CTA,+ 添加主 CTA
+Secondary,次要
+Remove secondary CTA,移除次 CTA
+Learn more,了解更多
++ Add a secondary CTA,+ 添加次 CTA
+Details,详情
+Alt text,替代文本
+Describes the banner for screen readers and SEO.,为屏幕阅读器和 SEO 描述横幅。
+"e.g. ""Summer sale promotional banner""","例如""夏季促销横幅"""
+Banner link,横幅链接
+Optional. Clicking the banner navigates here.,可选。点击横幅将跳转至此。
+Display name,显示名称
+Shop,商店
+Target,目标
+"Page, category, product, or a custom URL.",页面、分类、商品或自定义 URL。
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO：不向此链接传递排名权重（rel=nofollow）。
+No referrer,无来源页
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,隐私：丢弃来源页 URL（rel=noreferrer）。新标签页链接始终包含此项。
+Menu items,菜单项
+Add menu item,添加菜单项
+Sub-items,子菜单项
+Optional dropdown links (1 level).,可选的下拉链接（1 级）。
+Add sub-item,添加子菜单项
+Options,选项
+Use as main menu,用作主菜单
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.",主导航——在移动端会收起为汉堡菜单。关闭后可作为简单链接列表（如页脚），在移动端保持内联显示。
+Custom CSS classes,自定义 CSS 类
+Applied to the rendered menu element.,应用于渲染后的菜单元素。
+e.g. main-nav font-semibold,例如 main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,图块
+Add tile,添加图块
+Hero · ,主视觉 · 
+Used when no image is set.,未设置图片时使用。
+Small label above the heading.,标题上方的小标签。
+THE SUMMER EDIT,夏季精选
+New Arrivals,新品上架
+Body,正文
+Big card — the headline of the grid.,大卡片——网格的标题。
+Link URL,链接 URL
+Gap,间距
+Minimum block height,最小区块高度
+Image left,图片居左
+Image right,图片居右
+Centered,居中
+Pull quote,引文
+Variant,样式变体
+Image column size,图片列宽
+Describe the image,描述图片
+Copy,文案
+"Small all-caps label. E.g. ""OUR STORY"".","小号全大写标签。例如""OUR STORY""。"
+Our story,我们的故事
+"Made by hand, in small batches",手工制作，小批量生产
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.",引文变体必填。以大号显示，样式为引用块。
+"A short, quotable line.",一句简短、可引用的话。
+Three or four sentences of brand narrative.,三到四句品牌叙述。
+Second body paragraph (optional),第二段正文（可选）
+A second short paragraph if the story needs it.,如有需要，可添加第二段简短文字。
+Read more link,阅读更多链接
+Read more,阅读更多
+URL,URL
+Remove read-more link,移除阅读更多链接
++ Add a read-more link,+ 添加阅读更多链接
+Square,正方形
+Landscape,横向
+Portrait,纵向
+Overlay,叠加
+Below,下方
+New category,新分类
+Section heading,区块标题
+Optional. Shown above the grid.,可选。显示在网格上方。
+Shop by category,按分类购物
+Women,女士
+Columns,列数
+Auto,自动
+Asymmetric makes the first tile span 2 columns.,非对称布局会让第一个图块横跨 2 列。
+Uniform,均匀
+Asymmetric,非对称
+Image aspect,图片比例
+Label position,标签位置
+Blush,浅粉
+XL,XL
+Position ${c},位置 ${c}
+Column layout,列布局
+Drag widgets into each column. Children re-flow when you change the ratio.,将小组件拖入各列。更改比例时子元素会自动重排。
+Space between columns.,列之间的间距。
+Where content sits within each column. Applied uniformly to every column.,内容在每列中的位置。统一应用于所有列。
+Row appearance,行外观
+Background,背景
+Custom color,自定义颜色
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","任意 CSS 颜色（例如""#0a0a0a""或""rgb(10,10,10)""）。留空则使用上方的色块。"
+Padding,内边距
+Outer spacing around the row. Scales down on mobile.,行周围的外部间距。在移动端会缩小。
+Solid,实线
+Dashed,虚线
+Already expired,已过期
+Expires in ${days}d ${hours}h,${days}天 ${hours}小时后过期
+Expires in ${hours}h ${minutes}m,${hours}小时 ${minutes}分钟后过期
+Offer,优惠
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","紧迫提示语。可选。例如""限量 · 周日截止""。"
+Limited · Ends Sunday,限量 · 周日截止
+Headline,标题
+Take 20% off your order,订单立减 20%
+Optional. One short instructional line.,可选。一句简短的说明文字。
+Use code at checkout,结账时使用优惠码
+Promo code,优惠码
+Displayed in uppercase to shoppers.,向顾客以大写形式显示。
+Expires,过期时间
+Optional. The block auto-hides after this time for live visitors.,可选。到此时间后，该区块对在线访客自动隐藏。
+Call to action,行动号召
+Button label,按钮文字
+Shop now →,立即购买 →
+Button link,按钮链接
+Appearance,外观
+Border,边框
+Narrow,窄
+Normal,正常
+Wide,宽
+Shown above all content. Optional.,显示在所有内容上方。可选。
+e.g. Frequently asked,例如 常见问题
+Prose,文本
+FAQ group · ${count} items,FAQ 分组 · ${count} 项
+Group heading,分组标题
+Optional sub-heading.,可选的副标题。
+e.g. Shipping,例如 配送
+Add question,添加问题
+Question,问题
+e.g. How long does shipping take?,例如 配送需要多长时间？
+Answer,答案
+"Supports **bold**, _italic_, and line breaks.",支持 **粗体**、_斜体_ 和换行。
+e.g. Orders ship within 24 hours…,例如 订单在 24 小时内发货…
+Add prose,添加文本
+Add FAQ group,添加 FAQ 分组
+Max width,最大宽度
+Content column width.,内容列宽度。
+Allow multiple open,允许同时展开多项
+"When off, opening one FAQ item closes the others in the same group.",关闭后，展开一个 FAQ 项会收起同组的其他项。
+New link,新链接
+New column,新列
+Add column,添加列
+${title} · ${count} links,${title} · ${count} 个链接
+Column title,列标题
+Links,链接
+"Min 1, max 12.",最少 1 个，最多 12 个。
+Add link,添加链接
+New arrivals,新品上架
+Boxed,盒式
+Wide (full bleed),宽幅（满屏）
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,盒式保持在页面容器内（最大宽度由主题决定）。宽幅则铺满整个屏幕。
+Scales down on mobile.,在移动端会缩小。
+Optional. Painted behind content. Combine with a tint below for legibility.,可选。绘制在内容后方。可与下方的色调搭配以提高可读性。
+XS,XS
+Spacing,间距
+Size,尺寸
+Mobile scales down ~⅔ automatically.,移动端会自动缩小约 ⅔。
+Divider line,分隔线
+Show divider line,显示分隔线
+A horizontal rule centred in the spacing band.,在间距区域中居中的水平分隔线。
+Line color,线条颜色
+Default uses the theme's divider color.,默认使用主题的分隔线颜色。
+Sides,两侧
+Bottom,底部
+Dots,圆点
+Bars,线条
+Mobile image (optional),移动端图片（可选）
+Used at ≤ 767 px. Falls back to the main image.,在 ≤ 767 px 时使用。否则回退到主图片。
+e.g. New collection,例如：新系列
+e.g. Summer Sale,例如：夏季促销
+Sub text,副文本
+Check out our latest products with special discounts.,查看我们享有特别折扣的最新产品。
+Primary button,主按钮
+Secondary button,次按钮
++ Add secondary button,+ 添加次按钮
+Overrides,覆盖设置
+Leaves slide-specific anchor; falls back to the slideshow's default.,保留幻灯片专属锚点；否则回退到幻灯片的默认设置。
+Overlay tint,叠加色调
+Overlay opacity,叠加不透明度
+Make whole slide clickable,使整张幻灯片可点击
+Behavior,行为
+Transition,过渡效果
+Slide,滑动
+Fade,淡入淡出
+Transition speed,过渡速度
+Autoplay,自动播放
+Autoplay delay,自动播放延迟
+${seconds} s between slides,幻灯片间隔 ${seconds} 秒
+Pause on hover,悬停时暂停
+Pause for 20 s after user nav,用户操作后暂停 20 秒
+Arrows,箭头
+Aspect ratio,宽高比
+`Auto` matches the natural image height (jumps between slides).,`Auto` 匹配图片的自然高度（幻灯片之间会跳动）。
+Default content position,默认内容位置
+Per-slide overrides win.,以单张幻灯片的覆盖设置为准。
+Default overlay tint,默认叠加色调
+Default overlay opacity,默认叠加不透明度
+Slides (${count}),幻灯片（${count}）
+No slides yet.,暂无幻灯片。
+Add your first slide,添加您的第一张幻灯片
+Slide ${number},幻灯片 ${number}
+Image only,仅图片
+Empty,空白
+Show slide,显示幻灯片
+Hide slide,隐藏幻灯片
+Move slide up,上移幻灯片
+Move slide down,下移幻灯片
+Delete slide,删除幻灯片
+Top,顶部
+Cover,填充
+Contain,包含
+Required for accessibility.,无障碍访问所需。
+Image fit,图片适配
+"Small all-caps label. E.g. ""LIMITED EDITION"".","小号全大写标签。例如 ""LIMITED EDITION""。"
+Limited edition,限量版
+One strong line,一句有力的标语
+Two lines of supporting copy.,两行辅助文案。
+Image position,图片位置
+Vertical alignment,垂直对齐
+Aligns the copy panel content.,对齐文案面板的内容。
+Remove call to action,移除行动号召
+Add a call to action,添加行动号召
+Custom CSS classes for the text block,文本块的自定义 CSS 类
+Add group,添加分组
+${label} · ${count} subs,${label} · ${count} 个子项
+Parent label,父级标签
+Parent link,父级链接
+Image alt text,图片替代文本
+Sub-categories,子分类
+"Min 1, max 8.",最少 1 个，最多 8 个。
+Add sub-category,添加子分类
+Dresses,连衣裙
+Columns (desktop),列数（桌面端）
+On tablets the layout is always 2 columns.,在平板上布局始终为 2 列。
+Make parent image a link,使父级图片成为链接
+"When off, only the sub-chips and parent label are interactive.",关闭时，仅子项标签和父级标签可交互。
+Title,标题
+e.g. Free shipping,例如：免运费
+Optional supporting line below the title.,标题下方的可选辅助文字。
+Icon,图标
+Optional. SVG or raster image. Hidden when icons are turned off globally.,可选。SVG 或位图图片。全局关闭图标时隐藏。
+Optional. Makes the whole cell clickable.,可选。使整个单元格可点击。
+"Auto matches the item count, capped at 4.",自动匹配项目数量，最多 4 个。
+3,3
+4,4
+Icon size,图标大小
+Show icons,显示图标
+Master switch. Items without an icon URL are unaffected.,总开关。没有图标 URL 的项目不受影响。
+Show divider,显示分隔线
+Vertical line between cells.,单元格之间的竖线。
+Collection,系列
+Search collections…,搜索系列…
+No collections match “${value}”.,没有匹配 “${value}” 的系列。
+You have no collections yet.,您还没有任何系列。
+Please select a collection,请选择一个系列
+"Defaults to ""${name}"" (the collection's name).","默认为 ""${name}""（系列名称）。"
+Defaults to the picked collection's name.,默认为所选系列的名称。
+Collection name,系列名称
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,默认为系列的描述。设置此项会将富文本描述替换为纯文本。
+e.g. Hand-picked styles for the season.,例如：本季精选款式。
+View all link,查看全部链接
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.",可选。为空时隐藏。选择一个分类、产品、页面，或粘贴自定义 URL。
+"Optional. Defaults to ""View all →"".","可选。默认为 ""查看全部 →""。"
+View all →,查看全部 →
+Total products,产品总数
+Number of products to display.,要显示的产品数量。
+Products per row,每行产品数
+Grid columns (1–6 typical).,网格列数（通常为 1–6）。
+Count is required,数量为必填项
+e.g. 8,例如：8
+Count per row is required,每行数量为必填项
+e.g. 4,例如：4
+Cover image,封面图片
+COLLECTION,系列
+"Defaults to ""${pickedName}"".","默认为 ""${pickedName}""。"
+Defaults to the picked collection name.,默认为所选系列的名称。
+Optional. One or two sentences of editorial copy.,可选。一两句编辑文案。
+"Linen, cotton, easy stuff.",亚麻、棉质、轻松随性。
+Preview product count,预览产品数量
+2 (1×2),2（1×2）
+4 (2×2),4（2×2）
+Please pick a collection,请选择一个系列
+Add collection,添加系列
+Row heading,行标题
+The Linen Edit,亚麻精选
+Optional. Hidden when empty.,可选。为空时隐藏。
+View all label,查看全部标签
+Show price,显示价格
+Show divider between rows,显示行间分隔线
+Selected:,已选择：
+Image override,图片覆盖
+Override image,覆盖图片
+Override image (optional),覆盖图片（可选）
+Leave empty to use the product's primary image.,留空则使用产品的主图片。
+Small label above the product name. Optional.,产品名称上方的小标签。可选。
+FEATURED,精选
+Editorial copy,编辑文案
+Overrides the product's own description in this context. Leave blank to hide.,在此处覆盖产品自身的描述。留空则隐藏。
+Two lines of copy explaining why this product is being spotlighted right now.,两行文案说明此产品当前被重点推荐的原因。
+Please pick a product,请选择一个产品
+e.g. On orders over $50,例如：订单满 $50
+Text block,文本块
+Menu,菜单
+Footer menu,页脚菜单
+Banner,横幅
+Simple Slideshow,简易幻灯片
+Brand story,品牌故事
+Category mosaic,分类拼图
+Tiered categories,分级分类
+Bento grid,便当网格
+Separator,分隔符
+Section,区块
+Split feature,分栏特色
+Announcement bar,公告栏
+Coupon block,优惠券模块
+FAQ block,FAQ 模块
+Trust strip,信任条
+Collection products,系列商品
+Collection stack,系列堆叠
+Collection spotlight,系列聚焦
+Product hero,商品主图横幅
+Layout container with 1–4 columns for nesting widgets.,可容纳 1–4 列的布局容器，用于嵌套小组件。
+Add rich text content,添加富文本内容
+Navigation links,导航链接
+Multi-column list of footer links — a titled column of navigation links per group.,页脚链接的多列列表——每组为一列带标题的导航链接。
+A single hero image with optional overlay copy and CTAs.,单张主图横幅，可叠加文案和 CTA。
+Rotating image carousel,轮播图
+Editorial block combining an image and long-form brand narrative. Four layout variants.,结合图片与长篇品牌叙述的内容模块。提供四种布局变体。
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.",由 3–6 个分类磁贴组成的网格，作为主要的“按分类选购”入口。
+A two-level nav block: parent category image plus a row of sub-category chips.,两级导航模块：父分类图片加上一行子分类标签。
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,由 CTA 磁贴组成的非对称拼图——一个大主图加 1–4 个辅助磁贴。
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.",小组件之间的垂直间距，可选添加分隔线。移动端自动缩小。
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,包裹其他小组件的样式化可放置区域。可在宽幅（通栏）与盒装（主题容器）之间切换。
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,图文各占一半的促销模块，可选添加 CTA。经典的促销时刻小组件。
+A thin top-of-page bar with one or more rotating announcements.,页面顶部的细窄横条，可轮播显示一条或多条公告。
+A promo panel with a copyable discount code and CTA.,带可复制折扣码和 CTA 的促销面板。
+Flexible content block mixing prose sections and accordion FAQ groups.,灵活的内容模块，混合排版段落与折叠式 FAQ 分组。
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.",一行价值主张项目（免运费、轻松退货等），用于主图下方或页脚上方进行强化。
+A list of products from a collection,来自某个系列的商品列表
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.",堆叠排列的系列行，每行包含标题、查看全部链接以及一排商品。
+"A featured collection with cover image, editorial copy, and a small product preview grid.",精选系列，包含封面图、内容文案以及小型商品预览网格。
+"A single-product spotlight — image, name, price, and a link to the full product page.",单商品聚焦——图片、名称、价格以及指向完整商品页面的链接。

@@ -20,10 +20,10 @@ export default function CategoryView({ category }: CategoryViewProps) {
     <CategoryProvider category={category}>
       <Area id="categoryPageTop" className="category__page__top" />
       <CategoryInfo />
-      <div className="page-width grid grid-cols-1 md:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-[240px_1fr]">
         <Area
           id="categoryLeftColumn"
-          className="md:col-span-1"
+          className="category__left-column"
           coreComponents={[
             {
               component: { default: <CategoryProductsFilter /> },
@@ -34,7 +34,7 @@ export default function CategoryView({ category }: CategoryViewProps) {
         />
         <Area
           id="categoryRightColumn"
-          className="md:col-span-3"
+          className="category__right-column min-w-0"
           coreComponents={[
             {
               component: {
@@ -77,6 +77,12 @@ export const query = `
       showProducts
       name
       uuid
+      metafields {
+        namespace
+        key
+        type
+        value
+      }
       description
       image {
         alt

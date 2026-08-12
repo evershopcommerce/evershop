@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface CustomerProps {
@@ -44,7 +45,7 @@ interface CustomerProps {
         code: string;
         name: string;
       };
-    };
+    } | null; // zero-total orders don't collect a billing address
   };
 }
 
@@ -61,7 +62,7 @@ export default function Customer({
   return (
     <Card className="">
       <CardHeader>
-        <CardTitle>Customer Information</CardTitle>
+        <CardTitle>{_('Customer Information')}</CardTitle>
       </CardHeader>
       <CardContent>
         {customerUrl && (
@@ -72,10 +73,14 @@ export default function Customer({
             {customerFullName}
           </a>
         )}
-        {!customerUrl && <span>{customerEmail} (Guest Checkout)</span>}
+        {!customerUrl && (
+          <span>
+            {customerEmail} {_('(Guest Checkout)')}
+          </span>
+        )}
       </CardContent>
       <CardContent className="border-t border-border pt-3">
-        <CardTitle className="mb-2">Contact Information</CardTitle>
+        <CardTitle className="mb-2">{_('Contact Information')}</CardTitle>
         <div>
           <a href="#" className="text-interactive hover:underline">
             {customerEmail}
@@ -88,17 +93,23 @@ export default function Customer({
         )}
       </CardContent>
       <CardContent className="border-t border-border pt-3">
-        <CardTitle className="mb-2">Shipping Address</CardTitle>
+        <CardTitle className="mb-2">{_('Shipping Address')}</CardTitle>
         {!noShippingRequired && <AddressSummary address={shippingAddress} />}
         {noShippingRequired && (
           <span className="text-muted-foreground">
-            {'No shipping required'}
+            {_('No shipping required')}
           </span>
         )}
       </CardContent>
       <CardContent className="border-t border-border pt-3">
-        <CardTitle className="mb-2">Billing address</CardTitle>
-        <AddressSummary address={billingAddress} />
+        <CardTitle className="mb-2">{_('Billing address')}</CardTitle>
+        {billingAddress ? (
+          <AddressSummary address={billingAddress} />
+        ) : (
+          <span className="text-muted-foreground">
+            {_('Not collected (zero-total order)')}
+          </span>
+        )}
       </CardContent>
     </Card>
   );

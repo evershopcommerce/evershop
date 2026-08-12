@@ -1,0 +1,6 @@
+{
+  "methods": ["GET"],
+  "path": "/blogCategory/:uuid",
+  "name": "Blog category page",
+  "editable": true
+}

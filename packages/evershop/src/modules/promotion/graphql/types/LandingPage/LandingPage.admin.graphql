@@ -1,0 +1,39 @@
+"""
+Represents a promotion landing page. Admin-only — the storefront never queries a
+landing page (its body is rendered from page-builder widgets), so this type lives
+in a `.admin.graphql` file and is invisible to the storefront schema.
+"""
+type LandingPage {
+  landingPageId: Int
+  uuid: String!
+  status: Boolean!
+  name: String!
+  urlKey: String!
+  description: String
+  metaTitle: String
+  metaDescription: String
+  publishStart: DateTime
+  publishEnd: DateTime
+  urn: String!
+  url: String!
+  editUrl: String!
+  updateApi: String!
+  deleteApi: String!
+  duplicateApi: String!
+  pageBuilderUrl: String!
+}
+
+"""
+Returns a paginated collection of landing pages.
+"""
+type LandingPageCollection {
+  items: [LandingPage]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  landingPage(id: Int): LandingPage
+  landingPages(filters: [FilterInput]): LandingPageCollection
+}

@@ -1,0 +1,99 @@
+A short description shown on the category page,显示在分类页面上的简短描述
+A short summary shown in listings,显示在列表中的简短摘要
+Add a meta description to control the text shown here.,添加元描述以控制此处显示的文本。
+All,全部
+All categories,所有分类
+Applies to posts in this category.,适用于此分类中的文章。
+Approve,批准
+Approved,已批准
+Author,作者
+Blog,博客
+Blog Categories,博客分类
+Blog Comments,博客评论
+Blog Posts,博客文章
+Blog Tags,博客标签
+By,作者
+Cancel reply,取消回复
+"Category, author, tags and thumbnail.",分类、作者、标签和缩略图。
+Closed — no new comments,已关闭——不接受新评论
+Columns (1-4),列数 (1-4)
+Comment,评论
+Comment Policy,评论政策
+Comments,评论
+Configure URL key and meta information for this blog category.,配置此博客分类的 URL 键和元信息。
+Copied!,已复制！
+Copy link,复制链接
+Create a new post,创建新文章
+Create a new tag,创建新标签
+Delete ${count} comments,删除 ${count} 条评论
+Delete ${count} posts,删除 ${count} 篇文章
+Delete ${count} tags,删除 ${count} 个标签
+Disable ${count} categories,停用 ${count} 个分类
+Email (not published),电子邮件（不公开）
+Enable ${count} categories,启用 ${count} 个分类
+Enter category name,输入分类名称
+Enter post title,输入文章标题
+Enter tag name,输入标签名称
+Excerpt,摘要
+Featured posts,精选文章
+Leave a comment,发表评论
+Leave blank to auto-generate,留空以自动生成
+Mark spam,标记为垃圾信息
+Max posts,最多文章数
+Moderated — hold for review,已审核——保留以待审查
+Name and status for this blog category.,此博客分类的名称和状态。
+New post,新文章
+New tag,新标签
+No comments yet. Be the first!,还没有评论。来抢沙发！
+No posts in this category yet.,此分类中还没有文章。
+No posts match,没有匹配的文章
+No posts published yet.,还没有发布任何文章。
+No posts with this tag yet.,还没有带此标签的文章。
+No posts yet,还没有文章
+Open page in a new tab,在新标签页中打开页面
+Open — auto-approve,开放——自动批准
+Organize,整理
+Pending,待处理
+Post Title,文章标题
+Post comment,发表评论
+Post created successfully!,文章创建成功！
+Post title is required,文章标题为必填项
+Posts,文章
+Publish ${count} posts,发布 ${count} 篇文章
+Published,已发布
+Published posts are visible on the storefront.,已发布的文章会显示在店面上。
+React,互动
+Related posts,相关文章
+Reply,回复
+Reply to ${name},回复 ${name}
+Search Engine Optimization,搜索引擎优化
+Search posts to feature,搜索要精选的文章
+Search result preview,搜索结果预览
+Select a category,选择分类
+Select an author,选择作者
+Select tags,选择标签
+Short Description,简短描述
+Something went wrong. Please try again.,出了点问题。请重试。
+Spam,垃圾信息
+Submitting…,提交中…
+Tag,标签
+Tag Name,标签名称
+Tag created successfully!,标签创建成功！
+Tag name is required,标签名称为必填项
+Tags,标签
+Thanks! Your comment is awaiting moderation.,谢谢！您的评论正在等待审核。
+The URL path segment under /blog/.,/blog/ 下的 URL 路径段。
+The URL path segment under /blog/category/.,/blog/category/ 下的 URL 路径段。
+The URL path segment under /blog/tag/.,/blog/tag/ 下的 URL 路径段。
+"The post title, status and content.",文章的标题、状态和内容。
+The tag name.,标签名称。
+There is no comment to display,没有可显示的评论
+There is no post to display,没有可显示的文章
+There is no tag to display,没有可显示的标签
+URL key is auto-generated from the name if left blank.,如果留空，URL 键将根据名称自动生成。
+URL key is auto-generated from the title if left blank.,如果留空，URL 键将根据标题自动生成。
+Unpublish,取消发布
+Unpublish ${count} posts,取消发布 ${count} 篇文章
+Untitled page,无标题页面
+Your comment,您的评论
+min read,分钟阅读

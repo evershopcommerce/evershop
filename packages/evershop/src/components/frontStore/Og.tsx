@@ -41,6 +41,11 @@ export interface OgProps {
   authors?: string[];
 
   /**
+   * For article type, tag names
+   */
+  tags?: string[];
+
+  /**
    * Locale code for the content (e.g., 'en_US')
    */
   locale?: string;
@@ -75,6 +80,7 @@ export function Og({
   siteName,
   publishedTime,
   authors,
+  tags,
   locale,
   alternateLocales,
   twitterCard = 'summary',
@@ -98,8 +104,8 @@ export function Og({
       )}
 
       {type === 'article' &&
-        authors?.length &&
-        authors.map((author, index) => (
+        (authors?.length ?? 0) > 0 &&
+        authors?.map((author, index) => (
           <Meta
             key={`author-${index}`}
             property="article:author"
@@ -107,10 +113,16 @@ export function Og({
           />
         ))}
 
+      {type === 'article' &&
+        (tags?.length ?? 0) > 0 &&
+        tags?.map((tag, index) => (
+          <Meta key={`tag-${index}`} property="article:tag" content={tag} />
+        ))}
+
       {locale && <Meta property="og:locale" content={locale} />}
 
-      {alternateLocales?.length &&
-        alternateLocales.map((alternateLocale, index) => (
+      {(alternateLocales?.length ?? 0) > 0 &&
+        alternateLocales?.map((alternateLocale, index) => (
           <Meta
             key={`locale-${index}`}
             property="og:locale:alternate"

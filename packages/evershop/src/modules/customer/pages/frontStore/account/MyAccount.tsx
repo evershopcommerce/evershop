@@ -1,5 +1,7 @@
 import Area from '@components/common/Area.js';
+import { AccountHeader } from '@components/frontStore/customer/AccountHeader.js';
 import AccountInfo from '@components/frontStore/customer/AccountInfo.js';
+import { AccountNav } from '@components/frontStore/customer/AccountNav.js';
 import { MyAddresses } from '@components/frontStore/customer/MyAddresses.js';
 import OrderHistory from '@components/frontStore/customer/OrderHistory.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
@@ -7,19 +9,31 @@ import React from 'react';
 
 export default function MyAccount() {
   return (
-    <div>
-      <h1 className="text-center">{_('My Account')}</h1>
-      <div className="page-width mt-7 grid grid-cols-1 md:grid-cols-3 gap-7">
-        <div className="col-span-1 md:col-span-2">
-          <OrderHistory title={_('Recent Orders')} />
-        </div>
-        <div className="col-span-1">
-          <AccountInfo title={_('Account Information')} showLogout />
-        </div>
-      </div>
-      <div className="page-width mt-7">
-        <MyAddresses title={_('Address Book')} />
-        <Area id="accountPageAddressBook" noOuter />
+    <div className="account mx-auto max-w-2xl py-10">
+      <AccountHeader />
+      <AccountNav active="dashboard" />
+      <div className="mt-2 divide-y divide-border">
+        <section className="account-recent-orders py-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="h5">{_('Recent orders')}</h2>
+            <a
+              href="/account/orders"
+              className="text-sm text-muted-foreground hover:text-foreground hover:underline"
+            >
+              {_('View all')}
+            </a>
+          </div>
+          <OrderHistory />
+        </section>
+        <section className="account-info-section py-6">
+          <h2 className="mb-4 h5">{_('Account information')}</h2>
+          <AccountInfo />
+        </section>
+        <section className="account-address-section py-6">
+          <h2 className="mb-4 h5">{_('Address book')}</h2>
+          <MyAddresses />
+          <Area id="accountPageAddressBook" noOuter />
+        </section>
       </div>
     </div>
   );

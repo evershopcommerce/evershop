@@ -5,6 +5,9 @@
 <p align="center">
   <h1 align="center">EverShop</h1>
 </p>
+<p align="center">
+  <a href="https://trendshift.io/repositories/212" target="_blank"><img src="https://trendshift.io/api/badge/repositories/212" alt="evershopcommerce%2Fevershop | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+</p>
 <h4 align="center">
     <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a> |
     <a href="https://demo.evershop.io/">Demo</a>

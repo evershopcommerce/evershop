@@ -22,6 +22,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -44,18 +45,20 @@ function Actions({ categories = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Delete',
+      name: _('Delete'),
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} categories`,
-          content: <div>Can&apos;t be undone</div>,
+          heading: _('Delete ${count} categories', {
+            count: selectedIds.length
+          }),
+          content: <div>{_("Can't be undone")}</div>,
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Delete',
+            title: _('Delete'),
             onAction: async () => {
               await deleteCategories();
             },
@@ -120,7 +123,7 @@ export default function CategoryGrid({
         <Form submitBtn={false} id="categoryGridFilter">
           <InputField
             name="name"
-            placeholder="Search"
+            placeholder={_('Search')}
             defaultValue={currentFilters.find((f) => f.key === 'name')?.value}
             onKeyPress={(e) => {
               // If the user press enter, we should submit the form
@@ -149,7 +152,7 @@ export default function CategoryGrid({
               window.location.href = url.href;
             }}
           >
-            Clear filters
+            {_('Clear filters')}
           </Button>
         </CardAction>
       </CardHeader>
@@ -179,7 +182,7 @@ export default function CategoryGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Category Name"
+                          title={_('Category Name')}
                           name="name"
                           currentFilters={currentFilters}
                         />
@@ -192,24 +195,12 @@ export default function CategoryGrid({
                       default: () => (
                         <SortableHeader
                           name="status"
-                          title="Status"
+                          title={_('Status')}
                           currentFilters={currentFilters}
                         />
                       )
                     },
                     sortOrder: 25
-                  },
-                  {
-                    component: {
-                      default: () => (
-                        <SortableHeader
-                          name="include_in_nav"
-                          title="Include In Menu"
-                          currentFilters={currentFilters}
-                        />
-                      )
-                    },
-                    sortOrder: 30
                   }
                 ]}
               />
@@ -259,14 +250,6 @@ export default function CategoryGrid({
                         )
                       },
                       sortOrder: 25
-                    },
-                    {
-                      component: {
-                        default: () => (
-                          <TableCell>{c.includeInNav ? 'Yes' : 'No'}</TableCell>
-                        )
-                      },
-                      sortOrder: 30
                     }
                   ]}
                 />
@@ -276,7 +259,7 @@ export default function CategoryGrid({
         </Table>
         {categories.length === 0 && (
           <div className="flex w-full justify-center mt-2">
-            There is no category to display
+            {_('There is no category to display')}
           </div>
         )}
         <GridPagination total={total} limit={limit} page={page} />
@@ -293,7 +276,6 @@ CategoryGrid.propTypes = {
         uuid: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         status: PropTypes.number.isRequired,
-        includeInNav: PropTypes.number.isRequired,
         editUrl: PropTypes.string.isRequired,
         deleteApi: PropTypes.string.isRequired,
         path: PropTypes.arrayOf(
@@ -327,7 +309,6 @@ export const query = `
         uuid
         name
         status
-        includeInNav
         editUrl
         deleteApi
         path {

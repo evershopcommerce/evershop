@@ -1,0 +1,101 @@
+# Admin-only recommendation surface (specifications/05 § 8.2): the config
+# fields seed the § 10 edit cards, the diagnostics explain what the shopper
+# sees and why. Everything here stays in .admin files — one leaked reference
+# from a non-admin file breaks the storefront schema build.
+
+type RelatedProductsRuleConfig {
+  type: String!
+  enabled: Boolean!
+  attributeCodes: [String!]
+  scope: String
+}
+
+type RelatedPriceBandConfig {
+  enabled: Boolean!
+  percent: Float
+}
+
+type RelatedProductsRules {
+  enabled: Boolean!
+  rules: [RelatedProductsRuleConfig!]!
+  priceBand: RelatedPriceBandConfig
+  fallbackToBestsellers: Boolean
+}
+
+type CrossSellCandidate {
+  product: Product
+  coPurchaseCount: Int!
+  "P(B|A) — human-readable share of the anchor's orders. Display only; lift is the gate."
+  confidence: Float!
+  lift: Float!
+  "Would the storefront show it (all three gates), before slot limits."
+  passesGates: Boolean!
+  "True when status/stock/visibility/exclude gating leaves the candidate's group with no displayable member."
+  hiddenByCatalogFilter: Boolean!
+}
+
+type ResolvedRecommendation {
+  product: Product
+  "Waterfall rung that produced the row: 'manual', a rule type, or 'bestsellers_fallback'."
+  source: String!
+  "Group-level eligible-order count backing the sales rank — 0 until the recompute has data, when 'bestsellers' degrades to newest-first."
+  salesCount: Int!
+}
+
+type ProductLinkItem {
+  linkUuid: String!
+  product: Product
+  sortOrder: Int!
+  hiddenOnStorefront: Boolean!
+  "'catalog_filter' (§ 6.5/§ 6.6 gating) or 'anchor_group' (same variant group as the anchor)."
+  hiddenReason: String
+}
+
+type RecommendationStatus {
+  anchorOrderCount: Int!
+  computedAt: String
+  totalOrderCount: Int!
+  "'product' | 'category' | 'global' — powers the § 10.2 source badge."
+  relatedRulesSource: String!
+  sourceCategory: Category
+}
+
+type RecommendationStatSummary {
+  computedAt: String
+  totalOrderCount: Int!
+  pairCount: Int!
+}
+
+extend type Product {
+  relatedProductsMode: String!
+  "Raw column value; null = no product-level override."
+  relatedProductsRules: RelatedProductsRules
+  "The resolved § 6.3 config (product custom → category → global) — seeds copy-on-override."
+  effectiveRelatedProductsRules: RelatedProductsRules!
+  crossSellMode: String!
+  excludeFromRecommendation: Boolean!
+  "Top 50 candidates by lift — the admin comparison table's window, not a storefront cap."
+  crossSellCandidates: [CrossSellCandidate!]!
+  relatedProductsResolved(limit: Int = 5): [ResolvedRecommendation!]!
+  "The FBT shelf exactly as shoppers see it, incl. fallback rungs — the candidates table alone cannot explain a bestseller-filled shelf."
+  crossSellResolved(limit: Int = 4): [ResolvedRecommendation!]!
+  productLinks(type: String!): [ProductLinkItem!]!
+  recommendationStatus: RecommendationStatus!
+}
+
+extend type Category {
+  "Raw column value; null = inherit global. Seeds the § 10.3 card."
+  relatedProductsRules: RelatedProductsRules
+}
+
+extend type Setting {
+  relatedProductsRules: RelatedProductsRules!
+  crossSellMinPairCount: Int!
+  crossSellMinAnchorOrders: Int!
+  crossSellMinLift: Float!
+  crossSellFallbackEnabled: Boolean!
+}
+
+extend type Query {
+  recommendationStatSummary: RecommendationStatSummary!
+}

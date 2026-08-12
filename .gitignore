@@ -24,6 +24,11 @@ npm-debug.log
 coverage
 cypress
 .turbo
+# Playwright artefacts
+test-results
+playwright-report
+playwright/.cache
+/blob-report
 /config
 /packages/evershop/config
 .prettierignore
@@ -31,3 +36,17 @@ cypress
 mysqlToPostgres.js
 /docs
 extensions
+/specifications
+/wiki
+/design-kit
+/wiki
+/CLAUDE.md
+
+# Playwright MCP test artifacts
+.playwright-mcp/
+.impeccable
+PRODUCT.md
+/storefront
+stress-report-*
+jmeter.log
+stress_test.py

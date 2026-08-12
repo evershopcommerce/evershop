@@ -4,14 +4,45 @@ type ConfigStructure = {
   shop: {
     language: string;
     timezone: string;
-    currency: string;
-    weightUnit: string;
     homeUrl: string;
+    // NOTE: `currency`, `weightUnit` and `dimensionUnit` are intentionally absent — they are
+    // admin settings now (the `setting` table), read via getStoreCurrency / getWeightUnit /
+    // getDimensionUnit in modules/setting/services; config.json is only a legacy fallback, read
+    // untyped there (getLegacyConfig). `timezone` and `language` stay typed because they are
+    // still read directly/operationally — `shop.timezone` sets the DB session in connection.ts
+    // (before any query, so it can't be a DB setting), and `shop.language` is the locale system's
+    // synchronous fallback across translate/render/formatters.
   };
   system: {
     file_storage: string;
+    // NOTE: `s3` / `azure` are declared non-optional so ConfigPath can derive
+    // `system.s3.*` paths (keyof an optional member resolves to never) — at
+    // runtime they are absent unless the operator configures them, so read
+    // individual keys, never the whole object.
+    s3: {
+      region?: string;
+      bucket?: string;
+      accessKeyId?: string;
+      secretAccessKey?: string;
+      endpoint?: string;
+      forcePathStyle?: boolean;
+      baseUrl?: string;
+    };
+    azure: {
+      connectionString?: string;
+      containerName?: string;
+      containerAccess?: string;
+      baseUrl?: string;
+    };
+    gcs: {
+      bucket?: string;
+      serviceAccountKey?: string;
+      baseUrl?: string;
+    };
     admin_collection_size?: number;
     upload_allowed_mime_types: string[];
+    upload_max_file_size?: number;
+    upload_max_file_size_per_type?: Record<string, number>;
     theme?: string;
     extensions: Array<{
       name: string;
@@ -22,6 +53,7 @@ type ConfigStructure = {
       maxAge: number;
       resave: boolean;
       saveUninitialized: boolean;
+      rolling: boolean;
       cookieSecret: string;
       cookieName: string;
       adminCookieName: string;
@@ -39,6 +71,16 @@ type ConfigStructure = {
         [key: string]: unknown;
       };
       reset_password?: {
+        enabled: boolean;
+        templatePath?: string | null;
+        [key: string]: unknown;
+      };
+      shipment_created?: {
+        enabled: boolean;
+        templatePath?: string | null;
+        [key: string]: unknown;
+      };
+      shipment_delivered?: {
         enabled: boolean;
         templatePath?: string | null;
         [key: string]: unknown;
@@ -66,9 +108,15 @@ type ConfigStructure = {
       };
     };
     showOutOfStockProduct: boolean;
+    crossSell: {
+      recomputeSchedule: string;
+      recomputeEnabled: boolean;
+      maxOrderKeys: number;
+    };
   };
   checkout: {
     showShippingNote: boolean;
+    allowGuestCheckout: boolean;
   };
   pricing: {
     rounding: string;
@@ -81,12 +129,6 @@ type ConfigStructure = {
     };
   };
   themeConfig: {
-    logo: {
-      alt: string | undefined;
-      src: string | undefined;
-      width: number | undefined;
-      height: number | undefined;
-    };
     headTags: {
       links: any[];
       metas: any[];
@@ -128,15 +170,45 @@ type ConfigStructure = {
         }
       >;
       psoMapping: Record<string, string>;
+      shipmentRollupCancelable: {
+        pending?: boolean;
+        partially_shipped?: boolean;
+        shipped?: boolean;
+        partially_delivered?: boolean;
+        delivered?: boolean;
+        canceled?: boolean;
+      };
       reStockAfterCancellation: boolean;
     };
-    carriers: Record<
-      string,
-      {
-        name: string;
-        trackingUrl?: string;
-      }
-    >;
+    tracking: {
+      anonymousTokenTtlDays: number;
+    };
+  };
+  sitemap: {
+    enabled: boolean;
+    schedule: string;
+    maxUrlsPerFile: number;
+    maxAge: number;
+    hreflang: boolean;
+    staticPaths: string[];
+    changefreq: {
+      product: string;
+      category: string;
+      cmsPage: string;
+      landingPage: string;
+      static: string;
+    };
+    priority: {
+      product: number;
+      category: number;
+      cmsPage: number;
+      landingPage: number;
+      static: number;
+    };
+    robots: {
+      enabled: boolean;
+      disallow: string[];
+    };
   };
 };
 

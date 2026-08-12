@@ -1,0 +1,99 @@
+A short description shown on the category page,Mô tả ngắn hiển thị trên trang danh mục
+A short summary shown in listings,Tóm tắt ngắn hiển thị trong danh sách
+Add a meta description to control the text shown here.,Thêm meta description để kiểm soát nội dung hiển thị ở đây.
+All,Tất cả
+All categories,Tất cả danh mục
+Applies to posts in this category.,Áp dụng cho các bài viết trong danh mục này.
+Approve,Duyệt
+Approved,Đã duyệt
+Author,Tác giả
+Blog,Blog
+Blog Categories,Danh mục Blog
+Blog Comments,Bình luận Blog
+Blog Posts,Bài viết Blog
+Blog Tags,Thẻ Blog
+By,Bởi
+Cancel reply,Hủy trả lời
+"Category, author, tags and thumbnail.","Danh mục, tác giả, thẻ và ảnh đại diện."
+Closed — no new comments,Đã đóng — không nhận bình luận mới
+Columns (1-4),Số cột (1-4)
+Comment,Bình luận
+Comment Policy,Chính sách bình luận
+Comments,Bình luận
+Configure URL key and meta information for this blog category.,Cấu hình URL key và thông tin meta cho danh mục blog này.
+Copied!,Đã sao chép!
+Copy link,Sao chép liên kết
+Create a new post,Tạo bài viết mới
+Create a new tag,Tạo thẻ mới
+Delete ${count} comments,Xóa ${count} bình luận
+Delete ${count} posts,Xóa ${count} bài viết
+Delete ${count} tags,Xóa ${count} thẻ
+Disable ${count} categories,Vô hiệu hóa ${count} danh mục
+Email (not published),Email (không hiển thị)
+Enable ${count} categories,Kích hoạt ${count} danh mục
+Enter category name,Nhập tên danh mục
+Enter post title,Nhập tiêu đề bài viết
+Enter tag name,Nhập tên thẻ
+Excerpt,Đoạn trích
+Featured posts,Bài viết nổi bật
+Leave a comment,Để lại bình luận
+Leave blank to auto-generate,Để trống để tự động tạo
+Mark spam,Đánh dấu spam
+Max posts,Số bài tối đa
+Moderated — hold for review,Kiểm duyệt — giữ lại để xem xét
+Name and status for this blog category.,Tên và trạng thái cho danh mục blog này.
+New post,Bài viết mới
+New tag,Thẻ mới
+No comments yet. Be the first!,Chưa có bình luận. Hãy là người đầu tiên!
+No posts in this category yet.,Chưa có bài viết nào trong danh mục này.
+No posts match,Không có bài viết phù hợp
+No posts published yet.,Chưa có bài viết nào được xuất bản.
+No posts with this tag yet.,Chưa có bài viết nào với thẻ này.
+No posts yet,Chưa có bài viết
+Open page in a new tab,Mở trang trong tab mới
+Open — auto-approve,Mở — tự động duyệt
+Organize,Sắp xếp
+Pending,Chờ duyệt
+Post Title,Tiêu đề bài viết
+Post comment,Đăng bình luận
+Post created successfully!,Tạo bài viết thành công!
+Post title is required,Tiêu đề bài viết là bắt buộc
+Posts,Bài viết
+Publish ${count} posts,Xuất bản ${count} bài viết
+Published,Đã xuất bản
+Published posts are visible on the storefront.,Bài viết đã xuất bản sẽ hiển thị trên cửa hàng.
+React,Cảm xúc
+Related posts,Bài viết liên quan
+Reply,Trả lời
+Reply to ${name},Trả lời ${name}
+Search Engine Optimization,Tối ưu hóa công cụ tìm kiếm
+Search posts to feature,Tìm bài viết để làm nổi bật
+Search result preview,Xem trước kết quả tìm kiếm
+Select a category,Chọn danh mục
+Select an author,Chọn tác giả
+Select tags,Chọn thẻ
+Short Description,Mô tả ngắn
+Something went wrong. Please try again.,Đã có lỗi xảy ra. Vui lòng thử lại.
+Spam,Spam
+Submitting…,Đang gửi…
+Tag,Thẻ
+Tag Name,Tên thẻ
+Tag created successfully!,Tạo thẻ thành công!
+Tag name is required,Tên thẻ là bắt buộc
+Tags,Thẻ
+Thanks! Your comment is awaiting moderation.,Cảm ơn! Bình luận của bạn đang chờ kiểm duyệt.
+The URL path segment under /blog/.,Phần đường dẫn URL nằm dưới /blog/.
+The URL path segment under /blog/category/.,Phần đường dẫn URL nằm dưới /blog/category/.
+The URL path segment under /blog/tag/.,Phần đường dẫn URL nằm dưới /blog/tag/.
+"The post title, status and content.","Tiêu đề, trạng thái và nội dung bài viết."
+The tag name.,Tên thẻ.
+There is no comment to display,Không có bình luận nào để hiển thị
+There is no post to display,Không có bài viết nào để hiển thị
+There is no tag to display,Không có thẻ nào để hiển thị
+URL key is auto-generated from the name if left blank.,URL key sẽ tự động tạo từ tên nếu để trống.
+URL key is auto-generated from the title if left blank.,URL key sẽ tự động tạo từ tiêu đề nếu để trống.
+Unpublish,Hủy xuất bản
+Unpublish ${count} posts,Hủy xuất bản ${count} bài viết
+Untitled page,Trang không có tiêu đề
+Your comment,Bình luận của bạn
+min read,phút đọc

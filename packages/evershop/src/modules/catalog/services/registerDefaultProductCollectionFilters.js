@@ -12,11 +12,24 @@ export default async function registerDefaultProductCollectionFilters() {
       callback: (query, operation, value, currentFilters) => {
         const where = query.getWhere();
         const bindingKey = `keyword_${uniqid()}`;
+        // Evaluate the full-text match in a MATERIALIZED CTE so the planner
+        // always answers it with the PRODUCT_SEARCH_INDEX GIN index. With the
+        // predicate inlined, the outer ORDER BY + LIMIT made the planner walk
+        // an index computing to_tsvector() row by row — fast for common
+        // terms, a full-table scan (seconds on large catalogs) for rare or
+        // unmatched ones. The old `%…%` wrapping is dropped: `%` is a LIKE
+        // wildcard, websearch_to_tsquery treats it as punctuation.
         where.addRaw(
           'AND',
-          `to_tsvector('simple', product_description.name || ' ' || product_description.description) @@ websearch_to_tsquery('simple', :${bindingKey})`,
+          `product.product_id IN (
+            WITH keyword_matches AS MATERIALIZED (
+              SELECT product_description_product_id FROM product_description
+              WHERE to_tsvector('simple', name || ' ' || description) @@ websearch_to_tsquery('simple', :${bindingKey})
+            )
+            SELECT product_description_product_id FROM keyword_matches
+          )`,
           {
-            [bindingKey]: `%${value}%`
+            [bindingKey]: value
           }
         );
         currentFilters.push({

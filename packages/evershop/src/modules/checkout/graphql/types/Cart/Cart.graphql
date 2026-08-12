@@ -26,8 +26,13 @@ interface ShoppingCart {
   taxAmountBeforeDiscount: Price!
   totalTaxAmount: Price!
   grandTotal: Price!
-  shippingMethod: String
   shippingMethodName: String
+  """
+  Structured shipping selection — provider, method code, snapshot. Replaces
+  shippingMethod/shippingMethodName in phase 8; both back-compat fields
+  resolve from this in phase 4+.
+  """
+  shippingMethodData: ShippingMethodData
   shippingAddress: Address
   paymentMethod: String
   paymentMethodName: String
@@ -176,8 +181,8 @@ type Cart implements ShoppingCart {
   taxAmountBeforeDiscount: Price!
   totalTaxAmount: Price!
   grandTotal: Price!
-  shippingMethod: String
   shippingMethodName: String
+  shippingMethodData: ShippingMethodData
   paymentMethod: String
   paymentMethodName: String
   shippingNote: String

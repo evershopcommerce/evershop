@@ -3,43 +3,6 @@
   width: 100%;
   margin-bottom: 2rem;
 
-  .slick-arrow {
-    position: absolute;
-    bottom: 20px !important;
-    top: auto !important;
-    z-index: 10;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.7);
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.9);
-    }
-
-    &::before {
-      color: #333;
-      font-size: 16px;
-      opacity: 0.8;
-    }
-
-    &.slick-disabled {
-      opacity: 0.4;
-    }
-  }
-
-  .slick-prev {
-    right: 70px !important;
-    left: auto !important;
-  }
-
-  .slick-next {
-    right: 20px !important;
-  }
-
   .main-image-container {
     position: relative;
     margin-bottom: 1rem;
@@ -63,12 +26,10 @@
 
   .slick-dots.slick-thumb {
     position: static;
-    display: flex !important;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     margin-top: 15px;
     width: 100%;
-    padding-right: 130px;
 
     li {
       width: auto;
@@ -77,7 +38,9 @@
       border-radius: 4px;
       transition: all 0.2s ease;
       opacity: 0.7;
-
+      &:first-child {
+        margin-left: 0;
+      }
       button {
         padding: 0;
         font-size: 0;
@@ -86,7 +49,6 @@
 
       .thumbnail-wrapper {
         width: 70px;
-        height: 70px;
         border: 1px solid #e0e0e0;
         border-radius: 4px;
         padding: 2px;
@@ -124,8 +86,6 @@
 
     li .thumbnail-wrapper {
       width: 60px;
-      height: 60px;
-      background: rgba(255, 255, 255, 0.9);
     }
   }
   .product-image-modal {
@@ -225,18 +185,15 @@
 
         .slick-dots.slick-thumb {
           position: absolute;
-          bottom: 20px;
           left: 0;
           right: 0;
           margin: 0;
-          padding: 0 170px 0 20px;
 
           li {
             margin: 0 8px;
 
             .thumbnail-wrapper {
               width: 60px;
-              height: 60px;
               border-color: rgba(255, 255, 255, 0.3);
               background-color: rgba(0, 0, 0, 0.3);
               border-radius: 4px;
@@ -255,36 +212,7 @@
       }
 
       .slick-arrow {
-        position: absolute;
-        bottom: 30px !important;
-        top: auto !important;
-        z-index: 1002;
-        width: 50px;
-        height: 50px;
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        transition: all 0.2s ease;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-
-        &:before {
-          font-size: 30px;
-          opacity: 1;
-        }
-
-        &:hover {
-          background-color: rgba(255, 255, 255, 0.4);
-        }
-      }
-
-      .slick-prev {
-        right: 110px !important;
-        left: auto !important;
-      }
-
-      .slick-next {
-        right: 40px !important;
+        display: none !important;
       }
     }
   }
@@ -293,40 +221,48 @@
     outline: none;
   }
 
-  .custom-arrow {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-
-    svg {
-      color: #fff;
-    }
-
-    &:hover {
-      color: #000;
-    }
-
-    &:before {
-      display: none !important;
-    }
+  /* Structural rules formerly inherited from slick-theme.css. That import is
+     gone — it shipped a 4-glyph icon font (slick.woff/.ttf) and an
+     ajax-loader.gif this gallery never uses, and its `color: transparent`
+     made the currentColor-stroked SVG arrows invisible. Deliberately no
+     `color` here so the arrows inherit the page foreground. */
+  .slick-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: block;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    line-height: 0;
   }
 
-  .slick-dots {
-    bottom: -30px;
-
-    li button:before {
-      font-size: 8px;
-    }
-  }
-
+  /* Inside the frame — the container is overflow:hidden, so negative
+     offsets clip half the button. */
   .slick-prev {
-    left: -10px;
+    left: 10px;
     z-index: 1;
   }
 
   .slick-next {
-    right: -10px;
+    right: 10px;
     z-index: 1;
+  }
+
+  .slick-dots {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    text-align: center;
+
+    li {
+      display: inline-block;
+      cursor: pointer;
+    }
   }
 }

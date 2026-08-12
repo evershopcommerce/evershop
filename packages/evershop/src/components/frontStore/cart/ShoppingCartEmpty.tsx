@@ -18,7 +18,9 @@ export function ShoppingCartEmpty() {
         <div className="flex justify-center mt-5">
           <Button size={'lg'} onClick={() => (window.location.href = '/')}>
             <span className="flex space-x-2">
-              <span className="self-center">{_('CONTINUE SHOPPING')}</span>{' '}
+              <span className="self-center uppercase">
+                {_('Continue shopping')}
+              </span>{' '}
               <svg
                 className="self-center"
                 style={{ width: '2rem', height: '2rem' }}

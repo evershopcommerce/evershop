@@ -1,0 +1,1685 @@
+Welcome Back!,Καλώς ήρθατε ξανά!
+Please sign in to your account ,Παρακαλούμε συνδεθείτε στον λογαριασμό σας 
+Join us for exclusive offers and order tracking,Εγγραφείτε για αποκλειστικές προσφορές και παρακολούθηση παραγγελιών
+Sign Up,Εγγραφή
+Signing Up...,Εγγραφή...
+Signing In...,Σύνδεση...
+Recent Orders,Πρόσφατες παραγγελίες
+Address Book,Βιβλίο διευθύνσεων
+You have no addresses saved,Δεν έχετε αποθηκευμένες διευθύνσεις
+Add new address,Προσθήκη νέας διεύθυνσης
+Address 2,Διεύθυνση 2
+Set as default,Ορισμός ως προεπιλογή
+Save,Αποθήκευση
+Edit,Επεξεργασία
+Delete,Διαγραφή
+Edit Address,Επεξεργασία διεύθυνσης
+"Search results for ""${keyword}""","Αποτελέσματα αναζήτησης για ""${keyword}"""
+Product Filters,Φίλτρα προϊόντων
+No products found,Δεν βρέθηκαν προϊόντα
+${count} Products,${count} προϊόντα
+Default,Προεπιλογή
+Name,Όνομα
+"Sorry, there is no available method for your address","Δυστυχώς, δεν υπάρχει διαθέσιμη μέθοδος για τη διεύθυνσή σας"
+Contact Information,Στοιχεία επικοινωνίας
+Your Cart,Το καλάθι σας
+Your cart is empty,Το καλάθι σας είναι άδειο
+Subtotal,Μερικό σύνολο
+View Cart (${totalQty}),Προβολή καλαθιού (${totalQty})
+Shopping Cart,Καλάθι αγορών
+Logged in as,Συνδεδεμένος ως
+Payment Information,Στοιχεία πληρωμής
+Same as shipping address,Ίδια με τη διεύθυνση αποστολής
+Use a different billing address,Χρήση διαφορετικής διεύθυνσης χρέωσης
+Pick a payment method,Επιλέξτε μέθοδο πληρωμής
+Select a payment method,Επιλέξτε μέθοδο πληρωμής
+Complete Order,Ολοκλήρωση παραγγελίας
+Add to Cart,Προσθήκη στο καλάθι
+Search,Αναζήτηση
+${count} orders,${count} παραγγελίες
+${field} is required,Το πεδίο ${field} είναι υποχρεωτικό
+${pct}% of orders cancelled,${pct}% των παραγγελιών ακυρώθηκαν
+${pct}% of orders completed,${pct}% των παραγγελιών ολοκληρώθηκαν
+${qty} sold,${qty} πωλήθηκαν
+${total} lifetime sale,${total} συνολικές πωλήσεις
+(Guest Checkout),(Ολοκλήρωση ως επισκέπτης)
+(list),(λίστα)
+(optional),(προαιρετικό)
+A coupon is already applied,Έχει ήδη εφαρμοστεί κουπόνι
+A group needs at least one sub-field,Μια ομάδα χρειάζεται τουλάχιστον ένα υποπεδίο
+A list of best selling products,Μια λίστα με τα προϊόντα με τις περισσότερες πωλήσεις
+A list of customers who have placed the most orders,Μια λίστα με τους πελάτες που έχουν κάνει τις περισσότερες παραγγελίες
+A regular expression the value must match.,Μια κανονική έκφραση με την οποία πρέπει να ταιριάζει η τιμή.
+Accepted values,Αποδεκτές τιμές
+Active,Ενεργό
+Active Filters,Ενεργά φίλτρα
+Add address API not available,Το API προσθήκης διεύθυνσης δεν είναι διαθέσιμο
+Add custom field,Προσθήκη προσαρμοσμένου πεδίου
+Add field,Προσθήκη πεδίου
+Add item,Προσθήκη στοιχείου
+Add option,Προσθήκη επιλογής
+Add product,Προσθήκη προϊόντος
+Add some items to get started,Προσθέστε μερικά προϊόντα για να ξεκινήσετε
+Add sub-field,Προσθήκη υποπεδίου
+Adding...,Προσθήκη...
+Address has been deleted successfully!,Η διεύθυνση διαγράφηκε με επιτυχία!
+Address has been saved successfully!,Η διεύθυνση αποθηκεύτηκε με επιτυχία!
+Address has been updated successfully!,Η διεύθυνση ενημερώθηκε με επιτυχία!
+Adds target=_blank rel=noopener noreferrer.,Προσθέτει target=_blank rel=noopener noreferrer.
+All items fulfilled,Όλα τα στοιχεία ολοκληρώθηκαν
+All orders,Όλες οι παραγγελίες
+All your past orders,Όλες οι προηγούμενες παραγγελίες σας
+Allow multiple,Επιτρέπονται πολλαπλά
+An unexpected error occurred. Please try again.,Παρουσιάστηκε απροσδόκητο σφάλμα. Παρακαλούμε δοκιμάστε ξανά.
+Apply Filters,Εφαρμογή φίλτρων
+Are you sure you want to mark the selected orders as shipped?,Είστε βέβαιοι ότι θέλετε να επισημάνετε τις επιλεγμένες παραγγελίες ως απεσταλμένες;
+Are you sure?,Είστε βέβαιοι;
+Attribute Group,Ομάδα χαρακτηριστικών
+Attribute code is used in API and must be unique,Ο κωδικός χαρακτηριστικού χρησιμοποιείται στο API και πρέπει να είναι μοναδικός
+Attribute options,Επιλογές χαρακτηριστικού
+Attributes,Χαρακτηριστικά
+Available shipping methods will appear once you provide your address details,Οι διαθέσιμες μέθοδοι αποστολής θα εμφανιστούν μόλις δώσετε τα στοιχεία της διεύθυνσής σας
+Best Sellers,Δημοφιλέστερα προϊόντα
+Best customers,Καλύτεροι πελάτες
+Billing address,Διεύθυνση χρέωσης
+Black,Μαύρο
+Buy qty,Ποσότητα αγοράς
+Buy qty is required,Η ποσότητα αγοράς είναι υποχρεωτική
+Can not process payment. Please try again later.,Δεν είναι δυνατή η επεξεργασία της πληρωμής. Παρακαλούμε δοκιμάστε ξανά αργότερα.
+Can't be undone,Δεν μπορεί να αναιρεθεί
+Cancel,Ακύρωση
+Cancel Order,Ακύρωση παραγγελίας
+Cancel shipment,Ακύρωση αποστολής
+Cancel this shipment?,Ακύρωση αυτής της αποστολής;
+Canceled,Ακυρώθηκε
+Cancelled,Ακυρώθηκε
+Cannot add billing address: cart not initialized,Δεν είναι δυνατή η προσθήκη διεύθυνσης χρέωσης: το καλάθι δεν έχει αρχικοποιηθεί
+Cannot add contact info: cart not initialized,Δεν είναι δυνατή η προσθήκη στοιχείων επικοινωνίας: το καλάθι δεν έχει αρχικοποιηθεί
+Cannot add payment method: cart not initialized,Δεν είναι δυνατή η προσθήκη μεθόδου πληρωμής: το καλάθι δεν έχει αρχικοποιηθεί
+Cannot add shipping address: cart not initialized,Δεν είναι δυνατή η προσθήκη διεύθυνσης αποστολής: το καλάθι δεν έχει αρχικοποιηθεί
+Cannot add shipping method: cart not initialized,Δεν είναι δυνατή η προσθήκη μεθόδου αποστολής: το καλάθι δεν έχει αρχικοποιηθεί
+Cannot add shipping method: providerCode is required,Δεν είναι δυνατή η προσθήκη μεθόδου αποστολής: απαιτείται το providerCode
+Cannot apply coupon: cart not initialized,Δεν είναι δυνατή η εφαρμογή κουπονιού: το καλάθι δεν έχει αρχικοποιηθεί
+Cannot remove coupon: cart not initialized,Δεν είναι δυνατή η αφαίρεση κουπονιού: το καλάθι δεν έχει αρχικοποιηθεί
+Carrier,Μεταφορέας
+Carrier is required,Ο μεταφορέας είναι υποχρεωτικός
+Cart ID is required to checkout,Απαιτείται το ID καλαθιού για την ολοκλήρωση της παραγγελίας
+Cart is not initialized,Το καλάθι δεν έχει αρχικοποιηθεί
+Catalog,Κατάλογος
+Categories,Κατηγορίες
+Category,Κατηγορία
+Charcoal,Ανθρακί
+Checkout success,Επιτυχής ολοκλήρωση παραγγελίας
+Choose Product SKU,Επιλέξτε SKU προϊόντος
+Choose SKU,Επιλέξτε SKU
+Clear All,Καθαρισμός όλων
+Clear Filters,Καθαρισμός φίλτρων
+Clear all,Καθαρισμός όλων
+Clear categories,Καθαρισμός κατηγοριών
+Close fullscreen view,Κλείσιμο προβολής πλήρους οθόνης
+Code,Κωδικός
+Collections,Συλλογές
+Comma-separated; renders the value as a dropdown.,Διαχωρισμένα με κόμμα· εμφανίζει την τιμή ως αναπτυσσόμενη λίστα.
+Completed,Ολοκληρώθηκε
+Configurable,Παραμετροποιήσιμο
+Configure tax classes and tax rates,Διαμόρφωση κλάσεων φόρου και φορολογικών συντελεστών
+Confirm,Επιβεβαίωση
+Contact for pricing,Επικοινωνήστε για τιμή
+Conveniently pay with cash at your doorstep when your order is delivered.,Πληρώστε με ευκολία τοις μετρητοίς στην πόρτα σας όταν παραδοθεί η παραγγελία σας.
+Coupon applied successfully!,Το κουπόνι εφαρμόστηκε με επιτυχία!
+Coupon code is required,Ο κωδικός κουπονιού είναι υποχρεωτικός
+Coupon does not match,Το κουπόνι δεν ταιριάζει
+Coupon removed successfully!,Το κουπόνι αφαιρέθηκε με επιτυχία!
+Cream,Κρεμ
+Create,Δημιουργία
+Create a new attribute,Δημιουργία νέου χαρακτηριστικού
+Create a new group,Δημιουργία νέας ομάδας
+Create a new package,Δημιουργία νέου πακέτου
+Create shipment,Δημιουργία αποστολής
+Created,Δημιουργήθηκε
+Custom URL,Προσαρμοσμένο URL
+Custom field created,Το προσαρμοσμένο πεδίο δημιουργήθηκε
+Custom field updated,Το προσαρμοσμένο πεδίο ενημερώθηκε
+Custom fields,Προσαρμοσμένα πεδία
+Custom fields (JSON),Προσαρμοσμένα πεδία (JSON)
+Custom fields saved,Τα προσαρμοσμένα πεδία αποθηκεύτηκαν
+Customer Information,Στοιχεία πελάτη
+Customer does not have any order yet.,Ο πελάτης δεν έχει ακόμη καμία παραγγελία.
+Customer notes,Σημειώσεις πελάτη
+Daily,Ημερήσια
+Date and time must be after ${min},Η ημερομηνία και η ώρα πρέπει να είναι μετά τις ${min}
+Date and time must be before ${max},Η ημερομηνία και η ώρα πρέπει να είναι πριν από ${max}
+Date must be after ${min},Η ημερομηνία πρέπει να είναι μετά από ${min}
+Date must be before ${max},Η ημερομηνία πρέπει να είναι πριν από ${max}
+Delete ${count} coupons,Διαγραφή ${count} κουπονιών
+Delete ${count} products,Διαγραφή ${count} προϊόντων
+Delete address API not available,Το API διαγραφής διεύθυνσης δεν είναι διαθέσιμο
+Delivered,Παραδόθηκε
+Description,Περιγραφή
+Disable,Απενεργοποίηση
+Disable ${count} coupons,Απενεργοποίηση ${count} κουπονιών
+Disable ${count} customers,Απενεργοποίηση ${count} πελατών
+Disable ${count} products,Απενεργοποίηση ${count} προϊόντων
+Disabled,Απενεργοποιημένο
+Discount percent,Ποσοστό έκπτωσης
+Discount percent is required,Το ποσοστό έκπτωσης είναι υποχρεωτικό
+Display on Frontend?,Εμφάνιση στο Frontend;
+Displays the mobile sidebar.,Εμφανίζει την πλαϊνή μπάρα για κινητά.
+Done,Ολοκληρώθηκε
+Drag to reorder,Σύρετε για αναδιάταξη
+Duplicate,Αντιγραφή
+Edit custom field,Επεξεργασία προσαρμοσμένου πεδίου
+Edit field settings,Επεξεργασία ρυθμίσεων πεδίου
+Edit package,Επεξεργασία πακέτου
+Edit tracking info,Επεξεργασία στοιχείων παρακολούθησης
+Editing ${name},Επεξεργασία ${name}
+Email a shipment confirmation,Αποστολή επιβεβαίωσης αποστολής μέσω email
+Email a shipment confirmation with tracking details,Αποστολή επιβεβαίωσης αποστολής με στοιχεία παρακολούθησης μέσω email
+Email is required,Το email είναι υποχρεωτικό
+Enable,Ενεργοποίηση
+Enable ${count} coupons,Ενεργοποίηση ${count} κουπονιών
+Enable ${count} customers,Ενεργοποίηση ${count} πελατών
+Enable ${count} products,Ενεργοποίηση ${count} προϊόντων
+Enabled,Ενεργοποιημένο
+Enter attribute code,Εισαγάγετε τον κωδικό χαρακτηριστικού
+Enter attribute name,Εισαγάγετε το όνομα χαρακτηριστικού
+Enter text,Εισαγάγετε κείμενο
+Enter value for ${attribute},Εισαγάγετε τιμή για ${attribute}
+Enter your email,Εισαγάγετε το email σας
+Enter your new password,Εισαγάγετε τον νέο σας κωδικό πρόσβασης
+Enter your password,Εισαγάγετε τον κωδικό πρόσβασής σας
+Error,Σφάλμα
+Failed to add address,Αποτυχία προσθήκης διεύθυνσης
+Failed to add billing address,Αποτυχία προσθήκης διεύθυνσης χρέωσης
+Failed to add billing address.,Αποτυχία προσθήκης διεύθυνσης χρέωσης.
+Failed to add contact info,Αποτυχία προσθήκης στοιχείων επικοινωνίας
+Failed to add contact info.,Αποτυχία προσθήκης στοιχείων επικοινωνίας.
+Failed to add item to cart,Αποτυχία προσθήκης αντικειμένου στο καλάθι
+Failed to add payment method,Αποτυχία προσθήκης μεθόδου πληρωμής
+Failed to add payment method.,Αποτυχία προσθήκης μεθόδου πληρωμής.
+Failed to add product to cart,Αποτυχία προσθήκης προϊόντος στο καλάθι
+Failed to add shipping address,Αποτυχία προσθήκης διεύθυνσης αποστολής
+Failed to add shipping address.,Αποτυχία προσθήκης διεύθυνσης αποστολής.
+Failed to add shipping method,Αποτυχία προσθήκης μεθόδου αποστολής
+Failed to add shipping method.,Αποτυχία προσθήκης μεθόδου αποστολής.
+Failed to apply coupon,Αποτυχία εφαρμογής κουπονιού
+Failed to cancel shipment,Αποτυχία ακύρωσης αποστολής
+Failed to checkout,Αποτυχία ολοκλήρωσης αγοράς
+Failed to create field,Αποτυχία δημιουργίας πεδίου
+Failed to create shipment,Αποτυχία δημιουργίας αποστολής
+Failed to delete address,Αποτυχία διαγραφής διεύθυνσης
+Failed to load custom fields,Αποτυχία φόρτωσης προσαρμοσμένων πεδίων
+Failed to mark delivered,Αποτυχία επισήμανσης ως παραδοθέν
+Failed to place order,Αποτυχία υποβολής παραγγελίας
+Failed to place order. Please try again.,Αποτυχία υποβολής παραγγελίας. Παρακαλώ δοκιμάστε ξανά.
+Failed to remove coupon,Αποτυχία αφαίρεσης κουπονιού
+Failed to remove coupon.,Αποτυχία αφαίρεσης κουπονιού.
+Failed to save custom fields,Αποτυχία αποθήκευσης προσαρμοσμένων πεδίων
+Failed to set shipping method,Αποτυχία ορισμού μεθόδου αποστολής
+Failed to set shipping note,Αποτυχία ορισμού σημείωσης αποστολής
+Failed to update address,Αποτυχία ενημέρωσης διεύθυνσης
+Failed to update field,Αποτυχία ενημέρωσης πεδίου
+Failed to update shipment,Αποτυχία ενημέρωσης αποστολής
+Failed to update tracking info,Αποτυχία ενημέρωσης στοιχείων παρακολούθησης
+Failed to void label,Αποτυχία ακύρωσης ετικέτας
+Failed!,Απέτυχε!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,Πεδία που ισχύουν για αυτόν τον τύπο οντότητας. Η προσθήκη ενός πεδίου το εφαρμόζει σε όλες τις οντότητες αυτού του τύπου.
+File size must be less than ${maxSize},Το μέγεθος του αρχείου πρέπει να είναι μικρότερο από ${maxSize}
+Filter Products,Φιλτράρισμα προϊόντων
+Filters,Φίλτρα
+First,Πρώτο
+Free,Δωρεάν
+Free shipping,Δωρεάν αποστολή
+Free shipping ?,Δωρεάν αποστολή;
+Fulfill ${count} orders,Εκπλήρωση ${count} παραγγελιών
+Full Name is required,Το ονοματεπώνυμο είναι υποχρεωτικό
+Fully shipped,Πλήρως απεσταλμένο
+General,Γενικά
+Get qty,Λήψη ποσότητας
+Get qty is required,Η λήψη ποσότητας είναι υποχρεωτική
+Ghost,Διαφανές
+Go,Μετάβαση
+Go to Login,Μετάβαση στη σύνδεση
+Go to next page,Μετάβαση στην επόμενη σελίδα
+Go to previous page,Μετάβαση στην προηγούμενη σελίδα
+Hello,Γεια σας
+Hide from storefront,Απόκρυψη από το κατάστημα
+ID,ID
+In Stock,Σε απόθεμα
+Inactive,Ανενεργό
+Inclusive of tax ${totalTaxAmount},Συμπεριλαμβανομένου φόρου ${totalTaxAmount}
+Insert,Εισαγωγή
+Invalid address,Μη έγκυρη διεύθυνση
+Invalid cart,Μη έγκυρο καλάθι
+Invalid cart id,Μη έγκυρο αναγνωριστικό καλαθιού
+Invalid coupon,Μη έγκυρο κουπόνι
+Invalid customer,Μη έγκυρος πελάτης
+Invalid customer id,Μη έγκυρο αναγνωριστικό πελάτη
+Invalid email or password,Μη έγκυρο email ή κωδικός πρόσβασης
+Invalid format,Μη έγκυρη μορφή
+Invalid quantity,Μη έγκυρη ποσότητα
+Is Filterable?,Φιλτράρεται;
+Is Required?,Είναι υποχρεωτικό;
+Item,Αντικείμενο
+Items,Αντικείμενα
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,Τα αντικείμενα αυτής της αποστολής θα επιστρέψουν στη δεξαμενή μη απεσταλμένων της παραγγελίας. Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.
+Key,Κλειδί
+Key is required,Το κλειδί είναι υποχρεωτικό
+Label,Ετικέτα
+Label voided,Η ετικέτα ακυρώθηκε
+Language,Γλώσσα
+Last,Τελευταίο
+Lifetime Sales,Συνολικές πωλήσεις
+Light gray,Ανοιχτό γκρι
+Limit,Όριο
+Link,Σύνδεσμος
+Loading,Φόρτωση
+Log in,Σύνδεση
+Logging in...,Σύνδεση...
+Logging out...,Αποσύνδεση...
+Login failed,Η σύνδεση απέτυχε
+Logout failed,Η αποσύνδεση απέτυχε
+Look like you just started. No bestsellers yet.,Φαίνεται ότι μόλις ξεκινήσατε. Δεν υπάρχουν ακόμη ευπώλητα.
+"Lowercase letters, digits, underscore. Immutable.","Πεζά γράμματα, ψηφία, κάτω παύλα. Αμετάβλητο."
+Manage the general information of the attribute.,Διαχειριστείτε τις γενικές πληροφορίες του χαρακτηριστικού.
+Manage the setting of the attribute.,Διαχειριστείτε τη ρύθμιση του χαρακτηριστικού.
+Mark as shipped,Επισήμανση ως απεσταλμένο
+Mark delivered,Επισήμανση ως παραδοθέν
+Mark shipment as delivered?,Επισήμανση αποστολής ως παραδοθείσας;
+Max length,Μέγιστο μήκος
+Max of Y,Μέγιστο των Y
+Max of Y is required,Το μέγιστο των Y είναι υποχρεωτικό
+Max value,Μέγιστη τιμή
+Min length,Ελάχιστο μήκος
+Min value,Ελάχιστη τιμή
+Minimum quantity,Ελάχιστη ποσότητα
+Mint,Μέντα
+Monthly,Μηνιαία
+More,Περισσότερα
+More pages,Περισσότερες σελίδες
+Move down,Μετακίνηση κάτω
+Move up,Μετακίνηση πάνω
+Multiselect,Πολλαπλή επιλογή
+Must be at least ${n},Πρέπει να είναι τουλάχιστον ${n}
+Must be at least ${n} characters,Πρέπει να είναι τουλάχιστον ${n} χαρακτήρες
+Must be at most ${n},Πρέπει να είναι το πολύ ${n}
+Must be at most ${n} characters,Πρέπει να είναι το πολύ ${n} χαρακτήρες
+"Must start with a letter; lowercase letters, digits, underscore only","Πρέπει να ξεκινά με γράμμα· μόνο πεζά γράμματα, ψηφία και κάτω παύλα"
+Name is required,Το όνομα είναι υποχρεωτικό
+New Product,Νέο προϊόν
+New Widget,Νέο widget
+New folder,Νέος φάκελος
+Next,Επόμενο
+Next slide,Επόμενη διαφάνεια
+No,Όχι
+No address data received,Δεν ελήφθησαν δεδομένα διεύθυνσης
+"No attribute groups found for query ""${query}""","Δεν βρέθηκαν ομάδες χαρακτηριστικών για το ερώτημα ""${query}"""
+No carriers registered,Δεν έχουν καταχωριστεί μεταφορείς
+"No categories found for ""${term}""","Δεν βρέθηκαν κατηγορίες για ""${term}"""
+"No categories found for query ""${query}""","Δεν βρέθηκαν κατηγορίες για το ερώτημα ""${query}"""
+"No collections found for query ""${query}""","Δεν βρέθηκαν συλλογές για το ερώτημα ""${query}"""
+No coupon to remove,Δεν υπάρχει κουπόνι προς αφαίρεση
+No custom fields yet.,Δεν υπάρχουν ακόμη προσαρμοσμένα πεδία.
+No data available,Δεν υπάρχουν διαθέσιμα δεδομένα
+No free shipping,Χωρίς δωρεάν αποστολή
+No limit,Χωρίς όριο
+No maximum,Χωρίς μέγιστο
+No minimum,Χωρίς ελάχιστο
+No notes from customer,Δεν υπάρχουν σημειώσεις από τον πελάτη
+"No options found for ""${code}""","Δεν βρέθηκαν επιλογές για ""${code}"""
+"No products found for query ""${query}""","Δεν βρέθηκαν προϊόντα για το ερώτημα ""${query}"""
+No shipments yet — your order is being prepared.,Δεν υπάρχουν ακόμη αποστολές — η παραγγελία σας ετοιμάζεται.
+No shipping is required for this order,Δεν απαιτείται αποστολή για αυτή την παραγγελία
+No shipping methods available,Δεν υπάρχουν διαθέσιμες μέθοδοι αποστολής
+No shipping options are available for your location,Δεν υπάρχουν διαθέσιμες επιλογές αποστολής για την τοποθεσία σας
+No shipping required,Δεν απαιτείται αποστολή
+No widgets match your search.,Κανένα widget δεν ταιριάζει με την αναζήτησή σας.
+None,Κανένα
+Not set,Δεν έχει οριστεί
+Not visible to customers,Μη ορατό στους πελάτες
+Notify customer,Ειδοποίηση πελάτη
+Open in new tab,Άνοιγμα σε νέα καρτέλα
+Operator,Τελεστής
+Option text,Κείμενο επιλογής
+Optional help text shown to admins.,Προαιρετικό βοηθητικό κείμενο που εμφανίζεται στους διαχειριστές.
+Order Placed,Η παραγγελία καταχωρήθηκε
+Order detail,Λεπτομέρειες παραγγελίας
+Order must contain products matching all conditions below,Η παραγγελία πρέπει να περιέχει προϊόντα που πληρούν όλες τις παρακάτω προϋποθέσεις
+Order not found,Η παραγγελία δεν βρέθηκε
+Orders,Παραγγελίες
+Others,Άλλα
+Out of Stock,Εξαντλημένο
+Outline,Περίγραμμα
+Overview of sales data over selected periods,Επισκόπηση δεδομένων πωλήσεων για τις επιλεγμένες περιόδους
+Overview of total sales and order status over the lifetime of your store,Επισκόπηση συνολικών πωλήσεων και κατάστασης παραγγελιών σε όλη τη διάρκεια ζωής του καταστήματός σας
+Page,Σελίδα
+Page ${currentPage} of ${totalPages},Σελίδα ${currentPage} από ${totalPages}
+Page not found,Η σελίδα δεν βρέθηκε
+Password is required,Ο κωδικός πρόσβασης είναι υποχρεωτικός
+Password must be at least ${minLength} characters long,Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον ${minLength} χαρακτήρες
+Paste a URL or a relative path starting with ,Επικολλήστε ένα URL ή μια σχετική διαδρομή που ξεκινά με 
+Pattern (regex),Μοτίβο (regex)
+Pay with PayPal,Πληρωμή με PayPal
+Pay with Stripe,Πληρωμή με Stripe
+Payment Status,Κατάσταση πληρωμής
+Placing Order...,Καταχώριση παραγγελίας...
+Please enter a coupon code,Παρακαλώ εισαγάγετε έναν κωδικό κουπονιού
+Please enter a valid URL,Παρακαλώ εισαγάγετε ένα έγκυρο URL
+Please enter a valid email address,Παρακαλώ εισαγάγετε μια έγκυρη διεύθυνση email
+Please enter your email to receive a reset link,Παρακαλώ εισαγάγετε το email σας για να λάβετε έναν σύνδεσμο επαναφοράς
+Please provide billing address to proceed,Παρακαλώ δώστε διεύθυνση χρέωσης για να συνεχίσετε
+Please select a payment method,Παρακαλώ επιλέξτε μέθοδο πληρωμής
+Please select a shipping method,Παρακαλώ επιλέξτε μέθοδο αποστολής
+Please sign in to your account,Παρακαλώ συνδεθείτε στον λογαριασμό σας
+Position,Θέση
+Previous,Προηγούμενο
+Previous slide,Προηγούμενη διαφάνεια
+Price: ${value},Τιμή: ${value}
+Primary,Κύριο
+Print Label,Εκτύπωση ετικέτας
+Processing Payment...,Επεξεργασία πληρωμής...
+Product Description,Περιγραφή προϊόντος
+Product is out of stock,Το προϊόν είναι εξαντλημένο
+Product name is required,Το όνομα του προϊόντος είναι υποχρεωτικό
+Product not found,Το προϊόν δεν βρέθηκε
+Product type,Τύπος προϊόντος
+Products,Προϊόντα
+Reason for cancellation,Λόγος ακύρωσης
+Reason is required,Ο λόγος είναι υποχρεωτικός
+Recently placed orders by this customer,Πρόσφατες παραγγελίες αυτού του πελάτη
+Redirecting to PayPal...,Ανακατεύθυνση στο PayPal...
+Reference type,Τύπος αναφοράς
+Registration failed,Η εγγραφή απέτυχε
+Remove item,Αφαίρεση στοιχείου
+Remove sub-field,Αφαίρεση υποπεδίου
+Required,Υποχρεωτικό
+Requires at least one item to create a cart,Απαιτείται τουλάχιστον ένα στοιχείο για τη δημιουργία καλαθιού
+Reset Password,Επαναφορά κωδικού πρόσβασης
+Reset Your Password,Επαναφορά του κωδικού πρόσβασής σας
+Reset password,Επαναφορά κωδικού πρόσβασης
+Reset your password,Επαναφορά του κωδικού πρόσβασής σας
+Root,Ρίζα
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,Το SKU πρέπει να είναι μοναδικό
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,Στατιστικά πωλήσεων
+Save custom fields,Αποθήκευση προσαρμοσμένων πεδίων
+Save field,Αποθήκευση πεδίου
+Saved successfully!,Αποθηκεύτηκε με επιτυχία!
+Search attribute groups,Αναζήτηση ομάδων χαρακτηριστικών
+Search categories,Αναζήτηση κατηγοριών
+Search collections,Αναζήτηση συλλογών
+"Search for products, orders, and other resources","Αναζήτηση προϊόντων, παραγγελιών και άλλων πόρων"
+Search products,Αναζήτηση προϊόντων
+Search results for: ${keyword},Αποτελέσματα αναζήτησης για: ${keyword}
+Search widgets…,Αναζήτηση widgets…
+Searching...,Αναζήτηση...
+Search…,Αναζήτηση…
+See all orders →,Δείτε όλες τις παραγγελίες →
+Select,Επιλογή
+Select a carrier,Επιλέξτε μεταφορέα
+Select at least one item to ship,Επιλέξτε τουλάχιστον ένα στοιχείο προς αποστολή
+Select groups the attribute belongs to,Επιλέξτε τις ομάδες στις οποίες ανήκει το χαρακτηριστικό
+Select shipping method,Επιλέξτε μέθοδο αποστολής
+Select sort,Επιλέξτε ταξινόμηση
+"Select the items going in this shipment, then add the carrier & tracking.",Επιλέξτε τα στοιχεία που θα συμπεριληφθούν σε αυτή την αποστολή και έπειτα προσθέστε τον μεταφορέα και τον αριθμό παρακολούθησης.
+Setting,Ρύθμιση
+Settings,Ρυθμίσεις
+Shipment Status,Κατάσταση αποστολής
+Shipment canceled,Η αποστολή ακυρώθηκε
+Shipment created,Η αποστολή δημιουργήθηκε
+Shipment marked delivered,Η αποστολή σημειώθηκε ως παραδοθείσα
+Shipments,Αποστολές
+Shipped,Απεστάλη
+Shipping (${method}),Αποστολή (${method})
+Shipping Setting,Ρύθμιση αποστολής
+Show,Εμφάνιση
+Show all ${count} options,Εμφάνιση όλων των ${count} επιλογών
+Show on storefront,Εμφάνιση στο κατάστημα
+Showing ${showing} of ${total},Εμφάνιση ${showing} από ${total}
+Showing ${start}-${end} of ${total} results,Εμφάνιση ${start}-${end} από ${total} αποτελέσματα
+Sidebar,Πλαϊνή μπάρα
+Sign in to view your orders,Συνδεθείτε για να δείτε τις παραγγελίες σας
+Simple,Απλό
+Sky,Γαλάζιο
+Sold out,Εξαντλήθηκε
+Some error occurred. Please try again later.,Παρουσιάστηκε κάποιο σφάλμα. Παρακαλώ δοκιμάστε ξανά αργότερα.
+Some products are not available,Ορισμένα προϊόντα δεν είναι διαθέσιμα
+Something went wrong! Please try again.,Κάτι πήγε στραβά! Παρακαλώ δοκιμάστε ξανά.
+Something went wrong. Please try again later.,Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά αργότερα.
+Something wrong. Please try again,Κάτι πήγε στραβά. Δοκιμάστε ξανά
+Sort Order,Σειρά ταξινόμησης
+Sort order,Σειρά ταξινόμησης
+Status,Κατάσταση
+Stock,Απόθεμα
+Stripe is not loaded. Please try again.,Το Stripe δεν φορτώθηκε. Δοκιμάστε ξανά.
+Style,Στυλ
+Sub-fields,Υποπεδία
+Submit Cancellation,Υποβολή ακύρωσης
+Successfully logged in,Επιτυχής σύνδεση
+Successfully logged out,Επιτυχής αποσύνδεση
+Tax Setting,Ρύθμιση φόρου
+Test failure,Αποτυχία δοκιμής
+Test failure:,Αποτυχία δοκιμής:
+Test success,Επιτυχία δοκιμής
+Test success:,Επιτυχία δοκιμής:
+Text,Κείμενο
+Textarea,Περιοχή κειμένου
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,Ο μεταφορέας θα επισημάνει τον αριθμό παρακολούθησης ως άκυρο. Θα χρειαστεί να αγοράσετε νέα ετικέτα αν εξακολουθείτε να σκοπεύετε να αποστείλετε.
+The customer will receive a delivery confirmation email.,Ο πελάτης θα λάβει email επιβεβαίωσης παράδοσης.
+There is no category,Δεν υπάρχει κατηγορία
+There is no file to display.,Δεν υπάρχει αρχείο για εμφάνιση.
+There is no sub folder.,Δεν υπάρχει υποφάκελος.
+There was an error:,Παρουσιάστηκε σφάλμα:
+This tracking link has expired,Αυτός ο σύνδεσμος παρακολούθησης έχει λήξει
+This tracking link is no longer valid,Αυτός ο σύνδεσμος παρακολούθησης δεν ισχύει πλέον
+Thumbnail,Μικρογραφία
+Time must be after ${min},Η ώρα πρέπει να είναι μετά τις ${min}
+Time must be before ${max},Η ώρα πρέπει να είναι πριν τις ${max}
+Toggle Sidebar,Εναλλαγή πλαϊνής μπάρας
+Token is invalid or expired,Το token είναι άκυρο ή έχει λήξει
+Too many items requested,Ζητήθηκαν πάρα πολλά στοιχεία
+Track,Παρακολούθηση
+Track shipment →,Παρακολούθηση αποστολής →
+Track your order,Παρακολουθήστε την παραγγελία σας
+Tracking info updated,Οι πληροφορίες παρακολούθησης ενημερώθηκαν
+Tracking link,Σύνδεσμος παρακολούθησης
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,Οι σύνδεσμοι παρακολούθησης ισχύουν για περιορισμένο χρόνο. Συνδεθείτε στον λογαριασμό σας για να δείτε την τρέχουσα κατάσταση της παραγγελίας σας.
+Tracking number,Αριθμός παρακολούθησης
+Type,Τύπος
+Type / to see the available blocks,Πληκτρολογήστε / για να δείτε τα διαθέσιμα μπλοκ
+UPDATE PASSWORD,ΕΝΗΜΕΡΩΣΗ ΚΩΔΙΚΟΥ
+Update address API not available,Το API ενημέρωσης διεύθυνσης δεν είναι διαθέσιμο
+Update field,Ενημέρωση πεδίου
+Upload,Μεταφόρτωση
+Validation,Επικύρωση
+Value,Τιμή
+Value must be a whole number,Η τιμή πρέπει να είναι ακέραιος αριθμός
+Value must be at least ${min},Η τιμή πρέπει να είναι τουλάχιστον ${min}
+Value must be at most ${max},Η τιμή πρέπει να είναι το πολύ ${max}
+View All Products,Προβολή όλων των προϊόντων
+View JSON,Προβολή JSON
+View all customers,Προβολή όλων των πελατών
+Visible to customer,Ορατό στον πελάτη
+Void Label,Ακύρωση ετικέτας
+Void label,Ακύρωση ετικέτας
+Void this shipping label?,Ακύρωση αυτής της ετικέτας αποστολής;
+"We could not find this order. It may have been removed, or it may belong to a different account.",Δεν μπορέσαμε να βρούμε αυτή την παραγγελία. Ίσως έχει αφαιρεθεί ή ανήκει σε διαφορετικό λογαριασμό.
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","Δεν μπορέσαμε να επαληθεύσουμε αυτόν τον σύνδεσμο. Αν τον λάβατε σε email από εμάς, δοκιμάστε ξανά από το πιο πρόσφατο μήνυμα ή συνδεθείτε στον λογαριασμό σας."
+We have sent you an email with a link to reset your password. Please check your inbox.,Σας στείλαμε ένα email με σύνδεσμο για επαναφορά του κωδικού σας. Ελέγξτε τα εισερχόμενά σας.
+Weekly,Εβδομαδιαία
+Welcome to our store!,Καλώς ήρθατε στο κατάστημά μας!
+"Where you ship, shipping methods and delivery fee","Πού αποστέλλετε, μέθοδοι αποστολής και τέλος παράδοσης"
+White,Λευκό
+Yes,Ναι
+You are already logged in,Είστε ήδη συνδεδεμένοι
+You are here:,Βρίσκεστε εδώ:
+You have no attribute groups to display,Δεν έχετε ομάδες χαρακτηριστικών για εμφάνιση
+You have no categories to display,Δεν έχετε κατηγορίες για εμφάνιση
+You have no collections to display,Δεν έχετε συλλογές για εμφάνιση
+You have no products to display,Δεν έχετε προϊόντα για εμφάνιση
+You have not placed any orders yet.,Δεν έχετε κάνει ακόμη καμία παραγγελία.
+You paid for,Πληρώσατε για
+You will be redirected to PayPal for payment processing.,Θα ανακατευθυνθείτε στο PayPal για την επεξεργασία της πληρωμής.
+Your Orders,Οι παραγγελίες σας
+Your order #${number} has been delivered,Η παραγγελία σας #${number} παραδόθηκε
+Your order #${number} is on the way,Η παραγγελία σας #${number} είναι καθ' οδόν
+Your order has been confirmed!,Η παραγγελία σας επιβεβαιώθηκε!
+Your password has been updated successfully.,Ο κωδικός σας ενημερώθηκε με επιτυχία.
+across,σε
+available to ship,διαθέσιμα για αποστολή
+breadcrumb,διαδρομή πλοήγησης
+e.g. Care instructions,π.χ. Οδηγίες φροντίδας
+"e.g. New, Sale, Limited","π.χ. Νέο, Έκπτωση, Περιορισμένο"
+e.g. Question,π.χ. Ερώτηση
+e.g. care_instructions,π.χ. care_instructions
+e.g. question,π.χ. question
+item,στοιχείο
+items,στοιχεία
+left to ship,απομένουν για αποστολή
+of,από
+of ${count},από ${count}
+unit,μονάδα
+units,μονάδες
+${count} changes published.,${count} αλλαγές δημοσιεύθηκαν.
+${count} child widgets,${count} θυγατρικά widget
+${count} countries,${count} χώρες
+${count} on ${route},${count} στο ${route}
+${count} ops total,${count} λειτουργίες συνολικά
+${count} pending ops,${count} εκκρεμείς λειτουργίες
+${count} pending ops on,${count} εκκρεμείς λειτουργίες στο
+${count} routes,${count} διαδρομές
+${direction} failed,${direction} απέτυχε
+${method} — ${zone} rate,${method} — τιμή ${zone}
+${method} — new rate,${method} — νέα τιμή
+${name} attached to ${zone},${name} συνδέθηκε στη ${zone}
+${name} configuration for ${zone},Διαμόρφωση ${name} για ${zone}
+${name} configuration for this zone,Διαμόρφωση ${name} για αυτή τη ζώνη
+${name} configuration saved for ${zone},Η διαμόρφωση ${name} αποθηκεύτηκε για ${zone}
+${name} detached,${name} αποσυνδέθηκε
+${name} is required,Το ${name} είναι υποχρεωτικό
+${title} settings,Ρυθμίσεις ${title}
+${total} changes will go live immediately.,${total} αλλαγές θα τεθούν σε ισχύ αμέσως.
+${total} items,${total} στοιχεία
+(envelope),(φάκελος)
++ Add Line,+ Προσθήκη γραμμής
++ Add Method,+ Προσθήκη μεθόδου
++ Add Rate,+ Προσθήκη τιμής
++ Add placement,+ Προσθήκη τοποθέτησης
++ Attach Provider,+ Σύνδεση παρόχου
++ New package,+ Νέο πακέτο
++${count} more,+${count} ακόμη
+", +${count} more",", +${count} ακόμη"
+", last updated",", τελευταία ενημέρωση"
+0 for flat envelopes,0 για επίπεδους φακέλους
+1 change published.,1 αλλαγή δημοσιεύθηκε.
+1 change will go live immediately.,1 αλλαγή θα τεθεί σε ισχύ αμέσως.
+1 child widget,1 θυγατρικό widget
+1 op total,1 λειτουργία συνολικά
+1 pending op,1 εκκρεμής λειτουργία
+1 pending op on,1 εκκρεμής λειτουργία στο
+A package is required for shippable products,Απαιτείται πακέτο για τα προϊόντα που μπορούν να αποσταλούν
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,Ένα σχέδιο ανάπτυξης αποθηκεύει τις τρέχουσες επεξεργασίες σας ως στιγμιότυπο και τις εφαρμόζει αυτόματα κατά τη διάρκεια ενός προγραμματισμένου παραθύρου.
+Action,Ενέργεια
+Actions,Ενέργειες
+Add,Προσθήκη
+Add Products,Προσθήκη προϊόντων
+Add Rate,Προσθήκη τιμής
+Add Shipping Method,Προσθήκη μεθόδου αποστολής
+Add Tax Rate,Προσθήκη φορολογικού συντελεστή
+Add Variant,Προσθήκη παραλλαγής
+Add products to this category by selecting them from the list below.,Προσθέστε προϊόντα σε αυτή την κατηγορία επιλέγοντάς τα από την παρακάτω λίστα.
+Add rate,Προσθήκη τιμής
+Added,Προστέθηκε
+Adding to Column ${number},Προσθήκη στη στήλη ${number}
+Additional languages,Επιπλέον γλώσσες
+Admin panel language,Γλώσσα πίνακα διαχείρισης
+Affects ${count} pages,Επηρεάζει ${count} σελίδες
+Affects 1 page,Επηρεάζει 1 σελίδα
+All pages,Όλες οι σελίδες
+All registered providers are already attached to this zone.,Όλοι οι καταχωρημένοι πάροχοι είναι ήδη συνδεδεμένοι με αυτή τη ζώνη.
+All routes,Όλες οι διαδρομές
+Also shown on ${routes},Εμφανίζεται επίσης στο ${routes}
+Also shown on ${routes} +${count},Εμφανίζεται επίσης στο ${routes} +${count}
+Amount must be greater than or equal to 0,Το ποσό πρέπει να είναι μεγαλύτερο ή ίσο με 0
+Amount must be less than or equal to ${value} ${currency},Το ποσό πρέπει να είναι μικρότερο ή ίσο με ${value} ${currency}
+Apply a condition?,Εφαρμογή προϋπόθεσης;
+Area,Περιοχή
+Area is required,Η περιοχή είναι υποχρεωτική
+At least one country is required,Απαιτείται τουλάχιστον μία χώρα
+Attach,Σύνδεση
+Attach Provider to ${zone},Σύνδεση παρόχου στη ζώνη ${zone}
+Attached Providers,Συνδεδεμένοι πάροχοι
+Attribute Name,Όνομα χαρακτηριστικού
+Attribute code is required,Ο κωδικός χαρακτηριστικού είναι υποχρεωτικός
+Attribute created successfully!,Το χαρακτηριστικό δημιουργήθηκε με επιτυχία!
+Attribute group,Ομάδα χαρακτηριστικών
+Attribute name is required,Το όνομα χαρακτηριστικού είναι υποχρεωτικό
+Authorize only,Μόνο εξουσιοδότηση
+Auto-saves while you edit,Αυτόματη αποθήκευση κατά την επεξεργασία
+Back To Dashboard,Επιστροφή στον πίνακα ελέγχου
+Base calculation address,Διεύθυνση βάσης υπολογισμού
+Based on cart subtotal,Με βάση το μερικό σύνολο του καλαθιού
+Based on cart weight,Με βάση το βάρος του καλαθιού
+Basic configuration,Βασική διαμόρφωση
+Boolean,Boolean
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,Ενσωματωμένες μέθοδοι αποστολής με χρεώσεις ανά ζώνη. Συνδέστε πρώτα το Core σε μια ζώνη από τις Ρυθμίσεις → Αποστολή· έπειτα προσθέστε εδώ τις μεθόδους και διαμορφώστε τις χρεώσεις τους ανά ζώνη.
+Buy X get Y,Αγοράζεις X παίρνεις Y
+CMS,CMS
+Calculation type,Τύπος υπολογισμού
+Can not change the attribute group of a product that is already in a variant group.,Δεν είναι δυνατή η αλλαγή της ομάδας χαρακτηριστικών ενός προϊόντος που βρίσκεται ήδη σε ομάδα παραλλαγών.
+Cancel rollout,Ακύρωση κυκλοφορίας
+Cancel rollout plan?,Ακύρωση σχεδίου κυκλοφορίας;
+Canvas device width,Πλάτος συσκευής καμβά
+Capture,Δέσμευση
+Capture Payment,Δέσμευση πληρωμής
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,Υπόδειξη μεταφορέα για την εκτέλεση παραγγελιών — δεν εμφανίζεται ποτέ στο ταμείο. Το NewShipmentDialog το χρησιμοποιεί για την προεπιλογή του μεταφορέα.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,Κωδικός υπηρεσίας ειδικός για τον μεταφορέα που χρησιμοποιείται κατά την αγορά ετικέτας (CreateLabelInput.serviceCode). Ελεύθερη μορφή — επαληθεύστε το ακριβές token στην τεκμηρίωση API του μεταφορέα. Αφήστε το κενό για να επιλέξει ο μεταφορέας την προεπιλεγμένη υπηρεσία του.
+Cash On Delivery Payment,Πληρωμή με αντικαταβολή
+"Catalog, Search","Κατάλογος, Αναζήτηση"
+Category Image,Εικόνα κατηγορίας
+Category Name,Όνομα κατηγορίας
+Category created successfully!,Η κατηγορία δημιουργήθηκε με επιτυχία!
+Category name is required,Το όνομα κατηγορίας είναι υποχρεωτικό
+Choose Attribute Groups,Επιλογή ομάδων χαρακτηριστικών
+Choose Categories,Επιλογή κατηγοριών
+Choose Collections,Επιλογή συλλογών
+Choose SKUs,Επιλογή SKU
+Choose how much of your unpublished work to discard. The published storefront is not affected.,Επιλέξτε πόση από τη μη δημοσιευμένη εργασία σας θα απορρίψετε. Το δημοσιευμένο κατάστημα δεν επηρεάζεται.
+Choose where you ship and how much you charge for shipping.,Επιλέξτε πού αποστέλλετε και πόσο χρεώνετε για την αποστολή.
+Clear filter,Καθαρισμός φίλτρου
+Clear filters,Καθαρισμός φίλτρων
+Client ID,Client ID
+Client Secret,Client Secret
+Close,Κλείσιμο
+Close settings,Κλείσιμο ρυθμίσεων
+Close — continue draft,Κλείσιμο — συνέχεια προσχεδίου
+Cms Pages,Σελίδες CMS
+Collapse left rail,Σύμπτυξη αριστερής στήλης
+Collapse panel,Σύμπτυξη πίνακα
+Collection Code,Κωδικός συλλογής
+Collection Name,Όνομα συλλογής
+Collection code is required,Ο κωδικός συλλογής είναι υποχρεωτικός
+Collection code must be alphanumeric and can include underscores or dashes.,Ο κωδικός συλλογής πρέπει να είναι αλφαριθμητικός και μπορεί να περιλαμβάνει κάτω παύλες ή παύλες.
+Collection created successfully!,Η συλλογή δημιουργήθηκε με επιτυχία!
+Color,Χρώμα
+Commerce,Εμπόριο
+Compound,Σύνθετος
+Condition,Προϋπόθεση
+Configure,Διαμόρφωση
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,Διαμορφώστε το κόστος και τις προϋποθέσεις ανά ζώνη. Οι ζώνες χωρίς χρέωση δεν προσφέρουν αυτή τη μέθοδο.
+Configure rate,Διαμόρφωση χρέωσης
+Configure the available payment methods,Διαμορφώστε τις διαθέσιμες μεθόδους πληρωμής
+Configure the settings for the ${name} widget.,Διαμορφώστε τις ρυθμίσεις για το widget ${name}.
+Configure the tax classes that will be available to your customers at checkout.,Διαμορφώστε τις φορολογικές κλάσεις που θα είναι διαθέσιμες στους πελάτες σας στο ταμείο.
+Configure your Cash On Delivery payment gateway settings,Διαμορφώστε τις ρυθμίσεις της πύλης πληρωμής με αντικαταβολή
+Configure your Paypal payment gateway settings,Διαμορφώστε τις ρυθμίσεις της πύλης πληρωμής Paypal
+Configure your Stripe payment gateway settings,Διαμορφώστε τις ρυθμίσεις της πύλης πληρωμής Stripe
+Configure your store information,Διαμορφώστε τις πληροφορίες του καταστήματός σας
+"Conflicts with ${plan1}, ${plan2}","Έρχεται σε σύγκρουση με ${plan1}, ${plan2}"
+Conflicts with ${plan},Έρχεται σε σύγκρουση με ${plan}
+Conflicts with ${plan} +${count},Έρχεται σε σύγκρουση με ${plan} +${count}
+Conflicts with:,Έρχεται σε σύγκρουση με:
+Content,Περιεχόμενο
+Continue a saved rollout plan,Συνέχεια αποθηκευμένου σχεδίου κυκλοφορίας
+Continue your draft,Συνέχεια του προσχεδίου σας
+Core Shipping,Αποστολή Core
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Το Core δεν είναι ακόμη συνδεδεμένο σε καμία ζώνη. Συνδέστε το πρώτα από τις Ρυθμίσεις → Αποστολή.
+Cost,Κόστος
+Cost is required,Το κόστος είναι υποχρεωτικό
+Could not start fresh,Δεν ήταν δυνατή η εκκίνηση από την αρχή
+Countries,Χώρες
+"Country code (e.g., ""US""). Use ""*"" for all countries.","Κωδικός χώρας (π.χ. ""US""). Χρησιμοποιήστε ""*"" για όλες τις χώρες."
+Coupon Code,Κωδικός κουπονιού
+"Coupon code can only contain letters, numbers, underscores, and hyphens","Ο κωδικός κουπονιού μπορεί να περιέχει μόνο γράμματα, αριθμούς, κάτω παύλες και παύλες"
+Coupon created successfully!,Το κουπόνι δημιουργήθηκε με επιτυχία!
+Coupons,Κουπόνια
+Create A New Customer,Δημιουργία νέου πελάτη
+Create New Package,Δημιουργία νέου πακέτου
+Create New Tax Class,Δημιουργία νέας φορολογικής κλάσης
+Create New Zone,Δημιουργία νέας ζώνης
+Create a new category,Δημιουργία νέας κατηγορίας
+Create a new collection,Δημιουργία νέας συλλογής
+Create a new coupon,Δημιουργία νέου κουπονιού
+Create a new page,Δημιουργία νέας σελίδας
+Create a new product,Δημιουργία νέου προϊόντος
+Create a new variant for this product.,Δημιουργία νέας παραλλαγής για αυτό το προϊόν.
+Create a new widget,Δημιουργία νέου widget
+Create a variant group,Δημιουργία ομάδας παραλλαγών
+Create method,Δημιουργία μεθόδου
+Create new tax class,Δημιουργία νέας φορολογικής κλάσης
+Create rollout plan,Δημιουργία σχεδίου κυκλοφορίας
+Created At,Δημιουργήθηκε στις
+Current,Τρέχον
+Customer,Πελάτης
+Customer Email,Email πελάτη
+Customer conditions,Προϋποθέσεις πελάτη
+Customer emails,Email πελατών
+Customer groups,Ομάδες πελατών
+Customer's purchase,Αγορά του πελάτη
+Customers,Πελάτες
+Customers (${count}),Πελάτες (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,Οι πελάτες στη ζώνη ${zone} δεν θα βλέπουν πλέον τις μεθόδους του ${name} στο ταμείο. Μπορείτε να το συνδέσετε ξανά αργότερα.
+Dashboard,Πίνακας ελέγχου
+Date,Ημερομηνία
+Decrease,Μείωση
+Default carrier,Προεπιλεγμένος μεταφορέας
+Default language,Προεπιλεγμένη γλώσσα
+Default package,Προεπιλεγμένο πακέτο
+Default service code,Προεπιλεγμένος κωδικός υπηρεσίας
+"Delete ""${name}""?","Διαγραφή ""${name}"";"
+Delete ${count} attributes,Διαγραφή ${count} χαρακτηριστικών
+Delete ${count} categories,Διαγραφή ${count} κατηγοριών
+Delete ${count} collections,Διαγραφή ${count} συλλογών
+Delete ${count} pages,Διαγραφή ${count} σελίδων
+Delete ${count} widgets,Διαγραφή ${count} widgets
+Delete container widget?,Διαγραφή widget κοντέινερ;
+Delete image,Διαγραφή εικόνας
+"Delete package ""${name}""?","Διαγραφή πακέτου ""${name}"";"
+Delete this,Διαγραφή αυτού
+Delete this widget? This will be saved as a pending change you can publish or discard.,Διαγραφή αυτού του widget; Θα αποθηκευτεί ως εκκρεμής αλλαγή που μπορείτε να δημοσιεύσετε ή να απορρίψετε.
+Delete widget?,Διαγραφή widget;
+Delete zone,Διαγραφή ζώνης
+"Delete zone ""${name}""?","Διαγραφή ζώνης ""${name}"";"
+Deleted ${name},Διαγράφηκε το ${name}
+Deleting this,Διαγραφή αυτού
+Deleting this container will also hide,Η διαγραφή αυτού του κοντέινερ θα αποκρύψει επίσης
+Description is required,Η περιγραφή είναι υποχρεωτική
+Desktop,Επιτραπέζιος υπολογιστής
+Detach,Αποσύνδεση
+Detach ${name}?,Αποσύνδεση του ${name};
+Disable ${count} pages,Απενεργοποίηση ${count} σελίδων
+Disable ${count} widgets,Απενεργοποίηση ${count} widget
+Disabled products will not be visible in the store and cannot be purchased.,Τα απενεργοποιημένα προϊόντα δεν θα είναι ορατά στο κατάστημα και δεν μπορούν να αγοραστούν.
+Discard changes on this page only,Απόρριψη αλλαγών μόνο σε αυτή τη σελίδα
+Discard everything,Απόρριψη όλων
+Discard everything in this draft,Απόρριψη όλων σε αυτό το πρόχειρο
+Discard failed,Η απόρριψη απέτυχε
+Discard pending changes?,Απόρριψη εκκρεμών αλλαγών;
+Discard this page,Απόρριψη αυτής της σελίδας
+Discarding…,Απόρριψη…
+Discount Type,Τύπος έκπτωσης
+Discount amount,Ποσό έκπτωσης
+Discount amount is required,Το ποσό έκπτωσης είναι υποχρεωτικό
+Discount type is required,Ο τύπος έκπτωσης είναι υποχρεωτικός
+Dislay Name,Εμφανιζόμενο όνομα
+Display Name,Εμφανιζόμενο όνομα
+Draft,Πρόχειρο
+Draft — not scheduled,Πρόχειρο — δεν έχει προγραμματιστεί
+Drag to resize,Σύρετε για αλλαγή μεγέθους
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","Κάθε γραμμή τοποθετεί αυτό το widget σε μία σελίδα, σε μία περιοχή, με τη δική του σειρά ταξινόμησης. Οι μικρότεροι αριθμοί εμφανίζονται πρώτοι."
+Edit ${name},Επεξεργασία του ${name}
+Edit Shipping Zone,Επεξεργασία ζώνης αποστολής
+Edit Tax Rate,Επεξεργασία φορολογικού συντελεστή
+Edit Variant,Επεξεργασία παραλλαγής
+Edit Zone,Επεξεργασία ζώνης
+Edit against the live storefront. Publish immediately or save as a rollout plan.,Επεξεργαστείτε με βάση το ζωντανό κατάστημα. Δημοσιεύστε άμεσα ή αποθηκεύστε ως πλάνο ανάπτυξης.
+Edit rollout schedule,Επεξεργασία προγράμματος ανάπτυξης
+Editable routes,Επεξεργάσιμες διαδρομές
+Editing ${coupon},Επεξεργασία του ${coupon}
+Editing ${fullName},Επεξεργασία του ${fullName}
+Editing widget ${name},Επεξεργασία widget ${name}
+Edits to a shared widget update every route it appears on.,Οι επεξεργασίες σε ένα κοινόχρηστο widget ενημερώνουν κάθε διαδρομή στην οποία εμφανίζεται.
+Empty package weight,Βάρος άδειου δέματος
+Empty weight,Βάρος χωρίς περιεχόμενο
+Enable ${count} pages,Ενεργοποίηση ${count} σελίδων
+Enable ${count} widgets,Ενεργοποίηση ${count} widget
+Enable this page to make it visible on the frontend.,Ενεργοποιήστε αυτή τη σελίδα για να γίνει ορατή στο frontend.
+Enable?,Ενεργοποίηση;
+End,Λήξη
+End Date,Ημερομηνία λήξης
+End date,Ημερομηνία λήξης
+End time is invalid.,Η ώρα λήξης δεν είναι έγκυρη.
+End time must be after start time.,Η ώρα λήξης πρέπει να είναι μετά την ώρα έναρξης.
+Enter Category Name,Εισαγάγετε όνομα κατηγορίας
+Enter Collection Name,Εισαγάγετε όνομα συλλογής
+Enter Meta Description,Εισαγάγετε Meta Description
+Enter Meta Title,Εισαγάγετε Meta Title
+Enter Meta description,Εισαγάγετε Meta description
+Enter Meta title,Εισαγάγετε Meta title
+Enter SKU,Εισαγάγετε SKU
+Enter URL Key,Εισαγάγετε κλειδί URL
+Enter URL key,Εισαγάγετε κλειδί URL
+Enter customer emails,Εισαγάγετε email πελατών
+Enter description,Εισαγάγετε περιγραφή
+Enter group name,Εισαγάγετε όνομα ομάδας
+Enter meta description,Εισαγάγετε meta description
+Enter meta title,Εισαγάγετε meta title
+Enter page name,Εισαγάγετε όνομα σελίδας
+Enter price,Εισαγάγετε τιμή
+Enter product name,Εισαγάγετε όνομα προϊόντος
+Enter purchased amount,Εισαγάγετε αγορασμένη ποσότητα
+Enter quantity,Εισαγάγετε ποσότητα
+Enter tax class name,Εισαγάγετε όνομα φορολογικής κλάσης
+Enter the quantity,Εισαγάγετε την ποσότητα
+Enter weight,Εισαγάγετε βάρος
+Environment,Περιβάλλον
+Error loading countries,Σφάλμα φόρτωσης χωρών
+Error loading methods,Σφάλμα φόρτωσης μεθόδων
+Error loading packages,Σφάλμα φόρτωσης δεμάτων
+Error loading providers,Σφάλμα φόρτωσης παρόχων
+Error loading zones,Σφάλμα φόρτωσης ζωνών
+EverShop · Back to page builder,EverShop · Επιστροφή στον page builder
+Every page rolls back to the rollout’s saved state.,Κάθε σελίδα επανέρχεται στην αποθηκευμένη κατάσταση της ανάπτυξης.
+Every page rolls back to what the rollout had saved.,"Κάθε σελίδα επανέρχεται σε ό,τι είχε αποθηκεύσει η ανάπτυξη."
+Existing rollout plan: ${plan},Υπάρχον πλάνο ανάπτυξης: ${plan}
+Expand,Ανάπτυξη
+Expand left rail,Ανάπτυξη αριστερής στήλης
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.","Επιπλέον γλώσσες στις οποίες μπορούν να μεταβούν οι αγοραστές, πέραν της προεπιλεγμένης. Η προεπιλεγμένη γλώσσα είναι πάντα διαθέσιμη — δεν την προσθέτετε εδώ."
+Failed to attach provider,Αποτυχία σύνδεσης παρόχου
+Failed to delete ${name},Αποτυχία διαγραφής του ${name}
+Failed to detach ${name},Αποτυχία αποσύνδεσης του ${name}
+Failed to remove rate,Αποτυχία αφαίρεσης συντελεστή
+Failed to remove zone,Αποτυχία αφαίρεσης ζώνης
+Failed to save change,Αποτυχία αποθήκευσης αλλαγής
+Failed to save rate,Αποτυχία αποθήκευσης συντελεστή
+Failed to save zone,Αποτυχία αποθήκευσης ζώνης
+Failed to update rollout schedule,Αποτυχία ενημέρωσης προγράμματος ανάπτυξης
+Fixed discount to entire order,Σταθερή έκπτωση σε ολόκληρη την παραγγελία
+Fixed discount to specific products,Σταθερή έκπτωση σε συγκεκριμένα προϊόντα
+Flat rate,Σταθερή χρέωση
+"Flat rate in cart currency, tax-exclusive.","Σταθερή χρέωση στο νόμισμα του καλαθιού, χωρίς φόρο."
+Free shipping?,Δωρεάν αποστολή;
+General Information,Γενικές πληροφορίες
+Give Feedback,Αφήστε σχόλια
+Global,Καθολικό
+Globals,Καθολικά
+Group,Ομάδα
+Group Name,Όνομα ομάδας
+Group name is required,Το όνομα ομάδας είναι υποχρεωτικό
+Groups,Ομάδες
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,Ημιανοιχτό διάστημα — ένα καλάθι ακριβώς στο Max εξαιρείται (το Min της επόμενης βαθμίδας κατέχει αυτό το σημείο).
+Has conflicts,Έχει διενέξεις
+Heads up — ,Προσοχή — 
+Height,Ύψος
+Height is required (0 for envelopes),Το ύψος είναι υποχρεωτικό (0 για φακέλους)
+Height must be 0 or greater,Το ύψος πρέπει να είναι 0 ή μεγαλύτερο
+Hide global areas,Απόκρυψη καθολικών περιοχών
+Higest tax rate based on cart items,Υψηλότερος φορολογικός συντελεστής βάσει των ειδών του καλαθιού
+Highlight global areas on canvas,Επισήμανση καθολικών περιοχών στον καμβά
+Image,Εικόνα
+Include In Menu,Συμπερίληψη στο μενού
+Include in Store Menu?,Συμπερίληψη στο μενού καταστήματος;
+Increase,Αύξηση
+Insert image,Εισαγωγή εικόνας
+Integer,Ακέραιος
+Invalid folder name,Μη έγκυρο όνομα φακέλου
+Invalid start,Μη έγκυρη έναρξη
+Invalid window,Μη έγκυρο χρονικό παράθυρο
+Inventory,Απόθεμα
+Is compound,Είναι σύνθετος
+Its rates will be removed too. This cannot be undone.,Οι συντελεστές της θα αφαιρεθούν επίσης. Αυτό δεν μπορεί να αναιρεθεί.
+Languages,Γλώσσες
+Layers,Επίπεδα
+Layout,Διάταξη
+Leave,Αποχώρηση
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,Αφήστε τη λίστα μιας χώρας κενή για να καλύψετε ολόκληρη τη χώρα. Προσθέστε επαρχίες για να περιορίσετε την αποστολή σε συγκεκριμένες περιοχές.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,Η αποχώρηση τώρα ενδέχεται να απορρίψει τις πιο πρόσφατες επεξεργασίες που δεν έχουν φτάσει ακόμη στον διακομιστή.
+Length,Μήκος
+Length is required,Το μήκος είναι υποχρεωτικό
+Length must be greater than 0,Το μήκος πρέπει να είναι μεγαλύτερο από 0
+Live,Ζωντανό
+Loading...,Φόρτωση...
+Long text,Μεγάλο κείμενο
+Lower values appear first.,Οι μικρότερες τιμές εμφανίζονται πρώτες.
+Manage Stock,Διαχείριση αποθέματος
+Manage general information about the collection.,Διαχειριστείτε γενικές πληροφορίες σχετικά με τη συλλογή.
+Manage product images and gallery. Drag and drop to reorder images.,Διαχειριστείτε τις εικόνες και τη συλλογή φωτογραφιών του προϊόντος. Σύρετε και αποθέστε για αναδιάταξη των εικόνων.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","Διαχειριστείτε τις ενσωματώσεις αποστολής και τις μεθόδους τους (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,Διαχειριστείτε φορολογικές κλάσεις και φορολογικούς συντελεστές για διαφορετικές περιοχές.
+Manage the SEO settings of the category.,Διαχειριστείτε τις ρυθμίσεις SEO της κατηγορίας.
+Manage the SEO settings.,Διαχειριστείτε τις ρυθμίσεις SEO.
+Manage the attributes.,Διαχειριστείτε τα χαρακτηριστικά.
+Manage the collections associated with this product.,Διαχειριστείτε τις συλλογές που σχετίζονται με αυτό το προϊόν.
+Manage the general information of the category.,Διαχειριστείτε τις γενικές πληροφορίες της κατηγορίας.
+Manage the general information of the product.,Διαχειριστείτε τις γενικές πληροφορίες του προϊόντος.
+Manage the inventory settings of the product.,Διαχειριστείτε τις ρυθμίσεις αποθέματος του προϊόντος.
+Manage the products assigned to this category.,Διαχειριστείτε τα προϊόντα που έχουν αντιστοιχιστεί σε αυτή την κατηγορία.
+Manage the products assigned to this collection.,Διαχειριστείτε τα προϊόντα που έχουν αντιστοιχιστεί σε αυτή τη συλλογή.
+Manage the shipping settings of the product.,Διαχειριστείτε τις ρυθμίσεις αποστολής του προϊόντος.
+Manage the status settings of the category.,Διαχειριστείτε τις ρυθμίσεις κατάστασης της κατηγορίας.
+Manage the variant group of the product.,Διαχειριστείτε την ομάδα παραλλαγών του προϊόντος.
+Marketing,Μάρκετινγκ
+Max ${unit},Μέγ. ${unit}
+Max is required,Το μέγιστο είναι υποχρεωτικό
+Maximum,Μέγιστο
+Maximum amount is ${value} ${currency},Το μέγιστο ποσό είναι ${value} ${currency}
+Maximum quantity is required,Η μέγιστη ποσότητα είναι υποχρεωτική
+Maximum quantity must be greater than or equal to 0,Η μέγιστη ποσότητα πρέπει να είναι μεγαλύτερη ή ίση με 0
+Media,Πολυμέσα
+Meta Description,Meta Περιγραφή
+Meta Title,Meta Τίτλος
+Meta Title is required,Ο Meta Τίτλος είναι υποχρεωτικός
+Meta description,Meta περιγραφή
+Meta description is required,Η Meta περιγραφή είναι υποχρεωτική
+Meta title,Meta τίτλος
+Meta title is required,Ο Meta τίτλος είναι υποχρεωτικός
+Method,Μέθοδος
+Method created,Η μέθοδος δημιουργήθηκε
+Method name,Όνομα μεθόδου
+Method name is required,Το όνομα μεθόδου είναι υποχρεωτικό
+Method updated,Η μέθοδος ενημερώθηκε
+Methods →,Μέθοδοι →
+Min ${unit},Ελάχ. ${unit}
+Min Price,Ελάχ. Τιμή
+Min Weight,Ελάχ. Βάρος
+Min is required,Το ελάχιστο είναι υποχρεωτικό
+Min price is required,Η ελάχιστη τιμή είναι υποχρεωτική
+Min weight is required,Το ελάχιστο βάρος είναι υποχρεωτικό
+Minimum purchase amount,Ελάχιστο ποσό αγοράς
+Minimum purchase qty,Ελάχ. ποσότητα αγοράς
+Minimum purchase quantity,Ελάχιστη ποσότητα αγοράς
+Minimum purchased amount. This only applies to registered customers.,Ελάχιστο ποσό αγοράς. Αυτό ισχύει μόνο για εγγεγραμμένους πελάτες.
+Minimum quantity is required,Η ελάχιστη ποσότητα είναι υποχρεωτική
+Missing name,Λείπει το όνομα
+Money,Χρήματα
+Name is required.,Το όνομα είναι υποχρεωτικό.
+Navigation,Πλοήγηση
+New Attribute,Νέο Χαρακτηριστικό
+New Category,Νέα Κατηγορία
+New Collection,Νέα Συλλογή
+New Coupon,Νέο Κουπόνι
+New Page,Νέα Σελίδα
+New Variant,Νέα Παραλλαγή
+New coupon,Νέο κουπόνι
+New rate,Νέα χρέωση
+No collections,Καμία συλλογή
+No editable routes.,Δεν υπάρχουν επεξεργάσιμες διαδρομές.
+No file selected,Δεν επιλέχθηκε αρχείο
+No methods yet — add one to start offering Core shipping.,Καμία μέθοδος ακόμη — προσθέστε μία για να ξεκινήσετε να προσφέρετε αποστολή Core.
+No packages yet. Create one — shippable products require a package.,Κανένα πακέτο ακόμη. Δημιουργήστε ένα — τα αποστελλόμενα προϊόντα απαιτούν πακέτο.
+No product to display.,Δεν υπάρχει προϊόν για εμφάνιση.
+"No providers attached. Click ""Attach Provider"" to add one.","Δεν έχουν συνδεθεί πάροχοι. Κάντε κλικ στο ""Σύνδεση Παρόχου"" για να προσθέσετε έναν."
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","Καμία χρέωση ακόμη — κάντε κλικ στο ""Προσθήκη Χρέωσης"" για να προσφέρετε αυτή τη μέθοδο σε μια ζώνη."
+"No results for ""${keyword}""","Κανένα αποτέλεσμα για ""${keyword}"""
+No routes have opted into page-builder editing yet.,Καμία διαδρομή δεν έχει επιλέξει ακόμη επεξεργασία με το page-builder.
+No shipping required?,Δεν απαιτείται αποστολή;
+No subdivisions available — whole country is covered.,Δεν υπάρχουν διαθέσιμες υποδιαιρέσεις — καλύπτεται ολόκληρη η χώρα.
+No widgets available.,Δεν υπάρχουν διαθέσιμα widgets.
+"No widgets match ""${query}"".","Κανένα widget δεν ταιριάζει με ""${query}""."
+No widgets on this route yet.,Κανένα widget σε αυτή τη διαδρομή ακόμη.
+No zones,Καμία ζώνη
+No zones found,Δεν βρέθηκαν ζώνες
+Not visible individually,Μη ορατό μεμονωμένα
+Nothing to publish,Τίποτα προς δημοσίευση
+Nothing to redo on this page,Τίποτα προς επανάληψη σε αυτή τη σελίδα
+Nothing to undo on this page,Τίποτα προς αναίρεση σε αυτή τη σελίδα
+Number,Αριθμός
+Option text is required,Το κείμενο επιλογής είναι υποχρεωτικό
+Optional. Added to the shipping weight for quotes and labels.,Προαιρετικό. Προστίθεται στο βάρος αποστολής για προσφορές και ετικέτες.
+Order Number,Αριθμός Παραγγελίας
+Order conditions,Όροι παραγγελίας
+Orders (${count}),Παραγγελίες (${count})
+Other,Άλλο
+Other pages keep their pending changes.,Οι άλλες σελίδες διατηρούν τις εκκρεμείς αλλαγές τους.
+Overlaps with existing rollout: ${plans}.,Επικαλύπτεται με υπάρχουσα ανάπτυξη: ${plans}.
+Overlaps with existing rollouts: ${plans}.,Επικαλύπτεται με υπάρχουσες αναπτύξεις: ${plans}.
+Package,Πακέτο
+Package created,Το πακέτο δημιουργήθηκε
+Package deleted,Το πακέτο διαγράφηκε
+Package saved,Το πακέτο αποθηκεύτηκε
+Packages,Πακέτα
+Page Name,Όνομα Σελίδας
+Page Not Found,Η Σελίδα Δεν Βρέθηκε
+Page builder,Page builder
+Page builder canvas,Καμβάς page builder
+Page created successfully!,Η σελίδα δημιουργήθηκε με επιτυχία!
+Page is required,Η σελίδα είναι υποχρεωτική
+Page name is required,Το όνομα σελίδας είναι υποχρεωτικό
+Pages,Σελίδες
+Parent category,Γονική κατηγορία
+Payment Setting,Ρύθμιση Πληρωμών
+Payment mode,Λειτουργία πληρωμής
+Payment setting saved,Η ρύθμιση πληρωμών αποθηκεύτηκε
+Paypal Payment,Πληρωμή Paypal
+Pending start time,Εκκρεμής χρόνος έναρξης
+Percentage discount to entire order,Ποσοστιαία έκπτωση σε ολόκληρη την παραγγελία
+Percentage discount to specific products,Ποσοστιαία έκπτωση σε συγκεκριμένα προϊόντα
+Phone,Τηλέφωνο
+Pick a start time to schedule this rollout.,Επιλέξτε χρόνο έναρξης για να προγραμματίσετε αυτή την ανάπτυξη.
+Pick a widget below to insert as a child.,Επιλέξτε ένα widget παρακάτω για εισαγωγή ως θυγατρικό.
+Pick up where you left off — ${count} pending changes,Συνεχίστε από εκεί που σταματήσατε — ${count} εκκρεμείς αλλαγές
+Pick up where you left off — 1 pending change,Συνεχίστε από εκεί που σταματήσατε — 1 εκκρεμής αλλαγή
+Pin drawer open,Καρφίτσωμα συρταριού ανοιχτό
+Pin — keep drawer open across canvas clicks,Καρφίτσωμα — διατήρηση συρταριού ανοιχτού στα κλικ του καμβά
+Placed on: ${routes},Τοποθετήθηκε σε: ${routes}
+Placements,Τοποθετήσεις
+Postal Code,Ταχυδρομικός Κώδικας
+"Postcode (e.g., ""90210""). Empty for all postcodes.","Ταχυδρομικός κώδικας (π.χ. ""90210""). Κενό για όλους τους ταχυδρομικούς κώδικες."
+Preselected for new products. Exactly one package is the default.,Προεπιλεγμένο για νέα προϊόντα. Ακριβώς ένα πακέτο είναι το προεπιλεγμένο.
+Preview,Προεπισκόπηση
+Price-based tiers,Βαθμίδες βάσει τιμής
+Priority,Προτεραιότητα
+Priority is required,Η προτεραιότητα είναι υποχρεωτική
+Product Name,Όνομα Προϊόντος
+Product Status,Κατάσταση Προϊόντος
+Product created successfully,Το προϊόν δημιουργήθηκε με επιτυχία
+Product updated successfully,Το προϊόν ενημερώθηκε με επιτυχία
+Products (${count}),Προϊόντα (${count})
+Promotion,Προωθητική ενέργεια
+Proportional allocation based on cart items,Αναλογική κατανομή βάσει των ειδών του καλαθιού
+Provide the SEO details for the CMS page.,Παρέχετε τα στοιχεία SEO για τη σελίδα CMS.
+Provide the basic information for the CMS page.,Παρέχετε τις βασικές πληροφορίες για τη σελίδα CMS.
+Provider,Πάροχος
+Province Restrictions,Περιορισμοί Επαρχίας
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.","Κωδικός επαρχίας (π.χ. ""CA""). Χρησιμοποιήστε ""*"" για όλες τις επαρχίες."
+Provinces,Επαρχίες
+Provinces is required,Οι επαρχίες είναι υποχρεωτικές
+Provinces:,Επαρχίες:
+Publish failed,Η δημοσίευση απέτυχε
+Publish now,Δημοσίευση τώρα
+Publish to the live storefront,Δημοσίευση στο ζωντανό κατάστημα
+Publishable Key,Publishable Key
+Publishing…,Δημοσίευση…
+Qty is required,Η ποσότητα είναι υποχρεωτική
+Quick links,Γρήγοροι σύνδεσμοι
+Rate,Χρέωση
+Rate added,Η χρέωση προστέθηκε
+Rate is required,Η χρέωση είναι υποχρεωτική
+Rate removed,Η χρέωση αφαιρέθηκε
+Rate status,Κατάσταση χρέωσης
+Rate updated,Η χρέωση ενημερώθηκε
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,Επανάληψη (⇧⌘Z) — επανεφαρμόζει την τελευταία αναιρεμένη επεξεργασία σε αυτή τη σελίδα
+Redo last undone change on this page,Επανάληψη της τελευταίας αναιρεμένης αλλαγής σε αυτή τη σελίδα
+Reference,Αναφορά
+Refund,Επιστροφή χρημάτων
+Refund amount,Ποσό επιστροφής
+Remove Zone,Αφαίρεση Ζώνης
+Remove placement,Αφαίρεση τοποθέτησης
+Remove rate,Αφαίρεση χρέωσης
+Remove this rate?,Αφαίρεση αυτής της χρέωσης;
+Removed,Αφαιρέθηκε
+Resize settings drawer,Αλλαγή μεγέθους συρταριού ρυθμίσεων
+"Results for ""${keyword}""","Αποτελέσματα για ""${keyword}"""
+Revert all pages to saved state,Επαναφορά όλων των σελίδων στην αποθηκευμένη κατάσταση
+Revert everything,Επαναφορά των πάντων
+Revert this page,Επαναφορά αυτής της σελίδας
+Revert this page only,Επαναφορά μόνο αυτής της σελίδας
+Revert to saved state?,Επαναφορά στην αποθηκευμένη κατάσταση;
+Reverting…,Επαναφορά…
+Rich text,Εμπλουτισμένο κείμενο
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,Αναιρέστε τις αλλαγές που κάνατε από την τελευταία αποθήκευση αυτής της κυκλοφορίας. Το ζωντανό κατάστημα δεν επηρεάζεται — αντικατοπτρίζει ήδη την αποθηκευμένη κατάσταση.
+SEO,SEO
+SEO Information,Πληροφορίες SEO
+SKU is required,Το SKU είναι υποχρεωτικό
+Sale,Έκπτωση
+Sandbox,Sandbox
+Save Settings,Αποθήκευση ρυθμίσεων
+Save as rollout plan,Αποθήκευση ως σχέδιο κυκλοφορίας
+Save as rollout plan and leave,Αποθήκευση ως σχέδιο κυκλοφορίας και αποχώρηση
+Save changes,Αποθήκευση αλλαγών
+Save failed,Η αποθήκευση απέτυχε
+Save method,Αποθήκευση μεθόδου
+Save rate,Αποθήκευση χρέωσης
+Saving…,Αποθήκευση…
+Schedule failed,Ο προγραμματισμός απέτυχε
+Scheduled,Προγραμματισμένο
+Search engine optimize,Βελτιστοποίηση για μηχανές αναζήτησης
+Search widgets,Αναζήτηση widget
+Secret Key,Μυστικό κλειδί
+Select Category,Επιλογή κατηγορίας
+Select Parent Category,Επιλογή γονικής κατηγορίας
+Select Products by SKU,Επιλογή προϊόντων ανά SKU
+Select a provider first,Επιλέξτε πρώτα έναν πάροχο
+Select a provider…,Επιλέξτε πάροχο…
+Select an option,Επιλέξτε μια επιλογή
+Select category,Επιλογή κατηγορίας
+Select countries,Επιλογή χωρών
+Select operator,Επιλογή τελεστή
+Select options,Επιλογή επιλογών
+Select page,Επιλογή σελίδας
+Select products to add to this collection.,Επιλέξτε προϊόντα για προσθήκη σε αυτή τη συλλογή.
+Select the list of attribute,Επιλέξτε τη λίστα χαρακτηριστικών
+Select this option if the product is a digital product or service that does not require shipping.,Επιλέξτε αυτή την επιλογή αν το προϊόν είναι ψηφιακό προϊόν ή υπηρεσία που δεν απαιτεί αποστολή.
+Set a start time to schedule.,Ορίστε ώρα έναρξης για προγραμματισμό.
+Set the status and visibility of the product.,Ορίστε την κατάσταση και την ορατότητα του προϊόντος.
+Share,Κοινοποίηση
+Shipping Cost,Κόστος αποστολής
+Shipping Providers,Πάροχοι αποστολής
+Shipping address,Διεύθυνση αποστολής
+Shipping cost is required,Το κόστος αποστολής είναι υποχρεωτικό
+Shipping provider setting saved,Η ρύθμιση παρόχου αποστολής αποθηκεύτηκε
+Shipping tax class,Φορολογική κατηγορία αποστολής
+Short text,Σύντομο κείμενο
+Show global areas,Εμφάνιση καθολικών περιοχών
+Show on routes,Εμφάνιση σε διαδρομές
+Show products?,Εμφάνιση προϊόντων;
+Show this widget on every page,Εμφάνιση αυτού του widget σε κάθε σελίδα
+Size (L × W × H),Μέγεθος (Μ × Π × Υ)
+Sort,Ταξινόμηση
+Sort order is required,Η σειρά ταξινόμησης είναι υποχρεωτική
+Sort order must be a positive number,Η σειρά ταξινόμησης πρέπει να είναι θετικός αριθμός
+Start,Έναρξη
+Start a page-builder session,Ξεκινήστε μια συνεδρία page-builder
+Start date,Ημερομηνία έναρξης
+Start new changeset,Έναρξη νέου changeset
+Start time is invalid.,Η ώρα έναρξης δεν είναι έγκυρη.
+State Date,Ημερομηνία κατάστασης
+Status is required,Η κατάσταση είναι υποχρεωτική
+Stay,Παραμονή
+Stay on this page,Παραμονή σε αυτή τη σελίδα
+Stock Availability,Διαθεσιμότητα αποθέματος
+Stop highlighting global areas,Διακοπή επισήμανσης καθολικών περιοχών
+Store Address,Διεύθυνση καταστήματος
+Store Description,Περιγραφή καταστήματος
+Store Email,Email καταστήματος
+Store Name,Όνομα καταστήματος
+Store Phone Number,Τηλέφωνο καταστήματος
+Store Setting,Ρύθμιση καταστήματος
+Store Settings,Ρυθμίσεις καταστήματος
+Store address,Διεύθυνση καταστήματος
+Storefront,Κατάστημα
+Stripe Payment,Πληρωμή Stripe
+Tablet,Tablet
+Take our survey,Συμμετοχή στην έρευνά μας
+Target Products,Στοχευμένα προϊόντα
+Tax Class,Φορολογική κατηγορία
+Tax calculation configuration,Διαμόρφωση υπολογισμού φόρου
+Tax class name,Όνομα φορολογικής κατηγορίας
+Tax class name is required,Το όνομα φορολογικής κατηγορίας είναι υποχρεωτικό
+Tax classes,Φορολογικές κατηγορίες
+Tax rate has been saved successfully!,Ο φορολογικός συντελεστής αποθηκεύτηκε με επιτυχία!
+Tax setting has been saved successfully!,Η φορολογική ρύθμιση αποθηκεύτηκε με επιτυχία!
+The box or envelope this product ships in. Applies to all variants of this product.,Το κουτί ή ο φάκελος με τον οποίο αποστέλλεται αυτό το προϊόν. Ισχύει για όλες τις παραλλαγές αυτού του προϊόντος.
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,Τα κουτιά και οι φάκελοι με τα οποία αποστέλλετε. Κάθε αποστελλόμενο προϊόν αναφέρεται σε ένα — οι διαστάσεις και το κενό βάρος του καθορίζουν τις προσφορές και τις ετικέτες αποστολής.
+The conditions related to the customer for the coupon to be applied.,Οι προϋποθέσεις που σχετίζονται με τον πελάτη για την εφαρμογή του κουπονιού.
+The conditions related to the order for the coupon to be applied.,Οι προϋποθέσεις που σχετίζονται με την παραγγελία για την εφαρμογή του κουπονιού.
+The default package cannot be deleted,Η προεπιλεγμένη συσκευασία δεν μπορεί να διαγραφεί
+The draft holds ${count} saved changes you can publish later.,Το πρόχειρο περιέχει ${count} αποθηκευμένες αλλαγές που μπορείτε να δημοσιεύσετε αργότερα.
+The draft holds 1 saved change you can publish later.,Το πρόχειρο περιέχει 1 αποθηκευμένη αλλαγή που μπορείτε να δημοσιεύσετε αργότερα.
+The draft is deleted.,Το πρόχειρο διαγράφηκε.
+The draft itself is deleted.,Το ίδιο το πρόχειρο διαγράφηκε.
+The general information about the coupon.,Οι γενικές πληροφορίες σχετικά με το κουπόνι.
+"The language of the admin panel, independent of the storefront.","Η γλώσσα του πίνακα διαχείρισης, ανεξάρτητη από το κατάστημα."
+The method will no longer apply to this zone.,Η μέθοδος δεν θα ισχύει πλέον για αυτή τη ζώνη.
+The minimum quantity of items required in the order to qualify for this coupon.,Η ελάχιστη ποσότητα ειδών που απαιτείται στην παραγγελία για να ισχύει αυτό το κουπόνι.
+The minimum total amount required for the order to qualify for this coupon.,Το ελάχιστο συνολικό ποσό που απαιτείται για να ισχύει αυτό το κουπόνι στην παραγγελία.
+The rollout plan,Το σχέδιο κυκλοφορίας
+The storefront's primary language. Pages in this language have no URL prefix.,Η κύρια γλώσσα του καταστήματος. Οι σελίδες σε αυτή τη γλώσσα δεν έχουν πρόθεμα URL.
+The type of discount applied by the coupon.,Ο τύπος έκπτωσης που εφαρμόζεται από το κουπόνι.
+The zone this rate applies to.,Η ζώνη στην οποία ισχύει αυτή η χρέωση.
+"There is no ""Select"" attribute available.","Δεν υπάρχει διαθέσιμο χαρακτηριστικό τύπου ""Select""."
+There is no attribute to display,Δεν υπάρχει χαρακτηριστικό για εμφάνιση
+There is no category to display,Δεν υπάρχει κατηγορία για εμφάνιση
+There is no collections to display,Δεν υπάρχουν συλλογές για εμφάνιση
+There is no coupon to display,Δεν υπάρχει κουπόνι για εμφάνιση
+There is no customer to display,Δεν υπάρχει πελάτης για εμφάνιση
+There is no order to display,Δεν υπάρχει παραγγελία για εμφάνιση
+There is no page to display,Δεν υπάρχει σελίδα για εμφάνιση
+There is no widget to display,Δεν υπάρχει widget για εμφάνιση
+There was an error fetching attribute groups.,Παρουσιάστηκε σφάλμα κατά την ανάκτηση ομάδων χαρακτηριστικών.
+There was an error fetching categories.,Παρουσιάστηκε σφάλμα κατά την ανάκτηση κατηγοριών.
+There was an error fetching collections.,Παρουσιάστηκε σφάλμα κατά την ανάκτηση συλλογών.
+There was an error fetching file browser APIs.,Παρουσιάστηκε σφάλμα κατά την ανάκτηση των API περιήγησης αρχείων.
+There was an error fetching products.,Παρουσιάστηκε σφάλμα κατά την ανάκτηση προϊόντων.
+This cannot be undone. Packages still assigned to products can't be removed.,Αυτό δεν μπορεί να αναιρεθεί. Οι συσκευασίες που εξακολουθούν να είναι αντιστοιχισμένες σε προϊόντα δεν μπορούν να αφαιρεθούν.
+This changeset has no operations yet.,Αυτό το changeset δεν έχει ακόμη λειτουργίες.
+This field is required,Αυτό το πεδίο είναι υποχρεωτικό
+This is the URL path for the CMS page.,Αυτή είναι η διαδρομή URL για τη σελίδα CMS.
+This is the address used to calculate tax rates.,Αυτή είναι η διεύθυνση που χρησιμοποιείται για τον υπολογισμό των φορολογικών συντελεστών.
+This is the meta title for the CMS page.,Αυτός είναι ο meta τίτλος για τη σελίδα CMS.
+This is the name of the CMS page that will be displayed in the admin panel.,Αυτό είναι το όνομα της σελίδας CMS που θα εμφανίζεται στον πίνακα διαχείρισης.
+This is the tax class applied to shipping costs.,Αυτή είναι η φορολογική κατηγορία που εφαρμόζεται στα κόστη αποστολής.
+This product has some variants like color or size?,Αυτό το προϊόν έχει παραλλαγές όπως χρώμα ή μέγεθος;
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,Αυτός ο πάροχος δεν έχει διαμόρφωση ανά ζώνη. Οι μέθοδοι και οι χρεώσεις ανά ζώνη διαχειρίζονται στη δική του περιοχή διαχείρισης του παρόχου.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,Αυτό αφαιρεί τη ζώνη μαζί με τις συνδέσεις παρόχων και τις χρεώσεις της. Αυτό δεν μπορεί να αναιρεθεί.
+This route has unpublished changes in your draft,Αυτή η διαδρομή έχει μη δημοσιευμένες αλλαγές στο πρόχειρό σας
+This will be saved as a pending change you can publish or discard.,Αυτό θα αποθηκευτεί ως εκκρεμής αλλαγή που μπορείτε να δημοσιεύσετε ή να απορρίψετε.
+Tiered,Κλιμακωτό
+Type is required,Ο τύπος είναι υποχρεωτικός
+URL Key,Κλειδί URL
+URL Key is required,Το κλειδί URL είναι υποχρεωτικό
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","Το κλειδί URL πρέπει να είναι με πεζά γράμματα και μπορεί να περιέχει μόνο γράμματα, αριθμούς και παύλες"
+URL key,Κλειδί URL
+URL key is required,Το κλειδί URL είναι υποχρεωτικό
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,Το κλειδί URL πρέπει να είναι με πεζά γράμματα και μπορεί να περιέχει μόνο αλφαριθμητικούς χαρακτήρες και παύλες
+Unassign,Κατάργηση αντιστοίχισης
+Undo (⌘Z) — undoes your last edit on this page,Αναίρεση (⌘Z) — αναιρεί την τελευταία σας επεξεργασία σε αυτή τη σελίδα
+Undo / Redo,Αναίρεση / Επανάληψη
+Undo last change on this page,Αναίρεση της τελευταίας αλλαγής σε αυτή τη σελίδα
+Unknown,Άγνωστο
+Unlink,Κατάργηση συνδέσμου
+Unpin drawer,Ξεκαρφίτσωμα συρταριού
+Unpin — drawer will close when you click empty canvas,Ξεκαρφίτσωμα — το συρτάρι θα κλείσει όταν κάνετε κλικ σε κενό σημείο του καμβά
+Unpublished changes,Μη δημοσιευμένες αλλαγές
+Unsaved changes,Μη αποθηκευμένες αλλαγές
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,Ενημερώστε το όνομα και το ενεργό χρονικό παράθυρο για αυτό το σχέδιο κυκλοφορίας. Οι επεξεργασίες περιεχομένου διαχειρίζονται ξεχωριστά στον επεξεργαστή.
+Update the variant details and attributes here.,Ενημερώστε εδώ τις λεπτομέρειες και τα χαρακτηριστικά της παραλλαγής.
+Updated,Ενημερώθηκε
+Upload an image for the category.,Μεταφορτώστε μια εικόνα για την κατηγορία.
+Used Times,Φορές χρήσης
+Value is required,Η τιμή είναι υποχρεωτική
+Variant Group,Ομάδα παραλλαγών
+Variant created successfully,Η παραλλαγή δημιουργήθηκε με επιτυχία
+Variant updated successfully,Η παραλλαγή ενημερώθηκε με επιτυχία
+Version ${version},Έκδοση ${version}
+Visibility,Ορατότητα
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,Η ορατότητα καθορίζει πού εμφανίζεται το προϊόν στο κατάστημα. Δεν επηρεάζει τη δυνατότητα πώλησης του προϊόντος.
+Visitors will see the new layout on their next page load.,Οι επισκέπτες θα δουν τη νέα διάταξη στην επόμενη φόρτωση της σελίδας.
+Webhook Secret Key,Μυστικό κλειδί Webhook
+Weight,Βάρος
+Weight must be 0 or greater,Το βάρος πρέπει να είναι 0 ή μεγαλύτερο
+Weight must be a positive number,Το βάρος πρέπει να είναι θετικός αριθμός
+Weight-based tiers,Κλίμακες βάσει βάρους
+Widget Settings,Ρυθμίσεις Widget
+Widget created successfully!,Το widget δημιουργήθηκε με επιτυχία!
+Widgets,Widgets
+Width,Πλάτος
+Width is required,Το πλάτος είναι υποχρεωτικό
+Width must be greater than 0,Το πλάτος πρέπει να είναι μεγαλύτερο από 0
+Will roll out automatically: ${range},Θα κυκλοφορήσει αυτόματα: ${range}
+Working…,Σε εξέλιξη…
+Worldwide,Παγκοσμίως
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,Έχετε ${count} αλλαγές σε αυτό το προσχέδιο που δεν έχουν δημοσιευτεί ακόμη.
+You have ${count} changes still saving.,Έχετε ${count} αλλαγές που αποθηκεύονται ακόμη.
+You have 1 change in this draft that hasn’t been published yet.,Έχετε 1 αλλαγή σε αυτό το προσχέδιο που δεν έχει δημοσιευτεί ακόμη.
+You have 1 change still saving.,Έχετε 1 αλλαγή που αποθηκεύεται ακόμη.
+Your draft is safe on the server — you can come back and publish it any time.,Το προσχέδιό σας είναι ασφαλές στον διακομιστή — μπορείτε να επιστρέψετε και να το δημοσιεύσετε οποιαδήποτε στιγμή.
+Your edits on other pages stay in the draft.,Οι επεξεργασίες σας σε άλλες σελίδες παραμένουν στο προσχέδιο.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,Το url του webhook σας πρέπει να είναι: https://yourdomain.com/api/stripe/webhook
+Zone,Ζώνη
+Zone Name,Όνομα ζώνης
+Zone Rates,Χρεώσεις ζώνης
+Zone created,Η ζώνη δημιουργήθηκε
+Zone is required,Η ζώνη είναι υποχρεωτική
+Zone name is required,Το όνομα της ζώνης είναι υποχρεωτικό
+Zone removed,Η ζώνη αφαιρέθηκε
+Zone updated,Η ζώνη ενημερώθηκε
+Zones served,Εξυπηρετούμενες ζώνες
+and ${count} more,και ${count} ακόμη
+container will also hide,ο περιέκτης θα αποκρυφτεί επίσης
+current page,τρέχουσα σελίδα
+e.g. Small Box,π.χ. Μικρό Κουτί
+e.g. Summer Sale 2026,π.χ. Καλοκαιρινές Εκπτώσεις 2026
+e.g. content,π.χ. content
+"e.g., 10.00",π.χ. 10.00
+"e.g., EU, US-West","π.χ. EU, US-West"
+"e.g., Express",π.χ. Express
+"e.g., FEDEX_GROUND, usps_priority","π.χ. FEDEX_GROUND, usps_priority"
+every page,κάθε σελίδα
+indefinite,αόριστο
+open,ανοιχτό
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","η δημοσίευση είναι άμεση και δεν μπορεί να αναιρεθεί από αυτήν την οθόνη. Για να την προετοιμάσετε αντ’ αυτού, ακυρώστε και επιλέξτε «Προγραμματισμός κυκλοφορίας»."
+quantity of products are matched bellow conditions(All),η ποσότητα των προϊόντων πληροί τις παρακάτω συνθήκες (Όλες)
+subtotal,μερικό σύνολο
+to a storefront route's,σε μια διαδρομή του καταστήματος
+to make it appear here.,για να εμφανιστεί εδώ.
+weight,βάρος
+widget? This will be saved as a pending change you can publish or discard.,widget; Αυτό θα αποθηκευτεί ως εκκρεμής αλλαγή που μπορείτε να δημοσιεύσετε ή να απορρίψετε.
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,θα αφαιρεθεί και το ζωντανό κατάστημα θα σταματήσει να εφαρμόζει τις επεξεργασίες του. Το υποκείμενο σύνολο αλλαγών και οι εκκρεμείς επεξεργασίες περιεχομένου του διατηρούνται.
+— None —,— Κανένα —
+Cash On Delivery,Αντικαταβολή
+Please select a valid payment method,Επιλέξτε μια έγκυρη μέθοδο πληρωμής
+Show ${label} width,Εμφάνιση πλάτους ${label}
+Column ${index},Στήλη ${index}
+Switch page,Αλλαγή σελίδας
+Search pages…,Αναζήτηση σελίδων…
+Search pages,Αναζήτηση σελίδων
+Save your pending edits — the live storefront will catch up,Αποθηκεύστε τις εκκρεμείς επεξεργασίες σας — το ζωντανό κατάστημα θα ενημερωθεί
+No changes to save — the rollout matches the editor,Δεν υπάρχουν αλλαγές για αποθήκευση — η κυκλοφορία ταιριάζει με τον επεξεργαστή
+More rollout actions,Περισσότερες ενέργειες κυκλοφορίας
+Revert to saved state…,Επαναφορά στην αποθηκευμένη κατάσταση…
+Roll back the editor to what the rollout currently shows on the storefront,Επαναφέρετε τον επεξεργαστή σε αυτό που εμφανίζει η κυκλοφορία αυτή τη στιγμή στο κατάστημα
+Nothing to revert — the editor matches the saved state,Τίποτα προς επαναφορά — ο επεξεργαστής ταιριάζει με την αποθηκευμένη κατάσταση
+Cancel rollout plan…,Ακύρωση σχεδίου κυκλοφορίας…
+Remove the schedule — the changeset is preserved,Αφαιρέστε τον προγραμματισμό — το σύνολο αλλαγών διατηρείται
+Publish,Δημοσίευση
+More publish options,Περισσότερες επιλογές δημοσίευσης
+Apply all edits to the live storefront immediately,Εφαρμόστε όλες τις επεξεργασίες στο ζωντανό κατάστημα άμεσα
+Save as rollout plan…,Αποθήκευση ως σχέδιο κυκλοφορίας…
+Schedule these edits to roll out at a future time,Προγραμματίστε αυτές τις επεξεργασίες να κυκλοφορήσουν σε μελλοντική στιγμή
+Discard pending changes…,Απόρριψη εκκρεμών αλλαγών…
+Choose between discarding the whole draft or just this page,Επιλέξτε μεταξύ της απόρριψης ολόκληρου του προσχεδίου ή μόνο αυτής της σελίδας
+Switch session,Αλλαγή συνεδρίας
+New changeset,Νέο σύνολο αλλαγών
+Rollout: ${name},Κυκλοφορία: ${name}
+Click or drag to add,Κάντε κλικ ή σύρετε για προσθήκη
+Background color,Χρώμα φόντου
+Text color,Χρώμα κειμένου
+Dwell time,Χρόνος παραμονής
+Time each announcement stays visible (in addition to the 400ms slide transition).,Ο χρόνος που κάθε ανακοίνωση παραμένει ορατή (επιπλέον της μετάβασης διαφάνειας των 400ms).
+Announcements,Ανακοινώσεις
+Add announcement,Προσθήκη ανακοίνωσης
+Untitled,Χωρίς τίτλο
+Free shipping on orders over $50,Δωρεάν αποστολή για παραγγελίες άνω των $50
+Optional. Makes the entire row a clickable link.,Προαιρετικό. Κάνει ολόκληρη τη γραμμή έναν σύνδεσμο με δυνατότητα κλικ.
+Link label,Ετικέτα συνδέσμου
+Optional. Displayed after the content; defaults to the content itself.,Προαιρετικό. Εμφανίζεται μετά το περιεχόμενο· από προεπιλογή είναι το ίδιο το περιεχόμενο.
+Shop now,Αγοράστε τώρα
+Dark,Σκούρο
+Light,Ανοιχτό
+Gradient,Διαβάθμιση
+Left,Αριστερά
+Center,Κέντρο
+Right,Δεξιά
+Selected image,Επιλεγμένη εικόνα
+No image selected,Δεν έχει επιλεγεί εικόνα
+Replace,Αντικατάσταση
+Clear,Εκκαθάριση
+Reflects the alignment below.,Αντικατοπτρίζει την παρακάτω στοίχιση.
+Banner Image,Εικόνα banner
+Mobile image,Εικόνα κινητού
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,Προαιρετικό. Αντικαθίσταται κάτω από το σημείο διακοπής των 768px. Επανέρχεται στην παραπάνω εικόνα όταν είναι κενό — τυπική χρήση είναι μια κάθετη περικοπή της ίδιας σκηνής.
+Alignment,Στοίχιση
+Overlay copy,Κείμενο επικάλυψης
+Eyebrow,Υπερτίτλος
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".","Μικρή ετικέτα με κεφαλαία πάνω από τον τίτλο. Π.χ. ""LIMITED EDITION""."
+LIMITED EDITION,ΠΕΡΙΟΡΙΣΜΕΝΗ ΕΚΔΟΣΗ
+Heading,Τίτλος
+The Summer Edit,The Summer Edit
+Sub-text,Υποκείμενο
+One short supporting sentence.,Μία σύντομη υποστηρικτική πρόταση.
+Overlay placement,Τοποθέτηση επικάλυψης
+Content position,Θέση περιεχομένου
+Where the overlay text sits on the image.,Πού τοποθετείται το κείμενο επικάλυψης πάνω στην εικόνα.
+Tint,Απόχρωση
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,Ένα ημιδιαφανές στρώμα πίσω από το κείμενο επικάλυψης για αναγνωσιμότητα. Το σκούρο / η διαβάθμιση αλλάζουν αυτόματα το κείμενο σε λευκό.
+Tint opacity,Αδιαφάνεια απόχρωσης
+Call to actions,Παροτρύνσεις για δράση
+Remove primary CTA,Αφαίρεση κύριου CTA
++ Add a primary CTA,+ Προσθήκη κύριου CTA
+Secondary,Δευτερεύον
+Remove secondary CTA,Αφαίρεση δευτερεύοντος CTA
+Learn more,Μάθετε περισσότερα
++ Add a secondary CTA,+ Προσθήκη δευτερεύοντος CTA
+Details,Λεπτομέρειες
+Alt text,Εναλλακτικό κείμενο
+Describes the banner for screen readers and SEO.,Περιγράφει το banner για αναγνώστες οθόνης και SEO.
+"e.g. ""Summer sale promotional banner""","π.χ. ""Διαφημιστικό banner καλοκαιρινών εκπτώσεων"""
+Banner link,Σύνδεσμος banner
+Optional. Clicking the banner navigates here.,Προαιρετικό. Το κλικ στο banner οδηγεί εδώ.
+Display name,Εμφανιζόμενο όνομα
+Shop,Κατάστημα
+Target,Προορισμός
+"Page, category, product, or a custom URL.","Σελίδα, κατηγορία, προϊόν ή προσαρμοσμένο URL."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: μην μεταβιβάζετε αξία κατάταξης σε αυτόν τον σύνδεσμο (rel=nofollow).
+No referrer,Χωρίς referrer
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,Απόρρητο: απόκρυψη του URL προέλευσης (rel=noreferrer). Οι σύνδεσμοι σε νέα καρτέλα το περιλαμβάνουν πάντα.
+Menu items,Στοιχεία μενού
+Add menu item,Προσθήκη στοιχείου μενού
+Sub-items,Υπο-στοιχεία
+Optional dropdown links (1 level).,Προαιρετικοί σύνδεσμοι αναπτυσσόμενου μενού (1 επίπεδο).
+Add sub-item,Προσθήκη υπο-στοιχείου
+Options,Επιλογές
+Use as main menu,Χρήση ως κύριο μενού
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","Κύρια πλοήγηση — σε κινητά συμπτύσσεται σε μενού hamburger. Απενεργοποιήστε το για μια απλή λίστα συνδέσμων (π.χ. υποσέλιδο), που παραμένει inline σε κινητά."
+Custom CSS classes,Προσαρμοσμένες κλάσεις CSS
+Applied to the rendered menu element.,Εφαρμόζεται στο εμφανιζόμενο στοιχείο μενού.
+e.g. main-nav font-semibold,π.χ. main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,Πλακίδια
+Add tile,Προσθήκη πλακιδίου
+Hero · ,Hero · 
+Used when no image is set.,Χρησιμοποιείται όταν δεν έχει οριστεί εικόνα.
+Small label above the heading.,Μικρή ετικέτα πάνω από τον τίτλο.
+THE SUMMER EDIT,THE SUMMER EDIT
+New Arrivals,Νέες παραλαβές
+Body,Κείμενο
+Big card — the headline of the grid.,Μεγάλη κάρτα — ο επικεφαλής τίτλος του πλέγματος.
+Link URL,URL συνδέσμου
+Gap,Κενό
+Minimum block height,Ελάχιστο ύψος μπλοκ
+Image left,Εικόνα αριστερά
+Image right,Εικόνα δεξιά
+Centered,Κεντραρισμένο
+Pull quote,Επισημασμένο απόσπασμα
+Variant,Παραλλαγή
+Image column size,Μέγεθος στήλης εικόνας
+Describe the image,Περιγράψτε την εικόνα
+Copy,Κείμενο
+"Small all-caps label. E.g. ""OUR STORY"".","Μικρή ετικέτα με κεφαλαία. Π.χ. ""OUR STORY""."
+Our story,Η ιστορία μας
+"Made by hand, in small batches","Φτιαγμένο στο χέρι, σε μικρές παρτίδες"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","Απαιτείται για την παραλλαγή επισημασμένου αποσπάσματος. Εμφανίζεται μεγάλο, με μορφή blockquote."
+"A short, quotable line.","Μια σύντομη, αξιομνημόνευτη φράση."
+Three or four sentences of brand narrative.,Τρεις ή τέσσερις προτάσεις αφήγησης της μάρκας.
+Second body paragraph (optional),Δεύτερη παράγραφος κειμένου (προαιρετική)
+A second short paragraph if the story needs it.,Μια δεύτερη σύντομη παράγραφος αν το χρειάζεται η ιστορία.
+Read more link,"Σύνδεσμος ""Διαβάστε περισσότερα"""
+Read more,Διαβάστε περισσότερα
+URL,URL
+Remove read-more link,"Αφαίρεση συνδέσμου ""Διαβάστε περισσότερα"""
++ Add a read-more link,"+ Προσθήκη συνδέσμου ""Διαβάστε περισσότερα"""
+Square,Τετράγωνο
+Landscape,Οριζόντιο
+Portrait,Κατακόρυφο
+Overlay,Επικάλυψη
+Below,Κάτω
+New category,Νέα κατηγορία
+Section heading,Τίτλος ενότητας
+Optional. Shown above the grid.,Προαιρετικό. Εμφανίζεται πάνω από το πλέγμα.
+Shop by category,Αγορά ανά κατηγορία
+Women,Γυναικεία
+Columns,Στήλες
+Auto,Αυτόματο
+Asymmetric makes the first tile span 2 columns.,Το ασύμμετρο κάνει το πρώτο πλακίδιο να καταλαμβάνει 2 στήλες.
+Uniform,Ομοιόμορφο
+Asymmetric,Ασύμμετρο
+Image aspect,Αναλογία εικόνας
+Label position,Θέση ετικέτας
+Blush,Ροζ
+XL,XL
+Position ${c},Θέση ${c}
+Column layout,Διάταξη στηλών
+Drag widgets into each column. Children re-flow when you change the ratio.,Σύρετε widgets σε κάθε στήλη. Τα θυγατρικά στοιχεία αναδιατάσσονται όταν αλλάζετε την αναλογία.
+Space between columns.,Κενό μεταξύ στηλών.
+Where content sits within each column. Applied uniformly to every column.,Πού τοποθετείται το περιεχόμενο μέσα σε κάθε στήλη. Εφαρμόζεται ομοιόμορφα σε κάθε στήλη.
+Row appearance,Εμφάνιση γραμμής
+Background,Φόντο
+Custom color,Προσαρμοσμένο χρώμα
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","Οποιοδήποτε χρώμα CSS (π.χ. ""#0a0a0a"" ή ""rgb(10,10,10)""). Αφήστε το κενό για να χρησιμοποιήσετε το δείγμα παραπάνω."
+Padding,Εσωτερικό περιθώριο
+Outer spacing around the row. Scales down on mobile.,Εξωτερικό περιθώριο γύρω από τη γραμμή. Μειώνεται σε κινητά.
+Solid,Συμπαγές
+Dashed,Διακεκομμένο
+Already expired,Έχει ήδη λήξει
+Expires in ${days}d ${hours}h,Λήγει σε ${days}η ${hours}ώ
+Expires in ${hours}h ${minutes}m,Λήγει σε ${hours}ώ ${minutes}λ
+Offer,Προσφορά
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","Γραμμή επείγοντος. Προαιρετική. Π.χ. ""Limited · Ends Sunday""."
+Limited · Ends Sunday,Περιορισμένο · Λήγει Κυριακή
+Headline,Επικεφαλίδα
+Take 20% off your order,Κερδίστε 20% έκπτωση στην παραγγελία σας
+Optional. One short instructional line.,Προαιρετικό. Μία σύντομη οδηγία.
+Use code at checkout,Χρησιμοποιήστε τον κωδικό στην ολοκλήρωση παραγγελίας
+Promo code,Κωδικός προσφοράς
+Displayed in uppercase to shoppers.,Εμφανίζεται με κεφαλαία στους αγοραστές.
+Expires,Λήγει
+Optional. The block auto-hides after this time for live visitors.,Προαιρετικό. Το μπλοκ αποκρύπτεται αυτόματα μετά από αυτόν τον χρόνο για τους ενεργούς επισκέπτες.
+Call to action,Πρόσκληση για δράση
+Button label,Ετικέτα κουμπιού
+Shop now →,Αγοράστε τώρα →
+Button link,Σύνδεσμος κουμπιού
+Appearance,Εμφάνιση
+Border,Περίγραμμα
+Narrow,Στενό
+Normal,Κανονικό
+Wide,Πλατύ
+Shown above all content. Optional.,Εμφανίζεται πάνω από όλο το περιεχόμενο. Προαιρετικό.
+e.g. Frequently asked,π.χ. Συχνές ερωτήσεις
+Prose,Κείμενο
+FAQ group · ${count} items,Ομάδα FAQ · ${count} στοιχεία
+Group heading,Τίτλος ομάδας
+Optional sub-heading.,Προαιρετικός υπότιτλος.
+e.g. Shipping,π.χ. Αποστολή
+Add question,Προσθήκη ερώτησης
+Question,Ερώτηση
+e.g. How long does shipping take?,π.χ. Πόσο διαρκεί η αποστολή;
+Answer,Απάντηση
+"Supports **bold**, _italic_, and line breaks.","Υποστηρίζει **έντονα**, _πλάγια_ και αλλαγές γραμμής."
+e.g. Orders ship within 24 hours…,π.χ. Οι παραγγελίες αποστέλλονται εντός 24 ωρών…
+Add prose,Προσθήκη κειμένου
+Add FAQ group,Προσθήκη ομάδας FAQ
+Max width,Μέγιστο πλάτος
+Content column width.,Πλάτος στήλης περιεχομένου.
+Allow multiple open,Να επιτρέπονται πολλά ανοιχτά
+"When off, opening one FAQ item closes the others in the same group.","Όταν είναι απενεργοποιημένο, το άνοιγμα ενός στοιχείου FAQ κλείνει τα υπόλοιπα στην ίδια ομάδα."
+New link,Νέος σύνδεσμος
+New column,Νέα στήλη
+Add column,Προσθήκη στήλης
+${title} · ${count} links,${title} · ${count} σύνδεσμοι
+Column title,Τίτλος στήλης
+Links,Σύνδεσμοι
+"Min 1, max 12.","Ελάχιστο 1, μέγιστο 12."
+Add link,Προσθήκη συνδέσμου
+New arrivals,Νέες παραλαβές
+Boxed,Σε πλαίσιο
+Wide (full bleed),Πλατύ (πλήρους πλάτους)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,"Το ""Σε πλαίσιο"" παραμένει μέσα στο container της σελίδας (το θέμα καθορίζει το μέγιστο πλάτος). Το ""Πλατύ"" εκτείνεται από άκρη σε άκρη."
+Scales down on mobile.,Μειώνεται σε κινητά.
+Optional. Painted behind content. Combine with a tint below for legibility.,Προαιρετικό. Τοποθετείται πίσω από το περιεχόμενο. Συνδυάστε με μια απόχρωση παρακάτω για ευαναγνωσιμότητα.
+XS,XS
+Spacing,Απόσταση
+Size,Μέγεθος
+Mobile scales down ~⅔ automatically.,Σε κινητά μειώνεται αυτόματα κατά ~⅔.
+Divider line,Διαχωριστική γραμμή
+Show divider line,Εμφάνιση διαχωριστικής γραμμής
+A horizontal rule centred in the spacing band.,Μια οριζόντια γραμμή κεντραρισμένη στη ζώνη απόστασης.
+Line color,Χρώμα γραμμής
+Default uses the theme's divider color.,Η προεπιλογή χρησιμοποιεί το χρώμα διαχωριστικού του θέματος.
+Sides,Πλευρές
+Bottom,Κάτω
+Dots,Κουκκίδες
+Bars,Μπάρες
+Mobile image (optional),Εικόνα κινητού (προαιρετικό)
+Used at ≤ 767 px. Falls back to the main image.,Χρησιμοποιείται σε ≤ 767 px. Επανέρχεται στην κύρια εικόνα.
+e.g. New collection,π.χ. Νέα συλλογή
+e.g. Summer Sale,π.χ. Καλοκαιρινές εκπτώσεις
+Sub text,Δευτερεύον κείμενο
+Check out our latest products with special discounts.,Δείτε τα τελευταία μας προϊόντα με ειδικές εκπτώσεις.
+Primary button,Κύριο κουμπί
+Secondary button,Δευτερεύον κουμπί
++ Add secondary button,+ Προσθήκη δευτερεύοντος κουμπιού
+Overrides,Παρακάμψεις
+Leaves slide-specific anchor; falls back to the slideshow's default.,Αφήνει την αγκύρωση συγκεκριμένης διαφάνειας· επανέρχεται στην προεπιλογή της παρουσίασης.
+Overlay tint,Απόχρωση επικάλυψης
+Overlay opacity,Αδιαφάνεια επικάλυψης
+Make whole slide clickable,Κάντε όλη τη διαφάνεια κλικαρίσιμη
+Behavior,Συμπεριφορά
+Transition,Μετάβαση
+Slide,Διαφάνεια
+Fade,Σβήσιμο
+Transition speed,Ταχύτητα μετάβασης
+Autoplay,Αυτόματη αναπαραγωγή
+Autoplay delay,Καθυστέρηση αυτόματης αναπαραγωγής
+${seconds} s between slides,${seconds} δ μεταξύ διαφανειών
+Pause on hover,Παύση κατά την αιώρηση
+Pause for 20 s after user nav,Παύση για 20 δ μετά την πλοήγηση χρήστη
+Arrows,Βέλη
+Aspect ratio,Αναλογία διαστάσεων
+`Auto` matches the natural image height (jumps between slides).,Το `Auto` ταιριάζει με το φυσικό ύψος της εικόνας (αναπηδά μεταξύ διαφανειών).
+Default content position,Προεπιλεγμένη θέση περιεχομένου
+Per-slide overrides win.,Οι παρακάμψεις ανά διαφάνεια υπερισχύουν.
+Default overlay tint,Προεπιλεγμένη απόχρωση επικάλυψης
+Default overlay opacity,Προεπιλεγμένη αδιαφάνεια επικάλυψης
+Slides (${count}),Διαφάνειες (${count})
+No slides yet.,Δεν υπάρχουν διαφάνειες ακόμη.
+Add your first slide,Προσθέστε την πρώτη σας διαφάνεια
+Slide ${number},Διαφάνεια ${number}
+Image only,Μόνο εικόνα
+Empty,Κενό
+Show slide,Εμφάνιση διαφάνειας
+Hide slide,Απόκρυψη διαφάνειας
+Move slide up,Μετακίνηση διαφάνειας πάνω
+Move slide down,Μετακίνηση διαφάνειας κάτω
+Delete slide,Διαγραφή διαφάνειας
+Top,Πάνω
+Cover,Κάλυψη
+Contain,Προσαρμογή
+Required for accessibility.,Απαιτείται για την προσβασιμότητα.
+Image fit,Προσαρμογή εικόνας
+"Small all-caps label. E.g. ""LIMITED EDITION"".","Μικρή ετικέτα με κεφαλαία. Π.χ. ""LIMITED EDITION""."
+Limited edition,Περιορισμένη έκδοση
+One strong line,Μία δυνατή γραμμή
+Two lines of supporting copy.,Δύο γραμμές υποστηρικτικού κειμένου.
+Image position,Θέση εικόνας
+Vertical alignment,Κατακόρυφη στοίχιση
+Aligns the copy panel content.,Στοιχίζει το περιεχόμενο του πίνακα κειμένου.
+Remove call to action,Αφαίρεση κάλεσμα για δράση
+Add a call to action,Προσθήκη κάλεσμα για δράση
+Custom CSS classes for the text block,Προσαρμοσμένες κλάσεις CSS για το μπλοκ κειμένου
+Add group,Προσθήκη ομάδας
+${label} · ${count} subs,${label} · ${count} υπο
+Parent label,Ετικέτα γονέα
+Parent link,Σύνδεσμος γονέα
+Image alt text,Εναλλακτικό κείμενο εικόνας
+Sub-categories,Υποκατηγορίες
+"Min 1, max 8.","Ελάχιστο 1, μέγιστο 8."
+Add sub-category,Προσθήκη υποκατηγορίας
+Dresses,Φορέματα
+Columns (desktop),Στήλες (επιτραπέζιο)
+On tablets the layout is always 2 columns.,Στα tablet η διάταξη είναι πάντα 2 στήλες.
+Make parent image a link,Κάντε την εικόνα γονέα σύνδεσμο
+"When off, only the sub-chips and parent label are interactive.","Όταν είναι ανενεργό, μόνο τα υπο-chips και η ετικέτα γονέα είναι διαδραστικά."
+Title,Τίτλος
+e.g. Free shipping,π.χ. Δωρεάν αποστολή
+Optional supporting line below the title.,Προαιρετική υποστηρικτική γραμμή κάτω από τον τίτλο.
+Icon,Εικονίδιο
+Optional. SVG or raster image. Hidden when icons are turned off globally.,Προαιρετικό. Εικόνα SVG ή raster. Κρύβεται όταν τα εικονίδια απενεργοποιούνται καθολικά.
+Optional. Makes the whole cell clickable.,Προαιρετικό. Κάνει ολόκληρο το κελί κλικαρίσιμο.
+"Auto matches the item count, capped at 4.","Το Auto ταιριάζει με το πλήθος στοιχείων, με όριο τα 4."
+3,3
+4,4
+Icon size,Μέγεθος εικονιδίου
+Show icons,Εμφάνιση εικονιδίων
+Master switch. Items without an icon URL are unaffected.,Κεντρικός διακόπτης. Τα στοιχεία χωρίς URL εικονιδίου δεν επηρεάζονται.
+Show divider,Εμφάνιση διαχωριστικού
+Vertical line between cells.,Κατακόρυφη γραμμή μεταξύ κελιών.
+Collection,Συλλογή
+Search collections…,Αναζήτηση συλλογών…
+No collections match “${value}”.,Καμία συλλογή δεν ταιριάζει με “${value}”.
+You have no collections yet.,Δεν έχετε συλλογές ακόμη.
+Please select a collection,Παρακαλώ επιλέξτε μια συλλογή
+"Defaults to ""${name}"" (the collection's name).","Προεπιλογή ""${name}"" (το όνομα της συλλογής)."
+Defaults to the picked collection's name.,Προεπιλογή το όνομα της επιλεγμένης συλλογής.
+Collection name,Όνομα συλλογής
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,Προεπιλογή η περιγραφή της συλλογής. Ορίζοντάς το αντικαθιστά την περιγραφή εμπλουτισμένου κειμένου με απλό κείμενο.
+e.g. Hand-picked styles for the season.,π.χ. Επιλεγμένα στυλ για τη σεζόν.
+View all link,Σύνδεσμος προβολής όλων
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","Προαιρετικό. Κρύβεται όταν είναι κενό. Επιλέξτε κατηγορία, προϊόν, σελίδα ή επικολλήστε ένα προσαρμοσμένο URL."
+"Optional. Defaults to ""View all →"".","Προαιρετικό. Προεπιλογή ""Προβολή όλων →""."
+View all →,Προβολή όλων →
+Total products,Σύνολο προϊόντων
+Number of products to display.,Αριθμός προϊόντων προς εμφάνιση.
+Products per row,Προϊόντα ανά σειρά
+Grid columns (1–6 typical).,Στήλες πλέγματος (1–6 τυπικά).
+Count is required,Το πλήθος απαιτείται
+e.g. 8,π.χ. 8
+Count per row is required,Το πλήθος ανά σειρά απαιτείται
+e.g. 4,π.χ. 4
+Cover image,Εικόνα εξωφύλλου
+COLLECTION,ΣΥΛΛΟΓΗ
+"Defaults to ""${pickedName}"".","Προεπιλογή ""${pickedName}""."
+Defaults to the picked collection name.,Προεπιλογή το όνομα της επιλεγμένης συλλογής.
+Optional. One or two sentences of editorial copy.,Προαιρετικό. Μία ή δύο προτάσεις συντακτικού κειμένου.
+"Linen, cotton, easy stuff.","Λινό, βαμβάκι, άνετα ρούχα."
+Preview product count,Πλήθος προϊόντων προεπισκόπησης
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,Παρακαλώ επιλέξτε μια συλλογή
+Add collection,Προσθήκη συλλογής
+Row heading,Επικεφαλίδα σειράς
+The Linen Edit,The Linen Edit
+Optional. Hidden when empty.,Προαιρετικό. Κρύβεται όταν είναι κενό.
+View all label,Ετικέτα προβολής όλων
+Show price,Εμφάνιση τιμής
+Show divider between rows,Εμφάνιση διαχωριστικού μεταξύ σειρών
+Selected:,Επιλεγμένο:
+Image override,Παράκαμψη εικόνας
+Override image,Παράκαμψη εικόνας
+Override image (optional),Παράκαμψη εικόνας (προαιρετικό)
+Leave empty to use the product's primary image.,Αφήστε κενό για να χρησιμοποιηθεί η κύρια εικόνα του προϊόντος.
+Small label above the product name. Optional.,Μικρή ετικέτα πάνω από το όνομα του προϊόντος. Προαιρετικό.
+FEATURED,ΠΡΟΒΕΒΛΗΜΕΝΟ
+Editorial copy,Συντακτικό κείμενο
+Overrides the product's own description in this context. Leave blank to hide.,Παρακάμπτει την περιγραφή του ίδιου του προϊόντος σε αυτό το πλαίσιο. Αφήστε κενό για απόκρυψη.
+Two lines of copy explaining why this product is being spotlighted right now.,Δύο γραμμές κειμένου που εξηγούν γιατί προβάλλεται αυτό το προϊόν αυτή τη στιγμή.
+Please pick a product,Παρακαλώ επιλέξτε ένα προϊόν
+e.g. On orders over $50,π.χ. Σε παραγγελίες άνω των $50
+Text block,Μπλοκ κειμένου
+Menu,Μενού
+Footer menu,Μενού υποσέλιδου
+Banner,Banner
+Simple Slideshow,Απλή παρουσίαση
+Brand story,Ιστορία μάρκας
+Category mosaic,Ψηφιδωτό κατηγοριών
+Tiered categories,Κλιμακωτές κατηγορίες
+Bento grid,Πλέγμα bento
+Separator,Διαχωριστικό
+Section,Ενότητα
+Split feature,Διαχωρισμένο χαρακτηριστικό
+Announcement bar,Μπάρα ανακοινώσεων
+Coupon block,Μπλοκ κουπονιού
+FAQ block,Μπλοκ συχνών ερωτήσεων
+Trust strip,Λωρίδα εμπιστοσύνης
+Collection products,Προϊόντα συλλογής
+Collection stack,Στοίβα συλλογών
+Collection spotlight,Προβολή συλλογής
+Product hero,Κεντρική προβολή προϊόντος
+Layout container with 1–4 columns for nesting widgets.,Δοχείο διάταξης με 1–4 στήλες για ένθεση widget.
+Add rich text content,Προσθήκη εμπλουτισμένου κειμένου
+Navigation links,Σύνδεσμοι πλοήγησης
+Multi-column list of footer links — a titled column of navigation links per group.,Λίστα συνδέσμων υποσέλιδου πολλαπλών στηλών — μια στήλη με τίτλο και συνδέσμους πλοήγησης ανά ομάδα.
+A single hero image with optional overlay copy and CTAs.,Μία κεντρική εικόνα με προαιρετικό επικαλυπτόμενο κείμενο και CTA.
+Rotating image carousel,Περιστρεφόμενο καρουζέλ εικόνων
+Editorial block combining an image and long-form brand narrative. Four layout variants.,Συντακτικό μπλοκ που συνδυάζει μια εικόνα και εκτενή αφήγηση μάρκας. Τέσσερις παραλλαγές διάταξης.
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.","Ένα πλέγμα από 3–6 πλακίδια κατηγοριών για το βασικό σημείο εισόδου ""Αγορά ανά κατηγορία""."
+A two-level nav block: parent category image plus a row of sub-category chips.,Ένα μπλοκ πλοήγησης δύο επιπέδων: εικόνα γονικής κατηγορίας συν μια σειρά από chip υποκατηγοριών.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,Ένα ασύμμετρο ψηφιδωτό από πλακίδια CTA — ένα μεγάλο κεντρικό συν 1–4 υποστηρικτικά πλακίδια.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","Κατακόρυφη απόσταση μεταξύ widget, με προαιρετική γραμμή διαχωρισμού. Στο κινητό μειώνεται αυτόματα."
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,Διαμορφωμένη ζώνη απόθεσης που περικλείει άλλα widget. Εναλλαγή μεταξύ πλάτους (από άκρο σε άκρο) και πλαισίου (δοχείο θέματος).
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,Ένα προωθητικό μπλοκ 50/50 με εικόνα + κείμενο και προαιρετικό CTA. Το κατεξοχήν widget προωθητικής στιγμής.
+A thin top-of-page bar with one or more rotating announcements.,Μια λεπτή μπάρα στην κορυφή της σελίδας με μία ή περισσότερες περιστρεφόμενες ανακοινώσεις.
+A promo panel with a copyable discount code and CTA.,Ένας προωθητικός πίνακας με αντιγράψιμο κωδικό έκπτωσης και CTA.
+Flexible content block mixing prose sections and accordion FAQ groups.,Ευέλικτο μπλοκ περιεχομένου που συνδυάζει ενότητες κειμένου και ομάδες συχνών ερωτήσεων σε ακορντεόν.
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","Μια σειρά από στοιχεία πρότασης αξίας (δωρεάν αποστολή, εύκολες επιστροφές κ.λπ.) για ενίσχυση κάτω από την κεντρική προβολή ή πάνω από το υποσέλιδο."
+A list of products from a collection,Μια λίστα προϊόντων από μια συλλογή
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Στοιβαγμένες σειρές συλλογών, καθεμία με επικεφαλίδα, σύνδεσμο προβολής όλων και μια λωρίδα προϊόντων."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","Μια προβεβλημένη συλλογή με εικόνα εξωφύλλου, συντακτικό κείμενο και ένα μικρό πλέγμα προεπισκόπησης προϊόντων."
+"A single-product spotlight — image, name, price, and a link to the full product page.","Προβολή ενός προϊόντος — εικόνα, όνομα, τιμή και σύνδεσμος προς την πλήρη σελίδα προϊόντος."

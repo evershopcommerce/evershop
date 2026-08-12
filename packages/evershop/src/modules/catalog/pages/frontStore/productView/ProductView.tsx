@@ -4,7 +4,6 @@ import {
   ProductData,
   ProductProvider
 } from '@components/frontStore/catalog/ProductContext.js';
-import { ProductSingleAttributes } from '@components/frontStore/catalog/ProductSingleAttributes.js';
 import { ProductSingleDescription } from '@components/frontStore/catalog/ProductSingleDescription.js';
 import { ProductSingleForm } from '@components/frontStore/catalog/ProductSingleForm.js';
 import { ProductSingleName } from '@components/frontStore/catalog/ProductSingleName.js';
@@ -15,7 +14,7 @@ export default function ProductView({ product }: ProductData) {
     <ProductProvider product={product}>
       <div className="product__detail">
         <Area id="productPageTop" className="product__page__top" />
-        <div className="product__page__middle page-width">
+        <div className="product__page__middle">
           <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
             <Area
               id="productPageMiddleLeft"
@@ -36,11 +35,6 @@ export default function ProductView({ product }: ProductData) {
                   component: { default: <ProductSingleName /> },
                   sortOrder: 10,
                   id: 'name'
-                },
-                {
-                  component: { default: <ProductSingleAttributes /> },
-                  sortOrder: 20,
-                  id: 'attributes'
                 },
                 {
                   component: { default: <ProductSingleForm /> },
@@ -75,6 +69,13 @@ export const layout = {
 export const query = `
 query Query {
     product: currentProduct {
+      uuid
+      metafields {
+        namespace
+        key
+        type
+        value
+      }
       name
       description
       sku

@@ -61,6 +61,29 @@ export default async (request, response, next) => {
       .where('uuid', '=', product_id)
       .execute(connection, false);
 
+    // A variant group ships in one box — all members share one package_id
+    // (see wiki/package-management-design.md → Variants). Converge at join
+    // time: the joiner adopts the group's package; if the group has none yet
+    // (all legacy) but the joiner has one, the joiner's spreads to the group.
+    const groupMemberWithPackage = await select('package_id')
+      .from('product')
+      .where('variant_group_id', '=', group.variant_group_id)
+      .and('product_id', '<>', product.product_id)
+      .and('package_id', 'IS NOT NULL', null)
+      .load(connection, false);
+    if (groupMemberWithPackage) {
+      await update('product')
+        .given({ package_id: groupMemberWithPackage.package_id })
+        .where('uuid', '=', product_id)
+        .execute(connection, false);
+    } else if (product.package_id) {
+      await update('product')
+        .given({ package_id: product.package_id })
+        .where('variant_group_id', '=', group.variant_group_id)
+        .and('product_id', '<>', product.product_id)
+        .execute(connection, false);
+    }
+
     const variantAttributeIds = Object.values({
       attributeOne: group.attribute_one,
       attributeTwo: group.attribute_two,

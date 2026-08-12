@@ -1,0 +1,5 @@
+{
+  "methods": ["DELETE"],
+  "path": "/shipments/:shipment_uuid/label",
+  "access": "private"
+}

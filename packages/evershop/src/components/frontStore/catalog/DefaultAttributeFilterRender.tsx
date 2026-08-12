@@ -1,5 +1,6 @@
 import { Button } from '@components/common/ui/Button.js';
 import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { Input } from '@components/common/ui/Input.js';
 import { Label } from '@components/common/ui/Label.js';
 import {
   FilterableAttribute,
@@ -15,7 +16,7 @@ export const DefaultAttributeFilterRender: React.FC<{
 }> = ({ availableAttributes, currentFilters }) => {
   const { updateFilter } = useProductFilter();
   const [searchTerms, setSearchTerms] = useState<{ [key: string]: string }>({});
-  const [collapsedAttributes, setCollapsedAttributes] = useState<{
+  const [expandedAttributes, setExpandedAttributes] = useState<{
     [key: string]: boolean;
   }>({});
 
@@ -86,13 +87,6 @@ export const DefaultAttributeFilterRender: React.FC<{
     );
   };
 
-  const toggleCollapse = (attributeCode: string) => {
-    setCollapsedAttributes((prev) => ({
-      ...prev,
-      [attributeCode]: !prev[attributeCode]
-    }));
-  };
-
   const clearAttributeFilter = (attributeCode: string) => {
     const newFilters = currentFilters.filter((f) => f.key !== attributeCode);
     updateFilter(newFilters);
@@ -103,119 +97,114 @@ export const DefaultAttributeFilterRender: React.FC<{
       {availableAttributes.map((attribute) => {
         const selectedCount = getSelectedCount(attribute.attributeCode);
         const filteredOptions = getFilteredOptions(attribute);
-        const isCollapsed = collapsedAttributes[attribute.attributeCode];
+        const isExpanded = !!expandedAttributes[attribute.attributeCode];
 
         return (
           <div
             key={attribute.attributeCode}
-            className="attribute__filter__section border-b border-border pb-2 mb-2"
+            className="attribute__filter__section border-b border-border pb-8 mb-8 last:mb-0 last:border-b-0 last:pb-0"
           >
             <div className="filter__header flex items-center justify-between mb-3">
-              <button
-                onClick={() => toggleCollapse(attribute.attributeCode)}
-                className="flex items-center justify-between text-left flex-1 hover:text-primary transition-colors"
-              >
-                <span className="font-medium">{attribute.attributeName}</span>
-                <svg
-                  className={`w-4 h-4 transition-transform ${
-                    isCollapsed ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
+              <h3 className="text-sm font-semibold">
+                {attribute.attributeName}
+              </h3>
 
               {selectedCount > 0 && (
                 <Button
                   variant={'link'}
                   onClick={() => clearAttributeFilter(attribute.attributeCode)}
                   className="hover:text-destructive text-sm transition-colors"
-                  title="Clear all"
+                  title={_('Clear all')}
                 >
                   ✕
                 </Button>
               )}
             </div>
 
-            {!isCollapsed && (
-              <div className="filter__content">
-                {attribute.options.length > 5 && (
-                  <div className="mb-3">
-                    <Checkbox
-                      value={searchTerms[attribute.attributeCode] || ''}
-                      onCheckedChange={(checked) =>
-                        setSearchTerms((prev) => ({
-                          ...prev,
-                          [attribute.attributeCode]: checked
-                            ? checked.toString()
-                            : ''
-                        }))
-                      }
-                    />
+            <div className="filter__content">
+              {attribute.options.length > 5 && (
+                <div className="mb-3">
+                  <Input
+                    type="search"
+                    placeholder={_('Search options')}
+                    value={searchTerms[attribute.attributeCode] || ''}
+                    onChange={(e) =>
+                      setSearchTerms((prev) => ({
+                        ...prev,
+                        [attribute.attributeCode]: e.target.value
+                      }))
+                    }
+                  />
+                </div>
+              )}
+
+              <div
+                className={`attribute__options space-y-2.5 ${
+                  isExpanded ? '' : 'max-h-48 overflow-y-auto'
+                }`}
+              >
+                {filteredOptions.length > 0 ? (
+                  filteredOptions.map((option) => {
+                    const isSelected = isOptionSelected(
+                      attribute.attributeCode,
+                      option.optionId.toString()
+                    );
+                    return (
+                      <div
+                        key={option.optionId}
+                        className="flex items-center gap-2.5 cursor-pointer"
+                      >
+                        <Checkbox
+                          checked={isSelected}
+                          id={`${attribute.attributeCode}-${option.optionId}`}
+                          onCheckedChange={(checked) =>
+                            handleAttributeChange(
+                              attribute.attributeCode,
+                              option.optionId.toString(),
+                              checked
+                            )
+                          }
+                        />
+                        <Label
+                          htmlFor={`${attribute.attributeCode}-${option.optionId}`}
+                          className="cursor-pointer font-normal leading-5 text-muted-foreground"
+                        >
+                          {option.optionText}
+                        </Label>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="text-muted-foreground text-sm text-center py-4">
+                    {_('No options found for "${code}"', {
+                      code: searchTerms[attribute.attributeCode]
+                    })}
                   </div>
                 )}
-
-                <div className="attribute__options space-y-2 max-h-48 overflow-y-auto">
-                  {filteredOptions.length > 0 ? (
-                    filteredOptions.map((option) => {
-                      const isSelected = isOptionSelected(
-                        attribute.attributeCode,
-                        option.optionId.toString()
-                      );
-                      return (
-                        <div
-                          key={option.optionId}
-                          className={`flex items-center space-x-2 cursor-pointer py-2`}
-                        >
-                          <Checkbox
-                            checked={isSelected}
-                            id={`${attribute.attributeCode}-${option.optionId}`}
-                            onCheckedChange={(checked) =>
-                              handleAttributeChange(
-                                attribute.attributeCode,
-                                option.optionId.toString(),
-                                checked
-                              )
-                            }
-                          />
-                          <Label
-                            htmlFor={`${attribute.attributeCode}-${option.optionId}`}
-                          >
-                            {option.optionText}
-                          </Label>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <div className="text-muted-foreground text-sm text-center py-4">
-                      {_('No options found for "${code}"', {
-                        code: searchTerms[attribute.attributeCode]
-                      })}
-                    </div>
-                  )}
-                </div>
-
-                {!searchTerms[attribute.attributeCode] &&
-                  attribute.options.length > 10 && (
-                    <Button
-                      variant={'link'}
-                      className="text-primary text-sm mt-2 hover:underline"
-                    >
-                      {_('Show all ${count} options', {
-                        count: attribute.options.length.toString()
-                      })}
-                    </Button>
-                  )}
               </div>
-            )}
+
+              {!searchTerms[attribute.attributeCode] &&
+                attribute.options.length > 10 && (
+                  <Button
+                    type="button"
+                    variant={'link'}
+                    className="text-primary text-sm mt-2 hover:underline"
+                    onClick={() =>
+                      setExpandedAttributes((prev) => ({
+                        ...prev,
+                        [attribute.attributeCode]:
+                          !prev[attribute.attributeCode]
+                      }))
+                    }
+                  >
+                    {isExpanded
+                      ? _('Show less')
+                      : _('Show all ${count} options', {
+                          count: attribute.options.length.toString()
+                        })}
+                  </Button>
+                )}
+            </div>
           </div>
         );
       })}

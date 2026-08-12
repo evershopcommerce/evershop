@@ -1,5 +1,6 @@
 import { execute, select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
+import { localizeUrl } from '../../../../../lib/locale/localeContext.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
@@ -95,11 +96,13 @@ export default {
         .where('entity_uuid', '=', category.uuid)
         .and('entity_type', '=', 'category')
         .load(pool);
-      if (!urlRewrite) {
-        return buildUrl('categoryView', { uuid: category.uuid });
-      } else {
-        return urlRewrite.request_path;
-      }
+      // localizeUrl adds the /<locale> prefix for non-default storefront locales
+      // (no-op for the default locale / admin context), spec §6.18.
+      return localizeUrl(
+        urlRewrite
+          ? urlRewrite.request_path
+          : buildUrl('categoryView', { uuid: category.uuid })
+      );
     },
     image: (category) => {
       const { image, name } = category;

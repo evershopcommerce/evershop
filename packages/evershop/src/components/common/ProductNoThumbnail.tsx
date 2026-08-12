@@ -5,14 +5,25 @@ const ProductNoThumbnail: React.FC<{
   height?: number;
   className?: string;
 }> = ({ width, height, className }) => {
+  const w = width || 100;
+  const h = height || 100;
   return (
     <svg
-      className={`max-w-full ${className}`}
-      width={width || 100}
-      height={height || 100}
+      className={`max-w-full ${className ?? ''}`.trim()}
+      width={w}
+      height={h}
       viewBox="0 0 251 276"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      // When sized via numeric props (e.g. the product grid passes the 720px
+      // raster dimensions), `max-w-full` caps the width to the container but the
+      // raw `height` attribute would otherwise stay fixed — rendering a 720px
+      // tall box that blows out the grid row. Let height track the intended
+      // aspect ratio so the placeholder fills the slot like a real image.
+      // className-based callers size the SVG themselves, so leave them alone.
+      style={
+        className ? undefined : { height: 'auto', aspectRatio: `${w} / ${h}` }
+      }
     >
       <path
         d="M62.2402 34.2864L0.329313 68.5728L0.131725 137.524L0 206.538L62.3061 240.95C96.5546 259.858 124.81 275.363 125.139 275.363C125.468 275.363 142.527 266.035 163.142 254.69C183.691 243.282 211.748 227.841 225.448 220.277L250.278 206.538V191.789V176.978L248.829 177.735C247.973 178.176 219.915 193.617 186.457 212.147C152.933 230.677 125.205 245.677 124.81 245.614C124.349 245.488 102.219 233.387 75.5444 218.639L27.0037 191.853V137.65V83.447L48.9359 71.346C60.9229 64.7282 82.9211 52.6271 97.7401 44.4337C112.493 36.2402 124.876 29.5594 125.139 29.5594C125.402 29.5594 142.593 38.9504 163.339 50.4212L223.801 83.447L233.337 78.0776L250.278 68.5728L223.801 54.1397C202.857 42.2908 125.6 -0.0629802 124.941 4.62725e-05C124.546 4.62725e-05 96.2912 15.4415 62.2402 34.2864Z"

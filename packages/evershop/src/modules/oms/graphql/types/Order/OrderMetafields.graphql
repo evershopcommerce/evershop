@@ -1,0 +1,4 @@
+extend type Order {
+  metafields(namespace: String): [Metafield!]!
+  metafield(namespace: String!, key: String!): Metafield
+}

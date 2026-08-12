@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Cog } from 'lucide-react';
 import React from 'react';
 import { VariantGroup } from '../VariantGroup.js';
@@ -24,15 +25,19 @@ export const EditVariant: React.FC<{
     <div>
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger>
-          <Button variant={'link'} className={'hover:cursor-pointer'}>
-            <Cog className="w-5 h-5 text-primary" />
+          <Button
+            variant={'link'}
+            className={'h-7 w-7 p-0 hover:cursor-pointer'}
+            title={_('Edit variant')}
+          >
+            <Cog className="w-4 h-4 text-primary" />
           </Button>
         </DialogTrigger>
         <DialogContent className={'sm:max-w-212.5'}>
           <DialogHeader>
-            <DialogTitle>Edit Variant</DialogTitle>
+            <DialogTitle>{_('Edit Variant')}</DialogTitle>
             <DialogDescription>
-              Update the variant details and attributes here.
+              {_('Update the variant details and attributes here.')}
             </DialogDescription>
           </DialogHeader>
           <VariantModal

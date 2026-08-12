@@ -55,16 +55,6 @@ type Base {
 }
 
 """
-Represents a logo.
-"""
-type Logo {
-  src: String
-  alt: String
-  width: String
-  height: String
-}
-
-"""
 Represents a nav head tag.
 """
 type HeadTag {
@@ -78,7 +68,6 @@ type HeadTag {
 Represents a base theme config.
 """
 type ThemeConfig {
-  logo: Logo
   headTags: HeadTag
   copyRight: String
 }

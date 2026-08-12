@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/landing-pages/:id",
+  "access": "private"
+}

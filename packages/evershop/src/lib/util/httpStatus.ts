@@ -8,3 +8,5 @@ export const CONFLICT = 409;
 export const UNPROCESSABLE_ENTITY = 422;
 export const TOO_MANY_REQUESTS = 429;
 export const GATEWAY_TIMEOUT = 504;
+export const BAD_REQUEST = INVALID_PAYLOAD;
+export const CREATED = 201;

@@ -1,5 +1,5 @@
+import { getCollectionPageSize } from '../../modules/catalog/services/catalogSettings.js';
 import { CONSTANTS } from '../helpers.js';
-import { getConfig } from './getConfig.js';
 
 export const defaultPaginationFilters = [
   {
@@ -83,7 +83,7 @@ export const defaultPaginationFilters = [
       const defaultPage = 1;
       const defaultLimit = this.isAdmin
         ? CONSTANTS.ADMIN_COLLECTION_SIZE
-        : getConfig('catalog.collectionPageSize', 12);
+        : getCollectionPageSize();
       currentFilters.push({
         key: 'page',
         operation: 'eq',

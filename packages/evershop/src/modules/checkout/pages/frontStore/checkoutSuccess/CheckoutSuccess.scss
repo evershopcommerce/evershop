@@ -18,7 +18,7 @@
     letter-spacing: 0.031rem;
   }
 }
-.wrapper {
+.checkoutSuccess .wrapper {
   .header {
     margin-bottom: 0;
   }
@@ -28,20 +28,6 @@
 }
 .checkout-success-customer-info {
   padding-top: 3.125rem;
-  padding-bottom: 3.125rem;
-}
-
-.customer-info {
-  border: 1px solid var(--divider);
-  border-radius: 5px;
-  padding: 1.25rem;
-}
-.thank-you {
-  .check {
-    border: 2px solid var(--interactive);
-    border-radius: 100%;
-    padding: 0.313rem;
-  }
 }
 
 .checkoutSuccess .breadcrumb {

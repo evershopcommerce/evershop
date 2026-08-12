@@ -1,0 +1,5 @@
+{
+  "methods": ["GET"],
+  "path": "/orders/:uuid/track",
+  "name": "Order tracking (anonymous)"
+}

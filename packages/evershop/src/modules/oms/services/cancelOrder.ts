@@ -11,26 +11,63 @@ import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
-import { PaymentStatus, ShipmentStatus } from '../../../types/order.js';
+import { PaymentStatus } from '../../../types/order.js';
 import addOrderActivityLog from './addOrderActivityLog.js';
 import { updatePaymentStatus } from './updatePaymentStatus.js';
 import { updateShipmentStatus } from './updateShipmentStatus.js';
 
+/**
+ * Order-level cancelability check. The two sides answer different questions
+ * with different vocabularies:
+ *
+ *   - Payment side: `oms.order.paymentStatus[code].isCancelable`. Per-status
+ *     boolean. Payment statuses don't have phases or rollups, so the flag
+ *     stays per-status here. Defaults: pending/canceled cancelable, paid
+ *     not.
+ *
+ *   - Shipment side: `oms.order.shipmentRollupCancelable[rollupValue]`. The
+ *     map is keyed on the ORDER's rollup value (`order.shipment_status`),
+ *     NOT a per-shipment status code. Reason: by the time admin clicks
+ *     cancel-order, the order may be `partially_shipped` or
+ *     `partially_delivered` — rollup-only values that never appear in the
+ *     per-shipment status registry. Reading the per-shipment registry
+ *     keyed by the rollup value blows up; the rollup-cancelable map is
+ *     keyed by the right vocabulary by construction.
+ *
+ * Returns false if either side says no. Extensions can override via
+ * `addProcessor('shipmentRollupCancelable', ...)` (rollup side) or
+ * `addProcessor('paymentStatus', ...)` (payment side).
+ *
+ * Closes the partially-shipped/delivered crash that the per-status registry
+ * deref used to throw.
+ */
+// Exported under a test-suffixed name so the regression test for the
+// partially-shipped/delivered crash can hit `validateStatus` directly
+// without spinning up a DB-touching `cancelOrder` round-trip.
+export function validateStatusForTests(
+  paymentStatus: string,
+  shipmentStatus: string
+) {
+  return validateStatus(paymentStatus, shipmentStatus);
+}
+
 function validateStatus(paymentStatus: string, shipmentStatus: string) {
-  const shipmentStatusList = getConfig(
-    'oms.order.shipmentStatus',
-    {}
-  ) as Record<string, ShipmentStatus>;
   const paymentStatusList = getConfig('oms.order.paymentStatus', {}) as Record<
     string,
     PaymentStatus
   >;
   const paymentStatusConfig = paymentStatusList[paymentStatus];
-  const shipmentStatusConfig = shipmentStatusList[shipmentStatus];
-  if (
-    paymentStatusConfig.isCancelable === false ||
-    shipmentStatusConfig.isCancelable === false
-  ) {
+  if (paymentStatusConfig?.isCancelable === false) {
+    return false;
+  }
+
+  // Rollup vocabulary — keyed on order.shipment_status (six possible values
+  // including the rollup-only partially_shipped / partially_delivered).
+  const rollupCancelable = getConfig(
+    'oms.order.shipmentRollupCancelable',
+    {}
+  ) as Record<string, boolean>;
+  if (rollupCancelable[shipmentStatus] === false) {
     return false;
   }
 
@@ -48,7 +85,28 @@ async function updateShipmentStatusToCancel(
   orderID: number,
   connection: PoolClient
 ) {
-  await updateShipmentStatus(orderID, 'canceled', connection);
+  // Multi-shipment world: cancel each non-terminal shipment individually. The
+  // rollup short-circuits to `'canceled'` because `order.status` is set to
+  // `'canceled'` immediately after this in the same transaction. See
+  // wiki/multi-shipment-design.md → Services → cancelOrder integration.
+  const { getConfig } = await import('../../../lib/util/getConfig.js');
+  const list = getConfig('oms.order.shipmentStatus', {}) as unknown as Record<
+    string,
+    { phase: string }
+  >;
+  const cancelableStatuses = Object.entries(list)
+    .filter(([, d]) => d.phase !== 'delivered' && d.phase !== 'canceled')
+    .map(([code]) => code);
+  if (cancelableStatuses.length === 0) return;
+
+  const shipments = await select('uuid')
+    .from('shipment')
+    .where('shipment_order_id', '=', orderID)
+    .and('status', 'IN', cancelableStatuses)
+    .execute(connection);
+  for (const row of shipments as Array<{ uuid: string }>) {
+    await updateShipmentStatus(row.uuid, 'canceled', connection);
+  }
 }
 
 async function reStockAfterCancel(orderID: number, connection: PoolClient) {

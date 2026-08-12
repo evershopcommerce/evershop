@@ -1,5 +1,6 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
 import {
   InputGroup,
@@ -60,8 +61,9 @@ export function NumberField({
     control,
     formState: { errors }
   } = useFormContext();
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
+  const resolvedName = useScopedFieldName(name);
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
 
   const validationRules: RegisterOptions = {
     setValueAs: (value) => {
@@ -135,7 +137,7 @@ export function NumberField({
 
   const renderInput = () => (
     <Controller
-      name={name}
+      name={resolvedName}
       control={control}
       defaultValue={defaultValue ?? null}
       rules={validationRules}
@@ -207,7 +209,9 @@ export function NumberField({
           </InputGroupAddon>
         )}
       </InputGroup>
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

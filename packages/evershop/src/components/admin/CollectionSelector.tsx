@@ -2,6 +2,7 @@ import { SimplePagination } from '@components/common/SimplePagination.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Input } from '@components/common/ui/Input.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Check } from 'lucide-react';
 import React from 'react';
 import { useQuery } from 'urql';
@@ -123,7 +124,7 @@ const CollectionSelector: React.FC<{
   if (error) {
     return (
       <p className="text-destructive">
-        There was an error fetching collections.
+        {_('There was an error fetching collections.')}
         {error.message}
       </p>
     );
@@ -136,7 +137,7 @@ const CollectionSelector: React.FC<{
           <Input
             type="text"
             value={inputValue || ''}
-            placeholder="Search collections"
+            placeholder={_('Search collections')}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setInputValue(e.target.value);
               setLoading(true);
@@ -150,10 +151,12 @@ const CollectionSelector: React.FC<{
               <div className="p-2 border border-divider rounded flex justify-center items-center">
                 {inputValue ? (
                   <p>
-                    No collections found for query &quot;{inputValue}&rdquo;
+                    {_('No collections found for query "${query}"', {
+                      query: inputValue
+                    })}
                   </p>
                 ) : (
-                  <p>You have no collections to display</p>
+                  <p>{_('You have no collections to display')}</p>
                 )}
               </div>
             )}
@@ -182,7 +185,7 @@ const CollectionSelector: React.FC<{
                         onSelect(c.collectionId, c.uuid, c.name);
                       }}
                     >
-                      Select
+                      {_('Select')}
                     </Button>
                   )}
                   {isCollectionSelected(c, internalSelectedCollections) && (

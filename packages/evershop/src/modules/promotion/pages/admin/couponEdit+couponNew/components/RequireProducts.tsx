@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { options, operators, Operator } from './conditionCriterias.js';
@@ -49,22 +50,24 @@ export function RequiredProducts({
   return (
     <div style={{ marginTop: '1rem', marginBottom: '1rem' }}>
       <div>
-        <span>Order must contains product matched bellow conditions(All)</span>
+        <span>
+          {_('Order must contain products matching all conditions below')}
+        </span>
       </div>
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>
-              <span>Key</span>
+              <span>{_('Key')}</span>
             </TableHead>
             <TableHead>
-              <span>Operator</span>
+              <span>{_('Operator')}</span>
             </TableHead>
             <TableHead>
-              <span>Value</span>
+              <span>{_('Value')}</span>
             </TableHead>
             <TableHead>
-              <span>Minimum quantity</span>
+              <span>{_('Minimum quantity')}</span>
             </TableHead>
             <TableHead> </TableHead>
           </TableRow>
@@ -96,7 +99,8 @@ export function RequiredProducts({
                       name={`condition.required_products.${i}.keylabel`}
                       readOnly
                       value={
-                        options.find((c) => c.key === p.key)?.label || 'Unknown'
+                        options.find((c) => c.key === p.key)?.label ||
+                        _('Unknown')
                       }
                       wrapperClassName="form-field mb-0"
                     />
@@ -129,7 +133,7 @@ export function RequiredProducts({
                       value={
                         operators.find(
                           (c) => c.key === fieldsWatch[i]?.operator
-                        )?.label || 'Unknown'
+                        )?.label || _('Unknown')
                       }
                       wrapperClassName="form-field mb-0"
                     />
@@ -173,10 +177,10 @@ export function RequiredProducts({
                         ? p.qty
                         : parseInt(p.qty, 10) || 1
                     }
-                    placeholder="Enter the quantity"
+                    placeholder={_('Enter the quantity')}
                     required
                     validation={{
-                      required: 'Minimum quantity is required',
+                      required: _('Minimum quantity is required'),
                       min: {
                         value: 1,
                         message: ''
@@ -231,7 +235,7 @@ export function RequiredProducts({
               });
             }}
           >
-            <span>Add product</span>
+            <span>{_('Add product')}</span>
           </Button>
         </div>
       </div>

@@ -2,10 +2,11 @@ import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
 import { Badge } from '@components/common/ui/Badge.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { TableCell } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 interface GroupRowProps {
   groups: Array<{
@@ -20,7 +21,7 @@ export function GroupRow({ groups }: GroupRowProps) {
 
   const onEdit = (group) => {
     openAlert({
-      heading: `Editing ${group.groupName}`,
+      heading: _('Editing ${name}', { name: group.groupName }),
       content: (
         <div>
           <Form
@@ -40,21 +41,21 @@ export function GroupRow({ groups }: GroupRowProps) {
             <InputField
               name="group_name"
               required
-              label="Group Name"
-              placeholder="Enter group name"
-              validation={{ required: 'Group name is required' }}
+              label={_('Group Name')}
+              placeholder={_('Enter group name')}
+              validation={{ required: _('Group name is required') }}
               defaultValue={group.groupName}
             />
           </Form>
         </div>
       ),
       primaryAction: {
-        title: 'Cancel',
+        title: _('Cancel'),
         onAction: closeAlert,
         variant: 'critical'
       },
       secondaryAction: {
-        title: 'Save',
+        title: _('Save'),
         onAction: () => {
           dispatchAlert({
             type: 'update',

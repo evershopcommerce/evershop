@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export const CategoryConditionValueSelector: React.FC<{
@@ -54,16 +55,23 @@ export const CategoryConditionValueSelector: React.FC<{
                 <span className="italic">&lsquo;{id}&rsquo;</span>
               )}
               {index === 1 && (
-                <span> and {selectedIds.current.length - 1} more</span>
+                <span>
+                  {' '}
+                  {_('and ${count} more', {
+                    count: String(selectedIds.current.length - 1)
+                  })}
+                </span>
               )}
             </span>
           ))}
-          {selectedIds.current.length === 0 && <span>Choose Categories</span>}
+          {selectedIds.current.length === 0 && (
+            <span>{_('Choose Categories')}</span>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className={'max-w-[60vw]'}>
         <DialogHeader>
-          <DialogTitle>Choose Categories</DialogTitle>
+          <DialogTitle>{_('Choose Categories')}</DialogTitle>
         </DialogHeader>
         <CategorySelector
           onSelect={onSelect}

@@ -28,35 +28,52 @@ export async function compileSwc(
       throw err;
     }
   } else {
-    let cliOptions;
     const configFile = path.resolve(CONSTANTS.LIBPATH, '../../.swcrc');
-    if (fs.statSync(srcPath).isDirectory()) {
-      cliOptions = [
-        srcPath as string,
-        '-d',
-        distPath as string,
-        '--config-file',
-        configFile,
-        '--strip-leading-paths',
-        '--copy-files'
-      ];
-    } else {
-      cliOptions = [
-        srcPath as string,
-        '-o',
-        distPath as string,
-        '--config-file',
-        configFile,
-        '--strip-leading-paths'
-      ];
-    }
+    const cwd = path.resolve(srcPath as string, '..');
+    // preferLocal resolves the `swc` binary from node_modules/.bin (walking up
+    // from localDir), so the compile works no matter how the process was
+    // launched (npm script, IDE runner, plain `node`) — a bare `swc` spawn only
+    // resolves when npm happens to have put .bin on the PATH.
+    const execaOptions = { cwd, preferLocal: true, localDir: cwd };
 
     try {
-      // Delete the dist directory if it exists using rimraf
-      await fsp.rm(distPath as string, { recursive: true, force: true });
-      await execa('swc', cliOptions, {
-        cwd: path.resolve(srcPath as string, '..')
-      });
+      if (fs.statSync(srcPath).isDirectory()) {
+        // Compile into a temp sibling and swap it in only on success. Compiling
+        // straight into distPath after an upfront delete destroys the previous
+        // build whenever the compiler fails (or is missing) — including the
+        // files a RUNNING app still lazy-loads from dist.
+        const tmpDist = `${distPath as string}.compiling`;
+        await fsp.rm(tmpDist, { recursive: true, force: true });
+        await execa(
+          'swc',
+          [
+            srcPath as string,
+            '-d',
+            tmpDist,
+            '--config-file',
+            configFile,
+            '--strip-leading-paths',
+            '--copy-files'
+          ],
+          execaOptions
+        );
+        await fsp.rm(distPath as string, { recursive: true, force: true });
+        await fsp.rename(tmpDist, distPath as string);
+      } else {
+        // Single file: `swc -o` overwrites in place, no pre-delete needed.
+        await execa(
+          'swc',
+          [
+            srcPath as string,
+            '-o',
+            distPath as string,
+            '--config-file',
+            configFile,
+            '--strip-leading-paths'
+          ],
+          execaOptions
+        );
+      }
     } catch (err) {
       error(`Error compiling ${srcPath}:`);
       throw err;

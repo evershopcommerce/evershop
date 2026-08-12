@@ -4,6 +4,7 @@ import {
   InputGroupAddon,
   InputGroupInput
 } from '@components/common/ui/InputGroup.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Search } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { useQuery } from 'urql';
@@ -112,7 +113,7 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
         </InputGroupAddon>
         <InputGroupInput
           type="text"
-          placeholder="Search"
+          placeholder={_('Search')}
           ref={InputRef}
           onChange={(e) => setKeyword(e.target.value)}
         />
@@ -129,7 +130,9 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
           )}
           {!keyword && (
             <div className="text-center">
-              <span>Search for products, order and other resources</span>
+              <span>
+                {_('Search for products, orders, and other resources')}
+              </span>
             </div>
           )}
           {data?.products.items.length === 0 &&

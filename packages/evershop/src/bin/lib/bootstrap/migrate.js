@@ -34,13 +34,23 @@ async function migrateModule(module, connection = null) {
   const migrations = readdirSync(path.resolve(module.path, 'migration'), {
     withFileTypes: true
   })
+    // Match `Version-X.Y.Z.js` where each segment is one or more digits. The
+    // previous regex (`Version-+([1-9].[0-9].[0-9])+.js`) had three traps:
+    // single-digit-only segments (so `1.0.10` silently dropped on the floor),
+    // unescaped dots that matched any character, and a useless `+` after the
+    // capture group.
     .filter(
       (dirent) =>
         dirent.isFile() &&
-        dirent.name.match(/^Version-+([1-9].[0-9].[0-9])+.js$/)
+        dirent.name.match(/^Version-(\d+\.\d+\.\d+)\.js$/)
     )
     .map((dirent) => dirent.name.replace('Version-', '').replace('.js', ''))
-    .sort((first, second) => semver.lt(first, second));
+    // `semver.compare` returns -1/0/1 — a valid Array.sort comparator. The
+    // previous `semver.lt` returned a boolean (true→1, false→0), which never
+    // emits a negative value, so the list was left in readdir (lexicographic)
+    // order where `1.0.10` sorts before `1.0.2`. That ran migrations out of
+    // order (e.g. checkout's 1.0.10 ALTER before its 1.0.8 CREATE).
+    .sort((first, second) => semver.compare(first, second));
 
   const currentInstalledVersion = await getCurrentInstalledVersion(
     module.name,

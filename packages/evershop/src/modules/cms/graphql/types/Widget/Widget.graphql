@@ -1,19 +1,105 @@
 """
-Lookup Widget by ID
+A widget instance. The schema renamed the underlying table to widget_instance
+in cms migration 1.3.0; the GraphQL type kept the name `Widget` for clients.
+Container children are stored as regular `widget_placement` rows with a
+synthetic `area = columnsContainer_<parent_uuid>_col_<index>` — there is no
+parent FK on `widget_instance`.
 """
 type Widget {
+  """
+  Deprecated. Alias for widgetInstanceId, kept while existing admin UI queries
+  still reference widgetId.
+  """
   widgetId: Int
+  widgetInstanceId: Int
   uuid: String!
   name: String!
   type: String!
-  area: [String!]
-  route: [String!]
-  sortOrder: Int!
   status: Int!
-  settings: JSON!
+
+  """
+  Typed settings — a member of the WidgetSettings union if this widget type
+  registered a `graphql` block, else null. Clients use inline fragments:
+  `settings { ... on CollectionProductsSettings { count } }`. For generic
+  access during the migration window, use `rawSettings`.
+  """
+  settings: WidgetSettings
+
+  """
+  The raw settings JSON object as stored. Bridge during the migration to
+  typed settings — to be removed once all widgets register a `graphql` block
+  and all storefront/admin queries use typed fragments.
+  """
+  rawSettings: JSON!
+
+  """
+  Placements for this widget instance — one row per (route, area) cell. A
+  container child has placements whose `area` starts with
+  `columnsContainer_<parent_uuid>_col_`.
+  """
+  placements: [WidgetPlacement!]!
+
+  """
+  For container widgets: their child columns, derived from placements whose
+  `area` starts with `columnsContainer_<this_uuid>_col_`. Empty list for
+  non-containers.
+  """
+  columns: [WidgetColumn!]!
+
+  """
+  Deprecated. Distinct routes from this widget's placements. Use `placements`
+  for full detail.
+  """
+  route: [String!]
+
+  """
+  Deprecated. Distinct areas from this widget's placements. Use `placements`
+  for full detail.
+  """
+  area: [String!]
+
+  """
+  Deprecated. The first placement's sort_order, or 0 if no placements.
+  Use `placements[].sortOrder` instead.
+
+  Float because the page-builder uses midpoint inserts — when a widget is
+  dropped between two existing placements the new sort_order is the
+  arithmetic mean, which can be fractional (e.g. 200.5 between 200 and 201).
+  This lets us insert without renumbering every sibling.
+  """
+  sortOrder: Float!
+
   editUrl: String!
   updateApi: String!
   deleteApi: String!
+}
+
+"""
+A placement of a widget instance on a particular (route, area) cell. Optional
+entity_urn allows entity-level overrides (e.g. for a specific CMS page).
+"""
+type WidgetPlacement {
+  widgetPlacementId: Int!
+  uuid: String!
+  route: String!
+  area: String!
+  """
+  Float because the page-builder uses midpoint inserts — see the comment
+  on `Widget.sortOrder`. Existing pre-midpoint placements still serialise
+  as integer floats (e.g. 100.0 in JSON).
+  """
+  sortOrder: Float!
+  entityUrn: String
+}
+
+"""
+A column inside a container widget. Children of the container are placements
+whose `area` matches `columnsContainer_<parent_uuid>_col_<index>`, grouped by
+the parsed column index and ordered by the placement's `sortOrder`.
+"""
+type WidgetColumn {
+  index: Int!
+  widgets: [Widget!]!
 }
 
 """
@@ -23,6 +109,16 @@ type WidgetType {
   code: String!
   name: String!
   description: String!
+  """
+  Optional category used by the page builder palette to group widgets:
+  `content`, `commerce`, `navigation`, `marketing`, or `layout`.
+  """
+  category: String
+  """
+  Optional lucide-react icon name (curated whitelist on the client). Falls
+  back to a generic `Layers` icon when null or unknown.
+  """
+  icon: String
   createWidgetUrl: String!
   settingComponent: String!
   component: String!
@@ -48,6 +144,29 @@ type TextBlockWidget {
 }
 
 """
+Container widget — renders columns containing child widgets.
+
+`ratio` is the authoritative layout descriptor (e.g. `1-1`, `1-2-1`,
+`1-1-1-1`). `columnCount` is derived from it and kept for back-compat
+clients that read the older shape. `background` is an optional hex color
+applied to the row; empty / null = no background. `padding` is a preset
+name (`none`, `sm`, `md`, `lg`, `xl`) that the storefront maps to
+responsive Tailwind classes.
+"""
+type ColumnsWidget {
+  columnCount: Int!
+  gap: Int!
+  ratio: String
+  background: String
+  padding: String
+  """
+  9-anchor content alignment applied uniformly to every column: tl, tc,
+  tr, ml, mc, mr, bl, bc, br. Defaults to `mc` (middle-center).
+  """
+  contentPosition: String
+}
+
+"""
 Return a menu input
 """
 input BasicMenuInput {
@@ -70,6 +189,9 @@ type Menu {
   children: [Menu]
   type: String!
   uuid: String
+  newTab: Boolean
+  nofollow: Boolean
+  noReferrer: Boolean
 }
 
 """
@@ -82,7 +204,15 @@ type BasicMenuWidget {
 }
 
 """
-Return a banner Widget
+Return a banner Widget — a single static hero (use the Slideshow widget
+for rotating multi-image variants).
+
+The image is the background; optional overlay copy (`eyebrow`, `heading`,
+`subText`) sits on top, anchored via `contentPosition` (`tl…br`), with an
+optional `overlayTint` + `overlayOpacity` scrim for legibility. Two
+optional CTAs (`cta`, `cta2`) render as buttons below the copy. `link`
+remains as a whole-banner click-through for the legacy "just an image
+that links somewhere" use case — ignored when CTAs are set.
 """
 type BasicBannerWidget {
   src: String
@@ -90,10 +220,34 @@ type BasicBannerWidget {
   width: Float
   height: Float
   alt: String
+  link: String
+  eyebrow: String
+  heading: String
+  subText: String
+  contentPosition: String
+  overlayTint: String
+  overlayOpacity: Float
+  cta: JSON
+  cta2: JSON
+  """
+  Optional mobile-specific image, swapped in below the md (768px)
+  breakpoint via a CSS toggle. Falls back to `src` when null. Has its
+  own intrinsic dimensions so the rendered mobile layout uses the
+  mobile image's aspect ratio (typical: portrait crop), not the
+  desktop image's.
+  """
+  mobileImage: String
+  mobileImageWidth: Float
+  mobileImageHeight: Float
 }
 
 """
-Input for a slide in a slideshow
+Input for a slide in a slideshow.
+
+Per-slide overrides for `contentPosition` / `overlayTint` / `overlayOpacity`
+fall back to the slideshow's defaults when null. `button*` fields are the
+primary CTA; `button2*` is the optional secondary CTA. `mobileImage` swaps
+the rendered image at the storefront breakpoint and falls back to `image`.
 """
 input SlideInput {
   id: String!
@@ -105,10 +259,48 @@ input SlideInput {
   buttonColor: String
   width: Float
   height: Float
+  mobileImage: String
+  """
+  Real intrinsic dimensions of the mobile image, captured admin-side on
+  pick. Drive the <source> width/height so phones reserve the correct box
+  before the image loads.
+  """
+  mobileWidth: Float
+  mobileHeight: Float
+  eyebrow: String
+  """
+  9-anchor content position: tl, tc, tr, ml, mc, mr, bl, bc, br.
+  """
+  contentPosition: String
+  """
+  Overlay tint: `none`, `dark`, `light`, `gradient` (bottom-darkening).
+  """
+  overlayTint: String
+  """
+  Overlay opacity in [0,1]. Applied with the tint above.
+  """
+  overlayOpacity: Float
+  """
+  Primary button style: `filled`, `outline`, `link`.
+  """
+  buttonStyle: String
+  button2Text: String
+  button2Link: String
+  button2Color: String
+  button2Style: String
+  """
+  When true, the entire slide is a link to `buttonLink`.
+  """
+  wholeSlideLink: Boolean
+  """
+  Soft-hide this slide without deleting it. The drawer "visibility eye"
+  toggles this; the storefront filters it out at render time.
+  """
+  hidden: Boolean
 }
 
 """
-A slide in a slideshow
+A slide in a slideshow.
 """
 type Slide {
   id: String!
@@ -120,10 +312,24 @@ type Slide {
   buttonColor: String
   width: Float
   height: Float
+  mobileImage: String
+  mobileWidth: Float
+  mobileHeight: Float
+  eyebrow: String
+  contentPosition: String
+  overlayTint: String
+  overlayOpacity: Float
+  buttonStyle: String
+  button2Text: String
+  button2Link: String
+  button2Color: String
+  button2Style: String
+  wholeSlideLink: Boolean
+  hidden: Boolean
 }
 
 """
-Return a slideshow Widget
+Return a slideshow Widget.
 """
 type SlideshowWidget {
   slides: [Slide!]
@@ -131,21 +337,312 @@ type SlideshowWidget {
   autoplaySpeed: Int
   arrows: Boolean
   dots: Boolean
+  """
+  Slide transition: `slide` (horizontal) or `fade`.
+  """
+  transition: String
+  """
+  Transition duration in milliseconds (200–1500).
+  """
+  transitionSpeed: Int
+  pauseOnHover: Boolean
+  """
+  When true, autoplay pauses for ~20s after the user clicks a dot/arrow.
+  """
+  pauseOnInteraction: Boolean
+  """
+  Arrow placement: `bottom-right`, `sides`, `hidden`.
+  """
+  arrowsStyle: String
+  """
+  Dot indicator style: `dots`, `bars`, `numbers`, `hidden`.
+  """
+  dotsStyle: String
+  """
+  Container aspect ratio: `auto`, `16:9`, `21:9`, `4:3`, `1:1`.
+  """
+  aspectRatio: String
+  """
+  Default content position when a slide doesn't set `contentPosition`.
+  """
+  defaultContentPosition: String
+  defaultOverlayTint: String
+  defaultOverlayOpacity: Float
+}
+
+"""
+Separator widget — vertical breathing room between widgets with an
+optional divider line. `size` maps to a tight pixel-doubling scale on
+desktop; mobile values are ~⅔ for narrow-viewport sanity. `lineColor` is
+a CSS color string applied to the divider when `showLine` is true; null
+falls back to the theme's divider color.
+"""
+type SeparatorWidget {
+  size: String!
+  showLine: Boolean!
+  lineColor: String
+}
+
+"""
+Section widget — a styled, droppable container that wraps any other
+widgets. Rides the column-container synthetic area pattern: children
+sit on `area = columnsContainer_<sectionUid>_col_0`, so
+`loadWidgetInstances`, the page-builder drop handler, and the Layers
+grouping work without any container-infra changes.
+
+`width: wide` breaks out edge-to-edge; `boxed` stays inside whatever
+the theme wraps the page in. Background is a CSS color and/or an
+image, with an optional tint scrim for legibility on top of the image.
+"""
+type SectionWidget {
+  width: String!
+  padding: String!
+  background: String
+  backgroundImage: String
+  backgroundImageWidth: Float
+  backgroundImageHeight: Float
+  overlayTint: String!
+  overlayOpacity: Float!
+}
+
+"""
+Trust strip item — a single value-prop cell (e.g. "Free shipping"). The
+`icon` is a URL; theme rendering decides whether to bake it in as an
+`<img>` or swap in a built-in SVG via the title.
+"""
+input TrustItemLinkInput {
+  url: String!
+  newTab: Boolean
+}
+
+input TrustItemInput {
+  id: String!
+  icon: String
+  iconWidth: Int
+  iconHeight: Int
+  title: String!
+  description: String
+  link: TrustItemLinkInput
+}
+
+type TrustItemLink {
+  url: String!
+  newTab: Boolean
+}
+
+type TrustItem {
+  id: String!
+  icon: String
+  iconWidth: Int
+  iconHeight: Int
+  title: String!
+  description: String
+  link: TrustItemLink
+}
+
+"""
+Trust strip widget — a row of value-props (free shipping, easy returns,
+etc.). All fields optional except `items`. `columns` null = auto from
+item count, capped at 4.
+"""
+type TrustStripWidget {
+  items: [TrustItem!]!
+  columns: Int
+  showIcons: Boolean
+  iconSize: String
+  alignment: String
+  divider: Boolean
+}
+
+"""
+Brand story widget — editorial block with 4 layout variants. Image is
+optional in `centered`, unused in `pull-quote`, required otherwise.
+"""
+type BrandStoryWidget {
+  layout: String!
+  image: String
+  imageAlt: String
+  imageWidth: Int
+  imageHeight: Int
+  eyebrow: String
+  heading: String!
+  body: String!
+  bodySecondary: String
+  link: JSON
+  pullQuote: String
+  imageSize: Int!
+}
+
+"""
+Category mosaic widget — grid of category tiles. `tiles` JSON array
+shape: { id, image, imageAlt, label, link, newTab }. Layout supports
+asymmetric (first tile spans 2 cols when columns is 3 or 4).
+"""
+type CategoryMosaicWidget {
+  heading: String
+  tiles: JSON
+  columns: Int
+  aspect: String
+  layout: String
+  labelPosition: String
+}
+
+"""
+Tiered categories widget — parent category + sub-chips per column.
+`groups` JSON: { id, image, imageAlt, parent: { label, url }, subs: [{ id, label, url }] }.
+"""
+type TieredCategoriesWidget {
+  groups: JSON
+  columns: Int
+  imageAspect: String
+  showParentLink: Boolean
+}
+
+"""
+Footer menu widget — a row of titled columns, each holding a flat list of
+links. `columns` JSON: [{ id, title, links: [{ id, label, url }] }]. Each
+link `url` is resolved from its stored value (URN → current URL) at request
+time.
+"""
+type FooterMenuWidget {
+  columns: JSON
+}
+
+"""
+Bento grid widget — asymmetric mosaic of CTA tiles. First tile is the
+hero; remaining tiles are supporting (max 4). `tiles` JSON:
+{ id, image, imageAlt, backgroundColor, eyebrow, heading, body, link, textColor, size }.
+"""
+type BentoGridWidget {
+  tiles: JSON
+  gap: String
+  minHeight: Int
+}
+
+"""
+Split feature widget — a 50/50 image + copy promo. `cta` is a JSON
+object: `{ label, url, kind?, newTab, style }`. Layout knobs:
+`imagePosition`, `verticalAlign`, `imageFit`. The section height is
+driven by the image's natural aspect ratio at the column width.
+"""
+type SplitFeatureWidget {
+  image: String!
+  imageAlt: String
+  imagePosition: String
+  width: Int
+  height: Int
+  eyebrow: String
+  heading: String!
+  body: String
+  cta: JSON
+  verticalAlign: String
+  imageFit: String
+}
+
+"""
+Announcement bar widget — a thin top-of-page bar that cycles through one
+or more short messages. `announcements` is a JSON array of
+`{ id, content, link? }`. The storefront renders all of them upfront and
+rotates client-side, respecting prefers-reduced-motion.
+"""
+type AnnouncementBarWidget {
+  backgroundColor: String!
+  textColor: String!
+  delay: Int!
+  announcements: JSON!
+}
+
+"""
+Coupon block widget. Shows a promo code, copy button, and CTA. `expires`
+is an ISO datetime; the storefront's inline script hides the widget when
+the time has passed (SSR always renders to avoid cache invalidation
+churn). Border, background, and CTA target are all configurable.
+"""
+type CouponBlockWidget {
+  eyebrow: String
+  heading: String!
+  body: String
+  code: String!
+  ctaLabel: String
+  ctaLink: String!
+  ctaNewTab: Boolean
+  expires: String
+  borderStyle: String
+  backgroundColor: String
+}
+
+"""
+FAQ block widget. `sections` is a JSON array where each entry has a
+`type` discriminator (`prose` or `faq`). The shape is loose because
+prose `content` is the EditorJS row array — JSON in both directions.
+"""
+type FaqBlockWidget {
+  heading: String
+  sections: JSON
+  maxWidth: String
+  allowMultipleOpen: Boolean
 }
 
 extend type Query {
   widget(id: Int): Widget
+  """
+  A single widget by uuid. When `changeset` (a draft token) is supplied, the
+  widget's `placements` reflect that draft's overlay — staged share/route
+  changes included — instead of the published `widget_placement` table.
+  """
+  widgetByUuid(uuid: String!, changeset: String): Widget
   widgets(filters: [FilterInput]): WidgetCollection
+  """
+  Widgets currently rendered on the given route (top-level only — children
+  of container widgets are returned nested inside their parent's `columns`).
+  When `changeset` is provided, the named changeset's draft ops are applied
+  as an overlay before filtering/grouping so the result matches what the
+  page-builder iframe renders for that token. Without `changeset`, returns
+  source state only.
+
+  `entityUrn` scopes the result to an entity-level editor session (e.g. one
+  landing page). When set, placements are kept when `entity_urn IS NULL`
+  (route-level / shared) OR `entity_urn = entityUrn` (this entity's content),
+  with the entity-scoped placement winning at a shared (area, sortOrder) cell —
+  the same rule the storefront loader applies, so Layers matches the canvas.
+  When null (route-level editor), only `entity_urn IS NULL` placements show.
+  """
+  widgetsForRoute(route: String!, changeset: String, entityUrn: String): [Widget!]!
   widgetTypes: [WidgetType]
   widgetType(code: String!): WidgetType
   textWidget(text: String, className: String): TextBlockWidget
+  """
+  `gap` is widened to Float to absorb in-flight slider drag values; the
+  resolver Math.round-s before returning. The output type still uses Int.
+  `columnCount` stays Int — it's a column count, semantically discrete.
+  """
+  columnsWidget(
+    columnCount: Int
+    gap: Float
+    ratio: String
+    background: String
+    padding: String
+    contentPosition: String
+  ): ColumnsWidget
   basicMenuWidget(settings: JSON): BasicMenuWidget
   bannerWidget(
     src: String
     alignment: String
-    width: String
-    height: String
+    width: Float
+    height: Float
     alt: String
+    link: String
+    eyebrow: String
+    heading: String
+    subText: String
+    contentPosition: String
+    overlayTint: String
+    overlayOpacity: Float
+    cta: JSON
+    cta2: JSON
+    mobileImage: String
+    mobileImageWidth: Float
+    mobileImageHeight: Float
   ): BasicBannerWidget
   slideshowWidget(
     slides: [SlideInput]
@@ -153,5 +650,109 @@ extend type Query {
     autoplaySpeed: Int
     arrows: Boolean
     dots: Boolean
+    transition: String
+    transitionSpeed: Int
+    pauseOnHover: Boolean
+    pauseOnInteraction: Boolean
+    arrowsStyle: String
+    dotsStyle: String
+    aspectRatio: String
+    defaultContentPosition: String
+    defaultOverlayTint: String
+    defaultOverlayOpacity: Float
   ): SlideshowWidget
+  trustStripWidget(
+    items: [TrustItemInput]
+    columns: Int
+    showIcons: Boolean
+    iconSize: String
+    alignment: String
+    divider: Boolean
+  ): TrustStripWidget
+  faqBlockWidget(
+    heading: String
+    sections: JSON
+    maxWidth: String
+    allowMultipleOpen: Boolean
+  ): FaqBlockWidget
+  couponBlockWidget(
+    eyebrow: String
+    heading: String
+    body: String
+    code: String
+    ctaLabel: String
+    ctaLink: String
+    ctaNewTab: Boolean
+    expires: String
+    borderStyle: String
+    backgroundColor: String
+  ): CouponBlockWidget
+  splitFeatureWidget(
+    image: String
+    imageAlt: String
+    imagePosition: String
+    width: Float
+    height: Float
+    eyebrow: String
+    heading: String
+    body: String
+    cta: JSON
+    verticalAlign: String
+    imageFit: String
+  ): SplitFeatureWidget
+  announcementBarWidget(
+    backgroundColor: String
+    textColor: String
+    delay: Float
+    announcements: JSON
+  ): AnnouncementBarWidget
+  brandStoryWidget(
+    layout: String
+    image: String
+    imageAlt: String
+    imageWidth: Float
+    imageHeight: Float
+    eyebrow: String
+    heading: String
+    body: String
+    bodySecondary: String
+    link: JSON
+    pullQuote: String
+    imageSize: Float
+  ): BrandStoryWidget
+  categoryMosaicWidget(
+    heading: String
+    tiles: JSON
+    columns: Int
+    aspect: String
+    layout: String
+    labelPosition: String
+  ): CategoryMosaicWidget
+  tieredCategoriesWidget(
+    groups: JSON
+    columns: Int
+    imageAspect: String
+    showParentLink: Boolean
+  ): TieredCategoriesWidget
+  footerMenuWidget(columns: JSON): FooterMenuWidget
+  bentoGridWidget(
+    tiles: JSON
+    gap: String
+    minHeight: Float
+  ): BentoGridWidget
+  separatorWidget(
+    size: String
+    showLine: Boolean
+    lineColor: String
+  ): SeparatorWidget
+  sectionWidget(
+    width: String
+    padding: String
+    background: String
+    backgroundImage: String
+    backgroundImageWidth: Float
+    backgroundImageHeight: Float
+    overlayTint: String
+    overlayOpacity: Float
+  ): SectionWidget
 }

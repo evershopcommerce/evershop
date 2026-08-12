@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { TagIcon } from 'lucide-react';
 import React from 'react';
 
@@ -23,9 +24,9 @@ export default function Collections({
   return (
     <Card className="bg-popover">
       <CardHeader>
-        <CardTitle>Collections</CardTitle>
+        <CardTitle>{_('Collections')}</CardTitle>
         <CardDescription>
-          Manage the collections associated with this product.
+          {_('Manage the collections associated with this product.')}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -41,7 +42,7 @@ export default function Collections({
           </div>
         ))}
         {collections.length === 0 && (
-          <div className="text-gray-500">No collections</div>
+          <div className="text-gray-500">{_('No collections')}</div>
         )}
       </CardContent>
     </Card>

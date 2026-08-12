@@ -1,0 +1,5 @@
+{
+  "methods": ["DELETE"],
+  "path": "/page-builder/rollout-plans/:id",
+  "access": "private"
+}

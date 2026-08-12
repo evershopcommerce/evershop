@@ -1,4 +1,8 @@
-import { getConfig } from '../../../lib/util/getConfig.js';
+import {
+  getTaxPrecision,
+  getTaxRounding,
+  getTaxRoundLevel
+} from './taxSettings.js';
 
 export function calculateTaxAmount(
   taxPercentage,
@@ -6,9 +10,9 @@ export function calculateTaxAmount(
   quantity = 1,
   priceIncludingTax = false
 ) {
-  const rounding = getConfig('pricing.tax.rounding', 'round');
-  const roundingLevel = getConfig('pricing.tax.round_level', 'unit');
-  const precision = getConfig('pricing.tax.precision', '2');
+  const rounding = getTaxRounding();
+  const roundingLevel = getTaxRoundLevel();
+  const precision = getTaxPrecision();
   const precisionFix = 10 ** precision;
 
   const taxAmountUnit =
@@ -19,15 +23,15 @@ export function calculateTaxAmount(
     // Calculate the tax amount
     let taxAmount = 0;
     switch (rounding) {
+      case 'ceil':
       case 'up':
         taxAmount = Math.ceil(taxAmountUnit * precisionFix) / precisionFix;
         break;
+      case 'floor':
       case 'down':
         taxAmount = Math.floor(taxAmountUnit * precisionFix) / precisionFix;
         break;
       case 'round':
-        taxAmount = Math.round(taxAmountUnit * precisionFix) / precisionFix;
-        break;
       default:
         taxAmount = Math.round(taxAmountUnit * precisionFix) / precisionFix;
         break;
@@ -37,15 +41,15 @@ export function calculateTaxAmount(
     // Calculate the tax amount
     let taxAmount = taxAmountUnit * quantity;
     switch (rounding) {
+      case 'ceil':
       case 'up':
         taxAmount = Math.ceil(taxAmount * precisionFix) / precisionFix;
         break;
+      case 'floor':
       case 'down':
         taxAmount = Math.floor(taxAmount * precisionFix) / precisionFix;
         break;
       case 'round':
-        taxAmount = Math.round(taxAmount * precisionFix) / precisionFix;
-        break;
       default:
         taxAmount = Math.round(taxAmount * precisionFix) / precisionFix;
         break;

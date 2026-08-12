@@ -1,7 +1,6 @@
 import isErrorHandlerTriggered from '../../../../lib/middleware/isErrorHandlerTriggered.js';
 import { render } from '../../../../lib/response/render.js';
 import { get } from '../../../../lib/util/get.js';
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
 import { getValueSync } from '../../../../lib/util/registry.js';
 import {
@@ -10,8 +9,10 @@ import {
 } from '../../../../modules/cms/services/pageMetaInfo.js';
 import { AppStateContextValue, Config } from '../../../../types/appContext.js';
 import { EvershopRequest } from '../../../../types/request.js';
+import { getProductImageDimensions } from '../../../catalog/services/catalogSettings.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
+import { getPriceIncludingTax } from '../../../tax/services/taxSettings.js';
 
 export default async (request: EvershopRequest, response, next) => {
   try {
@@ -54,11 +55,20 @@ export default async (request: EvershopRequest, response, next) => {
           widgetInstances = await loadWidgetInstances(request);
         }
         widgetInstances = widgetInstances.map((widget) => {
-          const newWidget = {
+          const newWidget: Record<string, unknown> = {
             sortOrder: widget.sortOrder,
             areaId: widget.areaId,
             type: widget.type,
-            id: `e${widget.uuid.replace(/-/g, '')}`
+            id: `e${widget.uuid.replace(/-/g, '')}`,
+            // Phase 3c: page builder needs the raw uuid + settings so the
+            // iframe chrome and `<Editable>` can identify the widget and
+            // build full-replace settings UPDATE ops without an extra
+            // round-trip.
+            uuid: widget.uuid,
+            // The page-builder admin's move/duplicate handlers consult this
+            // to operate on overlay-applied sortOrder instead of source.
+            placementUuid: (widget as { placementUuid?: string }).placementUuid,
+            settings: widget.settings ?? {}
           };
           if (route.isAdmin) {
             newWidget.areaId = 'widget_setting_form';
@@ -77,16 +87,10 @@ export default async (request: EvershopRequest, response, next) => {
             'appConfig',
             {
               tax: {
-                priceIncludingTax: getConfig(
-                  'pricing.tax.price_including_tax',
-                  false
-                )
+                priceIncludingTax: getPriceIncludingTax()
               },
               catalog: {
-                imageDimensions: {
-                  width: getConfig('catalog.product.image.width', 1200),
-                  height: getConfig('catalog.product.image.height', 1200)
-                }
+                imageDimensions: getProductImageDimensions()
               },
               pageMeta: pageMeta
             },
@@ -110,7 +114,7 @@ export default async (request: EvershopRequest, response, next) => {
             } as AppStateContextValue
           });
         } else {
-          render(request, response);
+          render(request, response, next);
         }
       }
     }

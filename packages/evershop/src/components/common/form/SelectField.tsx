@@ -1,5 +1,6 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
 import {
   Select,
@@ -61,9 +62,10 @@ export function SelectField<T extends FieldValues = FieldValues>({
     control,
     formState: { errors }
   } = useFormContext<T>();
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
 
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = id || `field-${name}`;
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = id || `field-${resolvedName}`;
 
   const hasDefaultValue =
     defaultValue !== undefined && defaultValue !== null && defaultValue !== '';
@@ -106,7 +108,7 @@ export function SelectField<T extends FieldValues = FieldValues>({
         </FieldLabel>
       )}
       <Controller
-        name={name}
+        name={resolvedName}
         control={control}
         rules={validationRules}
         defaultValue={hasDefaultValue ? defaultValue : ('' as any)}
@@ -154,7 +156,9 @@ export function SelectField<T extends FieldValues = FieldValues>({
           </Select>
         )}
       />
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

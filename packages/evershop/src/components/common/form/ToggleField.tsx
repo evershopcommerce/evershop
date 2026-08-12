@@ -1,5 +1,6 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
 import { Switch } from '@components/common/ui/Switch.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
@@ -51,9 +52,10 @@ export function ToggleField<T extends FieldValues = FieldValues>({
     control,
     formState: { errors }
   } = useFormContext<T>();
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
 
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
 
   const validationRules = {
     ...validation,
@@ -77,7 +79,7 @@ export function ToggleField<T extends FieldValues = FieldValues>({
       )}
 
       <Controller
-        name={name}
+        name={resolvedName}
         control={control}
         rules={validationRules}
         defaultValue={defaultValue as any}

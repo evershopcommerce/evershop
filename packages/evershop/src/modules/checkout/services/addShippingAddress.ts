@@ -75,33 +75,26 @@ const _addShippingAddress = async function addShippingAddress<
       throw new Error(errorMessage);
     }
 
-    // // Find shipping zone for the address
-    // const shippingZone = await hookable(findShippingZone, {
-    //   cartUUID,
-    //   addressData,
-    //   cart,
-    //   ...context
-    // })(addressData, connection);
-
-    // if (!shippingZone) {
-    //   throw new Error('We do not ship to this address');
-    // }
+    // Zone resolution moved into the provider abstraction. The cart's
+    // shipping_method_data field resolver calls resolveZonesForAddress when
+    // it needs to validate the customer's selection. The address-add flow no
+    // longer needs to pre-resolve a zone here.
+    //
+    // See wiki/shipping-provider-design.md → "Data flow".
 
     // Save address to database
     const savedAddress = await hookable(saveShippingAddress, {
       cartUUID,
       addressData,
       cart,
-      //shippingZone,
       ...context
     })(addressData, connection);
 
-    // Update cart with shipping zone and address
+    // Update cart with shipping address.
     await hookable(updateCartWithShippingAddress, {
       cartUUID,
       addressData,
       cart,
-      //shippingZone,
       savedAddress,
       ...context
     })(cart.cart_id, savedAddress.cart_address_id, connection);
@@ -114,28 +107,6 @@ const _addShippingAddress = async function addShippingAddress<
     throw error;
   }
 };
-
-/**
- * Find shipping zone for the given address
- */
-async function findShippingZone(addressData: Address, connection: PoolClient) {
-  const shippingZoneQuery = select().from('shipping_zone');
-  shippingZoneQuery
-    .leftJoin('shipping_zone_province')
-    .on(
-      'shipping_zone_province.zone_id',
-      '=',
-      'shipping_zone.shipping_zone_id'
-    );
-  shippingZoneQuery.where('shipping_zone.country', '=', addressData.country);
-
-  const shippingZoneProvinces = await shippingZoneQuery.execute(connection);
-  const shippingZone = shippingZoneProvinces.find(
-    (zone) => zone.province === addressData.province || zone.province === null
-  );
-
-  return shippingZone;
-}
 
 /**
  * Save shipping address to database

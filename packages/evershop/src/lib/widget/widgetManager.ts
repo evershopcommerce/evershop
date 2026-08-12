@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Widget } from '../../types/widget.js';
+import { Ajv, type ValidateFunction } from 'ajv';
+import { Kind, parse } from 'graphql';
+import { Widget, WidgetSchemaDefinition } from '../../types/widget.js';
 import { warning } from '../log/logger.js';
 import { generateComponentKey } from '../util/keyGenerator.js';
 
@@ -63,6 +65,26 @@ function isValidType(type: string | undefined): boolean {
   );
 }
 
+/** Extract object-type names from a SDL fragment via the graphql parser. */
+function extractObjectTypeNames(sdl: string): string[] {
+  try {
+    const document = parse(sdl);
+    const names: string[] = [];
+    for (const def of document.definitions) {
+      if (def.kind === Kind.OBJECT_TYPE_DEFINITION) {
+        names.push(def.name.value);
+      }
+    }
+    return names;
+  } catch (e) {
+    throw new Error(
+      `Cannot parse widget GraphQL typeDefs: ${
+        e instanceof Error ? e.message : String(e)
+      }`
+    );
+  }
+}
+
 class WidgetManager {
   /**
    * @private
@@ -70,6 +92,20 @@ class WidgetManager {
    * and the value is the widget object adhering to the Widget interface.
    */
   private widgets: Map<string, Widget> = new Map();
+
+  /**
+   * @private
+   * Compiled AJV validators per widget type. Populated at register time so
+   * validation in createWidget/updateWidget services is just a function call.
+   */
+  private compiledSchemas: Map<string, ValidateFunction> = new Map();
+
+  /**
+   * @private
+   * AJV instance shared across widgets. allErrors=true so a save can show all
+   * validation problems at once.
+   */
+  private ajv = new Ajv({ allErrors: true, useDefaults: false });
 
   /**
    * @private
@@ -89,6 +125,55 @@ class WidgetManager {
     if (this._isFrozen) {
       throw new Error(
         'Widget manager is in a read-only state. No further mutations are allowed. We suggest to register, update, or remove a widget from the bootstrap file.'
+      );
+    }
+  }
+
+  /**
+   * Validate a widget's schema definition and pre-compile its AJV validator.
+   * Throws if the schema or `defaultSettings` is invalid.
+   */
+  private _validateSchemaForWidget(widget: Widget): void {
+    if (widget.schema === undefined) {
+      // Backward-compat: warn but allow registration. v2 will require schema.
+      warning(
+        `Widget "${widget.type}" registered without a schema. This is allowed for backward compatibility but will become an error in a future version. Add a JSON Schema describing the widget's settings shape.`
+      );
+      return;
+    }
+    let validator: ValidateFunction;
+    try {
+      validator = this.ajv.compile(widget.schema as WidgetSchemaDefinition);
+    } catch (e) {
+      throw new Error(
+        `Widget "${widget.type}" has an invalid JSON Schema: ${
+          e instanceof Error ? e.message : String(e)
+        }`
+      );
+    }
+    if (!validator(widget.defaultSettings)) {
+      throw new Error(
+        `Widget "${widget.type}" has defaultSettings that don't match its schema: ${this.ajv.errorsText(
+          validator.errors
+        )}`
+      );
+    }
+    this.compiledSchemas.set(widget.type, validator);
+  }
+
+  /**
+   * Validate a widget's GraphQL block: typeDefs must parse, and `settingsType`
+   * must be one of the object types declared in those typeDefs.
+   */
+  private _validateGraphqlForWidget(widget: Widget): void {
+    if (!widget.graphql) return;
+    const declaredTypes = extractObjectTypeNames(widget.graphql.typeDefs);
+    if (!declaredTypes.includes(widget.graphql.settingsType)) {
+      throw new Error(
+        `Widget "${widget.type}" graphql.settingsType "${widget.graphql.settingsType}" ` +
+          `is not declared in graphql.typeDefs. Declared types: ${declaredTypes.join(
+            ', '
+          )}.`
       );
     }
   }
@@ -148,6 +233,23 @@ class WidgetManager {
         }" must start with an uppercase letter.`
       );
     }
+
+    if (!isValidJsFilePath(widget.previewComponent)) {
+      throw new Error(
+        `Cannot register widget "${widgetType}". Invalid or unresolvable previewComponent path: "${widget.previewComponent}". Please ensure it's a valid path to an existing JS file.`
+      );
+    }
+    if (!isComponentNameUppercase(widget.previewComponent)) {
+      throw new Error(
+        `Cannot register widget "${widgetType}". Preview component filename "${
+          path.parse(widget.previewComponent).name
+        }" must start with an uppercase letter.`
+      );
+    }
+
+    // Schema + GraphQL validation (Phase 2b additions).
+    this._validateSchemaForWidget(widget);
+    this._validateGraphqlForWidget(widget);
 
     this.widgets.set(widgetType, widget);
     return true;
@@ -225,6 +327,15 @@ class WidgetManager {
       }
     }
 
+    // If schema or graphql block was updated, re-validate.
+    if (updates.schema !== undefined) {
+      this.compiledSchemas.delete(typeToUpdate);
+      this._validateSchemaForWidget(existingWidget);
+    }
+    if (updates.graphql !== undefined) {
+      this._validateGraphqlForWidget(existingWidget);
+    }
+
     return true;
   }
 
@@ -242,6 +353,7 @@ class WidgetManager {
 
     if (this.widgets.has(typeToRemove)) {
       this.widgets.delete(typeToRemove);
+      this.compiledSchemas.delete(typeToRemove);
       return true;
     } else {
       warning(`Widget with type "${typeToRemove}" not found. Cannot remove.`);
@@ -290,6 +402,58 @@ class WidgetManager {
   public hasWidget(widgetType: string): boolean {
     return this.widgets.has(widgetType);
   }
+
+  /** Get the compiled AJV validator for a widget's settings, if any. */
+  public getCompiledSchema(widgetType: string): ValidateFunction | undefined {
+    return this.compiledSchemas.get(widgetType);
+  }
+
+  /**
+   * Build a single SDL string combining every registered widget's
+   * `graphql.typeDefs` and a `union WidgetSettings = ...` over their
+   * `settingsType`s. Always includes a `_UnregisteredWidgetSettings` sentinel
+   * member so the union is non-empty even when no widget has registered a
+   * graphql block (the schema build would otherwise fail to resolve
+   * `Widget.settings: WidgetSettings`).
+   *
+   * Throws if two widgets declare the same SDL type name (a collision that
+   * would otherwise be silently merged by `@graphql-tools/merge`).
+   */
+  public getMergedTypeDefs(): string {
+    const widgetsWithGraphql = [...this.widgets.values()].filter(
+      (w) => w.graphql
+    );
+
+    // Collision detection across widget-provided types.
+    const ownerByTypeName = new Map<string, string>();
+    for (const widget of widgetsWithGraphql) {
+      const declared = extractObjectTypeNames(widget.graphql!.typeDefs);
+      for (const name of declared) {
+        const existingOwner = ownerByTypeName.get(name);
+        if (existingOwner && existingOwner !== widget.type) {
+          throw new Error(
+            `Widget GraphQL type-name collision: "${name}" is declared by both ` +
+              `"${existingOwner}" and "${widget.type}".`
+          );
+        }
+        ownerByTypeName.set(name, widget.type);
+      }
+    }
+
+    const sentinel = `type _UnregisteredWidgetSettings { _: String }`;
+
+    const fragments = widgetsWithGraphql
+      .map((w) => w.graphql!.typeDefs)
+      .filter(Boolean);
+
+    const unionMembers = [
+      '_UnregisteredWidgetSettings',
+      ...widgetsWithGraphql.map((w) => w.graphql!.settingsType)
+    ];
+    const union = `union WidgetSettings = ${unionMembers.join(' | ')}`;
+
+    return [sentinel, ...fragments, union].join('\n\n');
+  }
 }
 
 const widgetManager = new WidgetManager();
@@ -307,7 +471,10 @@ export function getAllWidgets(): Widget[] {
     return {
       ...widget,
       settingComponentKey: generateComponentKey(widget.settingComponent),
-      componentKey: generateComponentKey(widget.component)
+      componentKey: generateComponentKey(widget.component),
+      previewComponentKey: generateComponentKey(
+        `admin_widget_preview_${widget.type}`
+      )
     };
   });
 }
@@ -326,7 +493,10 @@ export function getEnabledWidgets(): Widget[] {
       return {
         ...widget,
         settingComponentKey: generateComponentKey(widget.settingComponent),
-        componentKey: generateComponentKey(widget.component)
+        componentKey: generateComponentKey(widget.component),
+        previewComponentKey: generateComponentKey(
+          `admin_widget_preview_${widget.type}`
+        )
       };
     });
 }
@@ -381,4 +551,23 @@ export function getWidget(widgetType: string): Widget | undefined {
  */
 export function hasWidget(widgetType: string): boolean {
   return widgetManager.hasWidget(widgetType);
+}
+
+/**
+ * Get the compiled AJV settings validator for a widget. Returns undefined if
+ * the widget has no schema (legacy registrations).
+ */
+export function getWidgetSchemaValidator(
+  widgetType: string
+): ValidateFunction | undefined {
+  return widgetManager.getCompiledSchema(widgetType);
+}
+
+/**
+ * Build the merged SDL fragment that the GraphQL schema build pulls in to
+ * register widget-settings types and the `WidgetSettings` union. Called from
+ * `modules/graphql/services/buildTypes.js`.
+ */
+export function widgetTypeDefs(): string {
+  return widgetManager.getMergedTypeDefs();
 }

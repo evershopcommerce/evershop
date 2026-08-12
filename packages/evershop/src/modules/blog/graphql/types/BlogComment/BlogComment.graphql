@@ -1,0 +1,17 @@
+"""
+A published (approved) blog comment. `email` is write-only and never exposed
+on the storefront.
+"""
+type BlogComment {
+  uuid: String!
+  name: String!
+  comment: String!
+  createdAt: String
+  likeCount: Int!
+  liked: Boolean!
+  replies: [BlogComment!]!
+}
+
+extend type BlogPost {
+  comments: [BlogComment!]!
+}

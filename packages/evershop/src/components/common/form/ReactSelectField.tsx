@@ -1,5 +1,6 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { cn } from '@evershop/evershop/lib/util/cn';
@@ -51,8 +52,9 @@ export function ReactSelectField<T extends FieldValues = FieldValues>({
     control,
     formState: { errors }
   } = useFormContext<T>();
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
 
   const validationRules = {
     ...validation,
@@ -66,7 +68,7 @@ export function ReactSelectField<T extends FieldValues = FieldValues>({
     <Field
       data-invalid={fieldError ? 'true' : 'false'}
       className={wrapperClassName}
-      id={`field-${name}`}
+      id={fieldId}
     >
       {label && (
         <FieldLabel htmlFor={fieldId}>
@@ -79,7 +81,7 @@ export function ReactSelectField<T extends FieldValues = FieldValues>({
       )}
 
       <Controller
-        name={name}
+        name={resolvedName}
         control={control}
         rules={validationRules}
         defaultValue={defaultValue}
@@ -139,7 +141,9 @@ export function ReactSelectField<T extends FieldValues = FieldValues>({
           />
         )}
       />
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

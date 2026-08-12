@@ -19,7 +19,7 @@ interface BreadcrumbProps {
 
 function Breadcrumb({ pageInfo: { breadcrumbs } }: BreadcrumbProps) {
   return breadcrumbs.length ? (
-    <div className="page-width">
+    <div>
       <div className="py-5">
         <BreadcrumbRoot>
           <BreadcrumbList>

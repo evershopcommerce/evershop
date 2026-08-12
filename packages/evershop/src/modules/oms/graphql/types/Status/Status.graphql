@@ -19,14 +19,26 @@ type PaymentStatus {
 }
 
 """
-Represents a shipment status.
+Represents a shipment status. Each registered status carries a hardcoded
+`phase` (`pending` | `shipped` | `delivered` | `canceled`) that the rollup
+math keys off. Custom statuses (e.g. carrier canonical statuses like
+`out_for_delivery`) declare their phase. Rollup-only values like
+`partially_shipped` and `partially_delivered` never flow through this type
+— they're rendered via `Order.shipmentStatus` which returns the phase-less
+`Status` type instead.
+
+The default shipment status is decided by `createShipment` (hardcoded to
+`shipped`), not by a per-status `isDefault` flag. Cancelability is driven
+by the `oms.order.shipmentRollupCancelable` config map keyed on the
+order-level rollup value, not by per-status flags. Both legacy fields are
+gone — `phase` is the only behavioral signal on this type.
 """
 type ShipmentStatus {
   name: String
   code: String
   badge: String
-  isDefault: Boolean
-  isCancelable: Boolean
+  """One of `pending` | `shipped` | `delivered` | `canceled`. Always present on registered shipment statuses."""
+  phase: String!
 }
 
 extend type Query {

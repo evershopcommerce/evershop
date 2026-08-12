@@ -1,7 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { DateTime } from 'luxon';
 import { pool } from '../../../lib/postgres/connection.js';
-import { getConfig } from '../../../lib/util/getConfig.js';
+import { getPriceIncludingTax } from '../../tax/services/taxSettings.js';
 
 export function registerDefaultValidators() {
   return [
@@ -71,10 +71,7 @@ export function registerDefaultValidators() {
       return true;
     },
     function subTotalValidator(cart, coupon) {
-      const priceIncludingTax = getConfig(
-        'pricing.tax.price_including_tax',
-        false
-      );
+      const priceIncludingTax = getPriceIncludingTax();
       const conditions = coupon.condition;
       const minimumSubTotal = !Number.isNaN(parseFloat(conditions.order_total))
         ? parseFloat(conditions.order_total)
@@ -270,10 +267,7 @@ export function registerDefaultValidators() {
       return flag;
     },
     async function requiredProductByPriceValidator(cart, coupon) {
-      const priceIncludingTax = getConfig(
-        'pricing.tax.price_including_tax',
-        false
-      );
+      const priceIncludingTax = getPriceIncludingTax();
       let flag = true;
       const items = cart.getItems();
       const conditions = coupon.condition;

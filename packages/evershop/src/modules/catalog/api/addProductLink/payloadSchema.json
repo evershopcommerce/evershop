@@ -1,0 +1,46 @@
+{
+  "type": "object",
+  "properties": {
+    "linked_product_id": {
+      "type": "string",
+      "errorMessage": {
+        "type": "linked_product_id must be a product uuid",
+        "format": "linked_product_id must be a valid product uuid"
+      },
+      "format": "uuid"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "related",
+        "cross_sell"
+      ],
+      "errorMessage": {
+        "type": "Link type must be a string",
+        "enum": "Link type must be 'related' or 'cross_sell'"
+      }
+    },
+    "sort_order": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "pattern": "^-?[0-9]+$",
+      "errorMessage": {
+        "type": "sort_order must be a number",
+        "pattern": "sort_order must be a whole number",
+        "minimum": "sort_order must fit a 32-bit integer",
+        "maximum": "sort_order must fit a 32-bit integer",
+        "maxLength": "sort_order must fit a 32-bit integer"
+      },
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "maxLength": 10
+    }
+  },
+  "required": [
+    "linked_product_id",
+    "type"
+  ],
+  "additionalProperties": true
+}

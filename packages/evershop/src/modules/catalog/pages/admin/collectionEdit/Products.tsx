@@ -18,8 +18,9 @@ import {
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
 import { Input } from '@components/common/ui/Input.js';
+import { toast } from '@components/common/ui/Sonner.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 
 const ProductsQuery = `
@@ -140,13 +141,13 @@ export default function Products({
     <Dialog>
       <Card>
         <CardHeader>
-          <CardTitle>Products</CardTitle>
+          <CardTitle>{_('Products')}</CardTitle>
           <CardDescription>
-            Manage the products assigned to this collection.
+            {_('Manage the products assigned to this collection.')}
           </CardDescription>
           <CardAction>
             <DialogTrigger>
-              <Button variant="link">Add Products</Button>
+              <Button variant="link">{_('Add Products')}</Button>
             </DialogTrigger>
           </CardAction>
         </CardHeader>
@@ -162,7 +163,7 @@ export default function Products({
               <Input
                 type="text"
                 value={keyword}
-                placeholder="Search products"
+                placeholder={_('Search products')}
                 onChange={(e) => {
                   setLoading(true);
                   setKeyword(e.target.value);
@@ -172,11 +173,15 @@ export default function Products({
             {data && !loading && (
               <>
                 {data.collection.products.items.length === 0 && (
-                  <div>No product to display.</div>
+                  <div>{_('No product to display.')}</div>
                 )}
                 <div className="flex justify-between">
                   <div>
-                    <i>{data.collection.products.total} items</i>
+                    <i>
+                      {_('${total} items', {
+                        total: data.collection.products.total
+                      })}
+                    </i>
                   </div>
                   <div>
                     {data.collection.products.total > 10 && (
@@ -190,7 +195,7 @@ export default function Products({
                               setPage(page - 1);
                             }}
                           >
-                            Previous
+                            {_('Previous')}
                           </a>
                         )}
                         {page < data.collection.products.total / 10 && (
@@ -202,7 +207,7 @@ export default function Products({
                               setPage(page + 1);
                             }}
                           >
-                            Next
+                            {_('Next')}
                           </a>
                         )}
                       </div>
@@ -262,7 +267,7 @@ export default function Products({
                           }}
                           isLoading={removing.includes(p.uuid)}
                         >
-                          Remove
+                          {_('Remove')}
                         </Button>
                       </div>
                     </div>
@@ -276,9 +281,9 @@ export default function Products({
       </Card>
       <DialogContent className="sm:max-w-[90vw] lg:max-w-200">
         <DialogHeader>
-          <DialogTitle>Add Products</DialogTitle>
+          <DialogTitle>{_('Add Products')}</DialogTitle>
           <DialogDescription>
-            Select products to add to this collection.
+            {_('Select products to add to this collection.')}
           </DialogDescription>
         </DialogHeader>
         {data && (

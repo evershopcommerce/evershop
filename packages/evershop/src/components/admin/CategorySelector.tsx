@@ -2,6 +2,7 @@ import { SimplePagination } from '@components/common/SimplePagination.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Input } from '@components/common/ui/Input.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Check } from 'lucide-react';
 import React from 'react';
 import { useQuery } from 'urql';
@@ -124,7 +125,7 @@ const CategorySelector: React.FC<{
   if (error) {
     return (
       <p className="text-destructive">
-        There was an error fetching categories.
+        {_('There was an error fetching categories.')}
         {error.message}
       </p>
     );
@@ -137,7 +138,7 @@ const CategorySelector: React.FC<{
           <Input
             type="text"
             value={inputValue || ''}
-            placeholder="Search categories"
+            placeholder={_('Search categories')}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setInputValue(e.target.value);
               setLoading(true);
@@ -150,9 +151,13 @@ const CategorySelector: React.FC<{
             {data.categories.items.length === 0 && (
               <div className="p-2 border border-divider rounded flex justify-center items-center">
                 {inputValue ? (
-                  <p>No categories found for query &quot;{inputValue}&rdquo;</p>
+                  <p>
+                    {_('No categories found for query "${query}"', {
+                      query: inputValue
+                    })}
+                  </p>
                 ) : (
-                  <p>You have no categories to display</p>
+                  <p>{_('You have no categories to display')}</p>
                 )}
               </div>
             )}
@@ -188,7 +193,7 @@ const CategorySelector: React.FC<{
                         onSelect(cat.categoryId, cat.uuid, cat.name);
                       }}
                     >
-                      Select
+                      {_('Select')}
                     </Button>
                   )}
                   {isCategorySelected(cat, internalSelectedCategories) && (

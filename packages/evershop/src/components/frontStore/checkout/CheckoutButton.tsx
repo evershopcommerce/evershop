@@ -8,9 +8,12 @@ import { useWatch } from 'react-hook-form';
 
 export function CheckoutButton() {
   const {
-    data: { noShippingRequired, billingAddress }
+    data: { noShippingRequired, billingAddress, grandTotal, totalQty }
   } = useCartState();
   const { form, registeredPaymentComponents } = useCheckout();
+  // Zero-total orders don't collect a billing address; totalQty guards the
+  // pre-sync default state (grandTotal 0 while the cart is still loading).
+  const zeroTotal = totalQty > 0 && grandTotal.value <= 0;
 
   // Watch the selected payment method
   const selectedPaymentMethod = useWatch({
@@ -36,7 +39,7 @@ export function CheckoutButton() {
     ? getPaymentComponent(selectedPaymentMethod)
     : null;
 
-  if (noShippingRequired && !billingAddress) {
+  if (noShippingRequired && !billingAddress && !zeroTotal) {
     return (
       <>
         <Area id="checkoutButtonBefore" />
@@ -65,7 +68,7 @@ export function CheckoutButton() {
         ) : (
           // Default checkout button when no payment method is selected or no custom button
           <Button
-            variant={'outline'}
+            variant={'default'}
             type="submit"
             size={'xl'}
             className="w-full disabled:opacity-50 disabled:cursor-not-allowed"

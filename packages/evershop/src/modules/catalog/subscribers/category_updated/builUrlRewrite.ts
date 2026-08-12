@@ -50,7 +50,7 @@ const buildUrlReWrite: EventSubscriber<'category_updated'> = async (data) => {
       .load(pool);
 
     // Insert the url rewrite rule to the url_rewrite table
-    await insertOnUpdate('url_rewrite', ['entity_uuid', 'language'])
+    await insertOnUpdate('url_rewrite', ['entity_uuid'])
       .given({
         entity_type: 'category',
         entity_uuid: categoryUUid,
@@ -59,10 +59,21 @@ const buildUrlReWrite: EventSubscriber<'category_updated'> = async (data) => {
       })
       .execute(pool);
 
-    // Replace the url rewrite rule for all the sub categories and products. Search for the url rewrite rule by entity_uuid and entity_type
-    if (currentPath) {
+    // Cascade the path change to every descendant sub-category and product.
+    // Boundary-anchored (`LIKE old || '/%'`) so we touch only rows genuinely
+    // UNDER the old path, and swap only the LEADING prefix — this mirrors
+    // remapPath() (services/redirect/pathRemap.ts) in SQL, so the paths written
+    // here equal the redirect targets updateCategory records pre-commit. A plain
+    // REPLACE() would (a) corrupt a prefix-collision sibling like `/shoe-sale`
+    // when the category is `/shoe`, and (b) mangle a descendant that repeats the
+    // segment (`/cat/cat-toy` -> `/animal/animal-toy`).
+    if (currentPath && currentPath.request_path !== path) {
       await pool.query(
-        `UPDATE url_rewrite SET request_path = REPLACE(request_path, $1, $2) WHERE entity_type IN ('category', 'product') AND entity_uuid != $3`,
+        `UPDATE url_rewrite
+            SET request_path = $2 || substring(request_path FROM length($1) + 1)
+          WHERE entity_type IN ('category', 'product')
+            AND entity_uuid != $3
+            AND request_path LIKE $1 || '/%'`,
         [currentPath.request_path, path, categoryUUid]
       );
     }

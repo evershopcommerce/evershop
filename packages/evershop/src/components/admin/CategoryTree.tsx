@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useQuery } from 'urql';
 import './CategoryTree.scss';
@@ -145,17 +146,12 @@ function CategoryItem({
   );
 }
 
-CategoryItem.defaultProps = {
-  category: {},
-  selectedCategory: {}
-};
-
 interface CategoryTreeProps {
   selectedCategories?: CategoryTreeItem[];
   onSelect: (category: CategoryTreeItem) => void;
 }
 
-function CategoryTree({ selectedCategories, onSelect }: CategoryTreeProps) {
+function CategoryTree({ selectedCategories = [], onSelect }: CategoryTreeProps) {
   const [result] = useQuery({
     query: categoriesQuery,
     variables: {
@@ -171,7 +167,9 @@ function CategoryTree({ selectedCategories, onSelect }: CategoryTreeProps) {
     return <p className="text-destructive">{error.message}</p>;
   }
   if (!data || !data.categories || data.categories.items.length === 0) {
-    return <div className="text-gray-400 text-md">There is no category</div>;
+    return (
+      <div className="text-gray-400 text-md">{_('There is no category')}</div>
+    );
   }
 
   return (
@@ -187,9 +185,5 @@ function CategoryTree({ selectedCategories, onSelect }: CategoryTreeProps) {
     </ul>
   );
 }
-
-CategoryTree.defaultProps = {
-  selectedCategories: []
-};
 
 export { CategoryTree };

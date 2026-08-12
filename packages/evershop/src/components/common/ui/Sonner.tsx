@@ -1,4 +1,3 @@
-import { Toaster as Sonner, type ToasterProps } from '@evershop/sonner';
 import {
   CircleCheckIcon,
   InfoIcon,
@@ -7,8 +6,9 @@ import {
   Loader2Icon
 } from 'lucide-react';
 import React from 'react';
+import { Toaster as Sonner, type ToasterProps } from 'sonner';
 
-export { toast } from '@evershop/sonner';
+export { toast } from 'sonner';
 
 const Toaster = ({ ...props }: ToasterProps) => {
   return (

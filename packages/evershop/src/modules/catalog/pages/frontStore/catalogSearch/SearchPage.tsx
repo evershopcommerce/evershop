@@ -16,7 +16,7 @@ export default function SearchPage({ search }: SearchPageProps) {
   return (
     <SearchProvider searchData={search}>
       <Area id="searchPageTop" className="search__page__top" />
-      <div className="page-width grid grid-cols-1 ">
+      <div className="grid grid-cols-1 ">
         <SearchInfo />
         <SearchProducts />
       </div>

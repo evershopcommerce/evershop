@@ -1,4 +1,5 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface CategoryEditPageHeadingProps {
@@ -10,19 +11,19 @@ export interface CategoryEditPageHeadingProps {
 
 export default function CategoryEditPageHeading({
   backUrl,
-  category
+  category = {}
 }: CategoryEditPageHeadingProps) {
   return (
     <PageHeading
       backUrl={backUrl}
-      heading={category ? `Editing ${category.name}` : 'Create a new category'}
+      heading={
+        category
+          ? _('Editing ${name}', { name: category.name || '' })
+          : _('Create a new category')
+      }
     />
   );
 }
-
-CategoryEditPageHeading.defaultProps = {
-  category: {}
-};
 
 export const layout = {
   areaId: 'content',

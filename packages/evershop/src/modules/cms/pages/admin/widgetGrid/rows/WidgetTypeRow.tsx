@@ -1,4 +1,5 @@
 import { TableCell } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface WidgetTypeRowProps {
@@ -14,7 +15,7 @@ export function WidgetTypeRow({ code, types }: WidgetTypeRowProps) {
   if (!type) {
     return (
       <TableCell>
-        <div>Unknown</div>
+        <div>{_('Unknown')}</div>
       </TableCell>
     );
   } else {

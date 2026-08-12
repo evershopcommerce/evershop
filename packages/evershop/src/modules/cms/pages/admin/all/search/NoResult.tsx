@@ -1,3 +1,4 @@
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface NoResultProps {
@@ -12,9 +13,7 @@ export function NoResult({ keyword = '', resourseLinks = [] }: NoResultProps) {
   return (
     <div className="items-center text-center">
       <h3 className="text-xl font-semibold text-muted-foreground">
-        No results for &quot;
-        {keyword}
-        &quot;
+        {_('No results for "${keyword}"', { keyword })}
       </h3>
       <div className="grid grid-cols-2 mt-2">
         {resourseLinks.map((link, index) => (

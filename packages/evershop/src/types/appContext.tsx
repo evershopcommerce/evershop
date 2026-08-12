@@ -15,6 +15,19 @@ interface Config {
   catalog: {
     imageDimensions: { width: number; height: number };
   };
+  /** Manifest-descriptor projection for <Metafield> — the active theme's
+   *  declared fields keyed 'owner.namespace.key' (lib/metafield/projection). */
+  themeMetafieldDescriptors?: Record<
+    string,
+    {
+      type: string;
+      isList?: boolean;
+      visibleToCustomer: boolean;
+      name: string;
+      description?: string;
+      placeholder?: string;
+    }
+  >;
 }
 
 interface AppStateContextValue {
@@ -23,10 +36,16 @@ interface AppStateContextValue {
   propsMap: Record<string, any[]>;
   widgets?: WidgetInstance[];
   fetching: boolean;
+  /** Locale payload injected into eContext (spec §6.11). */
+  locale?: string;
+  defaultLocale?: string;
+  availableLocales?: string[];
+  translations?: Record<string, string>;
 }
 
 interface AppContextDispatchValue {
   setData: React.Dispatch<React.SetStateAction<AppStateContextValue>>;
+  setFetching: React.Dispatch<React.SetStateAction<boolean>>;
   fetchPageData: (url: string | URL) => Promise<void>;
 }
 

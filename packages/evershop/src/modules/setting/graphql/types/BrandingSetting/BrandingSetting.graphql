@@ -1,0 +1,29 @@
+extend type Setting {
+  """
+  Storefront header logo. A `/assets/...` path, served through the `/images`
+  endpoint for resizing.
+  """
+  logo: String
+  """
+  Intrinsic pixel width of the uploaded logo, measured on upload. Lets the
+  storefront request the right size and reserve correct space (no layout shift).
+  """
+  logoWidth: String
+  """
+  Intrinsic pixel height of the uploaded logo, measured on upload.
+  """
+  logoHeight: String
+  """
+  Browser-tab / app icon. A square `/assets/...` path; the storefront derives
+  the 16/32px icons and the 180px Apple touch icon from it.
+  """
+  favicon: String
+  """
+  Open Graph / Twitter card image used when a page is shared.
+  """
+  socialSharingImage: String
+  """
+  Google Analytics 4 Measurement ID (e.g. `G-XXXXXXXXXX`). Empty disables it.
+  """
+  gaMeasurementId: String
+}

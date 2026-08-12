@@ -53,7 +53,7 @@ function buildComponentsPerRoute(components, imports) {
   return areas;
 }
 
-const buildWidgetComponentsPerRoute = (route, widgets, imports) => {
+export const buildWidgetComponentsPerRoute = (route, widgets, imports) => {
   const components = {};
   widgets.forEach((widget) => {
     const componentPath = route.isAdmin
@@ -70,13 +70,50 @@ const buildWidgetComponentsPerRoute = (route, widgets, imports) => {
     if (!exists) {
       imports.set({ id: id, url }, `import ${id} from '${url}';`);
     }
+    // The map KEY stays per-type (lookups recompute it from the widget type),
+    // but the emitted REFERENCE must be whichever identifier the deduped
+    // import actually declared — two widget types sharing one component file
+    // otherwise reference an import that was never emitted, and the whole
+    // bundle dies at init with "<id> is not defined".
+    const importId = exists ? exists.id : id;
     components[id] = {
       id: id,
       sortOrder: widget.sortOrder || 0,
       component: {
-        default: `---${id}---`
+        default: `---${importId}---`
       }
     };
+
+    // Admin bundles also ship each widget's previewComponent under a
+    // separate wildcard-area key (`admin_widget_preview_<type>`). The
+    // page-builder Widgets-palette hover card (`WidgetPreviewCard`) looks
+    // it up via `getAreaComponents(routeId)['*']`. We
+    // don't route this through `<Area>` because Area picks exactly one
+    // component per widget type — and we need two for admin (settings +
+    // preview).
+    if (route.isAdmin && widget.previewComponent) {
+      const previewUrl = pathToFileURL(widget.previewComponent).toString();
+      const previewId = generateComponentKey(
+        `admin_widget_preview_${widget.type}`
+      );
+      const previewExists = Array.from(imports.keys()).find(
+        (key) => key.url === previewUrl
+      );
+      if (!previewExists) {
+        imports.set(
+          { id: previewId, url: previewUrl },
+          `import ${previewId} from '${previewUrl}';`
+        );
+      }
+      const previewImportId = previewExists ? previewExists.id : previewId;
+      components[previewId] = {
+        id: previewId,
+        sortOrder: 0,
+        component: {
+          default: `---${previewImportId}---`
+        }
+      };
+    }
   });
   return components;
 };
@@ -110,16 +147,23 @@ export default function AreaLoader(c) {
     error('Error in AreaLoader:');
     error(e);
   }
-  const content = `${Array.from(imports.values()).join(
-    '\r\n'
-  )}\r\nconst components = ${inspect(allRootComponents, { depth: 5 })
+  // Inject the `setAreaComponents` import here (at webpack time) rather than
+  // relying on one in Index.jsx: that source import is unused in Index.jsx
+  // itself (only the code injected below uses it), so swc elides it during the
+  // src→dist compile and the injected call would hit `setAreaComponents is not
+  // defined`. Injecting it post-swc, in the same module text webpack parses,
+  // resolves the binding. Path must match Index.jsx's `@components/common/Area`
+  // so it's the same module instance whose registry `<Area>` reads.
+  const content = `import { setAreaComponents } from '@components/common/Area';\r\n${Array.from(
+    imports.values()
+  ).join('\r\n')}\r\nconst components = ${inspect(allRootComponents, { depth: 5 })
     .replace(/"---/g, '')
     .replace(/---"/g, '')
     .replace(/'---/g, '')
     .replace(
       /---'/g,
       ''
-    )}\r\nArea.defaultProps.components = components[window.eContext.config.pageMeta.route.id] ;\r\n`;
+    )}\r\nObject.entries(components).forEach(([rid, map]) => setAreaComponents(rid, map));\r\n`;
   const result = c.replace('/** render */', content);
   return result;
 }

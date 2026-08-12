@@ -34,6 +34,13 @@ interface PaymentMethodComponent {
 }
 
 interface ShippingMethod {
+  /**
+   * Required. The provider this method came from. Stripping it (or
+   * silently defaulting to 'core') mis-routes non-core selections —
+   * `resolveShippingQuote` calls the wrong provider's `validateMethod`
+   * and the selection 422s as "method no longer available."
+   */
+  providerCode: string;
   code: string;
   name: string;
   cost?: {
@@ -222,6 +229,7 @@ export function CheckoutProvider({
           // Get updated methods from cart state
           const methods = cartState.data?.availableShippingMethods || [];
           return methods.map((method) => ({
+            providerCode: method.providerCode,
             code: method.code,
             name: method.name,
             cost: method.cost || { value: 0, text: 'Free' }
@@ -234,6 +242,7 @@ export function CheckoutProvider({
         // Return the initial shipping methods from cart context
         return (cartState.data?.availableShippingMethods || []).map(
           (method) => ({
+            providerCode: method.providerCode,
             code: method.code,
             name: method.name,
             cost: method.cost || { value: 0, text: 'Free' }

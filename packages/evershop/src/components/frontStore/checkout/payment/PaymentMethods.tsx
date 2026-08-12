@@ -4,7 +4,6 @@ import {
   ItemDescription,
   ItemTitle
 } from '@components/common/ui/Item.js';
-import { Label } from '@components/common/ui/Label.js';
 import {
   RadioGroup,
   RadioGroupItem
@@ -76,7 +75,7 @@ export function PaymentMethods({
   };
 
   return (
-    <div className="checkout-payment-methods mt-6">
+    <div className="checkout-payment-methods">
       <Item className="px-0 py-0">
         <ItemContent className="gap-2">
           <ItemTitle>{_('Pick a payment method')}</ItemTitle>
@@ -104,22 +103,44 @@ export function PaymentMethods({
                           selectedPaymentMethod === method.code;
                         const component = getPaymentComponent(method.code);
                         return (
+                          // Whole-box click selects (Base UI radios only
+                          // react to pointer events on their [role="radio"]
+                          // element, so the box needs its own handler). The
+                          // guard skips the radio itself (double-fire) and
+                          // any control inside the embedded payment form.
                           <Item
                             key={method.code}
                             variant={'outline'}
-                            className={isSelected ? 'border-primary' : ''}
+                            onClick={(e: React.MouseEvent) => {
+                              if (
+                                (e.target as HTMLElement).closest(
+                                  'input, button, a, select, textarea, iframe, [role="radio"]'
+                                )
+                              ) {
+                                return;
+                              }
+                              if (!isSelected) {
+                                setValue('paymentMethod', method.code);
+                              }
+                            }}
+                            className={`cursor-pointer ${
+                              isSelected ? 'border-primary' : ''
+                            }`}
                           >
                             <ItemContent>
                               <ItemTitle className="w-full">
-                                <div className="flex items-center space-x-3 w-full">
+                                {/* The row is a <label> implicitly wrapping
+                                    the radio so the whole row selects on
+                                    click. Only the row — the box also hosts
+                                    the payment form when selected, and a
+                                    box-wide label would hijack clicks on
+                                    those fields. */}
+                                <label className="flex items-center space-x-3 w-full cursor-pointer">
                                   <RadioGroupItem
                                     id={`payment-method-${method.code}`}
                                     value={method.code}
                                   />
-                                  <Label
-                                    htmlFor={`payment-method-${method.code}`}
-                                    className="w-full"
-                                  >
+                                  <span className="w-full select-none">
                                     {component?.nameRenderer
                                       ? renderComponent(
                                           component.nameRenderer,
@@ -128,8 +149,8 @@ export function PaymentMethods({
                                           }
                                         )
                                       : _(method.name)}
-                                  </Label>
-                                </div>
+                                  </span>
+                                </label>
                               </ItemTitle>
                               {component?.formRenderer && isSelected && (
                                 <ItemDescription className="text-inherit overflow-visible">

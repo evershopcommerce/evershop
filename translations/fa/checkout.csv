@@ -4,7 +4,6 @@ Sku, شناسه کالا (SKU)
 Continue to shipping, ادامه به مرحله ارسال
 Continue shopping, ادامه خرید
 Continue Shopping, ادامه خرید
-CONTINUE SHOPPING, ادامه خرید
 Shopping cart, سبد خرید
 Product, محصول
 Price, قیمت
@@ -15,7 +14,7 @@ Sub total, جمع جزئی
 Discount(${coupon}), تخفیف (${coupon})
 Order summary, خلاصه سفارش
 Taxes and shipping calculated at checkout, مالیات و هزینه ارسال در مرحله پرداخت محاسبه می‌شود
-CHECKOUT, ادامه فرایند پرداخت
+Checkout, ادامه فرایند پرداخت
 Change, تغییر
 Payment Method, روش پرداخت
 Shipping Method, روش ارسال
@@ -36,7 +35,7 @@ Shipment, ارسال
 Thank you ${name}!, متشکریم ${name}!
 Contact information, اطلاعات تماس
 Order #${orderNumber}, سفارش شماره ${orderNumber}
-ADD TO CART, افزودن به سبد خرید
+Add to cart, افزودن به سبد خرید
 Please select variant options, لطفاً گزینه‌های محصول را انتخاب کنید
 VIEW CART (${count}), مشاهده سبد خرید (${count})
 JUST ADDED TO YOUR CART, به‌تازگی به سبد خرید شما افزوده شد

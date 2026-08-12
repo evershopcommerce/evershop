@@ -1,13 +1,14 @@
 import Area from '@components/common/Area';
 import { Card } from '@components/common/ui/Card';
 import { CardContent, CardTitle } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 function FullName({ fullName }) {
   return (
     <CardContent>
-      <CardTitle className="mb-2">Full Name</CardTitle>
+      <CardTitle className="mb-2">{_('Full Name')}</CardTitle>
       <div>
         <span>{fullName}</span>
       </div>
@@ -22,9 +23,9 @@ FullName.propTypes = {
 function Group({ group }) {
   return (
     <CardContent className="pt-3 border-t border-border">
-      <CardTitle className="mb-2">Group</CardTitle>
+      <CardTitle className="mb-2">{_('Group')}</CardTitle>
       <div>
-        <span>{group?.groupName || 'Default'}</span>
+        <span>{group?.groupName || _('Default')}</span>
       </div>
     </CardContent>
   );
@@ -39,7 +40,7 @@ Group.propTypes = {
 function Email({ email }) {
   return (
     <CardContent className="pt-3 border-t border-border">
-      <CardTitle className="mb-2">Email</CardTitle>
+      <CardTitle className="mb-2">{_('Email')}</CardTitle>
       <div>
         <span>{email}</span>
       </div>
@@ -54,9 +55,9 @@ Email.propTypes = {
 function Status({ status }) {
   return (
     <CardContent className="pt-3 border-t border-border">
-      <CardTitle className="mb-2">Status</CardTitle>
+      <CardTitle className="mb-2">{_('Status')}</CardTitle>
       <div>
-        <span>{parseInt(status, 10) === 1 ? 'Enabled' : 'Disabled'}</span>
+        <span>{parseInt(status, 10) === 1 ? _('Enabled') : _('Disabled')}</span>
       </div>
     </CardContent>
   );

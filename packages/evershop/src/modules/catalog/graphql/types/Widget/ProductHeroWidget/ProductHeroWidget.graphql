@@ -1,0 +1,32 @@
+"""
+Product hero — single-product spotlight. The widget resolver fetches the
+product by uuid and exposes it as `product` so the storefront query can
+ask for any Product fields it needs (variants, price, image, etc.).
+
+When the uuid is missing or doesn't resolve, `product` is null and the
+storefront component renders an empty placeholder.
+"""
+type ProductHeroWidget {
+  productUuid: String
+  image: String
+  imageAlt: String
+  imageWidth: Int
+  imageHeight: Int
+  eyebrow: String
+  copy: String
+  imagePosition: String!
+  product: Product
+}
+
+extend type Query {
+  productHeroWidget(
+    productUuid: String
+    image: String
+    imageAlt: String
+    imageWidth: Float
+    imageHeight: Float
+    eyebrow: String
+    copy: String
+    imagePosition: String
+  ): ProductHeroWidget
+}

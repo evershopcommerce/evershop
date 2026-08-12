@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string", "minLength": 1 },
+    "is_enabled": { "type": "boolean" },
+    "sort_order": { "type": "integer" },
+    "default_carrier_code": { "type": ["string", "null"] },
+    "default_service_code": { "type": ["string", "null"] }
+  },
+  "required": ["name"],
+  "additionalProperties": false
+}

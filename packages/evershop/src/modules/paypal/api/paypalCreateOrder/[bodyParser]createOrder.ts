@@ -3,7 +3,6 @@ import type { PurchaseUnit, CreateOrderRequestBody } from '@paypal/paypal-js';
 import { debug, error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import {
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
@@ -15,6 +14,7 @@ import { EvershopResponse } from '../../../../types/response.js';
 import { toPrice } from '../../../checkout/services/toPrice.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../setting/services/setting.js';
+import { getPriceIncludingTax } from '../../../tax/services/taxSettings.js';
 import { createAxiosInstance } from '../../services/requester.js';
 
 export default async (
@@ -44,10 +44,7 @@ export default async (
         .from('order_item')
         .where('order_item_order_id', '=', order.order_id)
         .execute(pool);
-      const catalogPriceInclTax = getConfig(
-        'pricing.tax.price_including_tax',
-        false
-      );
+      const catalogPriceInclTax = getPriceIncludingTax();
       const amount = {
         currency_code: order.currency,
         value: toPrice(order.grand_total),

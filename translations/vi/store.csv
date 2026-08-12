@@ -1,0 +1,1658 @@
+${count} orders,${count} đơn hàng
+${field} is required,${field} là bắt buộc
+${pct}% of orders cancelled,${pct}% đơn bị hủy
+${pct}% of orders completed,${pct}% đơn hoàn tất
+${qty} sold,Đã bán ${qty}
+${total} lifetime sale,${total} doanh thu trọn đời
+(Guest Checkout),(Khách vãng lai)
+(list),(danh sách)
+(optional),(tùy chọn)
+A coupon is already applied,Đã áp dụng một mã giảm giá
+A group needs at least one sub-field,Nhóm cần ít nhất một trường con
+A list of best selling products,Danh sách sản phẩm bán chạy
+A list of customers who have placed the most orders,Danh sách khách hàng đặt nhiều đơn nhất
+A regular expression the value must match.,Biểu thức chính quy mà giá trị phải khớp.
+Accepted values,Giá trị hợp lệ
+Active,Hoạt động
+Active Filters,Bộ lọc đang dùng
+Add address API not available,Không có API thêm địa chỉ
+Add custom field,Thêm trường tùy chỉnh
+Add field,Thêm trường
+Add item,Thêm mục
+Add option,Thêm tùy chọn
+Add product,Thêm sản phẩm
+Add some items to get started,Thêm vài mục để bắt đầu
+Add sub-field,Thêm trường con
+Adding...,Đang thêm...
+Address has been deleted successfully!,Đã xóa địa chỉ thành công!
+Address has been saved successfully!,Đã lưu địa chỉ thành công!
+Address has been updated successfully!,Đã cập nhật địa chỉ thành công!
+Address is required,Địa chỉ là bắt buộc
+Adds target=_blank rel=noopener noreferrer.,Thêm target=_blank rel=noopener noreferrer.
+All items fulfilled,Đã xử lý hết các mục
+All orders,Tất cả đơn hàng
+All your past orders,Tất cả đơn hàng đã đặt
+Allow multiple,Cho phép nhiều
+An unexpected error occurred. Please try again.,Đã xảy ra lỗi. Vui lòng thử lại.
+Apply Filters,Áp dụng bộ lọc
+Are you sure you want to mark the selected orders as shipped?,Bạn chắc muốn đánh dấu các đơn đã chọn là đã gửi?
+Are you sure?,Bạn chắc chứ?
+Attribute Group,Nhóm thuộc tính
+Attribute code is used in API and must be unique,Mã thuộc tính dùng trong API và phải duy nhất
+Attribute options,Tùy chọn thuộc tính
+Attributes,Thuộc tính
+Available shipping methods will appear once you provide your address details,Phương thức giao hàng sẽ hiện khi bạn nhập địa chỉ
+Best Sellers,Bán chạy nhất
+Best customers,Khách hàng hàng đầu
+Billing address,Địa chỉ thanh toán
+Black,Đen
+Buy qty,SL mua
+Buy qty is required,SL mua là bắt buộc
+Can not process payment. Please try again later.,Không thể thanh toán. Vui lòng thử lại sau.
+Can't be undone,Không thể hoàn tác
+Cancel,Hủy
+Cancel Order,Hủy đơn hàng
+Cancel shipment,Hủy lô hàng
+Cancel this shipment?,Hủy lô hàng này?
+Canceled,Đã hủy
+Cancelled,Đã hủy
+Cannot add billing address: cart not initialized,Không thêm được địa chỉ thanh toán: giỏ hàng chưa khởi tạo
+Cannot add contact info: cart not initialized,Không thêm được thông tin liên hệ: giỏ hàng chưa khởi tạo
+Cannot add payment method: cart not initialized,Không thêm được phương thức thanh toán: giỏ hàng chưa khởi tạo
+Cannot add shipping address: cart not initialized,Không thêm được địa chỉ giao hàng: giỏ hàng chưa khởi tạo
+Cannot add shipping method: cart not initialized,Không thêm được phương thức giao hàng: giỏ hàng chưa khởi tạo
+Cannot add shipping method: providerCode is required,Không thể thêm phương thức giao hàng: cần có providerCode
+Cannot apply coupon: cart not initialized,Không thể áp dụng mã giảm giá: giỏ hàng chưa khởi tạo
+Cannot remove coupon: cart not initialized,Không thể bỏ mã giảm giá: giỏ hàng chưa khởi tạo
+Carrier,Đơn vị vận chuyển
+Carrier is required,Cần có đơn vị vận chuyển
+Cart ID is required to checkout,Cần ID giỏ hàng để thanh toán
+Cart is not initialized,Giỏ hàng chưa khởi tạo
+Catalog,Danh mục
+Categories,Danh mục
+Category,Danh mục
+Charcoal,Xám than
+Checkout success,Thanh toán thành công
+Choose Product SKU,Chọn SKU sản phẩm
+Choose SKU,Chọn SKU
+City is required,Cần có thành phố
+Clear All,Xóa hết
+Clear Filters,Xóa bộ lọc
+Clear all,Xóa hết
+Clear categories,Xóa danh mục
+Close fullscreen view,Đóng toàn màn hình
+Code,Mã
+Collections,Bộ sưu tập
+Comma-separated; renders the value as a dropdown.,Cách nhau bằng dấu phẩy; hiển thị dưới dạng menu thả.
+Completed,Hoàn tất
+Configurable,Có thể cấu hình
+Configure tax classes and tax rates,Cấu hình loại thuế và mức thuế
+Confirm,Xác nhận
+Contact for pricing,Liên hệ để biết giá
+Conveniently pay with cash at your doorstep when your order is delivered.,Tiện lợi trả tiền mặt tận nơi khi đơn hàng được giao.
+Coupon applied successfully!,Áp dụng mã giảm giá thành công!
+Coupon code is required,Cần có mã giảm giá
+Coupon does not match,Mã giảm giá không khớp
+Coupon removed successfully!,Đã bỏ mã giảm giá thành công!
+Cream,Kem
+Create,Tạo
+Create a new attribute,Tạo thuộc tính mới
+Create a new group,Tạo nhóm mới
+Create a new package,Tạo gói mới
+Create shipment,Tạo lô hàng
+Created,Đã tạo
+Custom URL,URL tùy chỉnh
+Custom field created,Đã tạo trường tùy chỉnh
+Custom field updated,Đã cập nhật trường tùy chỉnh
+Custom fields,Trường tùy chỉnh
+Custom fields (JSON),Trường tùy chỉnh (JSON)
+Custom fields saved,Đã lưu trường tùy chỉnh
+Customer Information,Thông tin khách hàng
+Customer does not have any order yet.,Khách hàng chưa có đơn hàng nào.
+Customer notes,Ghi chú khách hàng
+Daily,Hàng ngày
+Date and time must be after ${min},Ngày giờ phải sau ${min}
+Date and time must be before ${max},Ngày giờ phải trước ${max}
+Date must be after ${min},Ngày phải sau ${min}
+Date must be before ${max},Ngày phải trước ${max}
+Delete ${count} coupons,Xóa ${count} mã giảm giá
+Delete ${count} products,Xóa ${count} sản phẩm
+Delete address API not available,API xóa địa chỉ không khả dụng
+Delivered,Đã giao
+Description,Mô tả
+Disable,Tắt
+Disable ${count} coupons,Tắt ${count} mã giảm giá
+Disable ${count} customers,Tắt ${count} khách hàng
+Disable ${count} products,Tắt ${count} sản phẩm
+Disabled,Đã tắt
+Discount percent,Phần trăm giảm
+Discount percent is required,Phần trăm giảm là bắt buộc
+Display on Frontend?,Hiển thị trên trang?
+Displays the mobile sidebar.,Hiện thanh bên di động.
+Done,Xong
+Drag to reorder,Kéo để sắp xếp
+Duplicate,Nhân bản
+Edit custom field,Sửa trường tùy chỉnh
+Edit field settings,Sửa cài đặt trường
+Edit package,Sửa gói hàng
+Edit tracking info,Sửa thông tin theo dõi
+Editing ${name},Đang sửa ${name}
+Email a shipment confirmation,Gửi email xác nhận giao hàng
+Email a shipment confirmation with tracking details,Gửi email xác nhận giao hàng kèm thông tin theo dõi
+Email is required,Email là bắt buộc
+Enable,Bật
+Enable ${count} coupons,Bật ${count} mã giảm giá
+Enable ${count} customers,Bật ${count} khách hàng
+Enable ${count} products,Bật ${count} sản phẩm
+Enabled,Đã bật
+Enter attribute code,Nhập mã thuộc tính
+Enter attribute name,Nhập tên thuộc tính
+Enter text,Nhập văn bản
+Enter value for ${attribute},Nhập giá trị cho ${attribute}
+Enter your email,Nhập email của bạn
+Enter your new password,Nhập mật khẩu mới
+Enter your password,Nhập mật khẩu của bạn
+Error,Lỗi
+Failed to add address,Thêm địa chỉ thất bại
+Failed to add billing address,Thêm địa chỉ thanh toán thất bại
+Failed to add billing address.,Thêm địa chỉ thanh toán thất bại.
+Failed to add contact info,Thêm thông tin liên hệ thất bại
+Failed to add contact info.,Thêm thông tin liên hệ thất bại.
+Failed to add item to cart,Thêm vào giỏ hàng thất bại
+Failed to add payment method,Thêm phương thức thanh toán thất bại
+Failed to add payment method.,Thêm phương thức thanh toán thất bại.
+Failed to add product to cart,Thêm sản phẩm vào giỏ thất bại
+Failed to add shipping address,Thêm địa chỉ giao hàng thất bại
+Failed to add shipping address.,Thêm địa chỉ giao hàng thất bại.
+Failed to add shipping method,Thêm phương thức giao hàng thất bại
+Failed to add shipping method.,Thêm phương thức giao hàng thất bại.
+Failed to apply coupon,Áp dụng mã giảm giá thất bại
+Failed to cancel shipment,Hủy lô hàng thất bại
+Failed to checkout,Thanh toán thất bại
+Failed to create field,Tạo trường thất bại
+Failed to create shipment,Tạo lô hàng thất bại
+Failed to delete address,Xóa địa chỉ thất bại
+Failed to load custom fields,Tải trường tùy chỉnh thất bại
+Failed to mark delivered,Đánh dấu đã giao thất bại
+Failed to place order,Đặt hàng thất bại
+Failed to place order. Please try again.,Đặt hàng thất bại. Vui lòng thử lại.
+Failed to remove coupon,Bỏ mã giảm giá thất bại
+Failed to remove coupon.,Bỏ mã giảm giá thất bại.
+Failed to save custom fields,Lưu trường tùy chỉnh thất bại
+Failed to set shipping method,Đặt phương thức giao hàng thất bại
+Failed to set shipping note,Đặt ghi chú giao hàng thất bại
+Failed to update address,Cập nhật địa chỉ thất bại
+Failed to update field,Cập nhật trường thất bại
+Failed to update shipment,Cập nhật lô hàng thất bại
+Failed to update tracking info,Cập nhật thông tin theo dõi thất bại
+Failed to void label,Hủy nhãn thất bại
+Failed!,Thất bại!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,Các trường áp dụng cho loại thực thể này. Thêm một trường sẽ áp dụng cho mọi thực thể cùng loại.
+File size must be less than ${maxSize},Kích thước tệp phải nhỏ hơn ${maxSize}
+Filter Products,Lọc sản phẩm
+Filters,Bộ lọc
+First,Đầu
+Free,Miễn phí
+Free shipping,Miễn phí giao hàng
+Free shipping ?,Miễn phí giao hàng ?
+Fulfill ${count} orders,Hoàn tất ${count} đơn hàng
+Full Name is required,Họ tên là bắt buộc
+Fully shipped,Đã giao hết
+General,Chung
+Get qty,SL nhận
+Get qty is required,SL nhận là bắt buộc
+Ghost,Ghost
+Go,Đi
+Go to Login,Đến Đăng nhập
+Go to next page,Đến trang sau
+Go to previous page,Đến trang trước
+Hello,Xin chào
+Hide from storefront,Ẩn khỏi cửa hàng
+ID,ID
+In Stock,Còn hàng
+Inactive,Ngừng
+Inclusive of tax ${totalTaxAmount},Đã gồm thuế ${totalTaxAmount}
+Insert,Chèn
+Invalid address,Địa chỉ không hợp lệ
+Invalid cart,Giỏ hàng không hợp lệ
+Invalid cart id,ID giỏ hàng không hợp lệ
+Invalid coupon,Mã giảm giá không hợp lệ
+Invalid customer,Khách hàng không hợp lệ
+Invalid customer id,ID khách hàng không hợp lệ
+Invalid email or password,Email hoặc mật khẩu sai
+Invalid format,Định dạng không hợp lệ
+Invalid quantity,Số lượng không hợp lệ
+Is Filterable?,Có thể lọc?
+Is Required?,Bắt buộc?
+Item,Mục
+Items,Mục
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,Các mục trong lô này sẽ về lại nhóm chưa giao của đơn. Không thể hoàn tác.
+Key,Khóa
+Key is required,Khóa là bắt buộc
+Label,Nhãn
+Label voided,Đã hủy nhãn
+Language,Ngôn ngữ
+Last,Cuối
+Lifetime Sales,Doanh số trọn đời
+Light gray,Xám nhạt
+Limit,Giới hạn
+Link,Liên kết
+Loading,Đang tải
+Log in,Đăng nhập
+Logging in...,Đang đăng nhập...
+Logging out...,Đang đăng xuất...
+Login failed,Đăng nhập thất bại
+Logout failed,Đăng xuất thất bại
+Look like you just started. No bestsellers yet.,Có vẻ bạn mới bắt đầu. Chưa có sản phẩm bán chạy.
+"Lowercase letters, digits, underscore. Immutable.","Chữ thường, số, gạch dưới. Bất biến."
+Manage the general information of the attribute.,Quản lý thông tin chung của thuộc tính.
+Manage the setting of the attribute.,Quản lý cài đặt của thuộc tính.
+Mark as shipped,Đánh dấu đã giao
+Mark delivered,Đánh dấu đã nhận
+Mark shipment as delivered?,Đánh dấu lô đã nhận?
+Max length,Độ dài tối đa
+Max of Y,Tối đa Y
+Max of Y is required,Tối đa Y là bắt buộc
+Max value,Giá trị tối đa
+Min length,Độ dài tối thiểu
+Min value,Giá trị tối thiểu
+Minimum quantity,Số lượng tối thiểu
+Mint,Bạc hà
+Monthly,Hàng tháng
+More,Thêm
+More pages,Thêm trang
+Move down,Xuống
+Move up,Lên
+Multiselect,Chọn nhiều
+Must be at least ${n},Phải tối thiểu ${n}
+Must be at least ${n} characters,Phải tối thiểu ${n} ký tự
+Must be at most ${n},Phải tối đa ${n}
+Must be at most ${n} characters,Phải tối đa ${n} ký tự
+"Must start with a letter; lowercase letters, digits, underscore only","Phải bắt đầu bằng chữ cái; chỉ chữ thường, số, gạch dưới"
+Name is required,Tên là bắt buộc
+New Product,Sản phẩm mới
+New Widget,Widget mới
+New folder,Thư mục mới
+Next,Tiếp
+Next slide,Slide kế
+No,Không
+No address data received,Không nhận được dữ liệu địa chỉ
+"No attribute groups found for query ""${query}""","Không tìm thấy nhóm thuộc tính cho ""${query}"""
+No carriers registered,Chưa có hãng vận chuyển
+"No categories found for ""${term}""","Không tìm thấy danh mục cho ""${term}"""
+"No categories found for query ""${query}""","Không tìm thấy danh mục cho ""${query}"""
+"No collections found for query ""${query}""","Không tìm thấy bộ sưu tập cho ""${query}"""
+No coupon to remove,Không có mã để bỏ
+No custom fields yet.,Chưa có trường tùy chỉnh.
+No data available,Không có dữ liệu
+No free shipping,Không miễn phí giao hàng
+No limit,Không giới hạn
+No maximum,Không tối đa
+No minimum,Không tối thiểu
+No notes from customer,Không có ghi chú từ khách
+"No options found for ""${code}""","Không tìm thấy tùy chọn cho ""${code}"""
+"No products found for query ""${query}""","Không tìm thấy sản phẩm cho ""${query}"""
+No shipments yet — your order is being prepared.,Chưa có lô hàng — đơn của bạn đang được chuẩn bị.
+No shipping is required for this order,Đơn này không cần giao hàng
+No shipping methods available,Không có phương thức giao hàng
+No shipping options are available for your location,Không có tùy chọn giao hàng cho khu vực của bạn
+No shipping required,Không cần giao hàng
+No widgets match your search.,Không có widget khớp tìm kiếm.
+None,Không có
+Not set,Chưa đặt
+Not visible to customers,Ẩn với khách hàng
+Notify customer,Báo cho khách
+Open in new tab,Mở tab mới
+Operator,Toán tử
+Option text,Nội dung tùy chọn
+Optional help text shown to admins.,Văn bản trợ giúp tùy chọn hiển thị cho admin.
+Order Placed,Đã đặt đơn
+Order detail,Chi tiết đơn hàng
+Order must contain products matching all conditions below,Đơn phải có sản phẩm khớp mọi điều kiện dưới đây
+Order not found,Không tìm thấy đơn hàng
+Orders,Đơn hàng
+Others,Khác
+Out of Stock,Hết hàng
+Outline,Viền
+Overview of sales data over selected periods,Tổng quan doanh số theo kỳ đã chọn
+Overview of total sales and order status over the lifetime of your store,Tổng quan doanh số và trạng thái đơn trong suốt vòng đời cửa hàng
+Page,Trang
+Page ${currentPage} of ${totalPages},Trang ${currentPage} / ${totalPages}
+Page not found,Không tìm thấy trang
+Password is required,Mật khẩu là bắt buộc
+Password must be at least ${minLength} characters long,Mật khẩu phải có ít nhất ${minLength} ký tự
+Paste a URL or a relative path starting with ,Dán URL hoặc đường dẫn tương đối bắt đầu bằng 
+Pattern (regex),Mẫu (regex)
+Pay with PayPal,Thanh toán bằng PayPal
+Pay with Stripe,Thanh toán bằng Stripe
+Payment Status,Trạng thái thanh toán
+Placing Order...,Đang đặt hàng...
+Please enter a coupon code,Vui lòng nhập mã giảm giá
+Please enter a valid URL,Vui lòng nhập URL hợp lệ
+Please enter a valid email address,Vui lòng nhập email hợp lệ
+Please enter your email to receive a reset link,Nhập email để nhận liên kết đặt lại
+Please provide billing address to proceed,Vui lòng cung cấp địa chỉ thanh toán để tiếp tục
+Please select a payment method,Vui lòng chọn phương thức thanh toán
+Please select a shipping method,Vui lòng chọn phương thức giao hàng
+Please sign in to your account,Vui lòng đăng nhập tài khoản
+Position,Vị trí
+Previous,Trước
+Previous slide,Slide trước
+Price: ${value},Giá: ${value}
+Primary,Chính
+Print Label,In nhãn
+Processing Payment...,Đang xử lý thanh toán...
+Product Description,Mô tả sản phẩm
+Product is out of stock,Sản phẩm hết hàng
+Product name is required,Tên sản phẩm là bắt buộc
+Product not found,Không tìm thấy sản phẩm
+Product type,Loại sản phẩm
+Products,Sản phẩm
+Reason for cancellation,Lý do hủy
+Reason is required,Lý do là bắt buộc
+Recently placed orders by this customer,Đơn hàng gần đây của khách này
+Redirecting to PayPal...,Đang chuyển đến PayPal...
+Reference type,Loại tham chiếu
+Registration failed,Đăng ký thất bại
+Remove item,Bỏ mục
+Remove sub-field,Bỏ trường con
+Required,Bắt buộc
+Requires at least one item to create a cart,Cần ít nhất một mục để tạo giỏ hàng
+Reset Password,Đặt lại mật khẩu
+Reset Your Password,Đặt lại mật khẩu
+Reset password,Đặt lại mật khẩu
+Reset your password,Đặt lại mật khẩu
+Root,Gốc
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU phải là duy nhất
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,Thống kê bán hàng
+Save custom fields,Lưu trường tùy chỉnh
+Save field,Lưu trường
+Saved successfully!,Đã lưu thành công!
+Search attribute groups,Tìm nhóm thuộc tính
+Search categories,Tìm danh mục
+Search collections,Tìm bộ sưu tập
+"Search for products, orders, and other resources","Tìm sản phẩm, đơn hàng và tài nguyên khác"
+Search products,Tìm sản phẩm
+Search results for: ${keyword},Kết quả tìm cho: ${keyword}
+Search widgets…,Tìm widget…
+Searching...,Đang tìm...
+Search…,Tìm kiếm…
+See all orders →,Xem tất cả đơn hàng →
+Select,Chọn
+Select a carrier,Chọn đơn vị vận chuyển
+Select at least one item to ship,Chọn ít nhất một mục để giao
+Select groups the attribute belongs to,Chọn nhóm chứa thuộc tính
+Select shipping method,Chọn cách giao hàng
+Select sort,Chọn sắp xếp
+"Select the items going in this shipment, then add the carrier & tracking.","Chọn các mục trong lô giao này, rồi thêm đơn vị vận chuyển và mã theo dõi."
+Setting,Cài đặt
+Settings,Cài đặt
+Shipment Status,Trạng thái giao hàng
+Shipment canceled,Đã hủy giao hàng
+Shipment created,Đã tạo giao hàng
+Shipment marked delivered,Đã đánh dấu giao hàng thành công
+Shipments,Giao hàng
+Shipped,Đã giao
+Shipping (${method}),Giao hàng (${method})
+Shipping Setting,Cài đặt giao hàng
+Show,Hiện
+Show all ${count} options,Hiện tất cả ${count} tùy chọn
+Show on storefront,Hiện trên cửa hàng
+Showing ${showing} of ${total},Hiện ${showing} trên ${total}
+Showing ${start}-${end} of ${total} results,Hiện ${start}-${end} trên ${total} kết quả
+Sidebar,Thanh bên
+Sign in to view your orders,Đăng nhập để xem đơn hàng
+Simple,Đơn giản
+Sky,Xanh da trời
+Sold out,Hết hàng
+Some error occurred. Please try again later.,Đã xảy ra lỗi. Vui lòng thử lại sau.
+Some products are not available,Một số sản phẩm không khả dụng
+Something went wrong! Please try again.,Đã xảy ra lỗi! Vui lòng thử lại.
+Something went wrong. Please try again later.,Đã xảy ra lỗi. Vui lòng thử lại sau.
+Something wrong. Please try again,Có lỗi. Vui lòng thử lại
+Sort Order,Thứ tự sắp xếp
+Sort order,Thứ tự sắp xếp
+Status,Trạng thái
+Stock,Tồn kho
+Stripe is not loaded. Please try again.,Stripe chưa tải. Vui lòng thử lại.
+Style,Kiểu
+Sub-fields,Trường con
+Submit Cancellation,Gửi yêu cầu hủy
+Successfully logged in,Đăng nhập thành công
+Successfully logged out,Đăng xuất thành công
+Tax Setting,Cài đặt thuế
+Test failure,Thử nghiệm thất bại
+Test failure:,Thử nghiệm thất bại:
+Test success,Thử nghiệm thành công
+Test success:,Thử nghiệm thành công:
+Text,Văn bản
+Textarea,Vùng văn bản
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,Đơn vị vận chuyển sẽ đánh dấu mã theo dõi không hợp lệ. Bạn cần mua nhãn mới nếu vẫn muốn giao hàng.
+The customer will receive a delivery confirmation email.,Khách hàng sẽ nhận email xác nhận giao hàng.
+There is no category,Không có danh mục
+There is no file to display.,Không có tệp để hiển thị.
+There is no sub folder.,Không có thư mục con.
+There was an error:,Đã có lỗi:
+This tracking link has expired,Liên kết theo dõi đã hết hạn
+This tracking link is no longer valid,Liên kết theo dõi không còn hợp lệ
+Thumbnail,Ảnh thu nhỏ
+Time must be after ${min},Giờ phải sau ${min}
+Time must be before ${max},Giờ phải trước ${max}
+Toggle Sidebar,Bật/tắt thanh bên
+Token is invalid or expired,Token không hợp lệ hoặc đã hết hạn
+Too many items requested,Yêu cầu quá nhiều mục
+Track,Theo dõi
+Track shipment →,Theo dõi giao hàng →
+Track your order,Theo dõi đơn hàng
+Tracking info updated,Đã cập nhật thông tin theo dõi
+Tracking link,Liên kết theo dõi
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,Liên kết theo dõi chỉ có hiệu lực trong thời gian giới hạn. Đăng nhập tài khoản để xem trạng thái hiện tại của đơn hàng.
+Tracking number,Mã theo dõi
+Type,Loại
+Type / to see the available blocks,Gõ / để xem các khối có sẵn
+UPDATE PASSWORD,CẬP NHẬT MẬT KHẨU
+Update address API not available,API cập nhật địa chỉ không khả dụng
+Update field,Cập nhật trường
+Upload,Tải lên
+Validation,Kiểm tra
+Value,Giá trị
+Value must be a whole number,Giá trị phải là số nguyên
+Value must be at least ${min},Giá trị phải tối thiểu ${min}
+Value must be at most ${max},Giá trị phải tối đa ${max}
+View All Products,Xem tất cả sản phẩm
+View JSON,Xem JSON
+View all customers,Xem tất cả khách hàng
+Visible to customer,Hiển thị cho khách hàng
+Void Label,Hủy nhãn
+Void label,Hủy nhãn
+Void this shipping label?,Hủy nhãn giao hàng này?
+"We could not find this order. It may have been removed, or it may belong to a different account.","Không tìm thấy đơn hàng này. Có thể đã bị xóa, hoặc thuộc về tài khoản khác."
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.","Không thể xác minh liên kết này. Nếu bạn nhận được trong email từ chúng tôi, hãy thử lại từ tin nhắn mới nhất, hoặc đăng nhập tài khoản."
+We have sent you an email with a link to reset your password. Please check your inbox.,Chúng tôi đã gửi email kèm liên kết đặt lại mật khẩu. Vui lòng kiểm tra hộp thư.
+Weekly,Hàng tuần
+Welcome to our store!,Chào mừng đến cửa hàng!
+"Where you ship, shipping methods and delivery fee","Nơi giao, phương thức và phí giao hàng"
+White,Trắng
+Yes,Có
+You are already logged in,Bạn đã đăng nhập
+You are here:,Bạn đang ở:
+You have no attribute groups to display,Không có nhóm thuộc tính để hiển thị
+You have no categories to display,Không có danh mục để hiển thị
+You have no collections to display,Không có bộ sưu tập để hiển thị
+You have no products to display,Không có sản phẩm để hiển thị
+You have not placed any orders yet.,Bạn chưa đặt đơn hàng nào.
+You paid for,Bạn đã thanh toán cho
+You will be redirected to PayPal for payment processing.,Bạn sẽ được chuyển đến PayPal để xử lý thanh toán.
+Your Orders,Đơn hàng của bạn
+Your order #${number} has been delivered,Đơn hàng #${number} đã được giao
+Your order #${number} is on the way,Đơn hàng #${number} đang trên đường
+Your order has been confirmed!,Đơn hàng đã được xác nhận!
+Your password has been updated successfully.,Mật khẩu đã được cập nhật thành công.
+across,trên
+available to ship,sẵn sàng giao
+breadcrumb,đường dẫn
+e.g. Care instructions,vd. Hướng dẫn bảo quản
+"e.g. New, Sale, Limited","vd. Mới, Giảm giá, Giới hạn"
+e.g. Question,vd. Câu hỏi
+e.g. care_instructions,vd. care_instructions
+e.g. question,vd. question
+item,mục
+items,mục
+left to ship,còn lại để giao
+of,trên
+of ${count},trên ${count}
+unit,đơn vị
+units,đơn vị
+${count} changes published.,Đã xuất bản ${count} thay đổi.
+${count} child widgets,${count} tiện ích con
+${count} countries,${count} quốc gia
+${count} items,${count} mục
+${count} on ${route},${count} trên ${route}
+${count} ops total,Tổng ${count} thao tác
+${count} pending ops,${count} thao tác chờ
+${count} pending ops on,${count} thao tác chờ trên
+${count} routes,${count} tuyến
+${direction} failed,${direction} thất bại
+${method} — ${zone} rate,${method} — mức ${zone}
+${method} — new rate,${method} — mức mới
+${name} attached to ${zone},Đã gắn ${name} vào ${zone}
+${name} configuration for ${zone},Cấu hình ${name} cho ${zone}
+${name} configuration for this zone,Cấu hình ${name} cho khu vực này
+${name} configuration saved for ${zone},Đã lưu cấu hình ${name} cho ${zone}
+${name} detached,Đã gỡ ${name}
+${name} is required,${name} là bắt buộc
+${title} settings,Cài đặt ${title}
+${total} changes will go live immediately.,${total} thay đổi sẽ áp dụng ngay.
+${total} items,${total} mục
+(envelope),(phong bì)
++ Add Line,+ Thêm dòng
++ Add Method,+ Thêm phương thức
++ Add Rate,+ Thêm mức
++ Add placement,+ Thêm vị trí
++ Attach Provider,+ Gắn nhà cung cấp
++ New package,+ Gói mới
++${count} more,+${count} nữa
+", +${count} more",", +${count} nữa"
+", last updated",", cập nhật lần cuối"
+0 for flat envelopes,0 cho phong bì dẹt
+1 change published.,Đã xuất bản 1 thay đổi.
+1 change will go live immediately.,1 thay đổi sẽ áp dụng ngay.
+1 child widget,1 tiện ích con
+1 op total,Tổng 1 thao tác
+1 pending op,1 thao tác chờ
+1 pending op on,1 thao tác chờ trên
+A package is required for shippable products,Sản phẩm giao hàng cần một gói
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,Kế hoạch triển khai lưu chỉnh sửa hiện tại thành bản chụp và tự áp dụng trong khung giờ đã hẹn.
+Action,Hành động
+Actions,Hành động
+Add,Thêm
+Add Products,Thêm sản phẩm
+Add Rate,Thêm mức
+Add Shipping Method,Thêm phương thức giao hàng
+Add Tax Rate,Thêm mức thuế
+Add Variant,Thêm biến thể
+Add products to this category by selecting them from the list below.,Thêm sản phẩm vào danh mục này bằng cách chọn từ danh sách dưới.
+Add rate,Thêm mức
+Added,Đã thêm
+Adding to Column ${number},Đang thêm vào Cột ${number}
+Additional languages,Ngôn ngữ bổ sung
+Admin panel language,Ngôn ngữ trang quản trị
+Affects ${count} pages,Ảnh hưởng ${count} trang
+Affects 1 page,Ảnh hưởng 1 trang
+All pages,Tất cả trang
+All registered providers are already attached to this zone.,Mọi nhà cung cấp đã đăng ký đều đã gắn vào khu vực này.
+All routes,Tất cả tuyến
+Also shown on ${routes},Còn hiển thị trên ${routes}
+Also shown on ${routes} +${count},Còn hiển thị trên ${routes} +${count}
+Amount must be greater than or equal to 0,Số tiền phải lớn hơn hoặc bằng 0
+Amount must be less than or equal to ${value} ${currency},Số tiền phải nhỏ hơn hoặc bằng ${value} ${currency}
+Apply a condition?,Áp dụng điều kiện?
+Area,Vùng
+Area is required,Vùng là bắt buộc
+At least one country is required,Cần ít nhất một quốc gia
+Attach,Gắn
+Attach Provider to ${zone},Gắn nhà cung cấp vào ${zone}
+Attached Providers,Nhà cung cấp đã gắn
+Attribute Name,Tên thuộc tính
+Attribute code is required,Mã thuộc tính là bắt buộc
+Attribute created successfully!,Đã tạo thuộc tính!
+Attribute group,Nhóm thuộc tính
+Attribute name is required,Tên thuộc tính là bắt buộc
+Authorize only,Chỉ ủy quyền
+Auto-saves while you edit,Tự lưu khi bạn sửa
+Back To Dashboard,Về bảng điều khiển
+Base calculation address,Địa chỉ tính cơ sở
+Based on cart subtotal,Theo tạm tính giỏ hàng
+Based on cart weight,Theo cân nặng giỏ hàng
+Basic configuration,Cấu hình cơ bản
+Boolean,Boolean
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,Phương thức giao hàng tích hợp với mức theo khu vực. Hãy gắn Core vào một khu vực trong Cài đặt → Giao hàng trước; rồi thêm phương thức ở đây và cấu hình mức cho từng khu vực.
+Buy X get Y,Mua X tặng Y
+CMS,CMS
+Calculation type,Loại tính
+Can not change the attribute group of a product that is already in a variant group.,Không thể đổi nhóm thuộc tính của sản phẩm đã thuộc nhóm biến thể.
+Cancel rollout,Hủy triển khai
+Cancel rollout plan?,Hủy kế hoạch triển khai?
+Canvas device width,Bề rộng thiết bị canvas
+Capture,Thu tiền
+Capture Payment,Thu tiền thanh toán
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,Gợi ý hãng vận chuyển cho xử lý đơn — không hiển thị khi thanh toán. NewShipmentDialog dùng nó để chọn sẵn hãng.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,Mã dịch vụ riêng của hãng dùng khi mua nhãn (CreateLabelInput.serviceCode). Tự do — hãy kiểm tra mã chính xác trong tài liệu API của hãng. Để trống để hãng tự chọn dịch vụ mặc định.
+Cash On Delivery Payment,Thanh toán khi nhận hàng
+"Catalog, Search","Danh mục, Tìm kiếm"
+Category Image,Hình ảnh danh mục
+Category Name,Tên danh mục
+Category created successfully!,Đã tạo danh mục!
+Category name is required,Tên danh mục là bắt buộc
+Change,Thay đổi
+Choose Attribute Groups,Chọn nhóm thuộc tính
+Choose Categories,Chọn danh mục
+Choose Collections,Chọn bộ sưu tập
+Choose SKUs,Chọn SKU
+Choose how much of your unpublished work to discard. The published storefront is not affected.,Chọn lượng công việc chưa xuất bản cần bỏ. Cửa hàng đã xuất bản không bị ảnh hưởng.
+Choose where you ship and how much you charge for shipping.,Chọn nơi bạn giao hàng và mức phí giao hàng.
+Clear filter,Xóa bộ lọc
+Clear filters,Xóa bộ lọc
+Client ID,Client ID
+Client Secret,Client Secret
+Close,Đóng
+Close settings,Đóng cài đặt
+Close — continue draft,Đóng — tiếp tục nháp
+Cms Pages,Trang CMS
+Collapse left rail,Thu thanh trái
+Collapse panel,Thu bảng
+Collection Code,Mã bộ sưu tập
+Collection Name,Tên bộ sưu tập
+Collection code is required,Mã bộ sưu tập là bắt buộc
+Collection code must be alphanumeric and can include underscores or dashes.,"Mã bộ sưu tập phải là chữ và số, có thể chứa gạch dưới hoặc gạch ngang."
+Collection created successfully!,Đã tạo bộ sưu tập!
+Color,Màu sắc
+Commerce,Thương mại
+Compound,Lũy kế
+Condition,Điều kiện
+Configure,Cấu hình
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,Cấu hình chi phí và điều kiện cho từng khu vực. Khu vực không có mức sẽ không cung cấp phương thức này.
+Configure rate,Cấu hình mức
+Configure the available payment methods,Cấu hình các phương thức thanh toán
+Configure the settings for the ${name} widget.,Cấu hình cài đặt cho tiện ích ${name}.
+Configure the tax classes that will be available to your customers at checkout.,Cấu hình các lớp thuế khả dụng cho khách khi thanh toán.
+Configure your Cash On Delivery payment gateway settings,Cấu hình cài đặt cổng thanh toán khi nhận hàng
+Configure your Paypal payment gateway settings,Cấu hình cài đặt cổng thanh toán PayPal
+Configure your Stripe payment gateway settings,Cấu hình cài đặt cổng thanh toán Stripe
+Configure your store information,Cấu hình thông tin cửa hàng
+"Conflicts with ${plan1}, ${plan2}","Xung đột với ${plan1}, ${plan2}"
+Conflicts with ${plan},Xung đột với ${plan}
+Conflicts with ${plan} +${count},Xung đột với ${plan} +${count}
+Conflicts with:,Xung đột với:
+Content,Nội dung
+Continue a saved rollout plan,Tiếp tục kế hoạch triển khai đã lưu
+Continue your draft,Tiếp tục bản nháp
+Core Shipping,Giao hàng Core
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core chưa gắn vào khu vực nào. Hãy gắn trong Cài đặt → Giao hàng trước.
+Cost,Chi phí
+Cost is required,Chi phí là bắt buộc
+Could not start fresh,Không thể bắt đầu mới
+Countries,Quốc gia
+"Country code (e.g., ""US""). Use ""*"" for all countries.","Mã quốc gia (vd: ""US""). Dùng ""*"" cho mọi quốc gia."
+Coupon Code,Mã giảm giá
+"Coupon code can only contain letters, numbers, underscores, and hyphens","Mã giảm giá chỉ gồm chữ, số, gạch dưới và gạch nối"
+Coupon created successfully!,Tạo mã giảm giá thành công!
+Coupons,Mã giảm giá
+Create A New Customer,Tạo khách hàng mới
+Create New Package,Tạo gói mới
+Create New Tax Class,Tạo lớp thuế mới
+Create New Zone,Tạo khu vực mới
+Create a new category,Tạo danh mục mới
+Create a new collection,Tạo bộ sưu tập mới
+Create a new coupon,Tạo mã giảm giá mới
+Create a new page,Tạo trang mới
+Create a new product,Tạo sản phẩm mới
+Create a new variant for this product.,Tạo biến thể mới cho sản phẩm này.
+Create a new widget,Tạo tiện ích mới
+Create a variant group,Tạo nhóm biến thể
+Create method,Tạo phương thức
+Create new tax class,Tạo lớp thuế mới
+Create rollout plan,Tạo kế hoạch triển khai
+Created At,Tạo lúc
+Current,Hiện tại
+Customer,Khách hàng
+Customer Email,Email khách hàng
+Customer conditions,Điều kiện khách hàng
+Customer emails,Email khách hàng
+Customer groups,Nhóm khách hàng
+Customer's purchase,Đơn mua của khách
+Customers,Khách hàng
+Customers (${count}),Khách hàng (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,Khách ở ${zone} sẽ không còn thấy phương thức của ${name} khi thanh toán. Bạn có thể gắn lại sau.
+Dashboard,Bảng điều khiển
+Date,Ngày
+Decrease,Giảm
+Default carrier,Hãng vận chuyển mặc định
+Default language,Ngôn ngữ mặc định
+Default package,Gói mặc định
+Default service code,Mã dịch vụ mặc định
+"Delete ""${name}""?","Xóa ""${name}""?"
+Delete ${count} attributes,Xóa ${count} thuộc tính
+Delete ${count} categories,Xóa ${count} danh mục
+Delete ${count} collections,Xóa ${count} bộ sưu tập
+Delete ${count} pages,Xóa ${count} trang
+Delete ${count} widgets,Xóa ${count} tiện ích
+Delete container widget?,Xóa tiện ích chứa?
+Delete image,Xóa hình ảnh
+"Delete package ""${name}""?","Xóa gói ""${name}""?"
+Delete this,Xóa cái này
+Delete this widget? This will be saved as a pending change you can publish or discard.,Xóa tiện ích này? Sẽ được lưu thành thay đổi chờ để bạn đăng hoặc loại bỏ.
+Delete widget?,Xóa tiện ích?
+Delete zone,Xóa khu vực
+"Delete zone ""${name}""?","Xóa khu vực ""${name}""?"
+Deleted ${name},Đã xóa ${name}
+Deleting this,Việc xóa này
+Deleting this container will also hide,Xóa vùng chứa này cũng sẽ ẩn
+Description is required,Mô tả là bắt buộc
+Desktop,Máy tính
+Detach,Gỡ
+Detach ${name}?,Gỡ ${name}?
+Disable ${count} pages,Tắt ${count} trang
+Disable ${count} widgets,Tắt ${count} tiện ích
+Disabled products will not be visible in the store and cannot be purchased.,Sản phẩm đã tắt sẽ không hiện trong cửa hàng và không thể mua.
+Discard changes on this page only,Bỏ thay đổi chỉ trên trang này
+Discard everything,Bỏ tất cả
+Discard everything in this draft,Bỏ tất cả trong bản nháp này
+Discard failed,Bỏ thất bại
+Discard pending changes?,Bỏ thay đổi chờ?
+Discard this page,Bỏ trang này
+Discarding…,Đang bỏ…
+Discount,Giảm giá
+Discount Type,Loại giảm giá
+Discount amount,Số tiền giảm
+Discount amount is required,Bắt buộc nhập số tiền giảm
+Discount type is required,Bắt buộc chọn loại giảm giá
+Dislay Name,Tên hiển thị
+Display Name,Tên hiển thị
+Draft,Bản nháp
+Draft — not scheduled,Bản nháp — chưa lên lịch
+Drag to resize,Kéo để chỉnh cỡ
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.","Mỗi dòng đặt tiện ích này lên một trang, một khu vực, với thứ tự riêng. Số nhỏ hiện trước."
+Edit ${name},Sửa ${name}
+Edit Shipping Zone,Sửa khu vực giao hàng
+Edit Tax Rate,Sửa mức thuế
+Edit Variant,Sửa biến thể
+Edit Zone,Sửa khu vực
+Edit against the live storefront. Publish immediately or save as a rollout plan.,Sửa trực tiếp trên storefront. Đăng ngay hoặc lưu thành kế hoạch triển khai.
+Edit rollout schedule,Sửa lịch triển khai
+Editable routes,Tuyến có thể sửa
+Editing ${coupon},Đang sửa ${coupon}
+Editing ${fullName},Đang sửa ${fullName}
+Editing widget ${name},Đang sửa tiện ích ${name}
+Edits to a shared widget update every route it appears on.,Sửa tiện ích dùng chung sẽ cập nhật mọi tuyến có nó.
+Empty package weight,Cân nặng gói rỗng
+Empty weight,Cân nặng rỗng
+Enable ${count} pages,Bật ${count} trang
+Enable ${count} widgets,Bật ${count} tiện ích
+Enable this page to make it visible on the frontend.,Bật trang này để hiển thị ở giao diện người dùng.
+Enable?,Bật?
+End,Kết thúc
+End Date,Ngày kết thúc
+End date,Ngày kết thúc
+End time is invalid.,Giờ kết thúc không hợp lệ.
+End time must be after start time.,Giờ kết thúc phải sau giờ bắt đầu.
+Enter Category Name,Nhập tên danh mục
+Enter Collection Name,Nhập tên bộ sưu tập
+Enter Meta Description,Nhập Mô tả Meta
+Enter Meta Title,Nhập Tiêu đề Meta
+Enter Meta description,Nhập Meta description
+Enter Meta title,Nhập Meta title
+Enter SKU,Nhập SKU
+Enter URL Key,Nhập URL Key
+Enter URL key,Nhập Đường dẫn URL
+Enter customer emails,Nhập email khách hàng
+Enter description,Nhập mô tả
+Enter group name,Nhập tên nhóm
+Enter meta description,Nhập meta description
+Enter meta title,Nhập meta title
+Enter page name,Nhập tên trang
+Enter price,Nhập giá
+Enter product name,Nhập tên sản phẩm
+Enter purchased amount,Nhập số tiền mua
+Enter quantity,Nhập số lượng
+Enter tax class name,Nhập tên lớp thuế
+Enter the quantity,Nhập số lượng
+Enter weight,Nhập cân nặng
+Environment,Môi trường
+Error loading countries,Lỗi tải quốc gia
+Error loading methods,Lỗi tải phương thức
+Error loading packages,Lỗi tải gói
+Error loading providers,Lỗi tải nhà cung cấp
+Error loading zones,Lỗi tải khu vực
+EverShop · Back to page builder,EverShop · Về trình tạo trang
+Every page rolls back to the rollout’s saved state.,Mọi trang quay về trạng thái đã lưu của bản triển khai.
+Every page rolls back to what the rollout had saved.,Mọi trang quay về trạng thái bản triển khai đã lưu.
+Existing rollout plan: ${plan},Kế hoạch triển khai hiện có: ${plan}
+Expand,Mở rộng
+Expand left rail,Mở rộng thanh trái
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.","Ngôn ngữ phụ người mua có thể chuyển sang, ngoài mặc định. Ngôn ngữ mặc định luôn có sẵn — không thêm ở đây."
+Failed to attach provider,Gắn nhà cung cấp thất bại
+Failed to delete ${name},Xóa ${name} thất bại
+Failed to detach ${name},Gỡ ${name} thất bại
+Failed to remove rate,Bỏ mức thất bại
+Failed to remove zone,Bỏ khu vực thất bại
+Failed to save change,Lưu thay đổi thất bại
+Failed to save rate,Lưu mức thất bại
+Failed to save zone,Lưu khu vực thất bại
+Failed to update rollout schedule,Cập nhật lịch triển khai thất bại
+Fixed discount to entire order,Giảm cố định cho cả đơn
+Fixed discount to specific products,Giảm cố định cho sản phẩm cụ thể
+Flat rate,Mức cố định
+"Flat rate in cart currency, tax-exclusive.","Mức cố định theo tiền giỏ hàng, chưa thuế."
+Free shipping?,Giao hàng miễn phí?
+General Information,Thông tin chung
+Give Feedback,Góp ý
+Global,Toàn cục
+Globals,Toàn cục
+Group,Nhóm
+Group Name,Tên nhóm
+Group name is required,Tên nhóm bắt buộc
+Groups,Nhóm
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,Khoảng nửa mở — giỏ đúng Max bị loại (điểm đó thuộc Min của bậc kế).
+Has conflicts,Có xung đột
+Heads up — ,Lưu ý — 
+Height,Chiều cao
+Height is required (0 for envelopes),Chiều cao bắt buộc (0 cho phong bì)
+Height must be 0 or greater,Chiều cao phải từ 0 trở lên
+Hide global areas,Ẩn vùng toàn cục
+Higest tax rate based on cart items,Thuế cao nhất theo mặt hàng trong giỏ
+Highlight global areas on canvas,Tô sáng vùng toàn cục trên canvas
+Image,Hình ảnh
+Include In Menu,Thêm vào menu
+Include in Store Menu?,Thêm vào menu cửa hàng?
+Increase,Tăng
+Insert image,Chèn hình ảnh
+Integer,Số nguyên
+Invalid folder name,Tên thư mục không hợp lệ
+Invalid start,Thời điểm bắt đầu không hợp lệ
+Invalid window,Khung giờ không hợp lệ
+Inventory,Kho
+Is compound,Là thuế ghép
+Its rates will be removed too. This cannot be undone.,Các mức của nó cũng bị xóa. Không thể hoàn tác.
+Languages,Ngôn ngữ
+Layers,Lớp
+Layout,Bố cục
+Leave,Rời đi
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,Để trống danh sách quốc gia để phủ cả nước. Thêm tỉnh để giới hạn giao hàng theo vùng.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,Rời đi lúc này có thể mất các sửa đổi mới nhất chưa lên server.
+Length,Chiều dài
+Length is required,Chiều dài bắt buộc
+Length must be greater than 0,Chiều dài phải lớn hơn 0
+Live,Trực tiếp
+Loading...,Đang tải...
+Long text,Văn bản dài
+Lower values appear first.,Giá trị nhỏ hiện trước.
+Manage Stock,Quản lý tồn kho
+Manage general information about the collection.,Quản lý thông tin chung của bộ sưu tập.
+Manage product images and gallery. Drag and drop to reorder images.,Quản lý hình ảnh và thư viện sản phẩm. Kéo thả để sắp xếp lại.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","Quản lý tích hợp giao hàng và phương thức (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,Quản lý lớp thuế và mức thuế cho các vùng khác nhau.
+Manage the SEO settings of the category.,Quản lý cài đặt SEO của danh mục.
+Manage the SEO settings.,Quản lý cài đặt SEO.
+Manage the attributes.,Quản lý thuộc tính.
+Manage the collections associated with this product.,Quản lý bộ sưu tập gắn với sản phẩm này.
+Manage the general information of the category.,Quản lý thông tin chung của danh mục.
+Manage the general information of the product.,Quản lý thông tin chung của sản phẩm.
+Manage the inventory settings of the product.,Quản lý cài đặt kho của sản phẩm.
+Manage the products assigned to this category.,Quản lý sản phẩm gán vào danh mục này.
+Manage the products assigned to this collection.,Quản lý sản phẩm gán vào bộ sưu tập này.
+Manage the shipping settings of the product.,Quản lý cài đặt giao hàng của sản phẩm.
+Manage the status settings of the category.,Quản lý cài đặt trạng thái của danh mục.
+Manage the variant group of the product.,Quản lý nhóm biến thể của sản phẩm.
+Marketing,Tiếp thị
+Max ${unit},Tối đa ${unit}
+Max is required,Tối đa bắt buộc
+Maximum,Tối đa
+Maximum amount is ${value} ${currency},Số tiền tối đa là ${value} ${currency}
+Maximum quantity is required,Số lượng tối đa bắt buộc
+Maximum quantity must be greater than or equal to 0,Số lượng tối đa phải từ 0 trở lên
+Media,Media
+Meta Description,Mô tả Meta
+Meta Title,Tiêu đề Meta
+Meta Title is required,Meta Title là bắt buộc
+Meta description,Mô tả Meta
+Meta description is required,Meta description là bắt buộc
+Meta title,Tiêu đề Meta
+Meta title is required,Meta title là bắt buộc
+Method,Phương thức
+Method created,Đã tạo phương thức
+Method name,Tên phương thức
+Method name is required,Tên phương thức là bắt buộc
+Method updated,Đã cập nhật phương thức
+Methods →,Phương thức →
+Min ${unit},Tối thiểu ${unit}
+Min Price,Giá tối thiểu
+Min Weight,Cân nặng tối thiểu
+Min is required,Min là bắt buộc
+Min price is required,Giá tối thiểu là bắt buộc
+Min weight is required,Cân nặng tối thiểu là bắt buộc
+Minimum purchase amount,Số tiền mua tối thiểu
+Minimum purchase qty,SL mua tối thiểu
+Minimum purchase quantity,Số lượng mua tối thiểu
+Minimum purchased amount. This only applies to registered customers.,Số tiền mua tối thiểu. Chỉ áp dụng cho khách đã đăng ký.
+Minimum quantity is required,Số lượng tối thiểu là bắt buộc
+Missing name,Thiếu tên
+Money,Tiền tệ
+Name is required.,Tên là bắt buộc.
+Navigation,Điều hướng
+New Attribute,Thuộc tính mới
+New Category,Danh mục mới
+New Collection,Bộ sưu tập mới
+New Coupon,Mã giảm giá mới
+New Page,Trang mới
+New Variant,Biến thể mới
+New coupon,Mã giảm giá mới
+New rate,Mức mới
+No collections,Không có bộ sưu tập
+No editable routes.,Không có tuyến sửa được.
+No file selected,Chưa chọn tệp
+No methods yet — add one to start offering Core shipping.,Chưa có phương thức — thêm một cái để bắt đầu cung cấp Core shipping.
+No packages yet. Create one — shippable products require a package.,Chưa có gói. Tạo một gói — sản phẩm cần giao hàng phải có gói.
+No product to display.,Không có sản phẩm để hiển thị.
+"No providers attached. Click ""Attach Provider"" to add one.","Chưa gắn nhà cung cấp. Nhấn ""Attach Provider"" để thêm."
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","Chưa có mức — nhấn ""Add Rate"" để cung cấp phương thức này trong khu vực."
+"No results for ""${keyword}""","Không có kết quả cho ""${keyword}"""
+No routes have opted into page-builder editing yet.,Chưa tuyến nào bật chỉnh sửa page-builder.
+No shipping required?,Không cần giao hàng?
+No subdivisions available — whole country is covered.,Không có vùng — toàn quốc được phủ.
+No widgets available.,Không có tiện ích.
+"No widgets match ""${query}"".","Không tiện ích nào khớp ""${query}""."
+No widgets on this route yet.,Chưa có tiện ích trên tuyến này.
+No zones,Không có khu vực
+No zones found,Không tìm thấy khu vực
+Not visible individually,Không hiển thị riêng lẻ
+Nothing to publish,Không có gì để xuất bản
+Nothing to redo on this page,Không có gì để làm lại trên trang này
+Nothing to undo on this page,Không có gì để hoàn tác trên trang này
+Number,Số
+Option text is required,Văn bản tùy chọn là bắt buộc
+Optional. Added to the shipping weight for quotes and labels.,Tùy chọn. Thêm vào cân nặng giao hàng cho báo giá và nhãn.
+Order Number,Số đơn hàng
+Order conditions,Điều kiện đơn hàng
+Orders (${count}),Đơn hàng (${count})
+Other,Khác
+Other pages keep their pending changes.,Các trang khác giữ thay đổi đang chờ.
+Overlaps with existing rollout: ${plans}.,Trùng với rollout hiện có: ${plans}.
+Overlaps with existing rollouts: ${plans}.,Trùng với các rollout hiện có: ${plans}.
+Package,Gói
+Package created,Đã tạo gói
+Package deleted,Đã xóa gói
+Package saved,Đã lưu gói
+Packages,Gói
+Page Name,Tên trang
+Page Not Found,Không tìm thấy trang
+Page builder,Trình tạo trang
+Page builder canvas,Khung trình tạo trang
+Page created successfully!,Đã tạo trang thành công!
+Page is required,Trang là bắt buộc
+Page name is required,Tên trang là bắt buộc
+Pages,Trang
+Parent category,Danh mục cha
+Payment Setting,Cài đặt thanh toán
+Payment mode,Chế độ thanh toán
+Payment setting saved,Đã lưu cài đặt thanh toán
+Paypal Payment,Thanh toán PayPal
+Pending start time,Giờ bắt đầu chờ
+Percentage discount to entire order,Giảm % cho toàn đơn hàng
+Percentage discount to specific products,Giảm % cho sản phẩm cụ thể
+Phone,Điện thoại
+Pick a start time to schedule this rollout.,Chọn giờ bắt đầu để lên lịch triển khai này.
+Pick a widget below to insert as a child.,Chọn tiện ích bên dưới để chèn làm con.
+Pick up where you left off — ${count} pending changes,Tiếp tục từ chỗ đã dừng — ${count} thay đổi chờ xử lý
+Pick up where you left off — 1 pending change,Tiếp tục từ chỗ đã dừng — 1 thay đổi chờ xử lý
+Pin drawer open,Ghim ngăn kéo mở
+Pin — keep drawer open across canvas clicks,Ghim — giữ ngăn kéo mở khi nhấp vào khung
+Placed on: ${routes},Đặt trên: ${routes}
+Placements,Vị trí đặt
+Postal Code,Mã bưu chính
+"Postcode (e.g., ""90210""). Empty for all postcodes.","Mã bưu chính (vd: ""90210""). Để trống cho tất cả."
+Preselected for new products. Exactly one package is the default.,Chọn sẵn cho sản phẩm mới. Đúng một gói là mặc định.
+Preview,Xem trước
+Price-based tiers,Bậc theo giá
+Priority,Ưu tiên
+Priority is required,Ưu tiên là bắt buộc
+Product Name,Tên sản phẩm
+Product Status,Trạng thái sản phẩm
+Product created successfully,Đã tạo sản phẩm thành công
+Product updated successfully,Đã cập nhật sản phẩm thành công
+Products (${count}),Sản phẩm (${count})
+Promotion,Khuyến mãi
+Proportional allocation based on cart items,Phân bổ tỷ lệ theo mục trong giỏ
+Provide the SEO details for the CMS page.,Cung cấp chi tiết SEO cho trang CMS.
+Provide the basic information for the CMS page.,Cung cấp thông tin cơ bản cho trang CMS.
+Provider,Nhà cung cấp
+Province Restrictions,Giới hạn tỉnh/thành
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.","Mã tỉnh (vd: ""CA""). Dùng ""*"" cho tất cả tỉnh."
+Provinces,Tỉnh/thành
+Provinces is required,Tỉnh/thành là bắt buộc
+Provinces:,Tỉnh/thành:
+Publish failed,Xuất bản thất bại
+Publish now,Xuất bản ngay
+Publish to the live storefront,Xuất bản lên cửa hàng trực tiếp
+Publishable Key,Khóa công khai
+Publishing…,Đang xuất bản…
+Qty is required,SL là bắt buộc
+Quick links,Liên kết nhanh
+Rate,Mức
+Rate added,Đã thêm mức
+Rate is required,Mức là bắt buộc
+Rate removed,Đã bỏ mức
+Rate status,Trạng thái mức
+Rate updated,Đã cập nhật mức
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,Làm lại (⇧⌘Z) — áp lại sửa đổi vừa hoàn tác trên trang này
+Redo last undone change on this page,Làm lại thay đổi vừa hoàn tác trên trang này
+Reference,Tham chiếu
+Refund,Hoàn tiền
+Refund amount,Số tiền hoàn
+Remove Zone,Bỏ khu vực
+Remove placement,Bỏ vị trí đặt
+Remove rate,Bỏ mức
+Remove this rate?,Bỏ mức này?
+Removed,Đã bỏ
+Resize settings drawer,Đổi cỡ ngăn cài đặt
+"Results for ""${keyword}""","Kết quả cho ""${keyword}"""
+Revert all pages to saved state,Hoàn nguyên mọi trang về trạng thái đã lưu
+Revert everything,Hoàn nguyên tất cả
+Revert this page,Hoàn nguyên trang này
+Revert this page only,Chỉ hoàn nguyên trang này
+Revert to saved state?,Hoàn nguyên về trạng thái đã lưu?
+Reverting…,Đang hoàn nguyên…
+Rich text,Văn bản định dạng
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,Hoàn tác các thay đổi bạn đã thực hiện kể từ lần lưu triển khai gần nhất. Cửa hàng trực tiếp không bị ảnh hưởng — nó đã phản ánh trạng thái đã lưu.
+SEO,SEO
+SEO Information,Thông tin SEO
+SKU is required,SKU là bắt buộc
+Sale,Bán hàng
+Sandbox,Sandbox
+Save Settings,Lưu cài đặt
+Save as rollout plan,Lưu thành kế hoạch triển khai
+Save as rollout plan and leave,Lưu thành kế hoạch triển khai và rời đi
+Save changes,Lưu thay đổi
+Save failed,Lưu thất bại
+Save method,Lưu phương thức
+Save rate,Lưu mức
+Saving…,Đang lưu…
+Schedule failed,Lên lịch thất bại
+Scheduled,Đã lên lịch
+Search engine optimize,Tối ưu công cụ tìm kiếm
+Search widgets,Tìm tiện ích
+Secret Key,Khóa bí mật
+Select Category,Chọn danh mục
+Select Parent Category,Chọn danh mục cha
+Select Products by SKU,Chọn sản phẩm theo SKU
+Select a provider first,Chọn nhà cung cấp trước
+Select a provider…,Chọn nhà cung cấp…
+Select an option,Chọn một mục
+Select category,Chọn danh mục
+Select countries,Chọn quốc gia
+Select operator,Chọn toán tử
+Select options,Chọn mục
+Select page,Chọn trang
+Select products to add to this collection.,Chọn sản phẩm để thêm vào bộ sưu tập này.
+Select the list of attribute,Chọn danh sách thuộc tính
+Select this option if the product is a digital product or service that does not require shipping.,Chọn mục này nếu sản phẩm là sản phẩm số hoặc dịch vụ không cần giao hàng.
+Set a start time to schedule.,Đặt thời gian bắt đầu để lên lịch.
+Set the status and visibility of the product.,Đặt trạng thái và hiển thị của sản phẩm.
+Share,Chia sẻ
+Shipping Cost,Phí giao hàng
+Shipping Providers,Nhà cung cấp giao hàng
+Shipping address,Địa chỉ giao hàng
+Shipping cost is required,Phí giao hàng là bắt buộc
+Shipping provider setting saved,Đã lưu cài đặt nhà cung cấp giao hàng
+Shipping tax class,Lớp thuế giao hàng
+Short text,Văn bản ngắn
+Show global areas,Hiện vùng toàn cục
+Show on routes,Hiện trên các route
+Show products?,Hiện sản phẩm?
+Show this widget on every page,Hiện tiện ích này trên mọi trang
+Size (L × W × H),Kích thước (D × R × C)
+Sort,Sắp xếp
+Sort order is required,Thứ tự sắp xếp là bắt buộc
+Sort order must be a positive number,Thứ tự sắp xếp phải là số dương
+Start,Bắt đầu
+Start a page-builder session,Bắt đầu phiên trình tạo trang
+Start date,Ngày bắt đầu
+Start new changeset,Bắt đầu tập thay đổi mới
+Start time is invalid.,Thời gian bắt đầu không hợp lệ.
+State Date,Ngày bắt đầu
+Status is required,Trạng thái là bắt buộc
+Stay,Ở lại
+Stay on this page,Ở lại trang này
+Stock Availability,Tình trạng tồn kho
+Stop highlighting global areas,Ngừng làm nổi vùng toàn cục
+Store Address,Địa chỉ cửa hàng
+Store Description,Mô tả cửa hàng
+Store Email,Email cửa hàng
+Store Name,Tên cửa hàng
+Store Phone Number,Số điện thoại cửa hàng
+Store Setting,Cài đặt cửa hàng
+Store Settings,Cài đặt cửa hàng
+Store address,Địa chỉ cửa hàng
+Storefront,Cửa hàng
+Stripe Payment,Thanh toán Stripe
+Tablet,Máy tính bảng
+Take our survey,Làm khảo sát
+Target Products,Sản phẩm mục tiêu
+Tax Class,Lớp thuế
+Tax calculation configuration,Cấu hình tính thuế
+Tax class name,Tên lớp thuế
+Tax class name is required,Tên lớp thuế là bắt buộc
+Tax classes,Lớp thuế
+Tax rate has been saved successfully!,Đã lưu mức thuế thành công!
+Tax setting has been saved successfully!,Đã lưu cài đặt thuế thành công!
+The box or envelope this product ships in. Applies to all variants of this product.,Hộp hoặc bao thư dùng để gửi sản phẩm này. Áp dụng cho mọi biến thể của sản phẩm này.
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,Các hộp và bao thư bạn dùng để gửi hàng. Mọi sản phẩm cần giao đều tham chiếu một gói — kích thước và cân nặng rỗng của nó quyết định báo giá và nhãn giao hàng.
+The conditions related to the customer for the coupon to be applied.,Các điều kiện liên quan đến khách hàng để áp dụng mã giảm giá.
+The conditions related to the order for the coupon to be applied.,Các điều kiện liên quan đến đơn hàng để áp dụng mã giảm giá.
+The default package cannot be deleted,Không thể xóa gói mặc định
+The draft holds ${count} saved changes you can publish later.,Bản nháp giữ ${count} thay đổi đã lưu mà bạn có thể đăng sau.
+The draft holds 1 saved change you can publish later.,Bản nháp giữ 1 thay đổi đã lưu mà bạn có thể đăng sau.
+The draft is deleted.,Bản nháp đã bị xóa.
+The draft itself is deleted.,Chính bản nháp đã bị xóa.
+The general information about the coupon.,Thông tin chung về mã giảm giá.
+"The language of the admin panel, independent of the storefront.","Ngôn ngữ của bảng quản trị, độc lập với cửa hàng."
+The method will no longer apply to this zone.,Phương thức sẽ không còn áp dụng cho khu vực này.
+The minimum quantity of items required in the order to qualify for this coupon.,Số lượng mục tối thiểu cần có trong đơn để đủ điều kiện dùng mã này.
+The minimum total amount required for the order to qualify for this coupon.,Tổng tiền tối thiểu cần có để đơn đủ điều kiện dùng mã này.
+The rollout plan,Kế hoạch triển khai
+The storefront's primary language. Pages in this language have no URL prefix.,Ngôn ngữ chính của cửa hàng. Trang dùng ngôn ngữ này không có tiền tố URL.
+The type of discount applied by the coupon.,Loại giảm giá mà mã áp dụng.
+The zone this rate applies to.,Khu vực mà mức này áp dụng.
+"There is no ""Select"" attribute available.","Không có thuộc tính ""Select"" nào khả dụng."
+There is no attribute to display,Không có thuộc tính để hiển thị
+There is no category to display,Không có danh mục để hiển thị
+There is no collections to display,Không có bộ sưu tập để hiển thị
+There is no coupon to display,Không có mã giảm giá để hiển thị
+There is no customer to display,Không có khách hàng để hiển thị
+There is no order to display,Không có đơn hàng để hiển thị
+There is no page to display,Không có trang để hiển thị
+There is no widget to display,Không có tiện ích để hiển thị
+There was an error fetching attribute groups.,Lỗi khi tải nhóm thuộc tính.
+There was an error fetching categories.,Lỗi khi tải danh mục.
+There was an error fetching collections.,Lỗi khi tải bộ sưu tập.
+There was an error fetching file browser APIs.,Lỗi khi tải API trình duyệt tệp.
+There was an error fetching products.,Lỗi khi tải sản phẩm.
+This cannot be undone. Packages still assigned to products can't be removed.,Không thể hoàn tác. Gói vẫn gán cho sản phẩm thì không thể xóa.
+This changeset has no operations yet.,Bộ thay đổi này chưa có thao tác nào.
+This field is required,Trường này là bắt buộc
+This is the URL path for the CMS page.,Đây là đường dẫn URL cho trang CMS.
+This is the address used to calculate tax rates.,Đây là địa chỉ dùng để tính mức thuế.
+This is the meta title for the CMS page.,Đây là meta title cho trang CMS.
+This is the name of the CMS page that will be displayed in the admin panel.,Đây là tên trang CMS hiển thị trong bảng quản trị.
+This is the tax class applied to shipping costs.,Đây là lớp thuế áp dụng cho phí giao hàng.
+This product has some variants like color or size?,Sản phẩm này có biến thể như màu hay kích cỡ không?
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,Nhà cung cấp này không có cấu hình theo khu vực. Phương thức và mức theo khu vực được quản lý trong khu vực quản trị riêng của nhà cung cấp.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,Thao tác này xóa khu vực cùng các nhà cung cấp gắn kèm và mức của nó. Không thể hoàn tác.
+This route has unpublished changes in your draft,Tuyến này có thay đổi chưa đăng trong bản nháp của bạn
+This will be saved as a pending change you can publish or discard.,Việc này sẽ được lưu thành thay đổi chờ mà bạn có thể đăng hoặc bỏ.
+Tiered,Theo bậc
+Type is required,Loại là bắt buộc
+URL Key,Đường dẫn URL
+URL Key is required,URL Key là bắt buộc
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","URL Key phải viết thường và chỉ chứa chữ, số và dấu gạch ngang"
+URL key,Đường dẫn URL
+URL key is required,URL key là bắt buộc
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,URL key phải viết thường và chỉ chứa chữ số và dấu gạch ngang
+Unassign,Bỏ gán
+Undo (⌘Z) — undoes your last edit on this page,Hoàn tác (⌘Z) — hoàn tác chỉnh sửa cuối trên trang này
+Undo / Redo,Hoàn tác / Làm lại
+Undo last change on this page,Hoàn tác thay đổi cuối trên trang này
+Unknown,Không rõ
+Unlink,Bỏ liên kết
+Unpin drawer,Bỏ ghim ngăn
+Unpin — drawer will close when you click empty canvas,Bỏ ghim — ngăn sẽ đóng khi bạn nhấp vùng canvas trống
+Unpublished changes,Thay đổi chưa đăng
+Unsaved changes,Thay đổi chưa lưu
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,Cập nhật tên và khung thời gian hoạt động cho kế hoạch triển khai này. Chỉnh sửa nội dung được quản lý riêng trong trình soạn thảo.
+Update the variant details and attributes here.,Cập nhật chi tiết và thuộc tính biến thể tại đây.
+Updated,Đã cập nhật
+Upload an image for the category.,Tải lên hình ảnh cho danh mục.
+Used Times,Số lần dùng
+Value is required,Giá trị là bắt buộc
+Variant Group,Nhóm biến thể
+Variant created successfully,Đã tạo biến thể thành công
+Variant updated successfully,Đã cập nhật biến thể thành công
+Version ${version},Phiên bản ${version}
+Visibility,Hiển thị
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,Hiển thị quyết định nơi sản phẩm xuất hiện trong cửa hàng. Nó không ảnh hưởng đến khả năng bán của sản phẩm.
+Visitors will see the new layout on their next page load.,Khách sẽ thấy bố cục mới ở lần tải trang tiếp theo.
+Webhook Secret Key,Khóa bí mật Webhook
+Weight,Cân nặng
+Weight must be 0 or greater,Cân nặng phải từ 0 trở lên
+Weight must be a positive number,Cân nặng phải là số dương
+Weight-based tiers,Bậc theo cân nặng
+Widget Settings,Cài đặt tiện ích
+Widget created successfully!,Đã tạo tiện ích thành công!
+Widgets,Tiện ích
+Width,Chiều rộng
+Width is required,Chiều rộng là bắt buộc
+Width must be greater than 0,Chiều rộng phải lớn hơn 0
+Will roll out automatically: ${range},Sẽ tự triển khai: ${range}
+Working…,Đang xử lý…
+Worldwide,Toàn cầu
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,Bạn có ${count} thay đổi trong bản nháp này chưa được phát hành.
+You have ${count} changes still saving.,Bạn có ${count} thay đổi đang được lưu.
+You have 1 change in this draft that hasn’t been published yet.,Bạn có 1 thay đổi trong bản nháp này chưa được phát hành.
+You have 1 change still saving.,Bạn có 1 thay đổi đang được lưu.
+Your draft is safe on the server — you can come back and publish it any time.,Bản nháp được lưu an toàn trên máy chủ — bạn có thể quay lại phát hành bất cứ lúc nào.
+Your edits on other pages stay in the draft.,Chỉnh sửa ở trang khác vẫn nằm trong bản nháp.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,URL webhook của bạn nên là: https://yourdomain.com/api/stripe/webhook
+Zone,Khu vực
+Zone Name,Tên khu vực
+Zone Rates,Giá ship khu vực
+Zone created,Đã tạo khu vực
+Zone is required,Khu vực là bắt buộc
+Zone name is required,Tên khu vực là bắt buộc
+Zone removed,Đã bỏ khu vực
+Zone updated,Đã cập nhật khu vực
+Zones served,Khu vực phục vụ
+and ${count} more,và ${count} mục nữa
+container will also hide,vùng chứa cũng sẽ ẩn
+current page,trang hiện tại
+e.g. Small Box,vd. Hộp nhỏ
+e.g. Summer Sale 2026,vd. Sale Hè 2026
+e.g. content,vd. nội dung
+"e.g., 10.00",vd. 10.00
+"e.g., EU, US-West","vd. EU, US-West"
+"e.g., Express",vd. Hỏa tốc
+"e.g., FEDEX_GROUND, usps_priority","vd. FEDEX_GROUND, usps_priority"
+every page,mọi trang
+indefinite,vô thời hạn
+open,mở
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","phát hành diễn ra ngay và không thể hoàn tác từ màn hình này. Để chờ thay vì vậy, hãy hủy và chọn “Lên lịch triển khai”."
+quantity of products are matched bellow conditions(All),số lượng sản phẩm khớp các điều kiện dưới (Tất cả)
+subtotal,tạm tính
+to a storefront route's,đến tuyến của cửa hàng
+to make it appear here.,để nó hiện ở đây.
+weight,cân nặng
+widget? This will be saved as a pending change you can publish or discard.,tiện ích? Việc này sẽ được lưu thành thay đổi chờ để bạn phát hành hoặc bỏ.
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,sẽ bị bỏ và cửa hàng trực tiếp ngừng áp dụng chỉnh sửa của nó. Bộ thay đổi nền và các chỉnh sửa nội dung chờ vẫn được giữ.
+— None —,— Không —
+Cash On Delivery,Thanh toán khi nhận hàng
+Please select a valid payment method,Vui lòng chọn phương thức thanh toán hợp lệ
+Show ${label} width,Hiện chiều rộng ${label}
+Column ${index},Cột ${index}
+Switch page,Chuyển trang
+Search pages…,Tìm trang…
+Search pages,Tìm trang
+Save your pending edits — the live storefront will catch up,Lưu các thay đổi đang chờ — cửa hàng sẽ cập nhật theo
+No changes to save — the rollout matches the editor,Không có thay đổi để lưu — kế hoạch khớp với trình chỉnh sửa
+Save,Lưu
+More rollout actions,Thêm thao tác triển khai
+Revert to saved state…,Khôi phục về trạng thái đã lưu…
+Roll back the editor to what the rollout currently shows on the storefront,Đưa trình chỉnh sửa về nội dung kế hoạch đang hiển thị trên cửa hàng
+Nothing to revert — the editor matches the saved state,Không có gì để khôi phục — trình chỉnh sửa khớp trạng thái đã lưu
+Cancel rollout plan…,Hủy kế hoạch triển khai…
+Remove the schedule — the changeset is preserved,Xóa lịch — tập thay đổi vẫn được giữ
+Publish,Xuất bản
+More publish options,Thêm tùy chọn xuất bản
+Apply all edits to the live storefront immediately,Áp dụng mọi thay đổi lên cửa hàng ngay lập tức
+Save as rollout plan…,Lưu thành kế hoạch triển khai…
+Schedule these edits to roll out at a future time,Lên lịch triển khai các thay đổi này vào lúc khác
+Discard pending changes…,Hủy các thay đổi đang chờ…
+Choose between discarding the whole draft or just this page,Chọn hủy toàn bộ bản nháp hoặc chỉ trang này
+Switch session,Chuyển phiên
+New changeset,Tập thay đổi mới
+Rollout: ${name},Triển khai: ${name}
+Click or drag to add,Nhấp hoặc kéo để thêm
+Delete,Xóa
+Name,Tên
+Background color,Màu nền
+Text color,Màu chữ
+Dwell time,Thời gian hiển thị
+Time each announcement stays visible (in addition to the 400ms slide transition).,Thời gian mỗi thông báo hiển thị (ngoài hiệu ứng trượt 400ms).
+Announcements,Thông báo
+Add announcement,Thêm thông báo
+Untitled,Chưa đặt tên
+Free shipping on orders over $50,Miễn phí vận chuyển cho đơn hàng trên $50
+Optional. Makes the entire row a clickable link.,Tùy chọn. Biến cả hàng thành một liên kết có thể nhấp.
+Link label,Nhãn liên kết
+Optional. Displayed after the content; defaults to the content itself.,Tùy chọn. Hiển thị sau nội dung; mặc định là chính nội dung.
+Shop now,Mua ngay
+Dark,Tối
+Light,Sáng
+Gradient,Chuyển sắc
+Left,Trái
+Center,Giữa
+Right,Phải
+Selected image,Hình ảnh đã chọn
+No image selected,Chưa chọn hình ảnh
+Replace,Thay thế
+Clear,Xóa bỏ
+Reflects the alignment below.,Phản ánh căn chỉnh bên dưới.
+Banner Image,Hình ảnh banner
+Mobile image,Hình ảnh di động
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,Tùy chọn. Được dùng dưới điểm ngắt 768px. Quay về hình ảnh phía trên khi để trống — thường dùng là bản cắt dọc của cùng cảnh.
+Alignment,Căn chỉnh
+Overlay copy,Nội dung lớp phủ
+Eyebrow,Nhãn phụ
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".","Nhãn viết hoa nhỏ phía trên tiêu đề. Ví dụ ""PHIÊN BẢN GIỚI HẠN""."
+LIMITED EDITION,PHIÊN BẢN GIỚI HẠN
+Heading,Tiêu đề
+The Summer Edit,Tuyển Tập Mùa Hè
+Sub-text,Văn bản phụ
+One short supporting sentence.,Một câu bổ trợ ngắn gọn.
+Overlay placement,Vị trí lớp phủ
+Content position,Vị trí nội dung
+Where the overlay text sits on the image.,Vị trí văn bản lớp phủ trên hình ảnh.
+Tint,Sắc phủ
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,Lớp che sau văn bản lớp phủ để dễ đọc. Tối / chuyển sắc tự động đổi chữ thành trắng.
+Tint opacity,Độ mờ sắc phủ
+Call to actions,Lời kêu gọi hành động
+Remove primary CTA,Xóa CTA chính
++ Add a primary CTA,+ Thêm CTA chính
+Secondary,Phụ
+Remove secondary CTA,Xóa CTA phụ
+Learn more,Tìm hiểu thêm
++ Add a secondary CTA,+ Thêm CTA phụ
+Details,Chi tiết
+Alt text,Văn bản thay thế
+Describes the banner for screen readers and SEO.,Mô tả banner cho trình đọc màn hình và SEO.
+"e.g. ""Summer sale promotional banner""","ví dụ ""Banner khuyến mãi mùa hè"""
+Banner link,Liên kết banner
+Optional. Clicking the banner navigates here.,Tùy chọn. Nhấp vào banner sẽ chuyển đến đây.
+Display name,Tên hiển thị
+Shop,Cửa hàng
+Target,Đích đến
+"Page, category, product, or a custom URL.","Trang, danh mục, sản phẩm hoặc URL tùy chỉnh."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: không truyền điểm xếp hạng cho liên kết này (rel=nofollow).
+No referrer,Không gửi referrer
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,Quyền riêng tư: bỏ URL nguồn (rel=noreferrer). Liên kết mở tab mới luôn bao gồm điều này.
+Menu items,Mục menu
+Add menu item,Thêm mục menu
+Sub-items,Mục con
+Optional dropdown links (1 level).,Liên kết thả xuống tùy chọn (1 cấp).
+Add sub-item,Thêm mục con
+Options,Tùy chọn
+Use as main menu,Dùng làm menu chính
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","Điều hướng chính — trên di động sẽ thu gọn thành menu hamburger. Tắt cho danh sách liên kết đơn giản (ví dụ chân trang), giữ nguyên hàng ngang trên di động."
+Custom CSS classes,Lớp CSS tùy chỉnh
+Applied to the rendered menu element.,Áp dụng cho phần tử menu được hiển thị.
+e.g. main-nav font-semibold,ví dụ main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,Ô
+Add tile,Thêm ô
+Hero · ,Hero · 
+Used when no image is set.,Dùng khi chưa đặt hình ảnh.
+Small label above the heading.,Nhãn nhỏ phía trên tiêu đề.
+THE SUMMER EDIT,Tuyển tập mùa hè
+New Arrivals,Hàng mới về
+Body,Nội dung chính
+Big card — the headline of the grid.,Thẻ lớn — tiêu đề của lưới.
+Link URL,URL liên kết
+Gap,Khoảng cách
+Minimum block height,Chiều cao khối tối thiểu
+Image left,Hình ảnh bên trái
+Image right,Hình ảnh bên phải
+Centered,Căn giữa
+Pull quote,Trích dẫn nổi bật
+Variant,Biến thể
+Image column size,Kích thước cột hình ảnh
+Describe the image,Mô tả hình ảnh
+Copy,Nội dung
+"Small all-caps label. E.g. ""OUR STORY"".","Nhãn nhỏ chữ in hoa. Ví dụ ""CÂU CHUYỆN CỦA CHÚNG TÔI""."
+Our story,Câu chuyện của chúng tôi
+"Made by hand, in small batches","Làm thủ công, theo từng lô nhỏ"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","Bắt buộc cho biến thể trích dẫn nổi bật. Hiển thị cỡ lớn, theo kiểu blockquote."
+"A short, quotable line.","Một câu ngắn, dễ trích dẫn."
+Three or four sentences of brand narrative.,Ba hoặc bốn câu kể về thương hiệu.
+Second body paragraph (optional),Đoạn nội dung thứ hai (tùy chọn)
+A second short paragraph if the story needs it.,Một đoạn ngắn thứ hai nếu câu chuyện cần.
+Read more link,Liên kết đọc thêm
+Read more,Đọc thêm
+URL,URL
+Remove read-more link,Xóa liên kết đọc thêm
++ Add a read-more link,+ Thêm liên kết đọc thêm
+Square,Vuông
+Landscape,Ngang
+Portrait,Dọc
+Overlay,Lớp phủ
+Below,Bên dưới
+New category,Danh mục mới
+Section heading,Tiêu đề mục
+Optional. Shown above the grid.,Tùy chọn. Hiển thị phía trên lưới.
+Shop by category,Mua theo danh mục
+Women,Nữ
+Columns,Số cột
+Auto,Tự động
+Asymmetric makes the first tile span 2 columns.,Bất đối xứng làm ô đầu tiên chiếm 2 cột.
+Uniform,Đồng đều
+Asymmetric,Bất đối xứng
+Image aspect,Tỷ lệ hình ảnh
+Label position,Vị trí nhãn
+Blush,Hồng phấn
+XL,XL
+Position ${c},Vị trí ${c}
+Column layout,Bố cục cột
+Drag widgets into each column. Children re-flow when you change the ratio.,Kéo widget vào từng cột. Nội dung con sắp xếp lại khi bạn đổi tỷ lệ.
+Space between columns.,Khoảng cách giữa các cột.
+Where content sits within each column. Applied uniformly to every column.,Vị trí nội dung trong mỗi cột. Áp dụng đồng đều cho mọi cột.
+Row appearance,Giao diện hàng
+Background,Nền
+Custom color,Màu tùy chỉnh
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","Bất kỳ màu CSS nào (vd. ""#0a0a0a"" hoặc ""rgb(10,10,10)""). Để trống để dùng mẫu màu phía trên."
+Padding,Khoảng đệm
+Outer spacing around the row. Scales down on mobile.,Khoảng cách bên ngoài quanh hàng. Thu nhỏ trên di động.
+Solid,Liền nét
+Dashed,Nét đứt
+Already expired,Đã hết hạn
+Expires in ${days}d ${hours}h,Hết hạn sau ${days}d ${hours}h
+Expires in ${hours}h ${minutes}m,Hết hạn sau ${hours}h ${minutes}m
+Offer,Ưu đãi
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","Dòng tạo cấp bách. Tùy chọn. Vd. ""Có hạn · Kết thúc Chủ nhật""."
+Limited · Ends Sunday,Có hạn · Kết thúc Chủ nhật
+Headline,Tiêu đề
+Take 20% off your order,Giảm 20% cho đơn hàng của bạn
+Optional. One short instructional line.,Tùy chọn. Một dòng hướng dẫn ngắn.
+Use code at checkout,Dùng mã khi thanh toán
+Promo code,Mã khuyến mãi
+Displayed in uppercase to shoppers.,Hiển thị bằng chữ in hoa cho người mua.
+Expires,Hết hạn
+Optional. The block auto-hides after this time for live visitors.,Tùy chọn. Khối tự ẩn sau thời gian này đối với khách đang xem.
+Call to action,Kêu gọi hành động
+Button label,Nhãn nút
+Shop now →,Mua ngay →
+Button link,Liên kết nút
+Appearance,Giao diện
+Border,Viền
+Narrow,Hẹp
+Normal,Bình thường
+Wide,Rộng
+Shown above all content. Optional.,Hiển thị trên toàn bộ nội dung. Tùy chọn.
+e.g. Frequently asked,ví dụ: Câu hỏi thường gặp
+Prose,Đoạn văn
+FAQ group · ${count} items,Nhóm FAQ · ${count} mục
+Group heading,Tiêu đề nhóm
+Optional sub-heading.,Tiêu đề phụ tùy chọn.
+e.g. Shipping,ví dụ: Vận chuyển
+Add question,Thêm câu hỏi
+Question,Câu hỏi
+e.g. How long does shipping take?,ví dụ: Giao hàng mất bao lâu?
+Answer,Trả lời
+"Supports **bold**, _italic_, and line breaks.","Hỗ trợ **đậm**, _nghiêng_ và xuống dòng."
+e.g. Orders ship within 24 hours…,ví dụ: Đơn hàng giao trong vòng 24 giờ…
+Add prose,Thêm đoạn văn
+Add FAQ group,Thêm nhóm FAQ
+Max width,Chiều rộng tối đa
+Content column width.,Chiều rộng cột nội dung.
+Allow multiple open,Cho phép mở nhiều mục
+"When off, opening one FAQ item closes the others in the same group.","Khi tắt, mở một mục FAQ sẽ đóng các mục khác trong cùng nhóm."
+New link,Liên kết mới
+New column,Cột mới
+Add column,Thêm cột
+${title} · ${count} links,${title} · ${count} liên kết
+Column title,Tiêu đề cột
+Links,Liên kết
+"Min 1, max 12.","Tối thiểu 1, tối đa 12."
+Add link,Thêm liên kết
+New arrivals,Hàng mới về
+Boxed,Trong khung
+Wide (full bleed),Rộng (tràn viền)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,Trong khung giữ nội dung bên trong vùng chứa của trang (giao diện quyết định chiều rộng tối đa). Rộng tràn từ mép này sang mép kia.
+Scales down on mobile.,Thu nhỏ trên di động.
+Optional. Painted behind content. Combine with a tint below for legibility.,Tùy chọn. Đặt phía sau nội dung. Kết hợp với lớp phủ màu bên dưới để dễ đọc.
+XS,XS
+Spacing,Khoảng cách
+Size,Kích thước
+Mobile scales down ~⅔ automatically.,Trên di động tự động thu nhỏ ~⅔.
+Divider line,Đường phân cách
+Show divider line,Hiện đường phân cách
+A horizontal rule centred in the spacing band.,Một đường ngang căn giữa trong vùng khoảng cách.
+Line color,Màu đường kẻ
+Default uses the theme's divider color.,Mặc định dùng màu phân cách của giao diện.
+Sides,Các cạnh
+Bottom,Dưới
+Dots,Chấm tròn
+Bars,Thanh
+Mobile image (optional),Hình ảnh di động (tùy chọn)
+Used at ≤ 767 px. Falls back to the main image.,Dùng ở ≤ 767 px. Mặc định về hình ảnh chính.
+e.g. New collection,ví dụ: Bộ sưu tập mới
+e.g. Summer Sale,ví dụ: Khuyến mãi hè
+Sub text,Văn bản phụ
+Check out our latest products with special discounts.,Khám phá sản phẩm mới nhất với ưu đãi đặc biệt.
+Primary button,Nút chính
+Secondary button,Nút phụ
+Remove,Gỡ bỏ
++ Add secondary button,+ Thêm nút phụ
+Overrides,Ghi đè
+Leaves slide-specific anchor; falls back to the slideshow's default.,Bỏ trống điểm neo riêng cho slide; dùng mặc định của trình chiếu.
+Overlay tint,Màu lớp phủ
+Overlay opacity,Độ mờ lớp phủ
+Make whole slide clickable,Cho phép nhấp vào toàn bộ slide
+Behavior,Hành vi
+Transition,Hiệu ứng chuyển
+Slide,Trượt
+Fade,Mờ dần
+Transition speed,Tốc độ chuyển
+Autoplay,Tự động phát
+Autoplay delay,Độ trễ tự động phát
+${seconds} s between slides,${seconds} giây giữa các slide
+Pause on hover,Tạm dừng khi rê chuột
+Pause for 20 s after user nav,Tạm dừng 20 giây sau khi người dùng điều hướng
+Arrows,Mũi tên
+Aspect ratio,Tỉ lệ khung hình
+`Auto` matches the natural image height (jumps between slides).,`Auto` khớp chiều cao gốc của hình ảnh (nhảy giữa các slide).
+Default content position,Vị trí nội dung mặc định
+Per-slide overrides win.,Ghi đè riêng từng slide được ưu tiên.
+Default overlay tint,Màu lớp phủ mặc định
+Default overlay opacity,Độ mờ lớp phủ mặc định
+Slides (${count}),Slide (${count})
+No slides yet.,Chưa có slide nào.
+Add your first slide,Thêm slide đầu tiên
+Slide ${number},Slide ${number}
+Image only,Chỉ hình ảnh
+Empty,Trống
+Show slide,Hiện slide
+Hide slide,Ẩn slide
+Move slide up,Di chuyển slide lên
+Move slide down,Di chuyển slide xuống
+Delete slide,Xóa slide
+Top,Trên cùng
+Cover,Phủ kín
+Contain,Vừa khung
+Required for accessibility.,Bắt buộc để hỗ trợ tiếp cận.
+Image fit,Cách vừa hình ảnh
+"Small all-caps label. E.g. ""LIMITED EDITION"".","Nhãn chữ in hoa nhỏ. Ví dụ: ""PHIÊN BẢN GIỚI HẠN""."
+Limited edition,Phiên bản giới hạn
+One strong line,Một dòng nổi bật
+Two lines of supporting copy.,Hai dòng nội dung bổ trợ.
+Image position,Vị trí hình ảnh
+Vertical alignment,Căn theo chiều dọc
+Aligns the copy panel content.,Căn nội dung bảng văn bản.
+Remove call to action,Xóa nút kêu gọi hành động
+Add a call to action,Thêm nút kêu gọi hành động
+Custom CSS classes for the text block,Lớp CSS tùy chỉnh cho khối văn bản
+Add group,Thêm nhóm
+${label} · ${count} subs,${label} · ${count} mục con
+Parent label,Nhãn danh mục cha
+Parent link,Liên kết danh mục cha
+Image alt text,Văn bản thay thế hình ảnh
+Sub-categories,Danh mục con
+"Min 1, max 8.","Tối thiểu 1, tối đa 8."
+Add sub-category,Thêm danh mục con
+Dresses,Váy đầm
+Columns (desktop),Số cột (máy tính)
+On tablets the layout is always 2 columns.,"Trên máy tính bảng, bố cục luôn là 2 cột."
+Make parent image a link,Biến hình danh mục cha thành liên kết
+"When off, only the sub-chips and parent label are interactive.","Khi tắt, chỉ các chip con và nhãn danh mục cha có thể tương tác."
+Title,Tiêu đề
+e.g. Free shipping,ví dụ: Miễn phí vận chuyển
+Optional supporting line below the title.,Dòng bổ trợ tùy chọn bên dưới tiêu đề.
+Icon,Biểu tượng
+Optional. SVG or raster image. Hidden when icons are turned off globally.,Tùy chọn. Ảnh SVG hoặc raster. Bị ẩn khi tắt biểu tượng toàn cục.
+Optional. Makes the whole cell clickable.,Tùy chọn. Cho phép nhấp vào toàn bộ ô.
+"Auto matches the item count, capped at 4.","Tự động khớp số mục, tối đa 4."
+3,3
+4,4
+Icon size,Kích thước biểu tượng
+Show icons,Hiển thị biểu tượng
+Master switch. Items without an icon URL are unaffected.,Công tắc chính. Mục không có URL biểu tượng không bị ảnh hưởng.
+Show divider,Hiển thị đường phân cách
+Vertical line between cells.,Đường dọc giữa các ô.
+Collection,Bộ sưu tập
+Search,Tìm kiếm
+Search collections…,Tìm bộ sưu tập…
+No collections match “${value}”.,Không có bộ sưu tập nào khớp “${value}”.
+You have no collections yet.,Bạn chưa có bộ sưu tập nào.
+Please select a collection,Vui lòng chọn bộ sưu tập
+"Defaults to ""${name}"" (the collection's name).","Mặc định là ""${name}"" (tên bộ sưu tập)."
+Defaults to the picked collection's name.,Mặc định là tên bộ sưu tập đã chọn.
+Collection name,Tên bộ sưu tập
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,Mặc định là mô tả của bộ sưu tập. Đặt giá trị này sẽ thay mô tả định dạng bằng văn bản thuần.
+e.g. Hand-picked styles for the season.,ví dụ: Những phong cách tuyển chọn cho mùa này.
+View all link,Liên kết Xem tất cả
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","Tùy chọn. Ẩn khi để trống. Chọn danh mục, sản phẩm, trang, hoặc dán URL tùy chỉnh."
+"Optional. Defaults to ""View all →"".","Tùy chọn. Mặc định là ""Xem tất cả →""."
+View all →,Xem tất cả →
+Total products,Tổng số sản phẩm
+Number of products to display.,Số sản phẩm hiển thị.
+Products per row,Sản phẩm mỗi hàng
+Grid columns (1–6 typical).,Số cột lưới (thường 1–6).
+Count is required,Bắt buộc nhập số lượng
+e.g. 8,ví dụ: 8
+Count per row is required,Bắt buộc nhập số lượng mỗi hàng
+e.g. 4,ví dụ: 4
+Cover image,Hình ảnh bìa
+COLLECTION,BỘ SƯU TẬP
+"Defaults to ""${pickedName}"".","Mặc định là ""${pickedName}""."
+Defaults to the picked collection name.,Mặc định là tên bộ sưu tập đã chọn.
+Optional. One or two sentences of editorial copy.,Tùy chọn. Một hai câu nội dung biên tập.
+"Linen, cotton, easy stuff.","Vải lanh, cotton, đồ thoải mái."
+Preview product count,Số sản phẩm xem trước
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,Vui lòng chọn bộ sưu tập
+Add collection,Thêm bộ sưu tập
+Row heading,Tiêu đề hàng
+The Linen Edit,Tuyển Tập Vải Lanh
+Optional. Hidden when empty.,Tùy chọn. Ẩn khi để trống.
+View all label,Nhãn Xem tất cả
+Show price,Hiển thị giá
+Show divider between rows,Hiển thị đường phân cách giữa các hàng
+Product,Sản phẩm
+Selected:,Đã chọn:
+Image override,Hình ảnh thay thế
+Override image,Thay thế hình ảnh
+Override image (optional),Thay thế hình ảnh (tùy chọn)
+Leave empty to use the product's primary image.,Để trống để dùng hình ảnh chính của sản phẩm.
+Small label above the product name. Optional.,Nhãn nhỏ phía trên tên sản phẩm. Tùy chọn.
+FEATURED,NỔI BẬT
+Editorial copy,Nội dung biên tập
+Overrides the product's own description in this context. Leave blank to hide.,Ghi đè mô tả riêng của sản phẩm trong ngữ cảnh này. Để trống để ẩn.
+Two lines of copy explaining why this product is being spotlighted right now.,Hai dòng nội dung giải thích vì sao sản phẩm này đang được làm nổi bật.
+Please pick a product,Vui lòng chọn sản phẩm
+e.g. On orders over $50,ví dụ Cho đơn hàng trên $50
+Text block,Khối văn bản
+Menu,Menu
+Footer menu,Menu chân trang
+Banner,Banner
+Simple Slideshow,Trình chiếu đơn giản
+Brand story,Câu chuyện thương hiệu
+Category mosaic,Lưới danh mục
+Tiered categories,Danh mục phân cấp
+Bento grid,Lưới Bento
+Separator,Đường phân cách
+Section,Phần
+Split feature,Khối chia đôi
+Announcement bar,Thanh thông báo
+Coupon block,Khối mã giảm giá
+FAQ block,Khối FAQ
+Trust strip,Dải tin cậy
+Collection products,Sản phẩm bộ sưu tập
+Collection stack,Chồng bộ sưu tập
+Collection spotlight,Bộ sưu tập nổi bật
+Product hero,Sản phẩm tiêu điểm
+Layout container with 1–4 columns for nesting widgets.,Khung bố cục 1–4 cột để lồng các widget.
+Add rich text content,Thêm nội dung văn bản định dạng
+Navigation links,Liên kết điều hướng
+Multi-column list of footer links — a titled column of navigation links per group.,Danh sách liên kết chân trang nhiều cột — mỗi nhóm một cột có tiêu đề.
+A single hero image with optional overlay copy and CTAs.,Một ảnh hero kèm nội dung phủ và nút CTA tùy chọn.
+Rotating image carousel,Băng chuyền ảnh xoay vòng
+Editorial block combining an image and long-form brand narrative. Four layout variants.,Khối biên tập kết hợp hình ảnh và câu chuyện thương hiệu dài. Bốn kiểu bố cục.
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.","Lưới 3–6 ô danh mục cho lối vào ""Mua theo danh mục"" chính."
+A two-level nav block: parent category image plus a row of sub-category chips.,Khối điều hướng hai cấp: ảnh danh mục cha cùng hàng chip danh mục con.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,Lưới ô CTA bất đối xứng — một ô hero lớn cùng 1–4 ô phụ.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","Khoảng cách dọc giữa các widget, kèm đường phân cách tùy chọn. Tự thu nhỏ trên di động."
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,"Dải có kiểu thả được, bao các widget khác. Chuyển giữa rộng (sát mép) và đóng khung (khung giao diện)."
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,Khối khuyến mãi ảnh + nội dung 50/50 kèm CTA tùy chọn. Widget khuyến mãi tiêu biểu.
+A thin top-of-page bar with one or more rotating announcements.,Thanh mỏng đầu trang với một hoặc nhiều thông báo xoay vòng.
+A promo panel with a copyable discount code and CTA.,Bảng khuyến mãi với mã giảm giá sao chép được và CTA.
+Flexible content block mixing prose sections and accordion FAQ groups.,Khối nội dung linh hoạt kết hợp đoạn văn và nhóm FAQ dạng xếp gập.
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","Hàng các mục giá trị (miễn phí vận chuyển, đổi trả dễ, v.v.) để nhấn mạnh dưới hero hoặc trên chân trang."
+A list of products from a collection,Danh sách sản phẩm từ một bộ sưu tập
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Các hàng bộ sưu tập xếp chồng, mỗi hàng có tiêu đề, liên kết xem tất cả và dải sản phẩm."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","Bộ sưu tập nổi bật với ảnh bìa, nội dung biên tập và lưới xem trước sản phẩm nhỏ."
+"A single-product spotlight — image, name, price, and a link to the full product page.","Tiêu điểm một sản phẩm — ảnh, tên, giá và liên kết tới trang sản phẩm đầy đủ."

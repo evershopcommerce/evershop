@@ -6,6 +6,7 @@ import { info, success, error, warning } from '../../lib/log/logger.js';
 import { pool } from '../../lib/postgres/connection.js';
 import createProduct from '../../modules/catalog/services/product/createProduct.js';
 import { seedProductImages } from './seedImages.js';
+import { seedSamplePackage } from './seedPackages.js';
 import {
   createVariantGroups,
   resolveAttributeOptions
@@ -41,6 +42,11 @@ export async function seedProducts(
     );
     return;
   }
+
+  // Shippable products require a package_id (createProduct throws otherwise).
+  // Ensure the demo sample package exists and reuse its id for every product
+  // that doesn't bring its own.
+  const samplePackage = await seedSamplePackage();
 
   // Create variant groups
   const variantGroupIds = await createVariantGroups(
@@ -130,6 +136,13 @@ export async function seedProducts(
         productData.attributes = await resolveAttributeOptions(
           productData.attributes
         );
+      }
+
+      // Shippable products need a package; assign the demo sample package when
+      // the data doesn't specify one. Virtual products (no_shipping_required)
+      // are exempt and left untouched.
+      if (!productData.no_shipping_required && !productData.package_id) {
+        productData.package_id = samplePackage.package_id;
       }
 
       const product = await createProduct(productData, {});

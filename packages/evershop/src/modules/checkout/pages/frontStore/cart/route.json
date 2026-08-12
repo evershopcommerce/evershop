@@ -1,5 +1,6 @@
 {
   "methods": ["GET"],
   "path": "/cart",
-  "name": "Cart page"
+  "name": "Cart page",
+  "editable": true
 }

@@ -1,4 +1,5 @@
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Field, FieldLabel } from '@components/common/ui/Field.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
@@ -57,7 +58,8 @@ export function ReactSelectCreatableField<T extends FieldValues = FieldValues>({
     unregister,
     formState: { errors }
   } = useFormContext<T>();
-  const fieldId = `field-${name}`;
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
+  const fieldId = `field-${resolvedName}`;
 
   const [dynamicOptions, setDynamicOptions] =
     React.useState<SelectOption[]>(options);
@@ -68,9 +70,9 @@ export function ReactSelectCreatableField<T extends FieldValues = FieldValues>({
 
   React.useEffect(() => {
     return () => {
-      unregister(name);
+      unregister(resolvedName);
     };
-  }, [name, unregister]);
+  }, [resolvedName, unregister]);
 
   const validationRules = {
     ...validation,
@@ -78,10 +80,10 @@ export function ReactSelectCreatableField<T extends FieldValues = FieldValues>({
       required: _('${field} is required', { field: label || name })
     })
   };
-  const fieldError = getNestedError(name, errors, error);
+  const fieldError = getNestedError(resolvedName, errors, error);
   return (
     <Controller
-      name={name}
+      name={resolvedName}
       control={control}
       rules={validationRules}
       defaultValue={defaultValue}

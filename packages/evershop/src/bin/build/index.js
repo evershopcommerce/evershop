@@ -9,6 +9,7 @@ import { lockHooks } from '../../lib/util/hookable.js';
 import { lockRegistry } from '../../lib/util/registry.js';
 import { validateConfiguration } from '../../lib/util/validateConfiguration.js';
 import { isBuildRequired } from '../../lib/webpack/isBuildRequired.js';
+import { lockCarrierRegistry } from '../../modules/oms/services/carrier/registry.js';
 import { getEnabledExtensions } from '../extension/index.js';
 import { loadBootstrapScript } from '../lib/bootstrap/bootstrap.js';
 import { buildEntry } from '../lib/buildEntry.js';
@@ -50,6 +51,7 @@ export default async function build() {
     }
     lockHooks();
     lockRegistry();
+    lockCarrierRegistry();
     // Get the configuration (nodeconfig)
     validateConfiguration(config);
   } catch (e) {

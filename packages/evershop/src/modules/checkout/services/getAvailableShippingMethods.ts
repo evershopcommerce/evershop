@@ -1,175 +1,193 @@
 import { select } from '@evershop/postgres-query-builder';
-import axios from 'axios';
-import { normalizePort } from '../../../bin/lib/normalizePort.js';
+import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
-import { buildUrl } from '../../../lib/router/buildUrl.js';
-import { toPrice } from './toPrice.js';
+import type {
+  ShippingZoneProviderRow,
+  ShippingZoneRow
+} from '../../../types/db/index.js';
+import type {
+  ShippingMethod,
+  ShippingProvider
+} from '../../../types/shippingProvider.js';
+import { getCartByUUID } from './getCartByUUID.js';
+import { buildShippingContext } from './shipping/buildShippingContext.js';
+import { getAllShippingProviders } from './shipping/registry.js';
+import { resolveZonesForAddress } from './shipping/resolveZonesForAddress.js';
 
-export const getAvailableShippingMethods = async (
+/**
+ * Available shipping method as exposed to the GraphQL/storefront layer.
+ *
+ * `id` and `code` are intentionally duplicated for back-compat with the
+ * pre-refactor `AvailableShippingMethod` GraphQL type (which had both
+ * `id: String!` and `code: String!`). Phase 4 will widen the GraphQL type
+ * with `providerCode`, `carrier`, `delivery`; consumers continue to read
+ * `id`/`code`/`name`/`cost` unchanged through that transition.
+ */
+export interface AvailableShippingMethodResult extends ShippingMethod {
+  id: string;
+  providerCode: string;
+}
+
+const DEFAULT_PROVIDER_TIMEOUT_MS = 5000;
+
+/**
+ * Wrap a promise with a timeout. Used for per-provider calls so a slow
+ * carrier doesn't block the whole list.
+ */
+function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(
+      () => reject(new Error(`${label} timed out after ${ms}ms`)),
+      ms
+    );
+    p.then(
+      (v) => {
+        clearTimeout(timer);
+        resolve(v);
+      },
+      (e) => {
+        clearTimeout(timer);
+        reject(e);
+      }
+    );
+  });
+}
+
+/**
+ * Orchestrator. Registry-only provider dispatch — no DB rows for providers
+ * (the in-memory registry IS the provider list):
+ *
+ *   1. Resolve zones that cover the destination address.
+ *   2. Load enabled `shipping_zone_provider` attachment rows for those zones.
+ *   3. For each attachment, look up the registered provider by
+ *      `attachment.provider_code`. Missing-from-registry attachments
+ *      (extension uninstalled) are silently skipped.
+ *   4. For each (zone, provider) tuple, in parallel:
+ *      - Build a ShippingContext.
+ *      - Call provider.getMethods(ctx) with a per-provider timeout.
+ *      - On error/timeout: log + skip; do not fail the whole list.
+ *   5. Concat results, dedupe by (provider_code, code) keeping the first
+ *      occurrence, sort by cost ascending.
+ *
+ * `country` / `province` / `postcode` args optionally override the cart's
+ * stored shipping address (useful for pre-checkout rate calculators before
+ * the customer has saved an address).
+ *
+ * See wiki/shipping-provider-design.md → "Data flow" / "Listing methods at checkout".
+ */
+export async function getAvailableShippingMethods(
   cartId: string,
   country?: string,
   province?: string,
   postcode?: string
-) => {
-  const cart = await select()
-    .from('cart')
-    .where('uuid', '=', cartId)
-    .and('status', '=', 't')
-    .load(pool);
+): Promise<AvailableShippingMethodResult[]> {
+  const cart = await getCartByUUID(cartId);
   if (!cart) {
     throw new Error('Cart not found');
   }
 
-  const shippingAddress = await select()
-    .from('cart_address')
-    .where('cart_address_id', '=', cart.shipping_address_id)
-    .load(pool);
+  // Resolve destination address — args override stored fields one-by-one.
+  const stored = (cart.getData('shipping_address') ?? {}) as {
+    country?: string | null;
+    province?: string | null;
+    postcode?: string | null;
+  };
+  const destinationCountry = country ?? stored.country ?? null;
+  const destinationProvince = province ?? stored.province ?? null;
+  const destinationPostcode = postcode ?? stored.postcode ?? null;
 
-  if (!country && !shippingAddress?.country) {
-    return [];
-  }
+  if (!destinationCountry) return [];
 
-  const zoneQuery = select().from('shipping_zone');
-  zoneQuery
-    .leftJoin('shipping_zone_province')
-    .on(
-      'shipping_zone_province.zone_id',
-      '=',
-      'shipping_zone.shipping_zone_id'
-    );
-  if (province || shippingAddress?.province) {
-    zoneQuery
-      .where(
-        'shipping_zone_province.province',
-        '=',
-        province || shippingAddress?.province
-      )
-      .or('shipping_zone_province.province', 'IS NULL', null);
-  } else {
-    zoneQuery.where('shipping_zone_province.province', 'IS NULL', null);
-  }
-
-  zoneQuery.andWhere(
-    'shipping_zone.country',
-    '=',
-    country || shippingAddress?.country
-  );
-
-  const zone = await zoneQuery.load(pool);
-  if (!zone) {
-    return [];
-  }
-
-  const methodsQuery = select().from('shipping_method');
-  methodsQuery
-    .leftJoin('shipping_zone_method')
-    .on(
-      'shipping_zone_method.method_id',
-      '=',
-      'shipping_method.shipping_method_id'
-    );
-  methodsQuery
-    .where('shipping_zone_method.zone_id', '=', zone.shipping_zone_id)
-    .and('shipping_zone_method.is_enabled', '=', 't');
-  let methods = await methodsQuery.execute(pool);
-
-  methods = methods.filter((method) => {
-    if (!method.condition_type) {
-      return true;
-    }
-    if (method.condition_type === 'price') {
-      return (
-        toPrice(method.min) <= cart.sub_total &&
-        cart.sub_total <= toPrice(method.max)
-      );
-    } else if (method.condition_type === 'weight') {
-      return (
-        toPrice(method.min) <= cart.total_weight &&
-        cart.total_weight <= toPrice(method.max)
-      );
-    } else {
-      return false;
-    }
+  const zones = await resolveZonesForAddress({
+    country: destinationCountry,
+    province: destinationProvince,
+    postcode: destinationPostcode
   });
+  if (zones.length === 0) return [];
 
-  // Loop through the methods and calculate the cost
-  methods = await Promise.all(
-    methods.map(async (method) => {
-      if (method.calculate_api) {
-        // This API is internal. It must be public
-        const port = normalizePort();
-        let api = `http://localhost:${port}`;
-        try {
-          api += buildUrl(method.calculate_api, {
-            cart_id: cart.uuid,
-            method_id: method.uuid
-          });
-        } catch (e) {
-          throw new Error(
-            `Your shipping calculate API ${method.calculate_api} is invalid`
-          );
-        }
-        const jsonResponse = await axios.get(api);
-        // Detect if the API returns an error base on the http status
-        if (jsonResponse.status >= 400) {
-          throw new Error(
-            `Error calculating shipping cost for method ${method.name}`
-          );
-        }
-        return {
-          ...method,
-          cost: toPrice(jsonResponse.data.data.cost, false)
-        };
-      } else if (method.weight_based_cost) {
-        const totalWeight = cart.total_weight;
-        const weightBasedCost = method.weight_based_cost
-          .map(({ min_weight, cost }) => ({
-            min_weight: parseFloat(min_weight),
-            cost: toPrice(cost)
-          }))
-          .sort((a, b) => a.min_weight - b.min_weight);
+  const zoneIds = zones.map((z) => z.shipping_zone_id);
 
-        let cost = 0;
-        for (let i = 0; i < weightBasedCost.length; i += 1) {
-          if (totalWeight >= weightBasedCost[i].min_weight) {
-            cost = weightBasedCost[i].cost;
-          }
+  // Load attachments for the matching zones.
+  const attachments = (await select()
+    .from('shipping_zone_provider')
+    .where('zone_id', 'IN', zoneIds)
+    .and('is_enabled', '=', true)
+    .execute(pool)) as ShippingZoneProviderRow[];
+  if (attachments.length === 0) return [];
+
+  // Cross-reference attachments with the registry. The attachment carries
+  // `provider_code` directly (soft ref), so no provider-table lookup is
+  // needed. Attachments whose provider isn't registered (extension
+  // uninstalled, never installed) are silently skipped — orphan attachments
+  // are inert.
+  const registered = await getAllShippingProviders();
+  const registeredByCode = new Map<string, ShippingProvider>();
+  for (const p of registered) registeredByCode.set(p.code, p);
+
+  type CallTarget = {
+    zone: ShippingZoneRow;
+    provider: ShippingProvider;
+    attachment: ShippingZoneProviderRow;
+  };
+
+  const calls: CallTarget[] = [];
+  for (const att of attachments) {
+    const provider = registeredByCode.get(att.provider_code);
+    if (!provider) continue; // attached but not registered
+    const zone = zones.find((z) => z.shipping_zone_id === att.zone_id);
+    if (!zone) continue;
+    calls.push({ zone, provider, attachment: att });
+  }
+  if (calls.length === 0) return [];
+
+  // Fan out in parallel with per-provider timeout. allSettled so one slow or
+  // broken provider doesn't kill the whole list — failures are logged and skipped.
+  const results = await Promise.allSettled(
+    calls.map(async ({ zone, provider, attachment }) => {
+      const ctx = await buildShippingContext({
+        cart,
+        provider,
+        zone,
+        attachment,
+        destinationOverride: {
+          ...stored,
+          country: destinationCountry,
+          province: destinationProvince,
+          postcode: destinationPostcode
         }
-        return {
-          ...method,
-          cost: toPrice(cost.toString(), false)
-        };
-      } else if (method.price_based_cost) {
-        const subTotal = toPrice(cart.sub_total);
-        const priceBasedCost = method.price_based_cost
-          .map(({ min_price, cost }) => ({
-            min_price: toPrice(min_price),
-            cost: toPrice(cost)
-          }))
-          .sort((a, b) => a.min_price - b.min_price);
-        let cost = 0;
-        for (let i = 0; i < priceBasedCost.length; i += 1) {
-          if (subTotal >= priceBasedCost[i].min_price) {
-            cost = priceBasedCost[i].cost;
-          }
-        }
-        return {
-          ...method,
-          cost: toPrice(cost.toString(), false)
-        };
-      } else {
-        return {
-          ...method,
-          cost: toPrice(method.cost.toString(), false)
-        };
-      }
+      });
+      const methods = await withTimeout(
+        provider.getMethods(ctx),
+        // Per-provider override: slow-by-design upstreams (aggregator
+        // rate-shopping) can declare a larger budget than the default.
+        provider.quoteTimeoutMs ?? DEFAULT_PROVIDER_TIMEOUT_MS,
+        `Provider ${provider.code} (zone ${zone.shipping_zone_id})`
+      );
+      return { providerCode: provider.code, methods };
     })
   );
 
-  return methods.map((method) => ({
-    id: method.uuid,
-    code: method.uuid,
-    name: method.name,
-    cost: method.cost
-  }));
-};
+  // Dedupe by (provider_code, method.code) — first match wins.
+  const collected: AvailableShippingMethodResult[] = [];
+  const seen = new Set<string>();
+  for (const r of results) {
+    if (r.status === 'rejected') {
+      error(r.reason);
+      continue;
+    }
+    const { providerCode, methods } = r.value;
+    for (const m of methods) {
+      const key = `${providerCode}:${m.code}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      collected.push({
+        id: m.code,
+        providerCode,
+        ...m
+      });
+    }
+  }
+
+  collected.sort((a, b) => a.cost - b.cost);
+  return collected;
+}

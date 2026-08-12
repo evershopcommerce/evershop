@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
+import { getPriceIncludingTax } from '../../../../modules/tax/services/taxSettings.js';
 import { toPrice } from '../toPrice.js';
 
 export function registerCartItemBaseFields(fields) {
@@ -111,7 +111,65 @@ export function registerCartItemBaseFields(fields) {
       resolvers: [
         async function resolver() {
           const product = await this.getProduct();
-          return parseFloat(product.weight) ?? null;
+          // `parseFloat` returns NaN for null/undefined/empty/non-numeric
+          // strings (digital products, partially-seeded fixtures, etc.).
+          // `?? null` does NOT catch NaN — only null/undefined — so the
+          // previous version let NaN propagate into `total_weight`, which
+          // then broke `Cart.totalWeight.value: Float!` serialization with
+          // "Float cannot represent non numeric value: NaN".
+          const w = parseFloat(product.weight);
+          return Number.isFinite(w) ? w : 0;
+        }
+      ],
+      dependencies: ['product_id']
+    },
+    // Package (parcel) dimension snapshot — copied from the product's package
+    // at cart rebuild (the product loader merges package_* onto the row).
+    // NULL for legacy products (no package yet) and virtual items. Values are
+    // in the store's dimension unit (shop.dimensionUnit). Frozen onto
+    // order_item at placement via item.export().
+    {
+      key: 'package_length',
+      resolvers: [
+        async function resolver() {
+          const product = await this.getProduct();
+          const value = parseFloat(product.package_length);
+          return Number.isFinite(value) ? value : null;
+        }
+      ],
+      dependencies: ['product_id']
+    },
+    {
+      key: 'package_width',
+      resolvers: [
+        async function resolver() {
+          const product = await this.getProduct();
+          const value = parseFloat(product.package_width);
+          return Number.isFinite(value) ? value : null;
+        }
+      ],
+      dependencies: ['product_id']
+    },
+    {
+      key: 'package_height',
+      resolvers: [
+        async function resolver() {
+          const product = await this.getProduct();
+          const value = parseFloat(product.package_height);
+          return Number.isFinite(value) ? value : null;
+        }
+      ],
+      dependencies: ['product_id']
+    },
+    // Tare — the package's own empty weight (store weight unit). Snapshot
+    // like the dims, so label-time parcels never need a live package join.
+    {
+      key: 'package_weight',
+      resolvers: [
+        async function resolver() {
+          const product = await this.getProduct();
+          const value = parseFloat(product.package_weight);
+          return Number.isFinite(value) ? value : null;
         }
       ],
       dependencies: ['product_id']
@@ -142,10 +200,7 @@ export function registerCartItemBaseFields(fields) {
       resolvers: [
         async function resolver() {
           const product = await this.getProduct();
-          const catalogPriceInclTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const catalogPriceInclTax = getPriceIncludingTax();
           if (catalogPriceInclTax) {
             const taxAmount = calculateTaxAmount(
               this.getData('tax_percent'),
@@ -165,10 +220,7 @@ export function registerCartItemBaseFields(fields) {
       key: 'tax_amount_before_discount',
       resolvers: [
         async function resolver() {
-          const catalogPriceInclTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const catalogPriceInclTax = getPriceIncludingTax();
           if (catalogPriceInclTax) {
             return calculateTaxAmount(
               this.getData('tax_percent'),
@@ -196,10 +248,7 @@ export function registerCartItemBaseFields(fields) {
       key: 'tax_amount',
       resolvers: [
         async function resolver() {
-          const priceIncludingTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const priceIncludingTax = getPriceIncludingTax();
           const discountAmount = this.getData('discount_amount');
           const discountAmountPerUnit = discountAmount / this.getData('qty');
           const finalPricePerUnit = priceIncludingTax
@@ -226,10 +275,7 @@ export function registerCartItemBaseFields(fields) {
       resolvers: [
         async function resolver() {
           const product = await this.getProduct();
-          const catalogPriceInclTax = getConfig(
-            'pricing.tax.price_including_tax',
-            false
-          );
+          const catalogPriceInclTax = getPriceIncludingTax();
 
           if (catalogPriceInclTax) {
             return toPrice(product.price);

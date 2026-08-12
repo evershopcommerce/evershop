@@ -4,10 +4,16 @@ import {
   TabsTrigger,
   TabsContent
 } from '@components/common/ui/Tabs.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export function Results({ keyword, results = {} }) {
+/**
+ * @param {object} props
+ * @param {string} [props.keyword]
+ * @param {any} [props.results]
+ */
+export function Results({ keyword = undefined, results = [] }) {
   const { customers = [], products = [], orders = [] } = results;
 
   // Determine which tabs have data
@@ -22,25 +28,23 @@ export function Results({ keyword, results = {} }) {
   return (
     <div className="space-y-3">
       <h3 className="text-xl font-semibold">
-        Results for &quot;
-        {keyword}
-        &quot;
+        {_('Results for "${keyword}"', { keyword })}
       </h3>
       <Tabs defaultValue={defaultTab}>
         <TabsList variant="line">
           {products.items.length > 0 && (
             <TabsTrigger value="products">
-              Products ({products.items.length})
+              {_('Products (${count})', { count: products.items.length })}
             </TabsTrigger>
           )}
           {customers.items.length > 0 && (
             <TabsTrigger value="customers">
-              Customers ({customers.items.length})
+              {_('Customers (${count})', { count: customers.items.length })}
             </TabsTrigger>
           )}
           {orders.items.length > 0 && (
             <TabsTrigger value="orders">
-              Orders ({orders.items.length})
+              {_('Orders (${count})', { count: orders.items.length })}
             </TabsTrigger>
           )}
         </TabsList>
@@ -119,9 +123,4 @@ Results.propTypes = {
       )
     })
   )
-};
-
-Results.defaultProps = {
-  keyword: undefined,
-  results: []
 };

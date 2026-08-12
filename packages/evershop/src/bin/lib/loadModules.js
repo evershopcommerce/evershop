@@ -17,6 +17,11 @@ const coreModules = [
     path: path.resolve(__dirname, '../../modules/base')
   },
   {
+    name: 'blog',
+    resolve: path.resolve(__dirname, '../../modules/blog'),
+    path: path.resolve(__dirname, '../../modules/blog')
+  },
+  {
     name: 'catalog',
     resolve: path.resolve(__dirname, '../../modules/catalog'),
     path: path.resolve(__dirname, '../../modules/catalog')
@@ -75,6 +80,11 @@ const coreModules = [
     name: 'tax',
     resolve: path.resolve(__dirname, '../../modules/tax'),
     path: path.resolve(__dirname, '../../modules/tax')
+  },
+  {
+    name: 'pageBuilder',
+    resolve: path.resolve(__dirname, '../../modules/pageBuilder'),
+    path: path.resolve(__dirname, '../../modules/pageBuilder')
   }
 ];
 

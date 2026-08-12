@@ -46,6 +46,20 @@ type OrderItem implements ShoppingCartItem {
   variantOptions: [VariantOption]
   productCustomOptions: String
   productUrl: String
+  """
+  Per-item fulfillment state derived from this item's shipment_item rows
+  joined to non-cancelled shipments. One of `pending` | `partial_shipped` |
+  `shipped` | `delivered` | `digital`. Digital items (`noShippingRequired`)
+  short-circuit to `digital`; everything else aggregates the committed
+  qty per phase:
+    - `delivered`        — qty in delivered shipments >= item.qty
+    - `shipped`          — committed (pending+shipped+delivered) >= item.qty
+    - `partial_shipped`  — some committed, but less than item.qty
+    - `pending`          — nothing committed yet
+  The order-level `Order.shipmentStatus` rollup already aggregates this
+  across the whole order; this field is the per-line equivalent.
+  """
+  fulfillmentBadge: String!
 }
 
 """
@@ -82,8 +96,14 @@ type Order implements ShoppingCart {
   taxAmountBeforeDiscount: Price!
   totalTaxAmount: Price!
   grandTotal: Price!
-  shippingMethod: String
   shippingMethodName: String
+  """
+  Structured shipping selection — provider, method code, snapshot.
+  Backfilled for historical orders from the legacy varchar columns
+  (see Version-1.0.8 migration). New orders write this directly via
+  cart.exportData(). Replaces shippingMethod/shippingMethodName in phase 8.
+  """
+  shippingMethodData: ShippingMethodData
   shipmentStatus: ShipmentStatus
   paymentMethod: String
   paymentMethodName: String
@@ -92,7 +112,10 @@ type Order implements ShoppingCart {
   createdAt: Date!
   updatedAt: Date!
   activities: [Activity]
-  shipment: Shipment
+  """Deprecated singular. Returns the earliest shipment for back-compat — use `shipments` instead. Dropped in Z1."""
+  shipment: Shipment @deprecated(reason: "Use shipments. Returns the earliest shipment for back-compat.")
+  """All shipments on this order, ordered by created_at ascending. Storefront-safe."""
+  shipments: [Shipment!]!
 }
 
 """
@@ -114,9 +137,54 @@ type Shipment {
   uuid: String!
   carrier: String
   trackingNumber: String
+  """Carrier display name resolved server-side from the registered carriers. Null if carrier code isn't registered."""
+  carrierName: String
+  """Carrier tracking URL with the tracking number substituted, or null if no template/no tracking number."""
+  trackingUrl: String
+  """
+  Resolved status (name + badge + phase) from the registry. Returns an object,
+  not a raw code — matches `Order.shipmentStatus` shape. To access the raw
+  code: `shipment.status.code`.
+  """
+  status: ShipmentStatus!
+  """
+  The phase this shipment is in (one of pending / shipped / delivered / canceled).
+  Convenience field that mirrors `shipment.status.phase`; kept for terse queries
+  and storefront templates where the full status object is overkill.
+  """
+  phase: String!
+  """First-occurrence timestamp; null until the shipment first enters the shipped phase."""
+  shippedAt: DateTime
+  """First-occurrence timestamp; null until the shipment first enters the delivered phase."""
+  deliveredAt: DateTime
+  """First-occurrence timestamp; null until the shipment is canceled."""
+  canceledAt: DateTime
+  """
+  Carrier-hosted URL for the purchased shipping label, or null when admin
+  chose 'I already have a tracking number' or after the label has been
+  voided. EverShop never stores the label binary — this URL points at
+  whatever the carrier provider hands back.
+  """
+  labelUrl: String
+  """Items in this shipment with their qty."""
+  items: [ShipmentItem!]!
   createdAt: DateTime!
   updatedAt: DateTime
 }
+
+"""
+One item line inside a Shipment. References the order_item; carries the qty
+being shipped in this shipment.
+"""
+type ShipmentItem {
+  uuid: String!
+  orderItemId: Int!
+  qty: Int!
+  productSku: String
+  thumbnail: String
+  productName: String
+}
+
 
 """
 Retrieve an list of order.
@@ -134,4 +202,11 @@ extend type Customer {
 
 extend type Query {
   order(uuid: String!): Order
+  """
+  Anonymous tracking token status, populated by the `orderTracking` page
+  middleware (`/orders/:uuid/track`). One of `ok`, `expired`, `invalid`,
+  `mismatch`, `no_secret`, or `null` on any other page. The page React
+  component branches on this rather than re-verifying the token client-side.
+  """
+  trackingTokenStatus: String
 }

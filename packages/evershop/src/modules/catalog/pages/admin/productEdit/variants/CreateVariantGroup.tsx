@@ -1,9 +1,10 @@
 import Spinner from '@components/admin/Spinner.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { toast } from '@components/common/ui/Sonner.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { useQuery } from 'urql';
 import { VariantGroup } from '../VariantGroup.js';
 
@@ -128,7 +129,7 @@ export const CreateVariantGroup: React.FC<{
         {(data?.attributes?.items || []).length > 0 && (
           <div className="space-y-2">
             <div>
-              <span>Select the list of attribute</span>
+              <span>{_('Select the list of attribute')}</span>
             </div>
             {(data?.attributes?.items || []).map((a) => (
               <label key={a.attributeCode} className="flex items-center gap-2">
@@ -152,7 +153,7 @@ export const CreateVariantGroup: React.FC<{
                 className={'hover:cursor-pointer'}
                 onClick={(e) => onCreate(e)}
               >
-                Create
+                {_('Create')}
               </Button>
               <Button
                 variant="destructive"
@@ -161,14 +162,14 @@ export const CreateVariantGroup: React.FC<{
                   onCancel();
                 }}
               >
-                Cancel
+                {_('Cancel')}
               </Button>
             </div>
           </div>
         )}
         {(data?.attributes?.items || []).length === 0 && (
           <div className="alert alert-danger" role="alert">
-            There is no &quot;Select&quot; attribute available.
+            {_('There is no "Select" attribute available.')}
           </div>
         )}
       </div>

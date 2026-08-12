@@ -1,8 +1,10 @@
 import { useAppState } from '@components/common/context/app.js';
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import { useCatalogImageDimensions } from '@components/common/useCatalogImageDimensions.js';
 import { OrderItem } from '@components/frontStore/customer/CustomerContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { deriveProductImageSize } from '@evershop/evershop/lib/util/deriveProductImageSize';
 import React from 'react';
 
 const OrderSummaryItems: React.FC<{
@@ -13,6 +15,7 @@ const OrderSummaryItems: React.FC<{
       tax: { priceIncludingTax }
     }
   } = useAppState();
+  const thumbSize = deriveProductImageSize(200, useCatalogImageDimensions());
   if (items.length === 0) {
     return null;
   }
@@ -24,8 +27,9 @@ const OrderSummaryItems: React.FC<{
           <div className="relative mr-4 self-center">
             {item.thumbnail && (
               <Image
-                width={100}
-                height={100}
+                width={thumbSize.width}
+                height={thumbSize.height}
+                sizes="100px"
                 src={item.thumbnail}
                 alt={item.productName}
                 className="w-16 h-16 object-cover rounded border p-2 box-border border-border"
@@ -52,7 +56,7 @@ const OrderSummaryItems: React.FC<{
                 {item.variantOptions.map((option) => (
                   <div
                     key={option.attributeCode}
-                    className="text-xs text-gray-700"
+                    className="text-xs text-muted-foreground"
                   >
                     {option.attributeName}: {option.optionText}
                   </div>
@@ -61,7 +65,7 @@ const OrderSummaryItems: React.FC<{
             )}
           </div>
           <div className="ml-auto text-right self-center">
-            <div className="font-semibold">
+            <div className="text-sm font-medium">
               {priceIncludingTax
                 ? item.lineTotalInclTax.text
                 : item.lineTotal.text}

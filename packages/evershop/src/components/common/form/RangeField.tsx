@@ -1,5 +1,6 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import {
@@ -43,10 +44,11 @@ export function RangeField<T extends FieldValues = FieldValues>({
     formState: { errors },
     watch
   } = useFormContext<T>();
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
 
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
-  const value = watch(name) || min;
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
+  const value = watch(resolvedName) || min;
   const { valueAsDate, pattern, ...cleanValidation } = validation || {};
   const validationRules = {
     ...cleanValidation,
@@ -75,7 +77,7 @@ export function RangeField<T extends FieldValues = FieldValues>({
         min={min}
         max={max}
         step={step}
-        {...register(name, validationRules)}
+        {...register(resolvedName, validationRules)}
         className={className}
         aria-invalid={fieldError !== undefined ? 'true' : 'false'}
         aria-describedby={

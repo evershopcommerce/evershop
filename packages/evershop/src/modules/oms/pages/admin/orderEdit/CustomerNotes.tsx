@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface CustomerNotesProps {
@@ -18,7 +19,7 @@ export default function CustomerNotes({
   return (
     <Card className="bg-popover">
       <CardHeader>
-        <CardTitle>Customer notes</CardTitle>
+        <CardTitle>{_('Customer notes')}</CardTitle>
       </CardHeader>
       <CardContent>
         <Area
@@ -30,7 +31,7 @@ export default function CustomerNotes({
                   <div>
                     {shippingNote || (
                       <span className="text-muted-foreground">
-                        No notes from customer
+                        {_('No notes from customer')}
                       </span>
                     )}
                   </div>

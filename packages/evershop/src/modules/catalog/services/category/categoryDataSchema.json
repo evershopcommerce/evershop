@@ -120,14 +120,6 @@
         "enum": "Status must be either 0, 1, '0', or '1'"
       }
     },
-    "include_in_nav": {
-      "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"],
-      "errorMessage": {
-        "type": "Include in navigation must be a number or string",
-        "enum": "Include in navigation must be either 0, 1, '0', or '1'"
-      }
-    },
     "parent_id": {
       "type": ["string", "number", "null"],
       "pattern": "^[0-9]+$",

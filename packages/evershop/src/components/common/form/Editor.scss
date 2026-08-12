@@ -5,30 +5,99 @@ body .codex-editor:not(.codex-editor--toolbox-opened) {
   z-index: 1 !important;
 }
 #rows {
+  overflow: visible;
+
   .row {
     background-color: #fff;
   }
 
   .row__container {
+    overflow: visible;
+
     &:hover,
     &:focus-within {
       z-index: 100 !important;
     }
+
+    &:hover .row__actions,
+    &:focus-within .row__actions {
+      opacity: 1;
+      pointer-events: all;
+    }
   }
 
-  .drag__icon {
-    cursor: move;
+  .row__actions {
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+    z-index: 10;
+  }
+
+  .row__actions-btn {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 26px;
+    height: 26px;
     border-radius: 4px;
+    border: none;
+    background: transparent;
+    cursor: grab;
+    color: #707684;
+    padding: 0;
 
     &:hover {
-      background-color: #e0e0e0;
+      background: #eff0f1;
     }
 
-    svg {
-      display: block; // Prevent extra space below svg
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  .row__dropdown {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 4px);
+    min-width: 160px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 3px 15px -3px rgba(13, 20, 33, 0.13),
+      0 8px 20px 0px rgba(13, 20, 33, 0.06);
+    border: 1px solid rgba(201, 201, 204, 0.48);
+    padding: 6px;
+    z-index: 1000;
+  }
+
+  .row__dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 5px 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #1d1d1f;
+    text-align: left;
+    line-height: 1.5;
+
+    &:hover {
+      background: #eff0f1;
+    }
+
+    &--danger {
+      color: #e23b3b;
+
+      &:hover {
+        background: #fef7f7;
+      }
     }
   }
 }
@@ -69,4 +138,14 @@ body .codex-editor:not(.codex-editor--toolbox-opened) {
 
 .ce-rawtool {
   margin: 0.5em 0;
+}
+
+.ce-popover__container {
+  .ce-popover-item__title {
+    font-size: 13px;
+  }
+  .ce-popover-item__icon svg {
+    width: 16px;
+    height: 16px;
+  }
 }

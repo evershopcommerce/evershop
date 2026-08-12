@@ -1,5 +1,6 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
 import {
   InputGroup,
@@ -52,9 +53,10 @@ export function PasswordField<T extends FieldValues = FieldValues>({
     control,
     formState: { errors }
   } = useFormContext<T>();
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
 
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
   const [showPassword, setShowPassword] = React.useState(false);
 
   const validationRules = {
@@ -89,7 +91,7 @@ export function PasswordField<T extends FieldValues = FieldValues>({
 
   const renderInput = () => (
     <Controller
-      name={name}
+      name={resolvedName}
       control={control}
       defaultValue={defaultValue as any}
       rules={validationRules}
@@ -134,7 +136,9 @@ export function PasswordField<T extends FieldValues = FieldValues>({
           </InputGroupAddon>
         )}
       </InputGroup>
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

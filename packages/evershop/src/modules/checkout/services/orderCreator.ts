@@ -13,7 +13,7 @@ import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
 import type { OrderRow, InsertResultWithRow } from '../../../types/db/index.js';
-import { PaymentStatus, ShipmentStatus } from '../../../types/order.js';
+import { PaymentStatus } from '../../../types/order.js';
 import addOrderActivityLog from '../../oms/services/addOrderActivityLog.js';
 import { resolveOrderStatus } from '../../oms/services/updateOrderStatus.js';
 import { Cart } from './cart/Cart.js';
@@ -77,20 +77,18 @@ async function saveOrder<T = CreateOrderResult>(
   cart: Cart,
   connection: PoolClient
 ): Promise<T> {
-  const shipmentStatusList = getConfig(
-    'oms.order.shipmentStatus',
-    {}
-  ) as Record<string, ShipmentStatus>;
   const paymentStatusList = getConfig('oms.order.paymentStatus', {}) as Record<
     string,
     PaymentStatus
   >;
-  let defaultShipmentStatus;
-  Object.keys(shipmentStatusList).forEach((key) => {
-    if (shipmentStatusList[key].isDefault) {
-      defaultShipmentStatus = key;
-    }
-  });
+  // `order.shipment_status` holds an order-level ROLLUP value (one of
+  // `pending` / `partially_shipped` / `shipped` / `partially_delivered` /
+  // `delivered` / `canceled`), not a per-shipment status code. A brand-new
+  // order has zero shipments by construction → the rollup is `pending`
+  // ("no items shipped yet"). Hardcoded here; the rollup recompute that
+  // runs after the order items are inserted will overwrite this if the
+  // order is all-digital (→ rollup short-circuits to `delivered`).
+  const defaultShipmentStatus = 'pending';
 
   let defaultPaymentStatus;
   Object.keys(paymentStatusList).forEach((key) => {
@@ -111,15 +109,20 @@ async function saveOrder<T = CreateOrderResult>(
       .execute(connection);
   }
 
-  // Save the billing address
-  const cartBillingAddress = await select()
-    .from('cart_address')
-    .where('cart_address_id', '=', cart.getData('billing_address_id'))
-    .load(connection);
-  delete cartBillingAddress.uuid;
-  const billAddr = await insert('order_address')
-    .given(cartBillingAddress)
-    .execute(connection);
+  // Save the billing address. Optional for zero-total orders (nothing is
+  // charged, taxed, or invoiced there) — the `billingAddress` validation
+  // rule requires it for every other order.
+  let billAddr;
+  if (cart.getData('billing_address_id')) {
+    const cartBillingAddress = await select()
+      .from('cart_address')
+      .where('cart_address_id', '=', cart.getData('billing_address_id'))
+      .load(connection);
+    delete cartBillingAddress.uuid;
+    billAddr = await insert('order_address')
+      .given(cartBillingAddress)
+      .execute(connection);
+  }
 
   const previous = await select('order_id')
     .from('order')
@@ -141,7 +144,7 @@ async function saveOrder<T = CreateOrderResult>(
         10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1,
       // FIXME: Must be structured
       shipping_address_id: shipAddr ? shipAddr.insertId : null,
-      billing_address_id: billAddr.insertId,
+      billing_address_id: billAddr ? billAddr.insertId : null,
       status: orderStatus,
       payment_status: defaultPaymentStatus,
       shipment_status: defaultShipmentStatus
@@ -189,6 +192,17 @@ async function createOrderFunc<T extends CreateOrderResult>(cart: Cart) {
 
     // Save order items
     await hookable(saveOrderItems, { cart })(cart, order.insertId, connection);
+
+    // Multi-shipment refactor (A3): recompute order.shipment_status from the
+    // rollup now that items are in the DB. For all-digital orders this writes
+    // `'delivered'` (vacuously true — no shippable items). For physical orders
+    // it stays `'pending'`. The bootstrap `hookAfter('changeShipmentStatus')`
+    // re-runs psoMapping so order.status reflects the new shipment_status.
+    // Replaces the legacy `createShipmentForVirtualProductsOrder` hook.
+    const { recomputeOrderShipmentStatus } = await import(
+      '../../oms/services/recomputeOrderShipmentStatus.js'
+    );
+    await recomputeOrderShipmentStatus(order.insertId, connection);
 
     // Save order activity
     await addOrderActivityLog(

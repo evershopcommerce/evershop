@@ -6,7 +6,10 @@ import {
   validateSchema
 } from 'graphql';
 import { debug } from '../../../../lib/log/logger.js';
+import { createDefinitionCache } from '../../../../lib/metafield/definitionCache.js';
+import { pool } from '../../../../lib/postgres/connection.js';
 import { isDevelopmentMode } from '../../../../lib/util/isDevelopmentMode.js';
+import { createLinkLoaders } from '../../../../lib/widget/linkResolver.js';
 import adminSchema, { rebuildSchema } from '../../services/buildSchema.js';
 import storeFrontSchema, {
   rebuildStoreFrontSchema
@@ -60,23 +63,38 @@ export default async function graphql(request, response, next) {
           context.user = request.locals.user;
           // Add current customer to context
           context.customer = request.locals.customer;
+          // Per-request link URN loaders. Without these, widget resolvers
+          // that await `resolveLink(...)` get `undefined` loaders and
+          // return null for every URN — leaving CTA/link fields empty
+          // on SSR'd pages.
+          context.linkLoaders = createLinkLoaders(pool);
+          // Request-scoped metafield definition memo — one definitions query
+          // per owner type per request instead of one per resolved field
+          // (grids would otherwise multiply it per card).
+          context.metafieldDefinitionCache = createDefinitionCache();
           const data = await execute({
             schema,
             contextValue: context,
             document,
             variableValues: graphqlVariables
           });
+          // Render with whatever data resolved instead of aborting the whole
+          // page on the first field error. A single failing or non-critical
+          // resolver (e.g. "related products") should degrade that area, not
+          // turn the entire SSR response into a 500. Field errors are logged;
+          // partial `data.data` (or {} on total failure) is passed through.
           if (data.errors) {
-            next(data.errors[0]);
-          } else {
-            response.locals = response.locals || {};
-            response.locals.graphqlResponse = JSON.parse(
-              JSON.stringify(data.data)
+            data.errors.forEach((e) =>
+              debug(`GraphQL field error: ${e.message}`)
             );
-            // Get id and props from the queryRaw object and assign to response.locals.propsMap
-            response.locals.propsMap = propsMap;
-            next();
           }
+          response.locals = response.locals || {};
+          response.locals.graphqlResponse = data.data
+            ? JSON.parse(JSON.stringify(data.data))
+            : {};
+          // Get id and props from the queryRaw object and assign to response.locals.propsMap
+          response.locals.propsMap = propsMap;
+          next();
         }
       }
     }

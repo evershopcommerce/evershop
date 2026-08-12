@@ -6,6 +6,14 @@ import { getFrontStoreSessionCookieName } from '../../../../auth/services/getFro
 import { getMyCart } from '../../../../checkout/services/getMyCart.js';
 import { getCartByUUID } from '../../../services/getCartByUUID.js';
 
+// One cart build per GraphQL execution: buildQuery merges every page and
+// widget query into a single document with UNIQUE aliases, so a widget
+// selecting `myCart` (e.g. cart_frequently_bought_together) alongside
+// Base.tsx's site-wide `myCart` would otherwise run the FULL cart build —
+// the heaviest storefront resolver — once per selection. Keyed on the
+// per-request context object; separate HTTP requests never share an entry.
+const myCartMemo = new WeakMap<object, Promise<Record<string, any> | null>>();
+
 export default {
   Query: {
     cart: async (_, { id }) => {
@@ -16,21 +24,50 @@ export default {
         return null;
       }
     },
-    myCart: async (_, __, { signedCookies, customer }) => {
-      try {
-        const storeCookieName = getFrontStoreSessionCookieName();
-        // Check if the sessionID cookie is present
-        const sessionID = signedCookies[storeCookieName];
-        const cart = await getMyCart(sessionID, customer?.customer_id);
-        return cart ? camelCase(cart.exportData()) : null;
-      } catch (error) {
-        debug('Error in checkout resolver:');
-        debug(error);
-        return null;
+    myCart: async (_, __, context) => {
+      if (!myCartMemo.has(context)) {
+        const { signedCookies, customer } = context;
+        myCartMemo.set(
+          context,
+          (async () => {
+            try {
+              const storeCookieName = getFrontStoreSessionCookieName();
+              // Check if the sessionID cookie is present
+              const sessionID = signedCookies[storeCookieName];
+              const cart = await getMyCart(sessionID, customer?.customer_id);
+              return cart ? camelCase(cart.exportData()) : null;
+            } catch (error) {
+              debug('Error in checkout resolver:');
+              debug(error);
+              return null;
+            }
+          })()
+        );
       }
+      return myCartMemo.get(context);
     }
   },
   Cart: {
+    /**
+     * Re-shape the JSONB column into the camelCase GraphQL type. The DB JSONB
+     * keeps snake_case keys (matching the design doc); GraphQL exposes
+     * camelCase. Inner snapshot fields are already camelCase (ShippingMethod
+     * is defined that way in TS) so they pass through unchanged.
+     */
+    shippingMethodData: (cart) => {
+      const data = cart.shippingMethodData;
+      if (!data) return null;
+      return {
+        providerCode: data.provider_code,
+        methodCode: data.method_code,
+        snapshot: data.snapshot,
+        fingerprint: data.fingerprint,
+        quotedAt: data.quotedAt
+      };
+    },
+    /** Convenience: extract method display name from the JSONB snapshot. */
+    shippingMethodName: (cart) =>
+      cart.shippingMethodData?.snapshot?.name ?? null,
     items: async (cart) => {
       const items = cart.items || [];
       return items.map((item) => ({

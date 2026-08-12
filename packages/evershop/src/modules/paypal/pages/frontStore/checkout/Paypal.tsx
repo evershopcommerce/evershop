@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   useCheckout,
   useCheckoutDispatch
@@ -6,7 +7,6 @@ import {
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ApiResponse } from '@evershop/evershop/types/apiResponse';
 import React, { useEffect } from 'react';
-import { toast } from 'react-toastify';
 
 interface PaypalMethodProps {
   createOrderAPI: string;

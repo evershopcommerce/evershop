@@ -1,0 +1,67 @@
+"""
+Core provider's global method definition. One row per logical method
+("Express", "Standard", "Pickup"). Visible only in admin UI under
+Settings → Shipping → Providers → Core → Methods.
+
+Per-zone variation lives in CoreShippingMethodRate — Core methods can be
+attached to multiple zones with different costs/conditions per zone.
+"""
+type CoreShippingMethod {
+  coreShippingMethodId: Int!
+  uuid: String!
+  name: String!
+  isEnabled: Boolean!
+  sortOrder: Int!
+  """
+  Merchant-chosen default carrier code (a `Carrier.code`). Written into
+  `shipping_method_data.snapshot.carrier` at checkout — a fulfillment hint
+  the ship dialog uses to pre-select the carrier dropdown. NOT shown to
+  customers anywhere.
+  """
+  defaultCarrierCode: String
+  """
+  Merchant-chosen default service code in the carrier's own vocabulary
+  (e.g. `FEDEX_GROUND`, `usps_priority`). Written into
+  `shipping_method_data.snapshot.serviceCode` at checkout; threaded to
+  `CreateLabelInput.serviceCode` when `createShipment` purchases a label so
+  the carrier buys the exact service the customer paid for. Free-form —
+  core does not validate against any registry. NOT shown to customers.
+  """
+  defaultServiceCode: String
+  """Rates configured for this method across all zones."""
+  rates: [CoreShippingMethodRate!]!
+  """
+  Endpoint for creating a new rate (POST). The target method and zone are
+  sent in the request body. Built server-side via `buildUrl` so the admin UI
+  never hardcodes the REST path.
+  """
+  addRateApi: String!
+}
+
+"""
+Per-(method, zone) rate row for a Core method.
+"""
+type CoreShippingMethodRate {
+  coreShippingMethodRateId: Int!
+  uuid: String!
+  methodId: Int!
+  zoneId: Int!
+  zone: ShippingZone
+  isEnabled: Boolean!
+  cost: Price
+  """'price' | 'weight' | null"""
+  conditionType: String
+  min: Float
+  max: Float
+  priceBasedCost: [PriceBasedCostItem]
+  weightBasedCost: [WeightBasedCostItem]
+  """Endpoint to update this rate (PATCH, keyed by the rate uuid)."""
+  updateApi: String!
+  """Endpoint to delete this rate (DELETE, keyed by the rate uuid)."""
+  deleteApi: String!
+}
+
+extend type Query {
+  coreShippingMethods: [CoreShippingMethod!]!
+  coreShippingMethod(uuid: String!): CoreShippingMethod
+}

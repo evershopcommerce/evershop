@@ -1,7 +1,7 @@
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { Button } from '@components/common/ui/Button.js';
-import { Item, ItemContent } from '@components/common/ui/Item.js';
 import { TableCell, TableRow } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { VariantGroup } from '../VariantGroup.js';
 import { EditVariant } from './EditVariant.js';
@@ -15,19 +15,15 @@ export const Variant: React.FC<{
   return (
     <TableRow>
       <TableCell>
-        <Item variant={'outline'} size={'xs'}>
-          <ItemContent>
-            {variant.product?.image?.url ? (
-              <img
-                style={{ maxWidth: '50px', height: 'auto' }}
-                src={variant?.product?.image?.url}
-                alt=""
-              />
-            ) : (
-              <ProductNoThumbnail className="size-12" />
-            )}
-          </ItemContent>
-        </Item>
+        {variant.product?.image?.url ? (
+          <img
+            className="size-9 rounded-md border border-border object-cover"
+            src={variant?.product?.image?.url}
+            alt=""
+          />
+        ) : (
+          <ProductNoThumbnail className="size-9 text-muted-foreground" />
+        )}
       </TableCell>
       {variantGroup.attributes.map((a) => {
         const option = variant.attributes.find(
@@ -42,7 +38,7 @@ export const Variant: React.FC<{
       <TableCell>
         <Button
           variant={'link'}
-          className={'hover:cursor-pointer'}
+          className={'h-auto p-0 hover:cursor-pointer'}
           onClick={(e) => {
             e.preventDefault();
             window.location.href = variant.product.editUrl;
@@ -55,9 +51,9 @@ export const Variant: React.FC<{
       <TableCell>{variant.product?.inventory?.qty}</TableCell>
       <TableCell>
         {variant.product?.status === 1 ? (
-          <span className="text-primary font-medium">Enabled</span>
+          <span className="text-primary font-medium">{_('Enabled')}</span>
         ) : (
-          <span className="text-destructive font-medium">Disabled</span>
+          <span className="text-destructive font-medium">{_('Disabled')}</span>
         )}
       </TableCell>
       <TableCell>

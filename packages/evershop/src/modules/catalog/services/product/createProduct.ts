@@ -20,7 +20,7 @@ import {
 import { sanitizeRawHtml } from '../../../../lib/util/sanitizeHtml.js';
 import type { ProductDescriptionRow, ProductRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
-import productDataSchema from './productDataSchema.json'  with { type: 'json' };
+import { productDataSchema } from './productDataSchema.js';
 
 export type ProductData = ProductInventoryData & {
   name: string,
@@ -33,6 +33,9 @@ export type ProductData = ProductInventoryData & {
   attributes?: ProductAttributeData[],
   images?: string[],
   description?: Row[],
+  /** Reference to the `package` table (parcel size). Mandatory for shippable
+   *  products, null for virtual ones. Variant groups share one package. */
+  package_id?: number | string | null,
   [key: string]: unknown;
 };
 
@@ -68,11 +71,21 @@ function validateProductDataBeforeInsert(data: ProductData): ProductData {
   );
   const validate = ajv.compile(jsonSchema);
   const valid = validate(data);
-  if (valid) {
-    return data;
-  } else {
+  if (!valid) {
     throw new Error(validate.errors[0].message);
   }
+  // A package (parcel size) is mandatory for SHIPPABLE products — quotes and
+  // labels need its dimensions/tare. Virtual/downloadable products
+  // (no_shipping_required) are exempt. See wiki/package-management-design.md.
+  if (
+    !data.no_shipping_required &&
+    (data.package_id === undefined ||
+      data.package_id === null ||
+      data.package_id === '')
+  ) {
+    throw new Error('A package is required for shippable products');
+  }
+  return data;
 }
 
 async function insertProductInventory(inventoryData: ProductInventoryData, productId: number, connection: PoolClient): Promise<void> {
@@ -209,8 +222,13 @@ async function insertProductImages(images: string[], productId: number, connecti
 
 
 async function insertProductData(data: ProductData, connection: PoolClient): Promise<ProductRow & ProductDescriptionRow & { insertId: number }> {
-  // If no_shipping_required is true, set weight to 0
-  const productData = { ...data, weight: data.no_shipping_required ? 0 : data.weight };
+  // If no_shipping_required is true, set weight to 0 and drop the package —
+  // virtual products have no parcel.
+  const productData = {
+    ...data,
+    weight: data.no_shipping_required ? 0 : data.weight,
+    package_id: data.no_shipping_required ? null : data.package_id
+  };
   const product = await insert('product').given(productData).execute(connection);
   const description = await insert('product_description')
     .given(productData)
@@ -271,6 +289,15 @@ async function createProduct(data: ProductData, context: Record<string, any>): P
     return product;
   } catch (e) {
     await rollback(connection);
+    // Surface the two uniqueness collisions as human-readable errors instead
+    // of the raw constraint text — the duplicate flow prefills `<value>-copy`,
+    // which itself collides when a product is copied twice.
+    if (e.code === '23505' && e.constraint === 'PRODUCT_SKU_UNIQUE') {
+      throw new Error('This SKU is already used by another product');
+    }
+    if (e.code === '23505' && e.constraint === 'PRODUCT_URL_KEY_UNIQUE') {
+      throw new Error('This URL key is already used by another product');
+    }
     throw e;
   }
 }

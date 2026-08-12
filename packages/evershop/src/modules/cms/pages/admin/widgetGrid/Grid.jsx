@@ -22,6 +22,7 @@ import {
   TableHeader,
   TableRow
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -60,18 +61,20 @@ function Actions({ widgets = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Disable',
+      name: _('Disable'),
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} widgets`,
-          content: 'Are you sure?',
+          heading: _('Disable ${count} widgets', {
+            count: selectedIds.length
+          }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Disable',
+            title: _('Disable'),
             onAction: async () => {
               await updatePages(0);
             },
@@ -81,18 +84,18 @@ function Actions({ widgets = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Enable',
+      name: _('Enable'),
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} widgets`,
-          content: 'Are you sure?',
+          heading: _('Enable ${count} widgets', { count: selectedIds.length }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Enable',
+            title: _('Enable'),
             onAction: async () => {
               await updatePages(1);
             },
@@ -102,18 +105,18 @@ function Actions({ widgets = [], selectedIds = [] }) {
       }
     },
     {
-      name: 'Delete',
+      name: _('Delete'),
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} widgets`,
-          content: <div>Can&apos;t be undone</div>,
+          heading: _('Delete ${count} widgets', { count: selectedIds.length }),
+          content: <div>{_("Can't be undone")}</div>,
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
             variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Delete',
+            title: _('Delete'),
             onAction: async () => {
               await deletePages();
             },
@@ -189,7 +192,7 @@ export default function WidgetGrid({
                   default: () => (
                     <InputField
                       name="name"
-                      placeholder="Search"
+                      placeholder={_('Search')}
                       defaultValue={
                         currentFilters.find((f) => f.key === 'name')?.value
                       }
@@ -226,7 +229,7 @@ export default function WidgetGrid({
               window.location.href = url.href;
             }}
           >
-            Clear Filters
+            {_('Clear Filters')}
           </Button>
         </CardAction>
       </CardHeader>
@@ -256,7 +259,7 @@ export default function WidgetGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Name"
+                          title={_('Name')}
                           name="name"
                           currentFilters={currentFilters}
                         />
@@ -268,7 +271,7 @@ export default function WidgetGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Type"
+                          title={_('Type')}
                           name="type"
                           currentFilters={currentFilters}
                         />
@@ -280,7 +283,7 @@ export default function WidgetGrid({
                     component: {
                       default: () => (
                         <SortableHeader
-                          title="Status"
+                          title={_('Status')}
                           name="status"
                           currentFilters={currentFilters}
                         />
@@ -352,7 +355,7 @@ export default function WidgetGrid({
         </Table>
         {items.length === 0 && (
           <div className="flex w-full justify-center mt-2">
-            There is no widget to display
+            {_('There is no widget to display')}
           </div>
         )}
         <GridPagination total={total} limit={limit} page={page} />

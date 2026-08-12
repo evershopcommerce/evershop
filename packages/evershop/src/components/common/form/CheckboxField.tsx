@@ -1,5 +1,6 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Checkbox } from '@components/common/ui/Checkbox.js';
 import {
   Field,
@@ -60,9 +61,10 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
     control,
     formState: { errors }
   } = useFormContext<T>();
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
 
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
 
   const validationRules = {
     ...validation,
@@ -82,7 +84,7 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
       >
         <div className="flex items-center gap-2">
           <Controller
-            name={name}
+            name={resolvedName}
             control={control}
             rules={validationRules}
             defaultValue={defaultValue as any}
@@ -117,7 +119,9 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
           )}
         </div>
 
-        {fieldError && <FieldError>{fieldError}</FieldError>}
+        {fieldError && (
+          <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+        )}
       </Field>
     );
   }
@@ -127,8 +131,8 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
       data-invalid={fieldError ? 'true' : 'false'}
       className={wrapperClassName}
     >
-      {label && (
-        <fieldset>
+      <fieldset>
+        {label && (
           <FieldLegend>
             <>
               {label}
@@ -136,9 +140,10 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
               {helperText && <Tooltip content={helperText} position="top" />}
             </>
           </FieldLegend>
+        )}
 
-          <Controller
-            name={name}
+        <Controller
+            name={resolvedName}
             control={control}
             rules={validationRules}
             defaultValue={defaultValue as any}
@@ -189,11 +194,12 @@ export function CheckboxField<T extends FieldValues = FieldValues>({
                 })}
               </div>
             )}
-          />
-        </fieldset>
-      )}
+        />
+      </fieldset>
 
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

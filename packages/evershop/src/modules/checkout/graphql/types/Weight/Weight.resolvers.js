@@ -1,15 +1,12 @@
-import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { getWeightUnit } from '../../../../setting/services/setting.js';
 
 export default {
   Weight: {
     value: (raw) => parseFloat(raw),
-    unit: () => {
-      const unit = getConfig('shop.weightUnit', 'kg');
-      return unit;
-    },
+    unit: () => getWeightUnit(),
     text: (raw) => {
       const weight = parseFloat(raw);
-      const unit = getConfig('shop.weightUnit', 'kg');
+      const unit = getWeightUnit();
       // Localize the weight
       return `${weight} ${unit}`;
     }

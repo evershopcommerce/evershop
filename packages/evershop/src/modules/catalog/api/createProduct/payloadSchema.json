@@ -70,6 +70,18 @@
       "errorMessage": {
         "type": "Description must be an array"
       }
+    },
+    "metafields": {
+      "type": "object",
+      "skipEscape": true
+    },
+    "duplicate_of": {
+      "type": "string",
+      "format": "uuid",
+      "errorMessage": {
+        "type": "duplicate_of must be the uuid of the source product",
+        "format": "duplicate_of must be the uuid of the source product"
+      }
     }
   },
   "additionalProperties": true

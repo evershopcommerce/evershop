@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { insert, select } from '@evershop/postgres-query-builder';
+import { translate } from '../../../../lib/locale/translate/translate.js';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
@@ -56,7 +57,7 @@ export default async (
     response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,
-        message: 'Something went wrong. Please try again later.'
+        message: translate('Something went wrong. Please try again later.')
       }
     });
   }

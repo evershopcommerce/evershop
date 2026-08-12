@@ -2,10 +2,11 @@ import RenderIfTrue from '@components/common/RenderIfTrue';
 import { Button } from '@components/common/ui/Button';
 import { Card } from '@components/common/ui/Card';
 import { CardContent } from '@components/common/ui/Card.js';
+import { toast } from '@components/common/ui/Sonner.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 export default function StripeCaptureButton({
   captureAPI,
@@ -39,7 +40,7 @@ export default function StripeCaptureButton({
       <CardContent>
         <div className="flex justify-end">
           <Button onClick={onAction} isLoading={isLoading}>
-            Capture Payment
+            {_('Capture Payment')}
           </Button>
         </div>
       </CardContent>

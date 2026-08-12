@@ -1,15 +1,13 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../lib/postgres/connection.js';
-import { getConfig } from '../../../lib/util/getConfig.js';
+import { getPricePrecision } from '../../checkout/services/pricingSettings.js';
 import { toPrice } from '../../checkout/services/toPrice.js';
+import { getPriceIncludingTax } from '../../tax/services/taxSettings.js';
 
 export function registerDefaultCalculators() {
   return [
     async function percentageDiscountToEntireOrderCalculator(cart, coupon) {
-      const priceIncludingTax = getConfig(
-        'pricing.tax.price_including_tax',
-        false
-      );
+      const priceIncludingTax = getPriceIncludingTax();
       if (coupon.discount_type !== 'percentage_discount_to_entire_order') {
         return false;
       }
@@ -30,7 +28,7 @@ export function registerDefaultCalculators() {
       items.forEach((item, index) => {
         let sharedDiscount = 0;
         if (index === items.length - 1) {
-          const precision = getConfig('pricing.precision', '2');
+          const precision = getPricePrecision();
           const precisionFix = 10 ** precision;
           sharedDiscount =
             (cartDiscountAmount * precisionFix -
@@ -64,10 +62,7 @@ export function registerDefaultCalculators() {
       return true;
     },
     async function fixedDiscountToEntireOrderCalculator(cart, coupon) {
-      const priceIncludingTax = getConfig(
-        'pricing.tax.price_including_tax',
-        false
-      );
+      const priceIncludingTax = getPriceIncludingTax();
       if (coupon.discount_type !== 'fixed_discount_to_entire_order')
         return false;
 
@@ -86,7 +81,7 @@ export function registerDefaultCalculators() {
       items.forEach((item, index) => {
         let sharedDiscount = 0;
         if (index === items.length - 1) {
-          const precision = getConfig('pricing.precision', '2');
+          const precision = getPricePrecision();
           const precisionFix = parseInt(`1${'0'.repeat(precision)}`, 10);
           sharedDiscount =
             (cartDiscountAmount * precisionFix -
@@ -119,10 +114,7 @@ export function registerDefaultCalculators() {
       return true;
     },
     async function discountToSpecificProductsCalculator(cart, coupon) {
-      const priceIncludingTax = getConfig(
-        'pricing.tax.price_including_tax',
-        false
-      );
+      const priceIncludingTax = getPriceIncludingTax();
       if (
         ![
           'fixed_discount_to_specific_products',
@@ -293,10 +285,7 @@ export function registerDefaultCalculators() {
       return true;
     },
     async function buyXGetYCalculator(cart, coupon) {
-      const priceIncludingTax = getConfig(
-        'pricing.tax.price_including_tax',
-        false
-      );
+      const priceIncludingTax = getPriceIncludingTax();
       if (coupon.discount_type !== 'buy_x_get_y') {
         return true;
       }

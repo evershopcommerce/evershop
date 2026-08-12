@@ -1,0 +1,6 @@
+{
+  "methods": ["GET"],
+  "path": "/blogTag/:uuid",
+  "name": "Blog tag page",
+  "editable": true
+}

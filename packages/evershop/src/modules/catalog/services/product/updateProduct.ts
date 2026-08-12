@@ -12,6 +12,7 @@ import {
 import { JSONSchemaType } from 'ajv';
 import { error } from '../../../../lib/log/logger.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { CatalogUrn } from '../../../../lib/urn/index.js';
 import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { hookable, hookBefore, hookAfter } from '../../../../lib/util/hookable.js';
 import {
@@ -21,8 +22,14 @@ import {
 import { sanitizeRawHtml } from '../../../../lib/util/sanitizeHtml.js';
 import type { ProductDescriptionRow, ProductRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
+import {
+  recordRedirect,
+  recordRedirectsBatch
+} from '../../../base/services/recordRedirect.js';
+import { buildEntityPath } from '../redirect/pathRemap.js';
+import { resolveCategoryUrlPath } from '../redirect/resolveCategoryUrlPath.js';
 import type { ProductAttributeData, ProductData, ProductInventoryData } from './createProduct.js';
-import productDataSchema from './productDataSchema.json' with { type: 'json' };
+import { productDataSchema } from './productDataSchema.js';
 
 function validateProductDataBeforeUpdate(data: ProductData): ProductData {
   const ajv = getAjv();
@@ -284,8 +291,15 @@ async function updateProductImages(images: string[] | undefined, productId: numb
 }
 
 async function updateProductData(uuid: string, data: ProductData, connection: PoolClient): Promise<ProductRow & ProductDescriptionRow & { updatedId?: number }> {
-  // If no_shipping_required is true, set weight to 0
-  const productData = { ...data, weight: data.no_shipping_required ? 0 : data.weight };
+  // If no_shipping_required is true, set weight to 0 and drop the package —
+  // virtual products have no parcel. (Only force package_id when the payload
+  // actually flips the product to virtual; a partial update without
+  // no_shipping_required must not null an existing package.)
+  const productData = {
+    ...data,
+    weight: data.no_shipping_required ? 0 : data.weight,
+    ...(data.no_shipping_required ? { package_id: null } : {})
+  };
   const query = select().from('product');
   query
     .leftJoin('product_description')
@@ -298,6 +312,8 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
   if (!product) {
     throw new Error('Requested product not found');
   }
+  // Snapshot the old url_key before the description update overwrites it (below).
+  const oldUrlKey = product.url_key;
 
   let newProduct;
   try {
@@ -323,18 +339,91 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
     }
   }
 
-  // Update product category and tax class to all products in same variant group
+  // A package (parcel size) is mandatory for SHIPPABLE products — checked on
+  // the FINAL state (post-update row), so legacy products (package_id NULL
+  // from before the feature) must pick a package on their next edit, and a
+  // product flipped from virtual to shippable must pick one in the same save.
+  // The whole update runs in a transaction, so throwing here rolls back.
+  // See wiki/package-management-design.md.
+  const effectiveProduct = newProduct ?? product;
+  if (
+    !effectiveProduct.no_shipping_required &&
+    effectiveProduct.package_id === null
+  ) {
+    throw new Error('A package is required for shippable products');
+  }
+
+  // Keep old URLs alive when a product's path changes — a url_key rename, a
+  // category re-assignment/unassignment, or both (the category is the URL
+  // prefix). A product has ONE url_rewrite row (UNIQUE(entity_uuid)): root
+  // `/<key>` when uncategorised, else nested `/<category-path>/<key>`.
+  //
+  // Captured HERE in the service transaction (all reads/writes on the tx
+  // `connection`), NOT in the async product_updated subscriber — that reads the
+  // already-collapsed latest state (a rapid A→B→C loses B) and isn't atomic with
+  // the write. `url_rewrite` is rebuilt only post-commit (by the per-row product
+  // trigger), so the row read here still holds the OLD path: no race.
+  const productPathChanged =
+    (!!data.url_key && data.url_key !== oldUrlKey) ||
+    (effectiveProduct as any).category_id !== (product as any).category_id;
+  if (productPathChanged) {
+    const newCategoryPath = await resolveCategoryUrlPath(
+      connection,
+      (effectiveProduct as any).category_id
+    );
+    const newUrlKey = data.url_key ?? oldUrlKey;
+    const ownRewrite = await select('request_path')
+      .from('url_rewrite')
+      .where('entity_uuid', '=', uuid)
+      .and('entity_type', '=', 'product')
+      .load(connection);
+    const oldPath = (ownRewrite as any)?.request_path ?? `/${oldUrlKey}`;
+    const newPath = buildEntityPath(newCategoryPath, newUrlKey);
+    if (oldPath !== newPath) {
+      await recordRedirect(connection, {
+        fromPath: oldPath,
+        toPath: newPath,
+        entityUrn: CatalogUrn.product(uuid)
+      });
+    }
+  }
+
+  // Update product category and tax class to all products in same variant group.
+  // Read fields off `effectiveProduct` (= newProduct ?? product): a description-only
+  // partial update leaves `newProduct` undefined (the `product` UPDATE threw "No data
+  // was provided"), and dereferencing it here would crash the whole transaction before
+  // the sibling redirect capture below ever runs. With `effectiveProduct` the diffs
+  // are all false, `sharedData` stays empty, and propagation is correctly skipped.
   if (product.variant_group_id) {
     const sharedData: Record<string, any> = {};
-    if (newProduct.tax_class !== product.tax_class) {
-      sharedData.tax_class = newProduct.tax_class;
+    if (effectiveProduct.tax_class !== product.tax_class) {
+      sharedData.tax_class = effectiveProduct.tax_class;
     }
-    if (newProduct.category_id !== product.category_id) {
-      sharedData.category_id = newProduct.category_id;
+    if (effectiveProduct.category_id !== product.category_id) {
+      sharedData.category_id = effectiveProduct.category_id;
     }
-    if (newProduct.no_shipping_required !== product.no_shipping_required) {
-      sharedData.no_shipping_required = newProduct.no_shipping_required;
-      sharedData.weight = newProduct.weight;
+    if (
+      effectiveProduct.no_shipping_required !== product.no_shipping_required
+    ) {
+      sharedData.no_shipping_required = effectiveProduct.no_shipping_required;
+      sharedData.weight = effectiveProduct.weight;
+    }
+    // Variants are SIBLINGS (no parent/child) and a variant group ships in
+    // one box — all members share one package_id. Whichever member is saved
+    // propagates its package to the whole group (same transaction), so two
+    // members can never durably disagree. Editing any one member also
+    // un-legacies the entire group.
+    //
+    // Propagate on EVERY save, not only when the saved member's package
+    // changed — siblings can drift (a product that joined the group with no
+    // package, a legacy member), and re-saving any member must repair the
+    // group. Never push NULL (only virtual members can hold it after
+    // validation) over siblings.
+    if (
+      effectiveProduct.package_id !== null &&
+      effectiveProduct.package_id !== undefined
+    ) {
+      sharedData.package_id = effectiveProduct.package_id;
     }
     const sharedVariantData = getValueSync<Record<string, any>>(
       'sharedVariantProductDataOnUpdate',
@@ -347,6 +436,40 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
         .where('variant_group_id', '=', product.variant_group_id)
         .and('product_id', '<>', product.product_id)
         .execute(connection);
+
+      // A shared category change (or unassignment) moves every sibling's URL
+      // prefix too — capture their old→new redirects in the SAME transaction.
+      // Same pre-commit, tx-`connection` approach as the product itself above:
+      // each sibling's `url_rewrite` is rebuilt post-commit by its own per-row
+      // product trigger (the bulk UPDATE fires it per row), so the paths read
+      // here are still the OLD ones. Gate on the FINAL shared data (an extension
+      // may have altered it), not the pre-hook `sharedData`.
+      if ('category_id' in sharedVariantData) {
+        const siblingCategoryPath = await resolveCategoryUrlPath(
+          connection,
+          sharedVariantData.category_id
+        );
+        const siblings = await connection.query(
+          `SELECT p.uuid, pd.url_key, ur.request_path AS old_path
+             FROM product p
+             JOIN product_description pd
+               ON pd.product_description_product_id = p.product_id
+             LEFT JOIN url_rewrite ur
+               ON ur.entity_uuid = p.uuid AND ur.entity_type = 'product'
+            WHERE p.variant_group_id = $1 AND p.product_id <> $2`,
+          [product.variant_group_id, product.product_id]
+        );
+        // One set-based write for the whole group (recordRedirectsBatch drops
+        // the no-op rows internally), not a serial recordRedirect per sibling.
+        await recordRedirectsBatch(
+          connection,
+          siblings.rows.map((s) => ({
+            fromPath: s.old_path ?? `/${s.url_key}`,
+            toPath: buildEntityPath(siblingCategoryPath, s.url_key),
+            entityUrn: CatalogUrn.product(s.uuid)
+          }))
+        );
+      }
     }
   }
   return {

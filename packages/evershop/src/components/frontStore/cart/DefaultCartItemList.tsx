@@ -1,13 +1,12 @@
 import { Area } from '@components/common/Area.js';
-import {
-  ExtendableTable,
-  TableColumn
-} from '@components/common/ExtendableTable.js';
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import { useCatalogImageDimensions } from '@components/common/useCatalogImageDimensions.js';
 import { CartItem } from '@components/frontStore/cart/CartContext.js';
 import { ItemQuantity } from '@components/frontStore/cart/ItemQuantity.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { deriveProductImageSize } from '@evershop/evershop/lib/util/deriveProductImageSize';
+import { Minus, Plus, Trash2 } from 'lucide-react';
 import React from 'react';
 
 interface CartItemsTableProps {
@@ -19,170 +18,122 @@ interface CartItemsTableProps {
   onRemoveItem?: (itemId: string) => Promise<void>;
 }
 
+/**
+ * Re-skin (2026-07-10): a flex line-item list matching the reference — 96px
+ * bordered thumbnail, then a content block with name/SKU/variant + line total
+ * on the top row and the qty stepper + Remove on the bottom row, items divided
+ * by rules. (Was a 3-column ExtendableTable.)
+ */
 export const DefaultCartItemList: React.FC<CartItemsTableProps> = ({
   items,
   showPriceIncludingTax = true,
   loading = false,
-  onSort,
-  currentSort,
   onRemoveItem
 }) => {
-  const columns: TableColumn<CartItem>[] = [
-    {
-      key: 'productInfo',
-      header: { label: _('Product'), className: '' },
-      className: 'font-medium align-top',
-      sortable: false,
-      render: (row) => {
-        const priceValue = showPriceIncludingTax
-          ? row.productPriceInclTax?.text
-          : row.productPrice?.text;
-        return (
-          <div className="flex justify-start gap-4">
-            <div className="shrink-0">
-              {row.thumbnail ? (
-                <Image
-                  src={row.thumbnail}
-                  alt={row.productName}
-                  width={80}
-                  height={80}
-                  className="rounded-md"
-                />
-              ) : (
-                <ProductNoThumbnail width={80} height={80} />
-              )}
-            </div>
-            <div className="font-medium flex flex-col gap-1 items-start h-full min-w-0 flex-1">
-              <div className="font-semibold wrap-break-word w-full">
-                {row.productName}
-              </div>
-              {row.variantOptions?.map((option) => (
-                <span key={option.optionId} className="text-xs">
-                  <span>{option.attributeName}</span>:{' '}
-                  <span className="text-muted-foreground">
-                    {option.optionText}
-                  </span>
-                </span>
-              ))}
-              <span className="text-sm text-muted-foreground">
-                {priceValue} x {row.qty}
-              </span>
-              <a
-                href="#"
-                className="text-destructive text-sm"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onRemoveItem?.(row.cartItemId);
-                }}
-              >
-                {_('Remove')}
-              </a>
-              {row.errors?.map((error, index) => (
-                <span key={index} className="text-xs text-destructive">
-                  {error}
-                </span>
-              ))}
-            </div>
-          </div>
-        );
-      }
-    },
-    {
-      key: 'qty',
-      header: { label: _('Quantity'), className: 'text-right' },
-      sortable: true,
-      render: (row) => {
-        return (
-          <div className="flex justify-end">
-            <ItemQuantity
-              initialValue={row.qty}
-              cartItemId={row.cartItemId}
-              min={1}
-              max={99}
-            >
-              {({ quantity, increase, decrease }) => (
-                <div className="flex items-center">
-                  <button
-                    onClick={decrease}
-                    disabled={loading || quantity <= 1}
-                    className="px-1 disabled:opacity-50 text-lg"
-                  >
-                    −
-                  </button>
-                  <span className="min-w-12 text-center">{quantity}</span>
-                  <button
-                    onClick={increase}
-                    disabled={loading}
-                    className="disabled:opacity-50 text-lg"
-                  >
-                    +
-                  </button>
-                </div>
-              )}
-            </ItemQuantity>
-          </div>
-        );
-      }
-    },
-    {
-      key: 'lineTotal',
-      header: { label: _('Total'), className: 'text-right' },
-      sortable: true,
-      render: (row) => {
-        const totalValue = showPriceIncludingTax
-          ? row.lineTotalInclTax?.text
-          : row.lineTotal?.text;
-        return (
-          <div className="text-right">
-            <span className="font-bold">{totalValue}</span>
-          </div>
-        );
-      }
-    }
-  ];
-
-  const [rows, setRows] = React.useState<CartItem[]>(items);
-
-  React.useEffect(() => {
-    setRows(items);
-  }, [items]);
-
+  // Fixed 96px square display (h-24 w-24 + object-cover); base 200 keeps it sharp on retina.
+  const thumbSize = deriveProductImageSize(200, useCatalogImageDimensions());
   return (
     <>
       <Area id="cartItemListBefore" noOuter />
-      <ExtendableTable
-        name="shoppingCartItems"
-        columns={columns}
-        initialData={rows}
-        loading={loading}
-        emptyMessage={_('Your cart is empty')}
-        onSort={onSort}
-        currentSort={currentSort}
-        className="cart__items__table border-none table-fixed border-spacing-y-2 border-separate w-full"
-      />
+      <div className="cart__items divide-y divide-border">
+        {items.map((row) => {
+          const totalValue = showPriceIncludingTax
+            ? row.lineTotalInclTax?.text
+            : row.lineTotal?.text;
+          return (
+            <div key={row.cartItemId} className="cart__item flex gap-4 py-5">
+              <div className="shrink-0">
+                {row.thumbnail ? (
+                  <Image
+                    src={row.thumbnail}
+                    alt={row.productName}
+                    width={thumbSize.width}
+                    height={thumbSize.height}
+                    sizes="100px"
+                    objectFit="cover"
+                    className="h-24 w-24 rounded-lg border border-border"
+                  />
+                ) : (
+                  <ProductNoThumbnail width={96} height={96} />
+                )}
+              </div>
+              <div className="flex flex-1 flex-col">
+                <div className="flex justify-between gap-4">
+                  <div className="min-w-0">
+                    <a
+                      href={row.productUrl}
+                      className="font-medium hover:underline"
+                    >
+                      {row.productName}
+                    </a>
+                    <div className="mt-0.5 text-xs text-muted-foreground">
+                      {_('SKU ${sku}', { sku: row.productSku })}
+                    </div>
+                    {row.variantOptions?.map((option) => (
+                      <div
+                        key={option.optionId}
+                        className="mt-0.5 text-xs text-muted-foreground"
+                      >
+                        {option.attributeName}: {option.optionText}
+                      </div>
+                    ))}
+                    {row.errors?.map((error, index) => (
+                      <div key={index} className="mt-0.5 text-xs text-destructive">
+                        {error}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-right font-medium tabular-nums">
+                    {totalValue}
+                  </div>
+                </div>
+                <div className="mt-auto flex items-center justify-between pt-3">
+                  <ItemQuantity
+                    initialValue={row.qty}
+                    cartItemId={row.cartItemId}
+                    min={1}
+                    max={99}
+                  >
+                    {({ quantity, increase, decrease }) => (
+                      <div className="inline-flex items-center rounded-md border border-border">
+                        <button
+                          onClick={decrease}
+                          disabled={loading || quantity <= 1}
+                          className="p-2 text-muted-foreground hover:text-foreground disabled:opacity-40"
+                        >
+                          <Minus className="h-3.5 w-3.5" />
+                        </button>
+                        <span className="w-8 text-center text-sm tabular-nums">
+                          {quantity}
+                        </span>
+                        <button
+                          onClick={increase}
+                          disabled={loading}
+                          className="p-2 text-muted-foreground hover:text-foreground disabled:opacity-40"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    )}
+                  </ItemQuantity>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onRemoveItem?.(row.cartItemId);
+                    }}
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-destructive"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    {_('Remove')}
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
       <Area id="cartItemListAfter" noOuter />
-      <style>
-        {`
-        .cart__items__table th, .cart__items__table td {
-          padding: 0.75rem;
-          white-space: normal;
-        }
-        .cart__items__table th {
-          border: none;
-        }
-        .cart__items__table td {
-          border: none;
-        }
-        .cart__items__table th:first-child,
-        .cart__items__table td:first-child {
-          width: 60%;
-        }
-        .cart__items__table th:nth-child(2),
-        .cart__items__table td:nth-child(2) {
-          width: 25%;
-        }
-      `}
-      </style>
     </>
   );
 };

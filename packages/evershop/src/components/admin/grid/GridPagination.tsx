@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@components/common/ui/Select.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface GridPaginationProps {
@@ -83,7 +84,7 @@ export function GridPagination({ total, limit, page }: GridPaginationProps) {
     <div className="pagination flex w-full mt-3">
       <div className="flex justify-between w-full space-x-2">
         <ButtonGroup>
-          <Button variant={'outline'}>Show</Button>
+          <Button variant={'outline'}>{_('Show')}</Button>
           <Select
             value={limit.toString()}
             onValueChange={(value) => {
@@ -97,7 +98,7 @@ export function GridPagination({ total, limit, page }: GridPaginationProps) {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Limit</SelectLabel>
+                <SelectLabel>{_('Limit')}</SelectLabel>
                 <SelectItem value="50">50</SelectItem>
                 <SelectItem value="100">100</SelectItem>
                 <SelectItem value="150">150</SelectItem>

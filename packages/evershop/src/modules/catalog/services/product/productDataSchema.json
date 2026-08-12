@@ -50,7 +50,11 @@
                   }
                 }
               },
-              "required": ["id", "size", "data"],
+              "required": [
+                "id",
+                "size",
+                "data"
+              ],
               "errorMessage": {
                 "required": {
                   "id": "Column ID is required",
@@ -64,7 +68,11 @@
             }
           }
         },
-        "required": ["id", "size", "columns"],
+        "required": [
+          "id",
+          "size",
+          "columns"
+        ],
         "errorMessage": {
           "required": {
             "id": "Description block ID is required",
@@ -110,8 +118,19 @@
       }
     },
     "status": {
-      "type": ["integer", "string", "boolean"],
-      "enum": [0, 1, "0", "1", true, false],
+      "type": [
+        "integer",
+        "string",
+        "boolean"
+      ],
+      "enum": [
+        0,
+        1,
+        "0",
+        "1",
+        true,
+        false
+      ],
       "errorMessage": {
         "type": "Status must be a boolean, number, or string",
         "enum": "Status must be either 0, 1, '0', '1', true, or false"
@@ -126,7 +145,10 @@
       }
     },
     "price": {
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "pattern": "^\\d+(\\.\\d{1,2})?$",
       "errorMessage": {
         "type": "Price must be a string or number",
@@ -134,7 +156,10 @@
       }
     },
     "weight": {
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "pattern": "^[0-9]+(\\.[0-9]{1,2})?$",
       "errorMessage": {
         "type": "Weight must be a string or number",
@@ -142,7 +167,10 @@
       }
     },
     "qty": {
-      "type": ["string", "number"],
+      "type": [
+        "string",
+        "number"
+      ],
       "pattern": "^[0-9]+$",
       "errorMessage": {
         "type": "Quantity must be a string or number",
@@ -150,7 +178,11 @@
       }
     },
     "tax_class": {
-      "type": ["string", "number", "null"],
+      "type": [
+        "string",
+        "number",
+        "null"
+      ],
       "pattern": "^[0-9]+$",
       "default": null,
       "errorMessage": {
@@ -159,23 +191,48 @@
       }
     },
     "manage_stock": {
-      "type": ["integer", "string", "boolean"],
-      "enum": [0, 1, "0", "1", true, false],
+      "type": [
+        "integer",
+        "string",
+        "boolean"
+      ],
+      "enum": [
+        0,
+        1,
+        "0",
+        "1",
+        true,
+        false
+      ],
       "errorMessage": {
         "type": "Manage stock must be a boolean, number, or string",
         "enum": "Manage stock must be either 0, 1, '0', '1', true, or false"
       }
     },
     "stock_availability": {
-      "type": ["integer", "string", "boolean"],
-      "enum": [0, 1, "0", "1", true, false],
+      "type": [
+        "integer",
+        "string",
+        "boolean"
+      ],
+      "enum": [
+        0,
+        1,
+        "0",
+        "1",
+        true,
+        false
+      ],
       "errorMessage": {
         "type": "Stock availability must be a boolean, number, or string",
         "enum": "Stock availability must be either 0, 1, '0', '1', true, or false"
       }
     },
     "group_id": {
-      "type": ["string", "integer"],
+      "type": [
+        "string",
+        "integer"
+      ],
       "pattern": "^[0-9]+$",
       "errorMessage": {
         "type": "Group ID must be a string or number",
@@ -183,8 +240,19 @@
       }
     },
     "visibility": {
-      "type": ["integer", "string", "boolean"],
-      "enum": [0, 1, "0", "1", true, false],
+      "type": [
+        "integer",
+        "string",
+        "boolean"
+      ],
+      "enum": [
+        0,
+        1,
+        "0",
+        "1",
+        true,
+        false
+      ],
       "errorMessage": {
         "type": "Visibility must be a boolean, number, or string",
         "enum": "Visibility must be either 0, 1, '0', '1', true, or false"
@@ -214,7 +282,10 @@
             }
           },
           "value": {
-            "type": ["string", "array"],
+            "type": [
+              "string",
+              "array"
+            ],
             "items": {
               "type": "string",
               "errorMessage": {
@@ -235,7 +306,11 @@
       }
     },
     "category_id": {
-      "type": ["string", "number", "null"],
+      "type": [
+        "string",
+        "number",
+        "null"
+      ],
       "pattern": "^[0-9]+$",
       "default": null,
       "errorMessage": {
@@ -258,15 +333,26 @@
           },
           "option_type": {
             "type": "string",
-            "enum": ["select", "multiselect"],
+            "enum": [
+              "select",
+              "multiselect"
+            ],
             "errorMessage": {
               "type": "Option type must be a string",
               "enum": "Option type must be either 'select' or 'multiselect'"
             }
           },
           "is_required": {
-            "type": ["string", "integer"],
-            "enum": [0, 1, "0", "1"],
+            "type": [
+              "string",
+              "integer"
+            ],
+            "enum": [
+              0,
+              1,
+              "0",
+              "1"
+            ],
             "default": 0,
             "errorMessage": {
               "type": "Is required must be a string or number",
@@ -288,7 +374,10 @@
                   }
                 },
                 "extra_price": {
-                  "type": ["string", "number"],
+                  "type": [
+                    "string",
+                    "number"
+                  ],
                   "pattern": "^\\d+(\\.\\d{1,2})?$",
                   "errorMessage": {
                     "type": "Extra price must be a string or number",
@@ -306,7 +395,11 @@
             }
           }
         },
-        "required": ["option_name", "option_type", "values"],
+        "required": [
+          "option_name",
+          "option_type",
+          "values"
+        ],
         "additionalProperties": true,
         "errorMessage": {
           "type": "Option must be an object",
@@ -319,6 +412,61 @@
       },
       "errorMessage": {
         "type": "Options must be an array"
+      }
+    },
+    "package_id": {
+      "type": [
+        "integer",
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9]*$",
+      "errorMessage": {
+        "type": "Package must be a package id",
+        "pattern": "Package must be a package id"
+      }
+    },
+    "related_products_mode": {
+      "type": "string",
+      "enum": [
+        "inherit",
+        "custom",
+        "manual_only"
+      ],
+      "errorMessage": {
+        "type": "Related products mode must be a string",
+        "enum": "Related products mode must be 'inherit', 'custom', or 'manual_only'"
+      }
+    },
+    "cross_sell_mode": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "manual_only",
+        "manual_first"
+      ],
+      "errorMessage": {
+        "type": "Cross-sell mode must be a string",
+        "enum": "Cross-sell mode must be 'auto', 'manual_only', or 'manual_first'"
+      }
+    },
+    "exclude_from_recommendation": {
+      "type": [
+        "integer",
+        "string",
+        "boolean"
+      ],
+      "enum": [
+        0,
+        1,
+        "0",
+        "1",
+        true,
+        false
+      ],
+      "errorMessage": {
+        "type": "Exclude from recommendation must be a boolean, number, or string",
+        "enum": "Exclude from recommendation must be either 0, 1, '0', '1', true, or false"
       }
     }
   },

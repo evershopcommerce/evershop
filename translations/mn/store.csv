@@ -1,0 +1,1685 @@
+Welcome Back!,Тавтай морилно уу!
+Please sign in to your account ,Бүртгэлдээ нэвтэрнэ үү 
+Join us for exclusive offers and order tracking,Онцгой санал болон захиалгын хяналтад бидэнтэй нэгдээрэй
+Sign Up,Бүртгүүлэх
+Signing Up...,Бүртгэж байна...
+Signing In...,Нэвтэрч байна...
+Recent Orders,Сүүлийн захиалгууд
+Address Book,Хаягийн дэвтэр
+You have no addresses saved,Танд хадгалсан хаяг алга
+Add new address,Шинэ хаяг нэмэх
+Address 2,Хаяг 2
+Set as default,Үндсэн болгох
+Save,Хадгалах
+Edit,Засах
+Delete,Устгах
+Edit Address,Хаяг засах
+Product Filters,Бүтээгдэхүүний шүүлтүүр
+No products found,Бүтээгдэхүүн олдсонгүй
+${count} Products,${count} бүтээгдэхүүн
+Default,Үндсэн
+Name,Нэр
+Contact Information,Холбоо барих мэдээлэл
+Your Cart,Таны сагс
+Your cart is empty,Таны сагс хоосон байна
+Subtotal,Дэд дүн
+View Cart (${totalQty}),Сагс үзэх (${totalQty})
+Shopping Cart,Худалдан авалтын сагс
+Logged in as,Дараах хэлбэрээр нэвтэрсэн
+Payment Information,Төлбөрийн мэдээлэл
+Same as shipping address,Хүргэлтийн хаягтай ижил
+Use a different billing address,Өөр төлбөрийн хаяг ашиглах
+Pick a payment method,Төлбөрийн арга сонгох
+Select a payment method,Төлбөрийн арга сонгоно уу
+Complete Order,Захиалга дуусгах
+Add to Cart,Сагсанд нэмэх
+Search,Хайх
+${count} orders,${count} захиалга
+${field} is required,${field} шаардлагатай
+${pct}% of orders cancelled,Захиалгын ${pct}% цуцлагдсан
+${pct}% of orders completed,Захиалгын ${pct}% гүйцэтгэгдсэн
+${qty} sold,${qty} зарагдсан
+${total} lifetime sale,${total} нийт борлуулалт
+(Guest Checkout),(Зочин төлбөр төлөх)
+(list),(жагсаалт)
+(optional),(заавал биш)
+A coupon is already applied,Купон аль хэдийн хэрэглэгдсэн
+A group needs at least one sub-field,Бүлэгт дор хаяж нэг дэд талбар хэрэгтэй
+A list of best selling products,Хамгийн их борлуулдаг бүтээгдэхүүний жагсаалт
+A list of customers who have placed the most orders,Хамгийн их захиалга өгсөн үйлчлүүлэгчдийн жагсаалт
+A regular expression the value must match.,Утга нь тохирох ёстой энгийн илэрхийлэл.
+Accepted values,Хүлээн зөвшөөрөгдөх утгууд
+Active,Идэвхтэй
+Active Filters,Идэвхтэй шүүлтүүрүүд
+Add address API not available,Хаяг нэмэх API боломжгүй байна
+Add custom field,Захиалгат талбар нэмэх
+Add field,Талбар нэмэх
+Add item,Зүйл нэмэх
+Add option,Сонголт нэмэх
+Add product,Бүтээгдэхүүн нэмэх
+Add some items to get started,Эхлэхийн тулд зарим зүйл нэмнэ үү
+Add sub-field,Дэд талбар нэмэх
+Adding...,Нэмж байна...
+Address has been deleted successfully!,Хаяг амжилттай устгагдлаа!
+Address has been saved successfully!,Хаяг амжилттай хадгалагдлаа!
+Address has been updated successfully!,Хаяг амжилттай шинэчлэгдлээ!
+Address is required,Хаяг шаардлагатай
+Adds target=_blank rel=noopener noreferrer.,target=_blank rel=noopener noreferrer нэмнэ.
+All items fulfilled,Бүх зүйл биелэгдсэн
+All orders,Бүх захиалга
+All your past orders,Таны бүх өмнөх захиалгууд
+Allow multiple,Олныг зөвшөөрөх
+An unexpected error occurred. Please try again.,Гэнэтийн алдаа гарлаа. Дахин оролдоно уу.
+Apply Filters,Шүүлтүүр хэрэглэх
+Are you sure you want to mark the selected orders as shipped?,Сонгосон захиалгуудыг хүргэгдсэн гэж тэмдэглэхдээ итгэлтэй байна уу?
+Are you sure?,Та итгэлтэй байна уу?
+Attribute Group,Шинж чанарын бүлэг
+Attribute code is used in API and must be unique,Шинж чанарын код нь API-д ашиглагддаг бөгөөд давтагдашгүй байх ёстой
+Attribute options,Шинж чанарын сонголтууд
+Attributes,Шинж чанарууд
+Available shipping methods will appear once you provide your address details,Та хаягийнхаа дэлгэрэнгүйг оруулмагц боломжтой хүргэлтийн аргууд гарч ирнэ
+Best Sellers,Шилдэг борлуулалттай
+Best customers,Шилдэг үйлчлүүлэгчид
+Billing address,Төлбөрийн хаяг
+Black,Хар
+Buy qty,Худалдан авах тоо
+Buy qty is required,Худалдан авах тоо шаардлагатай
+Can not process payment. Please try again later.,Төлбөрийг боловсруулж чадсангүй. Дараа дахин оролдоно уу.
+Can't be undone,Буцаах боломжгүй
+Cancel,Цуцлах
+Cancel Order,Захиалга цуцлах
+Cancel shipment,Хүргэлт цуцлах
+Cancel this shipment?,Энэ хүргэлтийг цуцлах уу?
+Canceled,Цуцлагдсан
+Cancelled,Цуцлагдсан
+Cannot add billing address: cart not initialized,Төлбөрийн хаяг нэмж чадсангүй: сагс эхлүүлэгдээгүй байна
+Cannot add contact info: cart not initialized,Холбоо барих мэдээлэл нэмж чадсангүй: сагс эхлүүлэгдээгүй байна
+Cannot add payment method: cart not initialized,Төлбөрийн арга нэмж чадсангүй: сагс эхлүүлэгдээгүй байна
+Cannot add shipping address: cart not initialized,Хүргэлтийн хаяг нэмж чадсангүй: сагс эхлүүлэгдээгүй байна
+Cannot add shipping method: cart not initialized,Хүргэлтийн арга нэмж чадсангүй: сагс эхлүүлэгдээгүй байна
+Cannot add shipping method: providerCode is required,Хүргэлтийн арга нэмж чадсангүй: providerCode шаардлагатай
+Cannot apply coupon: cart not initialized,Купон хэрэглэж чадсангүй: сагс эхлүүлэгдээгүй байна
+Cannot remove coupon: cart not initialized,Купон хасаж чадсангүй: сагс эхлүүлэгдээгүй байна
+Carrier,Тээвэрлэгч
+Carrier is required,Тээвэрлэгч шаардлагатай
+Cart ID is required to checkout,Төлбөр төлөхөд сагсны ID шаардлагатай
+Cart is not initialized,Сагс эхлүүлэгдээгүй байна
+Catalog,Каталог
+Categories,Ангилалууд
+Category,Ангилал
+Charcoal,Нүүрсэн саарал
+Checkout success,Төлбөр амжилттай
+Choose Product SKU,Бүтээгдэхүүний SKU сонгох
+Choose SKU,SKU сонгох
+City is required,Хот шаардлагатай
+Clear All,Бүгдийг арилгах
+Clear Filters,Шүүлтүүр арилгах
+Clear all,Бүгдийг арилгах
+Clear categories,Ангилал арилгах
+Close fullscreen view,Бүтэн дэлгэцийн харагдацыг хаах
+Code,Код
+Collections,Цуглуулгууд
+Comma-separated; renders the value as a dropdown.,Таслалаар тусгаарласан; утгыг унждаг цэс хэлбэрээр харуулна.
+Completed,Гүйцэтгэгдсэн
+Configurable,Тохируулж болох
+Configure tax classes and tax rates,Татварын ангилал болон татварын хувь хэмжээг тохируулах
+Confirm,Баталгаажуулах
+Contact for pricing,Үнийн талаар холбогдоно уу
+Conveniently pay with cash at your doorstep when your order is delivered.,Захиалга хүргэгдэхэд хаалган дээрээ бэлэн мөнгөөр тав тухтай төлнө.
+Coupon applied successfully!,Купон амжилттай хэрэглэгдлээ!
+Coupon code is required,Купоны код шаардлагатай
+Coupon does not match,Купон тохирохгүй байна
+Coupon removed successfully!,Купон амжилттай хасагдлаа!
+Cream,Цайвар шар
+Create,Үүсгэх
+Create a new attribute,Шинэ шинж чанар үүсгэх
+Create a new group,Шинэ бүлэг үүсгэх
+Create a new package,Шинэ багц үүсгэх
+Create shipment,Хүргэлт үүсгэх
+Created,Үүсгэгдсэн
+Custom URL,Захиалгат URL
+Custom field created,Захиалгат талбар үүсгэгдлээ
+Custom field updated,Захиалгат талбар шинэчлэгдлээ
+Custom fields,Захиалгат талбарууд
+Custom fields (JSON),Захиалгат талбарууд (JSON)
+Custom fields saved,Захиалгат талбарууд хадгалагдлаа
+Customer Information,Үйлчлүүлэгчийн мэдээлэл
+Customer does not have any order yet.,Үйлчлүүлэгч одоогоор ямар ч захиалгагүй байна.
+Customer notes,Үйлчлүүлэгчийн тэмдэглэл
+Daily,Өдөр бүр
+Date and time must be after ${min},Огноо болон цаг нь ${min}-ээс хойш байх ёстой
+Date and time must be before ${max},Огноо болон цаг ${max}-аас өмнө байх ёстой
+Date must be after ${min},Огноо ${min}-аас хойш байх ёстой
+Date must be before ${max},Огноо ${max}-аас өмнө байх ёстой
+Delete ${count} coupons,${count} купоныг устгах
+Delete ${count} products,${count} бүтээгдэхүүнийг устгах
+Delete address API not available,Хаяг устгах API боломжгүй байна
+Delivered,Хүргэгдсэн
+Description,Тайлбар
+Disable,Идэвхгүй болгох
+Disable ${count} coupons,${count} купоныг идэвхгүй болгох
+Disable ${count} customers,${count} харилцагчийг идэвхгүй болгох
+Disable ${count} products,${count} бүтээгдэхүүнийг идэвхгүй болгох
+Disabled,Идэвхгүй
+Discount percent,Хөнгөлөлтийн хувь
+Discount percent is required,Хөнгөлөлтийн хувь шаардлагатай
+Display on Frontend?,Дэлгүүрт харуулах уу?
+Displays the mobile sidebar.,Гар утасны хажуугийн самбарыг харуулна.
+Done,Дууссан
+Drag to reorder,Чирж дараалал өөрчлөх
+Duplicate,Хувилах
+Edit custom field,Тусгай талбар засах
+Edit field settings,Талбарын тохиргоог засах
+Edit package,Багц засах
+Edit tracking info,Хүргэлтийн мэдээлэл засах
+Editing ${name},${name}-г засаж байна
+Email a shipment confirmation,Хүргэлтийн баталгаажуулалтыг имэйлээр илгээх
+Email a shipment confirmation with tracking details,Хүргэлтийн дугаар бүхий баталгаажуулалтыг имэйлээр илгээх
+Email is required,Имэйл шаардлагатай
+Enable,Идэвхжүүлэх
+Enable ${count} coupons,${count} купоныг идэвхжүүлэх
+Enable ${count} customers,${count} харилцагчийг идэвхжүүлэх
+Enable ${count} products,${count} бүтээгдэхүүнийг идэвхжүүлэх
+Enabled,Идэвхжсэн
+Enter attribute code,Шинж чанарын код оруулна уу
+Enter attribute name,Шинж чанарын нэр оруулна уу
+Enter text,Текст оруулна уу
+Enter value for ${attribute},${attribute}-ийн утгыг оруулна уу
+Enter your email,Имэйлээ оруулна уу
+Enter your new password,Шинэ нууц үгээ оруулна уу
+Enter your password,Нууц үгээ оруулна уу
+Error,Алдаа
+Failed to add address,Хаяг нэмж чадсангүй
+Failed to add billing address,Төлбөрийн хаяг нэмж чадсангүй
+Failed to add billing address.,Төлбөрийн хаяг нэмж чадсангүй.
+Failed to add contact info,Холбоо барих мэдээлэл нэмж чадсангүй
+Failed to add contact info.,Холбоо барих мэдээлэл нэмж чадсангүй.
+Failed to add item to cart,Барааг сагсанд нэмж чадсангүй
+Failed to add payment method,Төлбөрийн арга нэмж чадсангүй
+Failed to add payment method.,Төлбөрийн арга нэмж чадсангүй.
+Failed to add product to cart,Бүтээгдэхүүнийг сагсанд нэмж чадсангүй
+Failed to add shipping address,Хүргэлтийн хаяг нэмж чадсангүй
+Failed to add shipping address.,Хүргэлтийн хаяг нэмж чадсангүй.
+Failed to add shipping method,Хүргэлтийн арга нэмж чадсангүй
+Failed to add shipping method.,Хүргэлтийн арга нэмж чадсангүй.
+Failed to apply coupon,Купоныг хэрэглэж чадсангүй
+Failed to cancel shipment,Хүргэлтийг цуцалж чадсангүй
+Failed to checkout,Захиалга баталгаажуулж чадсангүй
+Failed to create field,Талбар үүсгэж чадсангүй
+Failed to create shipment,Хүргэлт үүсгэж чадсангүй
+Failed to delete address,Хаяг устгаж чадсангүй
+Failed to load custom fields,Тусгай талбаруудыг ачаалж чадсангүй
+Failed to mark delivered,Хүргэгдсэн гэж тэмдэглэж чадсангүй
+Failed to place order,Захиалга өгч чадсангүй
+Failed to place order. Please try again.,Захиалга өгч чадсангүй. Дахин оролдоно уу.
+Failed to remove coupon,Купоныг хасч чадсангүй
+Failed to remove coupon.,Купоныг хасч чадсангүй.
+Failed to save custom fields,Тусгай талбаруудыг хадгалж чадсангүй
+Failed to set shipping method,Хүргэлтийн аргыг тохируулж чадсангүй
+Failed to set shipping note,Хүргэлтийн тэмдэглэлийг тохируулж чадсангүй
+Failed to update address,Хаягийг шинэчилж чадсангүй
+Failed to update field,Талбарыг шинэчилж чадсангүй
+Failed to update shipment,Хүргэлтийг шинэчилж чадсангүй
+Failed to update tracking info,Хүргэлтийн мэдээллийг шинэчилж чадсангүй
+Failed to void label,Шошгыг хүчингүй болгож чадсангүй
+Failed!,Амжилтгүй!
+Fields applicable to this entity type. Adding a field applies it to all entities of this type.,Энэ төрлийн объектод хамаарах талбарууд. Талбар нэмбэл энэ төрлийн бүх объектод хэрэгжинэ.
+File size must be less than ${maxSize},Файлын хэмжээ ${maxSize}-аас бага байх ёстой
+Filter Products,Бүтээгдэхүүн шүүх
+Filters,Шүүлтүүр
+First,Эхний
+Free,Үнэгүй
+Free shipping,Үнэгүй хүргэлт
+Free shipping ?,Үнэгүй хүргэлт үү?
+Fulfill ${count} orders,${count} захиалгыг гүйцэтгэх
+Full Name is required,Бүтэн нэр шаардлагатай
+Fully shipped,Бүрэн илгээгдсэн
+General,Ерөнхий
+Get qty,Авах тоо хэмжээ
+Get qty is required,Авах тоо хэмжээ шаардлагатай
+Ghost,Хий
+Go,Болсон
+Go to Login,Нэвтрэх рүү очих
+Go to next page,Дараагийн хуудас руу очих
+Go to previous page,Өмнөх хуудас руу очих
+Hello,Сайн байна уу
+Hide from storefront,Дэлгүүрээс нуух
+ID,ID
+In Stock,Нөөцөд бий
+Inactive,Идэвхгүй
+Inclusive of tax ${totalTaxAmount},Татвар багтсан ${totalTaxAmount}
+Insert,Оруулах
+Invalid address,Буруу хаяг
+Invalid cart,Буруу сагс
+Invalid cart id,Буруу сагсны ID
+Invalid coupon,Буруу купон
+Invalid customer,Буруу харилцагч
+Invalid customer id,Буруу харилцагчийн ID
+Invalid email or password,Буруу имэйл эсвэл нууц үг
+Invalid format,Буруу формат
+Invalid quantity,Буруу тоо хэмжээ
+Is Filterable?,Шүүлт хийх боломжтой юу?
+Is Required?,Шаардлагатай юу?
+Item,Бараа
+Items,Бараанууд
+Items in this shipment will return to the order's unshipped pool. This action cannot be undone.,Энэ хүргэлтийн бараанууд захиалгын илгээгдээгүй нөөц рүү буцна. Энэ үйлдлийг буцаах боломжгүй.
+Key,Түлхүүр
+Key is required,Түлхүүр шаардлагатай
+Label,Шошго
+Label voided,Шошго хүчингүй болсон
+Language,Хэл
+Last,Сүүлийн
+Lifetime Sales,Нийт борлуулалт
+Light gray,Цайвар саарал
+Limit,Хязгаар
+Link,Холбоос
+Loading,Ачаалж байна
+Log in,Нэвтрэх
+Logging in...,Нэвтэрч байна...
+Logging out...,Гарч байна...
+Login failed,Нэвтрэлт амжилтгүй
+Logout failed,Гарах амжилтгүй
+Look like you just started. No bestsellers yet.,Та дөнгөж эхэлсэн бололтой. Хараахан шилдэг борлуулалттай бараа алга.
+"Lowercase letters, digits, underscore. Immutable.","Жижиг үсэг, тоо, доогуур зураас. Өөрчлөгдөшгүй."
+Manage the general information of the attribute.,Шинж чанарын ерөнхий мэдээллийг удирдах.
+Manage the setting of the attribute.,Шинж чанарын тохиргоог удирдах.
+Mark as shipped,Илгээгдсэн гэж тэмдэглэх
+Mark delivered,Хүргэгдсэн гэж тэмдэглэх
+Mark shipment as delivered?,Хүргэлтийг хүргэгдсэн гэж тэмдэглэх үү?
+Max length,Дээд урт
+Max of Y,Y-ийн дээд хэмжээ
+Max of Y is required,Y-ийн дээд хэмжээ шаардлагатай
+Max value,Дээд утга
+Min length,Доод урт
+Min value,Доод утга
+Minimum quantity,Хамгийн бага тоо хэмжээ
+Mint,Цайвар ногоон
+Monthly,Сар бүр
+More,Илүү
+More pages,Дэлгэрэнгүй хуудас
+Move down,Доош зөөх
+Move up,Дээш зөөх
+Multiselect,Олон сонголт
+Must be at least ${n},Хамгийн багадаа ${n} байх ёстой
+Must be at least ${n} characters,Хамгийн багадаа ${n} тэмдэгт байх ёстой
+Must be at most ${n},Хамгийн ихдээ ${n} байх ёстой
+Must be at most ${n} characters,Хамгийн ихдээ ${n} тэмдэгт байх ёстой
+"Must start with a letter; lowercase letters, digits, underscore only","Үсгээр эхлэх ёстой; зөвхөн жижиг үсэг, тоо, доогуур зураас"
+Name is required,Нэр оруулах шаардлагатай
+New Product,Шинэ бүтээгдэхүүн
+New Widget,Шинэ виджет
+New folder,Шинэ хавтас
+Next,Дараах
+Next slide,Дараагийн слайд
+No,Үгүй
+No address data received,Хаягийн мэдээлэл хүлээж аваагүй
+"No attribute groups found for query ""${query}""","""${query}"" хайлтаар атрибутын бүлэг олдсонгүй"
+No carriers registered,Бүртгэгдсэн тээвэрлэгч байхгүй
+"No categories found for ""${term}""","""${term}""-д тохирох ангилал олдсонгүй"
+"No categories found for query ""${query}""","""${query}"" хайлтаар ангилал олдсонгүй"
+"No collections found for query ""${query}""","""${query}"" хайлтаар цуглуулга олдсонгүй"
+No coupon to remove,Устгах купон байхгүй
+No custom fields yet.,Одоогоор тусгай талбар алга.
+No data available,Мэдээлэл байхгүй
+No free shipping,Үнэгүй хүргэлт байхгүй
+No limit,Хязгааргүй
+No maximum,Дээд хязгааргүй
+No minimum,Доод хязгааргүй
+No notes from customer,Үйлчлүүлэгчээс тэмдэглэл байхгүй
+"No options found for ""${code}""","""${code}""-д тохирох сонголт олдсонгүй"
+"No products found for query ""${query}""","""${query}"" хайлтаар бүтээгдэхүүн олдсонгүй"
+No shipments yet — your order is being prepared.,Одоогоор илгээмж алга — таны захиалга бэлтгэгдэж байна.
+No shipping is required for this order,Энэ захиалгад хүргэлт шаардлагагүй
+No shipping methods available,Боломжтой хүргэлтийн арга байхгүй
+No shipping options are available for your location,Таны байршилд хүргэлтийн сонголт байхгүй
+No shipping required,Хүргэлт шаардлагагүй
+No widgets match your search.,Таны хайлтад тохирох виджет алга.
+None,Байхгүй
+Not set,Тохируулаагүй
+Not visible to customers,Үйлчлүүлэгчдэд харагдахгүй
+Notify customer,Үйлчлүүлэгчид мэдэгдэх
+Open in new tab,Шинэ табд нээх
+Operator,Оператор
+Option text,Сонголтын текст
+Optional help text shown to admins.,Админд харагдах нэмэлт тусламжийн текст.
+Order Placed,Захиалга өгсөн
+Order detail,Захиалгын дэлгэрэнгүй
+Order must contain products matching all conditions below,Захиалгад доорх бүх нөхцөлд тохирох бүтээгдэхүүн байх ёстой
+Order not found,Захиалга олдсонгүй
+Orders,Захиалгууд
+Others,Бусад
+Out of Stock,Дууссан
+Outline,Контур
+Overview of sales data over selected periods,Сонгосон хугацааны борлуулалтын тойм мэдээлэл
+Overview of total sales and order status over the lifetime of your store,Дэлгүүрийн нийт борлуулалт болон захиалгын статусын тойм
+Page,Хуудас
+Page ${currentPage} of ${totalPages},${totalPages}-аас ${currentPage} дахь хуудас
+Page not found,Хуудас олдсонгүй
+Password is required,Нууц үг оруулах шаардлагатай
+Password must be at least ${minLength} characters long,Нууц үг хамгийн багадаа ${minLength} тэмдэгт байх ёстой
+Paste a URL or a relative path starting with ,URL эсвэл -ээр эхэлсэн харьцангуй замыг буулгана уу 
+Pattern (regex),Загвар (regex)
+Pay with PayPal,PayPal-аар төлөх
+Pay with Stripe,Stripe-аар төлөх
+Payment Status,Төлбөрийн статус
+Placing Order...,Захиалга өгч байна...
+Please enter a coupon code,Купоны код оруулна уу
+Please enter a valid URL,Зөв URL оруулна уу
+Please enter a valid email address,Зөв имэйл хаяг оруулна уу
+Please enter your email to receive a reset link,Сэргээх холбоос авахын тулд имэйлээ оруулна уу
+Please provide billing address to proceed,Үргэлжлүүлэхийн тулд төлбөрийн хаягаа оруулна уу
+Please select a payment method,Төлбөрийн арга сонгоно уу
+Please select a shipping method,Хүргэлтийн арга сонгоно уу
+Please sign in to your account,Бүртгэлдээ нэвтэрнэ үү
+Position,Байрлал
+Previous,Өмнөх
+Previous slide,Өмнөх слайд
+Price: ${value},Үнэ: ${value}
+Primary,Үндсэн
+Print Label,Шошго хэвлэх
+Processing Payment...,Төлбөр боловсруулж байна...
+Product Description,Бүтээгдэхүүний тайлбар
+Product is out of stock,Бүтээгдэхүүн дууссан
+Product name is required,Бүтээгдэхүүний нэр оруулах шаардлагатай
+Product not found,Бүтээгдэхүүн олдсонгүй
+Product type,Бүтээгдэхүүний төрөл
+Products,Бүтээгдэхүүнүүд
+Reason for cancellation,Цуцлах шалтгаан
+Reason is required,Шалтгаан оруулах шаардлагатай
+Recently placed orders by this customer,Энэ үйлчлүүлэгчийн саяхан өгсөн захиалгууд
+Redirecting to PayPal...,PayPal руу шилжүүлж байна...
+Reference type,Лавлагааны төрөл
+Registration failed,Бүртгэл амжилтгүй боллоо
+Remove item,Зүйл устгах
+Remove sub-field,Дэд талбар устгах
+Required,Заавал
+Requires at least one item to create a cart,Сагс үүсгэхэд хамгийн багадаа нэг зүйл шаардлагатай
+Reset Password,Нууц үг сэргээх
+Reset Your Password,Нууц үгээ сэргээх
+Reset password,Нууц үг сэргээх
+Reset your password,Нууц үгээ сэргээх
+Root,Үндэс
+SKU,SKU
+SKU ${sku},SKU ${sku}
+SKU must be unique,SKU давтагдашгүй байх ёстой
+SKU: ${sku},SKU: ${sku}
+Sale Statistics,Борлуулалтын статистик
+Save custom fields,Тусгай талбар хадгалах
+Save field,Талбар хадгалах
+Saved successfully!,Амжилттай хадгаллаа!
+Search attribute groups,Атрибутын бүлэг хайх
+Search categories,Ангилал хайх
+Search collections,Цуглуулга хайх
+"Search for products, orders, and other resources","Бүтээгдэхүүн, захиалга болон бусад нөөц хайх"
+Search products,Бүтээгдэхүүн хайх
+Search results for: ${keyword},${keyword}-ийн хайлтын үр дүн
+Search widgets…,Виджет хайх…
+Searching...,Хайж байна...
+Search…,Хайх…
+See all orders →,Бүх захиалгыг харах →
+Select,Сонгох
+Select a carrier,Тээвэрлэгч сонгох
+Select at least one item to ship,Илгээх дор хаяж нэг зүйл сонгоно уу
+Select groups the attribute belongs to,Атрибут хамаарах бүлгүүдийг сонгоно уу
+Select shipping method,Хүргэлтийн арга сонгох
+Select sort,Эрэмбэлэлт сонгох
+"Select the items going in this shipment, then add the carrier & tracking.",Энэ илгээмжид орох зүйлсийг сонгоод тээвэрлэгч ба хяналтын дугаарыг нэмнэ үү.
+Setting,Тохиргоо
+Settings,Тохиргоо
+Shipment Status,Илгээмжийн статус
+Shipment canceled,Илгээмж цуцлагдсан
+Shipment created,Илгээмж үүсгэгдсэн
+Shipment marked delivered,Илгээмжийг хүргэгдсэн гэж тэмдэглэв
+Shipments,Илгээмжүүд
+Shipped,Илгээгдсэн
+Shipping (${method}),Хүргэлт (${method})
+Shipping Setting,Хүргэлтийн тохиргоо
+Show,Харуулах
+Show all ${count} options,Бүх ${count} сонголтыг харуулах
+Show on storefront,Дэлгүүрт харуулах
+Showing ${showing} of ${total},${total}-аас ${showing} харуулж байна
+Showing ${start}-${end} of ${total} results,${total} үр дүнгээс ${start}-${end} харуулж байна
+Sidebar,Хажуугийн самбар
+Sign in to view your orders,Захиалгаа харахын тулд нэвтэрнэ үү
+Simple,Энгийн
+Sky,Тэнгэр цэнхэр
+Sold out,Бүрэн дууссан
+Some error occurred. Please try again later.,Алдаа гарлаа. Дараа дахин оролдоно уу.
+Some products are not available,Зарим бүтээгдэхүүн боломжгүй байна
+Something went wrong! Please try again.,Алдаа гарлаа! Дахин оролдоно уу.
+Something went wrong. Please try again later.,Алдаа гарлаа. Дараа дахин оролдоно уу.
+Something wrong. Please try again,Алдаа гарлаа. Дахин оролдоно уу
+Sort Order,Эрэмбэлэх дараалал
+Sort order,Эрэмбэлэх дараалал
+Status,Төлөв
+Stock,Нөөц
+Stripe is not loaded. Please try again.,Stripe ачаалагдаагүй байна. Дахин оролдоно уу.
+Style,Загвар
+Sub-fields,Дэд талбарууд
+Submit Cancellation,Цуцлалт илгээх
+Successfully logged in,Амжилттай нэвтэрлээ
+Successfully logged out,Амжилттай гарлаа
+Tax Setting,Татварын тохиргоо
+Test failure,Тест амжилтгүй боллоо
+Test failure:,Тест амжилтгүй:
+Test success,Тест амжилттай боллоо
+Test success:,Тест амжилттай:
+Text,Текст
+Textarea,Текстийн талбар
+The carrier will mark the tracking number as invalid. You will need to purchase a new label if you still intend to ship.,Тээвэрлэгч хянах дугаарыг хүчингүй гэж тэмдэглэнэ. Хэрэв та илгээх бодолтой хэвээр байгаа бол шинэ шошго худалдаж авах шаардлагатай болно.
+The customer will receive a delivery confirmation email.,Худалдан авагч хүргэлтийн баталгаажуулалтын имэйл хүлээн авна.
+There is no category,Ангилал байхгүй байна
+There is no file to display.,Харуулах файл байхгүй байна.
+There is no sub folder.,Дэд хавтас байхгүй байна.
+There was an error:,Алдаа гарлаа:
+This tracking link has expired,Энэ хяналтын холбоосын хугацаа дууссан байна
+This tracking link is no longer valid,Энэ хяналтын холбоос хүчингүй болсон байна
+Thumbnail,Жижиг зураг
+Time must be after ${min},Цаг ${min}-аас хойш байх ёстой
+Time must be before ${max},Цаг ${max}-аас өмнө байх ёстой
+Toggle Sidebar,Хажуугийн самбар нээх/хаах
+Token is invalid or expired,Токен хүчингүй эсвэл хугацаа дууссан байна
+Too many items requested,Хэт олон зүйл хүсэлт гаргасан байна
+Track,Хянах
+Track shipment →,Илгээмж хянах →
+Track your order,Захиалгаа хянах
+Tracking info updated,Хяналтын мэдээлэл шинэчлэгдлээ
+Tracking link,Хяналтын холбоос
+Tracking links are good for a limited time. Sign in to your account to see the current status of your order.,Хяналтын холбоос хязгаарлагдмал хугацаанд хүчинтэй. Захиалгынхаа одоогийн төлөвийг харахын тулд бүртгэлдээ нэвтэрнэ үү.
+Tracking number,Хянах дугаар
+Type,Төрөл
+Type / to see the available blocks,Боломжтой блокуудыг харахын тулд / гэж бичнэ үү
+UPDATE PASSWORD,НУУЦ ҮГ ШИНЭЧЛЭХ
+Update address API not available,Хаяг шинэчлэх API боломжгүй байна
+Update field,Талбар шинэчлэх
+Upload,Байршуулах
+Validation,Баталгаажуулалт
+Value,Утга
+Value must be a whole number,Утга бүхэл тоо байх ёстой
+Value must be at least ${min},Утга дор хаяж ${min} байх ёстой
+Value must be at most ${max},Утга хамгийн ихдээ ${max} байх ёстой
+View All Products,Бүх бүтээгдэхүүнийг харах
+View JSON,JSON харах
+View all customers,Бүх худалдан авагчдыг харах
+Visible to customer,Худалдан авагчид харагдана
+Void Label,Шошго хүчингүй болгох
+Void label,Шошго хүчингүй болгох
+Void this shipping label?,Энэ тээврийн шошгыг хүчингүй болгох уу?
+"We could not find this order. It may have been removed, or it may belong to a different account.",Бид энэ захиалгыг олж чадсангүй. Энэ нь устгагдсан эсвэл өөр бүртгэлд хамаарч магадгүй.
+"We could not verify this link. If you received it in an email from us, please try again from the most recent message, or sign in to your account.",Бид энэ холбоосыг баталгаажуулж чадсангүй. Хэрэв та үүнийг бидний имэйлээр хүлээн авсан бол хамгийн сүүлийн зурвасаас дахин оролдох эсвэл бүртгэлдээ нэвтэрнэ үү.
+We have sent you an email with a link to reset your password. Please check your inbox.,Бид таны нууц үгийг шинэчлэх холбоос бүхий имэйл илгээлээ. Ирсэн имэйлээ шалгана уу.
+Weekly,Долоо хоног тутам
+Welcome to our store!,Манай дэлгүүрт тавтай морилно уу!
+"Where you ship, shipping methods and delivery fee","Хаашаа илгээх, тээврийн арга болон хүргэлтийн төлбөр"
+White,Цагаан
+Yes,Тийм
+You are already logged in,Та аль хэдийн нэвтэрсэн байна
+You are here:,Та энд байна:
+You have no attribute groups to display,Харуулах шинж чанарын бүлэг байхгүй байна
+You have no categories to display,Харуулах ангилал байхгүй байна
+You have no collections to display,Харуулах цуглуулга байхгүй байна
+You have no products to display,Харуулах бүтээгдэхүүн байхгүй байна
+You have not placed any orders yet.,Та одоогоор ямар ч захиалга өгөөгүй байна.
+You paid for,Та төлбөр төлсөн
+You will be redirected to PayPal for payment processing.,Төлбөр боловсруулахаар таныг PayPal руу шилжүүлнэ.
+Your Orders,Таны захиалгууд
+Your order #${number} has been delivered,Таны #${number} захиалга хүргэгдлээ
+Your order #${number} is on the way,Таны #${number} захиалга замдаа явж байна
+Your order has been confirmed!,Таны захиалга баталгаажлаа!
+Your password has been updated successfully.,Таны нууц үг амжилттай шинэчлэгдлээ.
+across,даяар
+available to ship,илгээх боломжтой
+breadcrumb,замчлал
+e.g. Care instructions,ж.нь Арчилгааны заавар
+"e.g. New, Sale, Limited","ж.нь Шинэ, Хямдрал, Хязгаарлагдмал"
+e.g. Question,ж.нь Асуулт
+e.g. care_instructions,ж.нь care_instructions
+e.g. question,ж.нь question
+item,зүйл
+items,зүйл
+left to ship,илгээхэд үлдсэн
+of,-ийн
+of ${count},${count}-аас
+unit,нэгж
+units,нэгж
+${count} changes published.,${count} өөрчлөлт нийтлэгдлээ.
+${count} child widgets,${count} дэд виджет
+${count} countries,${count} улс
+${count} on ${route},${route} дээр ${count}
+${count} ops total,нийт ${count} үйлдэл
+${count} pending ops,${count} хүлээгдэж буй үйлдэл
+${count} pending ops on,дараах дээрх ${count} хүлээгдэж буй үйлдэл
+${count} routes,${count} маршрут
+${direction} failed,${direction} амжилтгүй боллоо
+${method} — ${zone} rate,${method} — ${zone} тариф
+${method} — new rate,${method} — шинэ тариф
+${name} attached to ${zone},${name}-г ${zone}-д хавсаргалаа
+${name} configuration for ${zone},${zone}-д зориулсан ${name} тохиргоо
+${name} configuration for this zone,Энэ бүсэд зориулсан ${name} тохиргоо
+${name} configuration saved for ${zone},${zone}-д зориулсан ${name} тохиргоо хадгалагдлаа
+${name} detached,${name} салгагдлаа
+${name} is required,${name} шаардлагатай
+${title} settings,${title} тохиргоо
+${total} changes will go live immediately.,${total} өөрчлөлт нэн даруй идэвхжинэ.
+${total} items,${total} зүйл
+(envelope),(дугтуй)
++ Add Line,+ Мөр нэмэх
++ Add Method,+ Арга нэмэх
++ Add Rate,+ Тариф нэмэх
++ Add placement,+ Байршил нэмэх
++ Attach Provider,+ Үйлчилгээ үзүүлэгч хавсаргах
++ New package,+ Шинэ багц
++${count} more,+${count} илүү
+", +${count} more",", +${count} илүү"
+", last updated",", сүүлд шинэчилсэн"
+0 for flat envelopes,Хавтгай дугтуйнд 0
+1 change published.,1 өөрчлөлт нийтлэгдлээ.
+1 change will go live immediately.,1 өөрчлөлт нэн даруй идэвхжинэ.
+1 child widget,1 дэд виджет
+1 op total,нийт 1 үйлдэл
+1 pending op,1 хүлээгдэж буй үйлдэл
+1 pending op on,дараах дээрх 1 хүлээгдэж буй үйлдэл
+A package is required for shippable products,Илгээх боломжтой бүтээгдэхүүнд багц шаардлагатай
+A rollout plan saves your current edits as a snapshot and applies them automatically during a scheduled window.,"Нэвтрүүлэх төлөвлөгөө нь таны одоогийн засваруудыг агшин зураг болгон хадгалж, төлөвлөсөн хугацаанд автоматаар хэрэгжүүлдэг."
+Action,Үйлдэл
+Actions,Үйлдлүүд
+Add,Нэмэх
+Add Products,Бүтээгдэхүүн нэмэх
+Add Rate,Тариф нэмэх
+Add Shipping Method,Тээврийн арга нэмэх
+Add Tax Rate,Татварын тариф нэмэх
+Add Variant,Хувилбар нэмэх
+Add products to this category by selecting them from the list below.,Доорх жагсаалтаас сонгож энэ ангилалд бүтээгдэхүүн нэмнэ үү.
+Add rate,Тариф нэмэх
+Added,Нэмэгдсэн
+Adding to Column ${number},${number}-р багана руу нэмж байна
+Additional languages,Нэмэлт хэлнүүд
+Admin panel language,Удирдлагын самбарын хэл
+Affects ${count} pages,${count} хуудсанд нөлөөлнө
+Affects 1 page,1 хуудсанд нөлөөлнө
+All pages,Бүх хуудас
+All registered providers are already attached to this zone.,Бүх бүртгэлтэй нийлүүлэгчид энэ бүсэд аль хэдийн холбогдсон байна.
+All routes,Бүх маршрут
+Also shown on ${routes},Мөн ${routes} дээр харагдана
+Also shown on ${routes} +${count},Мөн ${routes} +${count} дээр харагдана
+Amount must be greater than or equal to 0,Дүн 0-ээс их буюу тэнцүү байх ёстой
+Amount must be less than or equal to ${value} ${currency},Дүн ${value} ${currency}-ээс бага буюу тэнцүү байх ёстой
+Apply a condition?,Нөхцөл хэрэглэх үү?
+Area,Талбай
+Area is required,Талбай шаардлагатай
+At least one country is required,Дор хаяж нэг улс шаардлагатай
+Attach,Холбох
+Attach Provider to ${zone},Нийлүүлэгчийг ${zone}-д холбох
+Attached Providers,Холбогдсон нийлүүлэгчид
+Attribute Name,Шинж чанарын нэр
+Attribute code is required,Шинж чанарын код шаардлагатай
+Attribute created successfully!,Шинж чанар амжилттай үүсгэгдлээ!
+Attribute group,Шинж чанарын бүлэг
+Attribute name is required,Шинж чанарын нэр шаардлагатай
+Authorize only,Зөвхөн зөвшөөрөх
+Auto-saves while you edit,Засварлах үед автоматаар хадгална
+Back To Dashboard,Хяналтын самбар руу буцах
+Base calculation address,Тооцооллын суурь хаяг
+Based on cart subtotal,Сагсны дэд нийлбэр дээр үндэслэн
+Based on cart weight,Сагсны жин дээр үндэслэн
+Basic configuration,Үндсэн тохиргоо
+Boolean,Логик утга
+Built-in shipping methods with per-zone rates. Attach Core to a zone first under Settings → Shipping; then add methods here and configure their rates per zone.,"Бүс тус бүрийн тарифтай суурилуулсан хүргэлтийн аргууд. Эхлээд Тохиргоо → Хүргэлт хэсэгт Core-ыг бүсэд холбоно; дараа нь энд аргуудыг нэмж, бүс тус бүрийн тарифыг тохируулна."
+Buy X get Y,X худалдаж аваад Y авах
+CMS,CMS
+Calculation type,Тооцооллын төрөл
+Can not change the attribute group of a product that is already in a variant group.,Хувилбарын бүлэгт аль хэдийн орсон бүтээгдэхүүний шинж чанарын бүлгийг өөрчлөх боломжгүй.
+Cancel rollout,Нэвтрүүлэлтийг цуцлах
+Cancel rollout plan?,Нэвтрүүлэлтийн төлөвлөгөөг цуцлах уу?
+Canvas device width,Зургийн талбайн төхөөрөмжийн өргөн
+Capture,Барих
+Capture Payment,Төлбөр барих
+Carrier hint for fulfillment — never shown at checkout. NewShipmentDialog uses this to pre-select the carrier.,Гүйцэтгэлд зориулсан тээвэрлэгчийн зөвлөмж — төлбөр төлөх үед хэзээ ч харагдахгүй. NewShipmentDialog үүнийг ашиглан тээвэрлэгчийг урьдчилан сонгоно.
+Carrier-specific service code used when buying a label (CreateLabelInput.serviceCode). Free-form — verify the exact token in the carrier's API docs. Leave blank to let the carrier pick its default service.,Шошго худалдан авах үед ашигладаг тээвэрлэгчид зориулсан үйлчилгээний код (CreateLabelInput.serviceCode). Чөлөөт хэлбэртэй — тээвэрлэгчийн API баримт бичигт яг токеныг шалгана уу. Тээвэрлэгчид өөрийн өгөгдмөл үйлчилгээг сонгуулахын тулд хоосон үлдээнэ үү.
+Cash On Delivery Payment,Хүргэлтийн дараа төлбөр
+"Catalog, Search","Каталог, Хайлт"
+Category Image,Ангиллын зураг
+Category Name,Ангиллын нэр
+Category created successfully!,Ангилал амжилттай үүсгэгдлээ!
+Category name is required,Ангиллын нэр шаардлагатай
+Choose Attribute Groups,Шинж чанарын бүлгүүдийг сонгох
+Choose Categories,Ангиллуудыг сонгох
+Choose Collections,Цуглуулгуудыг сонгох
+Choose SKUs,SKU-нуудыг сонгох
+Choose how much of your unpublished work to discard. The published storefront is not affected.,Нийтлээгүй ажлынхаа хэр хэмжээг устгахаа сонгоно уу. Нийтэлсэн дэлгүүрт нөлөөлөхгүй.
+Choose where you ship and how much you charge for shipping.,Хаашаа хүргэх болон хүргэлтэд хэдийг авахаа сонгоно уу.
+Clear filter,Шүүлтүүр цэвэрлэх
+Clear filters,Шүүлтүүрүүд цэвэрлэх
+Client ID,Client ID
+Client Secret,Client Secret
+Close,Хаах
+Close settings,Тохиргоог хаах
+Close — continue draft,Хаах — ноорогийг үргэлжлүүлэх
+Cms Pages,CMS хуудсууд
+Collapse left rail,Зүүн самбарыг хураах
+Collapse panel,Самбарыг хураах
+Collection Code,Цуглуулгын код
+Collection Name,Цуглуулгын нэр
+Collection code is required,Цуглуулгын код шаардлагатай
+Collection code must be alphanumeric and can include underscores or dashes.,Цуглуулгын код үсэг тоон байх ёстой бөгөөд доогуур зураас эсвэл зураас агуулж болно.
+Collection created successfully!,Цуглуулга амжилттай үүсгэгдлээ!
+Color,Өнгө
+Commerce,Худалдаа
+Compound,Нийлмэл
+Condition,Нөхцөл
+Configure,Тохируулах
+Configure cost and conditions per zone. Zones without a rate don't offer this method.,Бүс тус бүрийн зардал ба нөхцөлийг тохируулна. Тарифгүй бүсүүд энэ аргыг санал болгохгүй.
+Configure rate,Тариф тохируулах
+Configure the available payment methods,Боломжтой төлбөрийн аргуудыг тохируулах
+Configure the settings for the ${name} widget.,${name} виджетийн тохиргоог тохируулах.
+Configure the tax classes that will be available to your customers at checkout.,Үйлчлүүлэгчдэд төлбөр төлөх үед боломжтой байх татварын ангиллыг тохируулна уу.
+Configure your Cash On Delivery payment gateway settings,Хүргэлтийн дараа төлбөрийн гарцын тохиргоог тохируулна уу
+Configure your Paypal payment gateway settings,Paypal төлбөрийн гарцын тохиргоог тохируулна уу
+Configure your Stripe payment gateway settings,Stripe төлбөрийн гарцын тохиргоог тохируулна уу
+Configure your store information,Дэлгүүрийн мэдээллээ тохируулна уу
+"Conflicts with ${plan1}, ${plan2}","${plan1}, ${plan2}-тэй зөрчилдөж байна"
+Conflicts with ${plan},${plan}-тэй зөрчилдөж байна
+Conflicts with ${plan} +${count},${plan} +${count}-тэй зөрчилдөж байна
+Conflicts with:,Үүнтэй зөрчилдөж байна:
+Content,Агуулга
+Continue a saved rollout plan,Хадгалсан нэвтрүүлэлтийн төлөвлөгөөг үргэлжлүүлэх
+Continue your draft,Ноорогоо үргэлжлүүлэх
+Core Shipping,Core хүргэлт
+Core isn't attached to any zone yet. Attach it under Settings → Shipping first.,Core хараахан ямар ч бүсэд холбогдоогүй байна. Эхлээд Тохиргоо → Хүргэлт хэсэгт холбоно уу.
+Cost,Зардал
+Cost is required,Зардал шаардлагатай
+Could not start fresh,Шинээр эхлүүлж чадсангүй
+Countries,Улсууд
+"Country code (e.g., ""US""). Use ""*"" for all countries.","Улсын код (жишээ нь, ""US""). Бүх улсын хувьд ""*""-ыг ашиглана уу."
+Coupon Code,Купоны код
+"Coupon code can only contain letters, numbers, underscores, and hyphens","Купоны код зөвхөн үсэг, тоо, доогуур зураас, зураас агуулж болно"
+Coupon created successfully!,Купон амжилттай үүсгэгдлээ!
+Coupons,Купонууд
+Create A New Customer,Шинэ үйлчлүүлэгч үүсгэх
+Create New Package,Шинэ багц үүсгэх
+Create New Tax Class,Шинэ татварын ангилал үүсгэх
+Create New Zone,Шинэ бүс үүсгэх
+Create a new category,Шинэ ангилал үүсгэх
+Create a new collection,Шинэ цуглуулга үүсгэх
+Create a new coupon,Шинэ купон үүсгэх
+Create a new page,Шинэ хуудас үүсгэх
+Create a new product,Шинэ бүтээгдэхүүн үүсгэх
+Create a new variant for this product.,Энэ бүтээгдэхүүний шинэ хувилбар үүсгэх.
+Create a new widget,Шинэ виджет үүсгэх
+Create a variant group,Хувилбарын бүлэг үүсгэх
+Create method,Арга үүсгэх
+Create new tax class,Шинэ татварын ангилал үүсгэх
+Create rollout plan,Нэвтрүүлэлтийн төлөвлөгөө үүсгэх
+Created At,Үүсгэсэн огноо
+Current,Одоогийн
+Customer,Үйлчлүүлэгч
+Customer Email,Үйлчлүүлэгчийн имэйл
+Customer conditions,Үйлчлүүлэгчийн нөхцөлүүд
+Customer emails,Үйлчлүүлэгчийн имэйлүүд
+Customer groups,Үйлчлүүлэгчийн бүлгүүд
+Customer's purchase,Үйлчлүүлэгчийн худалдан авалт
+Customers,Үйлчлүүлэгчид
+Customers (${count}),Үйлчлүүлэгчид (${count})
+Customers in ${zone} will no longer see ${name}'s methods at checkout. You can re-attach it later.,${zone}-д байгаа үйлчлүүлэгчид төлбөр төлөх үед ${name}-ын аргуудыг цаашид харахгүй. Та үүнийг дараа дахин холбож болно.
+Dashboard,Хяналтын самбар
+Date,Огноо
+Decrease,Бууруулах
+Default carrier,Өгөгдмөл тээвэрлэгч
+Default language,Өгөгдмөл хэл
+Default package,Өгөгдмөл багц
+Default service code,Өгөгдмөл үйлчилгээний код
+"Delete ""${name}""?","""${name}""-ыг устгах уу?"
+Delete ${count} attributes,${count} шинж чанар устгах
+Delete ${count} categories,${count} ангилал устгах
+Delete ${count} collections,${count} цуглуулга устгах
+Delete ${count} pages,${count} хуудас устгах
+Delete ${count} widgets,${count} виджет устгах
+Delete container widget?,Контейнер виджетийг устгах уу?
+Delete image,Зураг устгах
+"Delete package ""${name}""?","""${name}"" багцыг устгах уу?"
+Delete this,Үүнийг устгах
+Delete this widget? This will be saved as a pending change you can publish or discard.,Энэ виджетийг устгах уу? Үүнийг нийтлэх эсвэл устгаж болох хүлээгдэж буй өөрчлөлт болгон хадгална.
+Delete widget?,Виджетийг устгах уу?
+Delete zone,Бүс устгах
+"Delete zone ""${name}""?","""${name}"" бүсийг устгах уу?"
+Deleted ${name},${name}-ыг устгалаа
+Deleting this,Үүнийг устгаж байна
+Deleting this container will also hide,Энэ контейнерыг устгахад мөн дараахыг нуух болно
+Description is required,Тайлбар шаардлагатай
+Desktop,Десктоп
+Detach,Салгах
+Detach ${name}?,${name}-г салгах уу?
+Disable ${count} pages,${count} хуудсыг идэвхгүй болгох
+Disable ${count} widgets,${count} виджетийг идэвхгүй болгох
+Disabled products will not be visible in the store and cannot be purchased.,Идэвхгүй болгосон бүтээгдэхүүнүүд дэлгүүрт харагдахгүй бөгөөд худалдан авах боломжгүй болно.
+Discard changes on this page only,Зөвхөн энэ хуудасны өөрчлөлтийг хаях
+Discard everything,Бүгдийг хаях
+Discard everything in this draft,Энэ ноорог дахь бүгдийг хаях
+Discard failed,Хаях амжилтгүй боллоо
+Discard pending changes?,Хүлээгдэж буй өөрчлөлтүүдийг хаях уу?
+Discard this page,Энэ хуудсыг хаях
+Discarding…,Хаяж байна…
+Discount Type,Хөнгөлөлтийн төрөл
+Discount amount,Хөнгөлөлтийн дүн
+Discount amount is required,Хөнгөлөлтийн дүн шаардлагатай
+Discount type is required,Хөнгөлөлтийн төрөл шаардлагатай
+Dislay Name,Харагдах нэр
+Display Name,Харагдах нэр
+Draft,Ноорог
+Draft — not scheduled,Ноорог — товлоогүй
+Drag to resize,Хэмжээ өөрчлөхөөр чирэх
+"Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.",Мөр бүр энэ виджетийг нэг хуудасны нэг хэсэгт өөрийн эрэмбэлэх дарааллаар байрлуулна. Бага тоо эхэнд харагдана.
+Edit ${name},${name}-г засах
+Edit Shipping Zone,Хүргэлтийн бүсийг засах
+Edit Tax Rate,Татварын хувь хэмжээг засах
+Edit Variant,Хувилбарыг засах
+Edit Zone,Бүсийг засах
+Edit against the live storefront. Publish immediately or save as a rollout plan.,Идэвхтэй дэлгүүрийн дэлгэц дээр засна. Шууд нийтлэх эсвэл нэвтрүүлэх төлөвлөгөө болгон хадгална.
+Edit rollout schedule,Нэвтрүүлэх хуваарийг засах
+Editable routes,Засварлах боломжтой замууд
+Editing ${coupon},${coupon}-г засаж байна
+Editing ${fullName},${fullName}-г засаж байна
+Editing widget ${name},${name} виджетийг засаж байна
+Edits to a shared widget update every route it appears on.,Хуваалцсан виджетэд хийсэн засвар нь түүний харагдах бүх замыг шинэчилнэ.
+Empty package weight,Хоосон савлагааны жин
+Empty weight,Хоосон жин
+Enable ${count} pages,${count} хуудсыг идэвхжүүлэх
+Enable ${count} widgets,${count} виджетийг идэвхжүүлэх
+Enable this page to make it visible on the frontend.,Энэ хуудсыг урд талд харагдуулахын тулд идэвхжүүлнэ үү.
+Enable?,Идэвхжүүлэх үү?
+End,Төгсгөл
+End Date,Дуусах огноо
+End date,Дуусах огноо
+End time is invalid.,Дуусах хугацаа буруу байна.
+End time must be after start time.,Дуусах хугацаа эхлэх хугацаанаас хойш байх ёстой.
+Enter Category Name,Ангиллын нэрийг оруулна уу
+Enter Collection Name,Цуглуулгын нэрийг оруулна уу
+Enter Meta Description,Meta тайлбарыг оруулна уу
+Enter Meta Title,Meta гарчгийг оруулна уу
+Enter Meta description,Meta тайлбарыг оруулна уу
+Enter Meta title,Meta гарчгийг оруулна уу
+Enter SKU,SKU оруулна уу
+Enter URL Key,URL түлхүүрийг оруулна уу
+Enter URL key,URL түлхүүрийг оруулна уу
+Enter customer emails,Үйлчлүүлэгчийн имэйлийг оруулна уу
+Enter description,Тайлбарыг оруулна уу
+Enter group name,Бүлгийн нэрийг оруулна уу
+Enter meta description,Meta тайлбарыг оруулна уу
+Enter meta title,Meta гарчгийг оруулна уу
+Enter page name,Хуудасны нэрийг оруулна уу
+Enter price,Үнийг оруулна уу
+Enter product name,Бүтээгдэхүүний нэрийг оруулна уу
+Enter purchased amount,Худалдан авсан дүнг оруулна уу
+Enter quantity,Тоо хэмжээг оруулна уу
+Enter tax class name,Татварын ангиллын нэрийг оруулна уу
+Enter the quantity,Тоо хэмжээг оруулна уу
+Enter weight,Жинг оруулна уу
+Environment,Орчин
+Error loading countries,Улсуудыг ачаалахад алдаа гарлаа
+Error loading methods,Аргуудыг ачаалахад алдаа гарлаа
+Error loading packages,Багцуудыг ачаалахад алдаа гарлаа
+Error loading providers,Үйлчилгээ үзүүлэгчдийг ачаалахад алдаа гарлаа
+Error loading zones,Бүсүүдийг ачаалахад алдаа гарлаа
+EverShop · Back to page builder,EverShop · Хуудас бүтээгч рүү буцах
+Every page rolls back to the rollout’s saved state.,Хуудас бүр нэвтрүүлэлтийн хадгалсан төлөв рүү буцна.
+Every page rolls back to what the rollout had saved.,Хуудас бүр нэвтрүүлэлтийн хадгалсан зүйл рүү буцна.
+Existing rollout plan: ${plan},Одоо байгаа нэвтрүүлэх төлөвлөгөө: ${plan}
+Expand,Дэлгэх
+Expand left rail,Зүүн самбарыг дэлгэх
+"Extra languages shoppers can switch to, on top of the default. The default language is always available — you don't add it here.",Худалдан авагчид үндсэн хэлнээс гадна сэлгэн орох боломжтой нэмэлт хэлүүд. Үндсэн хэл үргэлж боломжтой байдаг — та үүнийг энд нэмэхгүй.
+Failed to attach provider,Үйлчилгээ үзүүлэгчийг хавсаргаж чадсангүй
+Failed to delete ${name},${name}-г устгаж чадсангүй
+Failed to detach ${name},${name}-г салгаж чадсангүй
+Failed to remove rate,Хувь хэмжээг устгаж чадсангүй
+Failed to remove zone,Бүсийг устгаж чадсангүй
+Failed to save change,Өөрчлөлтийг хадгалж чадсангүй
+Failed to save rate,Хувь хэмжээг хадгалж чадсангүй
+Failed to save zone,Бүсийг хадгалж чадсангүй
+Failed to update rollout schedule,Нэвтрүүлэх хуваарийг шинэчилж чадсангүй
+Fixed discount to entire order,Бүх захиалгад тогтмол хөнгөлөлт
+Fixed discount to specific products,Тодорхой бүтээгдэхүүнд тогтмол хөнгөлөлт
+Flat rate,Тогтмол хувь
+"Flat rate in cart currency, tax-exclusive.","Сагсны валютаар тогтмол хувь, татваргүй."
+Free shipping?,Үнэгүй хүргэлт үү?
+General Information,Ерөнхий мэдээлэл
+Give Feedback,Санал хүсэлт өгөх
+Global,Дэлхий нийтийн
+Globals,Дэлхий нийтийн
+Group,Бүлэг
+Group Name,Бүлгийн нэр
+Group name is required,Бүлгийн нэр шаардлагатай
+Groups,Бүлгүүд
+Half-open interval — a cart at exactly Max is excluded (the next tier's Min owns that point).,Хагас нээлттэй интервал — яг Max дээрх сагс хасагдана (дараагийн түвшний Min тэр цэгийг эзэмшинэ).
+Has conflicts,Зөрчилтэй
+Heads up — ,Анхааруулга — 
+Height,Өндөр
+Height is required (0 for envelopes),Өндөр шаардлагатай (дугтуйны хувьд 0)
+Height must be 0 or greater,Өндөр 0 буюу түүнээс их байх ёстой
+Hide global areas,Дэлхий нийтийн хэсгүүдийг нуух
+Higest tax rate based on cart items,Сагсны бараанд тулгуурласан хамгийн өндөр татварын хувь
+Highlight global areas on canvas,Зурагт хэсэг дэх дэлхий нийтийн хэсгүүдийг тодруулах
+Image,Зураг
+Include In Menu,Цэсэнд оруулах
+Include in Store Menu?,Дэлгүүрийн цэсэнд оруулах уу?
+Increase,Нэмэгдүүлэх
+Insert image,Зураг оруулах
+Integer,Бүхэл тоо
+Invalid folder name,Хавтасны нэр буруу байна
+Invalid start,Эхлэл буруу байна
+Invalid window,Цонх буруу байна
+Inventory,Бараа материал
+Is compound,Нийлмэл эсэх
+Its rates will be removed too. This cannot be undone.,Түүний хувь хэмжээнүүд мөн устгагдана. Үүнийг буцаах боломжгүй.
+Languages,Хэлүүд
+Layers,Давхаргууд
+Layout,Бүтэц
+Leave,Гарах
+Leave a country's list empty to cover the whole country. Add provinces to restrict shipping to specific regions.,Бүх улсыг хамруулахын тулд улсын жагсаалтыг хоосон орхино уу. Хүргэлтийг тодорхой бүс нутгаар хязгаарлахын тулд аймаг нэмнэ үү.
+Leaving now may drop the most recent edits that haven’t reached the server yet.,Одоо гарвал серверт хүрээгүй хамгийн сүүлийн засваруудыг алдаж магадгүй.
+Length,Урт
+Length is required,Урт шаардлагатай
+Length must be greater than 0,Урт 0-оос их байх ёстой
+Live,Идэвхтэй
+Loading...,Ачааллаж байна...
+Long text,Урт текст
+Lower values appear first.,Бага утга эхэнд харагдана.
+Manage Stock,Нөөцийг удирдах
+Manage general information about the collection.,Цуглуулгын тухай ерөнхий мэдээллийг удирдах.
+Manage product images and gallery. Drag and drop to reorder images.,Бүтээгдэхүүний зураг болон цомгийг удирдах. Зургийн эрэмбийг өөрчлөхийн тулд чирж тавина уу.
+"Manage shipping integrations and their methods (Core, USPS, FedEx, …)","Хүргэлтийн интеграцууд болон тэдгээрийн аргуудыг удирдах (Core, USPS, FedEx, …)"
+Manage tax classes and tax rates for different regions.,Өөр өөр бүс нутгийн татварын ангилал болон татварын хувь хэмжээг удирдах.
+Manage the SEO settings of the category.,Ангиллын SEO тохиргоог удирдах.
+Manage the SEO settings.,SEO тохиргоог удирдах.
+Manage the attributes.,Шинж чанаруудыг удирдах.
+Manage the collections associated with this product.,Энэ бүтээгдэхүүнтэй холбоотой цуглуулгуудыг удирдах.
+Manage the general information of the category.,Ангиллын ерөнхий мэдээллийг удирдах.
+Manage the general information of the product.,Бүтээгдэхүүний ерөнхий мэдээллийг удирдах.
+Manage the inventory settings of the product.,Бүтээгдэхүүний бараа материалын тохиргоог удирдах.
+Manage the products assigned to this category.,Энэ ангилалд оноосон бүтээгдэхүүнүүдийг удирдах.
+Manage the products assigned to this collection.,Энэ цуглуулгад оноосон бүтээгдэхүүнүүдийг удирдах.
+Manage the shipping settings of the product.,Бүтээгдэхүүний хүргэлтийн тохиргоог удирдах.
+Manage the status settings of the category.,Ангиллын төлвийн тохиргоог удирдах.
+Manage the variant group of the product.,Бүтээгдэхүүний хувилбарын бүлгийг удирдах.
+Marketing,Маркетинг
+Max ${unit},Дээд ${unit}
+Max is required,Дээд хязгаар шаардлагатай
+Maximum,Дээд хэмжээ
+Maximum amount is ${value} ${currency},Дээд хэмжээ нь ${value} ${currency}
+Maximum quantity is required,Дээд тоо ширхэг шаардлагатай
+Maximum quantity must be greater than or equal to 0,Дээд тоо ширхэг 0-ээс их буюу тэнцүү байх ёстой
+Media,Медиа
+Meta Description,Meta тайлбар
+Meta Title,Meta гарчиг
+Meta Title is required,Meta гарчиг шаардлагатай
+Meta description,Meta тайлбар
+Meta description is required,Meta тайлбар шаардлагатай
+Meta title,Meta гарчиг
+Meta title is required,Meta гарчиг шаардлагатай
+Method,Арга
+Method created,Арга үүсгэгдлээ
+Method name,Аргын нэр
+Method name is required,Аргын нэр шаардлагатай
+Method updated,Арга шинэчлэгдлээ
+Methods →,Аргууд →
+Min ${unit},Доод ${unit}
+Min Price,Доод үнэ
+Min Weight,Доод жин
+Min is required,Доод хязгаар шаардлагатай
+Min price is required,Доод үнэ шаардлагатай
+Min weight is required,Доод жин шаардлагатай
+Minimum purchase amount,Худалдан авалтын доод дүн
+Minimum purchase qty,Худалдан авалтын доод тоо
+Minimum purchase quantity,Худалдан авалтын доод тоо ширхэг
+Minimum purchased amount. This only applies to registered customers.,Худалдан авсан доод дүн. Энэ нь зөвхөн бүртгэлтэй харилцагчдад хамаарна.
+Minimum quantity is required,Доод тоо ширхэг шаардлагатай
+Missing name,Нэр дутуу байна
+Money,Мөнгө
+Name is required.,Нэр шаардлагатай.
+Navigation,Навигаци
+New Attribute,Шинэ шинж чанар
+New Category,Шинэ ангилал
+New Collection,Шинэ цуглуулга
+New Coupon,Шинэ купон
+New Page,Шинэ хуудас
+New Variant,Шинэ хувилбар
+New coupon,Шинэ купон
+New rate,Шинэ тариф
+No collections,Цуглуулга байхгүй
+No editable routes.,Засварлах боломжтой зам байхгүй.
+No file selected,Файл сонгоогүй байна
+No methods yet — add one to start offering Core shipping.,Одоогоор арга байхгүй — Core хүргэлтийг санал болгож эхлэхийн тулд нэгийг нэмнэ үү.
+No packages yet. Create one — shippable products require a package.,Одоогоор багц байхгүй. Нэгийг үүсгэнэ үү — хүргэх боломжтой бүтээгдэхүүнд багц шаардлагатай.
+No product to display.,Харуулах бүтээгдэхүүн байхгүй.
+"No providers attached. Click ""Attach Provider"" to add one.","Хавсаргасан үйлчилгээ үзүүлэгч байхгүй. Нэгийг нэмэхийн тулд ""Attach Provider"" дээр дарна уу."
+"No rates yet — click ""Add Rate"" to offer this method in a zone.","Одоогоор тариф байхгүй — энэ аргыг бүсэд санал болгохын тулд ""Add Rate"" дээр дарна уу."
+"No results for ""${keyword}""","""${keyword}""-д тохирох үр дүн байхгүй"
+No routes have opted into page-builder editing yet.,Одоогоор ямар ч зам page-builder засварлалтыг сонгоогүй байна.
+No shipping required?,Хүргэлт шаардлагагүй юу?
+No subdivisions available — whole country is covered.,Дэд хэсэг байхгүй — бүх улсыг хамарна.
+No widgets available.,Виджет байхгүй.
+"No widgets match ""${query}"".","""${query}""-д тохирох виджет байхгүй."
+No widgets on this route yet.,Энэ замд одоогоор виджет байхгүй.
+No zones,Бүс байхгүй
+No zones found,Бүс олдсонгүй
+Not visible individually,Дангаар нь харагдахгүй
+Nothing to publish,Нийтлэх зүйл байхгүй
+Nothing to redo on this page,Энэ хуудсанд дахин хийх зүйл байхгүй
+Nothing to undo on this page,Энэ хуудсанд буцаах зүйл байхгүй
+Number,Тоо
+Option text is required,Сонголтын текст шаардлагатай
+Optional. Added to the shipping weight for quotes and labels.,Заавал биш. Үнийн санал болон шошгод зориулж хүргэлтийн жинд нэмэгдэнэ.
+Order Number,Захиалгын дугаар
+Order conditions,Захиалгын нөхцөл
+Orders (${count}),Захиалга (${count})
+Other,Бусад
+Other pages keep their pending changes.,Бусад хуудаснууд хүлээгдэж буй өөрчлөлтөө хадгална.
+Overlaps with existing rollout: ${plans}.,Одоо байгаа нэвтрүүлэлттэй давхцаж байна: ${plans}.
+Overlaps with existing rollouts: ${plans}.,Одоо байгаа нэвтрүүлэлтүүдтэй давхцаж байна: ${plans}.
+Package,Багц
+Package created,Багц үүсгэгдлээ
+Package deleted,Багц устгагдлаа
+Package saved,Багц хадгалагдлаа
+Packages,Багцууд
+Page Name,Хуудасны нэр
+Page Not Found,Хуудас олдсонгүй
+Page builder,Хуудас бүтээгч
+Page builder canvas,Хуудас бүтээгчийн талбай
+Page created successfully!,Хуудас амжилттай үүсгэгдлээ!
+Page is required,Хуудас шаардлагатай
+Page name is required,Хуудасны нэр шаардлагатай
+Pages,Хуудаснууд
+Parent category,Эх ангилал
+Payment Setting,Төлбөрийн тохиргоо
+Payment mode,Төлбөрийн горим
+Payment setting saved,Төлбөрийн тохиргоо хадгалагдлаа
+Paypal Payment,Paypal төлбөр
+Pending start time,Эхлэх цаг хүлээгдэж байна
+Percentage discount to entire order,Бүх захиалгад хувийн хямдрал
+Percentage discount to specific products,Тодорхой бүтээгдэхүүнд хувийн хямдрал
+Phone,Утас
+Pick a start time to schedule this rollout.,Энэ нэвтрүүлэлтийг товлохын тулд эхлэх цаг сонгоно уу.
+Pick a widget below to insert as a child.,Дэд элемент болгон оруулах виджетийг доороос сонгоно уу.
+Pick up where you left off — ${count} pending changes,Үлдсэн газраасаа үргэлжлүүлээрэй — ${count} хүлээгдэж буй өөрчлөлт
+Pick up where you left off — 1 pending change,Үлдсэн газраасаа үргэлжлүүлээрэй — 1 хүлээгдэж буй өөрчлөлт
+Pin drawer open,Шургуулгыг нээлттэй бэхлэх
+Pin — keep drawer open across canvas clicks,Бэхлэх — талбай дээр дарахад шургуулгыг нээлттэй байлгах
+Placed on: ${routes},Байрлуулсан: ${routes}
+Placements,Байршлууд
+Postal Code,Шуудангийн код
+"Postcode (e.g., ""90210""). Empty for all postcodes.","Шуудангийн код (жишээ нь, ""90210""). Бүх шуудангийн кодод хоосон үлдээнэ."
+Preselected for new products. Exactly one package is the default.,Шинэ бүтээгдэхүүнд урьдчилан сонгогдсон. Яг нэг багц нь анхдагч болно.
+Preview,Урьдчилан харах
+Price-based tiers,Үнэд суурилсан түвшинүүд
+Priority,Тэргүүлэх зэрэг
+Priority is required,Тэргүүлэх зэрэг шаардлагатай
+Product Name,Бүтээгдэхүүний нэр
+Product Status,Бүтээгдэхүүний төлөв
+Product created successfully,Бүтээгдэхүүн амжилттай үүсгэгдлээ
+Product updated successfully,Бүтээгдэхүүн амжилттай шинэчлэгдлээ
+Products (${count}),Бүтээгдэхүүн (${count})
+Promotion,Урамшуулал
+Proportional allocation based on cart items,Сагсны бараанд суурилсан пропорциональ хуваарилалт
+Provide the SEO details for the CMS page.,CMS хуудасны SEO мэдээллийг оруулна уу.
+Provide the basic information for the CMS page.,CMS хуудасны үндсэн мэдээллийг оруулна уу.
+Provider,Үйлчилгээ үзүүлэгч
+Province Restrictions,Аймгийн хязгаарлалт
+"Province code (e.g., ""CA""). Use ""*"" for all provinces.","Аймгийн код (жишээ нь, ""CA""). Бүх аймгийн хувьд ""*"" ашиглана."
+Provinces,Аймгууд
+Provinces is required,Аймгууд шаардлагатай
+Provinces:,Аймгууд:
+Publish failed,Нийтлэл амжилтгүй боллоо
+Publish now,Одоо нийтлэх
+Publish to the live storefront,Идэвхтэй дэлгүүрт нийтлэх
+Publishable Key,Нийтлэх боломжтой түлхүүр
+Publishing…,Нийтэлж байна…
+Qty is required,Тоо ширхэг шаардлагатай
+Quick links,Шуурхай холбоосууд
+Rate,Тариф
+Rate added,Тариф нэмэгдлээ
+Rate is required,Тариф шаардлагатай
+Rate removed,Тариф хасагдлаа
+Rate status,Тарифын төлөв
+Rate updated,Тариф шинэчлэгдлээ
+Redo (⇧⌘Z) — re-applies the last undone edit on this page,Дахин хийх (⇧⌘Z) — энэ хуудсанд буцаасан сүүлчийн засварыг дахин хэрэгжүүлнэ
+Redo last undone change on this page,Энэ хуудсанд буцаасан сүүлчийн өөрчлөлтийг дахин хийх
+Reference,Лавлагаа
+Refund,Буцаан олголт
+Refund amount,Буцаан олголтын дүн
+Remove Zone,Бүс хасах
+Remove placement,Байршил хасах
+Remove rate,Тариф хасах
+Remove this rate?,Энэ тарифыг устгах уу?
+Removed,Устгасан
+Resize settings drawer,Тохиргооны самбарын хэмжээг өөрчлөх
+"Results for ""${keyword}""","""${keyword}""-ийн үр дүн"
+Revert all pages to saved state,Бүх хуудсыг хадгалсан төлөвт буцаах
+Revert everything,Бүгдийг буцаах
+Revert this page,Энэ хуудсыг буцаах
+Revert this page only,Зөвхөн энэ хуудсыг буцаах
+Revert to saved state?,Хадгалсан төлөвт буцаах уу?
+Reverting…,Буцааж байна…
+Rich text,Баялаг текст
+Roll back the changes you have made since this rollout was last saved. The live storefront is unaffected — it already reflects the saved state.,Энэ нэвтрүүлэлтийг сүүлд хадгалсанаас хойш хийсэн өөрчлөлтүүдээ буцаах. Шууд дэлгүүр хэвээр байна — энэ нь аль хэдийн хадгалсан төлөвийг тусгасан.
+SEO,SEO
+SEO Information,SEO мэдээлэл
+SKU is required,SKU шаардлагатай
+Sale,Хямдрал
+Sandbox,Туршилтын орчин
+Save Settings,Тохиргоог хадгалах
+Save as rollout plan,Нэвтрүүлэлтийн төлөвлөгөө болгон хадгалах
+Save as rollout plan and leave,Нэвтрүүлэлтийн төлөвлөгөө болгон хадгалаад гарах
+Save changes,Өөрчлөлтийг хадгалах
+Save failed,Хадгалж чадсангүй
+Save method,Аргыг хадгалах
+Save rate,Тарифыг хадгалах
+Saving…,Хадгалж байна…
+Schedule failed,Хуваарь тогтоож чадсангүй
+Scheduled,Хуваарьт оруулсан
+Search engine optimize,Хайлтын системд оновчтой болгох
+Search widgets,Виджет хайх
+Secret Key,Нууц түлхүүр
+Select Category,Ангилал сонгох
+Select Parent Category,Эх ангилал сонгох
+Select Products by SKU,Бүтээгдэхүүнийг SKU-аар сонгох
+Select a provider first,Эхлээд нийлүүлэгч сонгоно уу
+Select a provider…,Нийлүүлэгч сонгох…
+Select an option,Сонголт сонгох
+Select category,Ангилал сонгох
+Select countries,Улсуудыг сонгох
+Select operator,Оператор сонгох
+Select options,Сонголтуудыг сонгох
+Select page,Хуудас сонгох
+Select products to add to this collection.,Энэ цуглуулгад нэмэх бүтээгдэхүүнүүдийг сонгоно уу.
+Select the list of attribute,Шинж чанарын жагсаалтыг сонгох
+Select this option if the product is a digital product or service that does not require shipping.,Хэрэв бүтээгдэхүүн нь хүргэлт шаардлагагүй дижитал бүтээгдэхүүн эсвэл үйлчилгээ бол энэ сонголтыг сонгоно уу.
+Set a start time to schedule.,Хуваарьт оруулахын тулд эхлэх хугацааг тохируулна уу.
+Set the status and visibility of the product.,Бүтээгдэхүүний төлөв болон харагдах байдлыг тохируулна уу.
+Share,Хуваалцах
+Shipping Cost,Хүргэлтийн зардал
+Shipping Providers,Хүргэлтийн нийлүүлэгчид
+Shipping address,Хүргэх хаяг
+Shipping cost is required,Хүргэлтийн зардал шаардлагатай
+Shipping provider setting saved,Хүргэлтийн нийлүүлэгчийн тохиргоог хадгаллаа
+Shipping tax class,Хүргэлтийн татварын ангилал
+Short text,Богино текст
+Show global areas,Глобал хэсгүүдийг харуулах
+Show on routes,Маршрутууд дээр харуулах
+Show products?,Бүтээгдэхүүн харуулах уу?
+Show this widget on every page,Энэ виджетийг бүх хуудсан дээр харуулах
+Size (L × W × H),Хэмжээ (У × Ө × Ө)
+Sort,Эрэмбэлэх
+Sort order is required,Эрэмбийн дараалал шаардлагатай
+Sort order must be a positive number,Эрэмбийн дараалал эерэг тоо байх ёстой
+Start,Эхлэх
+Start a page-builder session,Хуудас бүтээгчийн сесс эхлүүлэх
+Start date,Эхлэх огноо
+Start new changeset,Шинэ өөрчлөлтийн багц эхлүүлэх
+Start time is invalid.,Эхлэх хугацаа буруу байна.
+State Date,Огноо
+Status is required,Төлөв шаардлагатай
+Stay,Үлдэх
+Stay on this page,Энэ хуудсан дээр үлдэх
+Stock Availability,Нөөцийн боломж
+Stop highlighting global areas,Глобал хэсгүүдийг тодруулахаа болих
+Store Address,Дэлгүүрийн хаяг
+Store Description,Дэлгүүрийн тайлбар
+Store Email,Дэлгүүрийн имэйл
+Store Name,Дэлгүүрийн нэр
+Store Phone Number,Дэлгүүрийн утасны дугаар
+Store Setting,Дэлгүүрийн тохиргоо
+Store Settings,Дэлгүүрийн тохиргоо
+Store address,Дэлгүүрийн хаяг
+Storefront,Дэлгүүрийн нүүр
+Stripe Payment,Stripe төлбөр
+Tablet,Таблет
+Take our survey,Манай судалгаанд оролцоно уу
+Target Products,Зорилтот бүтээгдэхүүн
+Tax Class,Татварын ангилал
+Tax calculation configuration,Татвар тооцоолох тохиргоо
+Tax class name,Татварын ангиллын нэр
+Tax class name is required,Татварын ангиллын нэр шаардлагатай
+Tax classes,Татварын ангиллууд
+Tax rate has been saved successfully!,Татварын тарифыг амжилттай хадгаллаа!
+Tax setting has been saved successfully!,Татварын тохиргоог амжилттай хадгаллаа!
+The box or envelope this product ships in. Applies to all variants of this product.,Энэ бүтээгдэхүүнийг хүргэх хайрцаг эсвэл дугтуй. Энэ бүтээгдэхүүний бүх хувилбарт хамаарна.
+The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.,Таны хүргэлтэд ашигладаг хайрцаг болон дугтуйнууд. Хүргэх боломжтой бүх бүтээгдэхүүн нэгийг ашигладаг — түүний хэмжээ болон хоосон жин нь хүргэлтийн үнэ болон шошгыг тодорхойлдог.
+The conditions related to the customer for the coupon to be applied.,Купоныг хэрэглэхэд хамаарах худалдан авагчтай холбоотой нөхцлүүд.
+The conditions related to the order for the coupon to be applied.,Купоныг хэрэглэхэд хамаарах захиалгатай холбоотой нөхцлүүд.
+The default package cannot be deleted,Үндсэн багцыг устгах боломжгүй
+The draft holds ${count} saved changes you can publish later.,Ноорогт дараа нь нийтлэх боломжтой ${count} хадгалсан өөрчлөлт байна.
+The draft holds 1 saved change you can publish later.,Ноорогт дараа нь нийтлэх боломжтой 1 хадгалсан өөрчлөлт байна.
+The draft is deleted.,Ноорог устгагдсан.
+The draft itself is deleted.,Ноорог өөрөө устгагдсан.
+The general information about the coupon.,Купоны талаарх ерөнхий мэдээлэл.
+"The language of the admin panel, independent of the storefront.",Дэлгүүрийн нүүрнээс хамааралгүй админ самбарын хэл.
+The method will no longer apply to this zone.,Энэ арга нь энэ бүсэд цаашид хамаарахгүй.
+The minimum quantity of items required in the order to qualify for this coupon.,Энэ купоныг авах эрх үүсгэхэд захиалгад шаардагдах барааны хамгийн бага тоо хэмжээ.
+The minimum total amount required for the order to qualify for this coupon.,Энэ купоныг авах эрх үүсгэхэд захиалгад шаардагдах хамгийн бага нийт дүн.
+The rollout plan,Нэвтрүүлэлтийн төлөвлөгөө
+The storefront's primary language. Pages in this language have no URL prefix.,Дэлгүүрийн нүүрний үндсэн хэл. Энэ хэл дээрх хуудсууд URL угтваргүй.
+The type of discount applied by the coupon.,Купоноор хэрэглэх хөнгөлөлтийн төрөл.
+The zone this rate applies to.,Энэ тариф хамаарах бүс.
+"There is no ""Select"" attribute available.","Боломжтой ""Select"" шинж чанар алга."
+There is no attribute to display,Харуулах шинж чанар алга
+There is no category to display,Харуулах ангилал алга
+There is no collections to display,Харуулах цуглуулга алга
+There is no coupon to display,Харуулах купон алга
+There is no customer to display,Харуулах худалдан авагч алга
+There is no order to display,Харуулах захиалга алга
+There is no page to display,Харуулах хуудас алга
+There is no widget to display,Харуулах виджет алга
+There was an error fetching attribute groups.,Шинж чанарын бүлгүүдийг татахад алдаа гарлаа.
+There was an error fetching categories.,Ангиллуудыг татахад алдаа гарлаа.
+There was an error fetching collections.,Цуглуулгуудыг татахад алдаа гарлаа.
+There was an error fetching file browser APIs.,Файл хөтлөгчийн API-уудыг татахад алдаа гарлаа.
+There was an error fetching products.,Бүтээгдэхүүнүүдийг татахад алдаа гарлаа.
+This cannot be undone. Packages still assigned to products can't be removed.,Үүнийг буцаах боломжгүй. Бүтээгдэхүүнд хуваарилагдсан хэвээр байгаа багцуудыг устгах боломжгүй.
+This changeset has no operations yet.,Энэ өөрчлөлтийн багцад одоогоор ямар ч үйлдэл алга.
+This field is required,Энэ талбар шаардлагатай
+This is the URL path for the CMS page.,Энэ нь CMS хуудасны URL зам юм.
+This is the address used to calculate tax rates.,Энэ нь татварын тарифыг тооцоолоход ашигладаг хаяг юм.
+This is the meta title for the CMS page.,Энэ нь CMS хуудасны мета гарчиг юм.
+This is the name of the CMS page that will be displayed in the admin panel.,Энэ нь админ самбарт харагдах CMS хуудасны нэр юм.
+This is the tax class applied to shipping costs.,Энэ нь хүргэлтийн зардалд хэрэглэх татварын ангилал юм.
+This product has some variants like color or size?,"Энэ бүтээгдэхүүн өнгө, хэмжээ зэрэг хувилбартай юу?"
+This provider has no per-zone configuration. Methods and per-zone rates are managed in the provider's own admin area.,Энэ нийлүүлэгч бүс тус бүрийн тохиргоогүй. Аргууд болон бүс тус бүрийн тарифыг нийлүүлэгчийн өөрийн админ хэсэгт удирддаг.
+This removes the zone along with its provider attachments and rates. This cannot be undone.,Энэ нь бүсийг түүний нийлүүлэгчийн хавсралт болон тарифуудтай хамт устгана. Үүнийг буцаах боломжгүй.
+This route has unpublished changes in your draft,Энэ маршрутад таны ноорогт нийтлээгүй өөрчлөлтүүд байна
+This will be saved as a pending change you can publish or discard.,Энэ нь таны нийтлэх эсвэл хаях боломжтой хүлээгдэж буй өөрчлөлт болгон хадгалагдана.
+Tiered,Шатлалт
+Type is required,Төрөл шаардлагатай
+URL Key,URL түлхүүр
+URL Key is required,URL түлхүүр шаардлагатай
+"URL Key must be lowercase and can only contain letters, numbers, and hyphens","URL түлхүүр жижиг үсгээр байх ёстой бөгөөд зөвхөн үсэг, тоо, зураас агуулж болно"
+URL key,URL түлхүүр
+URL key is required,URL түлхүүр шаардлагатай
+URL key must be lowercase and can only contain alphanumeric characters and hyphens,URL түлхүүр жижиг үсгээр байх ёстой бөгөөд зөвхөн үсэг тоо болон зураас агуулж болно
+Unassign,Хуваарилалтыг цуцлах
+Undo (⌘Z) — undoes your last edit on this page,Буцаах (⌘Z) — энэ хуудсан дээрх сүүлчийн засварыг буцаана
+Undo / Redo,Буцаах / Дахин хийх
+Undo last change on this page,Энэ хуудсан дээрх сүүлчийн өөрчлөлтийг буцаах
+Unknown,Тодорхойгүй
+Unlink,Холбоос салгах
+Unpin drawer,Хайрцгийн бэхэлгээ салгах
+Unpin — drawer will close when you click empty canvas,Бэхэлгээ салгах — хоосон зураг дээр дармагц хайрцаг хаагдана
+Unpublished changes,Нийтлээгүй өөрчлөлтүүд
+Unsaved changes,Хадгалаагүй өөрчлөлтүүд
+Update the name and active window for this rollout plan. Content edits are managed separately in the editor.,Энэ нэвтрүүлэх төлөвлөгөөний нэр болон идэвхтэй цонхыг шинэчилнэ. Контентын засваруудыг засварлагч дотор тусад нь удирдана.
+Update the variant details and attributes here.,Хувилбарын дэлгэрэнгүй мэдээлэл болон шинж чанаруудыг энд шинэчилнэ үү.
+Updated,Шинэчилсэн
+Upload an image for the category.,Ангиллын зураг байршуулна уу.
+Used Times,Ашигласан тоо
+Value is required,Утга оруулах шаардлагатай
+Variant Group,Хувилбарын бүлэг
+Variant created successfully,Хувилбарыг амжилттай үүсгэлээ
+Variant updated successfully,Хувилбарыг амжилттай шинэчиллээ
+Version ${version},Хувилбар ${version}
+Visibility,Харагдах байдал
+Visibility determines where the product appears in the store. It does not affect the saleability of the product.,Харагдах байдал нь бүтээгдэхүүн дэлгүүрт хаана харагдахыг тодорхойлно. Энэ нь бүтээгдэхүүний борлуулагдах чадварт нөлөөлөхгүй.
+Visitors will see the new layout on their next page load.,Зочид дараагийн хуудас ачаалах үед шинэ байрлалыг харах болно.
+Webhook Secret Key,Webhook нууц түлхүүр
+Weight,Жин
+Weight must be 0 or greater,Жин 0 эсвэл түүнээс их байх ёстой
+Weight must be a positive number,Жин эерэг тоо байх ёстой
+Weight-based tiers,Жинд суурилсан түвшнүүд
+Widget Settings,Widget тохиргоо
+Widget created successfully!,Widget амжилттай үүсгэлээ!
+Widgets,Widget-үүд
+Width,Өргөн
+Width is required,Өргөн оруулах шаардлагатай
+Width must be greater than 0,Өргөн 0-оос их байх ёстой
+Will roll out automatically: ${range},Автоматаар нэвтрэх болно: ${range}
+Working…,Боловсруулж байна…
+Worldwide,Дэлхий даяар
+X,X
+Y,Y
+You have ${count} changes in this draft that haven’t been published yet.,Энэ ноорог дотор нийтлэгдээгүй ${count} өөрчлөлт байна.
+You have ${count} changes still saving.,Хадгалагдаж байгаа ${count} өөрчлөлт байна.
+You have 1 change in this draft that hasn’t been published yet.,Энэ ноорог дотор нийтлэгдээгүй 1 өөрчлөлт байна.
+You have 1 change still saving.,Хадгалагдаж байгаа 1 өөрчлөлт байна.
+Your draft is safe on the server — you can come back and publish it any time.,Таны ноорог серверт аюулгүй хадгалагдсан — та хүссэн үедээ буцаж ирээд нийтэлж болно.
+Your edits on other pages stay in the draft.,Бусад хуудсан дахь таны засварууд нооргонд хадгалагдана.
+Your webhook url should be: https://yourdomain.com/api/stripe/webhook,Таны webhook url нь дараах байх ёстой: https://yourdomain.com/api/stripe/webhook
+Zone,Бүс
+Zone Name,Бүсийн нэр
+Zone Rates,Бүсийн тарифууд
+Zone created,Бүс үүсгэлээ
+Zone is required,Бүс оруулах шаардлагатай
+Zone name is required,Бүсийн нэр оруулах шаардлагатай
+Zone removed,Бүс устгалаа
+Zone updated,Бүс шинэчиллээ
+Zones served,Үйлчилсэн бүсүүд
+and ${count} more,болон бусад ${count}
+container will also hide,савлагаа мөн нуугдана
+current page,одоогийн хуудас
+e.g. Small Box,ж.нь Жижиг хайрцаг
+e.g. Summer Sale 2026,ж.нь Зуны хямдрал 2026
+e.g. content,ж.нь content
+"e.g., 10.00",ж.нь 10.00
+"e.g., EU, US-West","ж.нь EU, US-West"
+"e.g., Express",ж.нь Express
+"e.g., FEDEX_GROUND, usps_priority","ж.нь FEDEX_GROUND, usps_priority"
+every page,бүх хуудас
+indefinite,хязгааргүй
+open,нээх
+"publishing is immediate and can’t be undone from this screen. To stage instead, cancel and choose “Schedule a rollout”.","нийтлэх нь шууд хийгдэх бөгөөд энэ дэлгэцээс буцаах боломжгүй. Үүний оронд бэлтгэхийн тулд цуцалж, “Нэвтрүүлэхийг товлох”-ыг сонгоно уу."
+quantity of products are matched bellow conditions(All),доорх нөхцөлд тохирох бүтээгдэхүүний тоо хэмжээ (Бүгд)
+subtotal,дэд дүн
+to a storefront route's,дэлгүүрийн маршрутын
+to make it appear here.,үүнийг энд харагдуулахын тулд.
+weight,жин
+widget? This will be saved as a pending change you can publish or discard.,widget? Энэ нь таны нийтлэх эсвэл устгаж болох хүлээгдэж буй өөрчлөлт болгон хадгалагдана.
+will be removed and the live storefront will stop applying its edits. The underlying changeset and its pending content edits are preserved.,устгагдах бөгөөд идэвхтэй дэлгүүр түүний засваруудыг хэрэглэхээ болино. Үндсэн өөрчлөлтийн багц болон түүний хүлээгдэж буй контентын засварууд хадгалагдана.
+— None —,— Байхгүй —
+Cash On Delivery,Хүлээн авах үед төлөх
+Please select a valid payment method,Хүчинтэй төлбөрийн арга сонгоно уу
+Show ${label} width,${label} өргөнийг харуулах
+Column ${index},Багана ${index}
+Switch page,Хуудас солих
+Search pages…,Хуудас хайх…
+Search pages,Хуудас хайх
+Save your pending edits — the live storefront will catch up,Хүлээгдэж буй засваруудаа хадгалах — идэвхтэй дэлгүүр шинэчлэгдэнэ
+No changes to save — the rollout matches the editor,Хадгалах өөрчлөлт байхгүй — нэвтрүүлэлт нь засварлагчтай таарч байна
+More rollout actions,Нэвтрүүлэх бусад үйлдлүүд
+Revert to saved state…,Хадгалсан төлөвт буцах…
+Roll back the editor to what the rollout currently shows on the storefront,Засварлагчийг нэвтрүүлэлт одоо дэлгүүрт харуулж буй төлөвт буцаах
+Nothing to revert — the editor matches the saved state,Буцаах зүйл байхгүй — засварлагч нь хадгалсан төлөвтэй таарч байна
+Cancel rollout plan…,Нэвтрүүлэх төлөвлөгөөг цуцлах…
+Remove the schedule — the changeset is preserved,Хуваарийг устгах — өөрчлөлтийн багц хадгалагдана
+Publish,Нийтлэх
+More publish options,Нийтлэх бусад сонголтууд
+Apply all edits to the live storefront immediately,Бүх засварыг идэвхтэй дэлгүүрт шууд хэрэглэх
+Save as rollout plan…,Нэвтрүүлэх төлөвлөгөө болгон хадгалах…
+Schedule these edits to roll out at a future time,Эдгээр засваруудыг ирээдүйд нэвтрүүлэхээр товлох
+Discard pending changes…,Хүлээгдэж буй өөрчлөлтүүдийг устгах…
+Choose between discarding the whole draft or just this page,Бүх ноорог эсвэл зөвхөн энэ хуудсыг устгах хооронд сонгоно уу
+Switch session,Сесс солих
+New changeset,Шинэ өөрчлөлтийн багц
+Rollout: ${name},Нэвтрүүлэлт: ${name}
+Click or drag to add,Нэмэхийн тулд дарах эсвэл чирэх
+Background color,Дэвсгэр өнгө
+Text color,Текстийн өнгө
+Dwell time,Харагдах хугацаа
+Time each announcement stays visible (in addition to the 400ms slide transition).,Зарлал бүр харагдаж байх хугацаа (400ms гулсах шилжилтээс гадна).
+Announcements,Зарлалууд
+Add announcement,Зарлал нэмэх
+Untitled,Гарчиггүй
+Free shipping on orders over $50,$50-аас дээш захиалгад үнэгүй хүргэлт
+Optional. Makes the entire row a clickable link.,Заавал биш. Бүх мөрийг дарж болох холбоос болгоно.
+Link label,Холбоосын шошго
+Optional. Displayed after the content; defaults to the content itself.,Заавал биш. Контентын дараа харагдана; анхдагчаар контент өөрөө болно.
+Shop now,Одоо худалдан авах
+Dark,Бараан
+Light,Цайвар
+Gradient,Градиент
+Left,Зүүн
+Center,Төв
+Right,Баруун
+Selected image,Сонгосон зураг
+No image selected,Зураг сонгоогүй
+Replace,Солих
+Clear,Цэвэрлэх
+Reflects the alignment below.,Доорх зэрэгцүүлэлтийг тусгана.
+Banner Image,Баннерын зураг
+Mobile image,Гар утасны зураг
+Optional. Swapped in below the 768px breakpoint. Falls back to the image above when empty — typical use is a portrait crop of the same scene.,Заавал биш. 768px-ийн доор солигдоно. Хоосон үед дээрх зураг руу буцна — ихэвчлэн ижил үзэгдлийн босоо тайралтыг ашиглана.
+Alignment,Зэрэгцүүлэлт
+Overlay copy,Давхаргын текст
+Eyebrow,Дээд шошго
+"Small all-caps label above the heading. E.g. ""LIMITED EDITION"".","Гарчгийн дээрх том үсгээр бичсэн жижиг шошго. Ж.нь ""LIMITED EDITION""."
+LIMITED EDITION,ХЯЗГААРЛАГДМАЛ ХЭВЛЭЛ
+Heading,Гарчиг
+The Summer Edit,Зуны түүвэр
+Sub-text,Дэд текст
+One short supporting sentence.,Нэг богино тайлбар өгүүлбэр.
+Overlay placement,Давхаргын байрлал
+Content position,Контентын байрлал
+Where the overlay text sits on the image.,Давхаргын текст зураг дээр хаана байрлахыг тодорхойлно.
+Tint,Өнгөний нэмэлт
+A scrim behind the overlay text for legibility. Dark / gradient flip the text to white automatically.,Уншихад хялбар болгох үүднээс давхаргын текстийн ард тавих хөшиг. Бараан / градиент нь текстийг автоматаар цагаан болгоно.
+Tint opacity,Өнгөний тунгалаг байдал
+Call to actions,Үйлдэлд уриалах
+Remove primary CTA,Үндсэн CTA-г устгах
++ Add a primary CTA,+ Үндсэн CTA нэмэх
+Secondary,Хоёрдогч
+Remove secondary CTA,Хоёрдогч CTA-г устгах
+Learn more,Дэлгэрэнгүй
++ Add a secondary CTA,+ Хоёрдогч CTA нэмэх
+Details,Дэлгэрэнгүй
+Alt text,Alt текст
+Describes the banner for screen readers and SEO.,Дэлгэц уншигч болон SEO-д зориулж баннерыг тайлбарлана.
+"e.g. ""Summer sale promotional banner""","ж.нь ""Зуны хямдралын сурталчилгааны баннер"""
+Banner link,Баннерын холбоос
+Optional. Clicking the banner navigates here.,Заавал биш. Баннер дээр дарвал энд шилжинэ.
+Display name,Харагдах нэр
+Shop,Дэлгүүр
+Target,Зорилт
+"Page, category, product, or a custom URL.","Хуудас, ангилал, бүтээгдэхүүн эсвэл захиалгат URL."
+Nofollow,Nofollow
+SEO: don't pass ranking credit to this link (rel=nofollow).,SEO: энэ холбоост зэрэглэлийн кредит дамжуулахгүй (rel=nofollow).
+No referrer,Лавлагаагүй
+Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.,Нууцлал: лавлагаа URL-ийг хасах (rel=noreferrer). Шинэ табын холбоост үргэлж багтана.
+Menu items,Цэсний зүйлс
+Add menu item,Цэсний зүйл нэмэх
+Sub-items,Дэд зүйлс
+Optional dropdown links (1 level).,Заавал биш дэлгэгдэх холбоос (1 түвшин).
+Add sub-item,Дэд зүйл нэмэх
+Options,Сонголтууд
+Use as main menu,Үндсэн цэс болгон ашиглах
+"Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.","Үндсэн навигаци — гар утсан дээр хамбургер цэс болж хураагдана. Энгийн холбоосын жагсаалт (ж.нь хөл) бол унтраа, энэ нь гар утсан дээр мөрөн дотор хэвээр үлдэнэ."
+Custom CSS classes,Захиалгат CSS класс
+Applied to the rendered menu element.,Гаргасан цэсний элементэд хэрэглэнэ.
+e.g. main-nav font-semibold,ж.нь main-nav font-semibold
+S,S
+M,M
+L,L
+Tiles,Хавтгайлбар
+Add tile,Хавтгайлбар нэмэх
+Hero · ,Hero · 
+Used when no image is set.,Зураг тохируулаагүй үед ашиглана.
+Small label above the heading.,Гарчгийн дээрх жижиг шошго.
+THE SUMMER EDIT,ЗУНЫ ЭДИТ
+New Arrivals,Шинэ ирэлт
+Body,Үндсэн хэсэг
+Big card — the headline of the grid.,Том карт — торны гарчиг.
+Link URL,Холбоосын URL
+Gap,Зай
+Minimum block height,Блокийн доод өндөр
+Image left,Зураг зүүн талд
+Image right,Зураг баруун талд
+Centered,Голлуулсан
+Pull quote,Иш татсан эшлэл
+Variant,Хувилбар
+Image column size,Зургийн баганын хэмжээ
+Describe the image,Зургийг тайлбарлах
+Copy,Текст
+"Small all-caps label. E.g. ""OUR STORY"".","Жижиг том үсгийн шошго. Ж.нь ""БИДНИЙ ТҮҮХ""."
+Our story,Бидний түүх
+"Made by hand, in small batches","Гар хийц, бага хэмжээгээр"
+"Required for the pull-quote variant. Displayed large, styled as a blockquote.","Иш татсан эшлэлийн хувилбарт шаардлагатай. Том харагдаж, blockquote хэлбэрээр загварчлагдана."
+"A short, quotable line.","Богино, иш татах боломжтой мөр."
+Three or four sentences of brand narrative.,"Брэндийн өгүүлэмжийн гурав, дөрвөн өгүүлбэр."
+Second body paragraph (optional),Хоёр дахь үндсэн догол мөр (заавал биш)
+A second short paragraph if the story needs it.,Түүхэнд шаардлагатай бол хоёр дахь богино догол мөр.
+Read more link,Дэлгэрэнгүй унших холбоос
+Read more,Дэлгэрэнгүй унших
+URL,URL
+Remove read-more link,Дэлгэрэнгүй унших холбоосыг устгах
++ Add a read-more link,+ Дэлгэрэнгүй унших холбоос нэмэх
+Square,Дөрвөлжин
+Landscape,Хэвтээ
+Portrait,Босоо
+Overlay,Давхарласан
+Below,Доор
+New category,Шинэ ангилал
+Section heading,Хэсгийн гарчиг
+Optional. Shown above the grid.,Заавал биш. Торны дээр харагдана.
+Shop by category,Ангиллаар худалдан авах
+Women,Эмэгтэй
+Columns,Багана
+Auto,Авто
+Asymmetric makes the first tile span 2 columns.,Тэгш бус нь эхний хавтгайлбарыг 2 багана дамжуулна.
+Uniform,Жигд
+Asymmetric,Тэгш бус
+Image aspect,Зургийн харьцаа
+Label position,Шошгоны байрлал
+Blush,Цайвар ягаан
+XL,XL
+Position ${c},Байрлал ${c}
+Column layout,Баганын байрлал
+Drag widgets into each column. Children re-flow when you change the ratio.,Виджетийг багана бүр рүү чирнэ. Харьцааг өөрчлөхөд дэд элементүүд дахин урсана.
+Space between columns.,Багана хоорондын зай.
+Where content sits within each column. Applied uniformly to every column.,Багана бүрийн дотор контент хаана байрлах. Багана бүрд жигд хэрэглэнэ.
+Row appearance,Мөрийн харагдац
+Background,Дэвсгэр
+Custom color,Захиалгат өнгө
+"Any CSS color (e.g. ""#0a0a0a"" or ""rgb(10,10,10)""). Leave empty to use the swatch above.","Аливаа CSS өнгө (ж.нь ""#0a0a0a"" эсвэл ""rgb(10,10,10)""). Дээрх дээжийг ашиглахын тулд хоосон орхино уу."
+Padding,Дотор зай
+Outer spacing around the row. Scales down on mobile.,Мөрний эргэн тойрны гадаад зай. Гар утсан дээр багасна.
+Solid,Тасралтгүй
+Dashed,Зураасан
+Already expired,Хугацаа аль хэдийн дууссан
+Expires in ${days}d ${hours}h,Хугацаа дуусахад ${days}ө ${hours}ц
+Expires in ${hours}h ${minutes}m,Хугацаа дуусахад ${hours}ц ${minutes}м
+Offer,Санал
+"Urgency line. Optional. E.g. ""Limited · Ends Sunday"".","Яаралтай мөр. Заавал биш. Ж.нь ""Хязгаарлагдмал · Ням гарагт дуусна""."
+Limited · Ends Sunday,Хязгаарлагдмал · Ням гарагт дуусна
+Headline,Гарчиг
+Take 20% off your order,Захиалгаасаа 20% хямдрал аваарай
+Optional. One short instructional line.,Заавал биш. Нэг богино зааварчилгааны мөр.
+Use code at checkout,Төлбөр төлөхдөө кодыг ашиглана уу
+Promo code,Урамшууллын код
+Displayed in uppercase to shoppers.,Худалдан авагчдад том үсгээр харагдана.
+Expires,Хугацаа дуусна
+Optional. The block auto-hides after this time for live visitors.,Заавал биш. Энэ хугацааны дараа блок шууд зочдод автоматаар нуугдана.
+Call to action,Үйлдэл уриалга
+Button label,Товчны шошго
+Shop now →,Одоо худалдан авах →
+Button link,Товчны холбоос
+Appearance,Харагдац
+Border,Хүрээ
+Narrow,Нарийн
+Normal,Энгийн
+Wide,Өргөн
+Shown above all content. Optional.,Бүх контентын дээр харагдана. Заавал биш.
+e.g. Frequently asked,ж.нь Түгээмэл асуулт
+Prose,Бичвэр
+FAQ group · ${count} items,FAQ бүлэг · ${count} зүйл
+Group heading,Бүлгийн гарчиг
+Optional sub-heading.,Заавал биш дэд гарчиг.
+e.g. Shipping,ж.нь Хүргэлт
+Add question,Асуулт нэмэх
+Question,Асуулт
+e.g. How long does shipping take?,ж.нь Хүргэлт хэр удах вэ?
+Answer,Хариулт
+"Supports **bold**, _italic_, and line breaks.","**bold**, _italic_ болон мөр таслалтыг дэмждэг."
+e.g. Orders ship within 24 hours…,ж.нь Захиалга 24 цагийн дотор илгээгдэнэ…
+Add prose,Бичвэр нэмэх
+Add FAQ group,FAQ бүлэг нэмэх
+Max width,Дээд өргөн
+Content column width.,Контентын баганын өргөн.
+Allow multiple open,Олныг нээхийг зөвшөөрөх
+"When off, opening one FAQ item closes the others in the same group.",Унтраалттай үед нэг FAQ зүйлийг нээхэд тухайн бүлгийн бусдыг хаана.
+New link,Шинэ холбоос
+New column,Шинэ багана
+Add column,Багана нэмэх
+${title} · ${count} links,${title} · ${count} холбоос
+Column title,Баганын гарчиг
+Links,Холбоос
+"Min 1, max 12.","Хамгийн бага 1, дээд 12."
+Add link,Холбоос нэмэх
+New arrivals,Шинэ ирэлт
+Boxed,Хайрцагласан
+Wide (full bleed),Өргөн (бүтэн дүүргэлт)
+Boxed stays inside the page's container (theme decides the max-width). Wide breaks out edge-to-edge.,Хайрцагласан нь хуудасны контейнер дотор үлдэнэ (загвар нь дээд өргөнийг шийднэ). Өргөн нь захаас зах хүртэл задарна.
+Scales down on mobile.,Гар утсан дээр багасна.
+Optional. Painted behind content. Combine with a tint below for legibility.,Заавал биш. Контентын ард будагдана. Уншихад тохиромжтой болгохын тулд доорх өнгөтэй хослуул.
+XS,XS
+Spacing,Зай
+Size,Хэмжээ
+Mobile scales down ~⅔ automatically.,Гар утсан дээр ~⅔ хэмжээгээр автоматаар багасна.
+Divider line,Тусгаарлах зураас
+Show divider line,Тусгаарлах зураас харуулах
+A horizontal rule centred in the spacing band.,Зайн хэсгийн төвд байрлах хэвтээ зураас.
+Line color,Зурасны өнгө
+Default uses the theme's divider color.,Анхдагч байдлаар загварын тусгаарлах өнгийг ашиглана.
+Sides,Талууд
+Bottom,Доод
+Dots,Цэгүүд
+Bars,Баганууд
+Mobile image (optional),Гар утасны зураг (заавал биш)
+Used at ≤ 767 px. Falls back to the main image.,≤ 767 px-д ашиглана. Боломжгүй бол үндсэн зураг руу шилжинэ.
+e.g. New collection,ж.нь Шинэ цуглуулга
+e.g. Summer Sale,ж.нь Зуны хямдрал
+Sub text,Дэд текст
+Check out our latest products with special discounts.,Тусгай хямдралтай хамгийн сүүлийн бүтээгдэхүүнүүдийг үзээрэй.
+Primary button,Үндсэн товч
+Secondary button,Хоёрдогч товч
++ Add secondary button,+ Хоёрдогч товч нэмэх
+Overrides,Дарж тохируулга
+Leaves slide-specific anchor; falls back to the slideshow's default.,Слайдын тусгай байрлалыг үлдээнэ; боломжгүй бол слайд шоуны анхдагч руу шилжинэ.
+Overlay tint,Давхаргын өнгө
+Overlay opacity,Давхаргын тунгалаг байдал
+Make whole slide clickable,Бүх слайдыг дарагдах боломжтой болгох
+Behavior,Үйлдэл
+Transition,Шилжилт
+Slide,Слайд
+Fade,Бүдгэрэлт
+Transition speed,Шилжилтийн хурд
+Autoplay,Автомат тоглуулах
+Autoplay delay,Автомат тоглуулах хүлээлт
+${seconds} s between slides,Слайд хооронд ${seconds} с
+Pause on hover,Хулгана тавихад түр зогсоох
+Pause for 20 s after user nav,Хэрэглэгч шилжсэний дараа 20 с түр зогсоох
+Arrows,Сумнууд
+Aspect ratio,Талбайн харьцаа
+`Auto` matches the natural image height (jumps between slides).,`Auto` нь зургийн жинхэнэ өндөртэй тохирно (слайд хооронд үсэрнэ).
+Default content position,Агуулгын анхдагч байрлал
+Per-slide overrides win.,Слайд бүрийн дарж тохируулга давамгайлна.
+Default overlay tint,Давхаргын анхдагч өнгө
+Default overlay opacity,Давхаргын анхдагч тунгалаг байдал
+Slides (${count}),Слайдууд (${count})
+No slides yet.,Одоогоор слайд алга.
+Add your first slide,Эхний слайдаа нэмэх
+Slide ${number},Слайд ${number}
+Image only,Зөвхөн зураг
+Empty,Хоосон
+Show slide,Слайд харуулах
+Hide slide,Слайд нуух
+Move slide up,Слайдыг дээш зөөх
+Move slide down,Слайдыг доош зөөх
+Delete slide,Слайд устгах
+Top,Дээд
+Cover,Бүтэн дүүргэх
+Contain,Багтаах
+Required for accessibility.,Хүртээмжийн төлөө шаардлагатай.
+Image fit,Зургийн тохируулга
+"Small all-caps label. E.g. ""LIMITED EDITION"".","Жижиг том үсгийн шошго. Ж.нь ""ХЯЗГААРЛАГДМАЛ ХЭВЛЭЛ""."
+Limited edition,Хязгаарлагдмал хэвлэл
+One strong line,Нэг хүчтэй мөр
+Two lines of supporting copy.,Хоёр мөр туслах текст.
+Image position,Зургийн байрлал
+Vertical alignment,Босоо тэгшлэлт
+Aligns the copy panel content.,Текстийн самбарын агуулгыг тэгшилнэ.
+Remove call to action,Уриалга арилгах
+Add a call to action,Уриалга нэмэх
+Custom CSS classes for the text block,Текст блокийн тусгай CSS ангиуд
+Add group,Бүлэг нэмэх
+${label} · ${count} subs,${label} · ${count} дэд
+Parent label,Эцэг шошго
+Parent link,Эцэг холбоос
+Image alt text,Зургийн alt текст
+Sub-categories,Дэд ангилал
+"Min 1, max 8.","Хамгийн бага 1, хамгийн их 8."
+Add sub-category,Дэд ангилал нэмэх
+Dresses,Даашинз
+Columns (desktop),Багана (десктоп)
+On tablets the layout is always 2 columns.,Таблет дээр зохион байгуулалт үргэлж 2 баганатай байна.
+Make parent image a link,Эцэг зургийг холбоос болгох
+"When off, only the sub-chips and parent label are interactive.",Унтраалттай үед зөвхөн дэд шошго болон эцэг шошго идэвхтэй байна.
+Title,Гарчиг
+e.g. Free shipping,ж.нь Үнэгүй хүргэлт
+Optional supporting line below the title.,Гарчгийн доорх заавал биш туслах мөр.
+Icon,Дүрс тэмдэг
+Optional. SVG or raster image. Hidden when icons are turned off globally.,Заавал биш. SVG эсвэл растер зураг. Дүрс тэмдгийг бүхэлд нь унтраахад нуугдана.
+Optional. Makes the whole cell clickable.,Заавал биш. Бүх нүдийг дарагдах боломжтой болгоно.
+"Auto matches the item count, capped at 4.",Auto нь зүйлийн тоотой тохирох ба дээд тал нь 4.
+3,3
+4,4
+Icon size,Дүрс тэмдгийн хэмжээ
+Show icons,Дүрс тэмдэг харуулах
+Master switch. Items without an icon URL are unaffected.,Үндсэн унтраалга. Дүрс тэмдгийн URL-гүй зүйлсэд нөлөөлөхгүй.
+Show divider,Тусгаарлагч харуулах
+Vertical line between cells.,Нүднүүдийн хоорондох босоо зураас.
+Collection,Цуглуулга
+Search collections…,Цуглуулга хайх…
+No collections match “${value}”.,“${value}”-д тохирох цуглуулга алга.
+You have no collections yet.,Танд одоогоор цуглуулга алга.
+Please select a collection,Цуглуулга сонгоно уу
+"Defaults to ""${name}"" (the collection's name).","Анхдагчаар ""${name}"" (цуглуулгын нэр)."
+Defaults to the picked collection's name.,Анхдагчаар сонгосон цуглуулгын нэр.
+Collection name,Цуглуулгын нэр
+Defaults to the collection's description. Setting this replaces the rich-text description with plain text.,Анхдагчаар цуглуулгын тайлбар. Үүнийг тохируулбал баялаг текст тайлбарыг энгийн текстээр солино.
+e.g. Hand-picked styles for the season.,ж.нь Улирлын сонгосон загварууд.
+View all link,Бүгдийг харах холбоос
+"Optional. Hidden when empty. Pick a category, product, page, or paste a custom URL.","Заавал биш. Хоосон үед нуугдана. Ангилал, бүтээгдэхүүн, хуудас сонгох эсвэл тусгай URL буулгана уу."
+"Optional. Defaults to ""View all →"".","Заавал биш. Анхдагчаар ""Бүгдийг харах →""."
+View all →,Бүгдийг харах →
+Total products,Нийт бүтээгдэхүүн
+Number of products to display.,Харуулах бүтээгдэхүүний тоо.
+Products per row,Мөр бүрийн бүтээгдэхүүн
+Grid columns (1–6 typical).,Тороор багана (ердийн 1–6).
+Count is required,Тоо шаардлагатай
+e.g. 8,ж.нь 8
+Count per row is required,Мөр бүрийн тоо шаардлагатай
+e.g. 4,ж.нь 4
+Cover image,Нүүр зураг
+COLLECTION,ЦУГЛУУЛГА
+"Defaults to ""${pickedName}"".","Анхдагчаар ""${pickedName}""."
+Defaults to the picked collection name.,Анхдагчаар сонгосон цуглуулгын нэр.
+Optional. One or two sentences of editorial copy.,Заавал биш. Нэг буюу хоёр өгүүлбэр редакцийн текст.
+"Linen, cotton, easy stuff.","Маалинга, хөвөн, энгийн зүйлс."
+Preview product count,Урьдчилан харах бүтээгдэхүүний тоо
+2 (1×2),2 (1×2)
+4 (2×2),4 (2×2)
+Please pick a collection,Цуглуулга сонгоно уу
+Add collection,Цуглуулга нэмэх
+Row heading,Мөрийн гарчиг
+The Linen Edit,The Linen Edit
+Optional. Hidden when empty.,Заавал биш. Хоосон үед нуугдана.
+View all label,Бүгдийг харах шошго
+Show price,Үнэ харуулах
+Show divider between rows,Мөр хооронд тусгаарлагч харуулах
+Selected:,Сонгосон:
+Image override,Зураг дарж тохируулах
+Override image,Зураг дарж тохируулах
+Override image (optional),Зураг дарж тохируулах (заавал биш)
+Leave empty to use the product's primary image.,Бүтээгдэхүүний үндсэн зургийг ашиглахын тулд хоосон үлдээнэ үү.
+Small label above the product name. Optional.,Бүтээгдэхүүний нэрний дээрх жижиг шошго. Заавал биш.
+FEATURED,ОНЦЛОХ
+Editorial copy,Редакцийн текст
+Overrides the product's own description in this context. Leave blank to hide.,Энэ нөхцөлд бүтээгдэхүүний өөрийн тайлбарыг дарж тохируулна. Нуухын тулд хоосон үлдээнэ үү.
+Two lines of copy explaining why this product is being spotlighted right now.,Энэ бүтээгдэхүүн яагаад одоо онцлогдож байгааг тайлбарласан хоёр мөр текст.
+Please pick a product,Бүтээгдэхүүн сонгоно уу
+e.g. On orders over $50,ж.нь $50-аас дээш захиалгад
+Text block,Текст блок
+Menu,Цэс
+Footer menu,Хөлийн цэс
+Banner,Баннер
+Simple Slideshow,Энгийн слайд шоу
+Brand story,Брэндийн түүх
+Category mosaic,Ангиллын мозайк
+Tiered categories,Шатлсан ангилал
+Bento grid,Бэнто тор
+Separator,Тусгаарлагч
+Section,Хэсэг
+Split feature,Хуваагдсан онцлог
+Announcement bar,Зарлалын мөр
+Coupon block,Купоны блок
+FAQ block,FAQ блок
+Trust strip,Итгэлийн зурвас
+Collection products,Цуглуулгын бүтээгдэхүүн
+Collection stack,Цуглуулгын овоолго
+Collection spotlight,Цуглуулгын онцлол
+Product hero,Бүтээгдэхүүний гол баннер
+Layout container with 1–4 columns for nesting widgets.,Виджет үүрлэхэд зориулсан 1–4 баганатай байршлын сав.
+Add rich text content,Баялаг текст агуулга нэмэх
+Navigation links,Навигацийн холбоосууд
+Multi-column list of footer links — a titled column of navigation links per group.,Хөлийн холбоосуудын олон баганат жагсаалт — бүлэг тус бүрд гарчигтай навигацийн холбоосын багана.
+A single hero image with optional overlay copy and CTAs.,Сонголтоор давхар бичвэр болон CTA-тай нэг гол баннер зураг.
+Rotating image carousel,Эргэлддэг зургийн карусель
+Editorial block combining an image and long-form brand narrative. Four layout variants.,Зураг болон урт хэлбэрийн брэндийн өгүүлэмжийг хослуулсан редакцийн блок. Дөрвөн байршлын хувилбар.
+"A grid of 3–6 category tiles for the primary ""Shop by category"" entry point.","Үндсэн ""Ангиллаар худалдан авах"" оруулах цэгт зориулсан 3–6 ангиллын хавтангийн тор."
+A two-level nav block: parent category image plus a row of sub-category chips.,Хоёр түвшний навигацийн блок: эх ангиллын зураг дээр дэд ангиллын чипүүдийн эгнээ.
+An asymmetric mosaic of CTA tiles — one large hero plus 1–4 supporting tiles.,CTA хавтангуудын тэгш бус мозайк — нэг том гол хавтан дээр 1–4 туслах хавтан.
+"Vertical spacing between widgets, with an optional divider line. Mobile scales down automatically.","Виджетуудын хоорондох босоо зай, сонголтоор хуваагч шугамтай. Мобайл дээр автоматаар жижигрэнэ."
+Styled droppable band that wraps other widgets. Toggle between wide (edge-to-edge) and boxed (theme container).,Бусад виджетийг багтаах хэв маягтай орхих боломжтой зурвас. Өргөн (ирмэгээс ирмэг) болон хайрцагласан (загварын сав) хооронд сэлгэх.
+A 50/50 image + copy promo block with optional CTA. The canonical promo moment widget.,Сонголтоор CTA-тай 50/50 зураг + бичвэр сурталчилгааны блок. Сурталчилгааны мөчийн каноник виджет.
+A thin top-of-page bar with one or more rotating announcements.,Нэг буюу хэд хэдэн эргэлддэг зарлалтай хуудасны дээд талын нимгэн мөр.
+A promo panel with a copyable discount code and CTA.,Хуулж болох хямдралын код болон CTA-тай сурталчилгааны самбар.
+Flexible content block mixing prose sections and accordion FAQ groups.,Бичвэрийн хэсгүүд болон аккордеон FAQ бүлгүүдийг хослуулсан уян хатан агуулгын блок.
+"A row of value-prop items (free shipping, easy returns, etc.) for below-the-hero or above-the-footer reinforcement.","Гол баннерын доор эсвэл хөлийн дээр баталгаажуулахад зориулсан үнэ цэнийн саналын элементүүдийн эгнээ (үнэгүй хүргэлт, хялбар буцаалт гэх мэт)."
+A list of products from a collection,Цуглуулгын бүтээгдэхүүний жагсаалт
+"Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Гарчиг, бүгдийг үзэх холбоос болон бүтээгдэхүүний зурвас бүхий цуглуулгуудын овоолсон эгнээнүүд."
+"A featured collection with cover image, editorial copy, and a small product preview grid.","Нүүр зураг, редакцийн бичвэр болон бүтээгдэхүүний жижиг урьдчилан үзэх тор бүхий онцлох цуглуулга."
+"A single-product spotlight — image, name, price, and a link to the full product page.","Нэг бүтээгдэхүүний онцлол — зураг, нэр, үнэ болон бүтээгдэхүүний бүрэн хуудас руу холбоос."

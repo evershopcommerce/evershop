@@ -1,5 +1,6 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
 import { InputGroupInput } from '@components/common/ui/InputGroup.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
@@ -43,10 +44,11 @@ export function FileField<T extends FieldValues = FieldValues>({
     formState: { errors },
     watch
   } = useFormContext<T>();
+  const resolvedName = useScopedFieldName(name) as FieldPath<T>;
 
-  const fieldError = getNestedError(name, errors, error);
-  const fieldId = `field-${name}`;
-  const files = watch(name);
+  const fieldError = getNestedError(resolvedName, errors, error);
+  const fieldId = `field-${resolvedName}`;
+  const files = watch(resolvedName);
 
   const formatFileSize = (bytes: number) => {
     if (bytes === 0) return '0 Bytes';
@@ -95,7 +97,7 @@ export function FileField<T extends FieldValues = FieldValues>({
       )}
 
       <Controller
-        name={name}
+        name={resolvedName}
         control={control}
         rules={validationRules}
         render={({ field: { onChange, value, ...field } }) => (
@@ -137,7 +139,9 @@ export function FileField<T extends FieldValues = FieldValues>({
         </div>
       )}
 
-      {fieldError && <FieldError>{fieldError}</FieldError>}
+      {fieldError && (
+        <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
+      )}
     </Field>
   );
 }

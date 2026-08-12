@@ -9,6 +9,7 @@ import {
   TableCell,
   TableFooter
 } from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
@@ -26,15 +27,19 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
     name: 'weight_based_cost'
   });
 
-  // Initialize the field array with existing lines if it's empty
+  // Initialize the field array with existing lines if it's empty. Must be ONE
+  // append(array) call: under a form with `shouldUnregister: true` (the core
+  // rate dialog), consecutive append() calls in the same effect each compute
+  // from the same pre-append snapshot and the last write wins — seeding N
+  // lines showed only the last one.
   React.useEffect(() => {
     if (fields.length === 0 && lines.length > 0) {
-      lines.forEach((line) => {
-        append({
+      append(
+        lines.map((line) => ({
           min_weight: line.minWeight?.value,
           cost: line.cost?.value
-        });
-      });
+        }))
+      );
     }
   }, [lines, fields.length, append]);
 
@@ -53,9 +58,9 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="border-none">Min Weight</TableHead>
-            <TableHead className="border-none">Shipping Cost</TableHead>
-            <TableHead className="border-none">Action</TableHead>
+            <TableHead className="border-none">{_('Min Weight')}</TableHead>
+            <TableHead className="border-none">{_('Shipping Cost')}</TableHead>
+            <TableHead className="border-none">{_('Action')}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -64,17 +69,17 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
               <TableCell className="border-none">
                 <NumberField
                   name={`weight_based_cost.${index}.min_weight`}
-                  placeholder="Min Weight"
+                  placeholder={_('Min Weight')}
                   required
-                  validation={{ required: 'Min weight is required' }}
+                  validation={{ required: _('Min weight is required') }}
                 />
               </TableCell>
               <TableCell className="border-none">
                 <NumberField
                   name={`weight_based_cost.${index}.cost`}
-                  placeholder="Shipping Cost"
+                  placeholder={_('Shipping Cost')}
                   required
-                  validation={{ required: 'Shipping cost is required' }}
+                  validation={{ required: _('Shipping cost is required') }}
                 />
               </TableCell>
               <TableCell className="border-none">
@@ -84,7 +89,7 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
                     onClick={() => remove(index)}
                     className="text-destructive"
                   >
-                    Delete
+                    {_('Delete')}
                   </button>
                 )}
               </TableCell>
@@ -105,7 +110,7 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
                   });
                 }}
               >
-                + Add Line
+                {_('+ Add Line')}
               </Button>
             </TableCell>
           </TableRow>

@@ -1,8 +1,9 @@
 import { node, select, sql } from '@evershop/postgres-query-builder';
+import uniqid from 'uniqid';
 import { pool } from '../../../lib/postgres/connection.js';
 import { camelCase } from '../../../lib/util/camelCase.js';
-import { getConfig } from '../../../lib/util/getConfig.js';
 import { getValue } from '../../../lib/util/registry.js';
+import { getShowOutOfStockProducts } from './catalogSettings.js';
 
 export class ProductCollection {
   constructor(baseQuery) {
@@ -19,14 +20,24 @@ export class ProductCollection {
     // If the user is not admin, we need to filter out the out of stock products and the disabled products
     if (!isAdmin) {
       this.baseQuery.andWhere('product.status', '=', 1);
-      if (getConfig('catalog.showOutOfStockProduct', false) === false) {
-        this.baseQuery
-          .andWhere('product_inventory.manage_stock', '=', false)
-          .addNode(
-            node('OR')
-              .addLeaf('AND', 'product_inventory.qty', '>', 0)
-              .addLeaf('AND', 'product_inventory.stock_availability', '=', true)
-          );
+      if (getShowOutOfStockProducts() === false) {
+        // Wrap the disjunction in its own node — see Variant.resolvers.js:
+        // the chained .andWhere(...).addNode(node('OR')...) form leaks every
+        // later condition (visibility, url filters) into the OR's right
+        // operand, letting manage_stock=false products bypass them.
+        const stockFilter = node('AND');
+        stockFilter.addLeaf(
+          'AND',
+          'product_inventory.manage_stock',
+          '=',
+          false
+        );
+        stockFilter.addNode(
+          node('OR')
+            .addLeaf('AND', 'product_inventory.qty', '>', 0)
+            .addLeaf('AND', 'product_inventory.stock_availability', '=', true)
+        );
+        this.baseQuery.getWhere().addNode(stockFilter);
       }
     }
     const currentFilters = [];
@@ -97,21 +108,45 @@ export class ProductCollection {
         this.baseQuery.andWhere('product.visibility', '=', 't');
       }
     } else {
+      // Admin listing shows ONE row per variant group. Keep the dedup entirely
+      // in SQL as a semi-join subquery: the previous implementation pulled
+      // every collapsed product_id into Node and fed them back as an IN list,
+      // which built an O(n²) parameter clause (minutes of blocked event loop
+      // on large catalogs) and then died on the wire protocol's 65,535
+      // parameter limit anyway.
       const onePerVariantGroupQuery = this.baseQuery.clone();
       onePerVariantGroupQuery.removeLimit();
+      onePerVariantGroupQuery.removeOrderBy();
       onePerVariantGroupQuery.select(
         sql(
-          'DISTINCT ON (COALESCE(product.variant_group_id, random())) product.product_id',
+          'DISTINCT ON (COALESCE(product.variant_group_id, -product.product_id)) product.product_id',
           'product_id'
         )
       );
-      onePerVariantGroupQuery.removeOrderBy();
-      const onePerGroup = await onePerVariantGroupQuery.execute(pool);
-      this.baseQuery.andWhere(
-        'product.product_id',
-        'IN',
-        onePerGroup.map((v) => v.product_id)
+      // Render the (already filtered) clone and re-key its bindings —
+      // clone() preserves binding keys, so embedding the rendered SQL without
+      // re-keying would duplicate keys with the outer query and break the
+      // named-to-positional conversion at execute time.
+      let dedupSql = await onePerVariantGroupQuery.sql();
+      const dedupBinding = {};
+      Object.entries(onePerVariantGroupQuery.getBinding()).forEach(
+        ([key, bindValue], index) => {
+          const newKey = `dedup${index}x${uniqid()}`;
+          dedupSql = dedupSql.replace(
+            new RegExp(`:${key}\\b`, 'g'),
+            `:${newKey}`
+          );
+          dedupBinding[newKey] = bindValue;
+        }
       );
+      // Deterministic representative (highest product_id per group) — the old
+      // random() picked a different representative on every request, which
+      // made pagination unstable. DISTINCT ON takes the first row per group
+      // in this order.
+      dedupSql += ` ORDER BY COALESCE(product.variant_group_id, -product.product_id), product.product_id DESC`;
+      this.baseQuery
+        .getWhere()
+        .addRaw('AND', `product.product_id IN (${dedupSql})`, dedupBinding);
     }
 
     // Clone the main query for getting total right before doing the paging

@@ -1,0 +1,19 @@
+type FeaturedBlogsWidget {
+  eyebrow: String
+  heading: String
+  subText: String
+  count: Int
+  columns: Int
+  posts: [BlogPost!]!
+}
+
+extend type Query {
+  featuredBlogsWidget(
+    eyebrow: String
+    heading: String
+    subText: String
+    postUuids: [String]
+    count: Int
+    columns: Int
+  ): FeaturedBlogsWidget
+}

@@ -1,0 +1,3 @@
+extend type Customer {
+  urn: String!
+}

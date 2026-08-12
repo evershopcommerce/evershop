@@ -48,15 +48,22 @@ import type {
   SessionRow,
   SettingRow,
   ShipmentRow,
-  ShippingMethodRow,
+  ShipmentItemRow,
   ShippingZoneRow,
-  ShippingZoneMethodRow,
   ShippingZoneProvinceRow,
+  ShippingZoneCountryRow,
+  ShippingZoneProviderRow,
+  CoreShippingMethodRow,
+  CoreShippingMethodRateRow,
   TaxClassRow,
   TaxRateRow,
   UrlRewriteRow,
   VariantGroupRow,
-  WidgetRow
+  WidgetInstanceRow,
+  WidgetPlacementRow,
+  ChangesetRow,
+  ChangesetOperationRow,
+  RolloutPlanRow
 } from '../../types/db/index.js';
 
 // ---- Known EverShop table names ------------------------------------------------
@@ -99,16 +106,23 @@ export type TableName =
   | 'session'
   | 'setting'
   | 'shipment'
-  | 'shipping_method'
+  | 'shipment_item'
   | 'shipping_zone'
-  | 'shipping_zone_method'
   | 'shipping_zone_province'
+  | 'shipping_zone_country'
+  | 'shipping_zone_provider'
+  | 'core_shipping_method'
+  | 'core_shipping_method_rate'
   | 'tax_class'
   | 'tax_rate'
   | 'url_rewrite'
   | 'user_token_secret'
   | 'variant_group'
-  | 'widget';
+  | 'widget_instance'
+  | 'widget_placement'
+  | 'changeset'
+  | 'changeset_operation'
+  | 'rollout_plan';
 
 // ---- Table → column mapping (derived from Row types, always stays in sync) -----
 
@@ -150,16 +164,23 @@ type TableColumnMap = {
   session: keyof SessionRow;
   setting: keyof SettingRow;
   shipment: keyof ShipmentRow;
-  shipping_method: keyof ShippingMethodRow;
+  shipment_item: keyof ShipmentItemRow;
   shipping_zone: keyof ShippingZoneRow;
-  shipping_zone_method: keyof ShippingZoneMethodRow;
   shipping_zone_province: keyof ShippingZoneProvinceRow;
+  shipping_zone_country: keyof ShippingZoneCountryRow;
+  shipping_zone_provider: keyof ShippingZoneProviderRow;
+  core_shipping_method: keyof CoreShippingMethodRow;
+  core_shipping_method_rate: keyof CoreShippingMethodRateRow;
   tax_class: keyof TaxClassRow;
   tax_rate: keyof TaxRateRow;
   url_rewrite: keyof UrlRewriteRow;
   user_token_secret: never; // deprecated/removed table
   variant_group: keyof VariantGroupRow;
-  widget: keyof WidgetRow;
+  widget_instance: keyof WidgetInstanceRow;
+  widget_placement: keyof WidgetPlacementRow;
+  changeset: keyof ChangesetRow;
+  changeset_operation: keyof ChangesetOperationRow;
+  rollout_plan: keyof RolloutPlanRow;
 };
 
 /**
@@ -209,16 +230,23 @@ type TableRowMap = {
   session: SessionRow;
   setting: SettingRow;
   shipment: ShipmentRow;
-  shipping_method: ShippingMethodRow;
+  shipment_item: ShipmentItemRow;
   shipping_zone: ShippingZoneRow;
-  shipping_zone_method: ShippingZoneMethodRow;
   shipping_zone_province: ShippingZoneProvinceRow;
+  shipping_zone_country: ShippingZoneCountryRow;
+  shipping_zone_provider: ShippingZoneProviderRow;
+  core_shipping_method: CoreShippingMethodRow;
+  core_shipping_method_rate: CoreShippingMethodRateRow;
   tax_class: TaxClassRow;
   tax_rate: TaxRateRow;
   url_rewrite: UrlRewriteRow;
   user_token_secret: Record<string, any>; // deprecated/removed table
   variant_group: VariantGroupRow;
-  widget: WidgetRow;
+  widget_instance: WidgetInstanceRow;
+  widget_placement: WidgetPlacementRow;
+  changeset: ChangesetRow;
+  changeset_operation: ChangesetOperationRow;
+  rollout_plan: RolloutPlanRow;
 };
 
 /**

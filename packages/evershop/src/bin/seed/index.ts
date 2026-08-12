@@ -5,11 +5,11 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { error, success, info } from '../../lib/log/logger.js';
 import { seedAttributeGroup, seedAttributes } from './seedAttributes.js';
+import { seedBlog } from './seedBlog.js';
 import { seedCategories } from './seedCategories.js';
 import { seedCollections } from './seedCollections.js';
 import { seedPages } from './seedPages.js';
 import { seedProducts } from './seedProducts.js';
-import { seedWidgets } from './seedWidgets.js';
 
 const { argv } = yargs(hideBin(process.argv))
   .option('attributes', {
@@ -36,21 +36,21 @@ const { argv } = yargs(hideBin(process.argv))
     type: 'boolean',
     default: false
   })
-  .option('widgets', {
-    alias: 'w',
-    description: 'Seed widgets',
-    type: 'boolean',
-    default: false
-  })
   .option('pages', {
     alias: 'pg',
     description: 'Seed CMS pages',
     type: 'boolean',
     default: false
   })
+  .option('blog', {
+    alias: 'b',
+    description: 'Seed blog (categories, tags, posts, comments)',
+    type: 'boolean',
+    default: false
+  })
   .option('all', {
     description:
-      'Seed all demo data (attributes, categories, collections, products, widgets, pages)',
+      'Seed all demo data (attributes, categories, collections, products, pages, blog)',
     type: 'boolean',
     default: false
   })
@@ -60,12 +60,12 @@ const { argv } = yargs(hideBin(process.argv))
       !argv.categories &&
       !argv.collections &&
       !argv.products &&
-      !argv.widgets &&
       !argv.pages &&
+      !argv.blog &&
       !argv.all
     ) {
       throw new Error(
-        'Please specify at least one option: --attributes, --categories, --collections, --products, --widgets, --pages, or --all'
+        'Please specify at least one option: --attributes, --categories, --collections, --products, --pages, --blog, or --all'
       );
     }
     return true;
@@ -77,8 +77,8 @@ interface SeedOptions {
   categories: boolean;
   collections: boolean;
   products: boolean;
-  widgets: boolean;
   pages: boolean;
+  blog: boolean;
   all: boolean;
 }
 
@@ -121,13 +121,13 @@ async function seed() {
       console.log();
     }
 
-    if (options.all || options.widgets) {
-      await seedWidgets();
+    if (options.all || options.pages) {
+      await seedPages();
       console.log();
     }
 
-    if (options.all || options.pages) {
-      await seedPages();
+    if (options.all || options.blog) {
+      await seedBlog();
       console.log();
     }
 
