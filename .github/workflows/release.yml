@@ -104,7 +104,10 @@ jobs:
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install -g npm@latest # provenance needs npm >= 9.5
+      # No `npm install -g npm@latest` here: `latest` is now npm 12, which
+      # requires Node >= 22.22, and this job deliberately runs the minimum
+      # supported Node 20. The npm 10.8.2 that ships with Node 20 already
+      # supports --provenance (added in 9.5), so the bundled one is enough.
       - run: npm ci || npm install
 
       - name: Refuse to overwrite an existing version
