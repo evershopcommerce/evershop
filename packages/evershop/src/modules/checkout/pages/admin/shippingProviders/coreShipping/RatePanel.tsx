@@ -21,6 +21,14 @@ interface ExistingRate {
   conditionType: string | null;
   min: number | null;
   max: number | null;
+  priceBasedCost: Array<{
+    minPrice: { value: number };
+    cost: { value: number };
+  }> | null;
+  weightBasedCost: Array<{
+    minWeight: { value: number };
+    cost: { value: number };
+  }> | null;
   /** Resolved server-side via `buildUrl` — keyed by the rate uuid. */
   updateApi: string;
   deleteApi: string;
@@ -49,11 +57,12 @@ interface RatePanelProps {
 type CalculationType = 'flat_rate' | 'price_based_rate' | 'weight_based_rate';
 
 function getDefaultCalcType(existing: ExistingRate | null): CalculationType {
-  if (existing && existing.cost !== null) return 'flat_rate';
-  // For phase 6 we don't have a way to read price_based_cost / weight_based_cost
-  // through the dialog (the GraphQL field on the rate doesn't expose them yet
-  // in the MethodsList query). Defaults to flat_rate for new rows; tier types
-  // are detectable via the existing.cost being null in a later iteration.
+  // A rate stores exactly one of cost / price_based_cost / weight_based_cost
+  // (the save path nulls the other two), so a non-empty tier array is the
+  // authoritative signal; anything else — including legacy rows with all
+  // three null — edits as flat rate.
+  if (existing?.priceBasedCost?.length) return 'price_based_rate';
+  if (existing?.weightBasedCost?.length) return 'weight_based_rate';
   return 'flat_rate';
 }
 
@@ -77,8 +86,12 @@ function CostFields({ existing }: { existing: ExistingRate | null }) {
           helperText={_('Flat rate in cart currency, tax-exclusive.')}
         />
       )}
-      {calcType === 'price_based_rate' && <PriceBasedPrice lines={[]} />}
-      {calcType === 'weight_based_rate' && <WeightBasedPrice lines={[]} />}
+      {calcType === 'price_based_rate' && (
+        <PriceBasedPrice lines={existing?.priceBasedCost ?? []} />
+      )}
+      {calcType === 'weight_based_rate' && (
+        <WeightBasedPrice lines={existing?.weightBasedCost ?? []} />
+      )}
     </>
   );
 }
@@ -112,8 +125,7 @@ function ConditionFields({ existing }: { existing: ExistingRate | null }) {
             <NumberField
               name="min"
               label={_('Min ${unit}', {
-                unit:
-                  conditionType === 'price' ? _('subtotal') : _('weight')
+                unit: conditionType === 'price' ? _('subtotal') : _('weight')
               })}
               defaultValue={existing?.min ?? 0}
               required
@@ -122,8 +134,7 @@ function ConditionFields({ existing }: { existing: ExistingRate | null }) {
             <NumberField
               name="max"
               label={_('Max ${unit}', {
-                unit:
-                  conditionType === 'price' ? _('subtotal') : _('weight')
+                unit: conditionType === 'price' ? _('subtotal') : _('weight')
               })}
               defaultValue={existing?.max ?? 0}
               required
@@ -234,45 +245,51 @@ export function RatePanel({
       submitBtn={false}
       onSuccess={() => {}}
     >
-      <div className="space-y-3">
-        {!existing && (
-          <SelectField
-            name="zone_id"
-            label={_('Zone')}
-            options={availableZones.map((z) => ({
-              value: z.uuid,
-              label: z.name
-            }))}
-            defaultValue={availableZones[0]?.uuid ?? ''}
-            required
-            validation={{ required: _('Zone is required') }}
-            helperText={_('The zone this rate applies to.')}
+      <div className="flex flex-col">
+        {/* Scroll the fields when tier rows stack up so the dialog never
+            grows past the viewport (same pattern as ZoneForm); min height
+            keeps the popup from jumping between calculation types. The
+            action footer below stays pinned. */}
+        <div className="space-y-3 min-h-80 overflow-y-auto pr-1 max-h-[calc(100vh-13rem)]">
+          {!existing && (
+            <SelectField
+              name="zone_id"
+              label={_('Zone')}
+              options={availableZones.map((z) => ({
+                value: z.uuid,
+                label: z.name
+              }))}
+              defaultValue={availableZones[0]?.uuid ?? ''}
+              required
+              validation={{ required: _('Zone is required') }}
+              helperText={_('The zone this rate applies to.')}
+            />
+          )}
+
+          <ToggleField
+            name="is_enabled"
+            label={_('Rate status')}
+            trueLabel={_('Enabled')}
+            falseLabel={_('Disabled')}
+            defaultValue={existing?.isEnabled ?? true}
           />
-        )}
 
-        <ToggleField
-          name="is_enabled"
-          label={_('Rate status')}
-          trueLabel={_('Enabled')}
-          falseLabel={_('Disabled')}
-          defaultValue={existing?.isEnabled ?? true}
-        />
+          <RadioGroupField
+            name="calculation_type"
+            label={_('Calculation type')}
+            options={[
+              { value: 'flat_rate', label: _('Flat rate') },
+              { value: 'price_based_rate', label: _('Price-based tiers') },
+              { value: 'weight_based_rate', label: _('Weight-based tiers') }
+            ]}
+            defaultValue={getDefaultCalcType(existing)}
+          />
 
-        <RadioGroupField
-          name="calculation_type"
-          label={_('Calculation type')}
-          options={[
-            { value: 'flat_rate', label: _('Flat rate') },
-            { value: 'price_based_rate', label: _('Price-based tiers') },
-            { value: 'weight_based_rate', label: _('Weight-based tiers') }
-          ]}
-          defaultValue={getDefaultCalcType(existing)}
-        />
+          <CostFields existing={existing} />
+          <ConditionFields existing={existing} />
+        </div>
 
-        <CostFields existing={existing} />
-        <ConditionFields existing={existing} />
-
-        <div className="flex justify-between pt-3 border-t border-border">
+        <div className="flex justify-between pt-3 mt-3 border-t border-border">
           {existing ? (
             <ConfirmDialog
               trigger={

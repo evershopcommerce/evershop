@@ -27,15 +27,19 @@ export function WeightBasedPrice({ lines }: WeightBasedPriceProps) {
     name: 'weight_based_cost'
   });
 
-  // Initialize the field array with existing lines if it's empty
+  // Initialize the field array with existing lines if it's empty. Must be ONE
+  // append(array) call: under a form with `shouldUnregister: true` (the core
+  // rate dialog), consecutive append() calls in the same effect each compute
+  // from the same pre-append snapshot and the last write wins — seeding N
+  // lines showed only the last one.
   React.useEffect(() => {
     if (fields.length === 0 && lines.length > 0) {
-      lines.forEach((line) => {
-        append({
+      append(
+        lines.map((line) => ({
           min_weight: line.minWeight?.value,
           cost: line.cost?.value
-        });
-      });
+        }))
+      );
     }
   }, [lines, fields.length, append]);
 

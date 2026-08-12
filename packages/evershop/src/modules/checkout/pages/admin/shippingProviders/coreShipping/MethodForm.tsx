@@ -40,6 +40,14 @@ interface MethodRate {
   conditionType: string | null;
   min: number | null;
   max: number | null;
+  priceBasedCost: Array<{
+    minPrice: { value: number };
+    cost: { value: number };
+  }> | null;
+  weightBasedCost: Array<{
+    minWeight: { value: number };
+    cost: { value: number };
+  }> | null;
   /** Per-rate endpoints, resolved server-side via `buildUrl` (keyed by uuid). */
   updateApi: string;
   deleteApi: string;

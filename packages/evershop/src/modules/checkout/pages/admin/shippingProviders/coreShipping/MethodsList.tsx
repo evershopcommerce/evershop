@@ -50,6 +50,22 @@ const MethodsQuery = `
         conditionType
         min
         max
+        priceBasedCost {
+          minPrice {
+            value
+          }
+          cost {
+            value
+          }
+        }
+        weightBasedCost {
+          minWeight {
+            value
+          }
+          cost {
+            value
+          }
+        }
         updateApi
         deleteApi
       }
@@ -90,6 +106,14 @@ interface CoreMethod {
     conditionType: string | null;
     min: number | null;
     max: number | null;
+    priceBasedCost: Array<{
+      minPrice: { value: number };
+      cost: { value: number };
+    }> | null;
+    weightBasedCost: Array<{
+      minWeight: { value: number };
+      cost: { value: number };
+    }> | null;
     updateApi: string;
     deleteApi: string;
   }>;
