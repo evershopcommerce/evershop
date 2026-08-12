@@ -1,0 +1,19 @@
+{
+  "name": "evershop-docker",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Runtime project for the official evershop/evershop image. The @evershop/evershop dependency is added at build time, pinned to the exact released version.",
+  "type": "module",
+  "license": "GPL-3.0",
+  "scripts": {
+    "setup": "evershop install",
+    "seed": "evershop seed",
+    "start": "evershop start",
+    "start:debug": "evershop start --debug",
+    "build": "evershop build",
+    "user:create": "evershop user:create",
+    "user:changePassword": "evershop user:changePassword",
+    "theme:active": "evershop theme:active",
+    "theme:create": "evershop theme:create"
+  }
+}
