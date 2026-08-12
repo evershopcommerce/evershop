@@ -29,6 +29,7 @@
     "test:e2e:headed": "npm run test:headed --prefix tests/e2e",
     "test:e2e:report": "npm run test:report --prefix tests/e2e",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./packages",
+    "release:preflight": "node scripts/release-preflight.mjs",
     "prepare": "husky install"
   },
   "author": "The Nguyen (https://evershop.io)",
