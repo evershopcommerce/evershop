@@ -20,7 +20,8 @@
     "README.md"
   ],
   "scripts": {
-    "compile": "tsc"
+    "compile": "tsc",
+    "prepare": "tsc"
   },
   "author": "The Nguyen (https://evershop.io/)",
   "license": "MIT",
