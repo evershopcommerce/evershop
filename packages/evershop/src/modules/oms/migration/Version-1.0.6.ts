@@ -6,16 +6,29 @@ import type { PoolClient } from 'pg';
  *
  * Migration 1.0.5 collapsed every legacy `pending` / `processing` shipment
  * row to `status='shipped'`, but did NOT recompute the order-level rollup
- * column. So orders created before §1 still show `shipment_status='pending'`
- * even though their underlying shipments now read `shipped`.
+ * column. So orders created before §1 still carry a pre-§1 rollup value even
+ * though their underlying shipments now read `shipped`.
  *
- * This migration replays the rollup math in SQL — but only for rows where
- * `order.shipment_status = 'pending'` AND the computed value is more
- * specific. Orders where the current value is `shipped` / `delivered` /
- * `partially_*` are left alone; the math could disagree with them for
- * unrelated reasons (a manually-canceled shipment after delivery, fixture
- * data from pre-rollup releases) and silently downgrading them would lose
- * information the user expects to see.
+ * This migration replays the rollup math in SQL for every order whose current
+ * rollup is NOT already one of the valid post-§1 outputs. Orders reading
+ * `shipped` / `delivered` / `partially_*` / `canceled` are left alone; the
+ * math could disagree with them for unrelated reasons (a manually-canceled
+ * shipment after delivery, fixture data from pre-rollup releases) and silently
+ * downgrading them would lose information the user expects to see.
+ *
+ * Everything else is eligible, which is wider than it looks and deliberately
+ * so. 2.1.x shipped FIVE default order shipment statuses — `pending`,
+ * `processing`, `shipped`, `delivered`, `canceled` — and extensions could
+ * register more. An earlier version of this migration only rewrote
+ * `= 'pending'`, so an order a merchant had marked **Processing** kept that
+ * code while 1.0.5 moved its shipment row to `shipped`. `processing` is not a
+ * valid 2.2 rollup, so the admin rendered those orders as "Unknown"
+ * (Order.resolvers.js falls back to `{name:'Unknown'}`) and they stayed stuck
+ * until something re-triggered the rollup. Matching on "not already valid"
+ * instead of "equals pending" also sweeps up custom legacy codes.
+ *
+ * NULL is treated as `pending` (no items shipped yet) and normalised to a real
+ * value rather than left null.
  *
  * The math mirrors `services/shipment/resolveShipmentRollup.ts`: sum
  * shipment_item qty per phase (canceled shipments contribute zero), apply
@@ -83,9 +96,13 @@ order_rollup AS (
 UPDATE "order" o
    SET "shipment_status" = r.new_rollup
   FROM order_rollup r
- WHERE o."order_id"        = r.order_id
-   AND o."shipment_status" = 'pending'
-   AND r.new_rollup        != 'pending';
+ WHERE o."order_id" = r.order_id
+   -- Anything NOT already a valid post-section-1 rollup: 'pending', the
+   -- legacy 'processing', any custom pre-section-1 code, or NULL.
+   AND COALESCE(o."shipment_status", 'pending') NOT IN
+       ('partially_shipped', 'shipped', 'partially_delivered', 'delivered', 'canceled')
+   -- Skip no-op writes; also what keeps this idempotent on a second run.
+   AND r.new_rollup IS DISTINCT FROM o."shipment_status";
     `
   );
 };
