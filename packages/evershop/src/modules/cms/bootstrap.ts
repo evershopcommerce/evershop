@@ -158,6 +158,18 @@ export default (context: { command?: string } = {}) => {
                     },
                     required: ['href']
                   }
+                },
+                noscripts: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      html: {
+                        type: 'string'
+                      }
+                    },
+                    required: ['html']
+                  }
                 }
               }
             }
@@ -282,7 +294,8 @@ export default (context: { command?: string } = {}) => {
       links: [],
       metas: [],
       scripts: [],
-      bases: []
+      bases: [],
+      noscripts: []
     },
     copyRight: `© 2022 Evershop. All Rights Reserved.`
   };
