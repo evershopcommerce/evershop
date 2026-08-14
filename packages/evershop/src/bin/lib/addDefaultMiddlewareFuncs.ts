@@ -30,6 +30,13 @@ import {
 } from '../../modules/setting/services/setting.js';
 import { getDevMiddleware, getHotMiddleware } from './devEnvHelper.js';
 
+function routeSupportsMethod(route, method) {
+  return (
+    route.method.includes(method) ||
+    (method === 'HEAD' && route.method.includes('GET'))
+  );
+}
+
 export function addDefaultMiddlewareFuncs(app) {
   app.use((request, response, next) => {
     response.debugMiddlewares = [];
@@ -198,7 +205,7 @@ export function addDefaultMiddlewareFuncs(app) {
     const matchedRoutes = routes.filter((r) => {
       const regexp = pathToRegexp(r.path, []);
       const match = regexp.exec(requestPath);
-      if (match && r.method.includes(method)) {
+      if (match && routeSupportsMethod(r, method)) {
         return true;
       } else {
         return false;
@@ -290,7 +297,7 @@ export function addDefaultMiddlewareFuncs(app) {
       // Get the current http method
       const method = request.method.toUpperCase();
       // Check if the route supports the current http method
-      if (route && route.method.includes(method)) {
+      if (route && routeSupportsMethod(route, method)) {
         request.currentRoute = route;
       }
       return next();
