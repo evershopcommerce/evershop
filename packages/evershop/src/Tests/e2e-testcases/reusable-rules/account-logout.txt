@@ -1,0 +1,4 @@
+click "Account"
+click "Logout"
+click "Account"
+check that page contains "Login"

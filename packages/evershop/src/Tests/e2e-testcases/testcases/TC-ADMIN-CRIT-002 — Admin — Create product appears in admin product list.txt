@@ -1,0 +1,5 @@
+admin-login
+product-create-new
+// Verification of the created product
+click "Products" below "New Coupon"
+check that page contains stored value "productName"
