@@ -13,6 +13,17 @@ export class CategoryCollection {
       this.baseQuery.andWhere('category.status', '=', 1);
     }
     const currentFilters = [];
+    const hasParentFilter = filters.some(
+      (filter) => filter.key === 'parent' && filter.operation === 'eq'
+    );
+    const hasPageFilter = filters.some(
+      (filter) => filter.key === 'page' && filter.operation === 'eq'
+    );
+    const hasLimitFilter = filters.some(
+      (filter) => filter.key === 'limit' && filter.operation === 'eq'
+    );
+    const skipDefaultPagination =
+      hasParentFilter && !hasPageFilter && !hasLimitFilter;
 
     // Apply the filters
     const categoryCollectionFilters = await getValue(
@@ -27,6 +38,9 @@ export class CategoryCollection {
       const check = filters.find(
         (f) => f.key === filter.key && filter.operation.includes(f.operation)
       );
+      if (filter.key === '*' && skipDefaultPagination) {
+        return;
+      }
       if (filter.key === '*' || check) {
         filter.callback(
           this.baseQuery,

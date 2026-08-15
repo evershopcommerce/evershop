@@ -128,7 +128,7 @@ function CategoryItem({
           <ul>
             {data.categories.items.map((child) => (
               <CategoryItem
-                key={child.value}
+                key={child.categoryId}
                 category={child}
                 selectedCategories={selectedCategories}
                 onSelect={onSelect}
@@ -176,7 +176,7 @@ function CategoryTree({ selectedCategories = [], onSelect }: CategoryTreeProps) 
     <ul className="category-tree">
       {data.categories.items.map((category) => (
         <CategoryItem
-          key={category.value}
+          key={category.categoryId}
           category={category}
           selectedCategories={selectedCategories}
           onSelect={onSelect}
