@@ -1,12 +1,15 @@
 import { select } from '@evershop/postgres-query-builder';
 import Stripe from 'stripe';
-import smallestUnit from 'zero-decimal-currencies';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { OK, INVALID_PAYLOAD } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
 import { getSetting } from '../../../setting/services/setting.js';
+import {
+  cartOwnsOrder,
+  orderAmountInSmallestUnit
+} from '../../services/bindStripePayment.js';
 
 export default async (
   request: EvershopRequest,
@@ -29,6 +32,22 @@ export default async (
       }
     });
   } else {
+    const order = await select()
+      .from('order')
+      .where('uuid', '=', order_id)
+      .load(pool);
+
+    if (!order || !cartOwnsOrder(cart, order)) {
+      response.status(INVALID_PAYLOAD);
+      response.json({
+        error: {
+          status: INVALID_PAYLOAD,
+          message: 'Invalid order'
+        }
+      });
+      return;
+    }
+
     const stripeConfig = getConfig('system.stripe', {});
     let stripeSecretKey;
 
@@ -41,13 +60,13 @@ export default async (
 
     const stripe = new Stripe(stripeSecretKey);
 
-    // Create a PaymentIntent with the order amount and currency
+    // Charge the order total, not a client-chosen cart that may not own it.
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: parseInt(smallestUnit(cart.grand_total, cart.currency), 10),
-      currency: cart.currency,
+      amount: orderAmountInSmallestUnit(order),
+      currency: order.currency,
       metadata: {
-        cart_id,
-        order_id
+        cart_id: cart.uuid,
+        order_id: order.uuid
       },
       automatic_payment_methods: {
         enabled: true
