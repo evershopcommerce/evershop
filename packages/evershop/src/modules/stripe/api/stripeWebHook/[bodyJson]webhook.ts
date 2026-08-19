@@ -16,6 +16,7 @@ import { EvershopResponse } from '../../../../types/response.js';
 import addOrderActivityLog from '../../../oms/services/addOrderActivityLog.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
+import { stripeAmountMatchesOrder } from '../../services/bindStripePayment.js';
 
 export default async (
   request: EvershopRequest,
@@ -66,6 +67,11 @@ export default async (
       .load(connection);
     if (!order) {
       throw new Error(`Order with id ${order_id} not found`);
+    }
+    if (!stripeAmountMatchesOrder(paymentIntent, order)) {
+      throw new Error(
+        'Payment amount or currency does not match the order'
+      );
     }
     // Handle the event
     switch (event.type) {
