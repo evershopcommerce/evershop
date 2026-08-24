@@ -10,6 +10,7 @@ import { seedCategories } from './seedCategories.js';
 import { seedCollections } from './seedCollections.js';
 import { seedPages } from './seedPages.js';
 import { seedProducts } from './seedProducts.js';
+import { seedWidgets } from './seedWidgets.js';
 
 const { argv } = yargs(hideBin(process.argv))
   .option('attributes', {
@@ -48,9 +49,16 @@ const { argv } = yargs(hideBin(process.argv))
     type: 'boolean',
     default: false
   })
+  .option('widgets', {
+    alias: 'w',
+    description:
+      'Seed storefront widgets (main menu from top-level categories + Blog, homepage collection products)',
+    type: 'boolean',
+    default: false
+  })
   .option('all', {
     description:
-      'Seed all demo data (attributes, categories, collections, products, pages, blog)',
+      'Seed all demo data (attributes, categories, collections, products, pages, blog, widgets)',
     type: 'boolean',
     default: false
   })
@@ -62,10 +70,11 @@ const { argv } = yargs(hideBin(process.argv))
       !argv.products &&
       !argv.pages &&
       !argv.blog &&
+      !argv.widgets &&
       !argv.all
     ) {
       throw new Error(
-        'Please specify at least one option: --attributes, --categories, --collections, --products, --pages, --blog, or --all'
+        'Please specify at least one option: --attributes, --categories, --collections, --products, --pages, --blog, --widgets, or --all'
       );
     }
     return true;
@@ -79,6 +88,7 @@ interface SeedOptions {
   products: boolean;
   pages: boolean;
   blog: boolean;
+  widgets: boolean;
   all: boolean;
 }
 
@@ -123,6 +133,13 @@ async function seed() {
 
     if (options.all || options.pages) {
       await seedPages();
+      console.log();
+    }
+
+    if (options.all || options.widgets) {
+      // LAST on purpose: the menu reads the top-level categories the other
+      // seeders (categories + products) actually created.
+      await seedWidgets();
       console.log();
     }
 
