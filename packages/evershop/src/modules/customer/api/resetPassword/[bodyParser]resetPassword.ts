@@ -8,6 +8,7 @@ import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
 import { sendResetPasswordEmail } from '../../services/sendResetPasswordEmail.js';
+import { translate } from '../../../../lib/locale/translate/translate.js';
 
 export default async (
   request: EvershopRequest,
@@ -21,7 +22,7 @@ export default async (
       enabled: true
     });
     if (config?.enabled === false) {
-      throw new Error('Reset password email is disabled in config.');
+      throw new Error(translate('Reset password email is disabled in config.'));
     }
     // Generate a random token using crypto module
     const token = crypto.randomBytes(64).toString('hex');
