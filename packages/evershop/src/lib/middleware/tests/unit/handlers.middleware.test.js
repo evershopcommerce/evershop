@@ -47,6 +47,19 @@ describe('test middleware', () => {
     expect(loadProduct).toHaveBeenCalledTimes(2);
   });
 
+  it('It should match HEAD requests against GET routes', async () => {
+    const response = await axios.head(`http://localhost:${port}/middleware`, {
+      validateStatus(status) {
+        return status >= 200 && status <= 500;
+      }
+    });
+    expect(response.status).toEqual(500);
+    expect(loadProductAttribute).toHaveBeenCalledTimes(3);
+    expect(loadProductImage).toHaveBeenCalledTimes(3);
+    expect(loadCategory).toHaveBeenCalledTimes(3);
+    expect(loadProduct).toHaveBeenCalledTimes(3);
+  });
+
   it('It should not execute the middleware functions after error occurred', async () => {
     expect(loadProductOption).toHaveBeenCalledTimes(0);
   });
