@@ -1,0 +1,27 @@
+admin-login
+product-create-new
+payment-enable-mode
+shipping-create-new-method
+click button on the right of "Search"
+click "Logout"
+open url stored value "homePrefix"
+click "Search"
+enter stored value "productName" into "Search"
+type enter
+check that page contains stored value "productName"
+click stored value "productName"
+click "Add to cart"
+click "View Cart"
+click "checkout"
+generate unique email , then enter into "Email" and save as "generatedEmail"
+enter "Test" into "Full Name"
+enter "1234567890" into "Telephone"
+enter "Test123" into "Address"
+enter "testtown" into "City"
+select "United States" from "Country"
+select "Alaska" from "Province"
+enter "123456" into "Postcode"
+click "Express"
+click "Cash on Delivery"
+click "Place order"
+check that page contains "Thank you Test!"
