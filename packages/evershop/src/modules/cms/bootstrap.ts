@@ -284,7 +284,11 @@ export default (context: { command?: string } = {}) => {
       scripts: [],
       bases: []
     },
-    copyRight: `© 2022 Evershop. All Rights Reserved.`
+    // No static default: when neither the shop "copyright" metafield nor a
+    // theme's own themeConfig.copyRight is set, the ThemeConfig resolver
+    // renders a LIVE line - © <current year> <storeName>. All Rights
+    // Reserved. - so footers never show a stale year or the wrong brand.
+    copyRight: null
   };
   config.util.setModuleDefaults('themeConfig', defaultThemeConfig);
 
