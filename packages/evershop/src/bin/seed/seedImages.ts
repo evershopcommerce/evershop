@@ -1,9 +1,10 @@
-import { existsSync, mkdirSync } from 'fs';
+import { readFile, rm } from 'fs/promises';
+import { tmpdir } from 'os';
 import { join } from 'path';
 import { insert, select } from '@evershop/postgres-query-builder';
-import { CONSTANTS } from '../../lib/helpers.js';
 import { info, success, warning, error } from '../../lib/log/logger.js';
 import { pool } from '../../lib/postgres/connection.js';
+import { uploadFile } from '../../modules/cms/services/uploadFile.js';
 import { downloadImage, getFilenameFromUrl } from './imageDownloader.js';
 
 /**
@@ -27,26 +28,42 @@ export async function seedProductImages(
         // Get filename from URL
         const filename = getFilenameFromUrl(imageData.url);
 
-        // Create local path - organize by SKU
+        // Destination path - organize by SKU
         const subPath = `catalog/${
           Math.floor(Math.random() * (9999 - 1000)) + 1000
         }/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`;
-        const mediaDir = join(CONSTANTS.ROOTPATH, 'media', subPath);
 
-        // Ensure directory exists
-        if (!existsSync(mediaDir)) {
-          mkdirSync(mediaDir, { recursive: true });
-        }
-
-        const localPath = join(mediaDir, filename);
+        // Download to a temp file, then hand the bytes to the configured
+        // storage provider (local, S3, Azure, GCS). Writing straight into
+        // media/ bypassed the provider: on cloud-storage stores the seeded
+        // images landed on the ephemeral pod filesystem while every admin
+        // upload went to the bucket.
+        const tempPath = join(tmpdir(), `seed-${Date.now()}-${filename}`);
 
         try {
           // Download image
-          await downloadImage(imageData.url, localPath);
+          await downloadImage(imageData.url, tempPath);
+          const buffer = await readFile(tempPath);
+          const mimetype = filename.toLowerCase().endsWith('.png')
+            ? 'image/png'
+            : filename.toLowerCase().endsWith('.webp')
+              ? 'image/webp'
+              : 'image/jpeg';
+          const [uploaded] = await uploadFile(
+            [
+              {
+                filename,
+                buffer,
+                mimetype,
+                size: buffer.length
+              } as Express.Multer.File
+            ],
+            subPath
+          );
+          await rm(tempPath, { force: true });
 
-          // Convert to media URL
-          finalImageUrl = `/assets/${subPath}/${filename}`;
-          success(`  ✓ Downloaded and saved: ${mediaDir}`);
+          finalImageUrl = uploaded.url;
+          success(`  ✓ Stored via file storage provider: ${finalImageUrl}`);
           // Check if image record already exists
           const existingImage = await select()
             .from('product_image')

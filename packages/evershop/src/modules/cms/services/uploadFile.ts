@@ -4,13 +4,39 @@ import { CONSTANTS } from '../../../lib/helpers.js';
 import { buildUrl } from '../../../lib/router/buildUrl.js';
 import { getValueSync } from '../../../lib/util/registry.js';
 import { FileBrowser } from './browFiles.js';
+import { azureFileUploader } from './storage/azure/azureStorage.js';
+import { gcsFileUploader } from './storage/gcs/gcsStorage.js';
+import { s3FileUploader } from './storage/s3/s3Storage.js';
 import { getFileStorageProvider } from './storage/storageConfig.js';
+import type { FileUploaderProvider } from './storage/types.js';
 
 export interface UploadedFile extends FileBrowser {
   mimetype: string;
   size: number;
   url: string;
 }
+
+/**
+ * The built-in uploader for a provider id, registry-free. The registry's
+ * `fileUploader` processors (cms bootstrap) remain authoritative when the
+ * app is bootstrapped — they let extensions override providers — but code
+ * that runs OUTSIDE a bootstrapped app (the seed CLI) has an empty
+ * registry, and the previous default of "always local" silently ignored a
+ * configured cloud provider: seeded product images landed on the local
+ * filesystem of an S3-configured store.
+ */
+export const builtinUploaderFor = (provider: string): FileUploaderProvider => {
+  switch (provider) {
+    case 's3':
+      return s3FileUploader;
+    case 'azure':
+      return azureFileUploader;
+    case 'gcs':
+      return gcsFileUploader;
+    default:
+      return localUploader;
+  }
+};
 
 /**
  * Upload files to the specified destination path.
@@ -21,15 +47,16 @@ export const uploadFile = async (
   files: Express.Multer.File[],
   destinationPath: string
 ): Promise<UploadedFile[]> => {
+  const provider = getFileStorageProvider();
   /**
    * @type {Object} uploader
    * @property {Function} upload
    */
   const fileUploader = getValueSync(
     'fileUploader',
-    localUploader,
+    builtinUploaderFor(provider),
     {
-      config: getFileStorageProvider()
+      config: provider
     },
     (value) =>
       // The value must be an object with an upload method
