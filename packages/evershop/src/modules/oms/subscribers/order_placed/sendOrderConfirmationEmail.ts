@@ -16,6 +16,7 @@ import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValue } from '../../../../lib/util/registry.js';
 import { EventData } from '../../../../types/event.js';
 import { getStoreLanguage } from '../../../setting/services/setting.js';
+import { resolveThumbnailUrl } from '../../services/thumbnailUrl.js';
 
 const TEMPLATE = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html dir="ltr" lang="en">
@@ -648,11 +649,11 @@ export default async function sendOrderConfirmationEmail(
       .from('order_item')
       .where('order_item_order_id', '=', order.order_id)
       .execute(pool);
-    // Loop through each item to add the base Url before the thumbnail path
+    // Local storage stores thumbnails as relative paths; remote providers
+    // store absolute URLs that must pass through untouched.
     order.items = items.map((item) => {
       if (item.thumbnail) {
-        const baseUrl = getBaseUrl();
-        item.thumbnail = `${baseUrl}${item.thumbnail}`;
+        item.thumbnail = resolveThumbnailUrl(item.thumbnail, getBaseUrl());
       }
       return item;
     });
