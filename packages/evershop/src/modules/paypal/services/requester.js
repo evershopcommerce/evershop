@@ -3,54 +3,69 @@ import { getConfig } from '../../../lib/util/getConfig.js';
 import { getSetting } from '../../setting/services/setting.js';
 import { getApiBaseUrl } from './getApiBaseUrl.js';
 
+// Tokens are cached per (environment, clientId) so switching sandbox/live or
+// rotating credentials takes effect on the next request instead of after the
+// old token's ~9h lifetime.
+export function buildTokenCacheKey(baseUrl, clientId) {
+  return `${baseUrl}::${clientId}`;
+}
+
+// A token is reused only while it has at least 60s of lifetime left, so it
+// can't expire between the cache check and the PayPal call.
+export function isTokenValid(tokenObj, now = Date.now()) {
+  if (!tokenObj) {
+    return false;
+  }
+  return now - tokenObj.created_at < (tokenObj.expires_in - 60) * 1000;
+}
+
+async function getPaypalCredentials() {
+  const paypalConfig = getConfig('system.paypal', {});
+  const clientId =
+    paypalConfig.clientId || (await getSetting('paypalClientId', ''));
+  const clientSecret =
+    paypalConfig.clientSecret || (await getSetting('paypalClientSecret', ''));
+  return { clientId, clientSecret };
+}
+
 export async function createAxiosInstance(request) {
+  const baseURL = await getApiBaseUrl();
   const axiosInstance = axios.create({
-    baseURL: await getApiBaseUrl(),
+    baseURL,
     headers: {
       'Content-Type': 'application/json'
     }
   });
 
   axiosInstance.interceptors.request.use(async (config) => {
-    const tokenObj = request.app.locals.paypalAccessToken; // {access_token: , expires_in: , created_at: }
-    const now = new Date().getTime();
-    if (!tokenObj || now - tokenObj.created_at > tokenObj.expires_in * 1000) {
-      const paypalAccessToken = await requestAccessToken();
-      request.app.locals.paypalAccessToken = {
+    const { clientId, clientSecret } = await getPaypalCredentials();
+    const cacheKey = buildTokenCacheKey(baseURL, clientId);
+    const locals = request.app.locals;
+    locals.paypalAccessTokens = locals.paypalAccessTokens || {};
+    let tokenObj = locals.paypalAccessTokens[cacheKey];
+    if (!isTokenValid(tokenObj)) {
+      const paypalAccessToken = await requestAccessToken(
+        baseURL,
+        clientId,
+        clientSecret
+      );
+      tokenObj = {
         access_token: paypalAccessToken.data.access_token,
         expires_in: paypalAccessToken.data.expires_in,
-        created_at: new Date().getTime()
+        created_at: Date.now()
       };
-
-      config.headers.Authorization = `Bearer ${paypalAccessToken.data.access_token}`;
-    } else {
-      config.headers.Authorization = `Bearer ${tokenObj.access_token}`;
+      locals.paypalAccessTokens[cacheKey] = tokenObj;
     }
+    config.headers.Authorization = `Bearer ${tokenObj.access_token}`;
     return config;
   });
   return axiosInstance;
 }
 
-async function requestAccessToken() {
-  const paypalConfig = getConfig('system.paypal', {});
-  let clientId;
-  let clientSecret;
-  if (paypalConfig.clientSecret) {
-    clientSecret = paypalConfig.clientSecret;
-  } else {
-    clientSecret = await getSetting('paypalClientSecret', '');
-  }
-
-  if (paypalConfig.clientId) {
-    clientId = paypalConfig.clientId;
-  } else {
-    clientId = await getSetting('paypalClientId', '');
-  }
-
+async function requestAccessToken(baseUrl, clientId, clientSecret) {
   const params = new URLSearchParams({ grant_type: 'client_credentials' });
-  // Get paypal access token using Axios
   const paypalAccessToken = await axios.post(
-    `${await getApiBaseUrl()}/v1/oauth2/token`,
+    `${baseUrl}/v1/oauth2/token`,
     params,
     {
       headers: {

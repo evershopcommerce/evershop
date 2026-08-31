@@ -31,6 +31,8 @@ export default async (
     const order = await select()
       .from('order')
       .where('uuid', '=', order_id)
+      .and('payment_method', '=', 'paypal')
+      .and('payment_status', '=', 'pending')
       .load(connection);
 
     if (!order) {

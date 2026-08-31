@@ -4,7 +4,14 @@ import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
 import { EvershopResponse } from '../../../../../types/response.js';
 
-export default async (request: EvershopRequest, response: EvershopResponse) => {
+// The third parameter matters even though it is never called: a 2-arg page
+// middleware is treated as passive and auto-next()s after the redirect,
+// running the whole SSR pipeline against an already-sent response.
+export default async (
+  request: EvershopRequest,
+  response: EvershopResponse,
+  next
+) => {
   // When the user cancelled the payment from PayPal
   // he/she will be redirected to the checkout page.
   // We need to check if the cart is still valid.

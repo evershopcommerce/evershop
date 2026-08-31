@@ -167,7 +167,10 @@ export default async (
         }
       );
 
-      if (data.id) {
+      const approveUrl = data.id
+        ? data.links?.find((link) => link.rel === 'approve')?.href
+        : undefined;
+      if (data.id && approveUrl) {
         // Update order and insert papal order id
         await update('order')
           .given({ integration_order_id: data.id })
@@ -178,7 +181,7 @@ export default async (
         return response.json({
           data: {
             paypalOrderId: data.id,
-            approveUrl: data.links.find((link) => link.rel === 'approve').href
+            approveUrl
           }
         });
       } else {
@@ -193,7 +196,9 @@ export default async (
         return response.json({
           error: {
             status: INTERNAL_SERVER_ERROR,
-            message: data.message
+            message:
+              data.message ||
+              'PayPal did not return an approval link for this order'
           }
         });
       }

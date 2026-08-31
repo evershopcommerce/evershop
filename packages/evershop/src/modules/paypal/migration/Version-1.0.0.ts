@@ -2,7 +2,7 @@ import { execute } from '@evershop/postgres-query-builder';
 import type { PoolClient } from '@evershop/postgres-query-builder';
 
 export default async (connection: PoolClient) => {
-  // Migrate legacy Stripe payment statuses to the new prefixed values.
+  // Migrate legacy PayPal payment statuses to the new prefixed values.
   // Only orders placed with payment_method = 'paypal' are affected.
   const statusMap: Record<string, string> = {
     authorized: 'paypal_authorized',

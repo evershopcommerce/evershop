@@ -1,10 +1,12 @@
 import {
-  getConnection,
+  commit,
   insert,
-  select
+  rollback,
+  select,
+  startTransaction
 } from '@evershop/postgres-query-builder';
 import { error } from '../../../../lib/log/logger.js';
-import { pool } from '../../../../lib/postgres/connection.js';
+import { getConnection } from '../../../../lib/postgres/connection.js';
 import {
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
@@ -21,6 +23,8 @@ export default async (
   response: EvershopResponse,
   next
 ) => {
+  const connection = await getConnection();
+  await startTransaction(connection);
   try {
     const { order_id } = request.body;
     // Validate the order;
@@ -29,9 +33,10 @@ export default async (
       .where('uuid', '=', order_id)
       .and('payment_method', '=', 'paypal')
       .and('payment_status', '=', 'pending')
-      .load(pool);
+      .load(connection);
 
     if (!order) {
+      await rollback(connection);
       response.status(INVALID_PAYLOAD);
       response.json({
         error: {
@@ -47,7 +52,11 @@ export default async (
       );
 
       if (responseData.data.status === 'COMPLETED') {
-        await updatePaymentStatus(order.order_id, 'paypal_authorized');
+        await updatePaymentStatus(
+          order.order_id,
+          'paypal_authorized',
+          connection
+        );
         // Add transaction data to database
         await insert('payment_transaction')
           .given({
@@ -67,21 +76,22 @@ export default async (
             transaction_type: 'online',
             additional_information: JSON.stringify(responseData.data)
           })
-          .execute(pool);
+          .execute(connection);
 
         // Save order activities
         await addOrderActivityLog(
           order.order_id,
           `Customer authorized the payment using PayPal. Transaction ID: ${responseData.data.purchase_units[0].payments.authorizations[0].id}`,
           false,
-          await getConnection(pool)
+          connection
         );
-
+        await commit(connection);
         response.status(OK);
         response.json({
           data: {}
         });
       } else {
+        await rollback(connection);
         response.status(INTERNAL_SERVER_ERROR);
         response.json({
           error: {
@@ -93,6 +103,7 @@ export default async (
     }
   } catch (err) {
     error(err);
+    await rollback(connection);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {
