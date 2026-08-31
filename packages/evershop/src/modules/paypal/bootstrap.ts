@@ -1,4 +1,8 @@
+import path from 'path';
 import config from 'config';
+import { registerJob } from '../../lib/cronjob/jobManager.js';
+import { CONSTANTS } from '../../lib/helpers.js';
+import { warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { hookAfter } from '../../lib/util/hookable.js';
 import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
@@ -68,6 +72,30 @@ export default async () => {
     }
     await voidPaymentTransaction(orderID);
   });
+
+  // Reconcile abandoned pending PayPal orders: capture the ones the buyer
+  // actually approved (missed-webhook / lost-return-leg fallback), cancel and
+  // restock the rest. registerJob throws on a bad cron expression — degrade
+  // to a skipped job, never a store that won't boot.
+  try {
+    const paypalConfig = getConfig('system.paypal', {}) as Record<
+      string,
+      unknown
+    >;
+    registerJob({
+      name: 'paypalReconcileAbandonedOrders',
+      schedule: String(paypalConfig.reconcileSchedule || '*/30 * * * *'),
+      resolve: path.resolve(
+        CONSTANTS.MODULESPATH,
+        'paypal/services/reconcileAbandonedOrders.js'
+      ),
+      enabled: paypalConfig.reconcileEnabled !== false
+    });
+  } catch (e) {
+    warning(
+      `Skipping paypalReconcileAbandonedOrders job registration: ${e.message}`
+    );
+  }
 
   registerPaymentMethod({
     init: async () => ({

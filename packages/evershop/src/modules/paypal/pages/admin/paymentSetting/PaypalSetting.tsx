@@ -17,6 +17,7 @@ interface PaypalPaymentProps {
     paypalDisplayName: string;
     paypalClientId: string;
     paypalClientSecret: string;
+    paypalWebhookId: string;
     paypalEnvironment: string;
     paypalPaymentIntent: string;
   };
@@ -27,6 +28,7 @@ export default function PaypalPayment({
     paypalDisplayName,
     paypalClientId,
     paypalClientSecret,
+    paypalWebhookId,
     paypalEnvironment,
     paypalPaymentIntent
   }
@@ -99,6 +101,23 @@ export default function PaypalPayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
+            <h4>{_('Webhook ID')}</h4>
+          </div>
+          <div className="col-span-2">
+            <InputField
+              name="paypalWebhookId"
+              placeholder={_('Webhook ID')}
+              defaultValue={paypalWebhookId}
+              helperText={_(
+                'The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.'
+              )}
+            />
+          </div>
+        </div>
+      </CardContent>
+      <CardContent className="pt-4 border-t border-border">
+        <div className="grid grid-cols-3 gap-5">
+          <div className="col-span-1 items-center flex">
             <h4>{_('Environment')}</h4>
           </div>
           <div className="col-span-2">
@@ -152,6 +171,7 @@ export const query = `
       paypalDisplayName
       paypalClientId
       paypalClientSecret
+      paypalWebhookId
       paypalEnvironment
       paypalPaymentIntent
     }
