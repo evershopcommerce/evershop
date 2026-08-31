@@ -22,6 +22,13 @@ export default async () => {
           isCancelable: false,
           badge: 'success'
         },
+        paypal_pending: {
+          name: 'Payment Pending',
+          // Money is in flight (eCheck, review) — neither cancelable nor paid
+          // until PayPal reports the capture COMPLETED or DENIED.
+          isCancelable: false,
+          badge: 'warning'
+        },
         paypal_failed: {
           name: 'Failed',
           isCancelable: true,
@@ -42,6 +49,7 @@ export default async () => {
         'paypal_authorized:*': 'processing',
         'paypal_captured:*': 'processing',
         'paypal_captured:delivered': 'completed',
+        'paypal_pending:*': 'processing',
         'paypal_failed:*': 'new',
         'paypal_refunded:*': 'closed',
         'paypal_partial_refunded:*': 'processing',
