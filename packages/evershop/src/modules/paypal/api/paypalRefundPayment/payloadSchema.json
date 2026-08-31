@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "order_id": {
+      "type": "string"
+    },
+    "amount": {
+      "type": ["number", "string"]
+    }
+  },
+  "required": ["order_id", "amount"],
+  "additionalProperties": true
+}

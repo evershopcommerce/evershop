@@ -62,6 +62,14 @@ export async function createAxiosInstance(request) {
   return axiosInstance;
 }
 
+// For callers with no request in scope (webhook, cron, hooks). The
+// module-level context keeps the token cache warm across invocations within
+// the process.
+const standaloneContext = { app: { locals: {} } };
+export function createStandaloneAxiosInstance() {
+  return createAxiosInstance(standaloneContext);
+}
+
 async function requestAccessToken(baseUrl, clientId, clientSecret) {
   const params = new URLSearchParams({ grant_type: 'client_credentials' });
   const paypalAccessToken = await axios.post(

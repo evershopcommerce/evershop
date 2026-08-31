@@ -48,6 +48,78 @@ interface FinalizeResult {
   firstFinalization: boolean;
 }
 
+/**
+ * Record one settled/pending PayPal payment against a local order: update the
+ * payment status, insert the transaction idempotently, log activity, and emit
+ * `order_placed` exactly once per transaction id — shared by the return page,
+ * the webhook, and the reconciliation cron so every path uses the same guard.
+ */
+export async function recordPaypalPayment(
+  order: any,
+  payment: { id: string; amount?: { value?: string } },
+  source: any,
+  action: 'capture' | 'authorize',
+  paymentStatus: string
+): Promise<FinalizeResult> {
+  const connection = await getConnection();
+  await startTransaction(connection);
+  let firstFinalization = false;
+  try {
+    const existing = await select()
+      .from('payment_transaction')
+      .where('transaction_id', '=', payment.id)
+      .and('payment_transaction_order_id', '=', order.order_id)
+      .load(connection);
+    firstFinalization = !existing;
+
+    await updatePaymentStatus(order.order_id, paymentStatus, connection);
+    await insertOnUpdate('payment_transaction', [
+      'transaction_id',
+      'payment_transaction_order_id'
+    ])
+      .given({
+        payment_transaction_order_id: order.order_id,
+        transaction_id: payment.id,
+        amount: parseFloat(payment.amount?.value ?? order.grand_total),
+        payment_action: action,
+        transaction_type: 'online',
+        additional_information: JSON.stringify(source)
+      })
+      .execute(connection);
+
+    if (firstFinalization) {
+      await addOrderActivityLog(
+        order.order_id,
+        action === 'capture'
+          ? `Captured the payment. Transaction ID: ${payment.id}`
+          : `Customer authorized the payment using PayPal. Transaction ID: ${payment.id}`,
+        false,
+        connection
+      );
+    }
+    await commit(connection);
+  } catch (e) {
+    await rollback(connection);
+    throw e;
+  }
+
+  if (firstFinalization) {
+    // After the commit so subscribers see the settled payment status, and
+    // from a re-loaded row so the payload isn't the stale pending one.
+    const freshOrder = await select()
+      .from('order')
+      .where('order_id', '=', order.order_id)
+      .load(pool);
+    await emit('order_placed', { ...(freshOrder ?? order) });
+  } else {
+    debug(
+      `PayPal ${action} for order ${order.uuid} was already recorded; skipping order_placed`
+    );
+  }
+
+  return { paymentStatus, transactionId: payment.id, firstFinalization };
+}
+
 interface FinalizeStrategy {
   action: 'capture' | 'authorize';
   endpoint: string;
@@ -142,61 +214,42 @@ export async function finalizePaypalOrder(
     );
   }
 
-  const connection = await getConnection();
-  await startTransaction(connection);
-  let firstFinalization = false;
+  return recordPaypalPayment(
+    order,
+    payment,
+    source,
+    strategy.action,
+    paymentStatus
+  );
+}
+
+/**
+ * `finalizePaypalOrder` for callers with nobody left to show an error to
+ * (webhook, reconciliation cron): a declined payment marks the order
+ * `paypal_failed` for admin review instead of throwing. Everything else
+ * still throws.
+ */
+export async function finalizePaypalOrderOrFail(
+  order: any,
+  axiosInstance: AxiosInstance
+): Promise<FinalizeResult> {
   try {
-    const existing = await select()
-      .from('payment_transaction')
-      .where('transaction_id', '=', payment.id)
-      .and('payment_transaction_order_id', '=', order.order_id)
-      .load(connection);
-    firstFinalization = !existing;
-
-    await updatePaymentStatus(order.order_id, paymentStatus, connection);
-    await insertOnUpdate('payment_transaction', [
-      'transaction_id',
-      'payment_transaction_order_id'
-    ])
-      .given({
-        payment_transaction_order_id: order.order_id,
-        transaction_id: payment.id,
-        amount: parseFloat(payment.amount?.value ?? order.grand_total),
-        payment_action: strategy.action,
-        transaction_type: 'online',
-        additional_information: JSON.stringify(source)
-      })
-      .execute(connection);
-
-    if (firstFinalization) {
+    return await finalizePaypalOrder(order, axiosInstance);
+  } catch (e) {
+    if (e instanceof PaypalPaymentDeclinedError) {
+      await updatePaymentStatus(order.order_id, 'paypal_failed');
       await addOrderActivityLog(
         order.order_id,
-        strategy.action === 'capture'
-          ? `Captured the payment. Transaction ID: ${payment.id}`
-          : `Customer authorized the payment using PayPal. Transaction ID: ${payment.id}`,
+        `PayPal payment failed: ${e.message}`,
         false,
-        connection
+        pool as any
       );
+      return {
+        paymentStatus: 'paypal_failed',
+        transactionId: '',
+        firstFinalization: false
+      };
     }
-    await commit(connection);
-  } catch (e) {
-    await rollback(connection);
     throw e;
   }
-
-  if (firstFinalization) {
-    // After the commit so subscribers see the settled payment status, and
-    // from a re-loaded row so the payload isn't the stale pending one.
-    const freshOrder = await select()
-      .from('order')
-      .where('order_id', '=', order.order_id)
-      .load(pool);
-    await emit('order_placed', { ...(freshOrder ?? order) });
-  } else {
-    debug(
-      `PayPal ${strategy.action} for order ${order.uuid} was already recorded; skipping order_placed`
-    );
-  }
-
-  return { paymentStatus, transactionId: payment.id, firstFinalization };
 }

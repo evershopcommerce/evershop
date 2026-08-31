@@ -1,7 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
-import { createAxiosInstance } from './requester.js';
+import { createStandaloneAxiosInstance } from './requester.js';
 
 export async function voidPaymentTransaction(orderID) {
   try {
@@ -12,11 +12,7 @@ export async function voidPaymentTransaction(orderID) {
     if (!transaction) {
       return;
     }
-    const axiosInstance = await createAxiosInstance({
-      app: {
-        locals: {}
-      }
-    });
+    const axiosInstance = await createStandaloneAxiosInstance();
 
     // Get the transaction details from Paypal
     const responseData = await axiosInstance.get(
