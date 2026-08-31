@@ -7,7 +7,7 @@ export default function Error() {
       <h1>{_('Error')}</h1>
       <p>
         {_(
-          'We are sorry. There was an error processing your payment. Your card was not charged. Please try again.'
+          'We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.'
         )}
       </p>
     </div>

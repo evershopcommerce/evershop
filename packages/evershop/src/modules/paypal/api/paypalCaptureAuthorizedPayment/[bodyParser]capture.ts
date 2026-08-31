@@ -1,5 +1,6 @@
 import {
   commit,
+  insert,
   rollback,
   select,
   startTransaction
@@ -44,10 +45,12 @@ export default async (
         }
       });
     } else {
-      // Get the payment transaction
+      // Get the authorization transaction. The order can carry more rows
+      // (captures, refunds), so filter by action instead of taking the first.
       const transaction = await select()
         .from('payment_transaction')
         .where('payment_transaction_order_id', '=', order.order_id)
+        .and('payment_action', '=', 'authorize')
         .load(connection);
       if (!transaction) {
         await rollback(connection);
@@ -96,10 +99,24 @@ export default async (
             'paypal_captured',
             connection
           );
+          // Capturing an authorization creates a new capture transaction at
+          // PayPal. Record it, keeping the authorization as its parent.
+          await insert('payment_transaction')
+            .given({
+              payment_transaction_order_id: order.order_id,
+              transaction_id: responseData.data.id,
+              amount:
+                responseData.data.amount?.value ?? transaction.amount,
+              parent_transaction_id: transaction.transaction_id,
+              payment_action: 'capture',
+              transaction_type: 'online',
+              additional_information: JSON.stringify(responseData.data)
+            })
+            .execute(connection);
           // Save order activities
           await addOrderActivityLog(
             order.order_id,
-            `Captured the payment. Transaction ID: ${transaction.transaction_id}`,
+            `Captured the payment. Transaction ID: ${responseData.data.id}`,
             false,
             connection
           );

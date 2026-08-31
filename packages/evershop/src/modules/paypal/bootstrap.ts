@@ -11,17 +11,41 @@ export default async () => {
       paymentStatus: {
         paypal_authorized: {
           name: 'Authorized',
+          isCancelable: true,
           badge: 'warning'
         },
         paypal_captured: {
           name: 'Captured',
+          // Canceling a captured order would have to refund the money first;
+          // blocking here keeps cancelOrder from failing halfway through the
+          // void hook.
+          isCancelable: false,
           badge: 'success'
+        },
+        paypal_failed: {
+          name: 'Failed',
+          isCancelable: true,
+          badge: 'critical'
+        },
+        paypal_refunded: {
+          name: 'Refunded',
+          isCancelable: false,
+          badge: 'destructive'
+        },
+        paypal_partial_refunded: {
+          name: 'Partial Refunded',
+          isCancelable: false,
+          badge: 'destructive'
         }
       },
       psoMapping: {
         'paypal_authorized:*': 'processing',
         'paypal_captured:*': 'processing',
-        'paypal_captured:delivered': 'completed'
+        'paypal_captured:delivered': 'completed',
+        'paypal_failed:*': 'new',
+        'paypal_refunded:*': 'closed',
+        'paypal_partial_refunded:*': 'processing',
+        'paypal_partial_refunded:delivered': 'completed'
       }
     }
   };
