@@ -21,6 +21,7 @@ describe('paypal bootstrap payment statuses', () => {
     [
       'paypal_authorized',
       'paypal_captured',
+      'paypal_pending',
       'paypal_failed',
       'paypal_refunded',
       'paypal_partial_refunded'
@@ -35,6 +36,7 @@ describe('paypal bootstrap payment statuses', () => {
     const statuses = config.get('oms.order.paymentStatus');
     expect(statuses.paypal_authorized.isCancelable).toBe(true);
     expect(statuses.paypal_captured.isCancelable).toBe(false);
+    expect(statuses.paypal_pending.isCancelable).toBe(false);
     expect(statuses.paypal_refunded.isCancelable).toBe(false);
     expect(statuses.paypal_partial_refunded.isCancelable).toBe(false);
   });
@@ -44,6 +46,7 @@ describe('paypal bootstrap payment statuses', () => {
     expect(pso['paypal_authorized:*']).toBe('processing');
     expect(pso['paypal_captured:*']).toBe('processing');
     expect(pso['paypal_captured:delivered']).toBe('completed');
+    expect(pso['paypal_pending:*']).toBe('processing');
     expect(pso['paypal_failed:*']).toBe('new');
     expect(pso['paypal_refunded:*']).toBe('closed');
     expect(pso['paypal_partial_refunded:*']).toBe('processing');

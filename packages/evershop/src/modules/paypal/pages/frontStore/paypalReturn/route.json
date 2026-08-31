@@ -1,4 +1,4 @@
 {
   "methods": ["GET"],
-  "path": "/paypal/proccessing/:order_id"
+  "path": "/paypal/processing/:order_id"
 }
