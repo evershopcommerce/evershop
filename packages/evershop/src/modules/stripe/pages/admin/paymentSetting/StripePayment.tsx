@@ -107,7 +107,7 @@ export default function StripePayment({
               placeholder={_('Secret Key')}
               defaultValue={stripeEndpointSecret || ''}
               helperText={_(
-                'Your webhook url should be: https://yourdomain.com/api/stripe/webhook'
+                'Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or "All events"): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.'
               )}
             />
           </div>
