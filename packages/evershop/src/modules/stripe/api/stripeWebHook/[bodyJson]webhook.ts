@@ -2,8 +2,8 @@ import {
   startTransaction,
   commit,
   rollback,
-  select,
-  insertOnUpdate
+  insertOnUpdate,
+  PoolClient
 } from '@evershop/postgres-query-builder';
 import stripePgk from 'stripe';
 import { display } from 'zero-decimal-currencies';
@@ -16,6 +16,47 @@ import { EvershopResponse } from '../../../../types/response.js';
 import addOrderActivityLog from '../../../oms/services/addOrderActivityLog.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
+import { paymentIntentMatchesOrder } from '../../services/stripeAmount.js';
+
+/**
+ * Load the order row with `FOR UPDATE` so it stays locked for the life of the
+ * webhook transaction. Stripe can deliver the same event twice (a retry can
+ * overlap a slow original); without the lock both deliveries read "no
+ * transaction yet" and both emit `order_placed` — duplicate confirmation email
+ * and duplicate side effects. The lock serializes them: the second delivery
+ * blocks until the first commits, then sees the transaction row and stops.
+ */
+async function loadOrderByUuidForUpdate(
+  connection: PoolClient,
+  uuid: string | undefined
+) {
+  if (!uuid) {
+    return undefined;
+  }
+  const { rows } = await connection.query(
+    'SELECT * FROM "order" WHERE "uuid" = $1 FOR UPDATE',
+    [uuid]
+  );
+  return rows[0];
+}
+
+async function loadOrderByPaymentIntentForUpdate(
+  connection: PoolClient,
+  paymentIntentId: string | undefined
+) {
+  if (!paymentIntentId) {
+    return undefined;
+  }
+  const { rows } = await connection.query(
+    `SELECT o.* FROM "order" o
+       JOIN "payment_transaction" pt
+         ON pt."payment_transaction_order_id" = o."order_id"
+      WHERE pt."transaction_id" = $1
+      FOR UPDATE OF o`,
+    [paymentIntentId]
+  );
+  return rows[0];
+}
 
 export default async (
   request: EvershopRequest,
@@ -31,48 +72,118 @@ export default async (
       secretKey?: string;
       endpointSecret?: string;
     };
-    let stripeSecretKey;
-    if (stripeConfig.secretKey) {
-      stripeSecretKey = stripeConfig.secretKey;
-    } else {
-      stripeSecretKey = await getSetting('stripeSecretKey', '');
-    }
+    const stripeSecretKey = stripeConfig.secretKey
+      ? stripeConfig.secretKey
+      : await getSetting('stripeSecretKey', '');
     const stripe = new stripePgk(stripeSecretKey);
 
-    // Webhook enpoint secret
-    let endpointSecret;
-    if (stripeConfig.endpointSecret) {
-      endpointSecret = stripeConfig.endpointSecret;
-    } else {
-      endpointSecret = await getSetting('stripeEndpointSecret', '');
-    }
+    // Webhook endpoint secret
+    const endpointSecret = stripeConfig.endpointSecret
+      ? stripeConfig.endpointSecret
+      : await getSetting('stripeEndpointSecret', '');
 
     event = stripe.webhooks.constructEvent(
       request.body,
       sig as string,
       endpointSecret
     );
+
     await startTransaction(connection);
-    const paymentIntent = event.data.object as stripePgk.PaymentIntent;
-    const { order_id } = paymentIntent.metadata;
-    const transaction = await select()
-      .from('payment_transaction')
-      .where('transaction_id', '=', paymentIntent.id)
-      .load(connection);
-    // Load the order
-    const order = await select()
-      .from('order')
-      .where('uuid', '=', order_id)
-      .load(connection);
-    if (!order) {
-      throw new Error(`Order with id ${order_id} not found`);
+
+    // ---- Refund events (money-out, e.g. issued from the Stripe Dashboard) ----
+    // EverShop-initiated refunds already set the status in their own request;
+    // this reflects refunds made outside EverShop. Idempotent and consistent
+    // with the admin flow: it only acts when the status actually changes.
+    if (event.type === 'charge.refunded') {
+      const charge = event.data.object as stripePgk.Charge;
+      const paymentIntentId =
+        typeof charge.payment_intent === 'string'
+          ? charge.payment_intent
+          : charge.payment_intent?.id;
+      const order = await loadOrderByPaymentIntentForUpdate(
+        connection,
+        paymentIntentId
+      );
+      if (order && order.payment_method === 'stripe') {
+        const desired = charge.refunded
+          ? 'stripe_refunded'
+          : 'stripe_partial_refunded';
+        if (
+          order.payment_status !== desired &&
+          ['stripe_captured', 'stripe_partial_refunded'].includes(
+            order.payment_status
+          )
+        ) {
+          await updatePaymentStatus(order.order_id, desired, connection);
+          await addOrderActivityLog(
+            order.order_id,
+            `Refund of ${display(
+              charge.amount_refunded,
+              charge.currency
+            )} ${String(charge.currency).toUpperCase()} recorded from Stripe. Charge ID: ${charge.id}`,
+            false,
+            connection
+          );
+        }
+      }
+      await commit(connection);
+      response.json({ received: true });
+      return;
     }
+
+    // ---- PaymentIntent events (money-in) ----
+    const paymentIntent = event.data.object as stripePgk.PaymentIntent;
+    const order = await loadOrderByUuidForUpdate(
+      connection,
+      paymentIntent.metadata?.order_id
+    );
+    if (!order) {
+      throw new Error(
+        `Order with id ${paymentIntent.metadata?.order_id} not found`
+      );
+    }
+
+    // Reject any money-in intent that does not match this order in amount +
+    // currency, or that is not a Stripe order. This is the server-side close of
+    // the amount-integrity hole: the order owns the amount, the intent must
+    // agree with it before we mark anything paid.
+    const isMoneyInEvent =
+      event.type === 'payment_intent.succeeded' ||
+      event.type === 'payment_intent.amount_capturable_updated';
+    if (isMoneyInEvent) {
+      if (order.payment_method !== 'stripe') {
+        debug(`Ignoring Stripe webhook for non-Stripe order ${order.order_id}`);
+        await commit(connection);
+        response.json({ received: true });
+        return;
+      }
+      if (!paymentIntentMatchesOrder(order, paymentIntent)) {
+        error(
+          new Error(
+            `Stripe amount mismatch for order ${order.order_id}: intent ${paymentIntent.id} charged ${paymentIntent.amount} ${paymentIntent.currency}, order expects ${order.grand_total} ${order.currency}. Not marking as paid.`
+          )
+        );
+        // Acknowledge so Stripe stops retrying (a mismatch is terminal, not
+        // transient); nothing is written, so the order is held at `pending` for
+        // manual review rather than auto-fulfilled.
+        await commit(connection);
+        response.json({ received: true });
+        return;
+      }
+    }
+
+    // Whether this is the first time we process this intent, decided under the
+    // row lock so concurrent deliveries cannot both see "not processed".
+    const { rows: existingTxn } = await connection.query(
+      'SELECT 1 FROM "payment_transaction" WHERE "transaction_id" = $1 AND "payment_transaction_order_id" = $2',
+      [paymentIntent.id, order.order_id]
+    );
+    const alreadyProcessed = existingTxn.length > 0;
+
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded': {
         debug('payment_intent.succeeded event received');
-        // Update the order
-        // Create payment transaction
         await insertOnUpdate('payment_transaction', [
           'transaction_id',
           'payment_transaction_order_id'
@@ -89,29 +200,30 @@ export default async (
           })
           .execute(connection);
 
-        if (!transaction) {
+        if (!alreadyProcessed) {
           await updatePaymentStatus(
             order.order_id,
             'stripe_captured',
             connection
           );
-
-          // Add an activity log
           await addOrderActivityLog(
             order.order_id,
             `Payment captured by using Stripe. Transaction ID: ${paymentIntent.id}`,
             false,
             connection
           );
-
-          // Emit event to add order placed event
-          await emit('order_placed', { ...order });
+          // Emit on THIS connection so the event insert lives or dies with the
+          // status update and only becomes visible to subscribers after commit.
+          await emit(
+            'order_placed',
+            { ...order, payment_status: 'stripe_captured' },
+            connection
+          );
         }
         break;
       }
       case 'payment_intent.amount_capturable_updated': {
         debug('payment_intent.amount_capturable_updated event received');
-        // Create payment transaction
         await insertOnUpdate('payment_transaction', [
           'transaction_id',
           'payment_transaction_order_id'
@@ -130,27 +242,50 @@ export default async (
           })
           .execute(connection);
 
-        if (!transaction) {
+        if (!alreadyProcessed) {
           await updatePaymentStatus(
             order.order_id,
             'stripe_authorized',
             connection
           );
-          // Add an activity log
           await addOrderActivityLog(
             order.order_id,
             `Payment authorized by using Stripe. Transaction ID: ${paymentIntent.id}`,
             false,
             connection
           );
-          // Emit event to add order placed event
-          await emit('order_placed', { ...order });
+          await emit(
+            'order_placed',
+            { ...order, payment_status: 'stripe_authorized' },
+            connection
+          );
+        }
+        break;
+      }
+      case 'payment_intent.payment_failed': {
+        debug('payment_intent.payment_failed event received');
+        // Delayed-notification methods (and any post-return failure) settle
+        // here. Without this the order would sit at `pending` forever. Only
+        // touch a still-pending order so a captured/authorized one is never
+        // overridden by a late failure event.
+        if (order.payment_status === 'pending') {
+          await updatePaymentStatus(order.order_id, 'stripe_failed', connection);
+          const reason =
+            paymentIntent.last_payment_error?.message || 'Payment failed.';
+          await addOrderActivityLog(
+            order.order_id,
+            `Stripe payment failed. ${reason} Transaction ID: ${paymentIntent.id}`,
+            false,
+            connection
+          );
         }
         break;
       }
       case 'payment_intent.canceled': {
         debug('payment_intent.canceled event received');
-        await updatePaymentStatus(order.order_id, 'canceled', connection);
+        if (order.payment_status !== 'canceled') {
+          await updatePaymentStatus(order.order_id, 'canceled', connection);
+        }
         break;
       }
       default: {

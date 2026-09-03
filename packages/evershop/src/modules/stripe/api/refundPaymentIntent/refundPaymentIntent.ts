@@ -20,16 +20,16 @@ import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.j
 import { getSetting } from '../../../setting/services/setting.js';
 
 export default async (request, response, next) => {
-  const connection = await getConnection(pool);
   try {
-    await startTransaction(connection);
-
     const { order_id, amount } = request.body;
-    // Load the order
+
+    // Read-only validation on the shared pool, BEFORE acquiring a dedicated
+    // connection. The old code opened a transaction first and returned early on
+    // these guards without rolling back, leaking the pooled client every time.
     const order = await select()
       .from('order')
       .where('order_id', '=', order_id)
-      .load(connection);
+      .load(pool);
     if (!order || order.payment_method !== 'stripe') {
       response.status(INVALID_PAYLOAD);
       response.json({
@@ -41,11 +41,20 @@ export default async (request, response, next) => {
       return;
     }
 
-    // Get the payment transaction
-    const paymentTransaction = await select()
+    // Pick the latest transaction deterministically (an order can carry more
+    // than one row — e.g. a re-payment). For a single Stripe PaymentIntent the
+    // authorize and capture share the same transaction_id, so this is one row
+    // in the common case. `.orderBy` lives on the query, not on the `Where`
+    // node, so hold the handle and set the clauses on it separately.
+    const paymentTransactionQuery = select()
       .from('payment_transaction')
-      .where('payment_transaction_order_id', '=', order.order_id)
-      .load(connection);
+      .orderBy('payment_transaction_id', 'DESC');
+    paymentTransactionQuery.where(
+      'payment_transaction_order_id',
+      '=',
+      order.order_id
+    );
+    const paymentTransaction = await paymentTransactionQuery.load(pool);
     if (!paymentTransaction) {
       response.status(INVALID_PAYLOAD);
       response.json({
@@ -58,15 +67,12 @@ export default async (request, response, next) => {
     }
 
     const stripeConfig = getConfig('system.stripe', {});
-    let stripeSecretKey;
-
-    if (stripeConfig?.secretKey) {
-      stripeSecretKey = stripeConfig.secretKey;
-    } else {
-      stripeSecretKey = await getSetting('stripeSecretKey', '');
-    }
+    const stripeSecretKey = stripeConfig?.secretKey
+      ? stripeConfig.secretKey
+      : await getSetting('stripeSecretKey', '');
     const stripe = new Stripe(stripeSecretKey);
-    // Refund
+
+    // Refund at Stripe first (a network call — kept out of the DB transaction).
     const refund = await stripe.refunds.create({
       payment_intent: paymentTransaction.transaction_id,
       amount: parseInt(smallestUnit(amount, order.currency), 10)
@@ -76,19 +82,27 @@ export default async (request, response, next) => {
         ? refund.charge
         : refund.charge?.id ?? '';
     const charge = await stripe.charges.retrieve(chargeId);
-    // Update the order status
     const status =
       charge.refunded === true ? 'stripe_refunded' : 'stripe_partial_refunded';
-    await updatePaymentStatus(order.order_id, status, connection);
 
-    // Add order activity log
-    await addOrderActivityLog(
-      order.order_id,
-      `Refunded ${amount} ${charge.currency}`,
-      false,
-      connection
-    );
-    await commit(connection);
+    // Short transaction for the DB writes only. getConnection immediately
+    // followed by startTransaction — no pre-tx reads on this client.
+    const connection = await getConnection(pool);
+    try {
+      await startTransaction(connection);
+      await updatePaymentStatus(order.order_id, status, connection);
+      await addOrderActivityLog(
+        order.order_id,
+        `Refunded ${amount} ${charge.currency}`,
+        false,
+        connection
+      );
+      await commit(connection);
+    } catch (dbErr) {
+      await rollback(connection);
+      throw dbErr;
+    }
+
     response.status(OK);
     response.json({
       data: {
@@ -97,7 +111,6 @@ export default async (request, response, next) => {
     });
   } catch (err) {
     error(err);
-    await rollback(connection);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({
       error: {
