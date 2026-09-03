@@ -121,7 +121,7 @@ export default async (
         };
       } else {
         (
-          orderData.payment_source.paypal as any
+          orderData.payment_source!.paypal as any
         ).experience_context.shipping_preference = 'NO_SHIPPING';
       }
       const finalPaypalOrderData = getValueSync<CreateOrderRequestBody>(
