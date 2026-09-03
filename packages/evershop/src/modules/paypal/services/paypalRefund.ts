@@ -70,13 +70,16 @@ export async function recordPaypalRefund(
 
     // The capture being refunded — by id when the caller knows it, otherwise
     // the order's capture transaction.
-    let captureQuery = select()
+    const captureQuery = select()
       .from('payment_transaction')
       .where('payment_transaction_order_id', '=', order.order_id);
+    // `.and()` mutates the where clause in place and returns a `Node`, which
+    // lacks `Where`'s `andWhere`/`orWhere` — so reassigning the `Where` handle
+    // does not type-check. Call `.and()` for its side effect and keep the handle.
     if (captureId) {
-      captureQuery = captureQuery.and('transaction_id', '=', captureId);
+      captureQuery.and('transaction_id', '=', captureId);
     } else {
-      captureQuery = captureQuery.and('payment_action', '=', 'capture');
+      captureQuery.and('payment_action', '=', 'capture');
     }
     const capture = await captureQuery.load(connection);
     if (!capture) {
