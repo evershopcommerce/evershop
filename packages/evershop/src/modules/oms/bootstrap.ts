@@ -266,7 +266,8 @@ export default () => {
         paid: {
           name: 'Paid',
           badge: 'success',
-          isCancelable: false
+          isCancelable: false,
+          isRefundable: true
         },
         canceled: {
           name: 'Canceled',

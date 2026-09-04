@@ -1,6 +1,7 @@
 import config from 'config';
+import Stripe from 'stripe';
+import smallestUnit, { display } from 'zero-decimal-currencies';
 import { getConfig } from '../../lib/util/getConfig.js';
-import { hookAfter } from '../../lib/util/hookable.js';
 import { PaymentStatus } from '../../types/order.js';
 import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
 import { getSetting } from '../setting/services/setting.js';
@@ -14,12 +15,15 @@ export default async () => {
           name: 'Authorized',
           isDefault: false,
           isCancelable: true,
+          isCapturable: true,
+          isVoidable: true,
           badge: 'warning'
         },
         stripe_captured: {
           name: 'Captured',
           isDefault: false,
           isCancelable: false,
+          isRefundable: true,
           badge: 'success'
         },
         stripe_failed: {
@@ -38,6 +42,7 @@ export default async () => {
           name: 'Partial Refunded',
           badge: 'destructive',
           isCancelable: false,
+          isRefundable: true,
           isDefault: false
         }
       },
@@ -63,16 +68,6 @@ export default async () => {
   };
   config.util.setModuleDefaults('oms', stripePaymentStatus);
 
-  hookAfter('changePaymentStatus', async (order, orderID, status) => {
-    if (status !== 'canceled') {
-      return;
-    }
-    if (order.payment_method !== 'stripe') {
-      return;
-    }
-    await cancelPaymentIntent(orderID);
-  });
-
   registerPaymentMethod({
     init: async () => ({
       code: 'stripe',
@@ -91,6 +86,64 @@ export default async () => {
       } else {
         return false;
       }
+    },
+    // Capture an authorized PaymentIntent. Core (captureOrder) records the
+    // capture transaction, sets the status, and logs — the handler only hits
+    // Stripe and reports the captured amount.
+    capture: async ({ order, transaction }) => {
+      const stripeConfig = getConfig('system.stripe', {}) ?? {};
+      const secretKey = stripeConfig.secretKey
+        ? stripeConfig.secretKey
+        : await getSetting('stripeSecretKey', '');
+      if (!transaction?.transaction_id) {
+        throw new Error('Missing Stripe payment intent id to capture');
+      }
+      const stripe = new Stripe(secretKey);
+      const intent = await stripe.paymentIntents.retrieve(
+        transaction.transaction_id
+      );
+      if (intent.status !== 'requires_capture') {
+        throw new Error(
+          'Payment intent is not in a capturable state (requires_capture)'
+        );
+      }
+      const captured = await stripe.paymentIntents.capture(
+        transaction.transaction_id
+      );
+      return {
+        transactionId: captured.id,
+        amount: parseFloat(
+          display(captured.amount_received ?? captured.amount, order.currency)
+        ),
+        raw: captured
+      };
+    },
+    // Release an uncaptured authorization. Core calls this from cancelOrder when
+    // a voidable order is canceled; the handler cancels the PaymentIntent.
+    void: async ({ order }) => {
+      await cancelPaymentIntent(order.order_id);
+    },
+    // The one gateway-specific step: hit Stripe and report what it moved. Core
+    // (refundOrder → recordRefund) records the transaction, decides full vs
+    // partial, sets the status, and emits `order_refunded`.
+    refund: async ({ order, amount, transaction }) => {
+      const stripeConfig = getConfig('system.stripe', {}) ?? {};
+      const secretKey = stripeConfig.secretKey
+        ? stripeConfig.secretKey
+        : await getSetting('stripeSecretKey', '');
+      if (!transaction.transaction_id) {
+        throw new Error('Missing Stripe capture transaction id to refund');
+      }
+      const stripe = new Stripe(secretKey);
+      const refund = await stripe.refunds.create({
+        payment_intent: transaction.transaction_id,
+        amount: parseInt(smallestUnit(amount, order.currency), 10)
+      });
+      return {
+        transactionId: refund.id,
+        amount: parseFloat(display(refund.amount, order.currency)),
+        raw: refund
+      };
     }
   });
 };

@@ -1,5 +1,5 @@
 {
   "methods": ["POST"],
-  "path": "/stripe/paymentIntents/refund",
+  "path": "/orders/:id/capture",
   "access": "private"
 }

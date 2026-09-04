@@ -1,5 +1,4 @@
 import { Form } from '@components/common/form/Form.js';
-import { InputField } from '@components/common/form/InputField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
@@ -9,35 +8,30 @@ import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
-interface PaypalRefundButtonProps {
-  refundAPI: string;
+interface RefundButtonProps {
   order: {
-    paymentStatus: {
-      code: string;
-    };
-    uuid: string;
-    paymentMethod: string;
+    canRefund: boolean;
+    refundApi: string;
     grandTotal: {
       value: number;
       currency: string;
     };
   };
 }
-export default function PaypalRefundButton({
-  refundAPI,
-  order: { paymentStatus, uuid, paymentMethod, grandTotal }
-}: PaypalRefundButtonProps) {
+
+/**
+ * The one refund button, owned by core (OMS), not by any payment module. It is
+ * shown automatically for every payment method whose `Order.canRefund` is true
+ * (capability + refundable status), and posts to the single core refund route.
+ * No per-gateway button, no per-gateway route.
+ */
+export default function RefundButton({
+  order: { canRefund, refundApi, grandTotal }
+}: RefundButtonProps) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
   const [loading, setLoading] = React.useState(false);
   return (
-    <RenderIfTrue
-      condition={
-        paymentMethod === 'paypal' &&
-        ['paypal_captured', 'paypal_partial_refunded'].includes(
-          paymentStatus.code
-        )
-      }
-    >
+    <RenderIfTrue condition={canRefund}>
       <CardContent>
         <div className="flex justify-end">
           <Button
@@ -48,9 +42,9 @@ export default function PaypalRefundButton({
                 content: (
                   <div>
                     <Form
-                      id="paypalRefund"
+                      id="orderRefund"
                       method="POST"
-                      action={refundAPI}
+                      action={refundApi}
                       submitBtn={false}
                       onSuccess={(response) => {
                         setLoading(false);
@@ -106,11 +100,6 @@ export default function PaypalRefundButton({
                           unit={grandTotal.currency}
                         />
                       </div>
-                      <InputField
-                        type="hidden"
-                        name="order_id"
-                        defaultValue={uuid}
-                      />
                     </Form>
                   </div>
                 ),
@@ -128,12 +117,12 @@ export default function PaypalRefundButton({
                       payload: { secondaryAction: { isLoading: true } }
                     });
                     (
-                      document.getElementById('paypalRefund') as HTMLFormElement
+                      document.getElementById('orderRefund') as HTMLFormElement
                     ).dispatchEvent(
                       new Event('submit', { cancelable: true, bubbles: true })
                     );
                   },
-                  variant: 'secondary',
+                  variant: 'destructive',
                   isLoading: loading
                 }
               });
@@ -149,22 +138,18 @@ export default function PaypalRefundButton({
 
 export const layout = {
   areaId: 'orderPaymentActions',
-  sortOrder: 15
+  sortOrder: 10
 };
 
 export const query = `
   query Query {
-    refundAPI: url(routeId: "paypalRefundPayment")
     order(uuid: getContextValue("orderId")) {
-      uuid
+      canRefund
+      refundApi
       grandTotal {
         value
         currency
       }
-      paymentStatus {
-        code
-      }
-      paymentMethod
     }
   }
 `;
