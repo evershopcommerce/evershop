@@ -1,40 +1,42 @@
 import RenderIfTrue from '@components/common/RenderIfTrue.js';
 import { Button } from '@components/common/ui/Button.js';
-import { Card, CardContent } from '@components/common/ui/Card.js';
+import { CardContent } from '@components/common/ui/Card.js';
 import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import React from 'react';
 
-interface Props {
-  captureAPI: string;
+interface CaptureButtonProps {
   order: {
-    paymentStatus: {
-      code: string;
-    };
-    uuid: string;
-    paymentMethod: string;
+    canCapture: boolean;
+    captureApi: string;
   };
 }
 
-export default function PaypalCaptureButton({
-  captureAPI,
-  order: { paymentStatus, uuid, paymentMethod }
-}: Props) {
+/**
+ * The one capture button, owned by core (OMS), not by any payment module. Shown
+ * automatically for every payment method whose `Order.canCapture` is true
+ * (capability + capturable status), and posts to the single core capture route.
+ * No per-gateway button, no per-gateway route.
+ */
+export default function CaptureButton({
+  order: { canCapture, captureApi }
+}: CaptureButtonProps) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const onAction = async () => {
     try {
       setIsLoading(true);
-      // Use Axios to call the capture API
-      const response = await axios.post(captureAPI, { order_id: uuid });
+      const response = await axios.post(captureApi, {}, {
+        validateStatus: () => true
+      });
       if (!response.data.error) {
         // Reload the page
         window.location.reload();
       } else {
         toast.error(response.data.error.message);
+        setIsLoading(false);
       }
-      setIsLoading(false);
     } catch (e) {
       setIsLoading(false);
       toast.error(e.message);
@@ -42,11 +44,7 @@ export default function PaypalCaptureButton({
   };
 
   return (
-    <RenderIfTrue
-      condition={
-        paymentMethod === 'paypal' && paymentStatus.code === 'paypal_authorized'
-      }
-    >
+    <RenderIfTrue condition={canCapture}>
       <CardContent>
         <div className="flex justify-end">
           <Button onClick={onAction} isLoading={isLoading}>
@@ -60,18 +58,14 @@ export default function PaypalCaptureButton({
 
 export const layout = {
   areaId: 'orderPaymentActions',
-  sortOrder: 10
+  sortOrder: 5
 };
 
 export const query = `
   query Query {
-    captureAPI: url(routeId: "paypalCaptureAuthorizedPayment")
     order(uuid: getContextValue("orderId")) {
-      uuid
-      paymentStatus {
-        code
-      }
-      paymentMethod
+      canCapture
+      captureApi
     }
   }
 `;

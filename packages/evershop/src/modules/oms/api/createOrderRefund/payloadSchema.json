@@ -1,9 +1,6 @@
 {
   "type": "object",
   "properties": {
-    "order_id": {
-      "type": "string"
-    },
     "amount": {
       "type": ["string", "number"],
       "pattern": "^\\d+(\\.\\d{1,2})?$",
@@ -12,11 +9,11 @@
       }
     }
   },
-  "required": ["order_id"],
+  "required": ["amount"],
   "additionalProperties": true,
   "errorMessage": {
     "properties": {
-      "order_id": "Order is invalid"
+      "amount": "Refund amount is invalid"
     }
   }
 }

@@ -1,5 +1,5 @@
 {
   "methods": ["POST"],
-  "path": "/paypal/refunds",
+  "path": "/orders/:id/refunds",
   "access": "private"
 }

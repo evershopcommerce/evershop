@@ -14,9 +14,11 @@ import { getConfig } from '../../../../lib/util/getConfig.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
 import addOrderActivityLog from '../../../oms/services/addOrderActivityLog.js';
+import { recordRefund } from '../../../oms/services/recordRefund.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
 import { paymentIntentMatchesOrder } from '../../services/stripeAmount.js';
+import { isHandledPaymentIntentEvent } from '../../services/webhookEvents.js';
 
 /**
  * Load the order row with `FOR UPDATE` so it stays locked for the life of the
@@ -105,26 +107,25 @@ export default async (
         paymentIntentId
       );
       if (order && order.payment_method === 'stripe') {
-        const desired = charge.refunded
-          ? 'stripe_refunded'
-          : 'stripe_partial_refunded';
-        if (
-          order.payment_status !== desired &&
-          ['stripe_captured', 'stripe_partial_refunded'].includes(
-            order.payment_status
-          )
-        ) {
-          await updatePaymentStatus(order.order_id, desired, connection);
-          await addOrderActivityLog(
-            order.order_id,
-            `Refund of ${display(
-              charge.amount_refunded,
-              charge.currency
-            )} ${String(charge.currency).toUpperCase()} recorded from Stripe. Charge ID: ${charge.id}`,
-            false,
-            connection
-          );
-        }
+        // Route through the shared recorder so a dashboard refund records a
+        // transaction, sets the status, and emits `order_refunded` just like the
+        // admin path. The individual refund's id is the idempotency key, so an
+        // admin refund's webhook echo is a no-op.
+        const latest = charge.refunds?.data?.[0];
+        await recordRefund(
+          {
+            order,
+            transactionId: latest?.id ?? charge.id,
+            amount: parseFloat(
+              display(
+                latest?.amount ?? charge.amount_refunded,
+                charge.currency
+              )
+            ),
+            raw: charge
+          },
+          connection
+        );
       }
       await commit(connection);
       response.json({ received: true });
@@ -132,15 +133,33 @@ export default async (
     }
 
     // ---- PaymentIntent events (money-in) ----
+    // Only the PaymentIntent lifecycle events below carry our order. Stripe also
+    // delivers many sibling events (charge.*, refund.*, payout.*, …) whose object
+    // is not our PaymentIntent and carries no order_id — acknowledge and ignore
+    // them so Stripe does not retry events we never act on. (Same posture as the
+    // PayPal webhook: unknown events answer 200.)
+    if (!isHandledPaymentIntentEvent(event.type)) {
+      debug(`Ignoring unhandled Stripe event type ${event.type}`);
+      await commit(connection);
+      response.json({ received: true });
+      return;
+    }
+
     const paymentIntent = event.data.object as stripePgk.PaymentIntent;
     const order = await loadOrderByUuidForUpdate(
       connection,
       paymentIntent.metadata?.order_id
     );
     if (!order) {
-      throw new Error(
-        `Order with id ${paymentIntent.metadata?.order_id} not found`
+      // No local order to act on (missing/foreign metadata, or the order is
+      // gone). Acknowledge so Stripe stops retrying — an unmappable event is
+      // terminal, not transient.
+      debug(
+        `Stripe ${event.type}: no order for order_id ${paymentIntent.metadata?.order_id}, ignoring`
       );
+      await commit(connection);
+      response.json({ received: true });
+      return;
     }
 
     // Reject any money-in intent that does not match this order in amount +

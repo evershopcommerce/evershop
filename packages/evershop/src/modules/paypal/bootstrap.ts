@@ -4,9 +4,10 @@ import { registerJob } from '../../lib/cronjob/jobManager.js';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
-import { hookAfter } from '../../lib/util/hookable.js';
 import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
 import { getSetting } from '../setting/services/setting.js';
+import { formatPaypalAmount } from './services/paypalPayload.js';
+import { createStandaloneAxiosInstance } from './services/requester.js';
 import { voidPaymentTransaction } from './services/voidPaymentTransaction.js';
 
 export default async () => {
@@ -16,6 +17,8 @@ export default async () => {
         paypal_authorized: {
           name: 'Authorized',
           isCancelable: true,
+          isCapturable: true,
+          isVoidable: true,
           badge: 'warning'
         },
         paypal_captured: {
@@ -24,6 +27,7 @@ export default async () => {
           // blocking here keeps cancelOrder from failing halfway through the
           // void hook.
           isCancelable: false,
+          isRefundable: true,
           badge: 'success'
         },
         paypal_pending: {
@@ -46,6 +50,7 @@ export default async () => {
         paypal_partial_refunded: {
           name: 'Partial Refunded',
           isCancelable: false,
+          isRefundable: true,
           badge: 'destructive'
         }
       },
@@ -62,16 +67,6 @@ export default async () => {
     }
   };
   config.util.setModuleDefaults('oms', paypalPaymentStatus);
-
-  hookAfter('changePaymentStatus', async (order, orderID, status) => {
-    if (status !== 'canceled') {
-      return;
-    }
-    if (order.payment_method !== 'paypal') {
-      return;
-    }
-    await voidPaymentTransaction(orderID);
-  });
 
   // Reconcile abandoned pending PayPal orders: capture the ones the buyer
   // actually approved (missed-webhook / lost-return-leg fallback), cancel and
@@ -115,6 +110,82 @@ export default async () => {
       } else {
         return false;
       }
+    },
+    // Capture an authorized payment. Capturing an authorization mints a NEW
+    // capture id at PayPal — core (captureOrder) records it as the capture
+    // transaction so later refunds target it. The handler only hits PayPal.
+    capture: async ({ order, transaction }) => {
+      if (!transaction?.transaction_id) {
+        throw new Error('Missing PayPal authorization id to capture');
+      }
+      const axiosInstance = await createStandaloneAxiosInstance();
+      const captureResponse = await axiosInstance.post(
+        `/v2/payments/authorizations/${transaction.transaction_id}/capture`,
+        {},
+        {
+          headers: {
+            'PayPal-Request-Id': `${order.uuid}-capture-${Date.now()}`,
+            Prefer: 'return=representation'
+          },
+          validateStatus: (status: number) => status < 500
+        }
+      );
+      const capture = captureResponse.data;
+      if (captureResponse.status >= 400 || capture.status !== 'COMPLETED') {
+        throw new Error(
+          capture.message || `PayPal capture failed (status ${capture.status})`
+        );
+      }
+      return {
+        transactionId: capture.id,
+        amount: parseFloat(capture.amount?.value ?? String(transaction.amount)),
+        raw: capture
+      };
+    },
+    // Release an uncaptured authorization. Core calls this from cancelOrder when
+    // a voidable order is canceled; the handler voids the authorization.
+    void: async ({ order }) => {
+      await voidPaymentTransaction(order.order_id);
+    },
+    // The one gateway-specific step: refund the capture at PayPal and report
+    // what it moved. Core (refundOrder → recordRefund) records the transaction,
+    // decides full vs partial, sets the status, and emits `order_refunded`.
+    refund: async ({ order, amount, transaction }) => {
+      if (!transaction.transaction_id) {
+        throw new Error('Missing PayPal capture transaction id to refund');
+      }
+      const axiosInstance = await createStandaloneAxiosInstance();
+      const paypalResponse = await axiosInstance.post(
+        `/v2/payments/captures/${transaction.transaction_id}/refund`,
+        {
+          amount: {
+            value: formatPaypalAmount(amount, order.currency),
+            currency_code: order.currency
+          },
+          invoice_id: order.order_number
+        },
+        {
+          headers: {
+            'PayPal-Request-Id': `${order.uuid}-refund-${Date.now()}`,
+            // Without this PayPal returns a minimal body (no amount) and we'd
+            // record a 0 refund.
+            Prefer: 'return=representation'
+          },
+          validateStatus: (status: number) => status < 500
+        }
+      );
+      const refund = paypalResponse.data;
+      if (
+        paypalResponse.status >= 400 ||
+        !['COMPLETED', 'PENDING'].includes(refund.status)
+      ) {
+        throw new Error(
+          refund.message || `PayPal refund failed (status ${refund.status})`
+        );
+      }
+      const value =
+        refund.amount?.value ?? formatPaypalAmount(amount, order.currency);
+      return { transactionId: refund.id, amount: parseFloat(value), raw: refund };
     }
   });
 };

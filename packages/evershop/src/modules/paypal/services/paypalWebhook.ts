@@ -3,12 +3,12 @@ import type { AxiosInstance } from 'axios';
 import { debug, warning } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import addOrderActivityLog from '../../oms/services/addOrderActivityLog.js';
+import { recordRefund } from '../../oms/services/recordRefund.js';
 import { updatePaymentStatus } from '../../oms/services/updatePaymentStatus.js';
 import {
   finalizePaypalOrderOrFail,
   recordPaypalPayment
 } from './finalizePaypalOrder.js';
-import { recordPaypalRefund } from './paypalRefund.js';
 
 export interface PaypalWebhookEvent {
   event_type?: string;
@@ -164,7 +164,13 @@ export async function handlePaypalWebhookEvent(
       break;
     }
     case 'PAYMENT.CAPTURE.REFUNDED': {
-      await recordPaypalRefund(order, resource);
+      await recordRefund({
+        order,
+        transactionId: resource.id,
+        amount: parseFloat(resource.amount?.value ?? '0'),
+        currency: resource.amount?.currency_code ?? order.currency,
+        raw: resource
+      });
       break;
     }
     default:

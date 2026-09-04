@@ -113,6 +113,7 @@ function Alert({ children }) {
                           <Button
                             onClick={alert.primaryAction.onAction}
                             variant={alert.primaryAction.variant}
+                            isLoading={alert.primaryAction.isLoading}
                           >
                             {alert.primaryAction.title}
                           </Button>
@@ -121,6 +122,7 @@ function Alert({ children }) {
                           <Button
                             onClick={alert.secondaryAction.onAction}
                             variant={alert.secondaryAction.variant}
+                            isLoading={alert.secondaryAction.isLoading}
                           >
                             {alert.secondaryAction.title}
                           </Button>

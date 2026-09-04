@@ -20,6 +20,13 @@ export * from './orderLoader.js';
 export * from './addPaymentTransaction.js';
 export * from './statusManager.js';
 export * from './updateOrderStatus.js';
+export * from './refundStatus.js';
+export { recordRefund } from './recordRefund.js';
+export type { RecordRefundParams, RecordRefundResult } from './recordRefund.js';
+export { refundOrder } from './refundOrder.js';
+export type { RefundOrderResult } from './refundOrder.js';
+export { captureOrder } from './captureOrder.js';
+export type { CaptureOrderResult } from './captureOrder.js';
 export {
   cancelOrder,
   addOrderActivityLog,
