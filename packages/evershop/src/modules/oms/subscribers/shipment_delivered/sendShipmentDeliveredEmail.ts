@@ -13,34 +13,13 @@ import { EventData } from '../../../../types/event.js';
 import { getStoreLanguage } from '../../../setting/services/setting.js';
 import { signTrackingToken } from '../../services/anonymousTrackingToken.js';
 
-const TEMPLATE = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head>
-<body style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#ffffff;margin:0;padding:0;">
-<table align="center" width="100%" style="max-width:600px;margin:10px auto;border:1px solid #e5e5e5;" role="presentation">
-<tr><td style="padding:40px 40px 0;text-align:center;">
-{{#if storeInfo.logo}}<img alt="{{storeInfo.logo.alt}}" src="{{storeInfo.logo.src}}" height="{{storeInfo.logo.height}}" width="{{storeInfo.logo.width}}" style="display:inline-block;outline:none;border:none;"/>{{/if}}
-<h1 style="font-size:28px;line-height:1.3;font-weight:700;margin:24px 0 8px;letter-spacing:-0.5px;">Your order has been delivered</h1>
-<p style="font-size:14px;color:#6f6f6f;margin:0 0 24px;">Order #{{order.order_number}} &middot; Delivered {{date deliveredOn}}</p>
-</td></tr>
-<tr><td style="padding:0 40px 24px;">
-<h2 style="font-size:16px;font-weight:600;margin:0 0 12px;">Delivered items</h2>
-<table width="100%" role="presentation">
-<tbody>
-{{#each items}}
-<tr><td style="padding:6px 0;border-bottom:1px solid #f0f0f0;">
-<p style="font-size:14px;margin:0;font-weight:500;">{{this.product_name}}</p>
-<p style="font-size:13px;color:#6f6f6f;margin:4px 0 0;">Qty {{this.qty}}</p>
-</td></tr>
-{{/each}}
-</tbody></table>
-</td></tr>
-<tr><td style="padding:0 40px 32px;text-align:center;">
-<p style="font-size:14px;color:#6f6f6f;margin:0 0 16px;">Thanks for shopping with us. If anything&apos;s not right, reply to this email.</p>
-<a href="{{trackOrderUrl}}" style="display:inline-block;background:#111;color:#ffffff;font-size:14px;font-weight:600;text-decoration:none;padding:12px 22px;border-radius:6px;">View order &rarr;</a>
-</td></tr>
-<tr><td style="padding:18px 40px;border-top:1px solid #e5e5e5;text-align:center;">
-<p style="font-size:12px;color:#afafaf;margin:0;">{{storeInfo.storeName}}{{#if storeInfo.address.street}} &middot; {{storeInfo.address.street}}, {{storeInfo.address.city}}{{/if}}</p>
-</td></tr>
-</table></body></html>`;
+const TEMPLATE = `{{#> emailLayout preheader=(t "Your order #\${number} has been delivered." number=order.order_number)}}
+<h1 style="margin:0 0 6px;font-size:22px;line-height:1.3;font-weight:700;color:#111114;">{{t "Your order was delivered"}}</h1>
+<p style="margin:0 0 18px;font-size:14px;color:#6b7280;">{{t "Order #\${number}" number=order.order_number}} &middot; {{t "Delivered"}} {{date deliveredOn}}</p>
+<p style="margin:0 0 16px;">{{t "We hope it's everything you expected. If anything's not right, just reply to this email."}}</p>
+{{#if items.length}}<p style="margin:22px 0 8px;font-size:13px;font-weight:600;color:#111114;">{{t "Delivered items"}}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">{{#each items}}<tr><td style="padding:9px 0;border-bottom:1px solid #e7e8ea;font-size:14px;color:#111114;">{{this.product_name}}<span style="color:#6b7280;font-size:13px;"> &middot; {{t "Qty"}} {{this.qty}}</span></td></tr>{{/each}}</table>{{/if}}
+{{> button href=trackOrderUrl label=(t "View your order")}}
+{{/emailLayout}}`;
 
 export default async function sendShipmentDeliveredEmail(
   data: EventData<'shipment_delivered'>

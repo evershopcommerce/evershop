@@ -85,6 +85,16 @@ type ConfigStructure = {
         templatePath?: string | null;
         [key: string]: unknown;
       };
+      order_refunded?: {
+        enabled: boolean;
+        templatePath?: string | null;
+        [key: string]: unknown;
+      };
+      order_canceled?: {
+        enabled: boolean;
+        templatePath?: string | null;
+        [key: string]: unknown;
+      };
     };
     stripe?: {
       secretKey?: string;
