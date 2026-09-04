@@ -6,9 +6,13 @@ import {
 } from '../../modules/setting/services/setting.js';
 import { countries } from '../locale/countries.js';
 import { provinces } from '../locale/provinces.js';
+import { translate } from '../locale/translate/translate.js';
 import { getBaseUrl } from '../util/getBaseUrl.js';
 import { getConfig } from '../util/getConfig.js';
 import { addProcessor, getValue, getValueSync } from '../util/registry.js';
+import { fitLogo } from './logoSizing.js';
+import { registerEmailTemplates } from './templates/index.js';
+import { DEFAULT_ACCENT } from './templates/tokens.js';
 
 /**
  * A locale string `Intl.*` will accept. Malformed tags — the underscore form (`en_US`),
@@ -74,6 +78,11 @@ Handlebars.registerHelper('date', function (value, format = 'MMM DD, YYYY') {
     day: '2-digit'
   }).format(date);
 });
+
+// Register the shared email layout, the content partials, and the {{t}} copy
+// helper on the global Handlebars so every email body composes from them and its
+// static copy localizes through the store's translation dictionaries.
+registerEmailTemplates(Handlebars, { translate });
 
 export type SendEmailArguments = {
   from?: string;
@@ -256,6 +265,9 @@ export interface EmailData {
       postalCode?: string;
     };
   };
+  brand?: {
+    accentColor?: string;
+  };
   [key: string]: unknown;
 }
 /**
@@ -292,16 +304,42 @@ async function prepareData(data: EmailData): Promise<EmailData> {
   // sized PNG (WebP/AVIF are unreliable in Outlook and older mail clients). When
   // unset, `logo` stays undefined and each template's {{#if storeInfo.logo}} skips it.
   const logoSetting = await getSetting<string>('logo', '');
-  const logo = logoSetting
-    ? {
-        src: `${getBaseUrl()}/images?src=${encodeURIComponent(
-          logoSetting
-        )}&w=360&q=85&f=png`,
-        alt: await getSetting('storeName', 'Evershop'),
-        // Display width only (2× source for crisp retina); height stays auto.
-        width: '180'
-      }
-    : undefined;
+  let logo:
+    | { src: string; alt: string; width: string; height: string }
+    | undefined;
+  if (logoSetting) {
+    const alt = await getSetting('storeName', 'Evershop');
+    const enc = encodeURIComponent(logoSetting);
+    // The admin uploader stores the logo's real pixel size in `logoWidth`/
+    // `logoHeight`. When we have it, size by a target height with a proportional
+    // width (fitLogo) and serve a width-only, aspect-preserving image — the size
+    // is fixed in both the pixels and the width/height attributes, which is the
+    // only cap Outlook honors. This gives every logo shape a clean render with
+    // no distortion and no letterboxing.
+    const fitted = fitLogo(
+      parseInt(await getSetting('logoWidth', ''), 10),
+      parseInt(await getSetting('logoHeight', ''), 10)
+    );
+    if (fitted) {
+      logo = {
+        // 2× the display width for retina; the optimizer won't enlarge past the
+        // source, and width-only keeps the aspect ratio (no padding).
+        src: `${getBaseUrl()}/images?src=${enc}&w=${fitted.width * 2}&q=85&f=png`,
+        alt,
+        width: String(fitted.width),
+        height: String(fitted.height)
+      };
+    } else {
+      // Real dimensions unknown (e.g. logo set outside the uploader) — fall back
+      // to a safe fixed box: fit:contain (height param) so it can never overflow.
+      logo = {
+        src: `${getBaseUrl()}/images?src=${enc}&w=360&h=120&q=85&f=png`,
+        alt,
+        width: '180',
+        height: '60'
+      };
+    }
+  }
   const addressCountry = await getSetting('storeCountry', 'US');
   const addressProvince = await getSetting('storeProvince', '');
   const addressCity = await getSetting('storeCity', '');
@@ -323,6 +361,11 @@ async function prepareData(data: EmailData): Promise<EmailData> {
     }
   };
   data.storeInfo = storeInformation;
+  // Brand tokens the layout/partials read (currently the button + link accent).
+  // A store can set `emailAccentColor` today; the admin UI for it is P2.
+  data.brand = {
+    accentColor: await getSetting('emailAccentColor', DEFAULT_ACCENT)
+  };
   const finalData = await getValue('emailTemplateData', data, {});
   return finalData;
 }

@@ -487,9 +487,9 @@ You have not placed any orders yet.,Bạn chưa đặt đơn hàng nào.
 You paid for,Bạn đã thanh toán cho
 You will be redirected to PayPal for payment processing.,Bạn sẽ được chuyển đến PayPal để xử lý thanh toán.
 Your Orders,Đơn hàng của bạn
-Your order #${number} has been delivered,Đơn hàng #${number} đã được giao
-Your order #${number} is on the way,Đơn hàng #${number} đang trên đường
-Your order has been confirmed!,Đơn hàng đã được xác nhận!
+Your order #${number} has been delivered,Đơn hàng #${number} của bạn đã được giao
+Your order #${number} is on the way,Đơn hàng #${number} của bạn đang trên đường giao
+Your order has been confirmed!,Đơn hàng của bạn đã được xác nhận!
 Your password has been updated successfully.,Mật khẩu đã được cập nhật thành công.
 across,trên
 available to ship,sẵn sàng giao
