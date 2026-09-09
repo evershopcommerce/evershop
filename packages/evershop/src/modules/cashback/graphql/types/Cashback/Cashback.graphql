@@ -1,0 +1,30 @@
+type CashbackTransaction {
+  uuid: String!
+  orderId: Int
+  amount: Float!
+  type: String!
+  status: String!
+  note: String
+  createdAt: String!
+}
+
+type CustomerCashbackBalance {
+  balance: Float!
+  pendingBalance: Float!
+  transactions: [CashbackTransaction]!
+}
+
+type CashbackSetting {
+  enabled: Boolean!
+  percentage: Float!
+  minOrderAmount: Float!
+}
+
+extend type Customer {
+  cashbackBalance: CustomerCashbackBalance
+}
+
+extend type Query {
+  cashbackSetting: CashbackSetting
+  customerCashback(customerId: Int): CustomerCashbackBalance
+}
