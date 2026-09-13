@@ -1,11 +1,16 @@
-import { BlogPagination } from '@components/frontStore/blog/BlogPagination.js';
-import {
-  BlogPostCardData,
-  PostListItem
-} from '@components/frontStore/blog/PostListItem.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import Area from '@components/common/Area.js';
+import { BlogListProvider } from '@components/frontStore/blog/BlogListContext.js';
+import { BlogPostCardData } from '@components/frontStore/blog/PostListItem.js';
 import React from 'react';
 
+/**
+ * Blog category shell: same slots as the blog home (see `BlogHome.tsx`); the
+ * header is this route's own block, the list and pagination are shared:
+ *
+ *   blogCategoryView/BlogCategoryHeader                       → blogListHeader  10
+ *   blogHome+blogCategoryView+blogTagView/BlogPosts           → blogListContent 10
+ *   blogHome+blogCategoryView+blogTagView/BlogListPagination  → blogListContent 20
+ */
 export default function BlogCategoryView({
   category
 }: {
@@ -24,27 +29,23 @@ export default function BlogCategoryView({
   }
   const items = category.posts?.items || [];
   return (
-    <div className="blog-category py-8">
-      <h1 className="text-3xl font-bold mb-2">{category.name}</h1>
-      {category.shortDescription && (
-        <p className="text-muted-foreground mb-6">{category.shortDescription}</p>
-      )}
-      {items.length === 0 ? (
-        <p className="text-muted-foreground">{_('No posts in this category yet.')}</p>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {items.map((post) => (
-              <PostListItem key={post.uuid} post={post} />
-            ))}
-          </div>
-          <BlogPagination
-            total={category.posts?.total || 0}
-            currentPage={category.posts?.currentPage || 1}
-          />
-        </>
-      )}
-    </div>
+    <BlogListProvider
+      list={{
+        kind: 'category',
+        name: category.name,
+        description: category.shortDescription,
+        items,
+        total: category.posts?.total || 0,
+        currentPage: category.posts?.currentPage || 1
+      }}
+    >
+      <div className="blog-category py-8">
+        <Area id="blogListTop" noOuter />
+        <Area id="blogListHeader" noOuter />
+        <Area id="blogListContent" noOuter />
+        <Area id="blogListBottom" noOuter />
+      </div>
+    </BlogListProvider>
   );
 }
 
