@@ -59,6 +59,7 @@ interface BasicMenuProps {
       type: string;
       uuid: string;
       children: ({
+        id: string;
         name: string;
         url: string;
         type: string;
@@ -119,7 +120,7 @@ function MobileItemList({
   return (
     <ul className="flex flex-col">
       {items.map((item) => (
-        <li key={item.uuid} className="evershop-basic-menu__mobile-group">
+        <li key={item.id} className="evershop-basic-menu__mobile-group">
           <MenuAnchor
             link={item}
             className={cn(
@@ -132,7 +133,7 @@ function MobileItemList({
           {item.children.length > 0 && (
             <ul className="evershop-basic-menu__mobile-subs mb-1 ml-3 flex flex-col border-l border-divider pl-2">
               {item.children.map((subItem) => (
-                <li key={subItem.uuid}>
+                <li key={subItem.id}>
                   <MenuAnchor
                     link={subItem}
                     className="evershop-basic-menu__mobile-sub-link block rounded-md px-3 py-1.5 text-sm text-foreground/70 transition-colors hover:bg-muted/50 hover:text-foreground"
@@ -179,7 +180,7 @@ export default function BasicMenu({
           <NavigationMenuList className="evershop-basic-menu__items items-center gap-1">
             {menuItems.map((item) => (
               <NavigationMenuItem
-                key={item.uuid}
+                key={item.id}
                 className="evershop-basic-menu__item"
               >
                 {item.children.length > 0 ? (
@@ -223,7 +224,7 @@ export default function BasicMenu({
                       <ul className="evershop-basic-menu__subs flex flex-col min-w-50 p-2">
                         {item.children.map((subItem) => (
                           <li
-                            key={subItem.uuid}
+                            key={subItem.id}
                             className="evershop-basic-menu__sub"
                           >
                             <NavigationMenuLink
@@ -308,6 +309,7 @@ export const query = `
         nofollow
         noReferrer
         children {
+          id
           name
           url
           type

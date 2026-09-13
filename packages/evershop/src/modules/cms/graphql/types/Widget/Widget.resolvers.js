@@ -1,5 +1,4 @@
 import { select } from '@evershop/postgres-query-builder';
-import sanitizeHtml from 'sanitize-html';
 import uniqid from 'uniqid';
 import { error } from '../../../../../lib/log/logger.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
@@ -1047,9 +1046,12 @@ export default {
 
       // Cast the link-attribute flags to booleans: legacy items predate them
       // (undefined → false) and JSON-stored values can be stringy.
+      // Keep the node's own id (the settings UI mints one per item) so React
+      // keys stay stable and unique even when two items link the same
+      // category. Only legacy items without an id get a synthesized one.
       const resolveItem = async (item) => ({
         ...item,
-        id: uniqid(),
+        id: item.id || uniqid(),
         url:
           (await resolveLink(linkValueOf(item), linkLoaders)) ??
           (item.type === 'custom' ? item.url : null),
@@ -1059,7 +1061,7 @@ export default {
         children: await Promise.all(
           toArray(item.children).map(async (child) => ({
             ...child,
-            id: uniqid(),
+            id: child.id || uniqid(),
             url:
               (await resolveLink(linkValueOf(child), linkLoaders)) ??
               (child.type === 'custom' ? child.url : null),
