@@ -1,39 +1,23 @@
 import Area from '@components/common/Area.js';
-import { AccountHeader } from '@components/frontStore/customer/AccountHeader.js';
-import AccountInfo from '@components/frontStore/customer/AccountInfo.js';
-import { AccountNav } from '@components/frontStore/customer/AccountNav.js';
-import { MyAddresses } from '@components/frontStore/customer/MyAddresses.js';
-import OrderHistory from '@components/frontStore/customer/OrderHistory.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
+/**
+ * Account dashboard shell. It owns the centered column and the slots (Areas);
+ * the content is page blocks registering into those slots, so a theme can
+ * re-position them from `layouts.json` without overriding this file:
+ *
+ *   account+orderList/AccountHeader  → accountPageHeader  10  (shared with the order list)
+ *   account+orderList/AccountNav     → accountPageHeader  20  (shared with the order list)
+ *   account/AccountRecentOrders      → accountPageContent 10
+ *   account/AccountInfo              → accountPageContent 20
+ *   account/AccountAddressBook       → accountPageContent 30
+ */
 export default function MyAccount() {
   return (
     <div className="account mx-auto max-w-2xl py-10">
-      <AccountHeader />
-      <AccountNav active="dashboard" />
+      <Area id="accountPageHeader" noOuter />
       <div className="mt-2 divide-y divide-border">
-        <section className="account-recent-orders py-6">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="h5">{_('Recent orders')}</h2>
-            <a
-              href="/account/orders"
-              className="text-sm text-muted-foreground hover:text-foreground hover:underline"
-            >
-              {_('View all')}
-            </a>
-          </div>
-          <OrderHistory />
-        </section>
-        <section className="account-info-section py-6">
-          <h2 className="mb-4 h5">{_('Account information')}</h2>
-          <AccountInfo />
-        </section>
-        <section className="account-address-section py-6">
-          <h2 className="mb-4 h5">{_('Address book')}</h2>
-          <MyAddresses />
-          <Area id="accountPageAddressBook" noOuter />
-        </section>
+        <Area id="accountPageContent" noOuter />
       </div>
     </div>
   );
