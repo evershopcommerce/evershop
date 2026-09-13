@@ -13,7 +13,7 @@
       display: flex !important;
       justify-content: center;
       align-items: center;
-      background-color: #f7f7f7;
+      background-color: var(--muted);
       cursor: pointer;
 
       img {
@@ -49,14 +49,14 @@
 
       .thumbnail-wrapper {
         width: 70px;
-        border: 1px solid #e0e0e0;
+        border: 1px solid var(--border);
         border-radius: 4px;
         padding: 2px;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
-        background: #fff;
+        background: var(--card);
         transition: all 0.3s ease;
       }
 
@@ -65,7 +65,7 @@
         transform: scale(1.05);
 
         .thumbnail-wrapper {
-          border-color: #999999;
+          border-color: var(--foreground);
         }
       }
 
