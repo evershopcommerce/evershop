@@ -57,7 +57,9 @@ const ZERO_COUNTS: DiffResult['counts'] = {
 /**
  * Load the live `widget_instance` / `widget_placement` state for a theme as
  * the diff engine's `D` input (spec 04 § 7.2.1). Exported so `theme:status`
- * can run a dry-run diff without an install.
+ * can run a dry-run diff without an install. Entity-scoped placements (and
+ * instances that live only inside landing page bodies) are excluded, mirroring
+ * `exportToManifest`, so the diff can never update or delete page content.
  */
 export async function loadLiveDbForTheme(
   client: Pool | PoolClient,
@@ -66,8 +68,15 @@ export async function loadLiveDbForTheme(
   const widgetRows = await client.query<
     WidgetRecord & { status?: boolean }
   >(
-    `SELECT uuid::text AS uuid, type, name, settings, status
-     FROM widget_instance WHERE theme = $1`,
+    `SELECT wi.uuid::text AS uuid, wi.type, wi.name, wi.settings, wi.status
+     FROM widget_instance wi
+     WHERE wi.theme = $1
+       AND NOT (
+         EXISTS (SELECT 1 FROM widget_placement p
+                  WHERE p.widget_instance_id = wi.widget_instance_id AND p.entity_urn IS NOT NULL)
+         AND NOT EXISTS (SELECT 1 FROM widget_placement p
+                          WHERE p.widget_instance_id = wi.widget_instance_id AND p.entity_urn IS NULL)
+       )`,
     [themeId]
   );
   const placementRows = await client.query<PlacementRecord>(
@@ -75,7 +84,7 @@ export async function loadLiveDbForTheme(
             p.route, p.area, p.sort_order
      FROM widget_placement p
      INNER JOIN widget_instance wi ON wi.widget_instance_id = p.widget_instance_id
-     WHERE p.theme = $1`,
+     WHERE p.theme = $1 AND p.entity_urn IS NULL`,
     [themeId]
   );
   return {

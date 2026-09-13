@@ -1,5 +1,6 @@
 import { Button } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { LayoutTemplate } from 'lucide-react';
 import React from 'react';
 
 interface BuildInPageBuilderButtonProps {
@@ -22,11 +23,12 @@ export default function BuildInPageBuilderButton({
   }
   return (
     <Button
-      variant="outline"
+      type="button"
       onClick={() => {
         window.location.href = pageBuilderUrl;
       }}
     >
+      <LayoutTemplate className="size-4" aria-hidden="true" />
       {_('Build in page builder')}
     </Button>
   );

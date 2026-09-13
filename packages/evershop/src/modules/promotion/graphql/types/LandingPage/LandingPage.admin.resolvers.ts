@@ -42,6 +42,10 @@ export default {
       `${buildUrl('pageBuilderEdit', {
         routeId: 'landingPageView'
       })}?entity=${uuid}`,
+    replaceHomepagePreflightApi: ({ uuid }: { uuid: string }) =>
+      buildUrl('replaceHomepagePreflight', { id: uuid }),
+    replaceHomepageApi: ({ uuid }: { uuid: string }) =>
+      buildUrl('replaceHomepage', { id: uuid }),
     urn: ({ uuid }: { uuid: string }) => PromotionUrn.landingPage(uuid)
   }
 };

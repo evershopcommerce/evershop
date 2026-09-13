@@ -62,7 +62,11 @@ async function resolvePreviewPath(route, pool) {
     if (!pool) return route.path;
     try {
       const entities = await scope.list(pool);
-      if (entities[0]?.urlKey) return `/${entities[0].urlKey}`;
+      // Prefer a published entity: a disabled row (e.g. a homepage backup
+      // landing page) must never be what the route-level canvas samples.
+      const sample =
+        entities.find((e) => e.status !== false && e.urlKey) ?? entities[0];
+      if (sample?.urlKey) return `/${sample.urlKey}`;
     } catch {
       // fall through to the unresolved path
     }

@@ -21,6 +21,14 @@ type LandingPage {
   deleteApi: String!
   duplicateApi: String!
   pageBuilderUrl: String!
+  """
+  GET preflight for "Replace homepage with this page" (read-only checks + counts).
+  """
+  replaceHomepagePreflightApi: String!
+  """
+  POST execute for "Replace homepage with this page".
+  """
+  replaceHomepageApi: String!
 }
 
 """

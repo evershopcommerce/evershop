@@ -17,8 +17,10 @@ export interface ExportOpts {
 }
 
 /**
- * Serialize a theme's live content (active widgets + their placements) into a
- * manifest (spec 04 § 6.4 / § 6.5).
+ * Serialize a theme's live content (active widgets + their ROUTE-LEVEL
+ * placements) into a manifest (spec 04 § 6.4 / § 6.5). Entity-scoped rows
+ * (landing page bodies, homepage backups) are never exported — see
+ * specifications/replace-homepage-with-landing-page.md §17.
  *
  * UUIDs are read straight from the DB and NEVER regenerated — that stability
  * is the whole contract that lets buyers' customizations survive upgrades.
@@ -32,10 +34,18 @@ export async function exportToManifest(opts: ExportOpts): Promise<Manifest> {
     name: string;
     settings: Record<string, unknown> | null;
   }>(
-    `SELECT uuid::text AS uuid, type, name, settings
-     FROM widget_instance
-     WHERE theme IS NOT DISTINCT FROM $1 AND status = TRUE
-     ORDER BY uuid`,
+    `SELECT wi.uuid::text AS uuid, wi.type, wi.name, wi.settings
+     FROM widget_instance wi
+     WHERE wi.theme IS NOT DISTINCT FROM $1 AND wi.status = TRUE
+       -- An instance whose only placements live inside a landing page body
+       -- (entity_urn set) belongs to that page, not to the theme.
+       AND NOT (
+         EXISTS (SELECT 1 FROM widget_placement p
+                  WHERE p.widget_instance_id = wi.widget_instance_id AND p.entity_urn IS NOT NULL)
+         AND NOT EXISTS (SELECT 1 FROM widget_placement p
+                          WHERE p.widget_instance_id = wi.widget_instance_id AND p.entity_urn IS NULL)
+       )
+     ORDER BY wi.uuid`,
     [opts.themeId]
   );
 
@@ -52,6 +62,11 @@ export async function exportToManifest(opts: ExportOpts): Promise<Manifest> {
      FROM widget_placement p
      INNER JOIN widget_instance wi ON wi.widget_instance_id = p.widget_instance_id
      WHERE p.theme IS NOT DISTINCT FROM $1 AND wi.status = TRUE
+       -- Route-level only: entity-scoped placements (landing page bodies,
+       -- homepage backups) are page content, and the manifest cannot carry
+       -- entity_urn — exporting them would render them on every landing page
+       -- of the installing store.
+       AND p.entity_urn IS NULL
      ORDER BY p.uuid`,
     [opts.themeId]
   );

@@ -62,10 +62,18 @@ export default function General({ widget, routes }: GeneralProps) {
       .map((r) => ({ value: r.value, label: r.label }))
   ];
 
-  // Seed the rows from the widget's existing route-level placements. Entity
-  // scoped placements (a specific CMS page) are managed in the page builder,
-  // so they're filtered out here and left untouched on save. New widgets have
-  // no placements yet — start with one blank row.
+  // Placements scoped to a specific page (a landing page body, a homepage
+  // backup, a CMS page override) are managed in the page builder: they are
+  // never shown here and never touched on save.
+  const entityScopedCount = (widget?.placements ?? []).filter(
+    (p) => p.entityUrn != null
+  ).length;
+
+  // Seed the rows from the widget's existing route-level placements. New
+  // widgets have no placements yet — start with one blank row. A widget that
+  // lives ONLY inside pages gets no blank row: the area field is required, so
+  // a blank row would make the form unsaveable, and filling it in would put
+  // the widget on every page by accident.
   React.useEffect(() => {
     if (fields.length > 0) return;
     const existing = (widget?.placements ?? []).filter(
@@ -78,10 +86,10 @@ export default function General({ widget, routes }: GeneralProps) {
           { shouldFocus: false }
         )
       );
-    } else {
+    } else if (entityScopedCount === 0) {
       append({ route: 'all', area: '', sort_order: 0 }, { shouldFocus: false });
     }
-  }, [widget, fields.length, append]);
+  }, [widget, fields.length, append, entityScopedCount]);
 
   return (
     <Card>
@@ -115,6 +123,17 @@ export default function General({ widget, routes }: GeneralProps) {
             'Each row places this widget on one page, in one area, with its own sort order. Lower numbers appear first.'
           )}
         </p>
+        {entityScopedCount > 0 && (
+          <p
+            className="text-sm text-muted-foreground mt-2"
+            data-testid="entity-scoped-placements-note"
+          >
+            {_(
+              'This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.',
+              { count: String(entityScopedCount) }
+            )}
+          </p>
+        )}
         <Table className="mt-3">
           <TableHeader>
             <TableRow>
