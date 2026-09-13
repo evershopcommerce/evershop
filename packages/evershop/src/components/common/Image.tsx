@@ -70,7 +70,11 @@ export function Image({
   decoding = 'async',
   priority = false,
   sizes = '100vw',
-  objectFit = 'unset',
+  // `cover` by default: the box is pinned to the intrinsic `width`/`height` (the
+  // catalog image dimensions for product photos), so a photo of another ratio
+  // must be cropped, never stretched. Pass `contain`/`scale-down` where the whole
+  // image matters (the gallery does).
+  objectFit = 'cover',
   ...props
 }: ImageProps): React.ReactElement | null {
   const srcset = buildImageSrcSet(src, width, sizes, quality);
