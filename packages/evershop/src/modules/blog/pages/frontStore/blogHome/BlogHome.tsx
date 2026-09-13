@@ -1,11 +1,21 @@
-import { BlogPagination } from '@components/frontStore/blog/BlogPagination.js';
-import {
-  BlogPostCardData,
-  PostListItem
-} from '@components/frontStore/blog/PostListItem.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import Area from '@components/common/Area.js';
+import { BlogListProvider } from '@components/frontStore/blog/BlogListContext.js';
+import { BlogPostCardData } from '@components/frontStore/blog/PostListItem.js';
 import React from 'react';
 
+/**
+ * Blog home shell. It owns the query, the `BlogListProvider` and the slots
+ * (Areas); the content is page blocks registering into those slots, so a
+ * theme can re-position them from `layouts.json` without overriding this file.
+ * `BlogPosts` and `BlogListPagination` are shared with the category and tag
+ * listings (`blogHome+blogCategoryView+blogTagView` folder):
+ *
+ *   blogHome/BlogHomeHeader                                   → blogListHeader  10
+ *   blogHome+blogCategoryView+blogTagView/BlogPosts           → blogListContent 10
+ *   blogHome+blogCategoryView+blogTagView/BlogListPagination  → blogListContent 20
+ *
+ * `blogListTop` / `blogListBottom` are empty slots for extensions and widgets.
+ */
 export default function BlogHome({
   blogPosts
 }: {
@@ -19,30 +29,14 @@ export default function BlogHome({
   const currentPage = blogPosts?.currentPage || 1;
 
   return (
-    <div className="blog-home py-8 md:py-12">
-      <div className="mx-auto mb-10 max-w-2xl text-center md:mb-14">
-        <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
-          {_('Blog')}
-        </h1>
+    <BlogListProvider list={{ kind: 'home', items, total: blogPosts?.total || 0, currentPage }}>
+      <div className="blog-home py-8 md:py-12">
+        <Area id="blogListTop" noOuter />
+        <Area id="blogListHeader" noOuter />
+        <Area id="blogListContent" noOuter />
+        <Area id="blogListBottom" noOuter />
       </div>
-      {items.length === 0 ? (
-        <p className="text-center text-muted-foreground">
-          {_('No posts published yet.')}
-        </p>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((post) => (
-              <PostListItem key={post.uuid} post={post} />
-            ))}
-          </div>
-          <BlogPagination
-            total={blogPosts?.total || 0}
-            currentPage={currentPage}
-          />
-        </>
-      )}
-    </div>
+    </BlogListProvider>
   );
 }
 
