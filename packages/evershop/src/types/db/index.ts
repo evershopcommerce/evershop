@@ -1208,6 +1208,31 @@ export type UrlRewriteInsert = Omit<UrlRewriteRow, 'url_rewrite_id'>;
 export type UrlRewriteUpdate = Partial<Omit<UrlRewriteRow, 'url_rewrite_id'>>;
 
 // =============================================================================
+// LANDING PAGE (promotion migration 1.1.0)
+// =============================================================================
+
+export interface LandingPageRow {
+  landing_page_id: number;
+  uuid: string;
+  status: boolean;
+  name: string;
+  url_key: string;
+  description: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  publish_start: Date | null;
+  publish_end: Date | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export type LandingPageInsert = Omit<
+  LandingPageRow,
+  'landing_page_id' | 'uuid' | 'created_at' | 'updated_at'
+>;
+export type LandingPageUpdate = Partial<Omit<LandingPageRow, 'landing_page_id'>>;
+
+// =============================================================================
 // VARIANT GROUP
 // =============================================================================
 
@@ -1242,6 +1267,8 @@ export interface WidgetInstanceRow {
   type: string;
   settings: Record<string, unknown>;
   status: boolean | null;
+  // Theme bucket (pageBuilder migration 1.1.0). NULL = no custom theme.
+  theme: string | null;
   created_at: Date;
   updated_at: Date;
 }
@@ -1270,6 +1297,8 @@ export interface WidgetPlacementRow {
   // entity_urn: nullable. Set for entity-level placements (e.g. CMS page
   // overrides). Null for route-level placements.
   entity_urn: string | null;
+  // Denormalized theme bucket (pageBuilder migration 1.1.0).
+  theme: string | null;
   created_at: Date;
   updated_at: Date;
 }
@@ -1293,6 +1322,7 @@ export interface ChangesetRow {
   token: string;
   published_at: Date | null;
   created_by: number;
+  theme: string | null;
   created_at: Date;
   updated_at: Date;
 }
@@ -1333,6 +1363,7 @@ export interface RolloutPlanRow {
   route_cursors: Record<string, number>;
   start_time: Date;
   end_time: Date | null;
+  theme: string | null;
   created_at: Date;
   updated_at: Date;
 }

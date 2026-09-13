@@ -12,24 +12,9 @@ import {
   hookBefore,
   hookAfter
 } from '../../../../lib/util/hookable.js';
+import { cloneWidgetBody } from './cloneWidgetBody.js';
+import { findFreeUrlKey } from './findFreeUrlKey.js';
 import { syncLandingPageUrlRewrite } from './syncLandingPageUrlRewrite.js';
-
-/** Find a free `<base>-copy[-N]` url_key (the landing_page.url_key is UNIQUE). */
-async function uniqueUrlKey(connection: any, base: string): Promise<string> {
-  let candidate = `${base}-copy`;
-  let n = 1;
-   
-  while (
-    await select()
-      .from('landing_page')
-      .where('url_key', '=', candidate)
-      .load(connection)
-  ) {
-    n += 1;
-    candidate = `${base}-copy-${n}`;
-  }
-  return candidate;
-}
 
 async function duplicateLandingPageData(
   uuid: string,
@@ -43,8 +28,17 @@ async function duplicateLandingPageData(
     throw new Error('Invalid landing page id');
   }
 
-  // 1. Clone the entity row as an unpublished draft with a fresh url_key.
-  const newUrlKey = await uniqueUrlKey(connection, source.url_key);
+  // 1. Clone the entity row as an unpublished draft with a fresh url_key
+  //    (`<base>-copy`, then `-copy-2`, …; landing_page.url_key is UNIQUE).
+  const newUrlKey = await findFreeUrlKey(
+    async (candidate) =>
+      !!(await select()
+        .from('landing_page')
+        .where('url_key', '=', candidate)
+        .load(connection)),
+    source.url_key,
+    'copy'
+  );
   const copy = await insert('landing_page')
     .given({
       status: false,
@@ -63,56 +57,15 @@ async function duplicateLandingPageData(
     url_key: newUrlKey
   });
 
-  // 2. Deep-clone the page-builder body. Settings live on widget_instance, so a
-  // placement-only (shallow) copy would let editing the copy mutate the original
-  // — clone the instances too and repoint the cloned placements at them + the
-  // new entity_urn. See wiki/landing-pages.md § Duplicate.
-  const oldUrn = PromotionUrn.landingPage(uuid);
-  const newUrn = PromotionUrn.landingPage(copy.uuid);
-  const placements = await select()
-    .from('widget_placement')
-    .where('entity_urn', '=', oldUrn)
-    .execute(connection);
-
-  const instanceIds = [
-    ...new Set(placements.map((p: any) => p.widget_instance_id))
-  ];
-  const idMap = new Map<number, number>();
-  for (const oldId of instanceIds) {
-     
-    const wi = await select()
-      .from('widget_instance')
-      .where('widget_instance_id', '=', oldId)
-      .load(connection);
-    if (!wi) continue;
-     
-    const newWi = await insert('widget_instance')
-      .given({
-        name: wi.name,
-        type: wi.type,
-        settings: wi.settings,
-        status: wi.status,
-        theme: wi.theme
-      })
-      .execute(connection);
-    idMap.set(oldId as number, newWi.widget_instance_id);
-  }
-
-  for (const p of placements) {
-    const newInstanceId = idMap.get(p.widget_instance_id);
-    if (!newInstanceId) continue;
-     
-    await insert('widget_placement')
-      .given({
-        widget_instance_id: newInstanceId,
-        route: p.route,
-        area: p.area,
-        sort_order: p.sort_order,
-        theme: p.theme,
-        entity_urn: newUrn
-      })
-      .execute(connection);
-  }
+  // 2. Deep-clone the page-builder body (instances AND placements, fresh
+  //    uuids, container-child areas re-pointed at the copied parent). Every
+  //    theme bucket is preserved as-is, so a page built under two themes keeps
+  //    both bodies. See wiki/landing-pages.md § Duplicate.
+  await cloneWidgetBody(connection, {
+    from: { route: null, entityUrn: PromotionUrn.landingPage(uuid) },
+    to: { route: null, entityUrn: PromotionUrn.landingPage(copy.uuid) },
+    theme: 'preserve'
+  });
 
   return copy;
 }

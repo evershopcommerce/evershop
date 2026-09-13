@@ -58,6 +58,7 @@ import type {
   TaxClassRow,
   TaxRateRow,
   UrlRewriteRow,
+  LandingPageRow,
   VariantGroupRow,
   WidgetInstanceRow,
   WidgetPlacementRow,
@@ -87,6 +88,7 @@ export type TableName =
   | 'customer_address'
   | 'customer_group'
   | 'event'
+  | 'landing_page'
   | 'migration'
   | 'order'
   | 'order_activity'
@@ -174,6 +176,7 @@ type TableColumnMap = {
   tax_class: keyof TaxClassRow;
   tax_rate: keyof TaxRateRow;
   url_rewrite: keyof UrlRewriteRow;
+  landing_page: keyof LandingPageRow;
   user_token_secret: never; // deprecated/removed table
   variant_group: keyof VariantGroupRow;
   widget_instance: keyof WidgetInstanceRow;
@@ -240,6 +243,7 @@ type TableRowMap = {
   tax_class: TaxClassRow;
   tax_rate: TaxRateRow;
   url_rewrite: UrlRewriteRow;
+  landing_page: LandingPageRow;
   user_token_secret: Record<string, any>; // deprecated/removed table
   variant_group: VariantGroupRow;
   widget_instance: WidgetInstanceRow;

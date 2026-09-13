@@ -28,7 +28,7 @@ export interface LandingPageData {
   publish_end?: string | null;
 }
 
-function validateLandingPageDataBeforeInsert(data: any): any {
+export function validateLandingPageDataBeforeInsert(data: any): any {
   const ajv = getAjv();
   (landingPageDataSchema as any).required = ['name', 'url_key'];
   const jsonSchema = getValueSync(
@@ -43,7 +43,7 @@ function validateLandingPageDataBeforeInsert(data: any): any {
   throw new Error(validate.errors[0].message);
 }
 
-async function insertLandingPageData(data: any, connection: any): Promise<any> {
+export async function insertLandingPageData(data: any, connection: any): Promise<any> {
   return insert('landing_page').given(data).execute(connection);
 }
 

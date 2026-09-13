@@ -1,6 +1,5 @@
 import {
   commit,
-  del,
   insert,
   PoolClient,
   rollback,
@@ -114,10 +113,14 @@ async function updateWidgetPlacements(
     data.sort_order !== undefined;
   if (!touchesPlacement) return;
 
-  // Legacy shape: cross-product replace-all.
-  await del('widget_placement')
-    .where('widget_instance_id', '=', widget.widget_instance_id)
-    .execute(connection);
+  // Legacy shape: cross-product replace-all of the ROUTE-LEVEL placements.
+  // Entity-scoped rows (landing page bodies, homepage backups) belong to the
+  // page builder and are left untouched, exactly like the `placements` branch.
+  const legacyTheme = (widget as { theme?: string | null }).theme ?? null;
+  await connection.query(
+    'DELETE FROM widget_placement WHERE widget_instance_id = $1 AND entity_urn IS NULL',
+    [widget.widget_instance_id]
+  );
 
   const routes: string[] = Array.isArray(data.route) ? data.route : [];
   const areas: string[] = Array.isArray(data.area) ? data.area : [];
@@ -130,7 +133,8 @@ async function updateWidgetPlacements(
           widget_instance_id: widget.widget_instance_id,
           route,
           area,
-          sort_order: sortOrder
+          sort_order: sortOrder,
+          theme: legacyTheme
         })
         .execute(connection);
     }

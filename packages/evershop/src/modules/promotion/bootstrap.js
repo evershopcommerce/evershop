@@ -4,6 +4,7 @@ import { PromotionUrn } from '../../lib/urn/index.js';
 import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilters.js';
 import { registerEntityScope } from '../../lib/util/entityScopeRegistry.js';
 import { addProcessor } from '../../lib/util/registry.js';
+import { HOMEPAGE_BACKUP_URL_KEY_PREFIX } from './services/landingPage/backupIdentity.js';
 import { registerLandingPageLinkLoader } from './services/landingPage/registerLandingPageLinkLoader.js';
 import { registerCartItemPromotionFields } from './services/registerCartItemPromotionFields.js';
 import { registerCartPromotionFields } from './services/registerCartPromotionFields.js';
@@ -79,7 +80,12 @@ export default () => {
       // No status filter: drafts must appear in the selector so a merchant can
       // open and build them before publishing (the editor badges drafts and can
       // preview them via the changeset token — see landingPageView).
-      const rows = await select().from('landing_page').execute(conn);
+      const rows = await select('uuid', 'name', 'url_key', 'status')
+        .from('landing_page')
+        .execute(conn);
+      const isBackup = (urlKey) =>
+        typeof urlKey === 'string' &&
+        urlKey.startsWith(HOMEPAGE_BACKUP_URL_KEY_PREFIX);
       return (
         rows
           .map((r) => ({
@@ -89,12 +95,14 @@ export default () => {
             urn: PromotionUrn.landingPage(r.uuid),
             status: r.status === true
           }))
-          // Published first, then alphabetical. Sorted here, NOT via two
-          // orderBy() calls: the query builder's OrderBy holds a single column,
-          // so a second orderBy() silently overwrites the first.
+          // Published first, homepage backups last, then alphabetical. Sorted
+          // here, NOT via two orderBy() calls: the query builder's OrderBy
+          // holds a single column, so a second orderBy() overwrites the first.
           .sort(
             (a, b) =>
-              Number(b.status) - Number(a.status) || a.name.localeCompare(b.name)
+              Number(b.status) - Number(a.status) ||
+              Number(isBackup(a.urlKey)) - Number(isBackup(b.urlKey)) ||
+              a.name.localeCompare(b.name)
           )
       );
     }
