@@ -10,6 +10,7 @@ import { generateComponentKey } from '../../util/keyGenerator.js';
 
 function buildComponentsPerRoute(components, imports) {
   const areas = {};
+  const layouts = [];
   components.forEach((module) => {
     if (!fs.existsSync(module)) {
       return;
@@ -25,29 +26,39 @@ function buildComponentsPerRoute(components, imports) {
         .replace(/^[^{]*/, '')
         .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
       try {
-        const layout = JSON5.parse(check);
-        const id = generateComponentKey(module);
-        const url = pathToFileURL(module).toString();
-        // Check if this import already exists by url
-        // Get all key of current imports
-        const keys = Array.from(imports.keys());
-        const exists = keys.find((key) => key.url === url);
-        if (!exists) {
-          imports.set({ id, url }, `import ${id} from '${url}';`);
-        }
-        areas[layout.areaId] = areas[layout.areaId] || {};
-        areas[layout.areaId][id] = {
-          id,
-          sortOrder: layout.sortOrder,
-          component: {
-            default: `---${id}---`
-          }
-        };
+        layouts.push({ module, layout: JSON5.parse(check) });
       } catch (e) {
         error(`Error parsing layout from ${module}`);
         error(e);
       }
     }
+  });
+  // Import in Area `sortOrder` (path as tie-break), not filesystem order.
+  // Import order is CSS cascade order — see the same note in
+  // bin/lib/buildEntry.js (the prod emitter must stay in step).
+  layouts.sort(
+    (a, b) =>
+      a.layout.sortOrder - b.layout.sortOrder ||
+      (a.module < b.module ? -1 : a.module > b.module ? 1 : 0)
+  );
+  layouts.forEach(({ module, layout }) => {
+    const id = generateComponentKey(module);
+    const url = pathToFileURL(module).toString();
+    // Check if this import already exists by url
+    // Get all key of current imports
+    const keys = Array.from(imports.keys());
+    const exists = keys.find((key) => key.url === url);
+    if (!exists) {
+      imports.set({ id, url }, `import ${id} from '${url}';`);
+    }
+    areas[layout.areaId] = areas[layout.areaId] || {};
+    areas[layout.areaId][id] = {
+      id,
+      sortOrder: layout.sortOrder,
+      component: {
+        default: `---${id}---`
+      }
+    };
   });
 
   return areas;
