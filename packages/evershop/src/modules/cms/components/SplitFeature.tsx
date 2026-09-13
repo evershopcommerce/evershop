@@ -158,7 +158,7 @@ export default function SplitFeature({ splitFeatureWidget }: SplitFeatureProps) 
 
   const copyPanel = (
     <div
-      className={`evershop-split-feature__copy-panel flex w-full flex-col gap-3 p-8 md:p-12 ${verticalClass}`}
+      className={`evershop-split-feature__copy-panel flex h-full w-full flex-col gap-3 p-8 md:p-12 ${verticalClass}`}
     >
       {eyebrow && (
         <Editable
