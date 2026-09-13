@@ -7,40 +7,14 @@ import {
 } from '@components/common/ui/Collapsible.js';
 import { Skeleton } from '@components/common/ui/Skeleton.js';
 import { useCartState } from '@components/frontStore/cart/CartContext.js';
-import { CartItems } from '@components/frontStore/cart/CartItems.js';
-import { CartSummaryItemsList } from '@components/frontStore/cart/CartSummaryItems.js';
-import { CartTotalSummary } from '@components/frontStore/cart/CartTotalSummary.js';
-import { CheckoutButton } from '@components/frontStore/checkout/CheckoutButton.js';
 import { CheckoutProvider } from '@components/frontStore/checkout/CheckoutContext.js';
-import { ContactInformation } from '@components/frontStore/checkout/ContactInformation.js';
-import { Payment } from '@components/frontStore/checkout/Payment.js';
-import { Shipment } from '@components/frontStore/checkout/Shipment.js';
-import { ShippingNote } from '@components/frontStore/checkout/ShippingNote.js';
+import { OrderSummaryContent } from '@components/frontStore/checkout/OrderSummaryContent.js';
 import { useCustomer } from '@components/frontStore/customer/CustomerContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ChevronDown } from 'lucide-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import './Checkout.scss';
-
-function OrderSummaryContent() {
-  return (
-    <>
-      <CartItems>
-        {({ items, loading, showPriceIncludingTax }) => (
-          <CartSummaryItemsList
-            items={items}
-            loading={loading}
-            showPriceIncludingTax={showPriceIncludingTax}
-          />
-        )}
-      </CartItems>
-      <div className="mt-4">
-        <CartTotalSummary />
-      </div>
-    </>
-  );
-}
 
 /**
  * Below `lg` the summary rail is hidden, and this sticky disclosure bar takes
@@ -89,16 +63,32 @@ interface CheckoutPageProps {
   checkoutSuccessUrl: string;
   loginUrl: string;
   setting: {
-    showShippingNote: boolean;
     allowGuestCheckout: boolean;
   };
 }
 
+/**
+ * Checkout page shell. It owns the checkout query, the form, the
+ * `CheckoutProvider`, the title, the mobile summary bar, the two-column grid
+ * and the slots (Areas); the steps and the summary rail are sibling page
+ * blocks registering into those slots, so a theme can re-position them from
+ * `layouts.json` without overriding this file:
+ *
+ *   checkout/CheckoutContact       → checkoutSteps   10  (inside the form)
+ *   checkout/CheckoutShipment      → checkoutSteps   20  (inside the form)
+ *   checkout/CheckoutPayment       → checkoutSteps   30  (inside the form)
+ *   checkout/CheckoutShippingNote  → checkoutSteps   40  (mobile copy of the note, inside the form)
+ *   checkout/CheckoutPlaceOrder    → checkoutSteps   50  (works anywhere inside the provider, e.g. the rail)
+ *   checkout/CheckoutSummary       → checkoutSummary 10  (desktop rail: note + order summary card)
+ *
+ * The step blocks register fields on this form, so they must stay inside it
+ * (`checkoutFormBefore`, `checkoutSteps`, `checkoutForm`, `checkoutFormAfter`).
+ */
 export default function CheckoutPage({
   placeOrderApi,
   checkoutSuccessUrl,
   loginUrl,
-  setting: { showShippingNote, allowGuestCheckout }
+  setting: { allowGuestCheckout }
 }: CheckoutPageProps) {
   const { customer } = useCustomer();
   // The server middleware gates the initial page load. This handles a *logout while on the
@@ -146,28 +136,13 @@ export default function CheckoutPage({
               collapses out through the <fieldset> and drops the whole column ~24px
               below the summary. Each section carries its own `mt-6` instead. */}
           <div className="checkout-steps">
-            <ContactInformation />
-            <Shipment />
-            <Payment />
-            {/* Below `lg` the summary rail is hidden, so the note moves into
-                the form flow, right before the place-order button. Both this
-                and the rail instance edit the same checkoutData.note. */}
-            {showShippingNote && (
-              <div className="mt-6 lg:hidden">
-                <ShippingNote />
-              </div>
-            )}
-            <CheckoutButton />
+            <Area id="checkoutSteps" noOuter />
           </div>
           <Area id="checkoutForm" noOuter />
           <Area id="checkoutFormAfter" noOuter />
         </Form>
         <div className="hidden h-fit space-y-6 lg:sticky lg:top-8 lg:block">
-          {showShippingNote && <ShippingNote />}
-          <div className="rounded-lg border border-border bg-card p-6">
-            <h2 className="mb-4 h4">{_('Order summary')}</h2>
-            <OrderSummaryContent />
-          </div>
+          <Area id="checkoutSummary" noOuter />
         </div>
       </div>
     </CheckoutProvider>
@@ -185,7 +160,6 @@ export const query = `
     checkoutSuccessUrl: url(routeId: "checkoutSuccess")
     loginUrl: url(routeId: "login")
     setting {
-      showShippingNote
       allowGuestCheckout
     }
   }
