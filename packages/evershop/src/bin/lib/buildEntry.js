@@ -5,6 +5,7 @@ import { pathToFileURL } from 'url';
 import { inspect } from 'util';
 import JSON5 from 'json5';
 import { getComponentsByRoute } from '../../lib/componee/getComponentsByRoute.js';
+import { applyThemeLayout, loadThemeLayouts } from '../../lib/componee/themeLayouts.js';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { error } from '../../lib/log/logger.js';
 import { generateComponentKey } from '../../lib/util/keyGenerator.js';
@@ -21,6 +22,8 @@ export async function buildEntry(routes, clientOnly = false) {
       const imports = [];
       const subPath = getRouteBuildPath(route);
       const components = getComponentsByRoute(route);
+      // themes/<id>/layouts.json may move storefront page components (never admin ones)
+      const themeLayouts = route.isAdmin ? {} : loadThemeLayouts();
       if (!components) {
         return;
       }
@@ -42,7 +45,7 @@ export async function buildEntry(routes, clientOnly = false) {
             .replace(/^[^{]*/, '')
             .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
           try {
-            layouts.push({ module, layout: JSON5.parse(check) });
+            layouts.push({ module, layout: applyThemeLayout(module, JSON5.parse(check), themeLayouts) });
           } catch (e) {
             error(`Error parsing layout from ${module}`);
             error(e);

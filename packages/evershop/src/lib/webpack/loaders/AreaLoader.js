@@ -4,11 +4,12 @@ import { inspect } from 'util';
 import JSON5 from 'json5';
 import { getEnabledWidgets } from '../../../lib/widget/widgetManager.js';
 import { getAllRouteComponents } from '../../componee/getComponentsByRoute.js';
+import { applyThemeLayout, loadThemeLayouts } from '../../componee/themeLayouts.js';
 import { error } from '../../log/logger.js';
 import { getRoutes } from '../../router/Router.js';
 import { generateComponentKey } from '../../util/keyGenerator.js';
 
-function buildComponentsPerRoute(components, imports) {
+function buildComponentsPerRoute(components, imports, themeLayouts = {}) {
   const areas = {};
   const layouts = [];
   components.forEach((module) => {
@@ -26,7 +27,7 @@ function buildComponentsPerRoute(components, imports) {
         .replace(/^[^{]*/, '')
         .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
       try {
-        layouts.push({ module, layout: JSON5.parse(check) });
+        layouts.push({ module, layout: applyThemeLayout(module, JSON5.parse(check), themeLayouts) });
       } catch (e) {
         error(`Error parsing layout from ${module}`);
         error(e);
@@ -133,6 +134,8 @@ export default function AreaLoader(c) {
   const isAdmin = this.getOptions().isAdmin;
   this.cacheable(false);
   const components = getAllRouteComponents(isAdmin);
+  // themes/<id>/layouts.json may move storefront page components (never admin ones)
+  const themeLayouts = isAdmin ? {} : loadThemeLayouts();
   const routes = getRoutes().filter(
     (route) => route.isApi === false && route.isAdmin === isAdmin
   );
@@ -144,7 +147,8 @@ export default function AreaLoader(c) {
     Object.keys(components).forEach((routeId) => {
       allRootComponents[routeId] = buildComponentsPerRoute(
         components[routeId],
-        imports
+        imports,
+        themeLayouts
       );
       const route = routes.find((r) => r.id === routeId);
       const widgetComponents = buildWidgetComponentsPerRoute(
