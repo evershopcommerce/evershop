@@ -1,5 +1,4 @@
 import { select } from '@evershop/postgres-query-builder';
-import sanitizeHtml from 'sanitize-html';
 import { v4 as uuidv4 } from 'uuid';
 import { localizeUrl } from '../../../../../lib/locale/localeContext.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
