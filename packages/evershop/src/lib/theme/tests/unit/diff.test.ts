@@ -58,10 +58,15 @@ describe('diffManifest — per-widget classification (§ 7.2.2)', () => {
     expect(r.counts.widgets_added).toBe(1);
   });
 
-  test('collision (—,M,D) → throws', () => {
-    expect(() =>
-      diffManifest(man(), man([W('w1', 'n')]), live([W('w1', 'n')]))
-    ).toThrow(/collision/);
+  // Was a hard throw ("theme diff collision"). It fired on the theme author's
+  // own store — build in the page builder, `theme:export-content`, re-activate
+  // — so the row is in M and D but not S. Adoption is the same rule the fresh
+  // install path always had; see landingPageDiff.test.ts for the page case.
+  test('already in the DB, newly declared (—,M,D) → adopted, no op', () => {
+    const r = diffManifest(man(), man([W('w1', 'n')]), live([W('w1', 'n')]));
+    expect(r.ops).toEqual([]);
+    expect(r.adopted.widgets).toBe(1);
+    expect(r.counts.widgets_added).toBe(0);
   });
 
   test('removed (S,—,D) → DELETE', () => {

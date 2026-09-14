@@ -9,6 +9,8 @@ export interface ManifestLike {
   version: string;
   widgets: Array<Record<string, unknown>>;
   placements: Array<Record<string, unknown>>;
+  /** Landing pages the theme ships, each with its own nested body. */
+  landingPages?: Array<Record<string, unknown>>;
 }
 
 /**
@@ -71,4 +73,21 @@ export async function purgeThemeContent(
   await db.query(`DELETE FROM widget_instance WHERE theme = $1`, [themeId]);
   await db.query(`DELETE FROM theme_install_state WHERE theme = $1`, [themeId]);
   await db.query(`DELETE FROM theme_install_log WHERE theme = $1`, [themeId]);
+}
+
+/**
+ * Delete landing pages a theme test created, by uuid, together with the
+ * url_rewrite rows and any placements still pointing at them. Landing pages
+ * are NOT theme property, so `purgeThemeContent` deliberately leaves them —
+ * specs that seed pages clean them up with this.
+ */
+export async function purgeLandingPages(
+  db: { query: (sql: string, params: unknown[]) => Promise<unknown> },
+  uuids: string[]
+): Promise<void> {
+  if (uuids.length === 0) return;
+  const urns = uuids.map((u) => `urn:evershop:promotion:landing_page:${u}`);
+  await db.query(`DELETE FROM widget_placement WHERE entity_urn = ANY($1::text[])`, [urns]);
+  await db.query(`DELETE FROM url_rewrite WHERE entity_uuid::text = ANY($1::text[])`, [uuids]);
+  await db.query(`DELETE FROM landing_page WHERE uuid::text = ANY($1::text[])`, [uuids]);
 }

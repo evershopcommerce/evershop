@@ -5,7 +5,18 @@ import {
   sanitizeForManifest
 } from '../metafield/provision.js';
 import type { ManifestMetafieldDefinition } from '../metafield/provision.js';
-import type { Manifest, PlacementRecord, WidgetRecord } from './manifest.js';
+import {
+  derivePagesForTheme,
+  landingPageUrn,
+  type ExportablePage
+} from './landingPages.js';
+import type {
+  LandingPageRecord,
+  LandingPagePlacementRecord,
+  Manifest,
+  PlacementRecord,
+  WidgetRecord
+} from './manifest.js';
 
 export interface ExportOpts {
   themeId: string;
@@ -14,6 +25,20 @@ export interface ExportOpts {
   version: string;
   /** Preserve the existing theme.json's `theme_name` when re-exporting. */
   preserveThemeName?: string;
+  /**
+   * Which landing pages to include. Omit for every page this theme has content
+   * on; pass an explicit list to pin the set (`--pages`), or `[]` to skip the
+   * section entirely (`--no-pages`).
+   */
+  landingPageUuids?: string[];
+}
+
+/** The pages `exportToManifest` would write, for the CLI's selection prompt. */
+export async function listExportablePages(
+  themeId: string,
+  pool: Pool
+): Promise<ExportablePage[]> {
+  return derivePagesForTheme(pool, themeId);
 }
 
 /**
@@ -28,6 +53,15 @@ export interface ExportOpts {
  * page-builder is not part of the shipped theme.
  */
 export async function exportToManifest(opts: ExportOpts): Promise<Manifest> {
+  // Landing pages resolved FIRST: which pages are exported decides which
+  // entity-scoped placements and which body-only widgets come along.
+  const derived = await derivePagesForTheme(opts.pool, opts.themeId);
+  const pages =
+    opts.landingPageUuids === undefined
+      ? derived
+      : derived.filter((p) => opts.landingPageUuids!.includes(p.uuid));
+  const exportedUrns = pages.map((p) => landingPageUrn(p.uuid));
+
   const widgetRows = await opts.pool.query<{
     uuid: string;
     type: string;
@@ -37,16 +71,22 @@ export async function exportToManifest(opts: ExportOpts): Promise<Manifest> {
     `SELECT wi.uuid::text AS uuid, wi.type, wi.name, wi.settings
      FROM widget_instance wi
      WHERE wi.theme IS NOT DISTINCT FROM $1 AND wi.status = TRUE
-       -- An instance whose only placements live inside a landing page body
-       -- (entity_urn set) belongs to that page, not to the theme.
-       AND NOT (
+       -- Keep an instance when it is placed at route level, or inside a
+       -- landing page this export includes. An instance that only lives in a
+       -- page we are NOT exporting (a merchant's page, a homepage backup, a
+       -- page the author deselected) belongs to that page, not to the theme.
+       AND (
          EXISTS (SELECT 1 FROM widget_placement p
-                  WHERE p.widget_instance_id = wi.widget_instance_id AND p.entity_urn IS NOT NULL)
-         AND NOT EXISTS (SELECT 1 FROM widget_placement p
-                          WHERE p.widget_instance_id = wi.widget_instance_id AND p.entity_urn IS NULL)
+                  WHERE p.widget_instance_id = wi.widget_instance_id
+                    AND p.theme IS NOT DISTINCT FROM $1
+                    AND p.entity_urn IS NULL)
+         OR EXISTS (SELECT 1 FROM widget_placement p
+                     WHERE p.widget_instance_id = wi.widget_instance_id
+                       AND p.theme IS NOT DISTINCT FROM $1
+                       AND p.entity_urn = ANY($2::text[]))
        )
      ORDER BY wi.uuid`,
-    [opts.themeId]
+    [opts.themeId, exportedUrns]
   );
 
   const placementRows = await opts.pool.query<{
@@ -62,14 +102,55 @@ export async function exportToManifest(opts: ExportOpts): Promise<Manifest> {
      FROM widget_placement p
      INNER JOIN widget_instance wi ON wi.widget_instance_id = p.widget_instance_id
      WHERE p.theme IS NOT DISTINCT FROM $1 AND wi.status = TRUE
-       -- Route-level only: entity-scoped placements (landing page bodies,
-       -- homepage backups) are page content, and the manifest cannot carry
-       -- entity_urn — exporting them would render them on every landing page
-       -- of the installing store.
+       -- Route-level only. Entity-scoped rows are page content: the ones that
+       -- belong to an exported page are written under it (below), and every
+       -- other one — a merchant's page, a homepage backup — is left out. The
+       -- manifest cannot carry entity_urn, so exporting them at top level
+       -- would render them on every landing page of the installing store.
        AND p.entity_urn IS NULL
      ORDER BY p.uuid`,
     [opts.themeId]
   );
+
+  // Bodies of the exported pages, grouped by page.
+  const bodyRows =
+    exportedUrns.length === 0
+      ? { rows: [] as Array<LandingPagePlacementRecord & { entity_urn: string }> }
+      : await opts.pool.query<
+          LandingPagePlacementRecord & { entity_urn: string }
+        >(
+          `SELECT p.uuid::text AS uuid, wi.uuid::text AS widget_instance_uuid,
+                  p.area, p.sort_order, p.entity_urn
+             FROM widget_placement p
+             INNER JOIN widget_instance wi ON wi.widget_instance_id = p.widget_instance_id
+            WHERE p.theme IS NOT DISTINCT FROM $1
+              AND wi.status = TRUE
+              AND p.entity_urn = ANY($2::text[])
+            ORDER BY p.sort_order, p.uuid`,
+          [opts.themeId, exportedUrns]
+        );
+  const bodyByUrn = new Map<string, LandingPagePlacementRecord[]>();
+  for (const r of bodyRows.rows) {
+    const list = bodyByUrn.get(r.entity_urn) ?? [];
+    list.push({
+      uuid: r.uuid,
+      widget_instance_uuid: r.widget_instance_uuid,
+      area: r.area,
+      sort_order: Number(r.sort_order)
+    });
+    bodyByUrn.set(r.entity_urn, list);
+  }
+  // `url_key` is deliberately NOT exported: it is generated per store from the
+  // page name, so a theme never dictates a URL.
+  const landingPages: LandingPageRecord[] = pages.map((p) => ({
+    uuid: p.uuid,
+    name: p.name,
+    description: p.description,
+    meta_title: p.meta_title,
+    meta_description: p.meta_description,
+    status: p.status === true,
+    placements: bodyByUrn.get(landingPageUrn(p.uuid)) ?? []
+  }));
 
   const widgets: WidgetRecord[] = widgetRows.rows.map((r) => ({
     uuid: r.uuid,
@@ -114,6 +195,7 @@ export async function exportToManifest(opts: ExportOpts): Promise<Manifest> {
     version: opts.version,
     widgets,
     placements,
+    ...(landingPages.length > 0 ? { landingPages } : {}),
     ...(metafieldDefinitions.length > 0 ? { metafieldDefinitions } : {})
   };
 }

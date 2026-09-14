@@ -28,9 +28,12 @@ describe('theme export / live snapshot ignore entity-scoped rows', () => {
     expect(manifest.placements).toEqual([]);
     const placementSql = pool.sql.find((s) => /FROM widget_placement p/.test(s));
     expect(placementSql).toMatch(/p\.entity_urn IS NULL/);
+    // An instance is kept when it has a route-level placement, or a placement
+    // inside a landing page THIS export includes (none here, so the uuid array
+    // is empty and the second EXISTS matches nothing).
     const widgetSql = pool.sql.find((s) => /FROM widget_instance wi/.test(s));
-    expect(widgetSql).toMatch(/p\.entity_urn IS NOT NULL/);
     expect(widgetSql).toMatch(/p\.entity_urn IS NULL/);
+    expect(widgetSql).toMatch(/p\.entity_urn = ANY\(\$2::text\[\]\)/);
   });
 
   it('loadLiveDbForTheme applies the same filters', async () => {
@@ -38,6 +41,8 @@ describe('theme export / live snapshot ignore entity-scoped rows', () => {
     await loadLiveDbForTheme(pool as any, 't');
     const placementSql = pool.sql.find((s) => /FROM widget_placement p/.test(s));
     expect(placementSql).toMatch(/p\.entity_urn IS NULL/);
+    // loadLiveDbForTheme keeps its stricter rule: an instance that lives ONLY
+    // inside page bodies is invisible to the diff.
     const widgetSql = pool.sql.find((s) => /FROM widget_instance wi/.test(s));
     expect(widgetSql).toMatch(/p\.entity_urn IS NOT NULL/);
   });

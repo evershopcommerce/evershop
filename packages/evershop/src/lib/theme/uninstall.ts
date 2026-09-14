@@ -5,6 +5,7 @@ import {
 } from '@evershop/postgres-query-builder';
 import type { Pool } from 'pg';
 import { writeAuditLog, ZERO_COUNTS } from './auditLog.js';
+import { derivePagesForTheme } from './landingPages.js';
 
 export interface UninstallPreview {
   widgets: number;
@@ -15,6 +16,12 @@ export interface UninstallPreview {
    *  (deleting would fire the prune fan-out across entity tables); the
    *  attribution stays on the rows so theme:status keeps reporting them. */
   metafieldProvisions: number;
+  /**
+   * Landing pages this theme has content on. The PAGE ROWS ARE NOT DELETED
+   * (pages are not theme property) — only their bodies go with the widgets, so
+   * each is left reachable but empty. Reported so the CLI can say so.
+   */
+  landingPageDetails: Array<{ uuid: string; name: string; urlKey: string }>;
   draftDetails: Array<{ name: string; opsCount: number }>;
   rolloutDetails: Array<{ name: string; startTime: Date | null }>;
 }
@@ -60,7 +67,14 @@ export async function previewUninstall(
     // Column absent on unmigrated DBs (42703) — degrade to 0.
   }
 
+  const landingPages = await derivePagesForTheme(pool, themeId);
+
   return {
+    landingPageDetails: landingPages.map((p) => ({
+      uuid: p.uuid,
+      name: p.name,
+      urlKey: p.url_key
+    })),
     widgets: Number(widgets.rows[0]?.c ?? 0),
     placements: Number(placements.rows[0]?.c ?? 0),
     changesets: drafts.rows.length,
