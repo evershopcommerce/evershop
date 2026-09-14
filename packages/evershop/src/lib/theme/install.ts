@@ -16,8 +16,23 @@ import {
   LiveDbState,
   PlanOp
 } from './diff.js';
+import type { LandingPageLiveRow, ScopedPlacement } from './diff.js';
 import { contentFingerprint } from './fingerprint.js';
-import type { Manifest, PlacementRecord, WidgetRecord } from './manifest.js';
+import {
+  findLandingPagesByUuid,
+  insertLandingPage,
+  landingPageUrn,
+  loadUrlKeyGuard,
+  syncUrlRewrite,
+  updateLandingPageFields,
+  type UrlKeyGuard
+} from './landingPages.js';
+import type {
+  LandingPageRecord,
+  Manifest,
+  PlacementRecord,
+  WidgetRecord
+} from './manifest.js';
 
 export interface InstallOpts {
   themeId: string;
@@ -35,7 +50,9 @@ export interface InstallResult {
    * builds content in the page-builder, exports it, then runs `theme:active`
    * on the same DB.
    */
-  adopted?: { widgets: number; placements: number };
+  adopted?: { widgets: number; placements: number; landingPages: number };
+  /** Pages dropped from the manifest whose row was left in place (D5). */
+  releasedLandingPages?: Array<{ uuid: string; name: string }>;
   /** Set when `command === 'rejected'` (a refused downgrade). */
   rejectedReason?: string;
   /**
@@ -51,8 +68,22 @@ const ZERO_COUNTS: DiffResult['counts'] = {
   widgets_removed: 0,
   placements_added: 0,
   placements_updated: 0,
-  placements_removed: 0
+  placements_removed: 0,
+  landing_pages_added: 0,
+  landing_pages_updated: 0,
+  landing_pages_released: 0
 };
+
+/** Every landing-page uuid this theme knows about: snapshot ∪ manifest. */
+function knownPageUuids(...manifests: Array<Manifest | null>): string[] {
+  const out = new Set<string>();
+  for (const m of manifests) {
+    for (const lp of m?.landingPages ?? []) {
+      if (typeof lp?.uuid === 'string') out.add(lp.uuid);
+    }
+  }
+  return [...out];
+}
 
 /**
  * Load the live `widget_instance` / `widget_placement` state for a theme as
@@ -63,7 +94,14 @@ const ZERO_COUNTS: DiffResult['counts'] = {
  */
 export async function loadLiveDbForTheme(
   client: Pool | PoolClient,
-  themeId: string
+  themeId: string,
+  /**
+   * Landing pages this theme knows about (snapshot ∪ manifest). Their
+   * entity-scoped placements ARE part of the theme's content and must be
+   * diffed; every other entity-scoped row (a merchant's own page, a homepage
+   * backup) stays invisible.
+   */
+  pageUuids: string[] = []
 ): Promise<LiveDbState> {
   const widgetRows = await client.query<
     WidgetRecord & { status?: boolean }
@@ -79,14 +117,25 @@ export async function loadLiveDbForTheme(
        )`,
     [themeId]
   );
-  const placementRows = await client.query<PlacementRecord>(
+  const knownUrns = pageUuids.map((u) => landingPageUrn(u));
+  const placementRows = await client.query<ScopedPlacement>(
     `SELECT p.uuid::text AS uuid, wi.uuid::text AS widget_instance_uuid,
-            p.route, p.area, p.sort_order
+            p.route, p.area, p.sort_order, p.entity_urn
      FROM widget_placement p
      INNER JOIN widget_instance wi ON wi.widget_instance_id = p.widget_instance_id
-     WHERE p.theme = $1 AND p.entity_urn IS NULL`,
-    [themeId]
+     WHERE p.theme = $1
+       AND (p.entity_urn IS NULL OR p.entity_urn = ANY($2::text[]))`,
+    [themeId, knownUrns]
   );
+  const landingPageRows =
+    pageUuids.length === 0
+      ? { rows: [] as LandingPageLiveRow[] }
+      : await client.query<LandingPageLiveRow>(
+          `SELECT uuid::text AS uuid, name, description, meta_title,
+                  meta_description, status
+             FROM landing_page WHERE uuid::text = ANY($1::text[])`,
+          [pageUuids]
+        );
   return {
     widgets: new Map(
       widgetRows.rows.map((w) => [
@@ -99,7 +148,8 @@ export async function loadLiveDbForTheme(
         p.uuid,
         { ...p, sort_order: Number(p.sort_order) }
       ])
-    )
+    ),
+    landingPages: new Map(landingPageRows.rows.map((lp) => [lp.uuid, lp]))
   };
 }
 
@@ -154,6 +204,7 @@ async function applyPlacementOp(
     delete payload.widget_instance_uuid;
     payload.widget_instance_id = await resolveWidgetInstanceId(conn, widgetUuid);
     payload.theme = themeId;
+    payload.entity_urn = payload.entity_urn ?? null;
     await insert('widget_placement').given(payload).execute(conn);
     return;
   }
@@ -168,17 +219,41 @@ async function applyPlacementOp(
 }
 
 /**
+ * Landing pages carry no theme tag (they are not theme property). INSERT
+ * generates the url_key from the name; UPDATE only ever touches the
+ * manifest-carried fields the diff resolved. DELETE never happens — a page
+ * dropped from the manifest keeps its row.
+ */
+async function applyLandingPageOp(
+  conn: PoolClient,
+  op: PlanOp,
+  guard: UrlKeyGuard
+): Promise<void> {
+  if (op.op === 'INSERT') {
+    await insertLandingPage(conn, op.payload as unknown as LandingPageRecord, guard);
+    return;
+  }
+  if (op.op === 'UPDATE') {
+    await updateLandingPageFields(conn, op.uuid, op.payload as Record<string, unknown>);
+  }
+}
+
+/**
  * Apply the diff ops in array order (which is already the § 7.4 sequence). The
- * theme tag is stamped on every INSERT here — the diff stays theme-agnostic.
+ * theme tag is stamped on every widget/placement INSERT here — the diff stays
+ * theme-agnostic.
  */
 async function applyOps(
   conn: PoolClient,
   themeId: string,
-  ops: PlanOp[]
+  ops: PlanOp[],
+  guard: UrlKeyGuard
 ): Promise<void> {
   for (const op of ops) {
     if (op.table === 'widget_instance') {
       await applyWidgetOp(conn, themeId, op);
+    } else if (op.table === 'landing_page') {
+      await applyLandingPageOp(conn, op, guard);
     } else {
       await applyPlacementOp(conn, themeId, op);
     }
@@ -186,6 +261,7 @@ async function applyOps(
 }
 
 function freshInstallOps(manifest: Manifest): PlanOp[] {
+  const landingPages = manifest.landingPages ?? [];
   return [
     ...manifest.widgets.map(
       (w): PlanOp => ({
@@ -193,6 +269,22 @@ function freshInstallOps(manifest: Manifest): PlanOp[] {
         op: 'INSERT',
         uuid: w.uuid,
         payload: { uuid: w.uuid, type: w.type, name: w.name, settings: w.settings }
+      })
+    ),
+    // Pages before their bodies.
+    ...landingPages.map(
+      (lp): PlanOp => ({
+        table: 'landing_page',
+        op: 'INSERT',
+        uuid: lp.uuid,
+        payload: {
+          uuid: lp.uuid,
+          name: lp.name,
+          description: lp.description ?? null,
+          meta_title: lp.meta_title ?? null,
+          meta_description: lp.meta_description ?? null,
+          status: lp.status === true
+        }
       })
     ),
     ...manifest.placements.map(
@@ -205,9 +297,27 @@ function freshInstallOps(manifest: Manifest): PlanOp[] {
           widget_instance_uuid: p.widget_instance_uuid,
           route: p.route,
           area: p.area,
-          sort_order: p.sort_order
+          sort_order: p.sort_order,
+          entity_urn: null
         }
       })
+    ),
+    ...landingPages.flatMap((lp) =>
+      (lp.placements ?? []).map(
+        (p): PlanOp => ({
+          table: 'widget_placement',
+          op: 'INSERT',
+          uuid: p.uuid,
+          payload: {
+            uuid: p.uuid,
+            widget_instance_uuid: p.widget_instance_uuid,
+            route: 'landingPageView',
+            area: p.area,
+            sort_order: p.sort_order,
+            entity_urn: landingPageUrn(lp.uuid)
+          }
+        })
+      )
     )
   ];
 }
@@ -225,6 +335,9 @@ function freshInstallOps(manifest: Manifest): PlanOp[] {
 export async function installOrUpgrade(
   opts: InstallOpts
 ): Promise<InstallResult> {
+  // Reserved slugs + enabled locales, read once: url_key generation consults
+  // them for every new landing page.
+  const guard = await loadUrlKeyGuard();
   const conn = await opts.pool.connect();
   await startTransaction(conn);
   try {
@@ -242,13 +355,18 @@ export async function installOrUpgrade(
       // skip their INSERT (they're already the source of truth) and insert
       // only what's genuinely missing. This avoids colliding on the uuid
       // unique constraint while still recording the install baseline.
-      const liveDb = await loadLiveDbForTheme(conn, opts.themeId);
-      const toInsert = freshInstallOps(opts.manifest).filter((op) =>
-        op.table === 'widget_instance'
-          ? !liveDb.widgets.has(op.uuid)
-          : !liveDb.placements.has(op.uuid)
-      );
-      await applyOps(conn, opts.themeId, toInsert);
+      const pageUuids = knownPageUuids(opts.manifest);
+      const liveDb = await loadLiveDbForTheme(conn, opts.themeId, pageUuids);
+      // A landing page uuid that already exists is ADOPTED, whatever theme (if
+      // any) built it: pages are not theme property, so there is no foreign
+      // owner to refuse. Its live fields and url_key are left untouched.
+      const existingPages = await findLandingPagesByUuid(conn, pageUuids);
+      const toInsert = freshInstallOps(opts.manifest).filter((op) => {
+        if (op.table === 'widget_instance') return !liveDb.widgets.has(op.uuid);
+        if (op.table === 'landing_page') return !existingPages.has(op.uuid);
+        return !liveDb.placements.has(op.uuid);
+      });
+      await applyOps(conn, opts.themeId, toInsert, guard);
       await conn.query(
         `INSERT INTO theme_install_state (theme, snapshot) VALUES ($1, $2::jsonb)`,
         [opts.themeId, JSON.stringify(opts.manifest)]
@@ -259,10 +377,14 @@ export async function installOrUpgrade(
       const placementsAdded = toInsert.filter(
         (o) => o.table === 'widget_placement'
       ).length;
+      const pagesAdded = toInsert.filter(
+        (o) => o.table === 'landing_page'
+      ).length;
       const counts: DiffResult['counts'] = {
         ...ZERO_COUNTS,
         widgets_added: widgetsAdded,
-        placements_added: placementsAdded
+        placements_added: placementsAdded,
+        landing_pages_added: pagesAdded
       };
       await writeAuditLog(conn, opts.themeId, 'install', counts, []);
       await commit(conn);
@@ -272,7 +394,14 @@ export async function installOrUpgrade(
         conflicts: [],
         adopted: {
           widgets: opts.manifest.widgets.length - widgetsAdded,
-          placements: opts.manifest.placements.length - placementsAdded
+          placements:
+            opts.manifest.placements.length +
+            (opts.manifest.landingPages ?? []).reduce(
+              (n, lp) => n + (lp.placements?.length ?? 0),
+              0
+            ) -
+            placementsAdded,
+          landingPages: (opts.manifest.landingPages ?? []).length - pagesAdded
         }
       };
     }
@@ -319,9 +448,13 @@ export async function installOrUpgrade(
 
     // Higher version → upgrade. The content diff may be empty (a version-only
     // bump); either way the recorded version advances.
-    const liveDb = await loadLiveDbForTheme(conn, opts.themeId);
+    const liveDb = await loadLiveDbForTheme(
+      conn,
+      opts.themeId,
+      knownPageUuids(snapshot, opts.manifest)
+    );
     const diff = diffManifest(snapshot, opts.manifest, liveDb);
-    await applyOps(conn, opts.themeId, diff.ops);
+    await applyOps(conn, opts.themeId, diff.ops, guard);
     await conn.query(
       `UPDATE theme_install_state SET snapshot = $2::jsonb, updated_at = NOW()
        WHERE theme = $1`,
@@ -338,7 +471,9 @@ export async function installOrUpgrade(
     return {
       command: 'upgrade',
       counts: diff.counts,
-      conflicts: diff.conflicts
+      conflicts: diff.conflicts,
+      releasedLandingPages: diff.releasedLandingPages,
+      adopted: diff.adopted
     };
   } catch (e) {
     await rollback(conn);
@@ -360,6 +495,11 @@ export async function dryRunDiff(
     [themeId]
   );
   if (stateRow.rows.length === 0) return null;
-  const liveDb = await loadLiveDbForTheme(pool, themeId);
-  return diffManifest(stateRow.rows[0].snapshot, manifest, liveDb);
+  const snapshot = stateRow.rows[0].snapshot;
+  const liveDb = await loadLiveDbForTheme(
+    pool,
+    themeId,
+    knownPageUuids(snapshot, manifest)
+  );
+  return diffManifest(snapshot, manifest, liveDb);
 }
