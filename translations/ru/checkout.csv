@@ -1,61 +1,53 @@
-Total, Всего
-Order, Заказ
-Sku, SKU
-Continue to shipping, Продолжить покупки
-Continue shopping, Продолжить покупки
-Continue Shopping, Продолжить Покупки
-Shopping cart, Корзина
-Product, Товар
-Price, Цена
-Quantity, Количество
-Remove, Удалить
-Qty, Кол-во
-Sub total, Промежуточные итоги
-Discount(${coupon}), Скидка(${coupon})
-Order summary, Описание заказа
-Taxes and shipping calculated at checkout, Стоимость налогов и доставки рассчитываются при оформлении заказа
-Checkout, ОФОРМИТЬ ЗАКАЗ
-Change, Изменить
-Payment Method, Метод оплаты
-Shipping Address, Адрез доставки
-Shipping Method, Способ доставки
-No payment methods available, Нет доступных способов оплаты
-Place Order, Разместить заказ
-My billing address is same as shipping address, Мой платежный адрес совпадает с адресом доставки
-${count} items, Позиций: ${count}
-Discount, Скидка
-Shipping, Доставка
-No tax, Без налога
-Tax, Налог
+Total,Всего
+Order,Заказ
+Sku,SKU
+Continue to shipping,Продолжить покупки
+Continue shopping,Продолжить покупки
+Continue Shopping,Продолжить Покупки
+Shopping cart,Корзина
+Product,Товар
+Quantity,Количество
+Remove,Удалить
+Qty,Кол-во
+Sub total,Промежуточные итоги
+Discount(${coupon}),Скидка(${coupon})
+Order summary,Описание заказа
+Taxes and shipping calculated at checkout,Стоимость налогов и доставки рассчитываются при оформлении заказа
+Checkout,ОФОРМИТЬ ЗАКАЗ
+Change,Изменить
+Payment Method,Метод оплаты
+Shipping Method,Способ доставки
+No payment methods available,Нет доступных способов оплаты
+Place Order,Разместить заказ
+My billing address is same as shipping address,Мой платежный адрес совпадает с адресом доставки
+${count} items,Позиций: ${count}
+Discount,Скидка
+Shipping,Доставка
+No tax,Без налога
+Tax,Налог
 "Sorry, there is no available method for your address","К сожалению, для вашего адреса нет доступного способа доставки"
-Please enter a shipping address in order to see shipping quotes, Пожалуйста, введите адрес, чтобы рассчитать стоимость доставки
-Continue to payment, Перейти к оплате
-No payment method available, Нет доступных способов оплаты
-Ship to, Адрес получателя
-Shipment, Доставка
-Thank you ${name}!, ${name}, спасибо за заказ!
-Contact information, Контактные данные
-Order #${orderNumber}, Заказ #${orderNumber}
-Add to cart, ДОБАВИТЬ В КОЗИНУ
-Please select variant options, Пожалуйста, выберите другой вариант
-VIEW CART (${count}), ПОСМОТРЕТЬ КОРЗИНУ (${count})
-JUST ADDED TO YOUR CART, ДОБАВЛЕНО В КОРЗИНУ
-Promotion code?, Есть промокод?
-Enter coupon code, Введите промокод
-Apply, Принять
-Your cart is empty!, Ваша корзина пуста!
-Full name, Фамилия Имя
-Telephone, Телефон
-Address, Адрес
-City, Город
-Country, Страна
-Postcode, Почтовый индекс
-Inclusive of tax ${taxAmount}, Включая налог ${taxAmount}
-Full name is required, Фамилия и Имя обязательны для заполнения
-Telephone is required, Телефон обязателен для заполнения
-Address is required, Адрес обязателен для заполнения
-City is required, Город обязателен для заполнения
-Country is required, Страна обязательна для заполнения
-Postcode is required, Почтовый обязателен для заполнения
-Contact, Контакт
-Payment, Оплата
+Please enter a shipping address in order to see shipping quotes,"Пожалуйста, введите адрес, чтобы рассчитать стоимость доставки"
+Continue to payment,Перейти к оплате
+No payment method available,Нет доступных способов оплаты
+Ship to,Адрес получателя
+Shipment,Доставка
+Thank you ${name}!,"${name}, спасибо за заказ!"
+Add to cart,ДОБАВИТЬ В КОЗИНУ
+Please select variant options,"Пожалуйста, выберите другой вариант"
+VIEW CART (${count}),ПОСМОТРЕТЬ КОРЗИНУ (${count})
+JUST ADDED TO YOUR CART,ДОБАВЛЕНО В КОРЗИНУ
+Promotion code?,Есть промокод?
+Enter coupon code,Введите промокод
+Apply,Принять
+Your cart is empty!,Ваша корзина пуста!
+Inclusive of tax ${taxAmount},Включая налог ${taxAmount}
+Address is required,Адрес обязателен для заполнения
+City is required,Город обязателен для заполнения
+Payment,Оплата
+Proceed to checkout,Перейти к оформлению
+Your cart,Ваша корзина
+${count} items in your cart,${count} товаров в вашей корзине
+No payment required,Оплата не требуется
+Your order total is 0 — no payment is needed to place this order.,Сумма вашего заказа — 0 — оплата для оформления этого заказа не требуется.
+Thank you for your order!,Спасибо за ваш заказ!
+Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Заказ № ${orderNumber} подтверждён. Мы отправили чек на ${email}.

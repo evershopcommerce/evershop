@@ -30,7 +30,7 @@
 "No pages yet.","Ainda não há páginas."
 "No products match ""${query}"".","Nenhum produto corresponde a ""${query}""."
 "No products yet.","Ainda não há produtos."
-"Paste a URL or a relative path starting with ","Cole uma URL ou um caminho relativo começando com "
+Paste a URL or a relative path starting with ,Cole uma URL ou um caminho relativo começando com 
 "Pick a CMS page to link to.","Escolha uma página CMS para vincular."
 "Pick a blog ${kind} to link to.","Escolha um ${kind} do blog para vincular."
 "Pick a category to link to.","Escolha uma categoria para vincular."
@@ -76,10 +76,247 @@
 "Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Concluído. ""${name}"" continua publicada no seu próprio URL. Tem agora ${count} cópia(s) de segurança da página inicial."
 "View backup","Ver cópia de segurança"
 "Open homepage in page builder","Abrir a página inicial no page builder"
-"Close","Fechar"
-"Cancel","Cancelar"
+Close,Fechar
+Cancel,Cancelar
 "Replace homepage","Substituir a página inicial"
 "Could not check the homepage.","Não foi possível verificar a página inicial."
 "The homepage could not be replaced.","Não foi possível substituir a página inicial."
 "Include unpublished pages","Incluir páginas não publicadas"
 "This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Este widget também está colocado em ${count} página(s) específica(s), geridas no page builder. Esses posicionamentos não são listados aqui e não são alterados ao guardar."
+Blog Home,Início do blog
+All posts,Todas as publicações
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Somente links http(s), mailto, tel ou relativos são permitidos — este link será ignorado na loja."
+Link target,Destino do link
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","Para onde vai o link “Ver tudo” — uma categoria, página ou URL personalizada. Coleções não têm página própria, então deixe vazio para ocultar o link."
+"Optional. Defaults to ""View all N →"".",Opcional. Padrão: “Ver tudo N →”.
+Whole country,País inteiro
+${count} selected,${count} selecionados
+Select provinces,Selecionar províncias
+Used below 640 px. Falls back to the main image.,"Usada abaixo de 640 px. Caso contrário, usa a imagem principal."
+mobile,celular
+Webhook ID,ID do webhook
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.","O ID de um webhook criado no painel de desenvolvedor do PayPal, apontando para /api/paypal/webhook. Ativa a confirmação de pagamento no servidor."
+System Setting,Configurações do sistema
+File storage and service credentials,Armazenamento de arquivos e credenciais de serviços
+Pricing & Tax,Preços e impostos
+"Price rounding, tax calculation, classes & rates","Arredondamento de preços, cálculo de impostos, classes e alíquotas"
+Social sharing preview,Prévia de compartilhamento social
+Account menu,Menu da conta
+Grid columns.,Colunas da grade.
+Product listing and image settings,Configurações de listagem de produtos e imagens
+Edit variant,Editar variante
+Sold,Vendidos
+Not collected (zero-total order),Não coletado (pedido com total zero)
+All landing pages,Todas as landing pages
+System setting saved,Configuração do sistema salva
+All ${attribute},Todos os ${attribute}
+${count} of ${total},${count} de ${total}
+No variants match the selected options.,Nenhuma variante corresponde às opções selecionadas.
+This product has no other variants yet.,Este produto ainda não tem outras variantes.
+Optional. Shown under the row heading.,Opcional. Exibido abaixo do título da linha.
+A short description for this row,Uma breve descrição para esta linha
+Product count,Quantidade de produtos
+Total products to show per collection.,Total de produtos a exibir por coleção.
+Shown above the products. The shelf renders nothing at all when no products qualify.,Exibido acima dos produtos. A prateleira não é renderizada quando nenhum produto se qualifica.
+e.g. You may also like,ex.: Você também pode gostar
+Products to show,Produtos a exibir
+Between 1 and 12 — 3 to 5 works best.,Entre 1 e 12 — de 3 a 5 funciona melhor.
+Product count is required,A quantidade de produtos é obrigatória
+Nearest,Mais próximo
+Round up,Arredondar para cima
+Round down,Arredondar para baixo
+Line item,Item da linha
+Per unit,Por unidade
+Price rounding,Arredondamento de preços
+How every monetary amount is rounded across the store.,Como cada valor monetário é arredondado em toda a loja.
+Pricing settings have been saved successfully!,As configurações de preços foram salvas com sucesso!
+Rounding mode,Modo de arredondamento
+The direction used when rounding prices to the decimal precision.,A direção usada ao arredondar os preços para a precisão decimal.
+Decimal precision,Precisão decimal
+Number of decimal places prices are rounded to.,Número de casas decimais para arredondar os preços.
+Tax rounding mode,Modo de arredondamento do imposto
+The direction used when rounding the calculated tax amount.,A direção usada ao arredondar o valor de imposto calculado.
+Tax decimal precision,Precisão decimal do imposto
+Number of decimal places the tax amount is rounded to.,Número de casas decimais para arredondar o valor do imposto.
+Tax rounding level,Nível de arredondamento do imposto
+"Where tax rounding is applied: per unit, per line, or on the order total.","Onde o arredondamento do imposto é aplicado: por unidade, por linha ou no total do pedido."
+Catalog prices include tax,Os preços do catálogo incluem impostos
+Enable when the product prices you enter already include tax.,Ative quando os preços de produto que você informa já incluem impostos.
+Catalog settings have been saved successfully!,As configurações do catálogo foram salvas com sucesso!
+Product listing,Listagem de produtos
+Control how products appear in storefront listings.,Controle como os produtos aparecem nas listagens da loja.
+Show out of stock products,Exibir produtos sem estoque
+"When enabled, products with no available stock stay visible on the storefront.","Quando ativado, produtos sem estoque disponível continuam visíveis na loja."
+Products per page,Produtos por página
+Number of products shown per page on category and collection listings.,Número de produtos exibidos por página nas listagens de categorias e coleções.
+Product images,Imagens do produto
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","O tamanho em que suas imagens de produto são criadas. Define a proporção de referência e a resolução máxima usada para imagens de produto em toda a loja — listagens, carrinho, checkout e páginas de produto. Cada posição se ajusta à sua largura e deriva a altura dessa proporção."
+Original image width (px),Largura da imagem original (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.",A largura das suas imagens de produto originais. Recomenda-se 1920px ou mais para que o zoom da página de produto permaneça nítido em telas grandes e de alta densidade.
+Original image height (px),Altura da imagem original (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,A altura das suas imagens de produto originais. Largura ÷ altura é a proporção aplicada a cada imagem de produto.
+Related products rules,Regras de produtos relacionados
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,Aplica-se a todos os produtos desta categoria que herdam suas regras. Produtos com substituição própria não são afetados.
+Override the global rules for this category,Substituir as regras globais para esta categoria
+Overridden on this category,Substituído nesta categoria
+Source: Global settings,Origem: configurações globais
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,Os produtos desta categoria seguem as regras globais de produtos relacionados. Visualize o que os compradores veem a partir da tela de edição de qualquer produto.
+Regional & Units,Região e unidades
+Currency,Moeda
+Default currency for new carts and price display. Existing orders keep their own currency.,Moeda padrão para novos carrinhos e exibição de preços. Pedidos existentes mantêm sua própria moeda.
+Timezone,Fuso horário
+Timezone used to display dates in the store.,Fuso horário usado para exibir datas na loja.
+Weight unit,Unidade de peso
+Dimension unit,Unidade de dimensão
+Branding,Identidade visual
+"Your logo, favicon, and the image shown when your store is shared on social media.","Seu logotipo, favicon e a imagem exibida quando sua loja é compartilhada nas redes sociais."
+Logo,Logotipo
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,Exibido no cabeçalho da loja. Use um PNG de alta resolução com fundo transparente — ele é redimensionado automaticamente para o seu tema e entregue como WebP otimizado.
+Favicon,Favicon
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,O pequeno ícone nas abas do navegador. Envie um PNG quadrado de pelo menos 512×512px — os ícones de 16/32px e o Apple touch icon de 180px são gerados automaticamente.
+Social sharing image,Imagem de compartilhamento social
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","A prévia exibida quando uma página é compartilhada nas redes sociais (Open Graph / Twitter). Recomendado 1200×630px (1.91:1), PNG ou JPG."
+Analytics,Análises
+Google Analytics 4 Measurement ID,ID de medição do Google Analytics 4
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Encontrado no Google Analytics em Admin → Data Streams → seu fluxo da web. Deixe vazio para desativar o rastreamento.
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Informe um ID de medição GA4 válido, ex.: G-XXXXXXXXXX"
+Allow guest checkout,Permitir checkout como convidado
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Quando ativado, os compradores podem fazer um pedido sem conta. Quando desativado, precisam entrar ou se registrar para finalizar a compra."
+Enable rule-based related products,Ativar produtos relacionados baseados em regras
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,As regras preenchem os espaços restantes de cima para baixo (as escolhas manuais vêm sempre primeiro). Reordene para alterar a prioridade.
+Move rule up,Mover regra para cima
+Move rule down,Mover regra para baixo
+Match these attributes,Corresponder a estes atributos
+No select-type attributes exist yet.,Ainda não existem atributos do tipo seleção.
+Within scope,Dentro do escopo
+Same category,Mesma categoria
+Same collection,Mesma coleção
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",A correspondência de atributos sempre se combina com um escopo — “mesma cor” em todo o catálogo relacionaria produtos sem relação.
+Only show products in a similar price range,Exibir apenas produtos em faixa de preço semelhante
+Within ±,Dentro de ±
+% of the product price,% do preço do produto
+Fill remaining slots with bestsellers,Preencher os espaços restantes com os mais vendidos
+Recompute failed,Falha ao recalcular
+Co-purchase statistics recomputed,Estatísticas de compra conjunta recalculadas
+Related products,Produtos relacionados
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,Regras para a prateleira de produtos relacionados nas páginas de produto. Categorias e produtos podem substituí-las; escolhas manuais em um produto vêm sempre primeiro.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.","A prateleira de upsell reutiliza estas mesmas regras, restritas a produtos MAIS CAROS que o visualizado (com a porcentagem da faixa de preço como limite superior quando ativada) — sem preenchimento com mais vendidos e sem upsell para produtos definidos como “Apenas escolhas manuais”."
+Frequently bought together,Frequentemente comprados juntos
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.","Recomendações por compra conjunta só são consideradas confiáveis acima destes limites. Os padrões servem para lojas pequenas — aumentá-los significa menos sugestões, porém mais fortes."
+Min times bought together,Mínimo de vezes compradas juntas
+A pair must co-occur in at least this many orders.,Um par deve aparecer junto em pelo menos esta quantidade de pedidos.
+Min orders of the product,Mínimo de pedidos do produto
+Orders of a product before its data is trusted.,Pedidos de um produto antes que seus dados sejam considerados confiáveis.
+Min lift,Lift mínimo
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,Acima de 1 = comprados juntos mais do que o acaso indicaria. Filtra os campeões de venda onipresentes.
+Fill empty slots with bestsellers,Preencher espaços vazios com os mais vendidos
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.","Abaixo dos limites, a prateleira exibe os mais vendidos da categoria e da loja em vez de não mostrar nada."
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Dados de compra conjunta calculados pela última vez em ${date} a partir de ${total} pedidos (${pairs} pares de produtos).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Ainda não há dados de compra conjunta — eles são calculados todas as noites, ou recalcule agora."
+Recomputing…,Recalculando…
+Recompute now,Recalcular agora
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","Sua URL de webhook deve ser: https://yourdomain.com/api/stripe/webhook. Ative estes eventos (ou “All events”): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Oculto — mesmo grupo de variantes
+Hidden — disabled or out of stock,Oculto — desativado ou sem estoque
+no orders yet — ranked newest first,ainda sem pedidos — ordenados dos mais recentes
+Operation failed,A operação falhou
+Add products,Adicionar produtos
+No manual picks yet.,Ainda não há escolhas manuais.
+(product unavailable),(produto indisponível)
+Overridden on this product,Substituído neste produto
+Source: category,Origem: categoria
+Could not pin the product,Não foi possível fixar o produto
+Recommendations,Recomendações
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,O que as prateleiras de produtos relacionados e comprados juntos mostram para este produto. A prateleira de upsell deriva das regras de relacionados (apenas correspondências mais caras) — nada a configurar aqui.
+Rules,Regras
+Inherit (category or global rules),Herdar (regras de categoria ou globais)
+Custom rules for this product,Regras personalizadas para este produto
+Manual picks only,Apenas escolhas manuais
+Manual picks,Escolhas manuais
+"Always shown first, in this order, before any rules fill the remaining slots.","Exibidos sempre primeiro, nesta ordem, antes que as regras preencham os espaços restantes."
+Shoppers will see,Os compradores verão
+Based on the last saved configuration.,Com base na última configuração salva.
+Mode changed — save to update this preview.,Modo alterado — salve para atualizar esta prévia.
+Shoppers will see no related products for this product with the current configuration.,"Com a configuração atual, os compradores não verão produtos relacionados para este produto."
+manual pick,escolha manual
+bestseller fallback,alternativa de mais vendidos
+Mode,Modo
+Automatic (co-purchase data),Automático (dados de compra conjunta)
+"Manual picks first, auto-fill the rest","Escolhas manuais primeiro, o restante preenchido automaticamente"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,O modo e as escolhas manuais se aplicam apenas a esta variante — configure as variantes irmãs de forma idêntica para um comportamento em todo o grupo.
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,No modo automático as escolhas manuais são ignoradas — mude para “Manuais primeiro” ou “Apenas manuais” para usá-las.
+Computed from orders,Calculado a partir dos pedidos
+${count} orders of this product · data from ${total} orders total,${count} pedidos deste produto · dados de ${total} pedidos no total
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).","Ainda não há dados de compra conjunta para este produto — eles se acumulam conforme os pedidos chegam. Com a alternativa ativada, a prateleira exibe os mais vendidos nesse meio-tempo (veja abaixo)."
+Together,Juntos
+Confidence,Confiança
+Lift,Lift
+(unavailable),(indisponível)
+hidden,oculto
+shown,exibido
+below threshold,abaixo do limite
+Pin,Fixar
+Shoppers will see (frequently bought together),Os compradores verão (frequentemente comprados juntos)
+Shoppers will see no frequently-bought-together products with the current configuration.,"Com a configuração atual, os compradores não verão produtos frequentemente comprados juntos."
+co-purchase data,dados de compra conjunta
+category bestsellers (fallback),mais vendidos da categoria (alternativa)
+store bestsellers (fallback),mais vendidos da loja (alternativa)
+Exclude this product from recommendations,Excluir este produto das recomendações
+Never suggest this product alongside others,Nunca sugerir este produto junto a outros
+Enter a type or remove the row,Informe um tipo ou remova a linha
+Use type/subtype (video/mp4) or a family (video/*),Use tipo/subtipo (video/mp4) ou uma família (video/*)
+MB,MB
+Enter a size,Informe um tamanho
+Enter a size greater than zero,Informe um tamanho maior que zero
+Remove override,Remover substituição
+Add type override,Adicionar substituição por tipo
+Managed by configuration (config file or environment variable),Gerenciado por configuração (arquivo de configuração ou variável de ambiente)
+File Storage & Uploads,Armazenamento de arquivos e uploads
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Onde os arquivos enviados (imagens de produto, banners, mídia) são armazenados, quais tipos são permitidos e qual o tamanho máximo"
+Local file system,Sistema de arquivos local
+Amazon S3 / S3-compatible,Amazon S3 / compatível com S3
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,O bucket é obrigatório
+Bucket name,Nome do bucket
+Region,Região
+Region is required,A região é obrigatória
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),"Para serviços compatíveis com S3, use o valor do provedor (ex.: fsn1 para Hetzner)"
+Access key ID,ID da chave de acesso
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.",Crie uma chave de acesso no console do seu provedor de armazenamento. Para AWS: entre no AWS Console e abra IAM → Users → seu usuário → Security credentials → Create access key.
+Secret access key,Chave de acesso secreta
+"The secret is shown only once, when the access key is created — copy it from there.","O segredo é exibido apenas uma vez, ao criar a chave de acesso — copie-o de lá."
+Custom endpoint,Endpoint personalizado
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Apenas para serviços compatíveis com S3 (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Deixe vazio para AWS."
+Force path-style,Forçar path-style
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","Necessário para o MinIO. Deixe desativado para AWS, Hetzner e R2."
+Public base URL,URL base pública
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","CDN opcional (ex.: CloudFront) que serve o bucket — permite que o bucket continue privado. Sem ele, os objetos precisam ser publicamente legíveis via bucket policy. Exemplo: https://cdn.mystore.com ou https://d111abcdef8.cloudfront.net, uma distribuição CloudFront com este bucket como origem. Os arquivos são servidos como <esta URL>/<caminho do arquivo>, então o domínio deve apontar para a raiz do bucket."
+Connection string,String de conexão
+Connection string is required,A string de conexão é obrigatória
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Copie-a do portal do Azure: entre, abra sua conta de armazenamento e então Security + networking → Access keys → Connection string."
+Container,Contêiner
+Container access,Acesso ao contêiner
+Private (recommended),Privado (recomendado)
+Public read for blobs,Leitura pública para blobs
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",A leitura pública exige “Allow blob anonymous access” na conta de armazenamento — desativado por padrão em contas novas. Prefira um contêiner privado com uma URL base pública (CDN).
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).","CDN opcional (ex.: Azure CDN / Front Door) que serve o contêiner — permite que o contêiner continue privado. Os arquivos são servidos como <esta URL>/<caminho do arquivo> sem adicionar o segmento do contêiner, então defina o caminho de origem do CDN como /<container> (exemplo: https://mystore.azureedge.net) ou inclua o contêiner aqui (exemplo: https://mystore.azureedge.net/media)."
+Service account key,Chave da conta de serviço
+Paste the entire content of the downloaded JSON key file,Cole todo o conteúdo do arquivo de chave JSON baixado
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,Crie uma chave no Google Cloud Console: IAM & Admin → Service Accounts → crie ou escolha uma conta com o papel Storage Object Admin no bucket → Keys → Add key → JSON. Cole aqui o arquivo baixado inteiro.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Não tem chaves? Se o EverShop roda em um servidor que já tem acesso ao bucket — por exemplo uma função do AWS IAM, ou chaves da AWS definidas como variáveis de ambiente no servidor — deixe os dois campos vazios e as credenciais do próprio servidor serão usadas automaticamente. A conexão é testada ao salvar, então uma configuração errada ou ausente não pode ser salva."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Não tem uma chave? Se o EverShop roda no Google Cloud (Compute Engine, GKE, Cloud Run) com uma conta de serviço anexada, ou a variável de ambiente GOOGLE_APPLICATION_CREDENTIALS está definida no servidor, deixe este campo vazio e as credenciais do próprio servidor serão usadas automaticamente. A conexão é testada ao salvar, então uma configuração errada ou ausente não pode ser salva."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.","CDN opcional (ex.: Cloud CDN) que serve o bucket — permite que o bucket continue privado. Sem ele, os objetos precisam ser publicamente legíveis: conceda a “allUsers” o papel Storage Object Viewer no bucket (bloqueado quando a Public Access Prevention é imposta na sua organização). Exemplo: https://cdn.mystore.com, um domínio de load balancer com este bucket como backend bucket."
+Local storage is not recommended for production,Armazenamento local não é recomendado para produção
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Arquivos armazenados neste servidor podem ser perdidos quando ele é atualizado, movido ou falha. Para uma loja em produção, use S3 ou Azure Blob Storage."
+Upload rules,Regras de upload
+What can be uploaded and how big it can be — applies on every storage provider.,O que pode ser enviado e qual o tamanho permitido — vale para todos os provedores de armazenamento.
+Allowed file types,Tipos de arquivo permitidos
+Select at least one file type,Selecione pelo menos um tipo de arquivo
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,Arquivos de outros tipos são rejeitados no upload. SVG não é oferecido de propósito — arquivos SVG podem conter scripts e representam risco de segurança ao serem servidos.
+Also allowed via server configuration: ${types},Também permitidos pela configuração do servidor: ${types}
+Maximum file size,Tamanho máximo do arquivo
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","Por arquivo, em megabytes (MB). Deixe vazio para o padrão de 10 MB. Aplica-se a todos os uploads no painel administrativo — imagens de produto, banners, mídia."
+Per-type overrides,Substituições por tipo
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Substitui o tamanho máximo para os tipos de arquivo correspondentes — por exemplo, um limite menor para imagens e maior para vídeos. Um tipo exato (video/mp4) prevalece sobre uma família (video/*); o que não corresponder usa o tamanho máximo acima. As substituições não permitem novos tipos: o tipo de arquivo precisa estar habilitado em “Tipos de arquivo permitidos”."

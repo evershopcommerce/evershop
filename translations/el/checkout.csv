@@ -17,7 +17,6 @@ Taxes and shipping calculated at checkout,Οι φόροι και τα έξοδα
 Checkout,ΟΛΟΚΛΗΡΩΣΗ ΠΑΡΑΓΓΕΛΙΑΣ
 Change,Αλλαγή
 Payment Method,Μέθοδος Πληρωμής
-Shipping Address,Διεύθυνση Αποστολής
 Shipping Method,Μέθοδος Αποστολής
 No payment methods available,Δεν υπάρχουν διαθέσιμες μέθοδοι πληρωμής
 Place Order,Ολοκλήρωση Παραγγελίας
@@ -34,8 +33,6 @@ No payment method available,Δεν υπάρχει διαθέσιμη μέθοδ�
 Ship to,Αποστολή προς
 Shipment,Αποστολή
 Thank you ${name}!,Ευχαριστούμε ${name}!
-Contact information,Στοιχεία Επικοινωνίας
-Order #${orderNumber},Παραγγελία #${orderNumber}
 Add to cart,ΠΡΟΣΘΗΚΗ ΣΤΟ ΚΑΛΑΘΙ
 Please select variant options,Παρακαλώ επιλέξτε παραλλαγές
 VIEW CART (${count}),ΠΡΟΒΟΛΗ ΚΑΛΑΘΙΟΥ (${count})
@@ -44,18 +41,13 @@ Promotion code?,Κωδικός Προώθησης;
 Enter coupon code,Εισαγωγή κωδικού κουπονιού
 Apply,Εφαρμογή
 Your cart is empty!,Το καλάθι αγορών σας είναι άδειο!
-Full name,Ονοματεπώνυμο
-Telephone,Τηλέφωνο
-Address,Διεύθυνση
-City,Πόλη
-Country,Χώρα
-Postcode,Ταχυδρομικός Κώδικας
 Inclusive of tax,Συμπεριλαμβανομένου του φόρου
-Sorry,Λυπούμαστε
-Full name is required,Απαιτείται ονοματεπώνυμο
-Telephone is required,Απαιτείται τηλέφωνο
 Address is required,Απαιτείται διεύθυνση
 City is required,Απαιτείται πόλη
-Country is required,Απαιτείται χώρα
-Postcode is required,Απαιτείται ταχυδρομικός κώδικας
-Contact,Επικοινωνία
+Proceed to checkout,Ολοκλήρωση παραγγελίας
+Your cart,Το καλάθι σας
+${count} items in your cart,${count} προϊόντα στο καλάθι σας
+No payment required,Δεν απαιτείται πληρωμή
+Your order total is 0 — no payment is needed to place this order.,Το σύνολο της παραγγελίας σας είναι 0 — δεν απαιτείται πληρωμή για την υποβολή της.
+Thank you for your order!,Ευχαριστούμε για την παραγγελία σας!
+Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Η παραγγελία #${orderNumber} επιβεβαιώθηκε. Στείλαμε απόδειξη στο ${email}.

@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, ${discount} kedvezmény minden ${price} rendelési összeg felett
-Please select, Kérjük válassz...
-The page you requested does not exist., A kért oldal nem elérhető!
-Continue shopping, Vásárlás folytatása
-404 Page Not Found, 404 Nincs ilyen oldal
-Home, Kezdőlap
-Not found, Nem található
+Discount ${discount} For All Orders Over ${price},${discount} kedvezmény minden ${price} rendelési összeg felett
+Please select,Kérjük válassz...
+The page you requested does not exist.,A kért oldal nem elérhető!
+404 Page Not Found,404 Nincs ilyen oldal
+Home,Kezdőlap
+Not found,Nem található
+Search options,Beállítások keresése
+Show less,Kevesebb megjelenítése
+Sort by,Rendezés
+Search products…,Termékek keresése…
+Order Note,Megjegyzés a rendeléshez
+Add a note to your order,Fűzzön megjegyzést a rendeléséhez
+My account,Fiókom
+Log out,Kijelentkezés
+Your profile has been updated,A profilja frissült
+Update profile API not available,A profilfrissítési API nem érhető el
+Failed to update profile,A profil frissítése sikertelen
+Something went wrong. Please refresh the page.,"Hiba történt. Kérjük, frissítse az oldalt."
+${count} result for “${keyword}”,${count} találat erre: „${keyword}”
+${count} results for “${keyword}”,${count} találat erre: „${keyword}”

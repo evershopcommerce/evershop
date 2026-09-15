@@ -50,7 +50,6 @@ Buy qty,SL mua
 Buy qty is required,SL mua là bắt buộc
 Can not process payment. Please try again later.,Không thể thanh toán. Vui lòng thử lại sau.
 Can't be undone,Không thể hoàn tác
-Cancel,Hủy
 Cancel Order,Hủy đơn hàng
 Cancel shipment,Hủy lô hàng
 Cancel this shipment?,Hủy lô hàng này?
@@ -321,7 +320,6 @@ Page ${currentPage} of ${totalPages},Trang ${currentPage} / ${totalPages}
 Page not found,Không tìm thấy trang
 Password is required,Mật khẩu là bắt buộc
 Password must be at least ${minLength} characters long,Mật khẩu phải có ít nhất ${minLength} ký tự
-Paste a URL or a relative path starting with ,Dán URL hoặc đường dẫn tương đối bắt đầu bằng 
 Pattern (regex),Mẫu (regex)
 Pay with PayPal,Thanh toán bằng PayPal
 Pay with Stripe,Thanh toán bằng Stripe
@@ -509,7 +507,6 @@ units,đơn vị
 ${count} changes published.,Đã xuất bản ${count} thay đổi.
 ${count} child widgets,${count} tiện ích con
 ${count} countries,${count} quốc gia
-${count} items,${count} mục
 ${count} on ${route},${count} trên ${route}
 ${count} ops total,Tổng ${count} thao tác
 ${count} pending ops,${count} thao tác chờ
@@ -607,7 +604,6 @@ Category Image,Hình ảnh danh mục
 Category Name,Tên danh mục
 Category created successfully!,Đã tạo danh mục!
 Category name is required,Tên danh mục là bắt buộc
-Change,Thay đổi
 Choose Attribute Groups,Chọn nhóm thuộc tính
 Choose Categories,Chọn danh mục
 Choose Collections,Chọn bộ sưu tập
@@ -618,7 +614,6 @@ Clear filter,Xóa bộ lọc
 Clear filters,Xóa bộ lọc
 Client ID,Client ID
 Client Secret,Client Secret
-Close,Đóng
 Close settings,Đóng cài đặt
 Close — continue draft,Đóng — tiếp tục nháp
 Cms Pages,Trang CMS
@@ -725,7 +720,6 @@ Discard failed,Bỏ thất bại
 Discard pending changes?,Bỏ thay đổi chờ?
 Discard this page,Bỏ trang này
 Discarding…,Đang bỏ…
-Discount,Giảm giá
 Discount Type,Loại giảm giá
 Discount amount,Số tiền giảm
 Discount amount is required,Bắt buộc nhập số tiền giảm
@@ -1247,7 +1241,6 @@ Search pages…,Tìm trang…
 Search pages,Tìm trang
 Save your pending edits — the live storefront will catch up,Lưu các thay đổi đang chờ — cửa hàng sẽ cập nhật theo
 No changes to save — the rollout matches the editor,Không có thay đổi để lưu — kế hoạch khớp với trình chỉnh sửa
-Save,Lưu
 More rollout actions,Thêm thao tác triển khai
 Revert to saved state…,Khôi phục về trạng thái đã lưu…
 Roll back the editor to what the rollout currently shows on the storefront,Đưa trình chỉnh sửa về nội dung kế hoạch đang hiển thị trên cửa hàng
@@ -1265,8 +1258,6 @@ Switch session,Chuyển phiên
 New changeset,Tập thay đổi mới
 Rollout: ${name},Triển khai: ${name}
 Click or drag to add,Nhấp hoặc kéo để thêm
-Delete,Xóa
-Name,Tên
 Background color,Màu nền
 Text color,Màu chữ
 Dwell time,Thời gian hiển thị
@@ -1485,7 +1476,6 @@ Sub text,Văn bản phụ
 Check out our latest products with special discounts.,Khám phá sản phẩm mới nhất với ưu đãi đặc biệt.
 Primary button,Nút chính
 Secondary button,Nút phụ
-Remove,Gỡ bỏ
 + Add secondary button,+ Thêm nút phụ
 Overrides,Ghi đè
 Leaves slide-specific anchor; falls back to the slideshow's default.,Bỏ trống điểm neo riêng cho slide; dùng mặc định của trình chiếu.
@@ -1563,7 +1553,6 @@ Master switch. Items without an icon URL are unaffected.,Công tắc chính. M�
 Show divider,Hiển thị đường phân cách
 Vertical line between cells.,Đường dọc giữa các ô.
 Collection,Bộ sưu tập
-Search,Tìm kiếm
 Search collections…,Tìm bộ sưu tập…
 No collections match “${value}”.,Không có bộ sưu tập nào khớp “${value}”.
 You have no collections yet.,Bạn chưa có bộ sưu tập nào.
@@ -1602,7 +1591,6 @@ Optional. Hidden when empty.,Tùy chọn. Ẩn khi để trống.
 View all label,Nhãn Xem tất cả
 Show price,Hiển thị giá
 Show divider between rows,Hiển thị đường phân cách giữa các hàng
-Product,Sản phẩm
 Selected:,Đã chọn:
 Image override,Hình ảnh thay thế
 Override image,Thay thế hình ảnh
@@ -1656,3 +1644,10 @@ A list of products from a collection,Danh sách sản phẩm từ một bộ sư
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Các hàng bộ sưu tập xếp chồng, mỗi hàng có tiêu đề, liên kết xem tất cả và dải sản phẩm."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Bộ sưu tập nổi bật với ảnh bìa, nội dung biên tập và lưới xem trước sản phẩm nhỏ."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Tiêu điểm một sản phẩm — ảnh, tên, giá và liên kết tới trang sản phẩm đầy đủ."
+The page you're looking for doesn't exist or may have moved.,Trang bạn đang tìm không tồn tại hoặc có thể đã được chuyển đi.
+Back to home,Về trang chủ
+Main menu,Menu chính
+Close menu,Đóng menu
+Open menu,Mở menu
+Footer,Chân trang
+Go to slide ${n},Đến slide ${n}

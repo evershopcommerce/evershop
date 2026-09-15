@@ -1,45 +1,50 @@
-Total, Totaal
-Order, Bestelling
-Sku, SKU
-Continue to shipping, Doorgaan naar verzenden
-Continue shopping, Doorgaan met winkelen
-Continue Shopping, Doorgaan met Winkelen
-Shopping cart, Winkelmandje
-Product, Product
-Price, Prijs
-Quantity, Aantal
-Remove, Verwijderen
-Qty, Aantal
-Sub total, Subtotaal
-Discount(${coupon}), Korting(${coupon})
-Order summary, Besteloverzicht
-Taxes and shipping calculated at checkout, BTW en verzendkosten worden berekend bij betaling
-Checkout, Betalen
-Change, Veranderen
-Payment Method, Betaalmethode
-Shipping Method, Verzendmethode
-No payment methods available, Geen betaalmethodes beschikbaar
-Place Order, Plaats Bestelling
-My billing address is same as shipping address, Factuuradres is hetzelfde als het verzendadres
-${count} items, ${count} producten
-Discount, Korting
-Shipping, Verzending
-No tax, Geen BTW
-Tax, BTW
+Total,Totaal
+Order,Bestelling
+Sku,SKU
+Continue to shipping,Doorgaan naar verzenden
+Continue shopping,Doorgaan met winkelen
+Continue Shopping,Doorgaan met Winkelen
+Shopping cart,Winkelmandje
+Product,Product
+Price,Prijs
+Quantity,Aantal
+Remove,Verwijderen
+Qty,Aantal
+Sub total,Subtotaal
+Discount(${coupon}),Korting(${coupon})
+Order summary,Besteloverzicht
+Taxes and shipping calculated at checkout,BTW en verzendkosten worden berekend bij betaling
+Checkout,Betalen
+Change,Veranderen
+Payment Method,Betaalmethode
+Shipping Method,Verzendmethode
+No payment methods available,Geen betaalmethodes beschikbaar
+Place Order,Plaats Bestelling
+My billing address is same as shipping address,Factuuradres is hetzelfde als het verzendadres
+${count} items,${count} producten
+Discount,Korting
+Shipping,Verzending
+No tax,Geen BTW
+Tax,BTW
 "Sorry, there is no available method for your address","Excuses, er is geen beschikbare methode voor uw adres"
-Please enter a shipping address in order to see shipping quotes, Voer een verzendadres in om verzendkosten te berekenen
-Continue to payment, Doorgaan naar betaling
-No payment method available, Geen betaalmethodes beschikbaar
-Ship to, Verzenden naar
-Shipment, Verzending
-Thank you ${name}!, Bedankt, ${name}!
-Contact information, Contactinformatie
-Order #${orderNumber}, Bestelling #${orderNumber}
-Add to cart, TOEVOEGEN AAN WINKELMANDJE
-Please select variant options, Selecteer alstublieft opties
-VIEW CART (${count}), WINKELMANDJE BEKIJKEN (${count})
-JUST ADDED TO YOUR CART, TOEGEVOEGD AAN WINKELMANDJE
-Promotion code?, Kortingscode？
-Enter coupon code, Voer kortingscode in
-Apply, Toepassen
-Your cart is empty!, Uw winkelmandje is leeg！
+Please enter a shipping address in order to see shipping quotes,Voer een verzendadres in om verzendkosten te berekenen
+Continue to payment,Doorgaan naar betaling
+No payment method available,Geen betaalmethodes beschikbaar
+Ship to,Verzenden naar
+Shipment,Verzending
+Thank you ${name}!,"Bedankt, ${name}!"
+Add to cart,TOEVOEGEN AAN WINKELMANDJE
+Please select variant options,Selecteer alstublieft opties
+VIEW CART (${count}),WINKELMANDJE BEKIJKEN (${count})
+JUST ADDED TO YOUR CART,TOEGEVOEGD AAN WINKELMANDJE
+Promotion code?,Kortingscode？
+Enter coupon code,Voer kortingscode in
+Apply,Toepassen
+Your cart is empty!,Uw winkelmandje is leeg！
+Proceed to checkout,Doorgaan naar afrekenen
+Your cart,Je winkelwagen
+${count} items in your cart,${count} artikelen in je winkelwagen
+No payment required,Geen betaling vereist
+Your order total is 0 — no payment is needed to place this order.,Je ordertotaal is 0 — er is geen betaling nodig om deze bestelling te plaatsen.
+Thank you for your order!,Bedankt voor je bestelling!
+Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Bestelling #${orderNumber} is bevestigd. We hebben een bon gemaild naar ${email}.

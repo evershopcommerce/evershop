@@ -30,7 +30,7 @@ export default function CustomerOrders(): React.ReactElement {
               >
                 <div>
                   <div className="font-medium">
-                    {_('Order')} #{order.orderNumber}
+                    {_('Order #${orderNumber}', { orderNumber: order.orderNumber })}
                   </div>
                   <div className="mt-0.5 text-xs text-muted-foreground">
                     {order.createdAt?.text}

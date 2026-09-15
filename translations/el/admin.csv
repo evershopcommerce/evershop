@@ -30,7 +30,7 @@
 "No pages yet.","Δεν υπάρχουν σελίδες ακόμη."
 "No products match ""${query}"".","Δεν υπάρχουν προϊόντα που να ταιριάζουν με ""${query}""."
 "No products yet.","Δεν υπάρχουν προϊόντα ακόμη."
-"Paste a URL or a relative path starting with ","Επικολλήστε ένα URL ή μια σχετική διαδρομή που ξεκινά με "
+Paste a URL or a relative path starting with ,Επικολλήστε ένα URL ή μια σχετική διαδρομή που ξεκινά με 
 "Pick a CMS page to link to.","Επιλέξτε μια σελίδα CMS για σύνδεση."
 "Pick a blog ${kind} to link to.","Επιλέξτε ${kind} ιστολογίου για σύνδεση."
 "Pick a category to link to.","Επιλέξτε μια κατηγορία για σύνδεση."
@@ -76,10 +76,247 @@
 "Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Έγινε. Η ""${name}"" παραμένει δημοσιευμένη στη δική της διεύθυνση. Έχετε τώρα ${count} αντίγραφο(α) ασφαλείας της αρχικής σελίδας."
 "View backup","Προβολή αντιγράφου ασφαλείας"
 "Open homepage in page builder","Άνοιγμα αρχικής σελίδας στον page builder"
-"Close","Κλείσιμο"
-"Cancel","Ακύρωση"
+Close,Κλείσιμο
+Cancel,Ακύρωση
 "Replace homepage","Αντικατάσταση αρχικής σελίδας"
 "Could not check the homepage.","Δεν ήταν δυνατός ο έλεγχος της αρχικής σελίδας."
 "The homepage could not be replaced.","Δεν ήταν δυνατή η αντικατάσταση της αρχικής σελίδας."
 "Include unpublished pages","Συμπερίληψη μη δημοσιευμένων σελίδων"
 "This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Αυτό το widget βρίσκεται επίσης σε ${count} συγκεκριμένη(ες) σελίδα(ες), που διαχειρίζεται ο page builder. Αυτές οι τοποθετήσεις δεν εμφανίζονται εδώ και δεν αλλάζουν κατά την αποθήκευση."
+Blog Home,Αρχική ιστολογίου
+All posts,Όλες οι αναρτήσεις
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Επιτρέπονται μόνο σύνδεσμοι http(s), mailto, tel ή σχετικοί — αυτός ο σύνδεσμος θα αγνοηθεί στο κατάστημα."
+Link target,Προορισμός συνδέσμου
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","Πού οδηγεί ο σύνδεσμος «Προβολή όλων» — κατηγορία, σελίδα ή προσαρμοσμένο URL. Οι συλλογές δεν έχουν δική τους σελίδα, οπότε αφήστε το κενό για απόκρυψη του συνδέσμου."
+"Optional. Defaults to ""View all N →"".",Προαιρετικό. Προεπιλογή: «Προβολή όλων N →».
+Whole country,Ολόκληρη η χώρα
+${count} selected,${count} επιλεγμένα
+Select provinces,Επιλογή επαρχιών
+Used below 640 px. Falls back to the main image.,Χρησιμοποιείται κάτω από 640 px. Εναλλακτικά χρησιμοποιείται η κύρια εικόνα.
+mobile,κινητό
+Webhook ID,Αναγνωριστικό webhook
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.",Το αναγνωριστικό ενός webhook που δημιουργήθηκε στο PayPal developer dashboard και δείχνει στο /api/paypal/webhook. Ενεργοποιεί την επιβεβαίωση πληρωμής από τον διακομιστή.
+System Setting,Ρυθμίσεις συστήματος
+File storage and service credentials,Αποθήκευση αρχείων και διαπιστευτήρια υπηρεσιών
+Pricing & Tax,Τιμολόγηση & Φόροι
+"Price rounding, tax calculation, classes & rates","Στρογγυλοποίηση τιμών, υπολογισμός φόρου, κλάσεις & συντελεστές"
+Social sharing preview,Προεπισκόπηση κοινοποίησης
+Account menu,Μενού λογαριασμού
+Grid columns.,Στήλες πλέγματος.
+Product listing and image settings,Ρυθμίσεις λίστας προϊόντων και εικόνων
+Edit variant,Επεξεργασία παραλλαγής
+Sold,Πωλήθηκαν
+Not collected (zero-total order),Δεν συλλέχθηκε (παραγγελία με μηδενικό σύνολο)
+All landing pages,Όλες οι σελίδες προορισμού
+System setting saved,Η ρύθμιση συστήματος αποθηκεύτηκε
+All ${attribute},Όλα: ${attribute}
+${count} of ${total},${count} από ${total}
+No variants match the selected options.,Καμία παραλλαγή δεν ταιριάζει με τις επιλεγμένες επιλογές.
+This product has no other variants yet.,Αυτό το προϊόν δεν έχει ακόμη άλλες παραλλαγές.
+Optional. Shown under the row heading.,Προαιρετικό. Εμφανίζεται κάτω από την επικεφαλίδα της σειράς.
+A short description for this row,Μια σύντομη περιγραφή για αυτή τη σειρά
+Product count,Πλήθος προϊόντων
+Total products to show per collection.,Συνολικά προϊόντα που εμφανίζονται ανά συλλογή.
+Shown above the products. The shelf renders nothing at all when no products qualify.,Εμφανίζεται πάνω από τα προϊόντα. Το ράφι δεν εμφανίζεται καθόλου όταν δεν πληροί κανένα προϊόν τα κριτήρια.
+e.g. You may also like,π.χ. Μπορεί επίσης να σας αρέσει
+Products to show,Προϊόντα προς εμφάνιση
+Between 1 and 12 — 3 to 5 works best.,Μεταξύ 1 και 12 — από 3 έως 5 λειτουργεί καλύτερα.
+Product count is required,Απαιτείται πλήθος προϊόντων
+Nearest,Πλησιέστερο
+Round up,Στρογγυλοποίηση προς τα πάνω
+Round down,Στρογγυλοποίηση προς τα κάτω
+Line item,Γραμμή παραγγελίας
+Per unit,Ανά μονάδα
+Price rounding,Στρογγυλοποίηση τιμών
+How every monetary amount is rounded across the store.,Πώς στρογγυλοποιείται κάθε χρηματικό ποσό σε όλο το κατάστημα.
+Pricing settings have been saved successfully!,Οι ρυθμίσεις τιμολόγησης αποθηκεύτηκαν με επιτυχία!
+Rounding mode,Τρόπος στρογγυλοποίησης
+The direction used when rounding prices to the decimal precision.,Η κατεύθυνση στρογγυλοποίησης των τιμών στα καθορισμένα δεκαδικά ψηφία.
+Decimal precision,Δεκαδική ακρίβεια
+Number of decimal places prices are rounded to.,Πλήθος δεκαδικών ψηφίων στα οποία στρογγυλοποιούνται οι τιμές.
+Tax rounding mode,Τρόπος στρογγυλοποίησης φόρου
+The direction used when rounding the calculated tax amount.,Η κατεύθυνση στρογγυλοποίησης του υπολογισμένου ποσού φόρου.
+Tax decimal precision,Δεκαδική ακρίβεια φόρου
+Number of decimal places the tax amount is rounded to.,Πλήθος δεκαδικών ψηφίων στα οποία στρογγυλοποιείται το ποσό φόρου.
+Tax rounding level,Επίπεδο στρογγυλοποίησης φόρου
+"Where tax rounding is applied: per unit, per line, or on the order total.","Πού εφαρμόζεται η στρογγυλοποίηση φόρου: ανά μονάδα, ανά γραμμή ή στο σύνολο της παραγγελίας."
+Catalog prices include tax,Οι τιμές καταλόγου περιλαμβάνουν φόρο
+Enable when the product prices you enter already include tax.,Ενεργοποιήστε το όταν οι τιμές προϊόντων που εισάγετε περιλαμβάνουν ήδη φόρο.
+Catalog settings have been saved successfully!,Οι ρυθμίσεις καταλόγου αποθηκεύτηκαν με επιτυχία!
+Product listing,Λίστα προϊόντων
+Control how products appear in storefront listings.,Ελέγξτε πώς εμφανίζονται τα προϊόντα στις λίστες του καταστήματος.
+Show out of stock products,Εμφάνιση προϊόντων εκτός αποθέματος
+"When enabled, products with no available stock stay visible on the storefront.","Όταν είναι ενεργό, τα προϊόντα χωρίς διαθέσιμο απόθεμα παραμένουν ορατά στο κατάστημα."
+Products per page,Προϊόντα ανά σελίδα
+Number of products shown per page on category and collection listings.,Πλήθος προϊόντων ανά σελίδα στις λίστες κατηγοριών και συλλογών.
+Product images,Εικόνες προϊόντων
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","Το μέγεθος στο οποίο δημιουργούνται οι εικόνες προϊόντων. Ορίζει την αναλογία διαστάσεων αναφοράς και τη μέγιστη ανάλυση για τις εικόνες προϊόντων σε όλο το κατάστημα — λίστες, καλάθι, ταμείο και σελίδες προϊόντων. Κάθε θέση προσαρμόζεται στο πλάτος της και υπολογίζει το ύψος από αυτή την αναλογία."
+Original image width (px),Πλάτος αρχικής εικόνας (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.",Το πλάτος των αρχικών εικόνων προϊόντων. Συνιστώνται 1920px ή μεγαλύτερο ώστε το ζουμ στη σελίδα προϊόντος να παραμένει ευκρινές σε μεγάλες οθόνες υψηλής πυκνότητας.
+Original image height (px),Ύψος αρχικής εικόνας (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,Το ύψος των αρχικών εικόνων προϊόντων. Πλάτος ÷ ύψος είναι η αναλογία που εφαρμόζεται σε κάθε εικόνα προϊόντος.
+Related products rules,Κανόνες σχετικών προϊόντων
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,Ισχύει για όλα τα προϊόντα αυτής της κατηγορίας που κληρονομούν τους κανόνες τους. Τα προϊόντα με δική τους παράκαμψη δεν επηρεάζονται.
+Override the global rules for this category,Παράκαμψη των καθολικών κανόνων για αυτή την κατηγορία
+Overridden on this category,Παρακάμπτεται σε αυτή την κατηγορία
+Source: Global settings,Πηγή: Καθολικές ρυθμίσεις
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,Τα προϊόντα αυτής της κατηγορίας ακολουθούν τους καθολικούς κανόνες σχετικών προϊόντων. Δείτε προεπισκόπηση του τι βλέπουν οι αγοραστές από την οθόνη επεξεργασίας οποιουδήποτε προϊόντος.
+Regional & Units,Περιοχή & Μονάδες
+Currency,Νόμισμα
+Default currency for new carts and price display. Existing orders keep their own currency.,Προεπιλεγμένο νόμισμα για νέα καλάθια και εμφάνιση τιμών. Οι υπάρχουσες παραγγελίες διατηρούν το δικό τους νόμισμα.
+Timezone,Ζώνη ώρας
+Timezone used to display dates in the store.,Ζώνη ώρας για την εμφάνιση ημερομηνιών στο κατάστημα.
+Weight unit,Μονάδα βάρους
+Dimension unit,Μονάδα διαστάσεων
+Branding,Ταυτότητα μάρκας
+"Your logo, favicon, and the image shown when your store is shared on social media.","Το λογότυπο, το favicon και η εικόνα που εμφανίζεται όταν το κατάστημά σας κοινοποιείται στα κοινωνικά δίκτυα."
+Logo,Λογότυπο
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,Εμφανίζεται στην κεφαλίδα του καταστήματος. Χρησιμοποιήστε PNG υψηλής ανάλυσης με διαφανές φόντο — προσαρμόζεται αυτόματα στο θέμα σας και παρέχεται ως βελτιστοποιημένο WebP.
+Favicon,Favicon
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,Το μικρό εικονίδιο στις καρτέλες του προγράμματος περιήγησης. Ανεβάστε τετράγωνο PNG τουλάχιστον 512×512px — τα εικονίδια 16/32px και το Apple touch icon 180px δημιουργούνται αυτόματα.
+Social sharing image,Εικόνα κοινοποίησης
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","Η προεπισκόπηση που εμφανίζεται όταν μια σελίδα κοινοποιείται στα κοινωνικά δίκτυα (Open Graph / Twitter). Συνιστάται 1200×630px (1.91:1), PNG ή JPG."
+Analytics,Αναλυτικά στοιχεία
+Google Analytics 4 Measurement ID,Αναγνωριστικό μέτρησης Google Analytics 4
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Βρίσκεται στο Google Analytics στο Admin → Data Streams → η ροή ιστού σας. Αφήστε το κενό για απενεργοποίηση της παρακολούθησης.
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Εισαγάγετε έγκυρο αναγνωριστικό μέτρησης GA4, π.χ. G-XXXXXXXXXX"
+Allow guest checkout,Να επιτρέπεται η ολοκλήρωση παραγγελίας ως επισκέπτης
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Όταν είναι ενεργό, οι αγοραστές μπορούν να παραγγείλουν χωρίς λογαριασμό. Όταν είναι ανενεργό, πρέπει να συνδεθούν ή να εγγραφούν για να ολοκληρώσουν την παραγγελία."
+Enable rule-based related products,Ενεργοποίηση σχετικών προϊόντων βάσει κανόνων
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,Οι κανόνες συμπληρώνουν τις υπόλοιπες θέσεις από πάνω προς τα κάτω (οι χειροκίνητες επιλογές προηγούνται πάντα). Αλλάξτε τη σειρά για να αλλάξετε την προτεραιότητα.
+Move rule up,Μετακίνηση κανόνα πάνω
+Move rule down,Μετακίνηση κανόνα κάτω
+Match these attributes,Αντιστοίχιση αυτών των χαρακτηριστικών
+No select-type attributes exist yet.,Δεν υπάρχουν ακόμη χαρακτηριστικά τύπου επιλογής.
+Within scope,Εντός εμβέλειας
+Same category,Ίδια κατηγορία
+Same collection,Ίδια συλλογή
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",Η αντιστοίχιση χαρακτηριστικών συνδυάζεται πάντα με μια εμβέλεια — το «ίδιο χρώμα» σε όλο τον κατάλογο θα συσχέτιζε άσχετα προϊόντα.
+Only show products in a similar price range,Εμφάνιση μόνο προϊόντων σε παρόμοιο εύρος τιμών
+Within ±,Εντός ±
+% of the product price,% της τιμής του προϊόντος
+Fill remaining slots with bestsellers,Συμπλήρωση των υπόλοιπων θέσεων με τα δημοφιλέστερα
+Recompute failed,Ο επανυπολογισμός απέτυχε
+Co-purchase statistics recomputed,Τα στατιστικά συναγορών επανυπολογίστηκαν
+Related products,Σχετικά προϊόντα
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,Κανόνες για το ράφι «Σχετικά προϊόντα» στις σελίδες προϊόντων. Κατηγορίες και προϊόντα μπορούν να τους παρακάμψουν· οι χειροκίνητες επιλογές σε ένα προϊόν προηγούνται πάντα.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.","Το ράφι Upsell χρησιμοποιεί τους ίδιους κανόνες, περιορισμένους σε προϊόντα ΑΚΡΙΒΟΤΕΡΑ από αυτό που προβάλλεται (με το ποσοστό εύρους τιμής ως ανώτατο όριο όταν είναι ενεργό) — χωρίς συμπλήρωση με δημοφιλή και χωρίς upsell για προϊόντα με «Μόνο χειροκίνητες επιλογές»."
+Frequently bought together,Συχνά αγοράζονται μαζί
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.",Οι προτάσεις από συναγορές θεωρούνται αξιόπιστες μόνο πάνω από αυτά τα όρια. Οι προεπιλογές ταιριάζουν σε μικρά καταστήματα — αυξάνοντάς τα έχετε λιγότερες αλλά ισχυρότερες προτάσεις.
+Min times bought together,Ελάχιστες φορές αγοράς μαζί
+A pair must co-occur in at least this many orders.,Ένα ζεύγος πρέπει να εμφανίζεται μαζί σε τουλάχιστον τόσες παραγγελίες.
+Min orders of the product,Ελάχιστες παραγγελίες του προϊόντος
+Orders of a product before its data is trusted.,Παραγγελίες ενός προϊόντος πριν θεωρηθούν αξιόπιστα τα δεδομένα του.
+Min lift,Ελάχιστο lift
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,"Πάνω από 1 = αγοράζονται μαζί περισσότερο από ό,τι τυχαία. Φιλτράρει τα πανταχού παρόντα δημοφιλή προϊόντα."
+Fill empty slots with bestsellers,Συμπλήρωση κενών θέσεων με τα δημοφιλέστερα
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.","Κάτω από τα όρια, το ράφι εμφανίζει τα δημοφιλέστερα της κατηγορίας και του καταστήματος αντί να μην εμφανίζει τίποτα."
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Τα δεδομένα συναγορών υπολογίστηκαν τελευταία φορά ${date} από ${total} παραγγελίες (${pairs} ζεύγη προϊόντων).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Δεν υπάρχουν ακόμη δεδομένα συναγορών — υπολογίζονται κάθε βράδυ, ή επανυπολογίστε τώρα."
+Recomputing…,Επανυπολογισμός…
+Recompute now,Επανυπολογισμός τώρα
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","Το URL του webhook σας πρέπει να είναι: https://yourdomain.com/api/stripe/webhook. Ενεργοποιήστε αυτά τα συμβάντα (ή «All events»): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Κρυφό — ίδια ομάδα παραλλαγών
+Hidden — disabled or out of stock,Κρυφό — απενεργοποιημένο ή εκτός αποθέματος
+no orders yet — ranked newest first,καμία παραγγελία ακόμη — ταξινόμηση με τα νεότερα πρώτα
+Operation failed,Η ενέργεια απέτυχε
+Add products,Προσθήκη προϊόντων
+No manual picks yet.,Δεν υπάρχουν ακόμη χειροκίνητες επιλογές.
+(product unavailable),(το προϊόν δεν είναι διαθέσιμο)
+Overridden on this product,Παρακάμπτεται σε αυτό το προϊόν
+Source: category,Πηγή: κατηγορία
+Could not pin the product,Δεν ήταν δυνατή η καρφίτσωση του προϊόντος
+Recommendations,Προτάσεις
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,Τι εμφανίζουν τα ράφια «Σχετικά προϊόντα» και «Συχνά αγοράζονται μαζί» για αυτό το προϊόν. Το ράφι Upsell προκύπτει από τους κανόνες σχετικών προϊόντων (μόνο ακριβότερες αντιστοιχίες) — δεν υπάρχει τίποτα να ρυθμίσετε εδώ.
+Rules,Κανόνες
+Inherit (category or global rules),Κληρονόμηση (κανόνες κατηγορίας ή καθολικοί)
+Custom rules for this product,Προσαρμοσμένοι κανόνες για αυτό το προϊόν
+Manual picks only,Μόνο χειροκίνητες επιλογές
+Manual picks,Χειροκίνητες επιλογές
+"Always shown first, in this order, before any rules fill the remaining slots.","Εμφανίζονται πάντα πρώτα, με αυτή τη σειρά, πριν οι κανόνες συμπληρώσουν τις υπόλοιπες θέσεις."
+Shoppers will see,Οι αγοραστές θα δουν
+Based on the last saved configuration.,Βάσει της τελευταίας αποθηκευμένης διαμόρφωσης.
+Mode changed — save to update this preview.,Η λειτουργία άλλαξε — αποθηκεύστε για να ενημερωθεί η προεπισκόπηση.
+Shoppers will see no related products for this product with the current configuration.,"Με την τρέχουσα διαμόρφωση, οι αγοραστές δεν θα δουν σχετικά προϊόντα για αυτό το προϊόν."
+manual pick,χειροκίνητη επιλογή
+bestseller fallback,εναλλακτικά δημοφιλέστερα
+Mode,Λειτουργία
+Automatic (co-purchase data),Αυτόματο (δεδομένα συναγορών)
+"Manual picks first, auto-fill the rest","Πρώτα οι χειροκίνητες επιλογές, αυτόματη συμπλήρωση των υπολοίπων"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,Η λειτουργία και οι χειροκίνητες επιλογές ισχύουν μόνο για αυτή την παραλλαγή — ρυθμίστε τις αδελφές παραλλαγές το ίδιο για συμπεριφορά σε όλη την ομάδα.
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,Στην αυτόματη λειτουργία οι χειροκίνητες επιλογές αγνοούνται — επιλέξτε «Χειροκίνητες πρώτα» ή «Μόνο χειροκίνητες» για να χρησιμοποιηθούν.
+Computed from orders,Υπολογισμένο από παραγγελίες
+${count} orders of this product · data from ${total} orders total,${count} παραγγελίες αυτού του προϊόντος · δεδομένα από ${total} παραγγελίες συνολικά
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).","Δεν υπάρχουν ακόμη δεδομένα συναγορών για αυτό το προϊόν — συσσωρεύονται καθώς έρχονται παραγγελίες. Με ενεργή εναλλακτική, το ράφι εμφανίζει εν τω μεταξύ δημοφιλή προϊόντα (δείτε παρακάτω)."
+Together,Μαζί
+Confidence,Εμπιστοσύνη
+Lift,Lift
+(unavailable),(μη διαθέσιμο)
+hidden,κρυφό
+shown,εμφανίζεται
+below threshold,κάτω από το όριο
+Pin,Καρφίτσωμα
+Shoppers will see (frequently bought together),Οι αγοραστές θα δουν (συχνά αγοράζονται μαζί)
+Shoppers will see no frequently-bought-together products with the current configuration.,"Με την τρέχουσα διαμόρφωση, οι αγοραστές δεν θα δουν προϊόντα που αγοράζονται συχνά μαζί."
+co-purchase data,δεδομένα συναγορών
+category bestsellers (fallback),δημοφιλέστερα κατηγορίας (εναλλακτικά)
+store bestsellers (fallback),δημοφιλέστερα καταστήματος (εναλλακτικά)
+Exclude this product from recommendations,Εξαίρεση αυτού του προϊόντος από τις προτάσεις
+Never suggest this product alongside others,Να μην προτείνεται ποτέ αυτό το προϊόν μαζί με άλλα
+Enter a type or remove the row,Εισαγάγετε τύπο ή αφαιρέστε τη γραμμή
+Use type/subtype (video/mp4) or a family (video/*),Χρησιμοποιήστε τύπο/υποτύπο (video/mp4) ή οικογένεια (video/*)
+MB,MB
+Enter a size,Εισαγάγετε μέγεθος
+Enter a size greater than zero,Εισαγάγετε μέγεθος μεγαλύτερο του μηδενός
+Remove override,Αφαίρεση παράκαμψης
+Add type override,Προσθήκη παράκαμψης τύπου
+Managed by configuration (config file or environment variable),Διαχειρίζεται από τη διαμόρφωση (αρχείο ρυθμίσεων ή μεταβλητή περιβάλλοντος)
+File Storage & Uploads,Αποθήκευση αρχείων & μεταφορτώσεις
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Πού αποθηκεύονται τα μεταφορτωμένα αρχεία (εικόνες προϊόντων, banner, πολυμέσα), ποιοι τύποι επιτρέπονται και πόσο μεγάλα μπορούν να είναι"
+Local file system,Τοπικό σύστημα αρχείων
+Amazon S3 / S3-compatible,Amazon S3 / συμβατό με S3
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,Απαιτείται bucket
+Bucket name,Όνομα bucket
+Region,Περιοχή
+Region is required,Απαιτείται περιοχή
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),Για υπηρεσίες συμβατές με S3 χρησιμοποιήστε την τιμή του παρόχου (π.χ. fsn1 για Hetzner)
+Access key ID,Access key ID
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.",Δημιουργήστε ένα access key στην κονσόλα του παρόχου αποθήκευσης. Για AWS: συνδεθείτε στο AWS Console και ανοίξτε IAM → Users → ο χρήστης σας → Security credentials → Create access key.
+Secret access key,Secret access key
+"The secret is shown only once, when the access key is created — copy it from there.","Το secret εμφανίζεται μόνο μία φορά, κατά τη δημιουργία του access key — αντιγράψτε το από εκεί."
+Custom endpoint,Προσαρμοσμένο endpoint
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Μόνο για υπηρεσίες συμβατές με S3 (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Αφήστε το κενό για AWS."
+Force path-style,Επιβολή path-style
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","Απαιτείται από το MinIO. Αφήστε το απενεργοποιημένο για AWS, Hetzner και R2."
+Public base URL,Δημόσιο βασικό URL
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","Προαιρετικό CDN (π.χ. CloudFront) που εξυπηρετεί το bucket — επιτρέπει στο bucket να παραμείνει ιδιωτικό. Χωρίς αυτό, τα αντικείμενα πρέπει να είναι δημόσια αναγνώσιμα μέσω bucket policy. Παράδειγμα: https://cdn.mystore.com ή https://d111abcdef8.cloudfront.net, μια διανομή CloudFront με αυτό το bucket ως origin. Τα αρχεία εξυπηρετούνται ως <αυτό το URL>/<διαδρομή αρχείου>, οπότε ο τομέας πρέπει να δείχνει στη ρίζα του bucket."
+Connection string,Συμβολοσειρά σύνδεσης
+Connection string is required,Απαιτείται συμβολοσειρά σύνδεσης
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Αντιγράψτε την από το Azure portal: συνδεθείτε, ανοίξτε τον λογαριασμό αποθήκευσης και μετά Security + networking → Access keys → Connection string."
+Container,Container
+Container access,Πρόσβαση container
+Private (recommended),Ιδιωτικό (συνιστάται)
+Public read for blobs,Δημόσια ανάγνωση για blobs
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",Η δημόσια ανάγνωση απαιτεί «Allow blob anonymous access» στον λογαριασμό αποθήκευσης — απενεργοποιημένο από προεπιλογή στους νέους λογαριασμούς. Προτιμήστε ιδιωτικό container με δημόσιο βασικό URL (CDN).
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).","Προαιρετικό CDN (π.χ. Azure CDN / Front Door) που εξυπηρετεί το container — επιτρέπει στο container να παραμείνει ιδιωτικό. Τα αρχεία εξυπηρετούνται ως <αυτό το URL>/<διαδρομή αρχείου> χωρίς να προστίθεται τμήμα container, οπότε είτε ορίστε τη διαδρομή origin του CDN σε /<container> (παράδειγμα: https://mystore.azureedge.net) είτε συμπεριλάβετε εδώ το container (παράδειγμα: https://mystore.azureedge.net/media)."
+Service account key,Κλειδί λογαριασμού υπηρεσίας
+Paste the entire content of the downloaded JSON key file,Επικολλήστε όλο το περιεχόμενο του αρχείου κλειδιού JSON που κατεβάσατε
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,Δημιουργήστε κλειδί στο Google Cloud Console: IAM & Admin → Service Accounts → δημιουργήστε ή επιλέξτε λογαριασμό με ρόλο Storage Object Admin στο bucket → Keys → Add key → JSON. Επικολλήστε εδώ ολόκληρο το αρχείο που κατεβάσατε.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Δεν έχετε κλειδιά; Αν το EverShop τρέχει σε διακομιστή που έχει ήδη πρόσβαση στο bucket — για παράδειγμα μέσω ρόλου AWS IAM ή κλειδιών AWS ως μεταβλητών περιβάλλοντος στον διακομιστή — αφήστε και τα δύο πεδία κενά και θα χρησιμοποιηθούν αυτόματα τα διαπιστευτήρια του ίδιου του διακομιστή. Η σύνδεση ελέγχεται κατά την αποθήκευση, οπότε λανθασμένη ή ελλιπής ρύθμιση δεν μπορεί να αποθηκευτεί."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Δεν έχετε κλειδί; Αν το EverShop τρέχει σε Google Cloud (Compute Engine, GKE, Cloud Run) με συνδεδεμένο λογαριασμό υπηρεσίας, ή αν η μεταβλητή περιβάλλοντος GOOGLE_APPLICATION_CREDENTIALS είναι ορισμένη στον διακομιστή, αφήστε αυτό το πεδίο κενό και θα χρησιμοποιηθούν αυτόματα τα διαπιστευτήρια του διακομιστή. Η σύνδεση ελέγχεται κατά την αποθήκευση, οπότε λανθασμένη ή ελλιπής ρύθμιση δεν μπορεί να αποθηκευτεί."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.","Προαιρετικό CDN (π.χ. Cloud CDN) που εξυπηρετεί το bucket — επιτρέπει στο bucket να παραμείνει ιδιωτικό. Χωρίς αυτό, τα αντικείμενα πρέπει να είναι δημόσια αναγνώσιμα: εκχωρήστε στον «allUsers» τον ρόλο Storage Object Viewer στο bucket (αποκλείεται όταν επιβάλλεται Public Access Prevention στον οργανισμό σας). Παράδειγμα: https://cdn.mystore.com, ένας τομέας load balancer με αυτό το bucket ως backend bucket."
+Local storage is not recommended for production,Η τοπική αποθήκευση δεν συνιστάται για παραγωγή
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Τα αρχεία που αποθηκεύονται σε αυτόν τον διακομιστή μπορεί να χαθούν όταν ενημερωθεί, μετακινηθεί ή αστοχήσει. Για ένα ζωντανό κατάστημα χρησιμοποιήστε S3 ή Azure Blob Storage."
+Upload rules,Κανόνες μεταφόρτωσης
+What can be uploaded and how big it can be — applies on every storage provider.,Τι μπορεί να μεταφορτωθεί και πόσο μεγάλο μπορεί να είναι — ισχύει για κάθε πάροχο αποθήκευσης.
+Allowed file types,Επιτρεπόμενοι τύποι αρχείων
+Select at least one file type,Επιλέξτε τουλάχιστον έναν τύπο αρχείου
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,Αρχεία άλλων τύπων απορρίπτονται κατά τη μεταφόρτωση. Το SVG δεν προσφέρεται σκόπιμα — τα αρχεία SVG μπορεί να περιέχουν σενάρια και αποτελούν κίνδυνο ασφαλείας κατά την εξυπηρέτηση.
+Also allowed via server configuration: ${types},Επιτρέπονται επίσης μέσω της διαμόρφωσης του διακομιστή: ${types}
+Maximum file size,Μέγιστο μέγεθος αρχείου
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","Ανά αρχείο, σε megabyte (MB). Αφήστε το κενό για την προεπιλογή των 10 MB. Ισχύει για κάθε μεταφόρτωση στον πίνακα διαχείρισης — εικόνες προϊόντων, banner, πολυμέσα."
+Per-type overrides,Παρακάμψεις ανά τύπο
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Παρακάμπτει το μέγιστο μέγεθος για τους τύπους αρχείων που ταιριάζουν — για παράδειγμα μικρότερο όριο για εικόνες και μεγαλύτερο για βίντεο. Ένας ακριβής τύπος (video/mp4) υπερισχύει μιας οικογένειας (video/*)· ό,τι δεν ταιριάζει χρησιμοποιεί το παραπάνω μέγιστο μέγεθος. Οι παρακάμψεις δεν επιτρέπουν νέους τύπους: ο ίδιος ο τύπος αρχείου πρέπει να είναι ενεργοποιημένος στους «Επιτρεπόμενους τύπους αρχείων»."

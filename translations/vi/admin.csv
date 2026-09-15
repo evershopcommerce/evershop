@@ -30,7 +30,7 @@
 "No pages yet.","Chưa có trang nào."
 "No products match ""${query}"".","Không có sản phẩm nào khớp với ""${query}""."
 "No products yet.","Chưa có sản phẩm nào."
-"Paste a URL or a relative path starting with ","Dán URL hoặc đường dẫn tương đối bắt đầu bằng "
+Paste a URL or a relative path starting with ,Dán URL hoặc đường dẫn tương đối bắt đầu bằng 
 "Pick a CMS page to link to.","Chọn một trang CMS để liên kết đến."
 "Pick a blog ${kind} to link to.","Chọn một ${kind} blog để liên kết đến."
 "Pick a category to link to.","Chọn một danh mục để liên kết đến."
@@ -76,10 +76,247 @@
 "Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Xong. ""${name}"" vẫn được xuất bản tại URL riêng của nó. Bạn hiện có ${count} bản sao lưu trang chủ."
 "View backup","Xem bản sao lưu"
 "Open homepage in page builder","Mở trang chủ trong trình dựng trang"
-"Close","Đóng"
-"Cancel","Hủy"
+Close,Đóng
+Cancel,Hủy
 "Replace homepage","Thay trang chủ"
 "Could not check the homepage.","Không thể kiểm tra trang chủ."
 "The homepage could not be replaced.","Không thể thay trang chủ."
 "Include unpublished pages","Bao gồm các trang chưa xuất bản"
 "This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Widget này còn được đặt trên ${count} trang cụ thể, được quản lý trong trình dựng trang. Các vị trí đó không hiển thị ở đây và không thay đổi khi bạn lưu."
+Blog Home,Trang chủ blog
+All posts,Tất cả bài viết
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Chỉ cho phép liên kết http(s), mailto, tel hoặc tương đối — liên kết này sẽ bị bỏ qua trên cửa hàng."
+Link target,Đích liên kết
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","Liên kết “Xem tất cả” dẫn đến đâu — một danh mục, trang hoặc URL tùy chỉnh. Bộ sưu tập không có trang riêng, vì vậy hãy để trống để ẩn liên kết."
+"Optional. Defaults to ""View all N →"".",Tùy chọn. Mặc định là “Xem tất cả N →”.
+Whole country,Toàn quốc
+${count} selected,Đã chọn ${count}
+Select provinces,Chọn tỉnh/thành
+Used below 640 px. Falls back to the main image.,Dùng khi dưới 640 px. Nếu không có sẽ dùng ảnh chính.
+mobile,di động
+Webhook ID,ID webhook
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.","ID của webhook được tạo trong bảng điều khiển nhà phát triển PayPal, trỏ tới /api/paypal/webhook. Bật xác nhận thanh toán phía máy chủ."
+System Setting,Cài đặt hệ thống
+File storage and service credentials,Lưu trữ tệp và thông tin xác thực dịch vụ
+Pricing & Tax,Giá và thuế
+"Price rounding, tax calculation, classes & rates","Làm tròn giá, tính thuế, nhóm và thuế suất"
+Social sharing preview,Xem trước chia sẻ mạng xã hội
+Account menu,Menu tài khoản
+Grid columns.,Số cột lưới.
+Product listing and image settings,Cài đặt danh sách sản phẩm và hình ảnh
+Edit variant,Sửa biến thể
+Sold,Đã bán
+Not collected (zero-total order),Không thu thập (đơn hàng tổng bằng 0)
+All landing pages,Tất cả trang đích
+System setting saved,Đã lưu cài đặt hệ thống
+All ${attribute},Tất cả ${attribute}
+${count} of ${total},${count} trên ${total}
+No variants match the selected options.,Không có biến thể nào khớp với các tùy chọn đã chọn.
+This product has no other variants yet.,Sản phẩm này chưa có biến thể nào khác.
+Optional. Shown under the row heading.,Tùy chọn. Hiển thị dưới tiêu đề hàng.
+A short description for this row,Mô tả ngắn cho hàng này
+Product count,Số lượng sản phẩm
+Total products to show per collection.,Tổng số sản phẩm hiển thị cho mỗi bộ sưu tập.
+Shown above the products. The shelf renders nothing at all when no products qualify.,Hiển thị phía trên các sản phẩm. Kệ sẽ không hiển thị gì khi không có sản phẩm nào đủ điều kiện.
+e.g. You may also like,ví dụ: Có thể bạn cũng thích
+Products to show,Sản phẩm hiển thị
+Between 1 and 12 — 3 to 5 works best.,Từ 1 đến 12 — 3 đến 5 là tốt nhất.
+Product count is required,Số lượng sản phẩm là bắt buộc
+Nearest,Gần nhất
+Round up,Làm tròn lên
+Round down,Làm tròn xuống
+Line item,Dòng sản phẩm
+Per unit,Trên mỗi đơn vị
+Price rounding,Làm tròn giá
+How every monetary amount is rounded across the store.,Cách làm tròn mọi số tiền trên toàn cửa hàng.
+Pricing settings have been saved successfully!,Đã lưu cài đặt giá thành công!
+Rounding mode,Chế độ làm tròn
+The direction used when rounding prices to the decimal precision.,Hướng làm tròn giá đến độ chính xác thập phân.
+Decimal precision,Độ chính xác thập phân
+Number of decimal places prices are rounded to.,Số chữ số thập phân mà giá được làm tròn đến.
+Tax rounding mode,Chế độ làm tròn thuế
+The direction used when rounding the calculated tax amount.,Hướng làm tròn số tiền thuế đã tính.
+Tax decimal precision,Độ chính xác thập phân của thuế
+Number of decimal places the tax amount is rounded to.,Số chữ số thập phân mà số tiền thuế được làm tròn đến.
+Tax rounding level,Cấp làm tròn thuế
+"Where tax rounding is applied: per unit, per line, or on the order total.","Nơi áp dụng làm tròn thuế: trên mỗi đơn vị, mỗi dòng, hoặc trên tổng đơn hàng."
+Catalog prices include tax,Giá danh mục đã bao gồm thuế
+Enable when the product prices you enter already include tax.,Bật khi giá sản phẩm bạn nhập đã bao gồm thuế.
+Catalog settings have been saved successfully!,Đã lưu cài đặt danh mục thành công!
+Product listing,Danh sách sản phẩm
+Control how products appear in storefront listings.,Kiểm soát cách sản phẩm hiển thị trong danh sách cửa hàng.
+Show out of stock products,Hiển thị sản phẩm hết hàng
+"When enabled, products with no available stock stay visible on the storefront.","Khi bật, sản phẩm không còn tồn kho vẫn hiển thị trên cửa hàng."
+Products per page,Sản phẩm mỗi trang
+Number of products shown per page on category and collection listings.,Số sản phẩm hiển thị mỗi trang trong danh sách danh mục và bộ sưu tập.
+Product images,Hình ảnh sản phẩm
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","Kích thước mà hình ảnh sản phẩm của bạn được tạo. Giá trị này đặt tỷ lệ khung hình tham chiếu và độ phân giải tối đa dùng cho hình ảnh sản phẩm trên toàn cửa hàng — danh sách, giỏ hàng, thanh toán và trang sản phẩm. Mỗi vị trí sẽ vừa theo chiều rộng của nó và suy ra chiều cao từ tỷ lệ này."
+Original image width (px),Chiều rộng ảnh gốc (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.","Chiều rộng ảnh sản phẩm gốc của bạn. Khuyến nghị 1920px trở lên để tính năng phóng to trên trang sản phẩm vẫn sắc nét trên màn hình lớn, mật độ cao."
+Original image height (px),Chiều cao ảnh gốc (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,Chiều cao ảnh sản phẩm gốc của bạn. Chiều rộng ÷ chiều cao là tỷ lệ khung hình áp dụng cho mọi ảnh sản phẩm.
+Related products rules,Quy tắc sản phẩm liên quan
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,Áp dụng cho mọi sản phẩm trong danh mục này kế thừa quy tắc. Sản phẩm có ghi đè riêng sẽ không bị ảnh hưởng.
+Override the global rules for this category,Ghi đè quy tắc toàn cục cho danh mục này
+Overridden on this category,Đã ghi đè trên danh mục này
+Source: Global settings,Nguồn: Cài đặt toàn cục
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,Sản phẩm trong danh mục này tuân theo quy tắc sản phẩm liên quan toàn cục. Xem trước những gì người mua thấy từ màn hình chỉnh sửa của bất kỳ sản phẩm nào.
+Regional & Units,Khu vực và đơn vị
+Currency,Tiền tệ
+Default currency for new carts and price display. Existing orders keep their own currency.,Tiền tệ mặc định cho giỏ hàng mới và hiển thị giá. Đơn hàng hiện có giữ nguyên tiền tệ riêng.
+Timezone,Múi giờ
+Timezone used to display dates in the store.,Múi giờ dùng để hiển thị ngày trong cửa hàng.
+Weight unit,Đơn vị khối lượng
+Dimension unit,Đơn vị kích thước
+Branding,Thương hiệu
+"Your logo, favicon, and the image shown when your store is shared on social media.","Logo, favicon và hình ảnh hiển thị khi cửa hàng của bạn được chia sẻ trên mạng xã hội."
+Logo,Logo
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,Hiển thị ở phần đầu cửa hàng. Hãy dùng PNG độ phân giải cao với nền trong suốt — ảnh sẽ tự động co giãn theo giao diện và được phân phối dưới dạng WebP tối ưu.
+Favicon,Favicon
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,Biểu tượng nhỏ trên tab trình duyệt. Hãy tải lên ảnh PNG vuông tối thiểu 512×512px — các biểu tượng 16/32px và Apple touch icon 180px sẽ được tạo tự động.
+Social sharing image,Ảnh chia sẻ mạng xã hội
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","Bản xem trước hiển thị khi một trang được chia sẻ trên mạng xã hội (Open Graph / Twitter). Khuyến nghị 1200×630px (1.91:1), PNG hoặc JPG."
+Analytics,Phân tích
+Google Analytics 4 Measurement ID,ID đo lường Google Analytics 4
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Tìm trong Google Analytics tại Admin → Data Streams → luồng web của bạn. Để trống để tắt theo dõi.
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Nhập ID đo lường GA4 hợp lệ, ví dụ G-XXXXXXXXXX"
+Allow guest checkout,Cho phép thanh toán với tư cách khách
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Khi bật, người mua có thể đặt hàng mà không cần tài khoản. Khi tắt, họ phải đăng nhập hoặc đăng ký để thanh toán."
+Enable rule-based related products,Bật sản phẩm liên quan theo quy tắc
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,Các quy tắc lấp đầy các vị trí còn lại từ trên xuống (lựa chọn thủ công luôn đứng trước). Sắp xếp lại để thay đổi mức ưu tiên.
+Move rule up,Di chuyển quy tắc lên
+Move rule down,Di chuyển quy tắc xuống
+Match these attributes,Khớp các thuộc tính này
+No select-type attributes exist yet.,Chưa có thuộc tính kiểu lựa chọn nào.
+Within scope,Trong phạm vi
+Same category,Cùng danh mục
+Same collection,Cùng bộ sưu tập
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",Việc khớp thuộc tính luôn kết hợp với một phạm vi — “cùng màu” trên toàn danh mục sẽ liên kết những sản phẩm không liên quan.
+Only show products in a similar price range,Chỉ hiển thị sản phẩm trong khoảng giá tương tự
+Within ±,Trong khoảng ±
+% of the product price,% giá sản phẩm
+Fill remaining slots with bestsellers,Lấp đầy các vị trí còn lại bằng sản phẩm bán chạy
+Recompute failed,Tính lại thất bại
+Co-purchase statistics recomputed,Đã tính lại thống kê mua kèm
+Related products,Sản phẩm liên quan
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,Quy tắc cho kệ “Sản phẩm liên quan” trên trang sản phẩm. Danh mục và sản phẩm có thể ghi đè; lựa chọn thủ công trên một sản phẩm luôn đứng trước.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.","Kệ bán thêm dùng lại chính các quy tắc này, giới hạn ở những sản phẩm ĐẮT HƠN sản phẩm đang xem (với phần trăm khoảng giá làm mức trần khi được bật) — không lấp bằng sản phẩm bán chạy và không bán thêm cho sản phẩm đặt là “Chỉ lựa chọn thủ công”."
+Frequently bought together,Thường được mua cùng nhau
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.",Gợi ý dựa trên mua kèm chỉ được tin cậy khi vượt các ngưỡng này. Giá trị mặc định phù hợp với cửa hàng nhỏ — tăng lên đồng nghĩa với ít gợi ý hơn nhưng chắc chắn hơn.
+Min times bought together,Số lần tối thiểu mua cùng nhau
+A pair must co-occur in at least this many orders.,Một cặp phải cùng xuất hiện trong ít nhất bấy nhiêu đơn hàng.
+Min orders of the product,Số đơn hàng tối thiểu của sản phẩm
+Orders of a product before its data is trusted.,Số đơn hàng của một sản phẩm trước khi dữ liệu của nó được tin cậy.
+Min lift,Lift tối thiểu
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,Trên 1 = được mua cùng nhau nhiều hơn mức ngẫu nhiên. Lọc bỏ những sản phẩm bán chạy xuất hiện khắp nơi.
+Fill empty slots with bestsellers,Lấp các vị trí trống bằng sản phẩm bán chạy
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.","Dưới các ngưỡng, kệ sẽ hiển thị sản phẩm bán chạy của danh mục và cửa hàng thay vì không hiển thị gì."
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Dữ liệu mua kèm được tính lần cuối vào ${date} từ ${total} đơn hàng (${pairs} cặp sản phẩm).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Chưa có dữ liệu mua kèm — dữ liệu được tính mỗi đêm, hoặc tính lại ngay bây giờ."
+Recomputing…,Đang tính lại…
+Recompute now,Tính lại ngay
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","URL webhook của bạn phải là: https://yourdomain.com/api/stripe/webhook. Hãy bật các sự kiện này (hoặc “All events”): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Đã ẩn — cùng nhóm biến thể
+Hidden — disabled or out of stock,Đã ẩn — bị tắt hoặc hết hàng
+no orders yet — ranked newest first,chưa có đơn hàng — sắp xếp mới nhất trước
+Operation failed,Thao tác thất bại
+Add products,Thêm sản phẩm
+No manual picks yet.,Chưa có lựa chọn thủ công nào.
+(product unavailable),(sản phẩm không khả dụng)
+Overridden on this product,Đã ghi đè trên sản phẩm này
+Source: category,Nguồn: danh mục
+Could not pin the product,Không thể ghim sản phẩm
+Recommendations,Gợi ý
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,Những gì kệ “Sản phẩm liên quan” và “Thường được mua cùng nhau” hiển thị cho sản phẩm này. Kệ bán thêm được suy ra từ quy tắc sản phẩm liên quan (chỉ các kết quả đắt hơn) — không có gì để cấu hình ở đây.
+Rules,Quy tắc
+Inherit (category or global rules),Kế thừa (quy tắc danh mục hoặc toàn cục)
+Custom rules for this product,Quy tắc tùy chỉnh cho sản phẩm này
+Manual picks only,Chỉ lựa chọn thủ công
+Manual picks,Lựa chọn thủ công
+"Always shown first, in this order, before any rules fill the remaining slots.","Luôn hiển thị đầu tiên, theo thứ tự này, trước khi các quy tắc lấp đầy các vị trí còn lại."
+Shoppers will see,Người mua sẽ thấy
+Based on the last saved configuration.,Dựa trên cấu hình đã lưu gần nhất.
+Mode changed — save to update this preview.,Đã đổi chế độ — hãy lưu để cập nhật bản xem trước này.
+Shoppers will see no related products for this product with the current configuration.,"Với cấu hình hiện tại, người mua sẽ không thấy sản phẩm liên quan nào cho sản phẩm này."
+manual pick,lựa chọn thủ công
+bestseller fallback,dự phòng sản phẩm bán chạy
+Mode,Chế độ
+Automatic (co-purchase data),Tự động (dữ liệu mua kèm)
+"Manual picks first, auto-fill the rest","Lựa chọn thủ công trước, phần còn lại tự động lấp đầy"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,Chế độ và lựa chọn thủ công chỉ áp dụng cho biến thể này — hãy cấu hình các biến thể cùng nhóm giống nhau để có hành vi đồng nhất.
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,Lựa chọn thủ công bị bỏ qua ở chế độ Tự động — hãy chuyển sang “Thủ công trước” hoặc “Chỉ thủ công” để sử dụng.
+Computed from orders,Được tính từ đơn hàng
+${count} orders of this product · data from ${total} orders total,${count} đơn hàng của sản phẩm này · dữ liệu từ tổng cộng ${total} đơn hàng
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).","Chưa có dữ liệu mua kèm cho sản phẩm này — dữ liệu tích lũy khi có đơn hàng. Khi bật dự phòng, trong lúc đó kệ sẽ hiển thị sản phẩm bán chạy (xem bên dưới)."
+Together,Cùng nhau
+Confidence,Độ tin cậy
+Lift,Lift
+(unavailable),(không khả dụng)
+hidden,đã ẩn
+shown,đang hiển thị
+below threshold,dưới ngưỡng
+Pin,Ghim
+Shoppers will see (frequently bought together),Người mua sẽ thấy (thường được mua cùng nhau)
+Shoppers will see no frequently-bought-together products with the current configuration.,"Với cấu hình hiện tại, người mua sẽ không thấy sản phẩm thường được mua cùng nhau."
+co-purchase data,dữ liệu mua kèm
+category bestsellers (fallback),sản phẩm bán chạy của danh mục (dự phòng)
+store bestsellers (fallback),sản phẩm bán chạy của cửa hàng (dự phòng)
+Exclude this product from recommendations,Loại sản phẩm này khỏi gợi ý
+Never suggest this product alongside others,Không bao giờ gợi ý sản phẩm này cùng sản phẩm khác
+Enter a type or remove the row,Nhập một loại hoặc xóa hàng
+Use type/subtype (video/mp4) or a family (video/*),Dùng kiểu/kiểu con (video/mp4) hoặc một họ (video/*)
+MB,MB
+Enter a size,Nhập kích thước
+Enter a size greater than zero,Nhập kích thước lớn hơn 0
+Remove override,Xóa ghi đè
+Add type override,Thêm ghi đè theo loại
+Managed by configuration (config file or environment variable),Được quản lý bằng cấu hình (tệp cấu hình hoặc biến môi trường)
+File Storage & Uploads,Lưu trữ tệp và tải lên
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Nơi lưu trữ tệp đã tải lên (ảnh sản phẩm, banner, media), những loại nào được phép và dung lượng tối đa"
+Local file system,Hệ thống tệp cục bộ
+Amazon S3 / S3-compatible,Amazon S3 / tương thích S3
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,Bucket là bắt buộc
+Bucket name,Tên bucket
+Region,Khu vực
+Region is required,Khu vực là bắt buộc
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),"Với dịch vụ tương thích S3, hãy dùng giá trị của nhà cung cấp (ví dụ fsn1 cho Hetzner)"
+Access key ID,ID khóa truy cập
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.","Tạo khóa truy cập trong bảng điều khiển của nhà cung cấp lưu trữ. Với AWS: đăng nhập AWS Console, mở IAM → Users → người dùng của bạn → Security credentials → Create access key."
+Secret access key,Khóa truy cập bí mật
+"The secret is shown only once, when the access key is created — copy it from there.","Khóa bí mật chỉ hiển thị một lần, khi tạo khóa truy cập — hãy sao chép từ đó."
+Custom endpoint,Endpoint tùy chỉnh
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Chỉ dành cho dịch vụ tương thích S3 (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Để trống với AWS."
+Force path-style,Bắt buộc path-style
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","Bắt buộc với MinIO. Hãy tắt với AWS, Hetzner và R2."
+Public base URL,URL cơ sở công khai
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","CDN tùy chọn (ví dụ CloudFront) phục vụ bucket — cho phép bucket luôn ở chế độ riêng tư. Nếu không có, các đối tượng phải đọc được công khai qua bucket policy. Ví dụ: https://cdn.mystore.com hoặc https://d111abcdef8.cloudfront.net, một CloudFront distribution lấy bucket này làm origin. Tệp được phục vụ dưới dạng <URL này>/<đường dẫn tệp>, nên tên miền phải trỏ tới gốc bucket."
+Connection string,Chuỗi kết nối
+Connection string is required,Chuỗi kết nối là bắt buộc
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Sao chép từ cổng Azure: đăng nhập, mở tài khoản lưu trữ của bạn, rồi vào Security + networking → Access keys → Connection string."
+Container,Container
+Container access,Quyền truy cập container
+Private (recommended),Riêng tư (khuyến nghị)
+Public read for blobs,Đọc công khai cho blob
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",Đọc công khai yêu cầu bật “Allow blob anonymous access” trên tài khoản lưu trữ — mặc định bị chặn với tài khoản mới. Nên dùng container riêng tư kèm URL cơ sở công khai (CDN).
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).","CDN tùy chọn (ví dụ Azure CDN / Front Door) phục vụ container — cho phép container luôn riêng tư. Tệp được phục vụ dưới dạng <URL này>/<đường dẫn tệp> mà không thêm phân đoạn container, vì vậy hãy đặt origin path của CDN thành /<container> (ví dụ: https://mystore.azureedge.net) hoặc thêm container tại đây (ví dụ: https://mystore.azureedge.net/media)."
+Service account key,Khóa tài khoản dịch vụ
+Paste the entire content of the downloaded JSON key file,Dán toàn bộ nội dung của tệp khóa JSON đã tải xuống
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,Tạo khóa trong Google Cloud Console: IAM & Admin → Service Accounts → tạo hoặc chọn tài khoản có vai trò Storage Object Admin trên bucket → Keys → Add key → JSON. Dán toàn bộ tệp đã tải xuống vào đây.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Không có khóa? Nếu EverShop chạy trên máy chủ đã có quyền truy cập bucket — ví dụ vai trò AWS IAM, hoặc khóa AWS được đặt làm biến môi trường trên máy chủ — hãy để trống cả hai trường và thông tin xác thực của chính máy chủ sẽ được dùng tự động. Kết nối được kiểm tra khi bạn lưu, nên cấu hình sai hoặc thiếu sẽ không thể lưu được."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Không có khóa? Nếu EverShop chạy trên Google Cloud (Compute Engine, GKE, Cloud Run) với tài khoản dịch vụ được gắn kèm, hoặc biến môi trường GOOGLE_APPLICATION_CREDENTIALS đã được đặt trên máy chủ, hãy để trống trường này và thông tin xác thực của chính máy chủ sẽ được dùng tự động. Kết nối được kiểm tra khi bạn lưu, nên cấu hình sai hoặc thiếu sẽ không thể lưu được."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.","CDN tùy chọn (ví dụ Cloud CDN) phục vụ bucket — cho phép bucket luôn riêng tư. Nếu không có, các đối tượng phải đọc được công khai: cấp cho “allUsers” vai trò Storage Object Viewer trên bucket (bị chặn khi tổ chức của bạn áp dụng Public Access Prevention). Ví dụ: https://cdn.mystore.com, một tên miền load balancer có bucket này làm backend bucket."
+Local storage is not recommended for production,Không khuyến nghị dùng lưu trữ cục bộ cho môi trường production
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Tệp lưu trên máy chủ này có thể bị mất khi máy chủ được cập nhật, di chuyển hoặc gặp sự cố. Với cửa hàng đang hoạt động, hãy dùng S3 hoặc Azure Blob Storage."
+Upload rules,Quy tắc tải lên
+What can be uploaded and how big it can be — applies on every storage provider.,Những gì có thể tải lên và dung lượng tối đa — áp dụng cho mọi nhà cung cấp lưu trữ.
+Allowed file types,Loại tệp được phép
+Select at least one file type,Hãy chọn ít nhất một loại tệp
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,Tệp thuộc loại khác sẽ bị từ chối khi tải lên. SVG cố ý không được cung cấp — tệp SVG có thể chứa script và gây rủi ro bảo mật khi được phục vụ.
+Also allowed via server configuration: ${types},Cũng được phép qua cấu hình máy chủ: ${types}
+Maximum file size,Kích thước tệp tối đa
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","Trên mỗi tệp, tính bằng megabyte (MB). Để trống để dùng mặc định 10 MB. Áp dụng cho mọi lần tải lên trong bảng quản trị — ảnh sản phẩm, banner, media."
+Per-type overrides,Ghi đè theo loại
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",Ghi đè kích thước tối đa cho các loại tệp khớp — ví dụ giới hạn nhỏ hơn cho ảnh và lớn hơn cho video. Loại chính xác (video/mp4) được ưu tiên hơn một họ (video/*); những gì không khớp sẽ dùng kích thước tệp tối đa ở trên. Ghi đè không cho phép loại mới: bản thân loại tệp phải được bật trong “Loại tệp được phép”.

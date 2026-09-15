@@ -89,7 +89,6 @@ Buy qty,Количина куповине
 Buy qty is required,Количина куповине је обавезна
 Can not process payment. Please try again later.,Није могуће обрадити плаћање. Покушајте поново касније.
 Can't be undone,Не може се поништити
-Cancel,Откажи
 Cancel Order,Откажи поруџбину
 Cancel shipment,Откажи пошиљку
 Cancel this shipment?,Откажи ову пошиљку?
@@ -360,7 +359,6 @@ Page ${currentPage} of ${totalPages},Stranica ${currentPage} od ${totalPages}
 Page not found,Stranica nije pronađena
 Password is required,Lozinka je obavezna
 Password must be at least ${minLength} characters long,Lozinka mora imati najmanje ${minLength} znakova
-Paste a URL or a relative path starting with ,Nalepite URL ili relativnu putanju koja počinje sa 
 Pattern (regex),Šablon (regex)
 Pay with PayPal,Plati putem PayPal-a
 Pay with Stripe,Plati putem Stripe-a
@@ -655,7 +653,6 @@ Clear filter,Обриши филтер
 Clear filters,Обриши филтере
 Client ID,Client ID
 Client Secret,Client Secret
-Close,Затвори
 Close settings,Затвори подешавања
 Close — continue draft,Затвори — настави нацрт
 Cms Pages,CMS странице
@@ -1686,3 +1683,10 @@ A list of products from a collection,Листа производа из коле
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Поређани редови колекција, сваки са насловом, линком „прикажи све” и тракom производа."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Истакнута колекција са насловном сликом, уређивачким текстом и малом мрежом за преглед производа."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Издвајање једног производа — слика, назив, цена и линк ка целој страници производа."
+The page you're looking for doesn't exist or may have moved.,Stranica koju tražite ne postoji ili je možda premeštena.
+Back to home,Nazad na početnu
+Main menu,Glavni meni
+Close menu,Zatvori meni
+Open menu,Otvori meni
+Footer,Podnožje
+Go to slide ${n},Idi na slajd ${n}

@@ -86,7 +86,6 @@ Buy qty,किन्ने परिमाण
 Buy qty is required,किन्ने परिमाण आवश्यक छ
 Can not process payment. Please try again later.,भुक्तानी प्रक्रिया गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।
 Can't be undone,पूर्ववत् गर्न सकिँदैन
-Cancel,रद्द गर्नुहोस्
 Cancel Order,अर्डर रद्द गर्नुहोस्
 Cancel shipment,ढुवानी रद्द गर्नुहोस्
 Cancel this shipment?,यो ढुवानी रद्द गर्ने?
@@ -357,7 +356,6 @@ Page ${currentPage} of ${totalPages},${totalPages} मध्ये पृष्�
 Page not found,पृष्ठ फेला परेन
 Password is required,पासवर्ड आवश्यक छ
 Password must be at least ${minLength} characters long,पासवर्ड कम्तीमा ${minLength} वर्ण लामो हुनुपर्छ
-Paste a URL or a relative path starting with ,एउटा URL वा यसबाट सुरु हुने सापेक्ष पथ टाँस्नुहोस् 
 Pattern (regex),ढाँचा (regex)
 Pay with PayPal,PayPal बाट भुक्तानी गर्नुहोस्
 Pay with Stripe,Stripe बाट भुक्तानी गर्नुहोस्
@@ -652,7 +650,6 @@ Clear filter,फिल्टर खाली गर्नुहोस्
 Clear filters,फिल्टरहरू खाली गर्नुहोस्
 Client ID,Client ID
 Client Secret,Client Secret
-Close,बन्द गर्नुहोस्
 Close settings,सेटिङहरू बन्द गर्नुहोस्
 Close — continue draft,बन्द गर्नुहोस् — मस्यौदा जारी राख्नुहोस्
 Cms Pages,CMS पृष्ठहरू
@@ -1683,3 +1680,10 @@ A list of products from a collection,सङ्ग्रहका उत्पा
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","सङ्ग्रहहरूका थुप्रिएका पङ्क्तिहरू, प्रत्येकमा शीर्षक, सबै-हेर्नुहोस् लिङ्क, र उत्पादनहरूको पट्टी।"
 "A featured collection with cover image, editorial copy, and a small product preview grid.","कभर छवि, सम्पादकीय पाठ, र सानो उत्पादन पूर्वावलोकन ग्रिडसहितको विशेष सङ्ग्रह।"
 "A single-product spotlight — image, name, price, and a link to the full product page.","एकल-उत्पादन स्पटलाइट — छवि, नाम, मूल्य, र पूर्ण उत्पादन पृष्ठको लिङ्क।"
+The page you're looking for doesn't exist or may have moved.,तपाईंले खोज्नुभएको पृष्ठ अवस्थित छैन वा सारिएको हुन सक्छ।
+Back to home,गृहपृष्ठमा फर्कनुहोस्
+Main menu,मुख्य मेनु
+Close menu,मेनु बन्द गर्नुहोस्
+Open menu,मेनु खोल्नुहोस्
+Footer,फुटर
+Go to slide ${n},स्लाइड ${n} मा जानुहोस्
