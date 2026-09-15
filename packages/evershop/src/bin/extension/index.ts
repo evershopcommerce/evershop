@@ -4,7 +4,6 @@ import { CONSTANTS } from '../../lib/helpers.js';
 import { error, warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { isDevelopmentMode } from '../../lib/util/isDevelopmentMode.js';
-import { isProductionMode } from '../../lib/util/isProductionMode.js';
 import { Extension } from '../../types/extension.js';
 import { getCoreModules } from '../lib/loadModules.js';
 
@@ -33,7 +32,17 @@ function loadExtensions(): Extension[] {
       );
       return;
     }
-    if (isProductionMode() || extension.resolve.includes('node_modules')) {
+    // Not development → load the COMPILED extension. Previously guarded on
+    // `isProductionMode()`, which left the same gap the buildQuery middleware
+    // had (066ce0df): a local extension under any NODE_ENV that is neither
+    // 'development' nor 'production' — a test/e2e runner, or unset — matched
+    // neither this branch nor the development one below, and was dropped from
+    // the array with no warning and no error. Every route, page, migration,
+    // subscriber and bootstrap it owns simply did not exist; core's own routes
+    // still answered, so the app looked alive while every extension route 404'd.
+    // The two real modes are "webpack dev server" and "compiled build", so
+    // anything that is not development is the build.
+    if (!isDevelopmentMode() || extension.resolve.includes('node_modules')) {
       // Make sure the folder has 'dist' subdirectory
       if (!existsSync(resolve(extension.resolve, 'dist'))) {
         error(
