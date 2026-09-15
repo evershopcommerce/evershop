@@ -56,6 +56,15 @@ export default function CustomerInfo({
     billingAddress
   }
 }: CustomerInfoProps) {
+  // One key for the whole sentence: the order number sits mid-clause, so a translator
+  // must be able to move it (and localize the "#" prefix — № in ru, Nr. in de, n° in fr).
+  // `_()` leaves ${orderNumber} untouched (absent from the values), so we split on it to
+  // keep the number in its own emphasized <span>.
+  const confirmation = _(
+    'Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.',
+    { email: customerEmail }
+  );
+  const [confirmBefore, confirmAfter = ''] = confirmation.split('${orderNumber}');
   return (
     <div className="checkout-success-customer-info">
       <div className="text-center">
@@ -66,11 +75,9 @@ export default function CustomerInfo({
           {_('Thank you for your order!')}
         </h1>
         <p className="mt-2 text-muted-foreground">
-          {_('Order')}{' '}
-          <span className="font-medium text-foreground">#{orderNumber}</span>{' '}
-          {_('is confirmed. We’ve emailed a receipt to ${email}.', {
-            email: customerEmail
-          })}
+          {confirmBefore}
+          <span className="font-medium text-foreground">{orderNumber}</span>
+          {confirmAfter}
         </p>
       </div>
 

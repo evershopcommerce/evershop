@@ -88,7 +88,6 @@ Buy qty,Quantità da acquistare
 Buy qty is required,La quantità da acquistare è obbligatoria
 Can not process payment. Please try again later.,Impossibile elaborare il pagamento. Riprova più tardi.
 Can't be undone,Non può essere annullato
-Cancel,Annulla
 Cancel Order,Annulla ordine
 Cancel shipment,Annulla spedizione
 Cancel this shipment?,Annullare questa spedizione?
@@ -359,7 +358,6 @@ Page ${currentPage} of ${totalPages},Pagina ${currentPage} di ${totalPages}
 Page not found,Pagina non trovata
 Password is required,La password è obbligatoria
 Password must be at least ${minLength} characters long,La password deve avere almeno ${minLength} caratteri
-Paste a URL or a relative path starting with ,Incolla un URL o un percorso relativo che inizia con 
 Pattern (regex),Pattern (regex)
 Pay with PayPal,Paga con PayPal
 Pay with Stripe,Paga con Stripe
@@ -654,7 +652,6 @@ Clear filter,Cancella filtro
 Clear filters,Cancella filtri
 Client ID,Client ID
 Client Secret,Client Secret
-Close,Chiudi
 Close settings,Chiudi impostazioni
 Close — continue draft,Chiudi — continua bozza
 Cms Pages,Pagine CMS
@@ -1685,3 +1682,10 @@ A list of products from a collection,Un elenco di prodotti da una collezione
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Righe impilate di collezioni, ciascuna con un titolo, un link ""vedi tutto"" e una striscia di prodotti."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Una collezione in evidenza con immagine di copertina, testo editoriale e una piccola griglia di anteprima prodotti."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Un prodotto singolo in evidenza — immagine, nome, prezzo e un link alla pagina completa del prodotto."
+The page you're looking for doesn't exist or may have moved.,La pagina che stai cercando non esiste o potrebbe essere stata spostata.
+Back to home,Torna alla home
+Main menu,Menu principale
+Close menu,Chiudi il menu
+Open menu,Apri il menu
+Footer,Piè di pagina
+Go to slide ${n},Vai alla slide ${n}

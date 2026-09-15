@@ -30,7 +30,7 @@
 "No pages yet.","Még nincsenek oldalak."
 "No products match ""${query}"".","Nincs ""${query}"" kifejezésre illeszkedő termék."
 "No products yet.","Még nincsenek termékek."
-"Paste a URL or a relative path starting with ","Illesszen be egy URL-t vagy egy relatív elérési utat, amely a következővel kezdődik: "
+Paste a URL or a relative path starting with ,"Illesszen be egy URL-t vagy egy relatív elérési utat, amely a következővel kezdődik: "
 "Pick a CMS page to link to.","Válasszon egy CMS-oldalt, amelyre hivatkozni szeretne."
 "Pick a blog ${kind} to link to.","Válasszon egy blog ${kind} elemet, amelyre hivatkozni szeretne."
 "Pick a category to link to.","Válasszon egy kategóriát, amelyre hivatkozni szeretne."
@@ -76,10 +76,247 @@
 "Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Kész. A(z) ""${name}"" továbbra is a saját URL-jén van közzétéve. Most ${count} kezdőlap-biztonsági mentése van."
 "View backup","Biztonsági mentés megtekintése"
 "Open homepage in page builder","Kezdőlap megnyitása az oldalszerkesztőben"
-"Close","Bezárás"
-"Cancel","Mégse"
+Close,Bezárás
+Cancel,Mégse
 "Replace homepage","Kezdőlap cseréje"
 "Could not check the homepage.","A kezdőlap ellenőrzése nem sikerült."
 "The homepage could not be replaced.","A kezdőlap cseréje nem sikerült."
 "Include unpublished pages","Nem közzétett oldalak is"
 "This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Ez a widget ${count} adott oldalon is el van helyezve, amelyeket az oldalszerkesztő kezel. Azok az elhelyezések itt nem jelennek meg, és mentéskor nem változnak."
+Blog Home,Blog főoldal
+All posts,Összes bejegyzés
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Csak http(s), mailto, tel vagy relatív hivatkozások engedélyezettek — ezt a hivatkozást az áruház figyelmen kívül hagyja."
+Link target,Hivatkozás célja
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","Hová vezet az „Összes megtekintése” hivatkozás — kategória, oldal vagy egyéni URL. A kollekcióknak nincs saját oldaluk, ezért hagyja üresen a hivatkozás elrejtéséhez."
+"Optional. Defaults to ""View all N →"".",Nem kötelező. Alapértelmezés: „Összes megtekintése N →”.
+Whole country,Teljes ország
+${count} selected,${count} kiválasztva
+Select provinces,Tartományok kiválasztása
+Used below 640 px. Falls back to the main image.,640 px alatt használatos. Ennek hiányában a fő kép jelenik meg.
+mobile,mobil
+Webhook ID,Webhook azonosító
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.","A PayPal fejlesztői irányítópultján létrehozott webhook azonosítója, amely a /api/paypal/webhook címre mutat. Engedélyezi a kiszolgálóoldali fizetési visszaigazolást."
+System Setting,Rendszerbeállítások
+File storage and service credentials,Fájltárolás és szolgáltatás-hitelesítő adatok
+Pricing & Tax,Árazás és adó
+"Price rounding, tax calculation, classes & rates","Árkerekítés, adószámítás, osztályok és kulcsok"
+Social sharing preview,Közösségi megosztás előnézete
+Account menu,Fiók menü
+Grid columns.,Rácsoszlopok.
+Product listing and image settings,Terméklista- és képbeállítások
+Edit variant,Változat szerkesztése
+Sold,Eladva
+Not collected (zero-total order),Nincs bekérve (nulla végösszegű rendelés)
+All landing pages,Összes céloldal
+System setting saved,Rendszerbeállítás elmentve
+All ${attribute},Összes ${attribute}
+${count} of ${total},${count} / ${total}
+No variants match the selected options.,Egyetlen változat sem felel meg a kiválasztott beállításoknak.
+This product has no other variants yet.,Ennek a terméknek még nincs más változata.
+Optional. Shown under the row heading.,Nem kötelező. A sor címe alatt jelenik meg.
+A short description for this row,Rövid leírás ehhez a sorhoz
+Product count,Termékek száma
+Total products to show per collection.,Kollekciónként megjelenített termékek száma.
+Shown above the products. The shelf renders nothing at all when no products qualify.,"A termékek felett jelenik meg. A polc egyáltalán nem jelenik meg, ha egyetlen termék sem felel meg."
+e.g. You may also like,pl. Ezek is tetszhetnek
+Products to show,Megjelenítendő termékek
+Between 1 and 12 — 3 to 5 works best.,1 és 12 között — 3–5 működik a legjobban.
+Product count is required,A termékek számának megadása kötelező
+Nearest,Legközelebbi
+Round up,Felfelé kerekítés
+Round down,Lefelé kerekítés
+Line item,Tételsor
+Per unit,Egységenként
+Price rounding,Árkerekítés
+How every monetary amount is rounded across the store.,Hogyan kerekít az áruház minden pénzösszeget.
+Pricing settings have been saved successfully!,Az árazási beállítások sikeresen elmentve!
+Rounding mode,Kerekítési mód
+The direction used when rounding prices to the decimal precision.,A tizedesjegy-pontosságra kerekítés iránya az áraknál.
+Decimal precision,Tizedesjegyek
+Number of decimal places prices are rounded to.,Hány tizedesjegyre kereküljenek az árak.
+Tax rounding mode,Adókerekítési mód
+The direction used when rounding the calculated tax amount.,A kiszámított adóösszeg kerekítésének iránya.
+Tax decimal precision,Adó tizedesjegyei
+Number of decimal places the tax amount is rounded to.,Hány tizedesjegyre kereküljön az adóösszeg.
+Tax rounding level,Adókerekítés szintje
+"Where tax rounding is applied: per unit, per line, or on the order total.","Hol történjen az adókerekítés: egységenként, tételsoronként vagy a rendelés végösszegén."
+Catalog prices include tax,A katalógusárak tartalmazzák az adót
+Enable when the product prices you enter already include tax.,"Kapcsolja be, ha a megadott termékárak már tartalmazzák az adót."
+Catalog settings have been saved successfully!,A katalógusbeállítások sikeresen elmentve!
+Product listing,Terméklista
+Control how products appear in storefront listings.,"Szabályozza, hogyan jelenjenek meg a termékek az áruház listáiban."
+Show out of stock products,Elfogyott termékek megjelenítése
+"When enabled, products with no available stock stay visible on the storefront.",Bekapcsolva a készlet nélküli termékek is láthatók maradnak az áruházban.
+Products per page,Termékek oldalanként
+Number of products shown per page on category and collection listings.,A kategória- és kollekciólistákon oldalanként megjelenített termékek száma.
+Product images,Termékképek
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","Az a méret, amelyben a termékképei készülnek. Ez határozza meg a referencia-képarányt és a termékképek maximális felbontását az egész áruházban — listák, kosár, pénztár és termékoldalak. Minden elhelyezés a saját szélességéhez igazodik, a magasságot pedig ebből az arányból számítja."
+Original image width (px),Eredeti kép szélessége (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.","Az eredeti termékképek szélessége. 1920px vagy nagyobb ajánlott, hogy a termékoldal nagyítása éles maradjon nagy, nagy sűrűségű képernyőkön."
+Original image height (px),Eredeti kép magassága (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,"Az eredeti termékképek magassága. A szélesség ÷ magasság adja a képarányt, amelyet minden termékkép kap."
+Related products rules,Kapcsolódó termékek szabályai
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,"Minden olyan termékre vonatkozik ebben a kategóriában, amely örökli a szabályokat. A saját felülbírálással rendelkező termékeket nem érinti."
+Override the global rules for this category,A globális szabályok felülbírálása ennél a kategóriánál
+Overridden on this category,Ennél a kategóriánál felülbírálva
+Source: Global settings,Forrás: Globális beállítások
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,"Ebben a kategóriában a termékek a globális kapcsolódó-termék szabályokat követik. Bármely termék szerkesztőképernyőjén megtekintheti, mit látnak a vásárlók."
+Regional & Units,Régió és mértékegységek
+Currency,Pénznem
+Default currency for new carts and price display. Existing orders keep their own currency.,Alapértelmezett pénznem az új kosarakhoz és az árak megjelenítéséhez. A meglévő rendelések megtartják a saját pénznemüket.
+Timezone,Időzóna
+Timezone used to display dates in the store.,A dátumok megjelenítéséhez használt időzóna az áruházban.
+Weight unit,Tömegegység
+Dimension unit,Méretegység
+Branding,Arculat
+"Your logo, favicon, and the image shown when your store is shared on social media.","A logó, a favicon és az a kép, amely az áruház közösségi médiában való megosztásakor jelenik meg."
+Logo,Logó
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,"Az áruház fejlécében jelenik meg. Használjon nagy felbontású, átlátszó hátterű PNG-t — a rendszer automatikusan a sablonhoz igazítja és optimalizált WebP formátumban szolgálja ki."
+Favicon,Favicon
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,A böngészőfülek kis ikonja. Töltsön fel legalább 512×512px méretű négyzetes PNG-t — a 16/32px ikonok és a 180px Apple touch ikon automatikusan elkészülnek.
+Social sharing image,Közösségi megosztási kép
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","Az az előnézet, amely egy oldal közösségi médiában való megosztásakor jelenik meg (Open Graph / Twitter). Ajánlott: 1200×630px (1.91:1), PNG vagy JPG."
+Analytics,Analitika
+Google Analytics 4 Measurement ID,Google Analytics 4 mérési azonosító
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,A Google Analyticsben az Admin → Data Streams → a webes adatfolyam alatt található. Hagyja üresen a követés kikapcsolásához.
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Adjon meg érvényes GA4 mérési azonosítót, pl. G-XXXXXXXXXX"
+Allow guest checkout,Vendégként történő vásárlás engedélyezése
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",Bekapcsolva a vásárlók fiók nélkül is leadhatnak rendelést. Kikapcsolva be kell jelentkezniük vagy regisztrálniuk kell a fizetéshez.
+Enable rule-based related products,Szabályalapú kapcsolódó termékek engedélyezése
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,A szabályok fentről lefelé töltik ki a fennmaradó helyeket (a kézi választások mindig elöl állnak). Az átrendezéssel módosíthatja a sorrendet.
+Move rule up,Szabály mozgatása felfelé
+Move rule down,Szabály mozgatása lefelé
+Match these attributes,Ezek az attribútumok egyezzenek
+No select-type attributes exist yet.,Még nincsenek választólista típusú attribútumok.
+Within scope,Hatókörön belül
+Same category,Azonos kategória
+Same collection,Azonos kollekció
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",Az attribútum-egyeztetés mindig hatókörrel párosul — az „azonos szín” a teljes katalógusban egymáshoz nem illő termékeket kapcsolna össze.
+Only show products in a similar price range,Csak hasonló árkategóriájú termékek megjelenítése
+Within ±,±
+% of the product price,% a termék árából
+Fill remaining slots with bestsellers,A fennmaradó helyek feltöltése a legkelendőbb termékekkel
+Recompute failed,Az újraszámítás sikertelen
+Co-purchase statistics recomputed,Az együttvásárlási statisztikák újraszámítva
+Related products,Kapcsolódó termékek
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,A termékoldalak „Kapcsolódó termékek” polcának szabályai. A kategóriák és termékek felülbírálhatják őket; a terméken beállított kézi választások mindig elöl állnak.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.","Az Upsell polc ugyanezeket a szabályokat használja, a megtekintettnél DRÁGÁBB termékekre szűkítve (bekapcsolt állapotban az ársáv százaléka a felső korlát) — nincs feltöltés a legkelendőbb termékekkel, és nincs upsell a „Csak kézi választás” beállítású termékeknél."
+Frequently bought together,Gyakran vásárolják együtt
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.","Az együttvásárlási ajánlások csak e küszöbök felett számítanak megbízhatónak. Az alapértékek kis áruházakhoz valók — a növelésük kevesebb, de erősebb javaslatot jelent."
+Min times bought together,Együttvásárlások minimális száma
+A pair must co-occur in at least this many orders.,Egy termékpárnak legalább ennyi rendelésben együtt kell szerepelnie.
+Min orders of the product,A termék minimális rendelésszáma
+Orders of a product before its data is trusted.,"Hány rendelés kell egy termékhez, mielőtt az adatai megbízhatóvá válnak."
+Min lift,Minimális lift
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,1 felett = a véletlennél gyakrabban vásárolják együtt. Kiszűri a mindenütt jelen lévő slágertermékeket.
+Fill empty slots with bestsellers,Üres helyek feltöltése a legkelendőbb termékekkel
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.","A küszöbök alatt a polc a kategória és az áruház legkelendőbb termékeit mutatja ahelyett, hogy üres maradna."
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Az együttvásárlási adatok utoljára ${date} lettek kiszámítva ${total} rendelésből (${pairs} termékpár).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Még nincsenek együttvásárlási adatok — éjszakánként számítódnak ki, vagy számítsa újra most."
+Recomputing…,Újraszámítás…
+Recompute now,Újraszámítás most
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","A webhook URL-jének ennek kell lennie: https://yourdomain.com/api/stripe/webhook. Engedélyezze ezeket az eseményeket (vagy az „All events” lehetőséget): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Rejtett — azonos változatcsoport
+Hidden — disabled or out of stock,Rejtett — letiltva vagy elfogyott
+no orders yet — ranked newest first,még nincs rendelés — legújabbak elöl
+Operation failed,A művelet sikertelen
+Add products,Termékek hozzáadása
+No manual picks yet.,Még nincs kézi választás.
+(product unavailable),(a termék nem érhető el)
+Overridden on this product,Ennél a terméknél felülbírálva
+Source: category,Forrás: kategória
+Could not pin the product,A termék rögzítése nem sikerült
+Recommendations,Ajánlások
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,Amit a „Kapcsolódó termékek” és a „Gyakran vásárolják együtt” polcok mutatnak ehhez a termékhez. Az Upsell polc a kapcsolódó szabályokból származik (csak drágább találatok) — itt nincs mit beállítani.
+Rules,Szabályok
+Inherit (category or global rules),Öröklés (kategória- vagy globális szabályok)
+Custom rules for this product,Egyéni szabályok ehhez a termékhez
+Manual picks only,Csak kézi választás
+Manual picks,Kézi választás
+"Always shown first, in this order, before any rules fill the remaining slots.","Mindig elöl jelennek meg, ebben a sorrendben, mielőtt a szabályok kitöltenék a fennmaradó helyeket."
+Shoppers will see,A vásárlók ezt látják
+Based on the last saved configuration.,A legutóbb mentett beállítás alapján.
+Mode changed — save to update this preview.,A mód megváltozott — mentsen az előnézet frissítéséhez.
+Shoppers will see no related products for this product with the current configuration.,A jelenlegi beállítással a vásárlók nem látnak kapcsolódó terméket ehhez a termékhez.
+manual pick,kézi választás
+bestseller fallback,legkelendőbb termék tartalékként
+Mode,Mód
+Automatic (co-purchase data),Automatikus (együttvásárlási adatok)
+"Manual picks first, auto-fill the rest","Először a kézi választás, a többit automatikusan tölti fel"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,A mód és a kézi választás csak erre a változatra vonatkozik — a csoportszintű viselkedéshez állítsa be a testvérváltozatokat ugyanígy.
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,Automatikus módban a kézi választásokat figyelmen kívül hagyja a rendszer — váltson a „Kézi elöl” vagy „Csak kézi” módra a használatukhoz.
+Computed from orders,Rendelésekből számítva
+${count} orders of this product · data from ${total} orders total,${count} rendelés ebből a termékből · adatok összesen ${total} rendelésből
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).",Ehhez a termékhez még nincsenek együttvásárlási adatok — a beérkező rendelésekkel gyűlnek. Bekapcsolt tartalékkal a polc addig a legkelendőbb termékeket mutatja (lásd alább).
+Together,Együtt
+Confidence,Megbízhatóság
+Lift,Lift
+(unavailable),(nem érhető el)
+hidden,rejtett
+shown,megjelenítve
+below threshold,küszöb alatt
+Pin,Rögzítés
+Shoppers will see (frequently bought together),A vásárlók ezt látják (gyakran vásárolják együtt)
+Shoppers will see no frequently-bought-together products with the current configuration.,A jelenlegi beállítással a vásárlók nem látnak gyakran együtt vásárolt termékeket.
+co-purchase data,együttvásárlási adatok
+category bestsellers (fallback),kategória legkelendőbb termékei (tartalék)
+store bestsellers (fallback),áruház legkelendőbb termékei (tartalék)
+Exclude this product from recommendations,A termék kizárása az ajánlásokból
+Never suggest this product alongside others,Soha ne ajánlja ezt a terméket mások mellett
+Enter a type or remove the row,"Adjon meg típust, vagy távolítsa el a sort"
+Use type/subtype (video/mp4) or a family (video/*),Használjon típus/altípus (video/mp4) vagy család (video/*) formát
+MB,MB
+Enter a size,Adjon meg egy méretet
+Enter a size greater than zero,Adjon meg nullánál nagyobb méretet
+Remove override,Felülbírálás eltávolítása
+Add type override,Típusfelülbírálás hozzáadása
+Managed by configuration (config file or environment variable),Konfiguráción keresztül kezelve (konfigurációs fájl vagy környezeti változó)
+File Storage & Uploads,Fájltárolás és feltöltések
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Hol tárolódnak a feltöltött fájlok (termékképek, bannerek, média), mely típusok engedélyezettek és mekkorák lehetnek"
+Local file system,Helyi fájlrendszer
+Amazon S3 / S3-compatible,Amazon S3 / S3-kompatibilis
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,A bucket megadása kötelező
+Bucket name,Bucket neve
+Region,Régió
+Region is required,A régió megadása kötelező
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),S3-kompatibilis szolgáltatásoknál a szolgáltató értékét használja (pl. fsn1 a Hetznernél)
+Access key ID,Hozzáférési kulcs azonosítója
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.","Hozzon létre hozzáférési kulcsot a tárolószolgáltató konzoljában. AWS esetén: jelentkezzen be az AWS Console-ba, majd nyissa meg az IAM → Users → az Ön felhasználója → Security credentials → Create access key menüpontot."
+Secret access key,Titkos hozzáférési kulcs
+"The secret is shown only once, when the access key is created — copy it from there.","A titkos kulcs csak egyszer jelenik meg, a hozzáférési kulcs létrehozásakor — onnan másolja ki."
+Custom endpoint,Egyéni végpont
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Csak S3-kompatibilis szolgáltatásokhoz (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). AWS esetén hagyja üresen."
+Force path-style,Path-style kényszerítése
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","A MinIO igényli. AWS, Hetzner és R2 esetén hagyja kikapcsolva."
+Public base URL,Nyilvános alap-URL
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","Opcionális CDN (pl. CloudFront), amely a bucketet szolgálja ki — így a bucket privát maradhat. Enélkül az objektumoknak bucket policy útján nyilvánosan olvashatónak kell lenniük. Példa: https://cdn.mystore.com vagy https://d111abcdef8.cloudfront.net, egy CloudFront-disztribúció ezzel a buckettel mint origóval. A fájlok <ez az URL>/<fájlútvonal> formában érhetők el, ezért a domainnek a bucket gyökerére kell mutatnia."
+Connection string,Kapcsolati karakterlánc
+Connection string is required,A kapcsolati karakterlánc megadása kötelező
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Másolja ki az Azure portálról: jelentkezzen be, nyissa meg a tárfiókját, majd Security + networking → Access keys → Connection string."
+Container,Tároló
+Container access,Tároló hozzáférése
+Private (recommended),Privát (ajánlott)
+Public read for blobs,Nyilvános olvasás blobokhoz
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",A nyilvános olvasáshoz az „Allow blob anonymous access” beállítás szükséges a tárfiókon — új fiókoknál alapértelmezés szerint tiltott. Javasolt privát tárolót használni nyilvános alap-URL-lel (CDN).
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).","Opcionális CDN (pl. Azure CDN / Front Door), amely a tárolót szolgálja ki — így a tároló privát maradhat. A fájlok <ez az URL>/<fájlútvonal> formában érhetők el, tárolószegmens hozzáadása nélkül, ezért vagy állítsa a CDN origin útvonalát /<container> értékre (példa: https://mystore.azureedge.net), vagy itt adja meg a tárolót (példa: https://mystore.azureedge.net/media)."
+Service account key,Szolgáltatásfiók-kulcs
+Paste the entire content of the downloaded JSON key file,Illessze be a letöltött JSON kulcsfájl teljes tartalmát
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,"Hozzon létre kulcsot a Google Cloud Console-ban: IAM & Admin → Service Accounts → hozzon létre vagy válasszon fiókot, amely Storage Object Admin szereppel rendelkezik a buckethez → Keys → Add key → JSON. A letöltött fájl teljes tartalmát illessze be ide."
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Nincs kulcsa? Ha az EverShop olyan kiszolgálón fut, amely már hozzáfér a buckethez — például AWS IAM-szerepkörrel, vagy a kiszolgálón környezeti változóként beállított AWS-kulcsokkal — hagyja üresen mindkét mezőt, és a rendszer automatikusan a kiszolgáló saját hitelesítő adatait használja. A kapcsolatot mentéskor teszteli a rendszer, így hibás vagy hiányzó beállítás nem menthető."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Nincs kulcsa? Ha az EverShop a Google Cloudban fut (Compute Engine, GKE, Cloud Run) csatolt szolgáltatásfiókkal, vagy a GOOGLE_APPLICATION_CREDENTIALS környezeti változó be van állítva a kiszolgálón, hagyja üresen ezt a mezőt, és a rendszer automatikusan a kiszolgáló saját hitelesítő adatait használja. A kapcsolatot mentéskor teszteli a rendszer, így hibás vagy hiányzó beállítás nem menthető."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.","Opcionális CDN (pl. Cloud CDN), amely a bucketet szolgálja ki — így a bucket privát maradhat. Enélkül az objektumoknak nyilvánosan olvashatónak kell lenniük: adja meg az „allUsers” számára a Storage Object Viewer szerepkört a buckethez (tiltott, ha a szervezetében kötelező a Public Access Prevention). Példa: https://cdn.mystore.com, egy terheléselosztó domain, amelynek backend bucketje ez a bucket."
+Local storage is not recommended for production,A helyi tárolás éles környezetben nem ajánlott
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Az ezen a kiszolgálón tárolt fájlok elveszhetnek frissítéskor, áthelyezéskor vagy meghibásodáskor. Éles áruházhoz használjon inkább S3-at vagy Azure Blob Storage-ot."
+Upload rules,Feltöltési szabályok
+What can be uploaded and how big it can be — applies on every storage provider.,Mi tölthető fel és mekkora méretben — minden tárolószolgáltatóra érvényes.
+Allowed file types,Engedélyezett fájltípusok
+Select at least one file type,Válasszon legalább egy fájltípust
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,"A más típusú fájlokat a rendszer feltöltéskor elutasítja. Az SVG szándékosan nem választható — az SVG-fájlok szkripteket tartalmazhatnak, és kiszolgálásuk biztonsági kockázatot jelent."
+Also allowed via server configuration: ${types},A kiszolgáló konfigurációján keresztül is engedélyezett: ${types}
+Maximum file size,Maximális fájlméret
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","Fájlonként, megabájtban (MB). Hagyja üresen az alapértelmezett 10 MB-hoz. Minden feltöltésre vonatkozik az adminfelületen — termékképek, bannerek, média."
+Per-type overrides,Típusonkénti felülbírálások
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Felülbírálja a maximális méretet az illeszkedő fájltípusokra — például kisebb korlát képekre, nagyobb videókra. A pontos típus (video/mp4) megelőzi a családot (video/*); ami nem illeszkedik, a fenti maximális fájlméretet használja. A felülbírálások nem engedélyeznek új típusokat: magát a fájltípust engedélyezni kell az „Engedélyezett fájltípusok” között."

@@ -86,7 +86,6 @@ Buy qty,Худалдан авах тоо
 Buy qty is required,Худалдан авах тоо шаардлагатай
 Can not process payment. Please try again later.,Төлбөрийг боловсруулж чадсангүй. Дараа дахин оролдоно уу.
 Can't be undone,Буцаах боломжгүй
-Cancel,Цуцлах
 Cancel Order,Захиалга цуцлах
 Cancel shipment,Хүргэлт цуцлах
 Cancel this shipment?,Энэ хүргэлтийг цуцлах уу?
@@ -357,7 +356,6 @@ Page ${currentPage} of ${totalPages},${totalPages}-аас ${currentPage} дах�
 Page not found,Хуудас олдсонгүй
 Password is required,Нууц үг оруулах шаардлагатай
 Password must be at least ${minLength} characters long,Нууц үг хамгийн багадаа ${minLength} тэмдэгт байх ёстой
-Paste a URL or a relative path starting with ,URL эсвэл -ээр эхэлсэн харьцангуй замыг буулгана уу 
 Pattern (regex),Загвар (regex)
 Pay with PayPal,PayPal-аар төлөх
 Pay with Stripe,Stripe-аар төлөх
@@ -652,7 +650,6 @@ Clear filter,Шүүлтүүр цэвэрлэх
 Clear filters,Шүүлтүүрүүд цэвэрлэх
 Client ID,Client ID
 Client Secret,Client Secret
-Close,Хаах
 Close settings,Тохиргоог хаах
 Close — continue draft,Хаах — ноорогийг үргэлжлүүлэх
 Cms Pages,CMS хуудсууд
@@ -1683,3 +1680,10 @@ A list of products from a collection,Цуглуулгын бүтээгдэхүү
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Гарчиг, бүгдийг үзэх холбоос болон бүтээгдэхүүний зурвас бүхий цуглуулгуудын овоолсон эгнээнүүд."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Нүүр зураг, редакцийн бичвэр болон бүтээгдэхүүний жижиг урьдчилан үзэх тор бүхий онцлох цуглуулга."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Нэг бүтээгдэхүүний онцлол — зураг, нэр, үнэ болон бүтээгдэхүүний бүрэн хуудас руу холбоос."
+The page you're looking for doesn't exist or may have moved.,Таны хайж буй хуудас байхгүй эсвэл зөөгдсөн байна.
+Back to home,Нүүр хуудас руу буцах
+Main menu,Үндсэн цэс
+Close menu,Цэсийг хаах
+Open menu,Цэсийг нээх
+Footer,Хөл хэсэг
+Go to slide ${n},${n}-р слайд руу очих

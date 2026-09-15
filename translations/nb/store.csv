@@ -86,7 +86,6 @@ Buy qty,Kjøpsantall
 Buy qty is required,Kjøpsantall er påkrevd
 Can not process payment. Please try again later.,Kan ikke behandle betalingen. Prøv igjen senere.
 Can't be undone,Kan ikke angres
-Cancel,Avbryt
 Cancel Order,Avbryt bestilling
 Cancel shipment,Avbryt forsendelse
 Cancel this shipment?,Avbryte denne forsendelsen?
@@ -357,7 +356,6 @@ Page ${currentPage} of ${totalPages},Side ${currentPage} av ${totalPages}
 Page not found,Siden ble ikke funnet
 Password is required,Passord er påkrevd
 Password must be at least ${minLength} characters long,Passordet må være minst ${minLength} tegn langt
-Paste a URL or a relative path starting with ,Lim inn en URL eller en relativ sti som starter med 
 Pattern (regex),Mønster (regex)
 Pay with PayPal,Betal med PayPal
 Pay with Stripe,Betal med Stripe
@@ -652,7 +650,6 @@ Clear filter,Tøm filter
 Clear filters,Tøm filtre
 Client ID,Klient-ID
 Client Secret,Klienthemmelighet
-Close,Lukk
 Close settings,Lukk innstillinger
 Close — continue draft,Lukk — fortsett utkast
 Cms Pages,CMS-sider
@@ -1683,3 +1680,10 @@ A list of products from a collection,En liste over produkter fra en samling
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Stablede rader med samlinger, hver med en overskrift, vis alle-lenke og en stripe med produkter."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","En fremhevet samling med omslagsbilde, redaksjonell tekst og et lite rutenett med produktforhåndsvisning."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Et enkeltprodukt i søkelyset — bilde, navn, pris og en lenke til hele produktsiden."
+The page you're looking for doesn't exist or may have moved.,"Siden du leter etter finnes ikke, eller den kan ha blitt flyttet."
+Back to home,Tilbake til forsiden
+Main menu,Hovedmeny
+Close menu,Lukk menyen
+Open menu,Åpne menyen
+Footer,Bunntekst
+Go to slide ${n},Gå til lysbilde ${n}

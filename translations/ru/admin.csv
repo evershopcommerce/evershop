@@ -30,7 +30,7 @@
 "No pages yet.","Пока нет страниц."
 "No products match ""${query}"".","Нет товаров по запросу ""${query}""."
 "No products yet.","Пока нет товаров."
-"Paste a URL or a relative path starting with ","Вставьте URL или относительный путь, начинающийся с "
+Paste a URL or a relative path starting with ,"Вставьте URL или относительный путь, начинающийся с "
 "Pick a CMS page to link to.","Выберите CMS-страницу для ссылки."
 "Pick a blog ${kind} to link to.","Выберите ${kind} блога для ссылки."
 "Pick a category to link to.","Выберите категорию для ссылки."
@@ -76,10 +76,247 @@
 "Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Готово. ""${name}"" по-прежнему опубликована по своему URL. Теперь у вас ${count} резервная(ых) копия(ий) главной страницы."
 "View backup","Посмотреть резервную копию"
 "Open homepage in page builder","Открыть главную страницу в конструкторе страниц"
-"Close","Закрыть"
-"Cancel","Отмена"
+Close,Закрыть
+Cancel,Отмена
 "Replace homepage","Заменить главную страницу"
 "Could not check the homepage.","Не удалось проверить главную страницу."
 "The homepage could not be replaced.","Не удалось заменить главную страницу."
 "Include unpublished pages","Включить неопубликованные страницы"
 "This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Этот виджет также размещён на ${count} конкретной(ых) странице(ах), управляемых в конструкторе страниц. Эти размещения здесь не показаны и при сохранении не изменяются."
+Blog Home,Главная блога
+All posts,Все записи
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Разрешены только ссылки http(s), mailto, tel или относительные — эта ссылка будет проигнорирована в магазине."
+Link target,Цель ссылки
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","Куда ведёт ссылка «Показать все» — категория, страница или произвольный URL. У коллекций нет собственной страницы, поэтому оставьте поле пустым, чтобы скрыть ссылку."
+"Optional. Defaults to ""View all N →"".",Необязательно. По умолчанию «Показать все N →».
+Whole country,Вся страна
+${count} selected,Выбрано: ${count}
+Select provinces,Выбрать регионы
+Used below 640 px. Falls back to the main image.,Используется при ширине менее 640 px. Иначе берётся основное изображение.
+mobile,мобильный
+Webhook ID,ID вебхука
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.","ID вебхука, созданного в панели разработчика PayPal и указывающего на /api/paypal/webhook. Включает подтверждение платежа на стороне сервера."
+System Setting,Системные настройки
+File storage and service credentials,Хранилище файлов и учётные данные сервисов
+Pricing & Tax,Цены и налоги
+"Price rounding, tax calculation, classes & rates","Округление цен, расчёт налога, классы и ставки"
+Social sharing preview,Предпросмотр для соцсетей
+Account menu,Меню аккаунта
+Grid columns.,Колонки сетки.
+Product listing and image settings,Настройки списка товаров и изображений
+Edit variant,Изменить вариант
+Sold,Продано
+Not collected (zero-total order),Не собрано (заказ с нулевой суммой)
+All landing pages,Все целевые страницы
+System setting saved,Системная настройка сохранена
+All ${attribute},Все: ${attribute}
+${count} of ${total},${count} из ${total}
+No variants match the selected options.,"Нет вариантов, соответствующих выбранным параметрам."
+This product has no other variants yet.,У этого товара пока нет других вариантов.
+Optional. Shown under the row heading.,Необязательно. Отображается под заголовком строки.
+A short description for this row,Краткое описание этой строки
+Product count,Количество товаров
+Total products to show per collection.,Сколько товаров показывать в каждой коллекции.
+Shown above the products. The shelf renders nothing at all when no products qualify.,"Отображается над товарами. Блок не отображается вовсе, если подходящих товаров нет."
+e.g. You may also like,например: Вам также может понравиться
+Products to show,Сколько товаров показывать
+Between 1 and 12 — 3 to 5 works best.,От 1 до 12 — лучше всего от 3 до 5.
+Product count is required,Количество товаров обязательно
+Nearest,До ближайшего
+Round up,В большую сторону
+Round down,В меньшую сторону
+Line item,Строка заказа
+Per unit,За единицу
+Price rounding,Округление цен
+How every monetary amount is rounded across the store.,Как округляется каждая денежная сумма в магазине.
+Pricing settings have been saved successfully!,Настройки цен успешно сохранены!
+Rounding mode,Режим округления
+The direction used when rounding prices to the decimal precision.,Направление округления цен до заданной точности.
+Decimal precision,Точность (знаков после запятой)
+Number of decimal places prices are rounded to.,До скольких знаков после запятой округлять цены.
+Tax rounding mode,Режим округления налога
+The direction used when rounding the calculated tax amount.,Направление округления рассчитанной суммы налога.
+Tax decimal precision,Точность налога (знаков после запятой)
+Number of decimal places the tax amount is rounded to.,До скольких знаков после запятой округлять сумму налога.
+Tax rounding level,Уровень округления налога
+"Where tax rounding is applied: per unit, per line, or on the order total.","Где применяется округление налога: за единицу, по строке или к итогу заказа."
+Catalog prices include tax,Цены каталога включают налог
+Enable when the product prices you enter already include tax.,"Включите, если вводимые цены товаров уже содержат налог."
+Catalog settings have been saved successfully!,Настройки каталога успешно сохранены!
+Product listing,Список товаров
+Control how products appear in storefront listings.,"Управляйте тем, как товары отображаются в списках магазина."
+Show out of stock products,Показывать товары не в наличии
+"When enabled, products with no available stock stay visible on the storefront.","Если включено, товары без доступного остатка остаются видимыми в магазине."
+Products per page,Товаров на странице
+Number of products shown per page on category and collection listings.,Сколько товаров показывать на странице в списках категорий и коллекций.
+Product images,Изображения товара
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","Размер, в котором создаются изображения товаров. Он задаёт эталонное соотношение сторон и максимальное разрешение для изображений товаров по всему магазину — списки, корзина, оформление заказа и страницы товаров. Каждое место подгоняется по своей ширине и вычисляет высоту из этого соотношения."
+Original image width (px),Ширина исходного изображения (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.","Ширина исходных изображений товаров. Рекомендуется 1920px или больше, чтобы зум на странице товара оставался чётким на больших экранах высокой плотности."
+Original image height (px),Высота исходного изображения (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,"Высота исходных изображений товаров. Ширина ÷ высота — это соотношение сторон, применяемое к каждому изображению товара."
+Related products rules,Правила похожих товаров
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,"Применяется ко всем товарам этой категории, которые наследуют правила. Товары с собственным переопределением не затрагиваются."
+Override the global rules for this category,Переопределить глобальные правила для этой категории
+Overridden on this category,Переопределено для этой категории
+Source: Global settings,Источник: глобальные настройки
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,"Товары этой категории следуют глобальным правилам похожих товаров. Посмотреть, что видят покупатели, можно на экране редактирования любого товара."
+Regional & Units,Регион и единицы
+Currency,Валюта
+Default currency for new carts and price display. Existing orders keep their own currency.,Валюта по умолчанию для новых корзин и отображения цен. Существующие заказы сохраняют свою валюту.
+Timezone,Часовой пояс
+Timezone used to display dates in the store.,Часовой пояс для отображения дат в магазине.
+Weight unit,Единица веса
+Dimension unit,Единица измерения размеров
+Branding,Брендинг
+"Your logo, favicon, and the image shown when your store is shared on social media.","Ваш логотип, фавикон и изображение, которое показывается при публикации магазина в соцсетях."
+Logo,Логотип
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,Отображается в шапке магазина. Используйте PNG высокого разрешения с прозрачным фоном — он автоматически масштабируется под вашу тему и отдаётся как оптимизированный WebP.
+Favicon,Фавикон
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,Маленький значок на вкладках браузера. Загрузите квадратный PNG не менее 512×512px — значки 16/32px и Apple touch icon 180px создаются автоматически.
+Social sharing image,Изображение для соцсетей
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","Превью, показываемое при публикации страницы в соцсетях (Open Graph / Twitter). Рекомендуется 1200×630px (1.91:1), PNG или JPG."
+Analytics,Аналитика
+Google Analytics 4 Measurement ID,Идентификатор потока Google Analytics 4
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,"Находится в Google Analytics в разделе Admin → Data Streams → ваш веб-поток. Оставьте пустым, чтобы отключить отслеживание."
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Введите корректный идентификатор GA4, например G-XXXXXXXXXX"
+Allow guest checkout,Разрешить оформление без регистрации
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Если включено, покупатели могут оформить заказ без аккаунта. Если отключено, для оформления нужно войти или зарегистрироваться."
+Enable rule-based related products,Включить похожие товары по правилам
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,"Правила заполняют оставшиеся места сверху вниз (ручной выбор всегда идёт первым). Измените порядок, чтобы изменить приоритет."
+Move rule up,Переместить правило вверх
+Move rule down,Переместить правило вниз
+Match these attributes,Сопоставлять эти атрибуты
+No select-type attributes exist yet.,Атрибутов типа «список» пока нет.
+Within scope,В пределах области
+Same category,Та же категория
+Same collection,Та же коллекция
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",Сопоставление атрибутов всегда сочетается с областью — «тот же цвет» по всему каталогу связал бы несвязанные товары.
+Only show products in a similar price range,Показывать только товары в схожем ценовом диапазоне
+Within ±,В пределах ±
+% of the product price,% от цены товара
+Fill remaining slots with bestsellers,Заполнять оставшиеся места хитами продаж
+Recompute failed,Не удалось пересчитать
+Co-purchase statistics recomputed,Статистика совместных покупок пересчитана
+Related products,Похожие товары
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,Правила для блока «Похожие товары» на страницах товаров. Категории и товары могут их переопределить; ручной выбор у товара всегда идёт первым.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.","Блок допродажи использует те же правила, ограниченные товарами ДОРОЖЕ просматриваемого (с процентом ценового диапазона как верхней границей, если включено) — без заполнения хитами продаж и без допродажи для товаров с режимом «Только ручной выбор»."
+Frequently bought together,Часто покупают вместе
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.","Рекомендации на основе совместных покупок считаются надёжными только выше этих порогов. Значения по умолчанию подходят небольшим магазинам — повышение даёт меньше, но более уверенных предложений."
+Min times bought together,Минимум совместных покупок
+A pair must co-occur in at least this many orders.,Пара должна встречаться вместе хотя бы в стольких заказах.
+Min orders of the product,Минимум заказов товара
+Orders of a product before its data is trusted.,"Сколько заказов товара нужно, прежде чем его данным можно доверять."
+Min lift,Минимальный lift
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,"Больше 1 = покупают вместе чаще, чем случайно. Отсеивает вездесущие хиты продаж."
+Fill empty slots with bestsellers,Заполнять пустые места хитами продаж
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.","Ниже порогов блок показывает хиты продаж категории и магазина вместо того, чтобы остаться пустым."
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Данные о совместных покупках последний раз рассчитаны ${date} по ${total} заказам (${pairs} пар товаров).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Данных о совместных покупках пока нет — они рассчитываются каждую ночь, либо пересчитайте сейчас."
+Recomputing…,Пересчёт…
+Recompute now,Пересчитать сейчас
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","URL вашего вебхука должен быть: https://yourdomain.com/api/stripe/webhook. Включите эти события (или «All events»): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Скрыто — та же группа вариантов
+Hidden — disabled or out of stock,Скрыто — отключено или нет в наличии
+no orders yet — ranked newest first,заказов пока нет — сортировка от новых
+Operation failed,Операция не выполнена
+Add products,Добавить товары
+No manual picks yet.,Ручных выборов пока нет.
+(product unavailable),(товар недоступен)
+Overridden on this product,Переопределено для этого товара
+Source: category,Источник: категория
+Could not pin the product,Не удалось закрепить товар
+Recommendations,Рекомендации
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,Что показывают блоки «Похожие товары» и «Часто покупают вместе» для этого товара. Блок допродажи выводится из правил похожих товаров (только более дорогие совпадения) — здесь настраивать нечего.
+Rules,Правила
+Inherit (category or global rules),Наследовать (правила категории или глобальные)
+Custom rules for this product,Собственные правила для этого товара
+Manual picks only,Только ручной выбор
+Manual picks,Ручной выбор
+"Always shown first, in this order, before any rules fill the remaining slots.","Всегда показываются первыми, в этом порядке, прежде чем правила заполнят оставшиеся места."
+Shoppers will see,Покупатели увидят
+Based on the last saved configuration.,На основе последней сохранённой конфигурации.
+Mode changed — save to update this preview.,"Режим изменён — сохраните, чтобы обновить этот предпросмотр."
+Shoppers will see no related products for this product with the current configuration.,При текущей конфигурации покупатели не увидят похожих товаров для этого товара.
+manual pick,ручной выбор
+bestseller fallback,запасной вариант — хиты продаж
+Mode,Режим
+Automatic (co-purchase data),Автоматически (данные совместных покупок)
+"Manual picks first, auto-fill the rest","Сначала ручной выбор, остальное заполняется автоматически"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,"Режим и ручной выбор применяются только к этому варианту — настройте соседние варианты одинаково, чтобы поведение было общим для группы."
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,"В автоматическом режиме ручной выбор игнорируется — переключитесь на «Сначала ручные» или «Только ручные», чтобы использовать его."
+Computed from orders,Рассчитано по заказам
+${count} orders of this product · data from ${total} orders total,${count} заказов этого товара · данные из ${total} заказов всего
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).",Данных о совместных покупках для этого товара пока нет — они накапливаются по мере поступления заказов. При включённом запасном варианте блок тем временем показывает хиты продаж (см. ниже).
+Together,Вместе
+Confidence,Доверие
+Lift,Lift
+(unavailable),(недоступно)
+hidden,скрыто
+shown,показано
+below threshold,ниже порога
+Pin,Закрепить
+Shoppers will see (frequently bought together),Покупатели увидят (часто покупают вместе)
+Shoppers will see no frequently-bought-together products with the current configuration.,"При текущей конфигурации покупатели не увидят товаров, которые часто покупают вместе."
+co-purchase data,данные совместных покупок
+category bestsellers (fallback),хиты продаж категории (запасной вариант)
+store bestsellers (fallback),хиты продаж магазина (запасной вариант)
+Exclude this product from recommendations,Исключить этот товар из рекомендаций
+Never suggest this product alongside others,Никогда не предлагать этот товар вместе с другими
+Enter a type or remove the row,Укажите тип или удалите строку
+Use type/subtype (video/mp4) or a family (video/*),Используйте тип/подтип (video/mp4) или семейство (video/*)
+MB,МБ
+Enter a size,Укажите размер
+Enter a size greater than zero,Укажите размер больше нуля
+Remove override,Удалить переопределение
+Add type override,Добавить переопределение типа
+Managed by configuration (config file or environment variable),Управляется конфигурацией (файл конфигурации или переменная окружения)
+File Storage & Uploads,Хранилище файлов и загрузки
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Где хранятся загруженные файлы (изображения товаров, баннеры, медиа), какие типы разрешены и какого размера они могут быть"
+Local file system,Локальная файловая система
+Amazon S3 / S3-compatible,Amazon S3 / S3-совместимое
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Бакет
+Bucket is required,Бакет обязателен
+Bucket name,Имя бакета
+Region,Регион
+Region is required,Регион обязателен
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),"Для S3-совместимых сервисов используйте значение провайдера (например, fsn1 для Hetzner)"
+Access key ID,Идентификатор ключа доступа
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.",Создайте ключ доступа в консоли вашего провайдера хранилища. Для AWS: войдите в AWS Console и откройте IAM → Users → ваш пользователь → Security credentials → Create access key.
+Secret access key,Секретный ключ доступа
+"The secret is shown only once, when the access key is created — copy it from there.","Секрет показывается только один раз, при создании ключа доступа — скопируйте его оттуда."
+Custom endpoint,Пользовательская конечная точка
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Только для S3-совместимых сервисов (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Для AWS оставьте пустым."
+Force path-style,Принудительный path-style
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","Требуется для MinIO. Для AWS, Hetzner и R2 оставьте выключенным."
+Public base URL,Публичный базовый URL
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","Необязательный CDN (например, CloudFront), раздающий бакет — позволяет оставить бакет приватным. Без него объекты должны быть публично читаемыми через bucket policy. Пример: https://cdn.mystore.com или https://d111abcdef8.cloudfront.net — дистрибуция CloudFront с этим бакетом в качестве origin. Файлы отдаются как <этот URL>/<путь к файлу>, поэтому домен должен указывать на корень бакета."
+Connection string,Строка подключения
+Connection string is required,Строка подключения обязательна
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Скопируйте её в портале Azure: войдите, откройте учётную запись хранилища, затем Security + networking → Access keys → Connection string."
+Container,Контейнер
+Container access,Доступ к контейнеру
+Private (recommended),Приватный (рекомендуется)
+Public read for blobs,Публичное чтение для blob-объектов
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",Публичное чтение требует «Allow blob anonymous access» в учётной записи хранилища — по умолчанию запрещено в новых аккаунтах. Предпочтительнее приватный контейнер с публичным базовым URL (CDN).
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).","Необязательный CDN (например, Azure CDN / Front Door), раздающий контейнер — позволяет оставить контейнер приватным. Файлы отдаются как <этот URL>/<путь к файлу> без добавления сегмента контейнера, поэтому либо задайте origin-путь CDN как /<container> (пример: https://mystore.azureedge.net), либо укажите контейнер здесь (пример: https://mystore.azureedge.net/media)."
+Service account key,Ключ сервисного аккаунта
+Paste the entire content of the downloaded JSON key file,Вставьте всё содержимое скачанного JSON-файла ключа
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,Создайте ключ в Google Cloud Console: IAM & Admin → Service Accounts → создайте или выберите аккаунт с ролью Storage Object Admin для бакета → Keys → Add key → JSON. Вставьте сюда весь скачанный файл.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Нет ключей? Если EverShop работает на сервере, у которого уже есть доступ к бакету — например через роль AWS IAM или ключи AWS, заданные переменными окружения на сервере — оставьте оба поля пустыми, и учётные данные самого сервера будут использованы автоматически. Подключение проверяется при сохранении, поэтому неверную или неполную настройку сохранить не получится."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Нет ключа? Если EverShop работает в Google Cloud (Compute Engine, GKE, Cloud Run) с привязанным сервисным аккаунтом, либо на сервере задана переменная окружения GOOGLE_APPLICATION_CREDENTIALS, оставьте это поле пустым — учётные данные самого сервера будут использованы автоматически. Подключение проверяется при сохранении, поэтому неверную или неполную настройку сохранить не получится."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.","Необязательный CDN (например, Cloud CDN), раздающий бакет — позволяет оставить бакет приватным. Без него объекты должны быть публично читаемыми: выдайте «allUsers» роль Storage Object Viewer на бакет (заблокировано, если в вашей организации применяется Public Access Prevention). Пример: https://cdn.mystore.com — домен балансировщика нагрузки с этим бакетом в качестве backend bucket."
+Local storage is not recommended for production,Локальное хранилище не рекомендуется для production
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Файлы на этом сервере могут быть потеряны при обновлении, переносе или сбое. Для боевого магазина используйте S3 или Azure Blob Storage."
+Upload rules,Правила загрузки
+What can be uploaded and how big it can be — applies on every storage provider.,Что можно загружать и какого размера — применяется ко всем провайдерам хранилища.
+Allowed file types,Разрешённые типы файлов
+Select at least one file type,Выберите хотя бы один тип файла
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,Файлы других типов отклоняются при загрузке. SVG намеренно не предлагается — SVG-файлы могут содержать скрипты и представляют угрозу безопасности при раздаче.
+Also allowed via server configuration: ${types},Также разрешено через конфигурацию сервера: ${types}
+Maximum file size,Максимальный размер файла
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","На файл, в мегабайтах (МБ). Оставьте пустым для значения по умолчанию 10 МБ. Применяется ко всем загрузкам в админ-панели — изображения товаров, баннеры, медиа."
+Per-type overrides,Переопределения по типам
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Переопределяет максимальный размер для подходящих типов файлов — например, меньший лимит для изображений и больший для видео. Точный тип (video/mp4) имеет приоритет над семейством (video/*); всё без совпадения использует максимальный размер выше. Переопределения не разрешают новые типы: сам тип файла должен быть включён в «Разрешённых типах файлов»."

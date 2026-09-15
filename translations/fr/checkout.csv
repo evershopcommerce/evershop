@@ -1,60 +1,54 @@
-Total, Total
-Order, Commande
-Sku, SKU
-Continue to shipping, Continuer vers l'expédition
-Continue shopping, Continuer vos achats
-Shopping cart, Panier
-Product, Produit
-Price, Prix
-Quantity, Quantité
-Remove, Supprimer
-Qty, Qté
-Sub total, Sous-total
-Discount($coupon), Remise ($coupon)
-Order summary, Résumé de la commande
-Taxes and shipping calculated at checkout, Taxes et expédition calculés lors du paiement
-Checkout, PASSER À LA CAISSE
-Change, Changer
-Payment Method, Mode de paiement
-Shipping Address, Adresse de livraison
-Shipping Method, Mode de livraison
-No payment methods available, Aucun mode de paiement disponible
-Place Order, Passer la commande
-My billing address is same as shipping address, Mon adresse de facturation est la même que mon adresse de livraison
-$count items, $count articles
-Discount, Remise
-Shipping, Expédition
-No tax, Pas de taxe
-Tax, Taxe
+Total,Total
+Order,Commande
+Sku,SKU
+Continue to shipping,Continuer vers l'expédition
+Continue shopping,Continuer vos achats
+Shopping cart,Panier
+Product,Produit
+Price,Prix
+Quantity,Quantité
+Remove,Supprimer
+Qty,Qté
+Sub total,Sous-total
+Discount($coupon),Remise ($coupon)
+Order summary,Résumé de la commande
+Taxes and shipping calculated at checkout,Taxes et expédition calculés lors du paiement
+Checkout,PASSER À LA CAISSE
+Change,Changer
+Payment Method,Mode de paiement
+Shipping Method,Mode de livraison
+No payment methods available,Aucun mode de paiement disponible
+Place Order,Passer la commande
+My billing address is same as shipping address,Mon adresse de facturation est la même que mon adresse de livraison
+$count items,$count articles
+Discount,Remise
+Shipping,Expédition
+No tax,Pas de taxe
+Tax,Taxe
 "Sorry, there is no available method for your address","Désolé, aucun mode de livraison n'est disponible pour votre adresse"
-Please enter a shipping address in order to see shipping quotes, Veuillez entrer une adresse de livraison pour voir les frais de livraison
-Continue to payment, Continuer vers le paiement
-No payment method available, Aucun mode de paiement disponible
-Ship to, Expédier à
-Shipment, Envoi
-Thank you $name!, Merci $name !
-Contact information, Informations de contact
-Order #$orderNumber, Commande #$orderNumber
-Add to cart, AJOUTER AU PANIER
-Please select variant options, Veuillez sélectionner les options de variantes
-VIEW CART ($count), VOIR LE PANIER ($count)
-JUST ADDED TO YOUR CART, AJOUTÉ À VOTRE PANIER
-Promotion code?, Code promotionnel ?
-Enter coupon code, Entrez le code coupon
-Apply, Appliquer
-Your cart is empty!, Votre panier est vide !
-Full name, Nom complet
-Telephone, Téléphone
-Address, Adresse
-City, Ville
-Country, Pays
-Postcode, Code postal
-Inclusive of tax, Taxes incluses
-"Sorry, there is no available method for your address","Désolé, aucun mode de livraison n'est disponible pour votre adresse"
-Full name is required, Le nom complet est requis
-Telephone is required, Le téléphone est requis
-Address is required, L'adresse est requise
-City is required, La ville est requise
-Country is required, Le pays est requis
-Postcode is required, Le code postal est requis
-Contact, Contact
+Please enter a shipping address in order to see shipping quotes,Veuillez entrer une adresse de livraison pour voir les frais de livraison
+Continue to payment,Continuer vers le paiement
+No payment method available,Aucun mode de paiement disponible
+Ship to,Expédier à
+Shipment,Envoi
+Thank you $name!,Merci $name !
+Order #$orderNumber,Commande #$orderNumber
+Add to cart,AJOUTER AU PANIER
+Please select variant options,Veuillez sélectionner les options de variantes
+VIEW CART ($count),VOIR LE PANIER ($count)
+JUST ADDED TO YOUR CART,AJOUTÉ À VOTRE PANIER
+Promotion code?,Code promotionnel ?
+Enter coupon code,Entrez le code coupon
+Apply,Appliquer
+Your cart is empty!,Votre panier est vide !
+Full name,Nom complet
+Inclusive of tax,Taxes incluses
+Address is required,L'adresse est requise
+City is required,La ville est requise
+Proceed to checkout,Passer à la caisse
+Your cart,Votre panier
+${count} items in your cart,${count} articles dans votre panier
+No payment required,Aucun paiement requis
+Your order total is 0 — no payment is needed to place this order.,Le total de votre commande est de 0 — aucun paiement n’est nécessaire pour la valider.
+Thank you for your order!,Merci pour votre commande !
+Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,La commande n° ${orderNumber} est confirmée. Nous avons envoyé un reçu à ${email}.

@@ -6,7 +6,7 @@ Forgot your password?,Ξεχάσατε τον κωδικό σας;
 Create an account,Δημιουργία λογαριασμού
 Register,Εγγραφή
 Full Name,Πλήρες Όνομα
-Full name,Πλήρες όνομα
+Full name,Ονοματεπώνυμο
 Sign In,ΕΙΣΟΔΟΣ
 Order History,Ιστορικό Παραγγελιών
 Account Details,Λεπτομέρειες Λογαριασμού
@@ -18,10 +18,10 @@ City,Πόλη
 Account Information,Πληροφορίες Λογαριασμού
 Address,Διεύθυνση
 Postcode,Ταχυδρομικός Κώδικας
-Postcode is required,Απαιτείται Ταχυδρομικός Κώδικας
-Telephone is required,Απαιτείται Τηλέφωνο
+Postcode is required,Απαιτείται ταχυδρομικός κώδικας
+Telephone is required,Απαιτείται τηλέφωνο
 Telephone,Τηλέφωνο
-Full name is required,Απαιτείται πλήρες όνομα
+Full name is required,Απαιτείται ονοματεπώνυμο
 Country is required,Απαιτείται χώρα
 Country,Χώρα
 Province is required,Απαιτείται Επαρχία
@@ -31,3 +31,17 @@ Shipping Address,Διεύθυνση Αποστολής
 Create A New Account,Δημιουργία Νέου Λογαριασμού
 Contact,Επικοινωνία
 Customer information,Πληροφορίες Πελάτη
+Address book,Βιβλίο διευθύνσεων
+Account information,Πληροφορίες λογαριασμού
+Recent orders,Πρόσφατες παραγγελίες
+View all,Προβολή όλων
+Sign in,Σύνδεση
+Welcome back — sign in to your account.,Καλώς ήρθατε ξανά — συνδεθείτε στον λογαριασμό σας.
+New here?,Νέος χρήστης;
+Back to orders,Πίσω στις παραγγελίες
+Create account,Δημιουργία λογαριασμού
+You must be logged in to manage your addresses,Πρέπει να συνδεθείτε για να διαχειριστείτε τις διευθύνσεις σας
+You must be logged in to update your profile,Πρέπει να συνδεθείτε για να ενημερώσετε το προφίλ σας
+There is nothing to update,Δεν υπάρχει τίποτα προς ενημέρωση
+Email is already used,Το email χρησιμοποιείται ήδη
+Order #${orderNumber},Παραγγελία #${orderNumber}

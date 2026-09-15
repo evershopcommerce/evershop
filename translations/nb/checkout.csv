@@ -1,45 +1,50 @@
-Total, Totalt
-Order, Bestilling
-Sku, SKU
-Continue to shipping, Fortsett til frakt
-Continue shopping, Fortsett å handle
-Continue Shopping, Fortsett å handle
-Shopping cart, Handlekurv
-Product, Produkt
-Price, Pris
-Quantity, Antall
-Remove, Fjern
-Qty, Antall
-Sub total, Delsum
-Discount(${coupon}), Rabatt(${coupon})
-Order summary, Ordresammendrag
-Taxes and shipping calculated at checkout, Skatter og frakt beregnes ved kassen
-Checkout, Til kassen
-Change, Endre
-Payment Method, Betalingsmåte
-Shipping Method, Fraktmetode
-No payment methods available, Ingen betalingsmetoder tilgjengelig
-Place Order, Legg inn bestilling
-My billing address is same as shipping address, Fakturaadressen er den samme som leveringsadressen
-${count} items, ${count} varer
-Discount, Rabatt
-Shipping, Frakt
-No tax, Ingen skatt
-Tax, Skatt
+Total,Totalt
+Order,Bestilling
+Sku,SKU
+Continue to shipping,Fortsett til frakt
+Continue shopping,Fortsett å handle
+Continue Shopping,Fortsett å handle
+Shopping cart,Handlekurv
+Product,Produkt
+Price,Pris
+Quantity,Antall
+Remove,Fjern
+Qty,Antall
+Sub total,Delsum
+Discount(${coupon}),Rabatt(${coupon})
+Order summary,Ordresammendrag
+Taxes and shipping calculated at checkout,Skatter og frakt beregnes ved kassen
+Checkout,Til kassen
+Change,Endre
+Payment Method,Betalingsmåte
+Shipping Method,Fraktmetode
+No payment methods available,Ingen betalingsmetoder tilgjengelig
+Place Order,Legg inn bestilling
+My billing address is same as shipping address,Fakturaadressen er den samme som leveringsadressen
+${count} items,${count} varer
+Discount,Rabatt
+Shipping,Frakt
+No tax,Ingen skatt
+Tax,Skatt
 "Sorry, there is no available method for your address","Beklager, det finnes ingen tilgjengelig metode for din adresse"
-Please enter a shipping address in order to see shipping quotes, Vennligst oppgi en leveringsadresse for å se fraktpriser
-Continue to payment, Fortsett til betaling
-No payment method available, Ingen betalingsmetode tilgjengelig
-Ship to, Send til
-Shipment, Forsendelse
-Thank you ${name}!, Takk, ${name}!
-Contact information, Kontaktinformasjon
-Order #${orderNumber}, Bestilling #${orderNumber}
-Add to cart, LEGG TIL I HANDLEKURVEN
-Please select variant options, Velg variantalternativer
-VIEW CART (${count}), SE HANDLEKURV (${count})
-JUST ADDED TO YOUR CART, NETTOPP LAGT TIL I HANDLEKURVEN
-Promotion code?, Kampanjekode？
-Enter coupon code, Skriv inn rabattkode
-Apply, Bruk
-Your cart is empty!, Handlekurven din er tom！
+Please enter a shipping address in order to see shipping quotes,Vennligst oppgi en leveringsadresse for å se fraktpriser
+Continue to payment,Fortsett til betaling
+No payment method available,Ingen betalingsmetode tilgjengelig
+Ship to,Send til
+Shipment,Forsendelse
+Thank you ${name}!,"Takk, ${name}!"
+Add to cart,LEGG TIL I HANDLEKURVEN
+Please select variant options,Velg variantalternativer
+VIEW CART (${count}),SE HANDLEKURV (${count})
+JUST ADDED TO YOUR CART,NETTOPP LAGT TIL I HANDLEKURVEN
+Promotion code?,Kampanjekode？
+Enter coupon code,Skriv inn rabattkode
+Apply,Bruk
+Your cart is empty!,Handlekurven din er tom！
+Proceed to checkout,Gå til kassen
+Your cart,Handlekurven din
+${count} items in your cart,${count} varer i handlekurven din
+No payment required,Ingen betaling nødvendig
+Your order total is 0 — no payment is needed to place this order.,Ordresummen din er 0 — ingen betaling er nødvendig for å legge inn denne bestillingen.
+Thank you for your order!,Takk for bestillingen din!
+Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Bestilling nr. ${orderNumber} er bekreftet. Vi har sendt en kvittering til ${email}.

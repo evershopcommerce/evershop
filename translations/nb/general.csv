@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, Rabatt på ${discount} for alle bestillinger over ${price}
-Please select, Vennligst velg...
-The page you requested does not exist., Siden du ba om eksisterer ikke.
-Continue shopping, Fortsett å handle
-404 Page Not Found, 404 Side ikke funnet
-Home, Hjem
-Not found, Ikke funnet
+Discount ${discount} For All Orders Over ${price},Rabatt på ${discount} for alle bestillinger over ${price}
+Please select,Vennligst velg...
+The page you requested does not exist.,Siden du ba om eksisterer ikke.
+404 Page Not Found,404 Side ikke funnet
+Home,Hjem
+Not found,Ikke funnet
+Search options,Søk i alternativer
+Show less,Vis mindre
+Sort by,Sorter etter
+Search products…,Søk i produkter…
+Order Note,Ordrenotat
+Add a note to your order,Legg til et notat til bestillingen din
+My account,Min konto
+Log out,Logg ut
+Your profile has been updated,Profilen din er oppdatert
+Update profile API not available,API-et for profiloppdatering er ikke tilgjengelig
+Failed to update profile,Kunne ikke oppdatere profilen
+Something went wrong. Please refresh the page.,Noe gikk galt. Vennligst oppdater siden.
+${count} result for “${keyword}”,${count} resultat for «${keyword}»
+${count} results for “${keyword}”,${count} resultater for «${keyword}»

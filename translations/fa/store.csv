@@ -86,7 +86,6 @@ Buy qty,تعداد خرید
 Buy qty is required,تعداد خرید الزامی است
 Can not process payment. Please try again later.,امکان پردازش پرداخت وجود ندارد. لطفاً بعداً دوباره تلاش کنید.
 Can't be undone,قابل بازگرداندن نیست
-Cancel,لغو
 Cancel Order,لغو سفارش
 Cancel shipment,لغو محموله
 Cancel this shipment?,این محموله لغو شود؟
@@ -357,7 +356,6 @@ Page ${currentPage} of ${totalPages},صفحه ${currentPage} از ${totalPages}
 Page not found,صفحه یافت نشد
 Password is required,رمز عبور الزامی است
 Password must be at least ${minLength} characters long,رمز عبور باید حداقل ${minLength} کاراکتر باشد
-Paste a URL or a relative path starting with ,یک URL یا یک مسیر نسبی که با آن شروع می‌شود را جای‌گذاری کنید 
 Pattern (regex),الگو (regex)
 Pay with PayPal,پرداخت با PayPal
 Pay with Stripe,پرداخت با Stripe
@@ -652,7 +650,6 @@ Clear filter,پاک کردن فیلتر
 Clear filters,پاک کردن فیلترها
 Client ID,Client ID
 Client Secret,Client Secret
-Close,بستن
 Close settings,بستن تنظیمات
 Close — continue draft,بستن — ادامه پیش‌نویس
 Cms Pages,صفحات CMS
@@ -1683,3 +1680,10 @@ A list of products from a collection,فهرستی از محصولات یک مج�
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.",ردیف‌های پشته‌ای از مجموعه‌ها، هر کدام با یک عنوان، پیوند مشاهده همه و نواری از محصولات.
 "A featured collection with cover image, editorial copy, and a small product preview grid.",یک مجموعه ویژه با تصویر جلد، متن تحریریه و شبکه‌ای کوچک از پیش‌نمایش محصولات.
 "A single-product spotlight — image, name, price, and a link to the full product page.",نمایش ویژه تک‌محصول — تصویر، نام، قیمت و پیوندی به صفحه کامل محصول.
+The page you're looking for doesn't exist or may have moved.,صفحه‌ای که به دنبال آن هستید وجود ندارد یا جابه‌جا شده است.
+Back to home,بازگشت به صفحه اصلی
+Main menu,منوی اصلی
+Close menu,بستن منو
+Open menu,باز کردن منو
+Footer,پاورقی
+Go to slide ${n},رفتن به اسلاید ${n}

@@ -23,7 +23,6 @@ Discount(${coupon}),Descuento(${coupon})
 ${count} items,${count} artículos
 Thank you ${name}!,¡Gracias ${name}!
 Contact Information,Información de contacto
-Order #${orderNumber},Pedido n.º ${orderNumber}
 VIEW CART (${count}),VER CARRITO (${count})
 Your Cart,Tu carrito
 Your cart is empty,Tu carrito está vacío
@@ -90,7 +89,6 @@ Buy qty,Cantidad de compra
 Buy qty is required,La cantidad de compra es obligatoria
 Can not process payment. Please try again later.,No se puede procesar el pago. Inténtalo de nuevo más tarde.
 Can't be undone,No se puede deshacer
-Cancel,Cancelar
 Cancel Order,Cancelar pedido
 Cancel shipment,Cancelar envío
 Cancel this shipment?,¿Cancelar este envío?
@@ -360,7 +358,6 @@ Page ${currentPage} of ${totalPages},Página ${currentPage} de ${totalPages}
 Page not found,Página no encontrada
 Password is required,La contraseña es obligatoria
 Password must be at least ${minLength} characters long,La contraseña debe tener al menos ${minLength} caracteres
-Paste a URL or a relative path starting with ,Pega una URL o una ruta relativa que empiece por 
 Pattern (regex),Patrón (regex)
 Pay with PayPal,Pagar con PayPal
 Pay with Stripe,Pagar con Stripe
@@ -655,7 +652,6 @@ Clear filter,Borrar filtro
 Clear filters,Borrar filtros
 Client ID,ID de cliente
 Client Secret,Secreto de cliente
-Close,Cerrar
 Close settings,Cerrar configuración
 Close — continue draft,Cerrar — continuar borrador
 Cms Pages,Páginas CMS
@@ -1686,3 +1682,10 @@ A list of products from a collection,Una lista de productos de una colección
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Una colección destacada con imagen de portada, texto editorial y una pequeña cuadrícula de vista previa de productos."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Un destacado de un solo producto — imagen, nombre, precio y un enlace a la página completa del producto."
 Deleting this container will also hide,Al eliminar este contenedor también se ocultará
+The page you're looking for doesn't exist or may have moved.,La página que buscas no existe o puede haberse movido.
+Back to home,Volver al inicio
+Main menu,Menú principal
+Close menu,Cerrar menú
+Open menu,Abrir menú
+Footer,Pie de página
+Go to slide ${n},Ir a la diapositiva ${n}

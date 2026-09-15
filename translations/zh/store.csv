@@ -86,7 +86,6 @@ Buy qty,购买数量
 Buy qty is required,购买数量为必填项
 Can not process payment. Please try again later.,无法处理付款。请稍后重试。
 Can't be undone,无法撤销
-Cancel,取消
 Cancel Order,取消订单
 Cancel shipment,取消发货
 Cancel this shipment?,取消此次发货？
@@ -357,7 +356,6 @@ Page ${currentPage} of ${totalPages},第 ${currentPage} 页，共 ${totalPages} 
 Page not found,页面未找到
 Password is required,密码为必填项
 Password must be at least ${minLength} characters long,密码长度不得少于 ${minLength} 个字符
-Paste a URL or a relative path starting with ,粘贴 URL 或以此开头的相对路径 
 Pattern (regex),模式（正则表达式）
 Pay with PayPal,使用 PayPal 付款
 Pay with Stripe,使用 Stripe 付款
@@ -652,7 +650,6 @@ Clear filter,清除筛选
 Clear filters,清除筛选
 Client ID,客户端 ID
 Client Secret,客户端密钥
-Close,关闭
 Close settings,关闭设置
 Close — continue draft,关闭 — 继续草稿
 Cms Pages,CMS 页面
@@ -1683,3 +1680,10 @@ A list of products from a collection,来自某个系列的商品列表
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.",堆叠排列的系列行，每行包含标题、查看全部链接以及一排商品。
 "A featured collection with cover image, editorial copy, and a small product preview grid.",精选系列，包含封面图、内容文案以及小型商品预览网格。
 "A single-product spotlight — image, name, price, and a link to the full product page.",单商品聚焦——图片、名称、价格以及指向完整商品页面的链接。
+The page you're looking for doesn't exist or may have moved.,您要找的页面不存在或可能已被移动。
+Back to home,返回首页
+Main menu,主菜单
+Close menu,关闭菜单
+Open menu,打开菜单
+Footer,页脚
+Go to slide ${n},转到第 ${n} 张幻灯片

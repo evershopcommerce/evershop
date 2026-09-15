@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, Скидка на все заказы ${discount} на сумму свыше ${price}
-Please select, Пожалуйста, выберите...
-The page you requested does not exist., Запрошенная вами страница не существует.
-Continue shopping, Продолжить покупки
-404 Page Not Found, 404 Страница не найдена
-Home, Главная
-Not found, Не найдено
+Discount ${discount} For All Orders Over ${price},Скидка на все заказы ${discount} на сумму свыше ${price}
+Please select,"Пожалуйста, выберите..."
+The page you requested does not exist.,Запрошенная вами страница не существует.
+404 Page Not Found,404 Страница не найдена
+Home,Главная
+Not found,Не найдено
+Search options,Поиск по вариантам
+Show less,Показать меньше
+Sort by,Сортировать по
+Search products…,Поиск товаров…
+Order Note,Примечание к заказу
+Add a note to your order,Добавьте примечание к заказу
+My account,Мой аккаунт
+Log out,Выйти
+Your profile has been updated,Ваш профиль обновлён
+Update profile API not available,API обновления профиля недоступен
+Failed to update profile,Не удалось обновить профиль
+Something went wrong. Please refresh the page.,Что-то пошло не так. Обновите страницу.
+${count} result for “${keyword}”,Результатов по запросу «${keyword}»: ${count}
+${count} results for “${keyword}”,Результатов по запросу «${keyword}»: ${count}
