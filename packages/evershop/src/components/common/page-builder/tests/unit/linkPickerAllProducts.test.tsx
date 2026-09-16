@@ -21,6 +21,8 @@ jest.unstable_mockModule('urql', () => ({
 }));
 
 const { CategoryPicker } = await import('../../pickers/CategoryPicker.js');
+const { ALL_PRODUCTS_KIND } = await import('../../pickers/LinkPicker.js');
+const { CatalogUrn, UrnService } = await import('@evershop/evershop/lib/urn');
 
 const pinned = [
   {
@@ -62,5 +64,52 @@ describe('CategoryPicker pinned shortcut', () => {
       <CategoryPicker onPick={() => undefined} />
     );
     expect(html).not.toContain('All products');
+  });
+});
+
+/**
+ * Regression guard for the shortcut's emitted `kind`.
+ *
+ * Consumers map `kind` onto a legacy `{type, uuid}` pair. `BasicMenuSetting`'s
+ * `toLinkValue` turns `type: 'category'` plus any truthy uuid back into
+ * `CatalogUrn.category(uuid)` — so emitting `category` with a path instead of a
+ * uuid synthesized `urn:evershop:catalog:category:/products`. That URN parses,
+ * which made `LinkPicker` treat the value as a real category: the pinned row
+ * stopped highlighting (it read as unselectable) and the storefront resolved it
+ * to a dead link. Reported from a live dev server 2026-09-16.
+ */
+describe('the shortcut round-trips through a legacy menu consumer', () => {
+  // BasicMenuSetting's two helpers, inlined — they are module-private there.
+  const linkPatch = (next: { url: string; kind: string }) => ({
+    url: next.url,
+    type: next.kind,
+    uuid: UrnService.isValid(next.url)
+      ? UrnService.parse(next.url).uuid
+      : next.url
+  });
+  const toLinkValue = (item: { url: string; type: string; uuid: string }) => {
+    if (item.url && UrnService.isValid(item.url)) return item.url;
+    if (item.type === 'category' && item.uuid) {
+      return CatalogUrn.category(item.uuid);
+    }
+    return item.url || '';
+  };
+
+  it('survives a save/reload without becoming a bogus URN', () => {
+    const emitted = { url: '/products', kind: ALL_PRODUCTS_KIND };
+    const reread = toLinkValue(linkPatch(emitted));
+    expect(reread).toBe('/products');
+    expect(UrnService.isValid(reread)).toBe(false);
+  });
+
+  it('would have broken had the kind stayed `category`', () => {
+    const reread = toLinkValue(linkPatch({ url: '/products', kind: 'category' }));
+    expect(reread).toBe('urn:evershop:catalog:category:/products');
+    // Parses as a real URN, which is exactly what made the row unselectable.
+    expect(UrnService.isValid(reread)).toBe(true);
+  });
+
+  it('is not any of the three kinds a legacy consumer maps to an entity', () => {
+    expect(['category', 'page', 'product']).not.toContain(ALL_PRODUCTS_KIND);
   });
 });

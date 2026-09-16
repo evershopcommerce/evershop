@@ -86,6 +86,16 @@ const BLOG_HOME_ID = '__blog_home__';
 // is what a shopper reads as the widest category.
 const ALL_PRODUCTS_PATH = '/products';
 const ALL_PRODUCTS_ID = '__all_products__';
+// Emitted as `custom`, NOT `category`, even though the row lives on the Category
+// tab. Consumers map `kind` onto a legacy `{type, uuid}` pair — BasicMenuSetting
+// does — and its `toLinkValue` turns `type: 'category'` plus any truthy uuid
+// back into `CatalogUrn.category(uuid)`. With a path instead of a uuid that
+// synthesizes `urn:evershop:catalog:category:/products`: a URN that parses, so
+// the picker stops highlighting the row (it looks unselectable) and the
+// storefront resolves it to a dead link. `custom` is also simply true — the
+// stored value is a plain path. The `/blog` home shortcut escapes this only
+// because `blogCategory` is not one of the three legacy types.
+export const ALL_PRODUCTS_KIND: LinkKind = 'custom';
 
 export interface LinkPickerProps {
   value: string;
@@ -185,7 +195,7 @@ export function LinkPicker({
           onPinnedSelect={() =>
             onChange({
               url: ALL_PRODUCTS_PATH,
-              kind: 'category',
+              kind: ALL_PRODUCTS_KIND,
               label: _('All products')
             })
           }
