@@ -81,6 +81,12 @@ const TABS: { value: LinkKind; label: string }[] = [
 const BLOG_HOME_PATH = '/blog';
 const BLOG_HOME_ID = '__blog_home__';
 
+// Same shape for the all-products listing: a fixed route, no entity, so no URN.
+// Pinned at the top of the Category picker because "every product in the store"
+// is what a shopper reads as the widest category.
+const ALL_PRODUCTS_PATH = '/products';
+const ALL_PRODUCTS_ID = '__all_products__';
+
 export interface LinkPickerProps {
   value: string;
   onChange: (next: { url: string; kind: LinkKind; label?: string }) => void;
@@ -107,7 +113,9 @@ export function LinkPicker({
     ? parsed.kind
     : value === BLOG_HOME_PATH
       ? 'blogCategory'
-      : initialKind;
+      : value === ALL_PRODUCTS_PATH
+        ? 'category'
+        : initialKind;
   const [tab, setTab] = useState<LinkKind>(
     visibleTabs.find((t) => t.value === effectiveInitial)?.value ??
       visibleTabs[0].value
@@ -160,7 +168,27 @@ export function LinkPicker({
       {tab === 'category' && (
         <CategoryPicker
           selectedUuid={parsed?.kind === 'category' ? parsed.id : null}
-          selectedUrl={parsed ? null : value || null}
+          selectedUrl={
+            value === ALL_PRODUCTS_PATH
+              ? ALL_PRODUCTS_ID
+              : parsed
+                ? null
+                : value || null
+          }
+          pinnedItems={[
+            {
+              id: ALL_PRODUCTS_ID,
+              primary: _('All products'),
+              secondary: _('Every product in the store')
+            }
+          ]}
+          onPinnedSelect={() =>
+            onChange({
+              url: ALL_PRODUCTS_PATH,
+              kind: 'category',
+              label: _('All products')
+            })
+          }
           onPick={(r) =>
             onChange({
               url: CatalogUrn.category(r.uuid),

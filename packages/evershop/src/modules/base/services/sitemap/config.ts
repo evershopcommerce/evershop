@@ -39,7 +39,11 @@ export const SITEMAP_CONFIG_DEFAULTS: SitemapConfig = {
   maxUrlsPerFile: 50000,
   maxAge: 24 * 60 * 60 * 1000,
   hreflang: true,
-  staticPaths: ['/'],
+  // '/' is the homepage; '/products' is the all-products listing, a real route
+  // with real content that no entity collector can discover (it belongs to no
+  // entity table). A merchant who overrides `sitemap.staticPaths` replaces this
+  // list wholesale, so both have to be named here.
+  staticPaths: ['/', '/products'],
   changefreq: {
     product: 'daily',
     category: 'daily',
