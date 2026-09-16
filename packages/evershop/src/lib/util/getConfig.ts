@@ -40,6 +40,8 @@ type ConfigStructure = {
       baseUrl?: string;
     };
     admin_collection_size?: number;
+    /** Hard ceiling on `?limit=`. Default 200. */
+    max_collection_size?: number;
     upload_allowed_mime_types: string[];
     upload_max_file_size?: number;
     upload_max_file_size_per_type?: Record<string, number>;
