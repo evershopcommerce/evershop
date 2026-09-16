@@ -6,6 +6,7 @@ import {
   CategoryProvider
 } from '../../../../components/frontStore/catalog/CategoryContext.js';
 import CategoryFilter, { layout as filterLayout } from '../../pages/frontStore/categoryView/CategoryFilter.js';
+import CategoryView from '../../pages/frontStore/categoryView/CategoryView.js';
 import CategoryInfo, { layout as infoLayout } from '../../pages/frontStore/categoryView/CategoryInfo.js';
 import CategoryPagination, { layout as paginationLayout } from '../../pages/frontStore/categoryView/CategoryPagination.js';
 import CategoryProducts, { layout as productsLayout } from '../../pages/frontStore/categoryView/CategoryProducts.js';
@@ -57,5 +58,27 @@ describe('category page blocks', () => {
     for (const el of [<CategoryInfo />, <CategoryFilter />, <CategorySorting />, <CategoryProducts />, <CategoryPagination />]) {
       expect(() => outsideShell(el)).toThrow('within a CategoryProvider');
     }
+  });
+
+  it('opens every slot to the page builder', () => {
+    // Matches the /products shell. `categoryInfo` keeps `noOuter`, so it gets
+    // the drop zones but not the `data-evershop-editable-area` marker — that
+    // one lands on a wrapper, and adding a div around the heading on a live
+    // page is not worth an attribute nothing currently reads.
+    const html = renderToStaticMarkup(
+      <AppProvider value={appState}>
+        <CategoryView category={category} />
+      </AppProvider>
+    );
+    const areas = [...html.matchAll(/data-evershop-area-id="([^"]+)"/g)].map(
+      (m) => m[1]
+    );
+    expect(areas.sort()).toEqual([
+      'categoryLeftColumn',
+      'categoryPageBottom',
+      'categoryPageTop',
+      'categoryRightColumn'
+    ]);
+    expect(html.match(/data-evershop-editable-area="true"/g)).toHaveLength(4);
   });
 });

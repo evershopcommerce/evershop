@@ -56,21 +56,30 @@ export class ProductCollection {
         filterableAttributes
       }
     );
-    productCollectionFilters.forEach((filter) => {
+    // Sequential and awaited. Most filter callbacks are synchronous and
+    // awaiting a non-promise is a no-op, but `cat` has to resolve a category
+    // subtree before it can build its predicate — inlining that lookup as a
+    // recursive-CTE subquery instead costs PRODUCT_CATEGORY_ID_INDEX and
+    // seq-scans the product table (measured 32x on a narrow category at 300k
+    // products). Sequential rather than parallel because every callback mutates
+    // the same query object.
+    for (const filter of productCollectionFilters) {
       const check =
         filters &&
         filters.find(
           (f) => f.key === filter.key && filter.operation.includes(f.operation)
         );
       if (filter.key === '*' || check) {
-        filter.callback.apply({ isAdmin }, [
+        // `pool` rides on the context so a filter needing a lookup stays
+        // injectable for tests rather than reaching for the module-level pool.
+        await filter.callback.apply({ isAdmin, pool }, [
           this.baseQuery,
           check?.operation,
           check?.value,
           currentFilters
         ]);
       }
-    });
+    }
 
     if (!isAdmin) {
       // Visibility. For variant group

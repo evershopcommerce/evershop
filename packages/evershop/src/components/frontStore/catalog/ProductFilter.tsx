@@ -29,6 +29,12 @@ export interface CategoryFilter {
   categoryId: number;
   name: string;
   uuid: string;
+  /**
+   * Nesting level, 0 for a root. Set by the `/products` listing, which offers
+   * the whole tree; the category page passes one level of `children` and leaves
+   * it undefined, which reads as 0 and renders flat exactly as before.
+   */
+  depth?: number;
 }
 
 export interface FilterComponent {

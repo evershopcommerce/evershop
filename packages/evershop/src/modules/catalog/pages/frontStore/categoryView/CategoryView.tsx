@@ -24,13 +24,36 @@ interface CategoryViewProps {
 export default function CategoryView({ category }: CategoryViewProps) {
   return (
     <CategoryProvider category={category}>
-      <Area id="categoryPageTop" className="category__page__top" />
-      <Area id="categoryInfo" noOuter />
+      <Area
+        id="categoryPageTop"
+        className="category__page__top"
+        editableInPageBuilder
+      />
+      {/*
+        `noOuter` is kept here deliberately. The drop zones come from the
+        `editableInPageBuilder` prop and work without a wrapper; only the
+        `data-evershop-editable-area` marker needs one, and adding a div around
+        the category heading on a live page risks breaking theme CSS for an
+        attribute nothing currently reads.
+      */}
+      <Area id="categoryInfo" noOuter editableInPageBuilder />
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[240px_1fr]">
-        <Area id="categoryLeftColumn" className="category__left-column" />
-        <Area id="categoryRightColumn" className="category__right-column min-w-0" />
+        <Area
+          id="categoryLeftColumn"
+          className="category__left__column"
+          editableInPageBuilder
+        />
+        <Area
+          id="categoryRightColumn"
+          className="category__right__column min-w-0"
+          editableInPageBuilder
+        />
       </div>
-      <Area id="categoryPageBottom" className="category__page__bottom" />
+      <Area
+        id="categoryPageBottom"
+        className="category__page__bottom"
+        editableInPageBuilder
+      />
     </CategoryProvider>
   );
 }

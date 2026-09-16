@@ -15,6 +15,7 @@ import registerDefaultAttributeCollectionFilters from './services/registerDefaul
 import registerDefaultCategoryCollectionFilters from './services/registerDefaultCategoryCollectionFilters.js';
 import registerDefaultCollectionCollectionFilters from './services/registerDefaultCollectionCollectionFilters.js';
 import registerDefaultProductCollectionFilters from './services/registerDefaultProductCollectionFilters.js';
+import { warnOnProductListingPathConflict } from './services/warnOnProductListingPathConflict.js';
 
 // Fold an entity's submitted `metafields` into its `meta_data` column on save.
 // Runs only when `metafields` is explicitly provided (the edit form sends it),
@@ -29,6 +30,13 @@ function makeMetafieldFolder(ownerType) {
 }
 
 export default () => {
+  // Fire-and-forget: the all-products route at /products silently shadows any
+  // CMS or landing page that already owns that path (routes match before URL
+  // rewrites). Not awaited — a log line must not delay startup — and the
+  // service swallows its own errors, since bootstrap runs before migrate and
+  // `url_rewrite` may not exist on a first boot.
+  void warnOnProductListingPathConflict();
+
   const foldProductMetafields = makeMetafieldFolder('product');
   addProcessor('productDataBeforeCreate', foldProductMetafields);
   addProcessor('productDataBeforeUpdate', foldProductMetafields);
