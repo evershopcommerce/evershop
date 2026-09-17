@@ -100,6 +100,22 @@ export async function getStoreLanguage(): Promise<string> {
 }
 
 /**
+ * Synchronous companion to {@link getStoreLanguage}: the store's default language, read from
+ * the in-memory setting cache and falling back to config `shop.language`. Mirrors
+ * {@link getStoreCurrency} / {@link getStoreTimezone} — cache-only, no DB round-trip — so it is
+ * safe in the synchronous display paths (the `Intl` formatters behind `Price.text`,
+ * `DateTime.text` and `toPrice`, the Handlebars email helpers) and as `getActiveLocale()`'s
+ * off-request fallback. A cold cache (unit tests with no DB, or a call before the boot-time
+ * `refreshSetting()`) returns the config fallback, matching the legacy behaviour.
+ */
+export function getStoreLanguageSync(): string {
+  return (
+    normalizeLocale(getSettingSync<unknown>('storeLanguage', '')) ??
+    getConfig('shop.language', 'en')
+  );
+}
+
+/**
  * Enabled storefront locales — the deduped union of the default and the configured
  * "additional" list (`storeLanguages`), default first. So the default is ALWAYS enabled,
  * and a default that also appears in the additional list is just deduped (no conflict).

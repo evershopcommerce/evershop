@@ -1,4 +1,4 @@
-import { getConfig } from '../../util/getConfig.js';
+import { getStoreLanguageSync } from '../../../modules/setting/services/setting.js';
 import { getDictionary } from '../dictionary.js';
 import { interpolate } from '../interpolate.js';
 import { getLocaleContext } from '../localeContext.js';
@@ -9,7 +9,9 @@ import { getLocaleContext } from '../localeContext.js';
  *      specific language regardless of the ambient request (§6.16 / D7);
  *   2. the current request's ALS dictionary, set by the locale middleware (P4);
  *   3. the default store language's dictionary from the registry — the off-request
- *      fallback (and the behavior before the P4 middleware exists).
+ *      fallback. "Default store language" is the admin `storeLanguage` setting, with config
+ *      `shop.language` only as ITS fallback; reading config directly would ignore every store
+ *      that has changed its language in the admin.
  *
  * Server-only: imports `localeContext` (which owns `AsyncLocalStorage`). For client /
  * template strings use `_` instead. Missing OR empty entries fall back to the source.
@@ -23,8 +25,7 @@ export function translate(
   if (locale) {
     dict = getDictionary(locale);
   } else {
-    dict =
-      getLocaleContext()?.dict ?? getDictionary(getConfig('shop.language', 'en'));
+    dict = getLocaleContext()?.dict ?? getDictionary(getStoreLanguageSync());
   }
   return interpolate(dict[enText] || enText, values);
 }

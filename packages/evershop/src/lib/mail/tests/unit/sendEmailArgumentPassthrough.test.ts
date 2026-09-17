@@ -19,6 +19,7 @@ const getValueSync = jest.fn((_name: string, def: any) => def);
 const addProcessor = jest.fn();
 const getConfig = jest.fn((_key: string, def: any) => def);
 const getStoreLanguage = jest.fn(async () => 'en');
+const getStoreLanguageSync = jest.fn(() => 'en');
 
 jest.unstable_mockModule('../../../util/registry.js', () => ({
   getValue,
@@ -31,6 +32,7 @@ jest.unstable_mockModule(
   () => ({
     getSetting: async (_key: string, def: any) => def,
     getStoreLanguage,
+    getStoreLanguageSync,
     getStoreCurrency: async () => 'USD',
     getStoreTimezone: () => 'UTC'
   })
