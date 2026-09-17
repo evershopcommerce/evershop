@@ -950,6 +950,34 @@ export default {
           allowMultipleOpen !== undefined ? Boolean(allowMultipleOpen) : false
       };
     },
+    contactFormWidget(
+      _,
+      {
+        title,
+        subtitle,
+        submitLabel,
+        successMessage,
+        showPhone,
+        showSubject,
+        consentEnabled,
+        consentText
+      }
+    ) {
+      // Pure presentation normalization — no recipient is resolved here. The
+      // storefront falls back to translated defaults when a label is null, so
+      // an empty string collapses to null rather than rendering a blank button.
+      return {
+        title: title || null,
+        subtitle: subtitle || null,
+        submitLabel: submitLabel || null,
+        successMessage: successMessage || null,
+        showPhone: showPhone !== undefined ? Boolean(showPhone) : false,
+        showSubject: showSubject !== undefined ? Boolean(showSubject) : true,
+        consentEnabled:
+          consentEnabled !== undefined ? Boolean(consentEnabled) : false,
+        consentText: consentText || null
+      };
+    },
     trustStripWidget: async (
       _,
       { items, columns, showIcons, iconSize, alignment, divider },

@@ -11,6 +11,7 @@ import { registerWidget } from '../../lib/widget/widgetManager.js';
 import { registerDefaultPageCollectionFilters } from '../../modules/cms/services/registerDefaultPageCollectionFilters.js';
 import { registerDefaultWidgetCollectionFilters } from '../../modules/cms/services/registerDefaultWidgetCollectionFilters.js';
 import { Route } from '../../types/route.js';
+import { registerDefaultContactSubmissionFilters } from './services/contact/registerDefaultContactSubmissionFilters.js';
 import {
   azureFileBrowser,
   azureFileDeleter,
@@ -1474,6 +1475,67 @@ export default (context: { command?: string } = {}) => {
     }
   });
 
+  registerWidget({
+    type: 'contact_form',
+    settingComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/ContactFormSetting.js'
+    ),
+    component: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/ContactForm.js'
+    ),
+    previewComponent: path.resolve(
+      CONSTANTS.MODULESPATH,
+      'cms/components/ContactFormPreview.js'
+    ),
+    name: 'Contact form',
+    description:
+      'Lets visitors send a message. Saved under CMS → Contact messages and emailed to the store email setting.',
+    category: 'content',
+    icon: 'Mail',
+    defaultSettings: {
+      title: 'Get in touch',
+      subtitle: 'Send us a message and we will get back to you.',
+      submitLabel: 'Send message',
+      successMessage: 'Thanks! Your message has been sent.',
+      showPhone: false,
+      showSubject: true,
+      consentEnabled: false,
+      consentText: ''
+    },
+    enabled: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true,
+      properties: {
+        title: { type: ['string', 'null'] } as any,
+        subtitle: { type: ['string', 'null'] } as any,
+        submitLabel: { type: ['string', 'null'] } as any,
+        successMessage: { type: ['string', 'null'] } as any,
+        showPhone: { type: ['boolean', 'null'] } as any,
+        showSubject: { type: ['boolean', 'null'] } as any,
+        consentEnabled: { type: ['boolean', 'null'] } as any,
+        consentText: { type: ['string', 'null'] } as any
+      }
+    },
+    graphql: {
+      typeDefs: `
+        type ContactFormSettings {
+          title: String
+          subtitle: String
+          submitLabel: String
+          successMessage: String
+          showPhone: Boolean
+          showSubject: Boolean
+          consentEnabled: Boolean
+          consentText: String
+        }
+      `,
+      settingsType: 'ContactFormSettings'
+    }
+  });
+
   // Reigtering the default filters for cms page collection
   addProcessor(
     'cmsPageCollectionFilters',
@@ -1494,6 +1556,18 @@ export default (context: { command?: string } = {}) => {
   );
   addProcessor<Array<any>>(
     'widgetCollectionFilters',
+    (filters) => [...filters, ...defaultPaginationFilters],
+    2
+  );
+
+  // Contact form submissions grid
+  addProcessor(
+    'contactSubmissionCollectionFilters',
+    registerDefaultContactSubmissionFilters,
+    1
+  );
+  addProcessor<Array<any>>(
+    'contactSubmissionCollectionFilters',
     (filters) => [...filters, ...defaultPaginationFilters],
     2
   );

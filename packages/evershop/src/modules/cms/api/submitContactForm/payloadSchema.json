@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "properties": {
+    "widget_uuid": {
+      "type": ["string", "null"]
+    },
+    "name": {
+      "type": "string",
+      "skipEscape": true,
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "Name is required"
+      }
+    },
+    "email": {
+      "type": "string",
+      "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+      "errorMessage": {
+        "pattern": "A valid email is required"
+      }
+    },
+    "phone": {
+      "type": ["string", "null"],
+      "skipEscape": true
+    },
+    "subject": {
+      "type": ["string", "null"],
+      "skipEscape": true
+    },
+    "message": {
+      "type": "string",
+      "skipEscape": true,
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "Message is required"
+      }
+    },
+    "website": {
+      "type": ["string", "null"]
+    }
+  },
+  "required": ["name", "email", "message"],
+  "additionalProperties": true
+}
