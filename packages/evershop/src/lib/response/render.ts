@@ -5,6 +5,7 @@ import { FETCH_LOCALE_PATCH } from '../../components/common/react/server/fetchLo
 import { getNotifications } from '../../modules/base/services/notifications.js';
 import { getProductImageDimensions } from '../../modules/catalog/services/catalogSettings.js';
 import { getPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
+import { getStoreLanguageSync } from '../../modules/setting/services/setting.js';
 import { getPriceIncludingTax } from '../../modules/tax/services/taxSettings.js';
 import { Config } from '../../types/appContext.js';
 import { EvershopRequest } from '../../types/request.js';
@@ -14,7 +15,6 @@ import { getPageDictionary } from '../locale/dictionary.js';
 import { getLocaleContext } from '../locale/localeContext.js';
 import { error } from '../log/logger.js';
 import { get } from '../util/get.js';
-import { getConfig } from '../util/getConfig.js';
 import isProductionMode from '../util/isProductionMode.js';
 import { processPreloadImages } from '../util/preloadScan.js';
 import { getValueSync } from '../util/registry.js';
@@ -57,7 +57,11 @@ function buildContextData(
   // key-collector slice is the future optimization). Client (eContext) + SSR
   // (setSSRContext) share the same object.
   const localeCtx = getLocaleContext();
-  const locale = localeCtx?.locale ?? getConfig('shop.language', 'en');
+  // No locale context means the middleware did not run (NODE_ENV=test bypasses it). Fall
+  // back the same way `getActiveLocale()` does — the `storeLanguage` setting first, config
+  // second — so the locale the CLIENT gets can never disagree with the one the server just
+  // formatted prices and dates with.
+  const locale = localeCtx?.locale ?? getStoreLanguageSync();
   const contextValue = {
     graphqlResponse: get(response, 'locals.graphqlResponse', {}),
     config: config,

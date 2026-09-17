@@ -2,7 +2,8 @@ import Handlebars from 'handlebars';
 import {
   getSetting,
   getStoreCurrency,
-  getStoreLanguage
+  getStoreLanguage,
+  getStoreLanguageSync
 } from '../../modules/setting/services/setting.js';
 import { countries } from '../locale/countries.js';
 import { provinces } from '../locale/provinces.js';
@@ -18,14 +19,13 @@ import { DEFAULT_ACCENT } from './templates/tokens.js';
  * A locale string `Intl.*` will accept. Malformed tags — the underscore form (`en_US`),
  * a stray `translations/` folder name, a single char — make `Intl.NumberFormat`/
  * `DateTimeFormat` throw `RangeError`, which inside a Handlebars helper aborts the whole
- * email render and silently drops the message. Validate once; fall back to the config
- * language, then `'en'` (always valid). (P7b — the currency helper was throw-proof when
- * it hardcoded `'en-US'`; resolving the locale dynamically reintroduced the risk.)
+ * email render and silently drops the message. Validate once; fall back to the store's
+ * default language, then `'en'` (always valid). (P7b — the currency helper was throw-proof
+ * when it hardcoded `'en-US'`; resolving the locale dynamically reintroduced the risk.)
  */
 function safeLocale(candidate: unknown): string {
   const locale =
-    (typeof candidate === 'string' && candidate) ||
-    getConfig('shop.language', 'en');
+    (typeof candidate === 'string' && candidate) || getStoreLanguageSync();
   try {
     Intl.getCanonicalLocales(locale);
     return locale;
@@ -294,7 +294,7 @@ export async function buildEmailBodyFromTemplate(
     // Pass the locale through Handlebars' private `data` frame so the currency/date
     // helpers can read it (`options.data.locale`) without polluting the template context.
     const body = Handlebars.compile(template)(preparedData, {
-      data: { locale: locale || getConfig('shop.language', 'en') }
+      data: { locale: locale || getStoreLanguageSync() }
     });
     return body;
   } catch (error) {

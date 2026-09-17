@@ -1,4 +1,4 @@
-import { getConfig } from '../../../lib/util/getConfig.js';
+import { getActiveLocale } from '../../../lib/locale/localeContext.js';
 import { getStoreCurrency } from '../../setting/services/setting.js';
 import { getPriceRounding, getPricePrecision } from './pricingSettings.js';
 
@@ -32,7 +32,9 @@ export function toPrice(value: string, forDisplay: boolean = false) {
     return price;
   } else {
     const currency = getStoreCurrency();
-    const language = getConfig('shop.language', 'en');
+    // Request locale, falling back to the `storeLanguage` admin setting — same resolution
+    // as `Price.text`, so a formatted price reads the same wherever it is produced.
+    const language = getActiveLocale();
     return new Intl.NumberFormat(language, {
       style: 'currency',
       currency

@@ -22,6 +22,9 @@ import React from 'react';
 export default function BestCustomers({ listUrl, setting }) {
   const context = useAppState();
   const customers = context.bestCustomers || [];
+  // Client component: no ALS here, so the locale comes from eContext (the admin language
+  // for admin routes). Was hardcoded 'en', which ignored the admin's chosen language.
+  const locale = context.locale || 'en';
 
   return (
     <Card>
@@ -47,7 +50,7 @@ export default function BestCustomers({ listUrl, setting }) {
           </TableHeader>
           <TableBody>
             {customers.map((c, i) => {
-              const grandTotal = new Intl.NumberFormat('en', {
+              const grandTotal = new Intl.NumberFormat(locale, {
                 style: 'currency',
                 currency: setting.storeCurrency
               }).format(c.total);
