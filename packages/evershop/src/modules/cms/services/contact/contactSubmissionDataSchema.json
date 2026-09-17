@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "errorMessage": {
+        "minLength": "Name is required"
+      }
+    },
+    "email": {
+      "type": "string",
+      "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+      "maxLength": 255,
+      "errorMessage": {
+        "pattern": "A valid email is required"
+      }
+    },
+    "phone": {
+      "type": ["string", "null"],
+      "maxLength": 40
+    },
+    "subject": {
+      "type": ["string", "null"],
+      "maxLength": 200
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 5000,
+      "errorMessage": {
+        "minLength": "Message is required"
+      }
+    }
+  },
+  "required": ["name", "email", "message"],
+  "additionalProperties": true
+}

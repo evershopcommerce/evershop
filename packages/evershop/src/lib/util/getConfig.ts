@@ -97,6 +97,11 @@ type ConfigStructure = {
         templatePath?: string | null;
         [key: string]: unknown;
       };
+      contact_form?: {
+        enabled: boolean;
+        templatePath?: string | null;
+        [key: string]: unknown;
+      };
     };
     stripe?: {
       secretKey?: string;

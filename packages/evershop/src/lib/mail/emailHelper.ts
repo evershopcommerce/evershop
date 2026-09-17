@@ -87,6 +87,14 @@ registerEmailTemplates(Handlebars, { translate });
 export type SendEmailArguments = {
   from?: string;
   to: string;
+  /**
+   * Address replies should go to when it differs from `from` — e.g. the contact
+   * form, where the email is sent from the store's notification address but the
+   * merchant wants Reply to reach the visitor. Declared so it survives typing;
+   * honoring it is still up to the registered email service, so senders that
+   * depend on it should also put the address in the body.
+   */
+  replyTo?: string;
   subject: string;
   body?: string;
   template: string;

@@ -1,0 +1,48 @@
+"""
+A message sent through a `contact_form` widget. Admin-only: these carry a
+visitor's name, email and free text, so nothing here is exposed to the
+storefront schema.
+"""
+type ContactSubmission {
+  contactSubmissionId: Int
+  uuid: String!
+  name: String
+  email: String
+  phone: String
+  subject: String
+  message: String
+  status: String!
+  """
+  Whether the store notification email went out. False with an `emailError`
+  means the message is safely stored but nobody was told about it.
+  """
+  emailSent: Boolean
+  emailError: String
+  createdAt: DateTime
+  """
+  The registered customer account matching this sender's email, resolved live
+  at query time rather than captured at submit time — so it appears if the
+  sender registers later, and disappears if the account is deleted. Null for a
+  sender with no account.
+  """
+  customer: ContactSubmissionCustomer
+  updateApi: String!
+  deleteApi: String!
+}
+
+type ContactSubmissionCustomer {
+  uuid: String!
+  fullName: String
+  editUrl: String!
+}
+
+type ContactSubmissionCollection {
+  items: [ContactSubmission!]!
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  contactSubmissions(filters: [FilterInput]): ContactSubmissionCollection
+}
