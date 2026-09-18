@@ -8,15 +8,38 @@ import { getPhaseOf } from '../../../services/updateShipmentStatus.js';
 
 export default {
   Query: {
-    order: async (_, { uuid }, { pool }) => {
+    order: async (_, { uuid }, context) => {
+      const { pool } = context;
       const query = getOrdersBaseQuery();
       query.where('uuid', '=', uuid);
       const order = await query.load(pool);
       if (!order) {
         return null;
-      } else {
-        return camelCase(order);
       }
+      // Access control: this query is reachable directly on the public
+      // /api/graphql endpoint with no other gate, so the resolver itself
+      // must enforce that the caller is allowed to see this specific order.
+      // Allowed callers:
+      //  - an admin session (context.user, set globally from the admin
+      //    session cookie for any request)
+      //  - the order's own customer (context.customer, set globally from
+      //    the frontstore session cookie)
+      //  - the checkout-success page, which already verified `sid` against
+      //    the order row before setting context.orderId to its uuid
+      //  - the anonymous tracking page, which already verified a signed,
+      //    TTL'd tracking token before setting context.trackingStatus/orderUuid
+      const isOwnAdmin = !!context.user;
+      const isOwnCustomer =
+        !!context.customer &&
+        order.customer_id !== null &&
+        order.customer_id === context.customer.customer_id;
+      const isCheckoutSuccess = context.orderId === order.uuid;
+      const isVerifiedTracking =
+        context.trackingStatus === 'ok' && context.orderUuid === order.uuid;
+      if (!isOwnAdmin && !isOwnCustomer && !isCheckoutSuccess && !isVerifiedTracking) {
+        return null;
+      }
+      return camelCase(order);
     },
     /**
      * Anonymous tracking token verification status, populated by the
