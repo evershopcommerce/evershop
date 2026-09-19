@@ -5,15 +5,18 @@
       "type": "string"
     },
     "country": {
-      "type": "string"
+      "type": "string",
+      "description": "Legacy single-country field. New clients should send `countries` (array)."
+    },
+    "countries": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Multi-country zone support (preferred). When provided, takes precedence over the legacy `country` field."
     },
     "provinces": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "description": "Either a legacy array of province codes (single-country zone) OR an array of { country, province } pairs (multi-country zone)."
     }
   },
   "additionalProperties": true,
-  "required": ["name", "country"]
+  "required": ["name"]
 }

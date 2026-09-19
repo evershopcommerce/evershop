@@ -1,4 +1,4 @@
-import { ShoppingBagIcon } from '@heroicons/react/24/outline';
+import { ShoppingBag } from 'lucide-react';
 import React from 'react';
 
 export const DefaultMiniCartIcon = ({
@@ -21,24 +21,20 @@ export const DefaultMiniCartIcon = ({
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`mini-cart-icon relative ${
+      className={`mini-cart-icon relative rounded-md p-2 text-foreground/80 hover:bg-muted hover:text-foreground ${
         disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
       } ${isOpen ? 'active' : ''}`}
       aria-label={`Shopping cart with ${totalQty} items`}
     >
       {syncStatus.syncing ? (
         <div className="w-6 h-6 flex items-center justify-center">
-          <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-gray-700"></div>
+          <div className="animate-spin rounded-full h-4 w-4 border-2 border-border"></div>
         </div>
       ) : (
-        <ShoppingBagIcon
-          width={24}
-          height={24}
-          className="text-gray-700 hover:text-gray-900 transition-colors"
-        />
+        <ShoppingBag className="h-5 w-5" />
       )}
       {showItemCount && totalQty > 0 && !syncStatus.syncing && (
-        <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+        <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">
           {totalQty > 99 ? '99+' : totalQty}
         </span>
       )}

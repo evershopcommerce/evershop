@@ -1,5 +1,5 @@
-import { getConfig } from '../../../lib/util/getConfig.js';
 import { toPrice } from '../../checkout/services/toPrice.js';
+import { getPriceIncludingTax } from '../../tax/services/taxSettings.js';
 
 export function registerCartItemPromotionFields(fields) {
   const newFields = fields.concat(
@@ -23,10 +23,7 @@ export function registerCartItemPromotionFields(fields) {
         key: 'line_total_with_discount',
         resolvers: [
           async function resolver() {
-            const priceIncludingTax = getConfig(
-              'pricing.tax.price_including_tax',
-              false
-            );
+            const priceIncludingTax = getPriceIncludingTax();
             if (!priceIncludingTax) {
               return (
                 this.getData('line_total') - this.getData('discount_amount')
@@ -46,10 +43,7 @@ export function registerCartItemPromotionFields(fields) {
         key: 'line_total_with_discount_incl_tax',
         resolvers: [
           async function resolver() {
-            const priceIncludingTax = getConfig(
-              'pricing.tax.price_including_tax',
-              false
-            );
+            const priceIncludingTax = getPriceIncludingTax();
             if (!priceIncludingTax) {
               return toPrice(
                 this.getData('line_total') -

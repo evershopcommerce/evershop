@@ -1,3 +1,4 @@
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 interface NameProps {
@@ -7,12 +8,12 @@ interface NameProps {
 
 export function Name({ url, name }: NameProps) {
   return (
-    <td>
+    <TableCell>
       <div>
         <a className="hover:underline font-semibold" href={url}>
           {name}
         </a>
       </div>
-    </td>
+    </TableCell>
   );
 }

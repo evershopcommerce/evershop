@@ -1,4 +1,5 @@
-import { Card } from '@components/admin/Card.js';
+import { SettingMenuItem } from '@components/admin/SettingMenuItem.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface TaxSettingMenuProps {
@@ -7,9 +8,11 @@ interface TaxSettingMenuProps {
 
 export default function TaxSettingMenu({ taxSettingUrl }: TaxSettingMenuProps) {
   return (
-    <Card.Session title={<a href={taxSettingUrl}>Tax Setting</a>}>
-      <div>Configure tax classes and tax rates</div>
-    </Card.Session>
+    <SettingMenuItem
+      url={taxSettingUrl}
+      title={_('Pricing & Tax')}
+      description={_('Price rounding, tax calculation, classes & rates')}
+    />
   );
 }
 

@@ -1,30 +1,29 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface CmsGridPageHeadingProps {
   backUrl: string;
   page?: {
     name?: string;
-  };
+  } | null;
 }
 
 export default function CmsGridPageHeading({
   backUrl,
-  page
+  page = null
 }: CmsGridPageHeadingProps) {
   return (
     <div className="w-2/3 mx-auto">
       <PageHeading
         backUrl={backUrl}
-        heading={page ? `Editing ${page.name}` : 'Create a new page'}
+        heading={
+          page ? _('Editing ${name}', { name: page.name ?? '' }) : _('Create a new page')
+        }
       />
     </div>
   );
 }
-
-CmsGridPageHeading.defaultProps = {
-  page: null
-};
 
 export const layout = {
   areaId: 'content',

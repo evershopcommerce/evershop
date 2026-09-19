@@ -6,6 +6,7 @@ const getValidWidget = (type = 'TestWidgetType') => ({
   description: `Description for ${type}`,
   settingComponent: `${type}Settings.js`,
   component: `${type}Component.js`,
+  previewComponent: `${type}Preview.js`,
   enabled: true,
   defaultSettings: { theme: 'light' }
 });

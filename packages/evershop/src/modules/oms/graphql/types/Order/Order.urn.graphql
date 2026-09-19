@@ -1,0 +1,3 @@
+extend type Order {
+  urn: String!
+}

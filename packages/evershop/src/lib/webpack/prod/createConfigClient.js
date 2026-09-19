@@ -142,7 +142,11 @@ export function createConfigClient(routes) {
   );
 
   config.entry = entry;
-  config.output.filename = '[name]/client/[fullhash].js';
+  // Use per-asset [contenthash] (not [fullhash], which is one hash for the whole
+  // compilation and renames EVERY chunk on any source change — busting the
+  // 1-year immutable cache of the shared vendor/common chunks on every deploy).
+  // CSS already round-trips [contenthash] through HtmlWebpackPlugin → index.json.
+  config.output.filename = '[name]/client/[contenthash].js';
   config.name = 'Client';
 
   config.optimization = {

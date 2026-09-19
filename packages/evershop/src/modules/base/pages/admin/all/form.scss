@@ -2,7 +2,7 @@
 
 body.admin {
   .required-indicator {
-    @apply text-red-500 ml-1;
+    @apply text-destructive;
   }
 
   .form-field {

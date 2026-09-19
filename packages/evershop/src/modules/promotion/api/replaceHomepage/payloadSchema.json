@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "confirm": { "type": "boolean", "enum": [true] },
+    "homepageFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 },
+    "landingPageFingerprint": { "type": "string", "minLength": 64, "maxLength": 64 }
+  },
+  "required": ["confirm", "homepageFingerprint", "landingPageFingerprint"],
+  "additionalProperties": false
+}

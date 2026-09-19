@@ -1,163 +1,121 @@
-import { readFileSync, existsSync, mkdirSync } from 'fs';
-import { join, resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { insert, select } from '@evershop/postgres-query-builder';
-import { CONSTANTS } from '../../lib/helpers.js';
-import { error, info, success } from '../../lib/log/logger.js';
-import { getConnection } from '../../lib/postgres/connection.js';
-import {
-  downloadImage,
-  getFilenameFromUrl,
-  convertToMediaPath
-} from './imageDownloader.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-interface WidgetData {
-  name: string;
-  type: string;
-  status: 1 | 0;
-  area: string;
-  route: string[];
-  settings: Record<string, any>;
-  sort_order: number;
-}
-
-interface SlideData {
-  id: string;
-  image: string;
-  width: number;
-  height: number;
-  headline?: string;
-  subheadline?: string;
-  buttonText?: string;
-  buttonUrl?: string;
-}
+import { select, insert } from '@evershop/postgres-query-builder';
+import { v4 as uuidv4 } from 'uuid';
+import { info, success } from '../../lib/log/logger.js';
+import { pool } from '../../lib/postgres/connection.js';
 
 /**
- * Download slideshow images and update URLs
+ * Seed storefront widgets so a freshly seeded store renders a REAL
+ * storefront instead of an empty shell:
+ *
+ *  - "Demo Main Menu" (basic_menu) on `headerMiddleLeft`, route `all`:
+ *    one link per TOP-LEVEL category read from the database at seed time
+ *    (the category set comes partly from categories.json and partly from
+ *    the product seeder, so the DB is the only honest source), plus a
+ *    Blog link to /blog.
+ *  - "Demo Homepage Products" (collection_products) on the homepage
+ *    `content` area, showing the seeded `homepage` collection.
+ *
+ * Post-1.3.0 widget model: a `widget_instance` row (name/type/settings)
+ * plus `widget_placement` rows (route, area, sort_order). Idempotent by
+ * widget name — re-running the seed never duplicates either widget.
  */
-async function downloadSlideshowImages(
-  settings: Record<string, any>
-): Promise<Record<string, any>> {
-  if (settings.slides && Array.isArray(settings.slides)) {
-    const updatedSlides: SlideData[] = [];
 
-    for (const slide of settings.slides as SlideData[]) {
-      if (slide.image && slide.image.startsWith('http')) {
-        try {
-          info(`  → Downloading slide image: ${slide.image}`);
+const MENU_WIDGET_NAME = 'Demo Main Menu';
+const HOME_PRODUCTS_WIDGET_NAME = 'Demo Homepage Products';
 
-          // Get filename from URL
-          const filename = getFilenameFromUrl(slide.image);
-          const slideId = slide.id || `slide-${Date.now()}`;
+interface MenuNode {
+  id: string;
+  uuid: string;
+  name: string;
+  url: string;
+  type: string;
+  children: MenuNode[];
+}
 
-          // Create local path
-          const mediaDir = join(
-            CONSTANTS.ROOTPATH,
-            'media',
-            'widgets',
-            slideId
-          );
+function menuNode(name: string, url: string): MenuNode {
+  const id = uuidv4();
+  return { id, uuid: id, name, url, type: 'custom', children: [] };
+}
 
-          // Ensure directory exists
-          if (!existsSync(mediaDir)) {
-            mkdirSync(mediaDir, { recursive: true });
-          }
+async function widgetExists(name: string): Promise<boolean> {
+  const existing = await select()
+    .from('widget_instance')
+    .where('name', '=', name)
+    .load(pool);
+  return existing !== null && existing !== undefined;
+}
 
-          const localPath = join(mediaDir, filename);
+async function insertWidget(
+  name: string,
+  type: string,
+  settings: Record<string, unknown>,
+  placement: { route: string; area: string; sortOrder: number }
+): Promise<void> {
+  const instance = await insert('widget_instance')
+    .given({
+      name,
+      type,
+      settings: JSON.stringify(settings),
+      status: true
+    })
+    .execute(pool);
+  await insert('widget_placement')
+    .given({
+      widget_instance_id: instance.widget_instance_id,
+      route: placement.route,
+      area: placement.area,
+      sort_order: placement.sortOrder
+    })
+    .execute(pool);
+}
 
-          // Download image
-          await downloadImage(slide.image, localPath);
+export async function seedWidgets(): Promise<void> {
+  info('Seeding storefront widgets...');
 
-          // Convert to media URL
-          const mediaUrl = convertToMediaPath(localPath);
-
-          // Update slide with local URL
-          updatedSlides.push({
-            ...slide,
-            image: mediaUrl
-          });
-        } catch (err) {
-          error(`  ✗ Failed to download slide image: ${err}`);
-          // Keep original URL on failure
-          updatedSlides.push(slide);
-        }
-      } else {
-        updatedSlides.push(slide);
-      }
-    }
-
-    return {
-      ...settings,
-      slides: updatedSlides
-    };
+  if (await widgetExists(MENU_WIDGET_NAME)) {
+    info(`"${MENU_WIDGET_NAME}" already exists, skipping...`);
+  } else {
+    // Top-level categories as they ACTUALLY exist after the other seeders.
+    const categories = await pool.query(
+      `SELECT cd.name, cd.url_key
+         FROM category c
+         JOIN category_description cd
+           ON cd.category_description_category_id = c.category_id
+        WHERE c.parent_id IS NULL AND c.status = TRUE
+        ORDER BY c.category_id`
+    );
+    const menus: MenuNode[] = categories.rows.map((row) =>
+      menuNode(row.name, `/${row.url_key}`)
+    );
+    menus.push(menuNode('Blog', '/blog'));
+    await insertWidget(
+      MENU_WIDGET_NAME,
+      'basic_menu',
+      { menus, isMain: true },
+      { route: 'all', area: 'headerMiddleLeft', sortOrder: 1 }
+    );
+    success(
+      `"${MENU_WIDGET_NAME}" created (${menus.length - 1} categories + Blog)`
+    );
   }
 
-  return settings;
-}
-
-/**
- * Seed widgets from JSON file
- */
-export async function seedWidgets(): Promise<void> {
-  try {
-    info('Seeding widgets...');
-
-    // Read widgets data
-    const widgetsPath = join(__dirname, 'data', 'widgets.json');
-    const widgetsData: WidgetData[] = JSON.parse(
-      readFileSync(widgetsPath, 'utf-8')
+  if (await widgetExists(HOME_PRODUCTS_WIDGET_NAME)) {
+    info(`"${HOME_PRODUCTS_WIDGET_NAME}" already exists, skipping...`);
+  } else {
+    await insertWidget(
+      HOME_PRODUCTS_WIDGET_NAME,
+      'collection_products',
+      {
+        collection: 'homepage', // the collection CODE (collections.json)
+        count: 8,
+        countPerRow: 4,
+        heading: null, // falls back to the collection's own name
+        subText: null,
+        viewAllLink: null,
+        viewAllLabel: null
+      },
+      { route: 'homepage', area: 'content', sortOrder: 10 }
     );
-
-    const connection = await getConnection();
-    let created = 0;
-    let skipped = 0;
-
-    for (const widgetData of widgetsData) {
-      // Check if widget already exists (by name and type)
-      const existing = await select()
-        .from('widget')
-        .where('name', '=', widgetData.name)
-        .and('type', '=', widgetData.type)
-        .load(connection, false);
-
-      if (existing) {
-        info(`  ⊘ Widget "${widgetData.name}" already exists, skipping...`);
-        skipped++;
-        continue;
-      }
-
-      // Process settings - download slideshow images if needed
-      let processedSettings = widgetData.settings;
-      if (widgetData.type === 'simple_slider') {
-        info(`  → Processing slideshow images for: ${widgetData.name}`);
-        processedSettings = await downloadSlideshowImages(widgetData.settings);
-      }
-
-      // Insert widget
-      await insert('widget')
-        .given({
-          name: widgetData.name,
-          type: widgetData.type,
-          area: widgetData.area,
-          route: JSON.stringify(widgetData.route),
-          sort_order: widgetData.sort_order,
-          settings: JSON.stringify(processedSettings),
-          status: widgetData.status
-        })
-        .execute(connection, false);
-
-      success(`  ✓ Created widget: ${widgetData.name}`);
-      created++;
-    }
-
-    success(
-      `✓ Widget seeding complete: ${created} created, ${skipped} skipped`
-    );
-  } catch (e: any) {
-    error(`Failed to seed widgets: ${e.message}`);
-    throw e;
+    success(`"${HOME_PRODUCTS_WIDGET_NAME}" created (collection: homepage)`);
   }
 }

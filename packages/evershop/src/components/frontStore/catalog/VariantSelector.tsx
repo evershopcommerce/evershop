@@ -34,9 +34,15 @@ const processAttributes = (
   const selectedOptions: SelectedOption[] = [];
   let newAttributes: ProcessedAttribute[];
 
+  // Only the query string matters here. Read it directly instead of
+  // `new URL(currentUrl)`: that throws on a relative URL, and this runs
+  // inside `useMemo` during SSR where there is no `window` to use as a base.
+  const queryStart = currentUrl.indexOf('?');
+  const search =
+    queryStart >= 0 ? currentUrl.slice(queryStart).split('#')[0] : '';
+
   newAttributes = attributes.map((attribute) => {
-    const url = new URL(currentUrl);
-    const params = new URLSearchParams(url.search).entries();
+    const params = new URLSearchParams(search).entries();
     const check = Array.from(params).find(
       ([key, value]) =>
         key === attribute.attributeCode &&
@@ -226,7 +232,7 @@ export function VariantSelector({
         })}
       />
       {errors.variant_selected && (
-        <div className="text-critical">
+        <div className="text-destructive">
           {_('Please select variant options')}
         </div>
       )}

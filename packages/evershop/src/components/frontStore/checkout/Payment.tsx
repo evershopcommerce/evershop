@@ -1,3 +1,11 @@
+import Area from '@components/common/Area.js';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   useCartDispatch,
   useCartState
@@ -11,13 +19,22 @@ import { PaymentMethods } from '@components/frontStore/checkout/payment/PaymentM
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
 import { useWatch } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 export function Payment() {
   const {
-    data: { noShippingRequired, billingAddress, availablePaymentMethods },
+    data: {
+      noShippingRequired,
+      billingAddress,
+      availablePaymentMethods,
+      grandTotal,
+      totalQty
+    },
     loadingStates: { addingBillingAddress }
   } = useCartState();
+  // Zero-total orders don't collect a billing address. The totalQty guard
+  // matters: the pre-sync default cart state has grandTotal 0, and hiding
+  // billing for a still-loading cart would flicker the wrong way.
+  const zeroTotal = totalQty > 0 && grandTotal.value <= 0;
   const { addBillingAddress } = useCartDispatch();
   const { updateCheckoutData } = useCheckoutDispatch();
   const { form } = useCheckout();
@@ -34,7 +51,7 @@ export function Payment() {
           (method) => method.code === paymentMethod
         );
         if (!methodDetails) {
-          throw new Error('Please select a valid payment method');
+          throw new Error(_('Please select a valid payment method'));
         }
         updateCheckoutData({ paymentMethod: methodDetails.code });
       } catch (error) {
@@ -51,22 +68,47 @@ export function Payment() {
   }, [paymentMethod]);
 
   return (
-    <div className="checkout__payment space-y-6">
-      <h3>{_('Payment')}</h3>
-      <BillingAddress
-        billingAddress={billingAddress}
-        addBillingAddress={addBillingAddress}
-        addingBillingAddress={addingBillingAddress}
-        noShippingRequired={noShippingRequired}
-      />
-      {(billingAddress || noShippingRequired === false) && (
-        <PaymentMethods
-          methods={availablePaymentMethods?.map((method) => ({
-            ...method
-          }))}
-          isLoading={addingBillingAddress}
-        />
-      )}
-    </div>
+    <>
+      <Area id="checkoutPaymentBefore" />
+      <div className="checkout__payment space-y-6 mt-6">
+        <Card className="rounded-lg border border-border shadow-none ring-0">
+          <CardHeader>
+            <CardTitle>
+              <div className="flex items-center gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+                  3
+                </span>
+                <span className="text-base font-semibold">
+                  {_('Payment Information')}
+                </span>
+              </div>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {!zeroTotal && (
+              <BillingAddress
+                billingAddress={billingAddress}
+                addBillingAddress={addBillingAddress}
+                addingBillingAddress={addingBillingAddress}
+                noShippingRequired={noShippingRequired}
+              />
+            )}
+            {(billingAddress || noShippingRequired === false || zeroTotal) && (
+              <>
+                <Area id="checkoutPaymentMethodsBefore" />
+                <PaymentMethods
+                  methods={availablePaymentMethods?.map((method) => ({
+                    ...method
+                  }))}
+                  isLoading={addingBillingAddress}
+                />
+                <Area id="checkoutPaymentMethodsAfter" />
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+      <Area id="checkoutPaymentAfter" />
+    </>
   );
 }

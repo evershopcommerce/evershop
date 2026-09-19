@@ -34,22 +34,6 @@ export default async function registerDefaultCategoryCollectionFilters() {
       }
     },
     {
-      key: 'include_in_nav',
-      operation: ['eq'],
-      callback: (query, operation, value, currentFilters) => {
-        query.andWhere(
-          'category.include_in_nav',
-          OPERATION_MAP[operation],
-          value
-        );
-        currentFilters.push({
-          key: 'include_in_nav',
-          operation,
-          value
-        });
-      }
-    },
-    {
       key: 'parent',
       operation: ['eq'],
       callback: (query, operation, value, currentFilters) => {
@@ -73,7 +57,6 @@ export default async function registerDefaultCategoryCollectionFilters() {
           'categoryCollectionSortBy',
           {
             name: (query) => query.orderBy('category_description.name'),
-            include_in_nav: (query) => query.orderBy('category.include_in_nav'),
             status: (query) => query.orderBy('category.status')
           },
           {

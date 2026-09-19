@@ -1,3 +1,4 @@
 extend type Setting {
   showShippingNote: Boolean
+  allowGuestCheckout: Boolean
 }

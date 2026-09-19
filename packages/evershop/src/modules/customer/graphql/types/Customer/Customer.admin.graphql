@@ -2,6 +2,8 @@ extend type Customer {
   editUrl: String!
   updateApi: String!
   deleteApi: String!
+  metaData: JSON
+  updateMetafieldsApi: String!
 }
 
 """

@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "is_enabled": { "type": "boolean" },
+    "config": { "type": "object" },
+    "sort_order": { "type": "integer" }
+  },
+  "additionalProperties": false
+}

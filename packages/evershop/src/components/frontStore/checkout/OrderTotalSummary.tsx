@@ -24,7 +24,7 @@ const Total: React.FC<{
       )) || <span className="self-center font-bold">{_('Total')}</span>}
       <div>
         <div />
-        <span>{total}</span>
+        <span className="text-base font-semibold">{total}</span>
       </div>
     </div>
   );
@@ -39,8 +39,8 @@ const Tax: React.FC<{
   }
 
   return (
-    <div className="summary-row flex justify-between py-2">
-      <span>{_('Tax')}</span>
+    <div className="summary-row flex justify-between py-1.5">
+      <span className="text-muted-foreground">{_('Tax')}</span>
       <div>
         <div />
         <span>{amount}</span>
@@ -51,8 +51,8 @@ const Tax: React.FC<{
 
 const Subtotal: React.FC<{ subTotal: string }> = ({ subTotal }) => {
   return (
-    <div className="flex justify-between gap-7 py-2">
-      <div>{_('Sub total')}</div>
+    <div className="flex justify-between gap-7 py-1.5">
+      <div className="text-muted-foreground">{_('Sub total')}</div>
       <span>{subTotal}</span>
     </div>
   );
@@ -79,10 +79,12 @@ const Shipping: React.FC<{
   cost: string | undefined;
 }> = ({ method, cost }) => {
   return (
-    <div className="summary-row flex justify-between gap-7 py-2">
+    <div className="summary-row flex justify-between gap-7 py-1.5">
       {method && (
         <>
-          <span>{_('Shipping (${method})', { method })}</span>
+          <span className="text-muted-foreground">
+            {_('Shipping (${method})', { method })}
+          </span>
           <div>
             <span className="block">{cost}</span>
           </div>
@@ -90,8 +92,8 @@ const Shipping: React.FC<{
       )}
       {!method && (
         <>
-          <span>{_('Shipping')}</span>
-          <span className="text-gray-500 italic font-normal">
+          <span className="text-muted-foreground">{_('Shipping')}</span>
+          <span className="text-muted-foreground italic font-normal">
             {_('No shipping is required for this order')}
           </span>
         </>
@@ -123,7 +125,7 @@ const OrderTotalSummary: React.FC<{
     }
   } = useAppState();
   return (
-    <div className="order__total__summary font-semibold">
+    <div className="order__total__summary text-sm">
       <Area id="orderSummaryBeforeSubTotal" noOuter />
       <Subtotal subTotal={subTotal} />
       <Area id="orderSummaryAfterSubTotal" noOuter />

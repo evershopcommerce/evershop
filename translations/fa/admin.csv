@@ -1,0 +1,323 @@
+"Blog category","دسته‌بندی وبلاگ"
+"Blog post","نوشته وبلاگ"
+"Blog tag","برچسب وبلاگ"
+"Build in page builder","ساخت در صفحه‌ساز"
+"Change edit scope","تغییر محدوده ویرایش"
+"Control when this landing page is published. Leave empty for no limit.","زمان انتشار این صفحه فرود را کنترل کنید. برای عدم محدودیت خالی بگذارید."
+"Create a new landing page","ایجاد یک صفحه فرود جدید"
+"Current link: ${url}","پیوند فعلی: ${url}"
+"Delete ${count} landing pages","حذف ${count} صفحه فرود"
+"Disable ${count} landing pages","غیرفعال کردن ${count} صفحه فرود"
+"Editing","در حال ویرایش"
+"Enable ${count} landing pages","فعال کردن ${count} صفحه فرود"
+"Enable this landing page to make it visible on the storefront.","این صفحه فرود را فعال کنید تا در فروشگاه نمایش داده شود."
+"Enter landing page name","نام صفحه فرود را وارد کنید"
+"Landing Pages","صفحات فرود"
+"Landing page","صفحه فرود"
+"Landing page created successfully!","صفحه فرود با موفقیت ایجاد شد!"
+"Loading pages…","در حال بارگذاری صفحات…"
+"New Landing Page","صفحه فرود جدید"
+"No ${kind}s match ""${query}"".","هیچ ${kind}s با ""${query}"" مطابقت ندارد."
+"No ${kind}s yet.","هنوز هیچ ${kind}s وجود ندارد."
+"No categories match ""${query}"".","هیچ دسته‌بندی‌ای با ""${query}"" مطابقت ندارد."
+"No categories yet.","هنوز هیچ دسته‌بندی‌ای وجود ندارد."
+"No collections match ""${query}"".","هیچ مجموعه‌ای با ""${query}"" مطابقت ندارد."
+"No collections yet.","هنوز هیچ مجموعه‌ای وجود ندارد."
+"No landing pages match ""${query}"".","هیچ صفحه فرودی با ""${query}"" مطابقت ندارد."
+"No landing pages yet.","هنوز هیچ صفحه فرودی وجود ندارد."
+"No pages found.","هیچ صفحه‌ای یافت نشد."
+"No pages match ""${query}"".","هیچ صفحه‌ای با ""${query}"" مطابقت ندارد."
+"No pages yet.","هنوز هیچ صفحه‌ای وجود ندارد."
+"No products match ""${query}"".","هیچ محصولی با ""${query}"" مطابقت ندارد."
+"No products yet.","هنوز هیچ محصولی وجود ندارد."
+Paste a URL or a relative path starting with ,یک URL یا یک مسیر نسبی را جای‌گذاری کنید که آغاز شود با 
+"Pick a CMS page to link to.","یک صفحه CMS برای پیوند دادن انتخاب کنید."
+"Pick a blog ${kind} to link to.","یک ${kind} وبلاگ برای پیوند دادن انتخاب کنید."
+"Pick a category to link to.","یک دسته‌بندی برای پیوند دادن انتخاب کنید."
+"Pick a collection.","یک مجموعه انتخاب کنید."
+"Pick a landing page to link to.","یک صفحه فرود برای پیوند دادن انتخاب کنید."
+"Pick a product to link to.","یک محصول برای پیوند دادن انتخاب کنید."
+"Provide the SEO details for the landing page.","جزئیات سئو را برای صفحه فرود وارد کنید."
+"Provide the basic information for the landing page.","اطلاعات پایه را برای صفحه فرود وارد کنید."
+"Publish end","پایان انتشار"
+"Publish start","شروع انتشار"
+"Schedule","زمان‌بندی"
+"The internal name of the landing page shown in the admin panel.","نام داخلی صفحه فرود که در پنل مدیریت نمایش داده می‌شود."
+"There is no landing page to display","هیچ صفحه فرودی برای نمایش وجود ندارد"
+"This is the URL path for the landing page.","این مسیر URL برای صفحه فرود است."
+"This page","این صفحه"
+"Duplicating ${name}","در حال تکثیر ${name}"
+"The duplicate is created from the last saved version of this product. Your unsaved edits will not be included and will be lost when you leave this page.","نسخهٔ تکراری از آخرین نسخهٔ ذخیره‌شدهٔ این محصول ساخته می‌شود. تغییرات ذخیره‌نشدهٔ شما لحاظ نخواهد شد و با ترک این صفحه از بین می‌رود."
+"Continue without saving","ادامه بدون ذخیره"
+"You are creating a copy of ${name}","در حال ایجاد یک نسخه از ${name} هستید"
+"The copy is created as a standalone product — it does not join the source's variant group. Add it from the copy's edit page if needed.","نسخهٔ کپی به‌صورت یک محصول مستقل ایجاد می‌شود — به گروه واریانت محصول مبدأ نمی‌پیوندد. در صورت نیاز آن را از صفحهٔ ویرایش نسخهٔ کپی اضافه کنید."
+"Nothing is duplicated yet — hit Save to complete the duplication. Leaving this page without saving discards the copy.","هنوز چیزی تکثیر نشده است — برای تکمیل تکثیر، ذخیره را بزنید. اگر بدون ذخیره این صفحه را ترک کنید، نسخهٔ کپی از بین می‌رود."
+"Replace homepage with this page","جایگزینی صفحه اصلی با این صفحه"
+"The homepage will show the widgets of ""${name}"".","صفحه اصلی ویجت‌های ""${name}"" را نمایش خواهد داد."
+"Checking the homepage…","در حال بررسی صفحه اصلی…"
+"Something changed since the preview. Please review again.","از زمان پیش‌نمایش چیزی تغییر کرده است. لطفاً دوباره بررسی کنید."
+"These rollout plans change the homepage. Cancel them or wait until they end, then try again.","این برنامه‌های انتشار صفحه اصلی را تغییر می‌دهند. آن‌ها را لغو کنید یا تا پایانشان صبر کنید و دوباره تلاش کنید."
+"The homepage has page-specific widget placements. Remove them in the page builder first.","صفحه اصلی دارای جایگذاری ویجت مخصوص صفحه است. ابتدا آن‌ها را در صفحه‌ساز حذف کنید."
+"active","فعال"
+"upcoming","آینده"
+"The current homepage widgets will be moved to a new disabled landing page named ""${name}"". You can restore it later with this same action.","ویجت‌های فعلی صفحه اصلی به یک صفحه فرود غیرفعال جدید با نام ""${name}"" منتقل می‌شوند. بعداً می‌توانید با همین عملیات آن را بازیابی کنید."
+"${count} unpublished homepage change(s) by you will be discarded.","${count} تغییر منتشرنشده صفحه اصلی توسط شما دور ریخته می‌شود."
+"${count} unpublished homepage change(s) by ${admins} other admin(s) will be discarded.","${count} تغییر منتشرنشده صفحه اصلی توسط ${admins} مدیر دیگر دور ریخته می‌شود."
+"${count} change(s) left over from cancelled rollout plans will be discarded.","${count} تغییر باقی‌مانده از برنامه‌های انتشار لغوشده دور ریخته می‌شود."
+"${count} ended rollout plan(s) that changed the homepage will be cancelled so they cannot be re-scheduled.","${count} برنامه انتشار پایان‌یافته که صفحه اصلی را تغییر می‌داد لغو می‌شود تا نتوان دوباره زمان‌بندی‌شان کرد."
+"This landing page is not live (unpublished, scheduled, or expired). The homepage does not use its schedule; the copy goes live as soon as you confirm.","این صفحه فرود فعال نیست (منتشرنشده، زمان‌بندی‌شده یا منقضی). صفحه اصلی از زمان‌بندی آن استفاده نمی‌کند؛ نسخه کپی به محض تأیید منتشر می‌شود."
+"This landing page has ${count} unpublished change(s) in the page builder. Only published content is copied. Publish it first if the editor canvas is what you want.","این صفحه فرود ${count} تغییر منتشرنشده در صفحه‌ساز دارد. فقط محتوای منتشرشده کپی می‌شود. اگر آنچه در ویرایشگر می‌بینید را می‌خواهید، ابتدا منتشر کنید."
+"A rollout plan is changing this landing page. Only its published content is copied.","یک برنامه انتشار در حال تغییر این صفحه فرود است. فقط محتوای منتشرشده آن کپی می‌شود."
+"${count} widget(s) shown on every landing page are not part of this page and will not be copied.","${count} ویجت که در همه صفحات فرود نمایش داده می‌شوند بخشی از این صفحه نیستند و کپی نخواهند شد."
+"${count} hidden widget(s) in this page's ""content"" area will not be copied.","${count} ویجت پنهان در ناحیه ""content"" این صفحه کپی نخواهد شد."
+"${count} link(s) in this page point at the page itself. They will still point there from the homepage.","${count} پیوند در این صفحه به خود صفحه اشاره می‌کند. از صفحه اصلی همچنان به همان‌جا اشاره خواهند کرد."
+"This landing page has no visible widgets in the current theme. The homepage will be empty.","این صفحه فرود در قالب فعلی ویجت قابل مشاهده‌ای ندارد. صفحه اصلی خالی خواهد بود."
+"${count} site-wide widget(s) sit in the homepage content area and will appear mixed into the copied layout.","${count} ویجت سراسری در ناحیه محتوای صفحه اصلی قرار دارند و با چیدمان کپی‌شده مخلوط نمایش داده می‌شوند."
+"Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","انجام شد. ""${name}"" همچنان در آدرس خودش منتشر است. اکنون ${count} نسخه پشتیبان از صفحه اصلی دارید."
+"View backup","مشاهده نسخه پشتیبان"
+"Open homepage in page builder","باز کردن صفحه اصلی در صفحه‌ساز"
+Close,بستن
+Cancel,انصراف
+"Replace homepage","جایگزینی صفحه اصلی"
+"Could not check the homepage.","بررسی صفحه اصلی ممکن نبود."
+"The homepage could not be replaced.","جایگزینی صفحه اصلی ممکن نبود."
+"Include unpublished pages","شامل صفحات منتشرنشده"
+"This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","این ویجت همچنین در ${count} صفحه مشخص قرار دارد که در صفحه‌ساز مدیریت می‌شوند. آن جایگذاری‌ها اینجا نمایش داده نمی‌شوند و هنگام ذخیره تغییر نمی‌کنند."
+Blog Home,صفحه اصلی وبلاگ
+All posts,همه نوشته‌ها
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.",فقط پیوندهای http(s)، mailto، tel یا نسبی مجاز هستند — این پیوند در فروشگاه نادیده گرفته می‌شود.
+Link target,مقصد پیوند
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.",مقصد پیوند «مشاهده همه» — یک دسته‌بندی، صفحه یا نشانی سفارشی. مجموعه‌ها صفحه اختصاصی ندارند؛ برای پنهان کردن پیوند این فیلد را خالی بگذارید.
+"Optional. Defaults to ""View all N →"".",اختیاری. پیش‌فرض: «مشاهده همه N →».
+Whole country,کل کشور
+${count} selected,${count} مورد انتخاب شد
+Select provinces,انتخاب استان‌ها
+Used below 640 px. Falls back to the main image.,در عرض کمتر از ۶۴۰ پیکسل استفاده می‌شود. در غیر این صورت تصویر اصلی نمایش داده می‌شود.
+mobile,موبایل
+Webhook ID,شناسه Webhook
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.",شناسه یک webhook که در داشبورد توسعه‌دهنده PayPal ساخته شده و به /api/paypal/webhook اشاره می‌کند. تأیید پرداخت سمت سرور را فعال می‌کند.
+System Setting,تنظیمات سیستم
+File storage and service credentials,ذخیره‌سازی فایل و اطلاعات ورود سرویس‌ها
+Pricing & Tax,قیمت‌گذاری و مالیات
+"Price rounding, tax calculation, classes & rates",گرد کردن قیمت، محاسبه مالیات، کلاس‌ها و نرخ‌ها
+Social sharing preview,پیش‌نمایش اشتراک‌گذاری اجتماعی
+Account menu,منوی حساب
+Grid columns.,ستون‌های شبکه.
+Product listing and image settings,تنظیمات فهرست محصولات و تصاویر
+Edit variant,ویرایش تنوع
+Sold,فروخته‌شده
+Not collected (zero-total order),دریافت نشد (سفارش با مجموع صفر)
+All landing pages,همه صفحات فرود
+System setting saved,تنظیمات سیستم ذخیره شد
+All ${attribute},همه ${attribute}
+${count} of ${total},${count} از ${total}
+No variants match the selected options.,هیچ تنوعی با گزینه‌های انتخاب‌شده مطابقت ندارد.
+This product has no other variants yet.,این محصول هنوز تنوع دیگری ندارد.
+Optional. Shown under the row heading.,اختیاری. زیر عنوان ردیف نمایش داده می‌شود.
+A short description for this row,توضیح کوتاهی برای این ردیف
+Product count,تعداد محصولات
+Total products to show per collection.,تعداد کل محصولات نمایش‌داده‌شده در هر مجموعه.
+Shown above the products. The shelf renders nothing at all when no products qualify.,بالای محصولات نمایش داده می‌شود. اگر هیچ محصولی واجد شرایط نباشد، این بخش اصلاً نمایش داده نمی‌شود.
+e.g. You may also like,مثلاً: شاید این‌ها را هم بپسندید
+Products to show,محصولات قابل نمایش
+Between 1 and 12 — 3 to 5 works best.,بین ۱ تا ۱۲ — ۳ تا ۵ بهترین نتیجه را دارد.
+Product count is required,تعداد محصولات الزامی است
+Nearest,نزدیک‌ترین
+Round up,گرد کردن به بالا
+Round down,گرد کردن به پایین
+Line item,قلم سفارش
+Per unit,به ازای هر واحد
+Price rounding,گرد کردن قیمت
+How every monetary amount is rounded across the store.,نحوه گرد کردن هر مبلغ پولی در سراسر فروشگاه.
+Pricing settings have been saved successfully!,تنظیمات قیمت‌گذاری با موفقیت ذخیره شد!
+Rounding mode,حالت گرد کردن
+The direction used when rounding prices to the decimal precision.,جهت گرد کردن قیمت‌ها به دقت اعشاری تعیین‌شده.
+Decimal precision,دقت اعشاری
+Number of decimal places prices are rounded to.,تعداد ارقام اعشاری که قیمت‌ها به آن گرد می‌شوند.
+Tax rounding mode,حالت گرد کردن مالیات
+The direction used when rounding the calculated tax amount.,جهت گرد کردن مبلغ مالیات محاسبه‌شده.
+Tax decimal precision,دقت اعشاری مالیات
+Number of decimal places the tax amount is rounded to.,تعداد ارقام اعشاری که مبلغ مالیات به آن گرد می‌شود.
+Tax rounding level,سطح گرد کردن مالیات
+"Where tax rounding is applied: per unit, per line, or on the order total.",گرد کردن مالیات کجا اعمال می‌شود: به ازای هر واحد، هر قلم، یا روی مجموع سفارش.
+Catalog prices include tax,قیمت‌های کاتالوگ شامل مالیات هستند
+Enable when the product prices you enter already include tax.,وقتی قیمت‌های محصولی که وارد می‌کنید از قبل شامل مالیات هستند، این را فعال کنید.
+Catalog settings have been saved successfully!,تنظیمات کاتالوگ با موفقیت ذخیره شد!
+Product listing,فهرست محصولات
+Control how products appear in storefront listings.,کنترل نحوه نمایش محصولات در فهرست‌های فروشگاه.
+Show out of stock products,نمایش محصولات ناموجود
+"When enabled, products with no available stock stay visible on the storefront.",در صورت فعال بودن، محصولات بدون موجودی همچنان در فروشگاه نمایش داده می‌شوند.
+Products per page,محصولات در هر صفحه
+Number of products shown per page on category and collection listings.,تعداد محصولات نمایش‌داده‌شده در هر صفحه فهرست دسته‌بندی‌ها و مجموعه‌ها.
+Product images,تصاویر محصول
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.",اندازه‌ای که تصاویر محصول شما با آن ساخته می‌شوند. این مقدار نسبت ابعاد مرجع و بیشینه وضوح تصاویر محصول را در سراسر فروشگاه تعیین می‌کند — فهرست‌ها، سبد خرید، پرداخت و صفحات محصول. هر جایگاه با عرض خود تطبیق می‌یابد و ارتفاع را از این نسبت محاسبه می‌کند.
+Original image width (px),عرض تصویر اصلی (پیکسل)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.",عرض تصاویر اصلی محصول شما. ۱۹۲۰ پیکسل یا بیشتر توصیه می‌شود تا بزرگ‌نمایی صفحه محصول روی نمایشگرهای بزرگ و پرتراکم شفاف بماند.
+Original image height (px),ارتفاع تصویر اصلی (پیکسل)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,ارتفاع تصاویر اصلی محصول شما. عرض ÷ ارتفاع نسبت ابعادی است که روی هر تصویر محصول اعمال می‌شود.
+Related products rules,قوانین محصولات مرتبط
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,برای همه محصولات این دسته که قوانین را به ارث می‌برند اعمال می‌شود. محصولاتی که تنظیم اختصاصی دارند تحت تأثیر قرار نمی‌گیرند.
+Override the global rules for this category,بازنویسی قوانین سراسری برای این دسته‌بندی
+Overridden on this category,در این دسته‌بندی بازنویسی شده
+Source: Global settings,منبع: تنظیمات سراسری
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,محصولات این دسته از قوانین سراسری محصولات مرتبط پیروی می‌کنند. آنچه خریداران می‌بینند را از صفحه ویرایش هر محصول پیش‌نمایش کنید.
+Regional & Units,منطقه و واحدها
+Currency,واحد پول
+Default currency for new carts and price display. Existing orders keep their own currency.,واحد پول پیش‌فرض برای سبدهای جدید و نمایش قیمت. سفارش‌های موجود واحد پول خود را حفظ می‌کنند.
+Timezone,منطقه زمانی
+Timezone used to display dates in the store.,منطقه زمانی مورد استفاده برای نمایش تاریخ‌ها در فروشگاه.
+Weight unit,واحد وزن
+Dimension unit,واحد ابعاد
+Branding,برندینگ
+"Your logo, favicon, and the image shown when your store is shared on social media.",لوگو، فاوآیکون و تصویری که هنگام اشتراک‌گذاری فروشگاه در شبکه‌های اجتماعی نمایش داده می‌شود.
+Logo,لوگو
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,در سربرگ فروشگاه نمایش داده می‌شود. از یک PNG با کیفیت بالا و پس‌زمینه شفاف استفاده کنید — به‌طور خودکار متناسب با قالب شما مقیاس می‌شود و به‌صورت WebP بهینه ارائه می‌گردد.
+Favicon,فاوآیکون
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,آیکون کوچک در زبانه‌های مرورگر. یک PNG مربعی با حداقل ۵۱۲×۵۱۲ پیکسل بارگذاری کنید — آیکون‌های ۱۶/۳۲ پیکسلی و Apple touch icon ۱۸۰ پیکسلی به‌طور خودکار ساخته می‌شوند.
+Social sharing image,تصویر اشتراک‌گذاری اجتماعی
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.",پیش‌نمایشی که هنگام اشتراک‌گذاری صفحه در شبکه‌های اجتماعی نمایش داده می‌شود (Open Graph / Twitter). اندازه پیشنهادی ۱۲۰۰×۶۳۰ پیکسل (۱٫۹۱:۱)، PNG یا JPG.
+Analytics,تحلیل‌ها
+Google Analytics 4 Measurement ID,شناسه اندازه‌گیری Google Analytics 4
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,در Google Analytics در مسیر Admin → Data Streams → جریان وب شما یافت می‌شود. برای غیرفعال کردن ردیابی خالی بگذارید.
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX",یک شناسه اندازه‌گیری معتبر GA4 وارد کنید، مثلاً G-XXXXXXXXXX
+Allow guest checkout,اجازه پرداخت مهمان
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",در صورت فعال بودن، خریداران می‌توانند بدون حساب سفارش ثبت کنند. در صورت غیرفعال بودن، باید برای پرداخت وارد شوند یا ثبت‌نام کنند.
+Enable rule-based related products,فعال‌سازی محصولات مرتبط مبتنی بر قانون
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,قوانین جایگاه‌های باقی‌مانده را از بالا به پایین پر می‌کنند (انتخاب‌های دستی همیشه اول هستند). برای تغییر اولویت ترتیب را تغییر دهید.
+Move rule up,انتقال قانون به بالا
+Move rule down,انتقال قانون به پایین
+Match these attributes,تطبیق این ویژگی‌ها
+No select-type attributes exist yet.,هنوز هیچ ویژگی از نوع انتخابی وجود ندارد.
+Within scope,در محدوده
+Same category,همان دسته‌بندی
+Same collection,همان مجموعه
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",تطبیق ویژگی همیشه با یک محدوده ترکیب می‌شود — «همان رنگ» در کل کاتالوگ محصولات نامرتبط را به هم مرتبط می‌کند.
+Only show products in a similar price range,فقط محصولات در بازه قیمتی مشابه نمایش داده شوند
+Within ±,در محدوده ±
+% of the product price,٪ از قیمت محصول
+Fill remaining slots with bestsellers,پر کردن جایگاه‌های باقی‌مانده با پرفروش‌ها
+Recompute failed,محاسبه مجدد ناموفق بود
+Co-purchase statistics recomputed,آمار خرید همزمان دوباره محاسبه شد
+Related products,محصولات مرتبط
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,قوانین قفسه «محصولات مرتبط» در صفحات محصول. دسته‌بندی‌ها و محصولات می‌توانند آن‌ها را بازنویسی کنند؛ انتخاب‌های دستی روی یک محصول همیشه اول هستند.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.",قفسه فروش مکمل از همین قوانین استفاده می‌کند، محدود به محصولات گران‌تر از محصول در حال مشاهده (با درصد بازه قیمتی به‌عنوان سقف در صورت فعال بودن) — بدون پر کردن با پرفروش‌ها و بدون فروش مکمل برای محصولات تنظیم‌شده روی «فقط انتخاب‌های دستی».
+Frequently bought together,اغلب با هم خریداری می‌شوند
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.",پیشنهادهای مبتنی بر خرید همزمان فقط بالاتر از این آستانه‌ها معتبر در نظر گرفته می‌شوند. مقادیر پیش‌فرض برای فروشگاه‌های کوچک مناسب است — افزایش آن‌ها یعنی پیشنهادهای کمتر اما قوی‌تر.
+Min times bought together,حداقل دفعات خرید همزمان
+A pair must co-occur in at least this many orders.,یک جفت باید حداقل در این تعداد سفارش با هم ظاهر شود.
+Min orders of the product,حداقل تعداد سفارش‌های محصول
+Orders of a product before its data is trusted.,تعداد سفارش‌های یک محصول پیش از آنکه داده‌های آن معتبر شمرده شود.
+Min lift,حداقل Lift
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,بالاتر از ۱ = بیش از حد تصادفی با هم خریداری شده‌اند. پرفروش‌های همه‌جا حاضر را فیلتر می‌کند.
+Fill empty slots with bestsellers,پر کردن جایگاه‌های خالی با پرفروش‌ها
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.",زیر آستانه‌ها، این قفسه به‌جای خالی ماندن، پرفروش‌های دسته‌بندی و فروشگاه را نمایش می‌دهد.
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,داده‌های خرید همزمان آخرین بار در ${date} از ${total} سفارش محاسبه شد (${pairs} جفت محصول).
+"No co-purchase data yet — it is computed nightly, or recompute now.",هنوز داده خرید همزمان وجود ندارد — هر شب محاسبه می‌شود، یا اکنون دوباره محاسبه کنید.
+Recomputing…,در حال محاسبه مجدد…
+Recompute now,اکنون دوباره محاسبه کن
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","نشانی Webhook شما باید این باشد: https://yourdomain.com/api/stripe/webhook. این رویدادها را فعال کنید (یا «All events»): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,پنهان — همان گروه تنوع
+Hidden — disabled or out of stock,پنهان — غیرفعال یا ناموجود
+no orders yet — ranked newest first,هنوز سفارشی نیست — مرتب‌شده از جدیدترین
+Operation failed,عملیات ناموفق بود
+Add products,افزودن محصولات
+No manual picks yet.,هنوز انتخاب دستی وجود ندارد.
+(product unavailable),(محصول در دسترس نیست)
+Overridden on this product,در این محصول بازنویسی شده
+Source: category,منبع: دسته‌بندی
+Could not pin the product,امکان سنجاق کردن محصول نبود
+Recommendations,پیشنهادها
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,آنچه قفسه‌های «محصولات مرتبط» و «اغلب با هم خریداری می‌شوند» برای این محصول نمایش می‌دهند. قفسه فروش مکمل از قوانین محصولات مرتبط مشتق می‌شود (فقط موارد گران‌تر) — اینجا چیزی برای تنظیم نیست.
+Rules,قوانین
+Inherit (category or global rules),ارث‌بری (قوانین دسته‌بندی یا سراسری)
+Custom rules for this product,قوانین سفارشی برای این محصول
+Manual picks only,فقط انتخاب‌های دستی
+Manual picks,انتخاب‌های دستی
+"Always shown first, in this order, before any rules fill the remaining slots.",همیشه ابتدا و به همین ترتیب نمایش داده می‌شوند، پیش از آنکه قوانین جایگاه‌های باقی‌مانده را پر کنند.
+Shoppers will see,خریداران خواهند دید
+Based on the last saved configuration.,بر اساس آخرین پیکربندی ذخیره‌شده.
+Mode changed — save to update this preview.,حالت تغییر کرد — برای به‌روزرسانی این پیش‌نمایش ذخیره کنید.
+Shoppers will see no related products for this product with the current configuration.,با پیکربندی فعلی، خریداران هیچ محصول مرتبطی برای این محصول نخواهند دید.
+manual pick,انتخاب دستی
+bestseller fallback,جایگزین پرفروش‌ها
+Mode,حالت
+Automatic (co-purchase data),خودکار (داده‌های خرید همزمان)
+"Manual picks first, auto-fill the rest",ابتدا انتخاب‌های دستی، بقیه به‌صورت خودکار پر شود
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,حالت و انتخاب‌های دستی فقط برای این تنوع اعمال می‌شوند — برای رفتار یکسان در کل گروه، تنوع‌های هم‌گروه را یکسان تنظیم کنید.
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,در حالت خودکار انتخاب‌های دستی نادیده گرفته می‌شوند — برای استفاده از آن‌ها به «ابتدا دستی» یا «فقط دستی» تغییر دهید.
+Computed from orders,محاسبه‌شده از سفارش‌ها
+${count} orders of this product · data from ${total} orders total,${count} سفارش از این محصول · داده‌ها از مجموع ${total} سفارش
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).",هنوز داده خرید همزمان برای این محصول وجود ندارد — با ورود سفارش‌ها انباشته می‌شود. با فعال بودن جایگزین، قفسه در این مدت پرفروش‌ها را نشان می‌دهد (پایین را ببینید).
+Together,با هم
+Confidence,اطمینان
+Lift,Lift
+(unavailable),(در دسترس نیست)
+hidden,پنهان
+shown,نمایش‌داده‌شده
+below threshold,زیر آستانه
+Pin,سنجاق
+Shoppers will see (frequently bought together),خریداران خواهند دید (اغلب با هم خریداری می‌شوند)
+Shoppers will see no frequently-bought-together products with the current configuration.,با پیکربندی فعلی، خریداران هیچ محصولی از دسته «اغلب با هم خریداری می‌شوند» نخواهند دید.
+co-purchase data,داده خرید همزمان
+category bestsellers (fallback),پرفروش‌های دسته‌بندی (جایگزین)
+store bestsellers (fallback),پرفروش‌های فروشگاه (جایگزین)
+Exclude this product from recommendations,این محصول از پیشنهادها حذف شود
+Never suggest this product alongside others,هرگز این محصول را در کنار محصولات دیگر پیشنهاد نکن
+Enter a type or remove the row,یک نوع وارد کنید یا ردیف را حذف کنید
+Use type/subtype (video/mp4) or a family (video/*),از نوع/زیرنوع (video/mp4) یا یک خانواده (video/*) استفاده کنید
+MB,مگابایت
+Enter a size,یک اندازه وارد کنید
+Enter a size greater than zero,اندازه‌ای بزرگ‌تر از صفر وارد کنید
+Remove override,حذف بازنویسی
+Add type override,افزودن بازنویسی نوع
+Managed by configuration (config file or environment variable),مدیریت‌شده توسط پیکربندی (فایل پیکربندی یا متغیر محیطی)
+File Storage & Uploads,ذخیره‌سازی فایل و بارگذاری
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be",فایل‌های بارگذاری‌شده (تصاویر محصول، بنرها، رسانه) کجا ذخیره می‌شوند، چه انواعی مجاز است و چه اندازه‌ای می‌توانند داشته باشند
+Local file system,سیستم فایل محلی
+Amazon S3 / S3-compatible,Amazon S3 / سازگار با S3
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,Bucket الزامی است
+Bucket name,نام Bucket
+Region,منطقه
+Region is required,منطقه الزامی است
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),برای سرویس‌های سازگار با S3 از مقدار ارائه‌دهنده استفاده کنید (مثلاً fsn1 برای Hetzner)
+Access key ID,شناسه کلید دسترسی
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.",در کنسول ارائه‌دهنده ذخیره‌سازی خود یک کلید دسترسی بسازید. برای AWS: وارد AWS Console شوید و به IAM → Users → کاربر خود → Security credentials → Create access key بروید.
+Secret access key,کلید دسترسی محرمانه
+"The secret is shown only once, when the access key is created — copy it from there.",مقدار محرمانه فقط یک بار، هنگام ساخت کلید دسترسی نمایش داده می‌شود — آن را از همان‌جا کپی کنید.
+Custom endpoint,نقطه پایانی سفارشی
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.",فقط سرویس‌های سازگار با S3 (Hetzner، Cloudflare R2، MinIO، DigitalOcean Spaces). برای AWS خالی بگذارید.
+Force path-style,اجبار به path-style
+"Required by MinIO. Leave off for AWS, Hetzner and R2.",برای MinIO لازم است. برای AWS، Hetzner و R2 خاموش بگذارید.
+Public base URL,نشانی پایه عمومی
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.",CDN اختیاری (مثلاً CloudFront) که Bucket را ارائه می‌کند — اجازه می‌دهد Bucket خصوصی بماند. بدون آن، اشیاء باید از طریق bucket policy به‌صورت عمومی قابل خواندن باشند. مثال: https://cdn.mystore.com یا https://d111abcdef8.cloudfront.net، یک توزیع CloudFront با این Bucket به‌عنوان مبدأ. فایل‌ها به‌صورت <این نشانی>/<مسیر فایل> ارائه می‌شوند، بنابراین دامنه باید به ریشه Bucket اشاره کند.
+Connection string,رشته اتصال
+Connection string is required,رشته اتصال الزامی است
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.",آن را از پورتال Azure کپی کنید: وارد شوید، حساب ذخیره‌سازی خود را باز کنید، سپس Security + networking → Access keys → Connection string.
+Container,Container
+Container access,دسترسی Container
+Private (recommended),خصوصی (توصیه‌شده)
+Public read for blobs,خواندن عمومی برای blobها
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",خواندن عمومی نیازمند فعال بودن «Allow blob anonymous access» در حساب ذخیره‌سازی است — در حساب‌های جدید به‌صورت پیش‌فرض غیرمجاز است. ترجیحاً از Container خصوصی به همراه نشانی پایه عمومی (CDN) استفاده کنید.
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).",CDN اختیاری (مثلاً Azure CDN / Front Door) که Container را ارائه می‌کند — اجازه می‌دهد Container خصوصی بماند. فایل‌ها به‌صورت <این نشانی>/<مسیر فایل> و بدون افزودن بخش Container ارائه می‌شوند؛ بنابراین یا مسیر مبدأ CDN را روی /<container> تنظیم کنید (مثال: https://mystore.azureedge.net) یا Container را همین‌جا بگنجانید (مثال: https://mystore.azureedge.net/media).
+Service account key,کلید حساب سرویس
+Paste the entire content of the downloaded JSON key file,کل محتوای فایل کلید JSON دانلودشده را جای‌گذاری کنید
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,در Google Cloud Console یک کلید بسازید: IAM & Admin → Service Accounts → حسابی با نقش Storage Object Admin روی Bucket بسازید یا انتخاب کنید → Keys → Add key → JSON. کل فایل دانلودشده را اینجا جای‌گذاری کنید.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.",کلید ندارید؟ اگر EverShop روی سروری اجرا می‌شود که از قبل به Bucket دسترسی دارد — مثلاً یک نقش AWS IAM یا کلیدهای AWS که به‌صورت متغیر محیطی روی سرور تنظیم شده‌اند — هر دو فیلد را خالی بگذارید تا اطلاعات اعتبارسنجی خود سرور به‌طور خودکار استفاده شود. هنگام ذخیره، اتصال آزمایش می‌شود؛ بنابراین پیکربندی نادرست یا ناقص ذخیره نخواهد شد.
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.",کلید ندارید؟ اگر EverShop روی Google Cloud اجرا می‌شود (Compute Engine، GKE، Cloud Run) و یک حساب سرویس به آن متصل است، یا متغیر محیطی GOOGLE_APPLICATION_CREDENTIALS روی سرور تنظیم شده است، این فیلد را خالی بگذارید تا اطلاعات اعتبارسنجی خود سرور به‌طور خودکار استفاده شود. هنگام ذخیره، اتصال آزمایش می‌شود؛ بنابراین پیکربندی نادرست یا ناقص ذخیره نخواهد شد.
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.",CDN اختیاری (مثلاً Cloud CDN) که Bucket را ارائه می‌کند — اجازه می‌دهد Bucket خصوصی بماند. بدون آن، اشیاء باید به‌صورت عمومی قابل خواندن باشند: به «allUsers» نقش Storage Object Viewer را روی Bucket بدهید (در صورت اعمال Public Access Prevention در سازمان شما مسدود است). مثال: https://cdn.mystore.com، دامنه یک load balancer با این Bucket به‌عنوان backend bucket.
+Local storage is not recommended for production,ذخیره‌سازی محلی برای محیط عملیاتی توصیه نمی‌شود
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.",فایل‌های ذخیره‌شده روی این سرور ممکن است هنگام به‌روزرسانی، جابه‌جایی یا خرابی آن از بین بروند. برای فروشگاه زنده به‌جای آن از S3 یا Azure Blob Storage استفاده کنید.
+Upload rules,قوانین بارگذاری
+What can be uploaded and how big it can be — applies on every storage provider.,چه چیزی می‌تواند بارگذاری شود و با چه اندازه‌ای — برای همه ارائه‌دهندگان ذخیره‌سازی اعمال می‌شود.
+Allowed file types,انواع فایل مجاز
+Select at least one file type,حداقل یک نوع فایل انتخاب کنید
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,فایل‌هایی با انواع دیگر هنگام بارگذاری رد می‌شوند. SVG عمداً ارائه نشده است — فایل‌های SVG می‌توانند اسکریپت داشته باشند و هنگام ارائه خطر امنیتی ایجاد می‌کنند.
+Also allowed via server configuration: ${types},همچنین از طریق پیکربندی سرور مجاز است: ${types}
+Maximum file size,بیشینه اندازه فایل
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.",به ازای هر فایل، برحسب مگابایت (MB). برای مقدار پیش‌فرض ۱۰ مگابایت خالی بگذارید. برای همه بارگذاری‌ها در پنل مدیریت اعمال می‌شود — تصاویر محصول، بنرها، رسانه.
+Per-type overrides,بازنویسی به تفکیک نوع
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",بیشینه اندازه را برای انواع فایل منطبق بازنویسی می‌کند — مثلاً محدودیت کوچک‌تر برای تصاویر و بزرگ‌تر برای ویدیوها. نوع دقیق (video/mp4) بر خانواده (video/*) اولویت دارد؛ هر چیزی که منطبق نباشد از بیشینه اندازه بالا استفاده می‌کند. بازنویسی‌ها انواع جدید را مجاز نمی‌کنند: خود نوع فایل باید در «انواع فایل مجاز» فعال باشد.
+Every product in the store,همه محصولات فروشگاه

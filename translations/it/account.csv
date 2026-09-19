@@ -1,33 +1,47 @@
-Login, Login
-Logout, Logout
-Email, E-mail
-Password, Password
-Forgot your password?, Hai dimenticato la password？
-Create an account, Crea un account
-Register, Registrati
-Full Name, Nome e cognome
-Full name, Nome e cognome
-SIGN IN, login
-Order History, Cronologia ordini
-Account Details, Dettagli account
-You have not placed any orders yet, Non hai ancora effettuato un ordine
-My Account, Il mio account
-Already have an account?, Non hai ancora un account？
-Contact information, Informazioni di contatto
-City, Città
-Account Information, Informazioni account
-Address, Indirizzo
-Postcode, CAP
-Postcode is required, Il CAP è un campo obbligatorio
-Telephone is required, Il telefono è un campo obbligatorio
-Telephone, Telefono
-Full name is required, Nome e cognome è un campo obbligatorio
-Country is required, Paese è un campo obbligatorio
-Country, Paese
-Province is required, Provincia è un campo obbligatorio
-Province, Provincia
-Billing Address, Indirizzo di fatturazione
-Shipping Address, Indirizzo di spedizione
-Create A New Account, Crea un nuovo account
-Contact, Contatti
-Customer information, Informazioni cliente
+Login,Login
+Logout,Logout
+Email,E-mail
+Password,Password
+Forgot your password?,Hai dimenticato la password？
+Create an account,Crea un account
+Register,Registrati
+Full Name,Nome e cognome
+Full name,Nome e cognome
+Sign In,login
+Order History,Cronologia ordini
+Account Details,Dettagli account
+You have not placed any orders yet,Non hai ancora effettuato un ordine
+My Account,Il mio account
+Already have an account?,Non hai ancora un account？
+Contact information,Informazioni di contatto
+City,Città
+Account Information,Informazioni account
+Address,Indirizzo
+Postcode,CAP
+Postcode is required,Il CAP è un campo obbligatorio
+Telephone is required,Il telefono è un campo obbligatorio
+Telephone,Telefono
+Full name is required,Nome e cognome è un campo obbligatorio
+Country is required,Paese è un campo obbligatorio
+Country,Paese
+Province is required,Provincia è un campo obbligatorio
+Province,Provincia
+Billing Address,Indirizzo di fatturazione
+Shipping Address,Indirizzo di spedizione
+Create A New Account,Crea un nuovo account
+Contact,Contatti
+Customer information,Informazioni cliente
+Address book,Rubrica indirizzi
+Account information,Informazioni account
+Recent orders,Ordini recenti
+View all,Vedi tutti
+Sign in,Accedi
+Welcome back — sign in to your account.,Bentornato — accedi al tuo account.
+New here?,Sei nuovo?
+Back to orders,Torna agli ordini
+Create account,Crea un account
+You must be logged in to manage your addresses,Devi effettuare l'accesso per gestire i tuoi indirizzi
+You must be logged in to update your profile,Devi effettuare l'accesso per aggiornare il tuo profilo
+There is nothing to update,Non c’è nulla da aggiornare
+Email is already used,Questa email è già in uso
+Order #${orderNumber},Ordine n. ${orderNumber}

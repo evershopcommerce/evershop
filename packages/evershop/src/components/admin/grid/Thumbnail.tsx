@@ -1,4 +1,5 @@
 import { Image } from '@components/common/Image.js';
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 export interface ThumbnailProps {
@@ -8,7 +9,7 @@ export interface ThumbnailProps {
 
 export function Thumbnail({ src, name }: ThumbnailProps) {
   return (
-    <td>
+    <TableCell>
       <div
         className="grid-thumbnail text-border border border-divider p-2 rounded flex justify-center"
         style={{ width: '4rem', height: '4rem' }}
@@ -40,6 +41,6 @@ export function Thumbnail({ src, name }: ThumbnailProps) {
           </svg>
         )}
       </div>
-    </td>
+    </TableCell>
   );
 }

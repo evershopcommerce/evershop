@@ -261,6 +261,52 @@ describe('Test tax amount calculation rounding', () => {
     expect(item.getData('tax_amount')).toEqual(26.850375);
   });
 
+  it('Tax rounding accepts the `ceil`/`floor` config vocabulary (schema words), matching the legacy `up`/`down` aliases', async () => {
+    // Set the config BEFORE addItem so the item builds with the values under
+    // test (a no-op `setData` with an unchanged qty would not trigger a rebuild).
+    const priceConfig = config.get('pricing');
+    priceConfig.tax.price_including_tax = false;
+    priceConfig.tax.precision = 2;
+    priceConfig.tax.round_level = 'unit';
+    priceConfig.tax.rounding = 'ceil';
+
+    const cart = new Cart({
+      status: 1
+    });
+    const item = await cart.addItem(5, 1);
+
+    // Level: unit — exercises the per-unit rounding switch.
+    // `ceil` rounds up, identical to the legacy `up` alias
+    expect(item.getData('tax_amount')).toEqual(8.96);
+    await item.setData('qty', 2);
+    expect(item.getData('tax_amount')).toEqual(17.92);
+    await item.setData('qty', 3);
+    expect(item.getData('tax_amount')).toEqual(26.88);
+
+    // `floor` rounds down, identical to the legacy `down` alias
+    priceConfig.tax.rounding = 'floor';
+    await item.setData('qty', 1);
+    expect(item.getData('tax_amount')).toEqual(8.95);
+    await item.setData('qty', 2);
+    expect(item.getData('tax_amount')).toEqual(17.9);
+    await item.setData('qty', 3);
+    expect(item.getData('tax_amount')).toEqual(26.85);
+
+    // Level: line — exercises the per-line rounding switch
+    priceConfig.tax.round_level = 'line';
+    priceConfig.tax.rounding = 'ceil';
+    await item.setData('qty', 2);
+    expect(item.getData('tax_amount')).toEqual(17.91);
+    await item.setData('qty', 3);
+    expect(item.getData('tax_amount')).toEqual(26.86);
+
+    priceConfig.tax.rounding = 'floor';
+    await item.setData('qty', 2);
+    expect(item.getData('tax_amount')).toEqual(17.9);
+    await item.setData('qty', 3);
+    expect(item.getData('tax_amount')).toEqual(26.85);
+  });
+
   // it('Tax amount should be calculated correctly when tax is included', async () => {
   //   const cart = new Cart({
   //     status: 1

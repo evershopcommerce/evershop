@@ -1,0 +1,52 @@
+"""
+The page-builder editor's active entity scope for the current session.
+
+Set by the `pageBuilderEdit` handler from the `?entity=<uuid>` query param
+when editing an entity-scoped route (e.g. a single CMS page). Both fields are
+null in route-level ("All CMS pages") scope, in which case placement writes
+go to `entity_urn = NULL` (shown on every page of the route) and the preview
+falls back to the route's sample `previewPath`.
+"""
+type PageBuilderScope {
+  """
+  The entity URN (e.g. `urn:evershop:cms:page:<uuid>`) that placement writes
+  are scoped to. Null = route-level.
+  """
+  entityUrn: String
+  """
+  The concrete storefront path the preview iframe should load for the scoped
+  entity (e.g. `/<url_key>`). Null = use the route's sample `previewPath`.
+  """
+  previewPath: String
+}
+
+extend type Query {
+  pageBuilderScope: PageBuilderScope
+}
+
+"""
+A single selectable entity for the editor's entity-scope selector (e.g. one
+landing page). Returned by `pageBuilderScopeEntities` for the current route's
+registered entity scope — a generic replacement for per-entity list queries.
+"""
+type PageBuilderScopeEntity {
+  uuid: String!
+  name: String!
+  urlKey: String!
+  urn: String!
+  """
+  Published flag, when the entity type has one (null otherwise). The selector
+  badges `false` as a draft.
+  """
+  status: Boolean
+}
+
+extend type Query {
+  """
+  The full list of entities the current page-builder route can be scoped to
+  (empty when the route has no entity scope). Reads the editor's route from
+  context and delegates to that route's registered `list()` — see
+  lib/util/entityScopeRegistry. Drives the topbar entity selector.
+  """
+  pageBuilderScopeEntities(routeId: String!): [PageBuilderScopeEntity!]!
+}

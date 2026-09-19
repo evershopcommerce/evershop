@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": ["string", "number"],
+      "pattern": "^\\d+(\\.\\d{1,2})?$",
+      "errorMessage": {
+        "pattern": "Amount should be a number with maximum 2 decimal places"
+      }
+    }
+  },
+  "required": ["amount"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "properties": {
+      "amount": "Refund amount is invalid"
+    }
+  }
+}

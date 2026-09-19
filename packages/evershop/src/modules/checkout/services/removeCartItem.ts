@@ -1,4 +1,4 @@
-import { hookable } from '../../../lib/util/hookable.js';
+import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
 import { Cart, Item } from './cart/Cart.js';
 
 async function removeCartItem(cart: Cart, uuid: string) {
@@ -27,3 +27,29 @@ export default async (
   const removedItem = await hookable(removeCartItem, context)(cart, uuid);
   return removedItem;
 };
+
+export function hookBeforeRemoveCartItem(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    cart: Cart,
+    uuid: string
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('removeCartItem', callback, priority);
+}
+
+export function hookAfterRemoveCartItem(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    cart: Cart,
+    uuid: string
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('removeCartItem', callback, priority);
+}

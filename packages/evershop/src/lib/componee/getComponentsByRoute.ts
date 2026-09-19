@@ -38,9 +38,11 @@ interface AllRouteComponentsMap {
  * Scan components for all routes
  * @returns A map of route IDs to their components
  */
-export function getAllRouteComponents(): AllRouteComponentsMap {
+export function getAllRouteComponents(isAdmin = false): AllRouteComponentsMap {
   const allComponents: AllRouteComponentsMap = {};
-  const routes = getRoutes();
+  const routes = getRoutes().filter(
+    (route) => route.isApi === false && route.isAdmin === isAdmin
+  );
   routes.forEach((route) => {
     allComponents[route.id] = getComponentsByRoute(route);
   });

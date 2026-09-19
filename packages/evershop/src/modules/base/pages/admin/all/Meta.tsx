@@ -1,4 +1,4 @@
-import { Meta } from '@components/common/Meta.js';
+import { Meta, MetaRobots } from '@components/common/Meta.js';
 import { Title } from '@components/common/Title.js';
 import React from 'react';
 
@@ -16,6 +16,8 @@ export default function SeoMeta({
     <>
       <Title title={title} />
       <Meta name="description" content={description} />
+      {/* The admin panel must never be indexed (spec §6.17). */}
+      <MetaRobots index={false} follow={false} />
     </>
   );
 }

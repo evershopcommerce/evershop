@@ -3,9 +3,12 @@ import sessionStorage from 'connect-pg-simple';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import pathToRegexp from 'path-to-regexp';
-import webpack from 'webpack';
-import middleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import { getDictionary } from '../../lib/locale/dictionary.js';
+import { runWithLocale } from '../../lib/locale/localeContext.js';
+import {
+  pickApiLocale,
+  pickStorefrontLocale
+} from '../../lib/locale/localeResolution.js';
 import { translate } from '../../lib/locale/translate/translate.js';
 import { debug, warning } from '../../lib/log/logger.js';
 import publicStatic from '../../lib/middlewares/publicStatic.js';
@@ -15,13 +18,18 @@ import { getRoutes } from '../../lib/router/Router.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import isDevelopmentMode from '../../lib/util/isDevelopmentMode.js';
 import isProductionMode from '../../lib/util/isProductionMode.js';
-import { createConfigClient } from '../../lib/webpack/dev/createConfigClient.js';
-import { isBuildRequired } from '../../lib/webpack/isBuildRequired.js';
 import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminSessionCookieName.js';
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
+import { rateLimiter } from '../../modules/base/services/rateLimit.js';
 import { setPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
-import { findRoute } from './findRoute.js';
+import {
+  getAdminLanguage,
+  getEnabledLanguages,
+  getStoreLanguage
+} from '../../modules/setting/services/setting.js';
+import { getDevMiddleware, getHotMiddleware } from './devEnvHelper.js';
+import { routeNeedsSession } from './routeNeedsSession.js';
 
 export function addDefaultMiddlewareFuncs(app) {
   app.use((request, response, next) => {
@@ -50,6 +58,13 @@ export function addDefaultMiddlewareFuncs(app) {
   // Add theme public static middleware
   app.use(themePublicStatic);
 
+  // Rate limiter — mounted after static serving but before the session/locale
+  // lookups, so a flood is rejected with 429 before it consumes a DB connection.
+  // Skipped under test so integration suites stay deterministic.
+  if (process.env.NODE_ENV !== 'test') {
+    app.use(rateLimiter);
+  }
+
   // Express session
   const cookieSecret = getCookieSecret();
   const sess = {
@@ -68,7 +83,7 @@ export function addDefaultMiddlewareFuncs(app) {
   } as session.SessionOptions;
 
   if (isProductionMode()) {
-    app.set('trust proxy', 1);
+    // trust proxy is set centrally from TRUST_PROXY_HOPS in bin/lib/app.js.
     sess.cookie!.secure = false;
   }
 
@@ -84,10 +99,103 @@ export function addDefaultMiddlewareFuncs(app) {
 
   // Cookie parser
   app.use(cookieParser(cookieSecret));
+
+  // Locale resolution + URL-prefix strip (spec §6.9). Runs BEFORE route matching so the
+  // matcher and the url_rewrite lookup below see the canonical path via request.localePath,
+  // while request.originalUrl stays prefixed (canonical/SEO). Wraps the rest of the request
+  // in runWithLocale so translate()/resolvers see the locale.
+  app.use(async (request, response, next) => {
+    if (process.env.NODE_ENV === 'test') {
+      return next();
+    }
+    const fullPath = request.originalUrl.split('?')[0];
+    // API routes are RESTful and unprefixed (D4) — the locale arrives in the `X-Locale`
+    // header (spec §6.13), not the path. Wrap so translate()/resolvers see it.
+    if (fullPath === '/api' || fullPath.startsWith('/api/')) {
+      // Admin API (e.g. /api/admin/graphql) runs in the admin language. NOTE: admin REST
+      // APIs declare bare paths (/api/products/:id, not /api/admin/*), so they fall into
+      // the storefront branch below — an accepted minor edge (they rarely render
+      // translated text; admin-route URLs skip prefixing via route.isAdmin regardless).
+      if (fullPath.startsWith('/api/admin')) {
+        const locale = await getAdminLanguage();
+        request.locale = locale;
+        return runWithLocale(
+          {
+            locale,
+            defaultLocale: locale,
+            available: [locale],
+            dict: getDictionary(locale),
+            isAdmin: true
+          },
+          () => next()
+        );
+      }
+      // Storefront API: honor X-Locale only when it is an enabled locale, else the store
+      // default (a header must not be able to request a disabled/arbitrary language).
+      const apiDefaultLocale = await getStoreLanguage();
+      const apiEnabled = await getEnabledLanguages();
+      const apiLocale = pickApiLocale(
+        request.headers['x-locale'],
+        apiEnabled,
+        apiDefaultLocale
+      );
+      request.locale = apiLocale;
+      return runWithLocale(
+        {
+          locale: apiLocale,
+          defaultLocale: apiDefaultLocale,
+          available: apiEnabled,
+          dict: getDictionary(apiLocale),
+          isAdmin: false
+        },
+        () => next()
+      );
+    }
+    // Admin runs in its own language; never prefixed.
+    if (fullPath === '/admin' || fullPath.startsWith('/admin/')) {
+      const locale = await getAdminLanguage();
+      request.locale = locale;
+      request.localePath = fullPath;
+      return runWithLocale(
+        {
+          locale,
+          defaultLocale: locale,
+          available: [locale],
+          dict: getDictionary(locale),
+          isAdmin: true
+        },
+        () => next()
+      );
+    }
+    // Storefront: strip a leading /<locale> only for an enabled, non-default locale.
+    const defaultLocale = await getStoreLanguage();
+    const enabled = await getEnabledLanguages();
+    const { locale, isPrefixed } = pickStorefrontLocale(
+      fullPath.split('/')[1],
+      enabled,
+      defaultLocale
+    );
+    request.locale = locale;
+    request.localePath = isPrefixed
+      ? `/${fullPath.split('/').slice(2).join('/')}`
+      : fullPath;
+    return runWithLocale(
+      {
+        locale,
+        defaultLocale,
+        available: enabled,
+        dict: getDictionary(locale),
+        isAdmin: false
+      },
+      () => next()
+    );
+  });
+
   app.use((request, response, next) => {
     const routes = getRoutes();
     const method = request.method.toUpperCase();
-    const requestPath = request.originalUrl.split('?')[0];
+    const requestPath =
+      request.localePath ?? request.originalUrl.split('?')[0];
     const matchedRoutes = routes.filter((r) => {
       const regexp = pathToRegexp(r.path, []);
       const match = regexp.exec(requestPath);
@@ -113,8 +221,12 @@ export function addDefaultMiddlewareFuncs(app) {
   });
   const sessionMiddleware = (request, response, next) => {
     const { currentRoute } = request;
-    if (currentRoute?.isApi) {
-      // We don't need session for api routes. Restful api should be stateless
+    if (currentRoute?.isApi || !routeNeedsSession(currentRoute?.id)) {
+      // We don't need session for api routes. Restful api should be stateless.
+      // Asset-serving routes (the /images optimizer, static assets) are
+      // exempt too: a session per image request meant a Set-Cookie on every
+      // response - which makes CDNs refuse to cache the images - and a
+      // session INSERT per image request against the session store.
       next();
     } else if (currentRoute?.isAdmin) {
       adminSessionMiddleware(request, response, next);
@@ -125,8 +237,11 @@ export function addDefaultMiddlewareFuncs(app) {
   app.use(sessionMiddleware);
 
   app.use(async (request, response, next) => {
-    // Get the request path, remove '/' from both ends
-    const path = request.originalUrl.split('?')[0].replace(/^\/|\/$/g, '');
+    // Get the request path (locale-prefix stripped), remove '/' from both ends
+    const path = (request.localePath ?? request.originalUrl.split('?')[0]).replace(
+      /^\/|\/$/g,
+      ''
+    );
     // If the current route is already set, or the path contains .hot-update.json, .hot-update.js skip this middleware
     if (request.currentRoute || path.includes('.hot-update')) {
       return next();
@@ -136,11 +251,28 @@ export function addDefaultMiddlewareFuncs(app) {
       return next();
     }
 
-    // Find the matched rewrite rule base on the request path
-    const rewriteRule = await select()
-      .from('url_rewrite')
-      .where('request_path', '=', `/${path}`)
-      .load(pool);
+    // Find the matched rewrite rule based on the request path. url_rewrite only
+    // enforces UNIQUE(entity_uuid), so two entities (e.g. a landing page and a
+    // CMS page) can share a request_path. Resolve deterministically by
+    // entity_type PRECEDENCE — landing pages win a genuine collision, then
+    // cms_page, product, category, then oldest id (see wiki/landing-pages.md).
+    // The query-builder can't express a CASE order (its OrderBy holds a single
+    // field and mangles a CASE string), so this drops to raw SQL.
+    const rewriteResult = await pool.query(
+      `SELECT * FROM url_rewrite
+       WHERE request_path = $1
+       ORDER BY CASE entity_type
+           WHEN 'landing_page' THEN 0
+           WHEN 'cms_page' THEN 1
+           WHEN 'product' THEN 2
+           WHEN 'category' THEN 3
+           ELSE 4
+         END,
+         url_rewrite_id ASC
+       LIMIT 1`,
+      [`/${path}`]
+    );
+    const rewriteRule = rewriteResult.rows[0] ?? null;
 
     if (rewriteRule) {
       // Find the route
@@ -172,63 +304,60 @@ export function addDefaultMiddlewareFuncs(app) {
     }
   });
 
-  app.use(async (request, response, next) => {
-    if (!isDevelopmentMode()) {
-      return next();
-    }
-
-    const route = findRoute(request);
-    if (!route || !isBuildRequired(route)) {
-      next();
-    } else {
-      if (!app.locals.webpackCompiler) {
-        app.locals.webpackCompiler = webpack(createConfigClient() as any);
-      }
-      const { webpackCompiler } = app.locals;
-      let middlewareFunc;
-      if (!app.locals.webpackMiddleware) {
-        middlewareFunc = app.locals.webpackMiddleware = middleware(
-          webpackCompiler,
-          {
-            serverSideRender: true,
-            publicPath: '/',
-            stats: 'none'
+  if (isDevelopmentMode()) {
+    // Admin webpack dev middleware - only for /backend/* paths
+    app.use((request, response, next) => {
+      if (request.path.startsWith('/backend/')) {
+        const adminDevMiddleware = getDevMiddleware(true);
+        adminDevMiddleware.waitUntilValid(() => {
+          const { stats } = adminDevMiddleware.context;
+          if (stats) {
+            response.locals.jsonWebpackStats = stats.toJson();
           }
-        );
-        middlewareFunc.context.logger.info = () => {};
+        });
+        adminDevMiddleware(request, response, next);
       } else {
-        middlewareFunc = app.locals.webpackMiddleware;
+        next();
       }
-      middlewareFunc.waitUntilValid(() => {
-        const { stats } = middlewareFunc.context;
-        const jsonWebpackStats = stats.toJson();
-        response.locals.jsonWebpackStats = jsonWebpackStats;
-      });
-
-      middlewareFunc(request, response, next);
-    }
-  });
-  app.use((request, response, next) => {
-    if (!isDevelopmentMode()) {
-      return next();
-    }
-    const route = findRoute(request);
-    request.currentRoute = route;
-    if (!isBuildRequired(route)) {
-      return next();
-    }
-    if (!app.locals.hotMiddleware) {
-      const { webpackCompiler } = app.locals;
-      const hotMiddleware = webpackHotMiddleware(webpackCompiler, {
-        path: `/eHot`
-      });
-      app.locals.hotMiddleware = hotMiddleware;
-    }
-    return app.locals.hotMiddleware(request, response, () => {
-      next();
     });
-  });
 
+    app.use((request, response, next) => {
+      if (request.path.startsWith('/__webpack_hmr_admin')) {
+        const adminHotMiddleware = getHotMiddleware(true);
+        adminHotMiddleware(request, response, next);
+      } else {
+        next();
+      }
+    });
+
+    // Frontstore webpack dev middleware - for all other paths
+    app.use((request, response, next) => {
+      if (
+        !request.path.startsWith('/backend/') &&
+        !request.path.startsWith('/__webpack_hmr_admin')
+      ) {
+        const frontstoreDevMiddleware = getDevMiddleware(false);
+        frontstoreDevMiddleware.waitUntilValid(() => {
+          const { stats } = frontstoreDevMiddleware.context;
+          if (stats) {
+            response.locals.jsonWebpackStats = stats.toJson();
+          }
+        });
+        frontstoreDevMiddleware(request, response, next);
+      } else {
+        next();
+      }
+    });
+
+    app.use((request, response, next) => {
+      if (request.path.startsWith('/__webpack_hmr_frontstore')) {
+        const frontstoreHotMiddleware = getHotMiddleware(false);
+        frontstoreHotMiddleware(request, response, next);
+      } else {
+        next();
+      }
+    });
+  }
   /** 404 Not Found handle */
   app.use((request, response, next) => {
     if (!request.currentRoute) {

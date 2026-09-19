@@ -100,18 +100,16 @@
         "minLength": "Meta description is required and cannot be empty"
       }
     },
-    "meta_keywords": {
-      "type": "string",
-      "errorMessage": {
-        "type": "Meta keywords must be a string"
-      }
-    },
     "url_key": {
       "type": "string",
-      "pattern": "^\\S+$",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 255,
       "errorMessage": {
         "type": "URL key must be a string",
-        "pattern": "URL key cannot contain spaces"
+        "pattern": "URL key must contain only lowercase letters, numbers, and hyphens (e.g., 'my-category-name')",
+        "minLength": "URL key cannot be empty",
+        "maxLength": "URL key cannot exceed 255 characters"
       }
     },
     "status": {
@@ -120,14 +118,6 @@
       "errorMessage": {
         "type": "Status must be a number or string",
         "enum": "Status must be either 0, 1, '0', or '1'"
-      }
-    },
-    "include_in_nav": {
-      "type": ["integer", "string"],
-      "enum": [0, 1, "0", "1"],
-      "errorMessage": {
-        "type": "Include in navigation must be a number or string",
-        "enum": "Include in navigation must be either 0, 1, '0', or '1'"
       }
     },
     "parent_id": {

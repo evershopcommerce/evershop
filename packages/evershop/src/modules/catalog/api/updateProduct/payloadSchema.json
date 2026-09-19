@@ -1,0 +1,80 @@
+{
+  "type": "object",
+  "properties": {
+    "description": {
+      "type": "array",
+      "skipEscape": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "errorMessage": {
+              "type": "Description block ID must be a string"
+            }
+          },
+          "size": {
+            "type": "number",
+            "errorMessage": {
+              "type": "Description block size must be a number"
+            }
+          },
+          "columns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "errorMessage": {
+                    "type": "Column ID must be a string"
+                  }
+                },
+                "size": {
+                  "type": "number",
+                  "errorMessage": {
+                    "type": "Column size must be a number"
+                  }
+                },
+                "data": {
+                  "type": "object",
+                  "errorMessage": {
+                    "type": "Column data must be an object"
+                  }
+                }
+              },
+              "required": ["id", "size", "data"],
+              "errorMessage": {
+                "required": {
+                  "id": "Column ID is required",
+                  "size": "Column size is required",
+                  "data": "Column data is required"
+                }
+              }
+            },
+            "errorMessage": {
+              "type": "Columns must be an array"
+            }
+          }
+        },
+        "required": ["id", "size", "columns"],
+        "errorMessage": {
+          "required": {
+            "id": "Description block ID is required",
+            "size": "Description block size is required",
+            "columns": "Description block columns are required"
+          }
+        }
+      },
+      "default": [],
+      "errorMessage": {
+        "type": "Description must be an array"
+      }
+    },
+    "metafields": {
+      "type": "object",
+      "skipEscape": true
+    }
+  },
+  "additionalProperties": true
+}

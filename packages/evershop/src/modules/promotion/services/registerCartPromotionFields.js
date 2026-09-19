@@ -1,5 +1,7 @@
-import { getConfig } from '../../../lib/util/getConfig.js';
+import { select } from '@evershop/postgres-query-builder';
+import { pool } from '../../../lib/postgres/connection.js';
 import { toPrice } from '../../checkout/services/toPrice.js';
+import { getPriceIncludingTax } from '../../tax/services/taxSettings.js';
 import { validateCoupon } from './couponValidator.js';
 import { calculateDiscount } from './discountCalculator.js';
 
@@ -64,10 +66,7 @@ export function registerCartPromotionFields(fields) {
         key: 'sub_total_with_discount',
         resolvers: [
           async function resolver() {
-            const priceIncludingTax = getConfig(
-              'pricing.tax.price_including_tax',
-              false
-            );
+            const priceIncludingTax = getPriceIncludingTax();
             if (!priceIncludingTax) {
               return toPrice(
                 this.getData('sub_total') - this.getData('discount_amount')
@@ -101,8 +100,27 @@ export function registerCartPromotionFields(fields) {
         dependencies: ['sub_total_with_discount', 'tax_amount']
       },
       {
-        key: 'shipping_fee_excl_tax', // This is to make sure the shipping fee is calculated after the coupon validation
-        resolvers: [],
+        // Free-shipping coupon overlay on top of the base shipping_fee_draft.
+        // The base resolver (in checkout/cart/registerCartBaseFields.js) reads
+        // the snapshot cost from cart.shipping_method_data; this overlay runs
+        // after it and zeroes the cost when a coupon with free_shipping
+        // applies. Resolver-concat ordering relies on checkout < promotion
+        // alphabetical module load.
+        //
+        // See wiki/shipping-provider-design.md → "Shipping fee resolver chain".
+        key: 'shipping_fee_draft',
+        resolvers: [
+          async function freeShippingOverlay(prior) {
+            if (prior === 0 || prior === null) return prior;
+            const couponCode = this.getData('coupon');
+            if (!couponCode) return prior;
+            const couponRow = await select()
+              .from('coupon')
+              .where('coupon', '=', couponCode)
+              .load(pool);
+            return couponRow && couponRow.free_shipping ? 0 : prior;
+          }
+        ],
         dependencies: ['coupon']
       },
       {

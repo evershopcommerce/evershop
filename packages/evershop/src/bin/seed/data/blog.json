@@ -1,0 +1,215 @@
+{
+  "categories": [
+    {
+      "name": "Guides",
+      "url_key": "guides",
+      "comment_policy": "open",
+      "status": 1,
+      "short_description": "Practical how-tos for running and growing your store."
+    },
+    {
+      "name": "Tutorials",
+      "url_key": "tutorials",
+      "comment_policy": "open",
+      "status": 1,
+      "short_description": "Step-by-step technical walkthroughs."
+    },
+    {
+      "name": "Announcements",
+      "url_key": "announcements",
+      "comment_policy": "moderated",
+      "status": 1,
+      "short_description": "Product news and store updates."
+    }
+  ],
+  "tags": [
+    { "name": "Getting Started", "url_key": "getting-started" },
+    { "name": "Tips", "url_key": "tips" },
+    { "name": "EverShop", "url_key": "evershop" },
+    { "name": "SEO", "url_key": "seo" }
+  ],
+  "posts": [
+    {
+      "name": "Getting Started with Your Online Store",
+      "url_key": "getting-started-with-your-online-store",
+      "status": 1,
+      "category": "Guides",
+      "tags": ["Getting Started", "EverShop"],
+      "short_description": "Everything you need to launch your store and make your first sale — from setup to your first order.",
+      "thumbnail": "https://picsum.photos/seed/evershop-store-launch/1200/675",
+      "meta_title": "Getting Started with Your Online Store",
+      "meta_description": "A friendly walkthrough to launch your store and take your first order.",
+      "content": [
+        {
+          "id": "r1",
+          "size": 1,
+          "columns": [
+            {
+              "id": "c1",
+              "size": 1,
+              "data": {
+                "blocks": [
+                  { "type": "header", "data": { "text": "Welcome to your new store", "level": 2 } },
+                  { "type": "paragraph", "data": { "text": "Launching an online store has never been easier. In this guide we'll walk through the essentials so you can go from an empty catalog to taking real orders." } },
+                  { "type": "header", "data": { "text": "Your first three steps", "level": 3 } },
+                  { "type": "list", "data": { "style": "ordered", "items": ["Add your first products with clear photos and descriptions.", "Set up a payment method so customers can check out.", "Configure shipping rates for the regions you serve."] } },
+                  { "type": "paragraph", "data": { "text": "Once those are in place, your storefront is ready for business." } },
+                  { "type": "quote", "data": { "text": "The secret of getting ahead is getting started.", "caption": "Mark Twain" } }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "comments": [
+        {
+          "name": "Sarah",
+          "comment": "This was exactly what I needed — thank you!",
+          "status": "approved",
+          "replies": [
+            { "name": "Store Team", "comment": "Glad it helped, Sarah! Let us know if you get stuck.", "status": "approved" }
+          ]
+        },
+        { "name": "Mike", "comment": "Great starting point. Bookmarked for later.", "status": "approved" }
+      ]
+    },
+    {
+      "name": "10 Tips to Boost Your Conversion Rate",
+      "url_key": "10-tips-to-boost-your-conversion-rate",
+      "status": 1,
+      "category": "Guides",
+      "tags": ["Tips"],
+      "short_description": "Small changes that add up to more sales. Ten practical, proven tactics to turn visitors into customers.",
+      "thumbnail": "https://picsum.photos/seed/evershop-conversion/1200/675",
+      "meta_title": "10 Tips to Boost Your Conversion Rate",
+      "meta_description": "Ten proven tactics to turn store visitors into paying customers.",
+      "content": [
+        {
+          "id": "r1",
+          "size": 1,
+          "columns": [
+            {
+              "id": "c1",
+              "size": 1,
+              "data": {
+                "blocks": [
+                  { "type": "paragraph", "data": { "text": "Traffic is only half the battle — what matters is how many visitors actually buy. Here are ten tactics that consistently move the needle." } },
+                  { "type": "list", "data": { "style": "ordered", "items": ["Use high-quality product images from multiple angles.", "Write benefit-driven product descriptions.", "Show real customer reviews and ratings.", "Make your add-to-cart button impossible to miss.", "Offer a free-shipping threshold.", "Reduce checkout to the fewest steps possible.", "Display trust badges near payment.", "Send abandoned-cart reminders.", "Create urgency with limited-time offers.", "Optimize page speed on mobile."] } },
+                  { "type": "paragraph", "data": { "text": "Pick two or three to test this week — you don't have to do them all at once." } }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "comments": [
+        { "name": "Jen", "comment": "Tip #6 made a huge difference for our checkout. 👍", "status": "approved" }
+      ]
+    },
+    {
+      "name": "How to Optimize Product Pages for SEO",
+      "url_key": "how-to-optimize-product-pages-for-seo",
+      "status": 1,
+      "category": "Tutorials",
+      "tags": ["SEO", "Tips"],
+      "short_description": "A practical checklist for ranking your product pages higher and earning rich results in search.",
+      "thumbnail": "https://picsum.photos/seed/evershop-seo/1200/675",
+      "meta_title": "How to Optimize Product Pages for SEO",
+      "meta_description": "A practical checklist to rank product pages higher and win rich results.",
+      "content": [
+        {
+          "id": "r1",
+          "size": 1,
+          "columns": [
+            {
+              "id": "c1",
+              "size": 1,
+              "data": {
+                "blocks": [
+                  { "type": "paragraph", "data": { "text": "Your product pages are where buying decisions happen — and where a lot of organic traffic can come from if you get the details right." } },
+                  { "type": "header", "data": { "text": "Nail the basics", "level": 3 } },
+                  { "type": "list", "data": { "style": "unordered", "items": ["Write a unique, keyword-aware title and meta description.", "Use a clean, readable URL.", "Add descriptive alt text to every image."] } },
+                  { "type": "header", "data": { "text": "Go further with structured data", "level": 3 } },
+                  { "type": "paragraph", "data": { "text": "Structured data helps search engines understand your content and can earn you rich results — star ratings, prices, and availability right in the search listing." } },
+                  { "type": "paragraph", "data": { "text": "Combine these with fast load times and you'll have pages that both rank and convert." } }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "comments": [
+        { "name": "Priya", "comment": "The structured data section finally made this click for me. Thanks!", "status": "approved" }
+      ]
+    },
+    {
+      "name": "Introducing Our Spring Collection",
+      "url_key": "introducing-our-spring-collection",
+      "status": 1,
+      "category": "Announcements",
+      "tags": ["EverShop"],
+      "short_description": "Fresh arrivals for the season — lighter fabrics, brighter colors, and a few surprises.",
+      "thumbnail": "https://picsum.photos/seed/evershop-spring/1200/675",
+      "meta_title": "Introducing Our Spring Collection",
+      "meta_description": "Fresh seasonal arrivals — lighter fabrics, brighter colors, limited editions.",
+      "content": [
+        {
+          "id": "r1",
+          "size": 1,
+          "columns": [
+            {
+              "id": "c1",
+              "size": 1,
+              "data": {
+                "blocks": [
+                  { "type": "paragraph", "data": { "text": "Spring is here, and so is our brand-new collection. We've spent months curating pieces that feel fresh, comfortable, and ready for warmer days." } },
+                  { "type": "header", "data": { "text": "What's new", "level": 3 } },
+                  { "type": "list", "data": { "style": "unordered", "items": ["Lightweight everyday essentials.", "A refreshed palette of seasonal colors.", "Limited-edition pieces you won't find again."] } },
+                  { "type": "paragraph", "data": { "text": "Browse the collection today and let us know your favorites in the comments." } }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "comments": [
+        { "name": "Alex", "comment": "Can't wait to see it!", "status": "pending" }
+      ]
+    },
+    {
+      "name": "Building a Headless Storefront with EverShop",
+      "url_key": "building-a-headless-storefront-with-evershop",
+      "status": 1,
+      "category": "Tutorials",
+      "tags": ["EverShop", "Getting Started"],
+      "short_description": "Go beyond the default theme — use EverShop's GraphQL API to power a fully custom frontend.",
+      "thumbnail": "https://picsum.photos/seed/evershop-headless/1200/675",
+      "meta_title": "Building a Headless Storefront with EverShop",
+      "meta_description": "Use EverShop's GraphQL API to power a fully custom, headless frontend.",
+      "content": [
+        {
+          "id": "r1",
+          "size": 1,
+          "columns": [
+            {
+              "id": "c1",
+              "size": 1,
+              "data": {
+                "blocks": [
+                  { "type": "paragraph", "data": { "text": "EverShop ships with a capable storefront, but sometimes you want complete control over the frontend. Its GraphQL API makes a headless setup straightforward." } },
+                  { "type": "header", "data": { "text": "Why go headless?", "level": 3 } },
+                  { "type": "list", "data": { "style": "unordered", "items": ["Total design freedom on the frontend.", "Reuse the same backend for web, mobile, and more.", "Adopt modern frameworks without forking the core."] } },
+                  { "type": "paragraph", "data": { "text": "Start by exploring the GraphQL playground, then wire your frontend to the queries you need." } },
+                  { "type": "quote", "data": { "text": "Make it work, make it right, make it fast.", "caption": "Kent Beck" } }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "comments": [
+        { "name": "Dev", "comment": "Would love a follow-up on authentication for the headless setup.", "status": "approved" }
+      ]
+    }
+  ]
+}

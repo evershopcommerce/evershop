@@ -1,0 +1,323 @@
+"Blog category","Bloggkategori"
+"Blog post","Blogginnlegg"
+"Blog tag","Bloggtagg"
+"Build in page builder","Bygg i sidebyggeren"
+"Change edit scope","Endre redigeringsomfang"
+"Control when this landing page is published. Leave empty for no limit.","Styr når denne landingssiden publiseres. La stå tom for ingen begrensning."
+"Create a new landing page","Opprett en ny landingsside"
+"Current link: ${url}","Gjeldende lenke: ${url}"
+"Delete ${count} landing pages","Slett ${count} landingssider"
+"Disable ${count} landing pages","Deaktiver ${count} landingssider"
+"Editing","Redigerer"
+"Enable ${count} landing pages","Aktiver ${count} landingssider"
+"Enable this landing page to make it visible on the storefront.","Aktiver denne landingssiden for å gjøre den synlig i butikkfronten."
+"Enter landing page name","Skriv inn navn på landingssiden"
+"Landing Pages","Landingssider"
+"Landing page","Landingsside"
+"Landing page created successfully!","Landingssiden ble opprettet!"
+"Loading pages…","Laster sider…"
+"New Landing Page","Ny landingsside"
+"No ${kind}s match ""${query}"".","Ingen ${kind}s samsvarer med ""${query}""."
+"No ${kind}s yet.","Ingen ${kind}s ennå."
+"No categories match ""${query}"".","Ingen kategorier samsvarer med ""${query}""."
+"No categories yet.","Ingen kategorier ennå."
+"No collections match ""${query}"".","Ingen kolleksjoner samsvarer med ""${query}""."
+"No collections yet.","Ingen kolleksjoner ennå."
+"No landing pages match ""${query}"".","Ingen landingssider samsvarer med ""${query}""."
+"No landing pages yet.","Ingen landingssider ennå."
+"No pages found.","Ingen sider funnet."
+"No pages match ""${query}"".","Ingen sider samsvarer med ""${query}""."
+"No pages yet.","Ingen sider ennå."
+"No products match ""${query}"".","Ingen produkter samsvarer med ""${query}""."
+"No products yet.","Ingen produkter ennå."
+Paste a URL or a relative path starting with ,Lim inn en URL eller en relativ sti som begynner med 
+"Pick a CMS page to link to.","Velg en CMS-side å lenke til."
+"Pick a blog ${kind} to link to.","Velg en blogg-${kind} å lenke til."
+"Pick a category to link to.","Velg en kategori å lenke til."
+"Pick a collection.","Velg en kolleksjon."
+"Pick a landing page to link to.","Velg en landingsside å lenke til."
+"Pick a product to link to.","Velg et produkt å lenke til."
+"Provide the SEO details for the landing page.","Oppgi SEO-detaljene for landingssiden."
+"Provide the basic information for the landing page.","Oppgi den grunnleggende informasjonen for landingssiden."
+"Publish end","Publiseringsslutt"
+"Publish start","Publiseringsstart"
+"Schedule","Tidsplan"
+"The internal name of the landing page shown in the admin panel.","Det interne navnet på landingssiden som vises i administrasjonspanelet."
+"There is no landing page to display","Det finnes ingen landingsside å vise"
+"This is the URL path for the landing page.","Dette er URL-stien for landingssiden."
+"This page","Denne siden"
+"Duplicating ${name}","Dupliserer ${name}"
+"The duplicate is created from the last saved version of this product. Your unsaved edits will not be included and will be lost when you leave this page.","Duplikatet opprettes fra den sist lagrede versjonen av dette produktet. Ulagrede endringer blir ikke inkludert og går tapt når du forlater denne siden."
+"Continue without saving","Fortsett uten å lagre"
+"You are creating a copy of ${name}","Du oppretter en kopi av ${name}"
+"The copy is created as a standalone product — it does not join the source's variant group. Add it from the copy's edit page if needed.","Kopien opprettes som et frittstående produkt — den blir ikke med i kildeproduktets variantgruppe. Legg den til fra kopiens redigeringsside ved behov."
+"Nothing is duplicated yet — hit Save to complete the duplication. Leaving this page without saving discards the copy.","Ingenting er duplisert ennå — trykk Lagre for å fullføre dupliseringen. Forlater du denne siden uten å lagre, forkastes kopien."
+"Replace homepage with this page","Erstatt forsiden med denne siden"
+"The homepage will show the widgets of ""${name}"".","Forsiden vil vise widgetene til ""${name}""."
+"Checking the homepage…","Kontrollerer forsiden…"
+"Something changed since the preview. Please review again.","Noe har endret seg siden forhåndsvisningen. Kontroller på nytt."
+"These rollout plans change the homepage. Cancel them or wait until they end, then try again.","Disse utrullingsplanene endrer forsiden. Avbryt dem eller vent til de er ferdige, og prøv igjen."
+"The homepage has page-specific widget placements. Remove them in the page builder first.","Forsiden har sidespesifikke widgetplasseringer. Fjern dem i page builder først."
+"active","aktiv"
+"upcoming","kommende"
+"The current homepage widgets will be moved to a new disabled landing page named ""${name}"". You can restore it later with this same action.","Forsidens nåværende widgeter flyttes til en ny, deaktivert landingsside med navnet ""${name}"". Du kan gjenopprette den senere med samme handling."
+"${count} unpublished homepage change(s) by you will be discarded.","${count} upubliserte forsideendring(er) gjort av deg vil bli forkastet."
+"${count} unpublished homepage change(s) by ${admins} other admin(s) will be discarded.","${count} upubliserte forsideendring(er) gjort av ${admins} annen/andre administrator(er) vil bli forkastet."
+"${count} change(s) left over from cancelled rollout plans will be discarded.","${count} endring(er) som gjenstår fra avbrutte utrullingsplaner vil bli forkastet."
+"${count} ended rollout plan(s) that changed the homepage will be cancelled so they cannot be re-scheduled.","${count} avsluttet(e) utrullingsplan(er) som endret forsiden vil bli avbrutt slik at de ikke kan planlegges på nytt."
+"This landing page is not live (unpublished, scheduled, or expired). The homepage does not use its schedule; the copy goes live as soon as you confirm.","Denne landingssiden er ikke aktiv (upublisert, planlagt eller utløpt). Forsiden bruker ikke tidsplanen dens; kopien er aktiv så snart du bekrefter."
+"This landing page has ${count} unpublished change(s) in the page builder. Only published content is copied. Publish it first if the editor canvas is what you want.","Denne landingssiden har ${count} upubliserte endring(er) i page builder. Bare publisert innhold kopieres. Publiser den først hvis du vil ha det redigeringsvinduet viser."
+"A rollout plan is changing this landing page. Only its published content is copied.","En utrullingsplan endrer denne landingssiden. Bare det publiserte innholdet kopieres."
+"${count} widget(s) shown on every landing page are not part of this page and will not be copied.","${count} widget(er) som vises på alle landingssider er ikke en del av denne siden og vil ikke bli kopiert."
+"${count} hidden widget(s) in this page's ""content"" area will not be copied.","${count} skjult(e) widget(er) i denne sidens ""content""-område vil ikke bli kopiert."
+"${count} link(s) in this page point at the page itself. They will still point there from the homepage.","${count} lenke(r) på denne siden peker til siden selv. Fra forsiden vil de fortsatt peke dit."
+"This landing page has no visible widgets in the current theme. The homepage will be empty.","Denne landingssiden har ingen synlige widgeter i gjeldende tema. Forsiden vil bli tom."
+"${count} site-wide widget(s) sit in the homepage content area and will appear mixed into the copied layout.","${count} nettstedsomfattende widget(er) ligger i forsidens innholdsområde og vil vises blandet med det kopierte oppsettet."
+"Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Ferdig. ""${name}"" er fortsatt publisert på sin egen URL. Du har nå ${count} sikkerhetskopi(er) av forsiden."
+"View backup","Vis sikkerhetskopi"
+"Open homepage in page builder","Åpne forsiden i page builder"
+Close,Lukk
+Cancel,Avbryt
+"Replace homepage","Erstatt forsiden"
+"Could not check the homepage.","Kunne ikke kontrollere forsiden."
+"The homepage could not be replaced.","Forsiden kunne ikke erstattes."
+"Include unpublished pages","Inkluder upubliserte sider"
+"This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Denne widgeten er også plassert på ${count} bestemt(e) side(r) som administreres i page builder. De plasseringene vises ikke her og endres ikke når du lagrer."
+Blog Home,Bloggforside
+All posts,Alle innlegg
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Bare http(s)-, mailto-, tel- eller relative lenker er tillatt — denne lenken ignoreres i butikken."
+Link target,Lenkemål
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","Hvor «Vis alle»-lenken går — en kategori, side eller egendefinert URL. Samlinger har ingen egen side, så la feltet stå tomt for å skjule lenken."
+"Optional. Defaults to ""View all N →"".",Valgfritt. Standard er «Vis alle N →».
+Whole country,Hele landet
+${count} selected,${count} valgt
+Select provinces,Velg fylker
+Used below 640 px. Falls back to the main image.,Brukes under 640 px. Faller tilbake til hovedbildet.
+mobile,mobil
+Webhook ID,Webhook-ID
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.",ID-en til et webhook opprettet i PayPals utviklerdashbord som peker på /api/paypal/webhook. Aktiverer betalingsbekreftelse på serversiden.
+System Setting,Systeminnstillinger
+File storage and service credentials,Fillagring og tjenestelegitimasjon
+Pricing & Tax,Priser og avgifter
+"Price rounding, tax calculation, classes & rates","Prisavrunding, avgiftsberegning, klasser og satser"
+Social sharing preview,Forhåndsvisning for deling
+Account menu,Kontomeny
+Grid columns.,Rutenettkolonner.
+Product listing and image settings,Innstillinger for produktliste og bilder
+Edit variant,Rediger variant
+Sold,Solgt
+Not collected (zero-total order),Ikke innhentet (ordre med nullsum)
+All landing pages,Alle landingssider
+System setting saved,Systeminnstilling lagret
+All ${attribute},Alle ${attribute}
+${count} of ${total},${count} av ${total}
+No variants match the selected options.,Ingen varianter samsvarer med de valgte alternativene.
+This product has no other variants yet.,Dette produktet har ingen andre varianter ennå.
+Optional. Shown under the row heading.,Valgfritt. Vises under radoverskriften.
+A short description for this row,En kort beskrivelse av denne raden
+Product count,Antall produkter
+Total products to show per collection.,Totalt antall produkter som vises per samling.
+Shown above the products. The shelf renders nothing at all when no products qualify.,Vises over produktene. Hyllen vises ikke i det hele tatt når ingen produkter kvalifiserer.
+e.g. You may also like,f.eks. Du liker kanskje også
+Products to show,Produkter som skal vises
+Between 1 and 12 — 3 to 5 works best.,Mellom 1 og 12 — 3 til 5 fungerer best.
+Product count is required,Antall produkter er påkrevd
+Nearest,Nærmeste
+Round up,Rund opp
+Round down,Rund ned
+Line item,Ordrelinje
+Per unit,Per enhet
+Price rounding,Prisavrunding
+How every monetary amount is rounded across the store.,Hvordan alle pengebeløp avrundes i hele butikken.
+Pricing settings have been saved successfully!,Prisinnstillingene ble lagret!
+Rounding mode,Avrundingsmodus
+The direction used when rounding prices to the decimal precision.,Retningen som brukes når priser avrundes til desimalpresisjonen.
+Decimal precision,Desimalpresisjon
+Number of decimal places prices are rounded to.,Antall desimaler prisene avrundes til.
+Tax rounding mode,Avrundingsmodus for avgift
+The direction used when rounding the calculated tax amount.,Retningen som brukes når det beregnede avgiftsbeløpet avrundes.
+Tax decimal precision,Desimalpresisjon for avgift
+Number of decimal places the tax amount is rounded to.,Antall desimaler avgiftsbeløpet avrundes til.
+Tax rounding level,Avrundingsnivå for avgift
+"Where tax rounding is applied: per unit, per line, or on the order total.","Hvor avgiftsavrunding brukes: per enhet, per linje eller på ordresummen."
+Catalog prices include tax,Katalogpriser inkluderer avgift
+Enable when the product prices you enter already include tax.,Aktiver når produktprisene du legger inn allerede inkluderer avgift.
+Catalog settings have been saved successfully!,Kataloginnstillingene ble lagret!
+Product listing,Produktliste
+Control how products appear in storefront listings.,Styr hvordan produkter vises i butikklistene.
+Show out of stock products,Vis utsolgte produkter
+"When enabled, products with no available stock stay visible on the storefront.","Når dette er aktivert, forblir produkter uten tilgjengelig lager synlige i butikken."
+Products per page,Produkter per side
+Number of products shown per page on category and collection listings.,Antall produkter som vises per side i kategori- og samlingslister.
+Product images,Produktbilder
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","Størrelsen produktbildene dine opprettes i. Dette angir referanse-sideforholdet og maksimal oppløsning for produktbilder i hele butikken — lister, handlekurv, kasse og produktsider. Hver plassering tilpasses sin bredde og utleder høyden fra dette forholdet."
+Original image width (px),Bredde på originalbilde (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.",Bredden på originale produktbilder. 1920px eller større anbefales slik at zoomen på produktsiden forblir skarp på store skjermer med høy tetthet.
+Original image height (px),Høyde på originalbilde (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,Høyden på originale produktbilder. Bredde ÷ høyde er sideforholdet som brukes på hvert produktbilde.
+Related products rules,Regler for relaterte produkter
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,Gjelder alle produkter i denne kategorien som arver reglene sine. Produkter med egen overstyring påvirkes ikke.
+Override the global rules for this category,Overstyr de globale reglene for denne kategorien
+Overridden on this category,Overstyrt på denne kategorien
+Source: Global settings,Kilde: Globale innstillinger
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,Produkter i denne kategorien følger de globale reglene for relaterte produkter. Forhåndsvis hva kundene ser fra redigeringsskjermen til et hvilket som helst produkt.
+Regional & Units,Region og enheter
+Currency,Valuta
+Default currency for new carts and price display. Existing orders keep their own currency.,Standardvaluta for nye handlekurver og prisvisning. Eksisterende ordrer beholder sin egen valuta.
+Timezone,Tidssone
+Timezone used to display dates in the store.,Tidssonen som brukes til å vise datoer i butikken.
+Weight unit,Vektenhet
+Dimension unit,Måleenhet
+Branding,Merkevare
+"Your logo, favicon, and the image shown when your store is shared on social media.","Logoen din, favicon og bildet som vises når butikken deles på sosiale medier."
+Logo,Logo
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,Vises i butikkens topptekst. Bruk en PNG med høy oppløsning og gjennomsiktig bakgrunn — den skaleres automatisk til temaet ditt og leveres som optimalisert WebP.
+Favicon,Favicon
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,Det lille ikonet i nettleserfaner. Last opp en kvadratisk PNG på minst 512×512px — 16/32px-ikonene og 180px Apple touch-ikonet genereres automatisk.
+Social sharing image,Delingsbilde for sosiale medier
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","Forhåndsvisningen som vises når en side deles på sosiale medier (Open Graph / Twitter). Anbefalt 1200×630px (1.91:1), PNG eller JPG."
+Analytics,Analyse
+Google Analytics 4 Measurement ID,Google Analytics 4 måle-ID
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Finnes i Google Analytics under Admin → Data Streams → nettstrømmen din. La stå tomt for å deaktivere sporing.
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Skriv inn en gyldig GA4 måle-ID, f.eks. G-XXXXXXXXXX"
+Allow guest checkout,Tillat gjesteutsjekk
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Når dette er aktivert, kan kunder legge inn en bestilling uten konto. Når det er deaktivert, må de logge inn eller registrere seg for å betale."
+Enable rule-based related products,Aktiver regelbaserte relaterte produkter
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,Regler fyller de gjenværende plassene ovenfra og ned (manuelle valg kommer alltid først). Endre rekkefølgen for å endre prioritet.
+Move rule up,Flytt regelen opp
+Move rule down,Flytt regelen ned
+Match these attributes,Match disse attributtene
+No select-type attributes exist yet.,Det finnes ingen attributter av typen valgliste ennå.
+Within scope,Innenfor omfanget
+Same category,Samme kategori
+Same collection,Samme samling
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",Attributtmatching kombineres alltid med et omfang — «samme farge» i hele katalogen ville koblet urelaterte produkter.
+Only show products in a similar price range,Vis bare produkter i et lignende prisområde
+Within ±,Innenfor ±
+% of the product price,% av produktprisen
+Fill remaining slots with bestsellers,Fyll de gjenværende plassene med bestselgere
+Recompute failed,Omberegning mislyktes
+Co-purchase statistics recomputed,Statistikk for samkjøp er omberegnet
+Related products,Relaterte produkter
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,Regler for hyllen «Relaterte produkter» på produktsider. Kategorier og produkter kan overstyre dem; manuelle valg på et produkt kommer alltid først.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.","Upsell-hyllen bruker de samme reglene, begrenset til produkter som er DYRERE enn det som vises (med prisbåndprosenten som øvre grense når aktivert) — ingen utfylling med bestselgere, og ingen upsell for produkter satt til «Kun manuelle valg»."
+Frequently bought together,Ofte kjøpt sammen
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.","Anbefalinger basert på samkjøp regnes som pålitelige bare over disse terskelverdiene. Standardverdiene passer små butikker — å øke dem gir færre, men sterkere forslag."
+Min times bought together,Minste antall ganger kjøpt sammen
+A pair must co-occur in at least this many orders.,Et par må forekomme sammen i minst så mange ordrer.
+Min orders of the product,Minste antall ordrer for produktet
+Orders of a product before its data is trusted.,Antall ordrer for et produkt før dataene regnes som pålitelige.
+Min lift,Minste lift
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,Over 1 = kjøpt sammen oftere enn tilfeldig. Filtrerer bort allestedsnærværende bestselgere.
+Fill empty slots with bestsellers,Fyll tomme plasser med bestselgere
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.",Under terskelverdiene viser hyllen bestselgere fra kategorien og butikken i stedet for ingenting.
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Samkjøpsdata sist beregnet ${date} fra ${total} ordrer (${pairs} produktpar).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Ingen samkjøpsdata ennå — de beregnes hver natt, eller beregn på nytt nå."
+Recomputing…,Beregner på nytt…
+Recompute now,Beregn på nytt nå
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","Webhook-URL-en din skal være: https://yourdomain.com/api/stripe/webhook. Aktiver disse hendelsene (eller «All events»): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Skjult — samme variantgruppe
+Hidden — disabled or out of stock,Skjult — deaktivert eller utsolgt
+no orders yet — ranked newest first,ingen ordrer ennå — nyeste først
+Operation failed,Handlingen mislyktes
+Add products,Legg til produkter
+No manual picks yet.,Ingen manuelle valg ennå.
+(product unavailable),(produktet er utilgjengelig)
+Overridden on this product,Overstyrt på dette produktet
+Source: category,Kilde: kategori
+Could not pin the product,Kunne ikke feste produktet
+Recommendations,Anbefalinger
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,Hva hyllene «Relaterte produkter» og «Ofte kjøpt sammen» viser for dette produktet. Upsell-hyllen utledes fra reglene for relaterte produkter (bare dyrere treff) — ingenting å konfigurere her.
+Rules,Regler
+Inherit (category or global rules),Arv (kategori- eller globale regler)
+Custom rules for this product,Egendefinerte regler for dette produktet
+Manual picks only,Kun manuelle valg
+Manual picks,Manuelle valg
+"Always shown first, in this order, before any rules fill the remaining slots.","Vises alltid først, i denne rekkefølgen, før regler fyller de gjenværende plassene."
+Shoppers will see,Kundene vil se
+Based on the last saved configuration.,Basert på den sist lagrede konfigurasjonen.
+Mode changed — save to update this preview.,Modus endret — lagre for å oppdatere denne forhåndsvisningen.
+Shoppers will see no related products for this product with the current configuration.,Med gjeldende konfigurasjon vil kundene ikke se noen relaterte produkter for dette produktet.
+manual pick,manuelt valg
+bestseller fallback,bestselger-reserve
+Mode,Modus
+Automatic (co-purchase data),Automatisk (samkjøpsdata)
+"Manual picks first, auto-fill the rest","Manuelle valg først, fyll resten automatisk"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,Modus og manuelle valg gjelder bare for denne varianten — konfigurer søskenvariantene likt for atferd på tvers av gruppen.
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,Manuelle valg ignoreres i automatisk modus — bytt til «Manuelle først» eller «Kun manuelle» for å bruke dem.
+Computed from orders,Beregnet fra ordrer
+${count} orders of this product · data from ${total} orders total,${count} ordrer av dette produktet · data fra ${total} ordrer totalt
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).",Ingen samkjøpsdata for dette produktet ennå — de samles opp etter hvert som ordrer kommer inn. Med reserve aktivert viser hyllen bestselgere i mellomtiden (se nedenfor).
+Together,Sammen
+Confidence,Konfidens
+Lift,Lift
+(unavailable),(utilgjengelig)
+hidden,skjult
+shown,vist
+below threshold,under terskelen
+Pin,Fest
+Shoppers will see (frequently bought together),Kundene vil se (ofte kjøpt sammen)
+Shoppers will see no frequently-bought-together products with the current configuration.,Med gjeldende konfigurasjon vil kundene ikke se produkter som ofte kjøpes sammen.
+co-purchase data,samkjøpsdata
+category bestsellers (fallback),bestselgere i kategorien (reserve)
+store bestsellers (fallback),bestselgere i butikken (reserve)
+Exclude this product from recommendations,Ekskluder dette produktet fra anbefalinger
+Never suggest this product alongside others,Foreslå aldri dette produktet sammen med andre
+Enter a type or remove the row,Angi en type eller fjern raden
+Use type/subtype (video/mp4) or a family (video/*),Bruk type/undertype (video/mp4) eller en familie (video/*)
+MB,MB
+Enter a size,Angi en størrelse
+Enter a size greater than zero,Angi en størrelse større enn null
+Remove override,Fjern overstyring
+Add type override,Legg til typeoverstyring
+Managed by configuration (config file or environment variable),Styrt av konfigurasjon (konfigurasjonsfil eller miljøvariabel)
+File Storage & Uploads,Fillagring og opplastinger
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Hvor opplastede filer (produktbilder, bannere, medier) lagres, hvilke typer som er tillatt, og hvor store de kan være"
+Local file system,Lokalt filsystem
+Amazon S3 / S3-compatible,Amazon S3 / S3-kompatibel
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,Bucket er påkrevd
+Bucket name,Bucket-navn
+Region,Region
+Region is required,Region er påkrevd
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),For S3-kompatible tjenester bruker du leverandørens verdi (f.eks. fsn1 for Hetzner)
+Access key ID,Access key ID
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.",Opprett en access key i konsollen til lagringsleverandøren din. For AWS: logg inn på AWS Console og åpne IAM → Users → brukeren din → Security credentials → Create access key.
+Secret access key,Secret access key
+"The secret is shown only once, when the access key is created — copy it from there.","Hemmeligheten vises bare én gang, når access key opprettes — kopier den derfra."
+Custom endpoint,Egendefinert endepunkt
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Bare for S3-kompatible tjenester (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). La stå tomt for AWS."
+Force path-style,Tving path-style
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","Kreves av MinIO. La være av for AWS, Hetzner og R2."
+Public base URL,Offentlig base-URL
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","Valgfritt CDN (f.eks. CloudFront) som leverer bucketen — lar bucketen forbli privat. Uten det må objektene være offentlig lesbare via en bucket policy. Eksempel: https://cdn.mystore.com eller https://d111abcdef8.cloudfront.net, en CloudFront-distribusjon med denne bucketen som origin. Filer leveres som <denne URL-en>/<filbane>, så domenet må peke mot bucket-roten."
+Connection string,Tilkoblingsstreng
+Connection string is required,Tilkoblingsstreng er påkrevd
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Kopier den fra Azure-portalen: logg inn, åpne lagringskontoen din, deretter Security + networking → Access keys → Connection string."
+Container,Container
+Container access,Container-tilgang
+Private (recommended),Privat (anbefalt)
+Public read for blobs,Offentlig lesing for blobs
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",Offentlig lesing krever «Allow blob anonymous access» på lagringskontoen — som standard ikke tillatt på nye kontoer. Foretrekk en privat container med en offentlig base-URL (CDN).
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).","Valgfritt CDN (f.eks. Azure CDN / Front Door) som leverer containeren — lar containeren forbli privat. Filer leveres som <denne URL-en>/<filbane> uten at et container-segment legges til, så enten setter du CDN-ets origin-sti til /<container> (eksempel: https://mystore.azureedge.net) eller inkluderer containeren her (eksempel: https://mystore.azureedge.net/media)."
+Service account key,Tjenestekontonøkkel
+Paste the entire content of the downloaded JSON key file,Lim inn hele innholdet i den nedlastede JSON-nøkkelfilen
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,Opprett en nøkkel i Google Cloud Console: IAM & Admin → Service Accounts → opprett eller velg en konto med rollen Storage Object Admin på bucketen → Keys → Add key → JSON. Lim inn hele den nedlastede filen her.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Har du ikke nøkler? Hvis EverShop kjører på en server som allerede har tilgang til bucketen — for eksempel en AWS IAM-rolle, eller AWS-nøkler satt opp som miljøvariabler på serveren — lar du begge feltene stå tomme, og serverens egen legitimasjon brukes automatisk. Tilkoblingen testes når du lagrer, så et feil eller manglende oppsett kan ikke lagres."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Har du ikke en nøkkel? Hvis EverShop kjører på Google Cloud (Compute Engine, GKE, Cloud Run) med en tjenestekonto tilknyttet, eller miljøvariabelen GOOGLE_APPLICATION_CREDENTIALS er satt på serveren, lar du dette feltet stå tomt, og serverens egen legitimasjon brukes automatisk. Tilkoblingen testes når du lagrer, så et feil eller manglende oppsett kan ikke lagres."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.","Valgfritt CDN (f.eks. Cloud CDN) som leverer bucketen — lar bucketen forbli privat. Uten det må objektene være offentlig lesbare: gi «allUsers» rollen Storage Object Viewer på bucketen (blokkert når Public Access Prevention håndheves i organisasjonen din). Eksempel: https://cdn.mystore.com, et lastbalanserer-domene med denne bucketen som backend bucket."
+Local storage is not recommended for production,Lokal lagring anbefales ikke i produksjon
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Filer som lagres på denne serveren kan gå tapt når den oppdateres, flyttes eller svikter. Bruk heller S3 eller Azure Blob Storage for en live butikk."
+Upload rules,Opplastingsregler
+What can be uploaded and how big it can be — applies on every storage provider.,Hva som kan lastes opp og hvor stort det kan være — gjelder for alle lagringsleverandører.
+Allowed file types,Tillatte filtyper
+Select at least one file type,Velg minst én filtype
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,Filer av andre typer avvises ved opplasting. SVG tilbys bevisst ikke — SVG-filer kan inneholde skript og utgjør en sikkerhetsrisiko når de leveres.
+Also allowed via server configuration: ${types},Også tillatt via serverkonfigurasjonen: ${types}
+Maximum file size,Maksimal filstørrelse
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","Per fil, i megabyte (MB). La stå tomt for standardverdien på 10 MB. Gjelder alle opplastinger i administrasjonspanelet — produktbilder, bannere, medier."
+Per-type overrides,Overstyringer per type
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",Overstyrer maksimal størrelse for filtyper som samsvarer — for eksempel en lavere grense for bilder og en høyere for video. En eksakt type (video/mp4) går foran en familie (video/*); alt uten treff bruker maksimal filstørrelse ovenfor. Overstyringer tillater ikke nye typer: selve filtypen må være aktivert under «Tillatte filtyper».
+Every product in the store,Alle produkter i butikken

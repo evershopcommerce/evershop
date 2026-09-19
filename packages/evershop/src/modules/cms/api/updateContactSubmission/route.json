@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/contact-submissions/:id",
+  "access": "private"
+}

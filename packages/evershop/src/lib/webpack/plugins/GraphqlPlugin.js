@@ -5,7 +5,8 @@ import {
 import { parseGraphql } from '../util/parseGraphql.js';
 
 export const GraphqlPlugin = class GraphqlPlugin {
-  constructor() {
+  constructor(isAdmin = false) {
+    this.isAdmin = isAdmin;
     this.query = {};
     this.fragments = {};
     this.variables = [];
@@ -17,7 +18,7 @@ export const GraphqlPlugin = class GraphqlPlugin {
 
     compiler.hooks.thisCompilation.tap('GraphqlPlugin', (compilation) => {
       // TODO: Can we get list of module without calling getComponentsByRoute again?
-      const components = getAllRouteComponents();
+      const components = getAllRouteComponents(this.isAdmin);
 
       // Store one file per route instead of a single file
       Object.keys(components).forEach((routeId) => {

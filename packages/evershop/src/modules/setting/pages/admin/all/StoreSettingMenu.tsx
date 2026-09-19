@@ -1,4 +1,5 @@
-import { Card } from '@components/admin/Card.js';
+import { SettingMenuItem } from '@components/admin/SettingMenuItem.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface StoreSettingMenuProps {
@@ -9,9 +10,11 @@ export default function StoreSettingMenu({
   storeSettingUrl
 }: StoreSettingMenuProps) {
   return (
-    <Card.Session title={<a href={storeSettingUrl}>Store Setting</a>}>
-      <div>Configure your store information</div>
-    </Card.Session>
+    <SettingMenuItem
+      url={storeSettingUrl}
+      title={_('Store Setting')}
+      description={_('Configure your store information')}
+    />
   );
 }
 

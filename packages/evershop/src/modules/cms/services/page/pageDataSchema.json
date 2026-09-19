@@ -88,10 +88,14 @@
     },
     "url_key": {
       "type": "string",
-      "pattern": "^\\S+$",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "minLength": 1,
+      "maxLength": 255,
       "errorMessage": {
         "type": "URL key must be a string",
-        "pattern": "URL key cannot contain spaces"
+        "pattern": "URL key must contain only lowercase letters, numbers, and hyphens (e.g., 'my-product-name')",
+        "minLength": "URL key cannot be empty",
+        "maxLength": "URL key cannot exceed 255 characters"
       }
     },
     "meta_title": {
@@ -105,13 +109,15 @@
       "errorMessage": {
         "type": "Meta description must be a string"
       }
-    },
-    "meta_keywords": {
-      "type": "string",
-      "errorMessage": {
-        "type": "Meta keywords must be a string"
-      }
     }
   },
-  "additionalProperties": true
+  "additionalProperties": true,
+  "required": [
+    "status",
+    "name",
+    "content",
+    "url_key",
+    "meta_title",
+    "meta_description"
+  ]
 }

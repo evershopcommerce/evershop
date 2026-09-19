@@ -3,13 +3,19 @@
 import React, { useState, useRef } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import { Image } from '@components/common/Image.js';
+import { useCatalogImageDimensions } from '@components/common/useCatalogImageDimensions.js';
 import { useProduct } from '@components/frontStore/catalog/ProductContext.js';
 import './Media.scss';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { deriveProductImageSize } from '@evershop/evershop/lib/util/deriveProductImageSize';
 
-const SliderComponent = Slider as any;
+// `react-slick` is CommonJS. Under webpack with `"type": "module"` the default
+// import is the whole `module.exports` (the component sits on `.default`);
+// bundlers that apply `__esModule` interop hand back the component itself.
+// Accept both so the gallery renders under either resolution.
+const SliderComponent = ((Slider as any).default ?? Slider) as any;
 
 type SliderType = any;
 
@@ -19,7 +25,7 @@ const PrevArrow = (props: any) => {
     <button
       className={`${className} custom-arrow prev-arrow`}
       onClick={onClick}
-      aria-label="Previous slide"
+      aria-label={_('Previous slide')}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +50,7 @@ const NextArrow = (props: any) => {
     <button
       className={`${className} custom-arrow next-arrow`}
       onClick={onClick}
-      aria-label="Next slide"
+      aria-label={_('Next slide')}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -86,16 +92,26 @@ interface MediaProps {
 }
 
 export const Media: React.FC<MediaProps> = ({
-  imageSize = { width: 600, height: 600 },
-  thumbnailSize = { width: 100, height: 100 },
-  modalSize = { width: 1200, height: 1200 }
+  imageSize: imageSizeProp,
+  thumbnailSize: thumbnailSizeProp,
+  modalSize: modalSizeProp
 }) => {
+  const catalogDimensions = useCatalogImageDimensions();
   const product = useProduct();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [isImageLoading, setIsImageLoading] = useState(false);
   const mainSliderRef = useRef<SliderType>(null);
   const modalSliderRef = useRef<SliderType>(null);
+
+  // Base target widths ≈ 2× the CSS display size (retina); heights derive from the store's
+  // configured original aspect ratio, clamped to the original resolution (no upscaling).
+  const imageSize =
+    imageSizeProp ?? deriveProductImageSize(1280, catalogDimensions);
+  const thumbnailSize =
+    thumbnailSizeProp ?? deriveProductImageSize(200, catalogDimensions);
+  const modalSize =
+    modalSizeProp ?? deriveProductImageSize(1920, catalogDimensions);
 
   const allImages: ImageWithDimensionsProps[] = [];
 
@@ -144,6 +160,7 @@ export const Media: React.FC<MediaProps> = ({
             alt={`Thumbnail ${i + 1}`}
             width={thumbnailSize.width}
             height={thumbnailSize.height}
+            sizes="100px"
             objectFit="contain"
           />
         </div>
@@ -176,6 +193,7 @@ export const Media: React.FC<MediaProps> = ({
             alt={`Thumbnail ${i + 1}`}
             width={thumbnailSize.width}
             height={thumbnailSize.height}
+            sizes="100px"
             objectFit="contain"
           />
         </div>
@@ -217,7 +235,7 @@ export const Media: React.FC<MediaProps> = ({
     <div className="product-media-container">
       <div className="main-image-container">
         {allImages.length > 0 && (
-          <SliderComponent.default
+          <SliderComponent
             ref={mainSliderRef}
             {...mainSliderSettings}
             className="product-slider"
@@ -227,21 +245,25 @@ export const Media: React.FC<MediaProps> = ({
                 key={index}
                 className="product-image"
                 onClick={() => openModal(index)}
-                style={{ width: imageSize.width, height: imageSize.height }}
+                style={{
+                  width: '100%',
+                  aspectRatio: `${imageSize.width} / ${imageSize.height}`
+                }}
               >
                 <Image
                   src={image.url}
                   alt={image.alt || 'Product image'}
                   width={imageSize.width}
                   height={imageSize.height}
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   objectFit="scale-down"
                 />
               </div>
             ))}
-          </SliderComponent.default>
+          </SliderComponent>
         )}
         {allImages.length === 0 && (
-          <div className="w-full h-full flex items-center justify-center py-24 bg-gray-100">
+          <div className="w-full h-full flex items-center justify-center py-24 bg-muted">
             <ProductNoThumbnail className="w-48 h-48" />
           </div>
         )}
@@ -254,7 +276,7 @@ export const Media: React.FC<MediaProps> = ({
             <button
               className="modal-close"
               onClick={closeModal}
-              aria-label="Close fullscreen view"
+              aria-label={_('Close fullscreen view')}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -291,7 +313,7 @@ export const Media: React.FC<MediaProps> = ({
                   </svg>
                 </div>
               )}
-              <SliderComponent.default
+              <SliderComponent
                 ref={modalSliderRef}
                 {...modalSliderSettings}
               >
@@ -302,11 +324,12 @@ export const Media: React.FC<MediaProps> = ({
                       alt={image.alt || 'Product image'}
                       width={fullscreenWidth}
                       height={fullscreenHeight}
+                      sizes="100vw"
                       objectFit="contain"
                     />
                   </div>
                 ))}
-              </SliderComponent.default>
+              </SliderComponent>
             </div>
           </div>
         </div>

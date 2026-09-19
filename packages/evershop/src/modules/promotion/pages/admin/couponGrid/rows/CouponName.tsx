@@ -1,3 +1,4 @@
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 interface CouponNameProps {
@@ -7,12 +8,10 @@ interface CouponNameProps {
 
 export function CouponName({ url, name }: CouponNameProps) {
   return (
-    <td>
-      <div>
-        <a className="hover:underline font-semibold" href={url}>
-          {name}
-        </a>
-      </div>
-    </td>
+    <TableCell>
+      <a className="hover:underline font-semibold" href={url}>
+        {name}
+      </a>
+    </TableCell>
   );
 }

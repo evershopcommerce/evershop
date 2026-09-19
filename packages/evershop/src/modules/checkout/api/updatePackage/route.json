@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/packages/:id",
+  "access": "private"
+}

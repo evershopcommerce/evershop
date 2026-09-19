@@ -1,3 +1,4 @@
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 interface OrderNumberProps {
@@ -7,12 +8,12 @@ interface OrderNumberProps {
 
 export function OrderNumber({ editUrl, number }: OrderNumberProps) {
   return (
-    <td>
+    <TableCell>
       <div>
         <a className="hover:underline font-semibold" href={editUrl}>
           #{number}
         </a>
       </div>
-    </td>
+    </TableCell>
   );
 }

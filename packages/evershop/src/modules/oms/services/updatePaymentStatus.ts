@@ -9,14 +9,14 @@ import {
 import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
-import { hookable } from '../../../lib/util/hookable.js';
+import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
 import { PaymentStatus } from '../../../types/order.js';
 
 function validatePaymentStatusBeforeUpdate(status: string): boolean {
-  const paymentStatusList = getConfig(
-    'oms.order.paymentStatus',
-    {}
-  ) as PaymentStatus[];
+  const paymentStatusList = getConfig('oms.order.paymentStatus', {}) as Record<
+    string,
+    PaymentStatus
+  >;
   if (!paymentStatusList[status]) {
     throw new Error('Invalid status');
   }
@@ -64,3 +64,55 @@ export const updatePaymentStatus = async (
     throw err;
   }
 };
+
+export function hookBeforeValidatePaymentStatusBeforeUpdate(
+  callback: (
+    this: { orderId: number },
+    ...args: [
+    status: string
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('validatePaymentStatusBeforeUpdate', callback, priority);
+}
+
+export function hookAfterValidatePaymentStatusBeforeUpdate(
+  callback: (
+    this: { orderId: number },
+    ...args: [
+    status: string
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('validatePaymentStatusBeforeUpdate', callback, priority);
+}
+
+export function hookBeforeChangePaymentStatus(
+  callback: (
+    this: { orderId: number; status: string },
+    ...args: [
+    orderId: number,
+    status: string,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('changePaymentStatus', callback, priority);
+}
+
+export function hookAfterChangePaymentStatus(
+  callback: (
+    this: { orderId: number; status: string },
+    ...args: [
+    orderId: number,
+    status: string,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('changePaymentStatus', callback, priority);
+}

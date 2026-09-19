@@ -1,0 +1,45 @@
+type BlogPost {
+  blogPostId: Int
+  uuid: String!
+  status: Int!
+  name: String!
+  urlKey: String!
+  shortDescription: String
+  description: JSON
+  thumbnail: String
+  publishedAt: String
+  readingTime: Int!
+  commentCount: Int!
+  reactions: [BlogReactionCount!]!
+  url: String!
+  category: BlogCategory
+  author: BlogAuthor
+  tags: [BlogTag!]!
+  related(limit: Int = 3): [BlogPost!]!
+  metaTitle: String
+  metaDescription: String
+}
+
+type BlogAuthor {
+  fullName: String
+  email: String
+}
+
+type BlogReactionCount {
+  type: String!
+  count: Int!
+  reacted: Boolean!
+}
+
+type BlogPostCollection {
+  items: [BlogPost]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  blogPost(id: ID): BlogPost
+  currentBlogPost: BlogPost
+  blogPosts(filters: [FilterInput]): BlogPostCollection
+}

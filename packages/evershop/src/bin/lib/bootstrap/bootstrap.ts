@@ -27,6 +27,7 @@ export const loadBootstrapScript = async function loadBootstrapScript(
   if (!existsSync(filePath)) {
     return;
   }
+
   // Convert path to a URL
   const bootstrapPath = pathToFileURL(filePath).toString();
   const bootstrap = (await import(bootstrapPath)) as BootstrapModule;

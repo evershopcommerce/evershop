@@ -1,5 +1,5 @@
 import { insert, PoolClient } from '@evershop/postgres-query-builder';
-import { hookable } from '../../../lib/util/hookable.js';
+import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
 
 async function addOrderActivityLog(
   orderId: number,
@@ -30,3 +30,33 @@ export default async (
     notifyCustomer
   })(orderId, message, notifyCustomer, connection);
 };
+
+export function hookBeforeAddOrderActivityLog(
+  callback: (
+    this: { orderId: number; message: string; notifyCustomer: boolean },
+    ...args: [
+    orderId: number,
+    message: string,
+    notifyCustomer: boolean,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('addOrderActivityLog', callback, priority);
+}
+
+export function hookAfterAddOrderActivityLog(
+  callback: (
+    this: { orderId: number; message: string; notifyCustomer: boolean },
+    ...args: [
+    orderId: number,
+    message: string,
+    notifyCustomer: boolean,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('addOrderActivityLog', callback, priority);
+}

@@ -1,6 +1,7 @@
 import { SettingMenu } from '@components/admin/SettingMenu.js';
 import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface PaymentSettingProps {
@@ -21,7 +22,7 @@ export default function PaymentSetting({
             id="paymentSettingForm"
             method="POST"
             action={saveSettingApi}
-            successMessage="Payment setting saved"
+            successMessage={_('Payment setting saved')}
           >
             <Area id="paymentSetting" className="grid gap-5" />
           </Form>

@@ -1,37 +1,7 @@
-body.admin {
-  color: #202223;
+body {
   font-size: 0.875rem;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  td,
-  th {
-    border: 1px solid var(--divider);
-    padding: 0.313rem;
-    text-align: left;
-  }
-  th {
-    vertical-align: top;
-  }
-  &.listing {
-    td,
-    th {
-      border-left: 0;
-      border-right: 0;
-      padding: 0.625rem;
-    }
-    th {
-      border: 0;
-      padding-top: 0.938rem;
-      padding-bottom: 0.938rem;
-      align-content: center;
-    }
-  }
-}
-body.admin {
-  background-color: rgba(246, 246, 247, 0.9882352941);
-}
+
 .header {
   height: 3.5rem;
   width: 100%;
@@ -43,7 +13,7 @@ body.admin {
   left: 0;
   background-color: #fff;
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.15);
-  z-index: 100;
+  z-index: 1000;
 }
 .content-wrapper {
   margin-top: 3.5rem;
@@ -60,7 +30,6 @@ body.admin {
 .footer {
   padding-left: 1.875rem;
   margin-top: 1.25rem;
-  color: var(--border);
   padding-bottom: 0.625rem;
   border-top: 1px solid var(--divider);
   padding-top: 0.625rem;

@@ -1,0 +1,8 @@
+extend type Product {
+  """
+  The product's assigned package (parcel size). Admin-only — `Package` is an
+  admin type. NULL for legacy products (no package selected yet) and virtual
+  products. Variant groups share one package.
+  """
+  package: Package
+}

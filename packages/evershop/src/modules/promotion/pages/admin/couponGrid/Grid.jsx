@@ -1,13 +1,38 @@
-import { Card } from '@components/admin/Card';
-import { Filter } from '@components/admin/grid/Filter';
+import { GridPagination } from '@components/admin/grid/GridPagination';
 import { DummyColumnHeader } from '@components/admin/grid/header/Dummy';
 import { SortableHeader } from '@components/admin/grid/header/Sortable';
-import { Pagination } from '@components/admin/grid/Pagination';
 import { Status } from '@components/admin/Status.js';
 import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert';
+import { Button } from '@components/common/ui/Button.js';
+import { ButtonGroup } from '@components/common/ui/ButtonGroup.js';
+import { Card } from '@components/common/ui/Card';
+import {
+  CardAction,
+  CardContent,
+  CardHeader
+} from '@components/common/ui/Card.js';
+import { Checkbox } from '@components/common/ui/Checkbox.js';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@components/common/ui/Select.js';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
@@ -46,67 +71,70 @@ function Actions({ coupons = [], selectedIds = [] }) {
 
   const actions = [
     {
-      name: 'Disable',
+      name: _('Disable'),
       onAction: () => {
         openAlert({
-          heading: `Disable ${selectedIds.length} coupons`,
-          content: 'Are you sure?',
+          heading: _('Disable ${count} coupons', {
+            count: selectedIds.length
+          }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
-            variant: 'primary'
+            variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Disable',
+            title: _('Disable'),
             onAction: async () => {
               await updateCoupons(0);
             },
-            variant: 'critical',
-            isLoading: false
+            variant: 'destructive'
           }
         });
       }
     },
     {
-      name: 'Enable',
+      name: _('Enable'),
       onAction: () => {
         openAlert({
-          heading: `Enable ${selectedIds.length} coupons`,
-          content: 'Are you sure?',
+          heading: _('Enable ${count} coupons', {
+            count: selectedIds.length
+          }),
+          content: _('Are you sure?'),
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
-            variant: 'primary'
+            variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Enable',
+            title: _('Enable'),
             onAction: async () => {
               await updateCoupons(1);
             },
-            variant: 'critical',
-            isLoading: false
+            variant: 'destructive'
           }
         });
       }
     },
     {
-      name: 'Delete',
+      name: _('Delete'),
       onAction: () => {
         openAlert({
-          heading: `Delete ${selectedIds.length} coupons`,
-          content: <div>Can&apos;t be undone</div>,
+          heading: _('Delete ${count} coupons', {
+            count: selectedIds.length
+          }),
+          content: <div>{_("Can't be undone")}</div>,
           primaryAction: {
-            title: 'Cancel',
+            title: _('Cancel'),
             onAction: closeAlert,
-            variant: 'primary'
+            variant: 'secondary'
           },
           secondaryAction: {
-            title: 'Delete',
+            title: _('Delete'),
             onAction: async () => {
               await deleteCoupons();
             },
-            variant: 'critical',
-            isLoading
+            variant: 'destructive'
           }
         });
       }
@@ -114,31 +142,27 @@ function Actions({ coupons = [], selectedIds = [] }) {
   ];
 
   return (
-    <tr>
+    <TableRow>
       {selectedIds.length === 0 && null}
       {selectedIds.length > 0 && (
-        <td style={{ borderTop: 0 }} colSpan="100">
-          <div className="inline-flex border border-divider rounded justify-items-start">
-            <a href="#" className="font-semibold pt-2 pb-2 pl-4 pr-4">
-              {selectedIds.length} selected
-            </a>
+        <TableCell colSpan="100">
+          <ButtonGroup>
             {actions.map((action, i) => (
-              <a
+              <Button
                 key={i}
-                href="#"
+                variant={'outline'}
                 onClick={(e) => {
                   e.preventDefault();
                   action.onAction();
                 }}
-                className="font-semibold pt-2 pb-2 pl-4 pr-4 block border-l border-divider self-center"
               >
-                <span>{action.name}</span>
-              </a>
+                {action.name}
+              </Button>
             ))}
-          </div>
-        </td>
+          </ButtonGroup>
+        </TableCell>
       )}
-    </tr>
+    </TableRow>
   );
 }
 
@@ -170,294 +194,273 @@ export default function CouponGrid({
 
   return (
     <Card>
-      <Card.Session
-        title={
-          <Form submitBtn={false} id="couponGridFilter">
-            <div className="flex gap-5 justify-center items-center">
-              <Area
-                id="couponGridFilter"
-                noOuter
-                coreComponents={[
-                  {
-                    component: {
-                      default: () => (
-                        <InputField
-                          name="coupon"
-                          placeholder="Search"
-                          defaultValue={
-                            currentFilters.find((f) => f.key === 'coupon')
-                              ?.value
-                          }
-                          onKeyPress={(e) => {
-                            // If the user press enter, we should submit the form
-                            if (e.key === 'Enter') {
-                              const url = new URL(document.location);
-                              const coupon = e.target?.value;
-                              if (coupon) {
-                                url.searchParams.set(
-                                  'coupon[operation]',
-                                  'like'
-                                );
-                                url.searchParams.set('coupon[value]', coupon);
-                              } else {
-                                url.searchParams.delete('coupon[operation]');
-                                url.searchParams.delete('coupon[value]');
-                              }
-                              window.location.href = url;
-                            }
-                          }}
-                        />
-                      )
-                    },
-                    sortOrder: 5
-                  },
-                  {
-                    component: {
-                      default: () => (
-                        <Filter
-                          options={[
-                            {
-                              label: 'Enabled',
-                              value: '1',
-                              onSelect: () => {
-                                const url = new URL(document.location);
-                                url.searchParams.set('status', 1);
-                                window.location.href = url;
-                              }
-                            },
-                            {
-                              label: 'Disabled',
-                              value: '0',
-                              onSelect: () => {
-                                const url = new URL(document.location);
-                                url.searchParams.set('status', 0);
-                                window.location.href = url;
-                              }
-                            }
-                          ]}
-                          selectedOption={
-                            currentFilters.find((f) => f.key === 'status')
-                              ? currentFilters.find((f) => f.key === 'status')
-                                  .value === '1'
-                                ? 'Enabled'
-                                : 'Disabled'
-                              : undefined
-                          }
-                          title="Status"
-                        />
-                      )
-                    },
-                    sortOrder: 10
-                  },
-                  {
-                    component: {
-                      default: () => (
-                        <Filter
-                          options={[
-                            {
-                              label: 'Free shipping',
-                              value: '1',
-                              onSelect: () => {
-                                const url = new URL(document.location);
-                                url.searchParams.set('free_shipping', 1);
-                                window.location.href = url;
-                              }
-                            },
-                            {
-                              label: 'No free shipping',
-                              value: '0',
-                              onSelect: () => {
-                                const url = new URL(document.location);
-                                url.searchParams.set('free_shipping', 0);
-                                window.location.href = url;
-                              }
-                            }
-                          ]}
-                          selectedOption={
-                            currentFilters.find(
-                              (f) => f.key === 'free_shipping'
-                            )
-                              ? currentFilters.find(
-                                  (f) => f.key === 'free_shipping'
-                                ).value === '1'
-                                ? 'Free shipping'
-                                : 'No free shipping'
-                              : undefined
-                          }
-                          title="Free shipping?"
-                        />
-                      )
-                    },
-                    sortOrder: 10
-                  }
-                ]}
-                currentFilters={currentFilters}
-              />
-            </div>
-          </Form>
-        }
-        actions={[
-          {
-            variant: 'interactive',
-            name: 'Clear filter',
-            onAction: () => {
-              // Just get the url and remove all query params
-              const url = new URL(document.location);
-              url.search = '';
-              window.location.href = url.href;
-            }
-          }
-        ]}
-      />
-      <table className="listing sticky">
-        <thead>
-          <tr>
-            <th className="align-bottom">
-              <div className="form-field mb-0">
-                <input
-                  type="checkbox"
-                  onChange={(e) => {
-                    if (e.target.checked)
-                      setSelectedRows(coupons.map((c) => c.uuid));
-                    else setSelectedRows([]);
-                  }}
-                />
-              </div>
-            </th>
+      <CardHeader className="flex justify-between">
+        <Form submitBtn={false} id="couponGridFilter">
+          <div className="flex gap-5 justify-center items-center">
             <Area
-              id="couponGridHeader"
+              id="couponGridFilter"
               noOuter
               coreComponents={[
                 {
                   component: {
                     default: () => (
-                      <SortableHeader
-                        title="Coupon Code"
+                      <InputField
                         name="coupon"
-                        currentFilters={currentFilters}
+                        placeholder={_('Search')}
+                        defaultValue={
+                          currentFilters.find((f) => f.key === 'coupon')?.value
+                        }
+                        onKeyPress={(e) => {
+                          // If the user press enter, we should submit the form
+                          if (e.key === 'Enter') {
+                            const url = new URL(document.location);
+                            const coupon = e.target?.value;
+                            if (coupon) {
+                              url.searchParams.set('coupon[operation]', 'like');
+                              url.searchParams.set('coupon[value]', coupon);
+                            } else {
+                              url.searchParams.delete('coupon[operation]');
+                              url.searchParams.delete('coupon[value]');
+                            }
+                            window.location.href = url;
+                          }
+                        }}
                       />
+                    )
+                  },
+                  sortOrder: 5
+                },
+                {
+                  component: {
+                    default: () => (
+                      <Select
+                        value={
+                          currentFilters.find((f) => f.key === 'status')?.value
+                        }
+                        onValueChange={(value) => {
+                          const url = new URL(document.location);
+                          url.searchParams.set('status', value);
+                          window.location.href = url.href;
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue>{_('Status')}</SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>{_('Status')}</SelectLabel>
+                            <SelectItem value="1">{_('Enabled')}</SelectItem>
+                            <SelectItem value="0">{_('Disabled')}</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     )
                   },
                   sortOrder: 10
                 },
                 {
                   component: {
-                    default: () => <DummyColumnHeader title="State Date" />
-                  },
-                  sortOrder: 20
-                },
-                {
-                  component: {
-                    default: () => <DummyColumnHeader title="End Date" />
-                  },
-                  sortOrder: 30
-                },
-                {
-                  component: {
                     default: () => (
-                      <SortableHeader
-                        title="Status"
-                        name="status"
-                        currentFilters={currentFilters}
-                      />
+                      <Select
+                        value={
+                          currentFilters.find((f) => f.key === 'free_shipping')
+                            ?.value
+                        }
+                        onValueChange={(value) => {
+                          const url = new URL(document.location);
+                          url.searchParams.set('free_shipping', value);
+                          window.location.href = url.href;
+                        }}
+                      >
+                        <SelectTrigger>
+                          <SelectValue>{_('Free shipping ?')}</SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>{_('Free shipping ?')}</SelectLabel>
+                            <SelectItem value="1">{_('Free shipping')}</SelectItem>
+                            <SelectItem value="0">
+                              {_('No free shipping')}
+                            </SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
                     )
                   },
-                  sortOrder: 40
-                },
-                {
-                  component: {
-                    default: () => (
-                      <SortableHeader
-                        title="Used Times"
-                        name="used_time"
-                        currentFilters={currentFilters}
-                      />
-                    )
-                  },
-                  sortOrder: 50
+                  sortOrder: 10
                 }
               ]}
+              currentFilters={currentFilters}
             />
-          </tr>
-        </thead>
-        <tbody>
-          <Actions
-            coupons={coupons}
-            selectedIds={selectedRows}
-            setSelectedRows={setSelectedRows}
-          />
-          {coupons.map((c) => (
-            <tr key={c.couponId}>
-              <td>
+          </div>
+        </Form>
+        <CardAction>
+          <Button
+            variant="link"
+            onClick={() => {
+              const url = new URL(document.location);
+              url.search = '';
+              window.location.href = url.href;
+            }}
+          >
+            {_('Clear filter')}
+          </Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>
                 <div className="form-field mb-0">
-                  <input
-                    type="checkbox"
-                    checked={selectedRows.includes(c.uuid)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setSelectedRows(selectedRows.concat([c.uuid]));
-                      } else {
-                        setSelectedRows(
-                          selectedRows.filter((row) => row !== c.uuid)
-                        );
-                      }
+                  <Checkbox
+                    onCheckedChange={(checked) => {
+                      if (checked) setSelectedRows(coupons.map((c) => c.uuid));
+                      else setSelectedRows([]);
                     }}
                   />
                 </div>
-              </td>
+              </TableHead>
               <Area
-                id="couponGridRow"
-                row={c}
+                id="couponGridHeader"
                 noOuter
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
                 coreComponents={[
                   {
                     component: {
                       default: () => (
-                        <CouponName url={c.editUrl} name={c.coupon} />
+                        <SortableHeader
+                          title={_('Coupon Code')}
+                          name="coupon"
+                          currentFilters={currentFilters}
+                        />
                       )
                     },
                     sortOrder: 10
                   },
                   {
                     component: {
-                      default: () => <td>{c.startDate?.text || '--'}</td>
+                      default: () => <DummyColumnHeader title={_('State Date')} />
                     },
                     sortOrder: 20
                   },
                   {
                     component: {
-                      default: () => <td>{c.endDate?.text || '--'}</td>
+                      default: () => <DummyColumnHeader title={_('End Date')} />
                     },
                     sortOrder: 30
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => (
-                        <Status status={parseInt(c.status, 10)} />
+                      default: () => (
+                        <SortableHeader
+                          title={_('Status')}
+                          name="status"
+                          currentFilters={currentFilters}
+                        />
                       )
                     },
                     sortOrder: 40
                   },
                   {
                     component: {
-                      default: ({ areaProps }) => <td>{c.usedTime}</td>
+                      default: () => (
+                        <SortableHeader
+                          title={_('Used Times')}
+                          name="used_time"
+                          currentFilters={currentFilters}
+                        />
+                      )
                     },
                     sortOrder: 50
                   }
                 ]}
               />
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {coupons.length === 0 && (
-        <div className="flex w-full justify-center">
-          There is no coupon to display
-        </div>
-      )}
-      <Pagination total={total} limit={limit} page={page} />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <Actions
+              coupons={coupons}
+              selectedIds={selectedRows}
+              setSelectedRows={setSelectedRows}
+            />
+            {coupons.map((c) => (
+              <TableRow key={c.couponId}>
+                <TableHead>
+                  <div className="form-field mb-0">
+                    <Checkbox
+                      checked={selectedRows.includes(c.uuid)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setSelectedRows(selectedRows.concat([c.uuid]));
+                        } else {
+                          setSelectedRows(
+                            selectedRows.filter((row) => row !== c.uuid)
+                          );
+                        }
+                      }}
+                    />
+                  </div>
+                </TableHead>
+                <Area
+                  id="couponGridRow"
+                  row={c}
+                  noOuter
+                  selectedRows={selectedRows}
+                  setSelectedRows={setSelectedRows}
+                  coreComponents={[
+                    {
+                      component: {
+                        default: () => (
+                          <CouponName url={c.editUrl} name={c.coupon} />
+                        )
+                      },
+                      sortOrder: 10
+                    },
+                    {
+                      component: {
+                        default: () => (
+                          <TableCell>{c.startDate?.text || '--'}</TableCell>
+                        )
+                      },
+                      sortOrder: 20
+                    },
+                    {
+                      component: {
+                        default: () => (
+                          <TableCell>{c.endDate?.text || '--'}</TableCell>
+                        )
+                      },
+                      sortOrder: 30
+                    },
+                    {
+                      component: {
+                        default: ({ areaProps }) => (
+                          <Status status={parseInt(c.status, 10)} />
+                        )
+                      },
+                      sortOrder: 40
+                    },
+                    {
+                      component: {
+                        default: ({ areaProps }) => (
+                          <TableCell>{c.usedTime}</TableCell>
+                        )
+                      },
+                      sortOrder: 50
+                    }
+                  ]}
+                />
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        {coupons.length === 0 && (
+          <div className="flex w-full justify-center mt-2">
+            {_('There is no coupon to display')}
+          </div>
+        )}
+        <GridPagination total={total} limit={limit} page={page} />
+      </CardContent>
     </Card>
   );
 }

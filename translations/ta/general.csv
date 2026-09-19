@@ -1,7 +1,20 @@
 Discount ${discount} For All Orders Over ${price},${price} க்கும் மேற்பட்ட அனைத்து ஆர்டர்களுக்கும் ${discount} தள்ளுபடி
 Please select,தயவுசெய்து தேர்வு செய்யவும்
 The page you requested does not exist.,நீங்கள் கேட்ட பக்கம் இல்லை.
-Continue shopping,வாங்குவதைக் தொடரவும்
 404 Page Not Found,404 பக்கம் கிடைக்கவில்லை
 Home,முகப்பு
 Not found,கிடைக்கவில்லை
+Search options,விருப்பங்களைத் தேடு
+Show less,குறைவாகக் காட்டு
+Sort by,வரிசைப்படுத்து
+Search products…,தயாரிப்புகளைத் தேடு…
+Order Note,ஆர்டர் குறிப்பு
+Add a note to your order,உங்கள் ஆர்டருக்கு ஒரு குறிப்பைச் சேர்க்கவும்
+My account,என் கணக்கு
+Log out,வெளியேறு
+Your profile has been updated,உங்கள் சுயவிவரம் புதுப்பிக்கப்பட்டது
+Update profile API not available,சுயவிவரப் புதுப்பிப்பு API கிடைக்கவில்லை
+Failed to update profile,சுயவிவரத்தைப் புதுப்பிக்க முடியவில்லை
+Something went wrong. Please refresh the page.,ஏதோ தவறு ஏற்பட்டது. பக்கத்தைப் புதுப்பிக்கவும்.
+${count} result for “${keyword}”,“${keyword}” க்கான ${count} முடிவு
+${count} results for “${keyword}”,“${keyword}” க்கான ${count} முடிவுகள்

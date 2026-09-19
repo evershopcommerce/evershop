@@ -1,9 +1,8 @@
 import { select, update } from '@evershop/postgres-query-builder';
-import type { PurchaseUnit, CreateOrderRequestBody } from '@paypal/paypal-js';
+import type { CreateOrderRequestBody } from '@paypal/paypal-js';
 import { debug, error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
-import { getConfig } from '../../../../lib/util/getConfig.js';
 import {
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
@@ -12,9 +11,13 @@ import {
 import { getValueSync } from '../../../../lib/util/registry.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
-import { toPrice } from '../../../checkout/services/toPrice.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../setting/services/setting.js';
+import { getPriceIncludingTax } from '../../../tax/services/taxSettings.js';
+import {
+  buildPaypalAmount,
+  findApprovalUrl
+} from '../../services/paypalPayload.js';
 import { createAxiosInstance } from '../../services/requester.js';
 
 export default async (
@@ -44,79 +47,48 @@ export default async (
         .from('order_item')
         .where('order_item_order_id', '=', order.order_id)
         .execute(pool);
-      const catalogPriceInclTax = getConfig(
-        'pricing.tax.price_including_tax',
-        false
-      );
-      const amount = {
-        currency_code: order.currency,
-        value: toPrice(order.grand_total),
-        breakdown: {
-          item_total: {
-            currency_code: order.currency,
-            value: catalogPriceInclTax
-              ? toPrice(order.sub_total_incl_tax)
-              : toPrice(order.sub_total)
-          },
-          shipping: {
-            currency_code: order.currency,
-            value: catalogPriceInclTax
-              ? toPrice(order.shipping_fee_incl_tax)
-              : toPrice(order.shipping_fee_excl_tax)
-          },
-          discount: {
-            currency_code: order.currency,
-            value: toPrice(order.discount_amount)
-          },
-          tax_total: !catalogPriceInclTax
-            ? {
-                currency_code: order.currency,
-                value: toPrice(order.total_tax_amount)
-              }
-            : undefined
-        }
-      } as PurchaseUnit['amount'];
+      const catalogPriceInclTax = getPriceIncludingTax();
+      // All values ride through one builder that guarantees the breakdown
+      // sums exactly to the grand total (or drops the breakdown when per-unit
+      // rounding makes that impossible — a mismatched breakdown is a 422).
+      const built = buildPaypalAmount(order, items, catalogPriceInclTax);
+      if (!built.identityHolds) {
+        debug(
+          `PayPal breakdown for order ${order_id} does not sum to the grand total; sending the amount without itemization`
+        );
+      }
 
-      const finalAmount = getValueSync('paypalFinalAmount', amount, {
+      const finalAmount = getValueSync('paypalFinalAmount', built.amount, {
         order,
         items
       });
 
+      const homeUrl = getContextValue<string>(request, 'homeUrl', '');
       const orderData = {
         intent: await getSetting('paypalPaymentIntent', 'CAPTURE'),
         purchase_units: [
           {
-            items: items.map((item) => ({
-              name: item.product_name,
-              sku: item.product_sku,
-              quantity: item.qty,
-              unit_amount: {
-                currency_code: order.currency,
-                value: catalogPriceInclTax
-                  ? toPrice(item.final_price_incl_tax)
-                  : toPrice(item.final_price)
-              },
-              category: item.no_shipping_required
-                ? 'DIGITAL_GOODS'
-                : 'PHYSICAL_GOODS'
-            })),
+            // Shows up in the merchant's PayPal dashboard and blocks
+            // duplicate captures of the same order at PayPal's side.
+            invoice_id: order.order_number,
+            items: built.items,
             amount: finalAmount
           }
         ],
-        application_context: {
-          cancel_url: `${getContextValue<string>(
-            request,
-            'homeUrl',
-            ''
-          )}${buildUrl('paypalCancel', { order_id })}`,
-          return_url: `${getContextValue<string>(
-            request,
-            'homeUrl',
-            ''
-          )}${buildUrl('paypalReturn', { order_id })}`,
-          shipping_preference: 'SET_PROVIDED_ADDRESS',
-          user_action: 'PAY_NOW',
-          brand_name: await getSetting('storeName', 'Evershop')
+        payment_source: {
+          paypal: {
+            experience_context: {
+              cancel_url: `${homeUrl}${buildUrl('paypalCancel', {
+                order_id
+              })}`,
+              return_url: `${homeUrl}${buildUrl('paypalReturn', {
+                order_id
+              })}`,
+              shipping_preference: 'SET_PROVIDED_ADDRESS',
+              user_action: 'PAY_NOW',
+              brand_name: await getSetting('storeName', 'Evershop')
+            }
+          }
         }
       } as CreateOrderRequestBody;
       const shippingAddress = await select()
@@ -128,11 +100,15 @@ export default async (
       if (shippingAddress) {
         const address: any = {
           address_line_1: shippingAddress.address_1,
-          address_line_2: shippingAddress.address_2,
-          admin_area_2: shippingAddress.city,
           postal_code: shippingAddress.postcode,
           country_code: shippingAddress.country
         };
+        if (shippingAddress.address_2) {
+          address.address_line_2 = shippingAddress.address_2;
+        }
+        if (shippingAddress.city) {
+          address.admin_area_2 = shippingAddress.city;
+        }
         if (shippingAddress.province) {
           address.admin_area_1 = shippingAddress.province.split('-').pop();
         }
@@ -144,10 +120,10 @@ export default async (
           address
         };
       } else {
-        orderData.application_context = orderData.application_context || {};
-        orderData.application_context.shipping_preference = 'NO_SHIPPING';
+        (
+          orderData.payment_source!.paypal as any
+        ).experience_context.shipping_preference = 'NO_SHIPPING';
       }
-
       const finalPaypalOrderData = getValueSync<CreateOrderRequestBody>(
         'finalPaypalOrderData',
         orderData,
@@ -163,11 +139,17 @@ export default async (
         `/v2/checkout/orders`,
         finalPaypalOrderData,
         {
+          headers: {
+            // Idempotency: a retried create for the same local order returns
+            // the same PayPal order instead of minting a new one.
+            'PayPal-Request-Id': order.uuid
+          },
           validateStatus: (status) => status < 500
         }
       );
 
-      if (data.id) {
+      const approveUrl = data.id ? findApprovalUrl(data.links) : undefined;
+      if (data.id && approveUrl) {
         // Update order and insert papal order id
         await update('order')
           .given({ integration_order_id: data.id })
@@ -178,7 +160,7 @@ export default async (
         return response.json({
           data: {
             paypalOrderId: data.id,
-            approveUrl: data.links.find((link) => link.rel === 'approve').href
+            approveUrl
           }
         });
       } else {
@@ -193,7 +175,9 @@ export default async (
         return response.json({
           error: {
             status: INTERNAL_SERVER_ERROR,
-            message: data.message
+            message:
+              data.message ||
+              'PayPal did not return an approval link for this order'
           }
         });
       }

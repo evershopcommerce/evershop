@@ -1,5 +1,11 @@
-import { Modal } from '@components/common/modal/Modal.js';
-import { useModal } from '@components/common/modal/useModal.js';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { RateForm } from './RateForm.js';
 
@@ -21,29 +27,31 @@ interface RateProps {
 }
 
 function Rate({ rate, getTaxClasses }: RateProps) {
-  const modal = useModal();
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   return (
     <>
-      <>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <td className="border-none py-2 w-1/5">{rate.name}</td>
         <td className="border-none py-2">{rate.country}</td>
         <td className="border-none py-2">{rate.rate}%</td>
-        <td className="border-none py-2">{rate.isCompound ? 'Yes' : 'No'}</td>
+        <td className="border-none py-2">
+          {rate.isCompound ? _('Yes') : _('No')}
+        </td>
         <td className="border-none py-2">{rate.priority}</td>
         <td className="border-none py-2">
+          <DialogTrigger>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
+              {_('Edit')}
+            </a>
+          </DialogTrigger>
           <a
             href="#"
-            className="text-interactive"
-            onClick={(e) => {
-              e.preventDefault();
-              modal.open();
-            }}
-          >
-            Edit
-          </a>
-          <a
-            href="#"
-            className="text-critical ml-5"
+            className="text-destructive ml-5"
             onClick={async (e) => {
               e.preventDefault();
               await fetch(rate.deleteApi, {
@@ -52,18 +60,21 @@ function Rate({ rate, getTaxClasses }: RateProps) {
               await getTaxClasses({ requestPolicy: 'network-only' });
             }}
           >
-            Delete
+            {_('Delete')}
           </a>
         </td>
-      </>
-      <Modal title="Edit tax rate" onClose={modal.close} isOpen={modal.isOpen}>
-        <RateForm
-          saveRateApi={rate.updateApi}
-          closeModal={() => modal.close()}
-          getTaxClasses={getTaxClasses}
-          rate={rate}
-        />
-      </Modal>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{_('Edit Tax Rate')}</DialogTitle>
+          </DialogHeader>
+          <RateForm
+            saveRateApi={rate.updateApi}
+            closeModal={() => setDialogOpen(false)}
+            getTaxClasses={getTaxClasses}
+            rate={rate}
+          />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

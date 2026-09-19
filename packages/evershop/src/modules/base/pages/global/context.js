@@ -1,4 +1,5 @@
 import { pool } from '../../../../lib/postgres/connection.js';
+import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { setPageMetaInfo } from '../../../cms/services/pageMetaInfo.js';
 import {
@@ -13,10 +14,7 @@ export default (request, response) => {
     setContextValue(request.app, 'pool', pool);
   }
   setContextValue(request, 'pool', pool);
-  const homeUrl = getConfig(
-    'shop.homeUrl',
-    `${request.protocol}://${request.get('host')}`
-  );
+  const homeUrl = getBaseUrl();
   setContextValue(request.app, 'homeUrl', homeUrl);
   setPageMetaInfo(request, {
     baseUrl: homeUrl

@@ -26,6 +26,10 @@ export interface CurrentUser {
 export interface EvershopRequest extends ExpressRequest {
   isAdmin: boolean;
   currentRoute: Route;
+  /** Resolved request locale, set by the locale middleware (spec §6.9). */
+  locale?: string;
+  /** Canonical request path with the locale prefix stripped, for route / url_rewrite matching (spec §6.9). */
+  localePath?: string;
   locals: {
     sessionID: string | null;
     delegates: {

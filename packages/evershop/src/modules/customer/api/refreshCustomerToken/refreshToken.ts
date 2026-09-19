@@ -9,6 +9,7 @@ import {
   TOKEN_TYPES,
   verifyRefreshToken
 } from '../../../../lib/util/jwt.js';
+import { buildCustomerPayload } from '../../services/customer/buildCustomerPayload.js';
 
 export default async (request, response, next) => {
   const { refreshToken } = request.body;
@@ -41,16 +42,13 @@ export default async (request, response, next) => {
       });
     }
 
-    // Generate new access token
-    const payload = decoded.customer;
+    // Generate new access token using fresh customer data
+    const customerPayload = buildCustomerPayload(customer);
     const newAccessToken = generateToken(
-      {
-        customer: payload
-      },
+      { customer: customerPayload },
       TOKEN_TYPES.CUSTOMER
     );
     return response.json({
-      success: true,
       data: {
         accessToken: newAccessToken
       }

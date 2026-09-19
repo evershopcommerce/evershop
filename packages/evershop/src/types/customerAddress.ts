@@ -26,5 +26,5 @@ export interface Address {
   country?: string | null;
   postcode?: string | null;
   telephone?: string | number | null;
-  [key: string]: any;
+  [key: string]: unknown;
 }

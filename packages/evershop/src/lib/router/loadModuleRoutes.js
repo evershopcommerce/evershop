@@ -37,7 +37,10 @@ export const loadModuleRoutes = (modulePath) => {
         route.path,
         route.name,
         route.isApi,
-        route.folder
+        route.folder,
+        null,
+        'private',
+        route.editable
       );
     });
   }

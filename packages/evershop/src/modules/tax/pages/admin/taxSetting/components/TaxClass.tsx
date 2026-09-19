@@ -1,4 +1,4 @@
-import { Card } from '@components/admin/Card.js';
+import { CardContent } from '@components/common/ui/Card.js';
 import React from 'react';
 import { TaxRate } from './Rate.js';
 import { Rates } from './Rates.js';
@@ -14,16 +14,13 @@ interface TaxClassProps {
 
 function TaxClass({ taxClass, getTaxClasses }: TaxClassProps) {
   return (
-    <Card.Session
-      title={
-        <div className="flex justify-between items-center gap-5">
-          <div>{taxClass.name}</div>
-        </div>
-      }
-    >
+    <CardContent className="py-3 border-t border-border">
+      <div className="text-xs uppercase font-semibold py-2">
+        {taxClass.name}
+      </div>
       <div className="divide-y border rounded border-divider">
         <div className="flex justify-start items-center border-divider mt-5">
-          <div className="flex-grow px-2">
+          <div className="grow px-2">
             <Rates
               rates={taxClass.rates}
               addRateApi={taxClass.addRateApi}
@@ -32,7 +29,7 @@ function TaxClass({ taxClass, getTaxClasses }: TaxClassProps) {
           </div>
         </div>
       </div>
-    </Card.Session>
+    </CardContent>
   );
 }
 

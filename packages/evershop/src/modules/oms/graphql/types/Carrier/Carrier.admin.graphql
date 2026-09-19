@@ -1,12 +1,36 @@
 """
-The `Carrier` type defines the shipping carrier.
+A shipping carrier registered by an extension via `registerCarrier(...)`.
+Storefront code never sees this type — it lives in the admin schema only.
+The runtime object held in memory by the registry carries the actual
+`createLabel` / `fetchStatus` / etc. methods; `capabilities` reports which
+ones are present so the admin UI can light up actions conditionally.
+
+There is no persisted enable/disable toggle. A merchant who doesn't want to
+use a carrier simply doesn't select it when creating a shipment, and
+doesn't set it as a method's default carrier. The carrier is "available" as
+long as its extension is installed.
 """
 type Carrier {
-  name: String!
   code: String!
-  trackingUrl: String
+  name: String!
+  description: String
+  capabilities: CarrierCapabilities!
+}
+
+"""
+Snapshot of the optional method implementations a carrier registers. Each
+field is true if the corresponding method is a function on the registered
+object.
+"""
+type CarrierCapabilities {
+  generateTrackingUrl: Boolean!
+  createLabel: Boolean!
+  voidLabel: Boolean!
+  fetchStatus: Boolean!
+  schedulePickup: Boolean!
 }
 
 extend type Query {
-  carriers: [Carrier]
+  carriers: [Carrier!]!
+  carrier(code: String!): Carrier
 }

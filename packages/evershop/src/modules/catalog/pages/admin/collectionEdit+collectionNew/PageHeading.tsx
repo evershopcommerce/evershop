@@ -1,4 +1,5 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface CollectionEditPageHeadingProps {
@@ -10,23 +11,21 @@ export interface CollectionEditPageHeadingProps {
 
 export default function CollectionEditPageHeading({
   backUrl,
-  collection
+  collection = {}
 }: CollectionEditPageHeadingProps) {
   return (
     <div className="w-2/3" style={{ margin: '0 auto' }}>
       <PageHeading
         backUrl={backUrl}
         heading={
-          collection ? `Editing ${collection.name}` : 'Create a new collection'
+          collection
+            ? _('Editing ${name}', { name: collection.name || '' })
+            : _('Create a new collection')
         }
       />
     </div>
   );
 }
-
-CollectionEditPageHeading.defaultProps = {
-  collection: {}
-};
 
 export const layout = {
   areaId: 'content',

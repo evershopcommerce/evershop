@@ -1,0 +1,180 @@
+{
+  "shop": {
+    "language": "en",
+    "timezone": "America/New_York",
+    "currency": "USD",
+    "weightUnit": "kg",
+    "homeUrl": "http://localhost:3000"
+  },
+  "system": {
+    "file_storage": "local",
+    "admin_collection_size": 20,
+    "upload_allowed_mime_types": [
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+      "image/avif"
+    ],
+    "theme": "mytheme",
+    "extensions": [
+      {
+        "name": "my-custom-extension",
+        "resolve": "extensions/my-custom-extension",
+        "enabled": true
+      }
+    ],
+    "session": {
+      "maxAge": 86400000,
+      "resave": false,
+      "saveUninitialized": false,
+      "cookieSecret": "keyboard cat",
+      "cookieName": "sid",
+      "adminCookieName": "admin-sid"
+    },
+    "notification_emails": {
+      "from": "noreply@example.com",
+      "order_confirmation": {
+        "enabled": true,
+        "templatePath": null
+      },
+      "customer_welcome": {
+        "enabled": true,
+        "templatePath": null
+      },
+      "reset_password": {
+        "enabled": true,
+        "templatePath": null
+      }
+    }
+  },
+  catalog: {
+    collectionPageSize: 3,
+    product: { image: { width: 1200, height: 1200 } },
+    showOutOfStockProduct: false
+  },
+  "checkout": {
+    "showShippingNote": true
+  },
+  "pricing": {
+    "rounding": "round",
+    "precision": 2,
+    "tax": {
+      "rounding": "round",
+      "precision": 2,
+      "round_level": "total",
+      "price_including_tax": true
+    }
+  },
+  "themeConfig": {
+    "logo": {
+      "alt": "My Shop Logo",
+      "src": "/logo.png",
+      "width": 200,
+      "height": 50
+    },
+    "headTags": {
+      "links": [
+        { "rel": "icon", "href": "/favicon.ico", "type": "image/x-icon" }
+      ],
+      "metas": [
+        { "name": "viewport", "content": "width=device-width, initial-scale=1" }
+      ],
+      "scripts": [
+        { "src": "/custom.js", "async": true }
+      ],
+      "bases": [
+        { "href": "/" }
+      ]
+    },
+    "copyRight": "© 2025 My Shop. All Rights Reserved."
+  },
+  "oms": {
+    "order": {
+       "paymentStatus": {
+        "pending": {
+          "name": "Pending",
+          "badge": "default",
+          "isDefault": true
+        },
+        "paid": {
+          "name": "Paid",
+          "badge": "success",
+        },
+        "failed": {
+          "name": "Failed",
+          "badge": "critical",
+        }
+      },
+      "shipmentStatus": {
+        "pending": {
+          "name": "Pending",
+          "badge": "default",
+          "isDefault": true
+        },
+        "shipped": {
+          "name": "Shipped",
+          "badge": "attention",
+        },
+        "delivered": {
+          "name": "Delivered",
+          "badge": "success",
+        }
+      },
+      "status": {
+        "new": {
+          "name": "New",
+          "badge": "default",
+          "isDefault": true,
+          "next": ["processing", "canceled"]
+        },
+        "processing": {
+          "name": "Processing",
+          "badge": "default",
+          "next": ["completed", "canceled"]
+        },
+        "completed": {
+          "name": "Completed",
+          "badge": "success",
+          "next": ["closed"]
+        },
+        "canceled": {
+          "name": "Canceled",
+          "badge": "critical",
+          "next": []
+        },
+        "closed": {
+          "name": "Closed",
+          "badge": "default",
+          "next": []
+        }
+      },
+      "psoMapping": {
+        "pending:pending": "new",
+        "pending:*": "processing",
+        "paid:*": "processing",
+        "paid:delivered": "completed",
+        "canceled:*": "processing",
+        "canceled:canceled": "canceled"
+      },
+      "reStockAfterCancellation": true
+    },
+    "carriers": {
+      "default": {
+        "name": "Default"
+      },
+      "fedex": {
+        "name": "FedEx",
+        "trackingUrl": "https://www.fedex.com/fedextrack/?trknbr={trackingNumber}"
+      },
+      "usps": {
+        "name": "USPS",
+        "trackingUrl": "https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1={trackingNumber}"
+      },
+      "ups": {
+        "name": "UPS",
+        "trackingUrl": "https://www.ups.com/track?loc=en_US&tracknum={trackingNumber}"
+      }
+    }
+  }
+}

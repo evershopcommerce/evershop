@@ -1,7 +1,10 @@
-.page-heading {
-  max-width: 62.5rem;
-}
-.main-content-inner {
-  max-width: 62.5rem;
-  margin: 1.875rem auto;
+body.categoryEdit,
+body.categoryNew {
+  .main-content-inner {
+    max-width: 62.5rem;
+    margin: 1.875rem auto;
+  }
+  .page-heading {
+    max-width: 62.5rem;
+  }
 }

@@ -1,0 +1,6 @@
+{
+  "methods": ["GET"],
+  "path": "/landing/:url_key",
+  "name": "Landing Page",
+  "editable": true
+}

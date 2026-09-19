@@ -1,5 +1,6 @@
 import Area from '@components/common/Area.js';
 import { RadioGroupField } from '@components/common/form/RadioGroupField.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { get } from '../../../../../lib/util/get.js';
 import { BuyXGetY } from './components/BuyXGetY.js';
@@ -24,25 +25,25 @@ export default function DiscountType({ coupon }: DiscountTypeProps) {
                 default: (
                   <RadioGroupField
                     required
-                    validation={{ required: 'Discount type is required' }}
+                    validation={{ required: _('Discount type is required') }}
                     options={[
                       {
                         value: 'fixed_discount_to_entire_order',
-                        label: 'Fixed discount to entire order'
+                        label: _('Fixed discount to entire order')
                       },
                       {
                         value: 'percentage_discount_to_entire_order',
-                        label: 'Percentage discount to entire order'
+                        label: _('Percentage discount to entire order')
                       },
                       {
                         value: 'fixed_discount_to_specific_products',
-                        label: 'Fixed discount to specific products'
+                        label: _('Fixed discount to specific products')
                       },
                       {
                         value: 'percentage_discount_to_specific_products',
-                        label: 'Percentage discount to specific products'
+                        label: _('Percentage discount to specific products')
                       },
-                      { value: 'buy_x_get_y', label: 'Buy X get Y' }
+                      { value: 'buy_x_get_y', label: _('Buy X get Y') }
                     ]}
                     defaultValue={get(coupon, 'discountType', '')}
                     name="discount_type"

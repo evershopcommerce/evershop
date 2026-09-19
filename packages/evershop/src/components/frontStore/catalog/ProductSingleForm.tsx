@@ -1,6 +1,8 @@
 import Area from '@components/common/Area.js';
-import Button from '@components/common/Button.js';
 import { Form } from '@components/common/form/Form.js';
+import { NumberField } from '@components/common/form/NumberField.js';
+import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import {
   AddToCart,
   AddToCartActions,
@@ -11,32 +13,27 @@ import { VariantSelector } from '@components/frontStore/catalog/VariantSelector.
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
+/**
+ * The buy box. Only the pieces that need the form stay inline here (the
+ * variant selector and the add-to-cart controls register `qty` and the
+ * variant fields on this form). The price and the attribute list are page
+ * blocks (`productView/ProductPrice`, `productView/ProductAttributes`) that
+ * register into the `productSinglePageForm` Area below, so a theme can move
+ * them from `layouts.json`.
+ */
 export function ProductSingleForm() {
   const {
-    price,
     sku,
     inventory: { isInStock }
   } = useProduct();
   const form = useForm();
-
+  const [addingToCart, setAddingToCart] = React.useState(false);
   return (
     <Form id="productForm" method="POST" submitBtn={false} form={form}>
       <Area
         id="productSinglePageForm"
         coreComponents={[
-          {
-            component: {
-              default: (
-                <div className="product__single__price text-2xl">
-                  {price.regular.text}
-                </div>
-              )
-            },
-            sortOrder: 5,
-            id: 'price'
-          },
           {
             component: {
               default: <VariantSelector />
@@ -52,7 +49,7 @@ export function ProductSingleForm() {
                     sku: sku,
                     isInStock: isInStock
                   }}
-                  qty={1}
+                  qty={form.watch('qty') || 1}
                   onSuccess={() => {
                     // To show the mini cart after adding a product to cart
                   }}
@@ -63,30 +60,52 @@ export function ProductSingleForm() {
                   }}
                 >
                   {(state: AddToCartState, actions: AddToCartActions) => (
-                    <>
+                    <div className="mt-6 space-y-3">
                       {state.isInStock === true && (
-                        <Button
-                          title={_('ADD TO CART')}
-                          outline
-                          isLoading={state.isLoading}
-                          onAction={() => {
-                            form.trigger().then((isValid) => {
-                              if (isValid) {
-                                actions.addToCart();
-                              }
-                            });
-                          }}
-                          className="w-full py-3 text-lg font-base !rounded-full mt-8"
-                        />
+                        <>
+                          <NumberField
+                            name="qty"
+                            label={_('Quantity')}
+                            className="w-24"
+                            min={1}
+                            required
+                            placeholder={_('Quantity')}
+                            defaultValue={1}
+                            wrapperClassName="w-1/2"
+                          />
+                          <Button
+                            variant={'default'}
+                            size={'lg'}
+                            onClick={() => {
+                              form
+                                .trigger()
+                                .then((isValid) => {
+                                  if (isValid) {
+                                    setAddingToCart(true);
+                                    actions.addToCart();
+                                  }
+                                })
+                                .finally(() => {
+                                  setAddingToCart(false);
+                                });
+                            }}
+                            className="mt-2 w-full"
+                            isLoading={addingToCart || state.isLoading}
+                          >
+                            {_('Add to cart')}
+                          </Button>
+                        </>
                       )}
                       {state.isInStock === false && (
                         <Button
-                          title={_('SOLD OUT')}
-                          onAction={() => {}}
-                          className="w-full py-3 text-lg font-base !rounded-full"
-                        />
+                          onClick={() => {}}
+                          className="mt-2 w-full"
+                          disabled
+                        >
+                          {_('Sold out')}
+                        </Button>
                       )}
-                    </>
+                    </div>
                   )}
                 </AddToCart>
               )

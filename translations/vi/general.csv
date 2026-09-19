@@ -1,0 +1,21 @@
+Discount ${discount} For All Orders Over ${price},Tất cả các đơn hàng trên ${price} sẽ được giảm ${discount}
+Please select,Vui lòng chọn
+The page you requested does not exist.,Trang bạn yêu cầu không tồn tại.
+404 Page Not Found,404 Trang không tìm thấy
+Home,Trang chủ
+Not found,Không tìm thấy
+Search,Tìm kiếm
+Search options,Tìm tùy chọn
+Show less,Thu gọn
+Sort by,Sắp xếp
+Search products…,Tìm sản phẩm…
+Order Note,Ghi chú đơn hàng
+Add a note to your order,Thêm ghi chú cho đơn hàng của bạn
+My account,Tài khoản của tôi
+Log out,Đăng xuất
+Your profile has been updated,Hồ sơ của bạn đã được cập nhật
+Update profile API not available,API cập nhật hồ sơ không khả dụng
+Failed to update profile,Cập nhật hồ sơ thất bại
+Something went wrong. Please refresh the page.,Đã xảy ra lỗi. Vui lòng tải lại trang.
+${count} result for “${keyword}”,${count} kết quả cho “${keyword}”
+${count} results for “${keyword}”,${count} kết quả cho “${keyword}”

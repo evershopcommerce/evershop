@@ -1,0 +1,6 @@
+extend type Setting {
+  catalogShowOutOfStockProduct: Boolean
+  catalogCollectionPageSize: Int
+  catalogProductImageWidth: Int
+  catalogProductImageHeight: Int
+}

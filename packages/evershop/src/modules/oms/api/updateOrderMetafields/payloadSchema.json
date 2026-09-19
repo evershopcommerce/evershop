@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "metafields": {
+      "type": "object",
+      "skipEscape": true,
+      "errorMessage": { "type": "Custom fields must be an object" }
+    }
+  },
+  "additionalProperties": true
+}

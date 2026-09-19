@@ -1,9 +1,15 @@
 import Spinner from '@components/admin/Spinner.js';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput
+} from '@components/common/ui/InputGroup.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { Search } from 'lucide-react';
 import React, { useRef, useState } from 'react';
 import { useQuery } from 'urql';
 import { NoResult } from './search/NoResult.js';
 import { Results } from './search/Results.js';
-import './SearchBox.scss';
 
 const useClickOutside = (ref, callback) => {
   const handleClick = (e) => {
@@ -100,33 +106,23 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
   }, [keyword]);
 
   return (
-    <div className="search-box max-w-lg">
-      <div className="form-field flex items-center justify-start relative mb-0">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ width: '1rem', height: '1rem' }}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          className="absolute left-2 pointer-events-none"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-        <input
+    <div className="relative self-center ml-[14.563rem] w-[34.375rem]">
+      <InputGroup className="bg-[#f1f2f3] rounded-[3px] border-[#f1f2f3]">
+        <InputGroupAddon>
+          <Search />
+        </InputGroupAddon>
+        <InputGroupInput
           type="text"
-          placeholder="Search"
-          className="!pl-7 bg-gray-50 focus:bg-white"
+          placeholder={_('Search')}
           ref={InputRef}
           onChange={(e) => setKeyword(e.target.value)}
         />
-      </div>
+      </InputGroup>
       {showResult && (
-        <div className="search-result" ref={clickRef}>
+        <div
+          className="absolute top-[calc(100%+1rem)] left-0 bg-white rounded-[5px] w-full py-5 px-2.5 border border-border shadow-lg z-50 max-h-[30rem] overflow-y-auto"
+          ref={clickRef}
+        >
           {(loading || fetching) && (
             <div className="p-2 flex justify-center items-center">
               <Spinner width={25} height={25} />
@@ -134,7 +130,9 @@ export default function SearchBox({ resourceLinks }: SearchBoxProps) {
           )}
           {!keyword && (
             <div className="text-center">
-              <span>Search for products, order and other resources</span>
+              <span>
+                {_('Search for products, orders, and other resources')}
+              </span>
             </div>
           )}
           {data?.products.items.length === 0 &&

@@ -1,33 +1,47 @@
-Login, Inloggen
-Logout, Uitloggen
-Email, E-mail
-Password, Wachtwoord
-Forgot your password?, Wachtwoord vergeten？
-Create an account, Maak een account aan
-Register, Registreren
-Full Name, Volledige Naam
-Full name, Volledige naam
-SIGN IN, Inloggen
-Order History, Bestelgeschiedenis
-Account Details, Accountsgegevens
-You have not placed any orders yet, U heeft nog geen bestellingen geplaatst
-My Account, Mijn account
-Already have an account?, Heeft u al een account？
-Contact information, Contactinformatie
-City, Stad
-Account Information, Account informatie
-Address, Adres
-Postcode, Postcode
-Postcode is required, Postcode is verplicht
-Telephone is required, Telefoon is verplicht
-Telephone, Telefoon
-Full name is required, Volledige naam is verplicht
-Country is required, Land is verplicht
-Country, Land
-Province is required, Provincie is verplicht
-Province, Provincie
-Billing Address, Factuuradres
-Shipping Address, Verzendadres
-Create A New Account, Maak een nieuw account aan
-Contact, Contact
-Customer information, Klant informatie
+Login,Inloggen
+Logout,Uitloggen
+Email,E-mail
+Password,Wachtwoord
+Forgot your password?,Wachtwoord vergeten？
+Create an account,Maak een account aan
+Register,Registreren
+Full Name,Volledige Naam
+Full name,Volledige naam
+Sign In,Inloggen
+Order History,Bestelgeschiedenis
+Account Details,Accountsgegevens
+You have not placed any orders yet,U heeft nog geen bestellingen geplaatst
+My Account,Mijn account
+Already have an account?,Heeft u al een account？
+Contact information,Contactinformatie
+City,Stad
+Account Information,Account informatie
+Address,Adres
+Postcode,Postcode
+Postcode is required,Postcode is verplicht
+Telephone is required,Telefoon is verplicht
+Telephone,Telefoon
+Full name is required,Volledige naam is verplicht
+Country is required,Land is verplicht
+Country,Land
+Province is required,Provincie is verplicht
+Province,Provincie
+Billing Address,Factuuradres
+Shipping Address,Verzendadres
+Create A New Account,Maak een nieuw account aan
+Contact,Contact
+Customer information,Klant informatie
+Address book,Adresboek
+Account information,Accountgegevens
+Recent orders,Recente bestellingen
+View all,Alles bekijken
+Sign in,Inloggen
+Welcome back — sign in to your account.,Welkom terug — log in op je account.
+New here?,Nieuw hier?
+Back to orders,Terug naar bestellingen
+Create account,Account aanmaken
+You must be logged in to manage your addresses,Je moet ingelogd zijn om je adressen te beheren
+You must be logged in to update your profile,Je moet ingelogd zijn om je profiel bij te werken
+There is nothing to update,Er is niets om bij te werken
+Email is already used,Dit e-mailadres is al in gebruik
+Order #${orderNumber},Bestelling #${orderNumber}

@@ -1,3 +1,4 @@
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 interface PriceProps {
@@ -7,12 +8,12 @@ interface PriceProps {
 
 export function Price({ price, qty }: PriceProps) {
   return (
-    <td>
+    <TableCell className="w-32 whitespace-nowrap">
       <div className="product-price">
         <span>
           {price} x {qty}
         </span>
       </div>
-    </td>
+    </TableCell>
   );
 }

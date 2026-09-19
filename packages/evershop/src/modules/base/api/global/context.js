@@ -1,4 +1,5 @@
 import { pool } from '../../../../lib/postgres/connection.js';
+import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import {
   hasContextValue,
@@ -11,10 +12,7 @@ export default (request, response) => {
   if (!hasContextValue(request, 'pool')) {
     setContextValue(request.app, 'pool', pool);
   }
-  const homeUrl = getConfig(
-    'shop.homeUrl',
-    `${request.protocol}://${request.get('host')}`
-  );
+  const homeUrl = getBaseUrl();
   setContextValue(request.app, 'homeUrl', homeUrl);
   setContextValue(request, 'currentUrl', `${homeUrl}${request.originalUrl}`);
   setContextValue(request, 'baseUrl', request.baseUrl);

@@ -6,7 +6,6 @@ type Category {
   uuid: String!
   name: String!
   status: Int!
-  includeInNav: Int!
   showProducts: Int!
   description: JSON
   urlKey: String

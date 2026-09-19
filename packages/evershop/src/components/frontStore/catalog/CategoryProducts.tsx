@@ -22,7 +22,7 @@ export function CategoryProducts() {
           gridColumns={3}
           showAddToCart={true}
         />
-        <span className="product-count italic block mt-5">
+        <span className="product-count mt-5 block text-sm text-muted-foreground">
           {_('${count} products', { count: products.total.toString() })}
         </span>
       </div>

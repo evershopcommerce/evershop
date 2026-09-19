@@ -1,0 +1,26 @@
+type BlogCategory {
+  blogCategoryId: Int
+  uuid: String!
+  status: Int!
+  name: String!
+  urlKey: String!
+  shortDescription: String
+  commentPolicy: String!
+  url: String!
+  posts(filters: [FilterInput]): BlogPostCollection
+  metaTitle: String
+  metaDescription: String
+}
+
+type BlogCategoryCollection {
+  items: [BlogCategory]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  blogCategory(id: ID): BlogCategory
+  currentBlogCategory: BlogCategory
+  blogCategories(filters: [FilterInput]): BlogCategoryCollection
+}

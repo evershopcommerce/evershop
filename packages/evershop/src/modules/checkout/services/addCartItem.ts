@@ -1,4 +1,4 @@
-import { hookable } from '../../../lib/util/hookable.js';
+import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
 import { getValue } from '../../../lib/util/registry.js';
 import { Cart, Item } from './cart/Cart.js';
 
@@ -66,3 +66,33 @@ export default async (
   );
   return item;
 };
+
+export function hookBeforeAddCartItem(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    cart: Cart,
+    productID: number,
+    qty: number | string,
+    context: Record<string, unknown>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('addCartItem', callback, priority);
+}
+
+export function hookAfterAddCartItem(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    cart: Cart,
+    productID: number,
+    qty: number | string,
+    context: Record<string, unknown>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('addCartItem', callback, priority);
+}

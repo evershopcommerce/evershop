@@ -1,0 +1,7 @@
+extend type OrderItem {
+  """
+  The item's package (parcel) dimension snapshot, frozen at placement.
+  NULL for legacy products with no package and for virtual items.
+  """
+  packageDimensions: PackageDimensions
+}

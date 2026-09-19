@@ -3,6 +3,8 @@ import path from 'path';
 import sharp from 'sharp';
 import { CONSTANTS } from '../../../lib/helpers.js';
 import { debug } from '../../../lib/log/logger.js';
+import { getActiveTheme } from '../../../lib/util/getActiveTheme.js';
+import { secureFetch } from '../../../lib/util/secureFetch.js';
 
 const hasTransparency = async (imageBuffer: Buffer): Promise<boolean> => {
   try {
@@ -75,6 +77,16 @@ export const imageProcessor = async (
   const isExternalUrl = src.startsWith('http://') || src.startsWith('https://');
 
   if (!isExternalUrl) {
+    // Collapse any accidental duplicate slashes (e.g. `/assets//file.jpg`
+    // produced by older FileBrowser builds). Without this the regex below
+    // captured a leading `/` in the asset path and the file lookup failed.
+    src = src.replace(/\/{2,}/g, '/');
+
+    // Active theme name (if any). Use getActiveTheme() — a cheap, exit-free
+    // config read safe for the request hot path — not getEnabledTheme(), which
+    // does per-request FS checks and process.exit(1) on a missing theme dir.
+    const activeTheme = getActiveTheme();
+
     // Special case: Handle assets path format like "/assets/media/image.png" or "/assets/image.png"
     if (src.startsWith('/assets/')) {
       // Extract the filename after '/assets/'
@@ -88,9 +100,12 @@ export const imageProcessor = async (
         const possiblePaths = [
           `media/${assetPath}`,
           `public/${assetPath}`
-          // For themes, we need to check each theme's public directory
-          // This is more complex and would require listing themes
         ];
+
+        // Add currently active theme public directory (if any) to possible paths
+        if (activeTheme) {
+          possiblePaths.push(`themes/${activeTheme}/public/${assetPath}`);
+        }
 
         let fileExists = false;
         for (const possiblePath of possiblePaths) {
@@ -133,16 +148,17 @@ export const imageProcessor = async (
     }
 
     // Only allow specific directories from project root
-    const allowedPaths = ['media/', 'public/', 'themes/'];
+    const allowedPaths = ['media/', 'public/'];
 
-    const isAllowedPath = allowedPaths.some((allowedPath) => {
-      if (allowedPath === 'themes/') {
-        // Special handling for themes: must be themes/<themename>/public/
-        const themePattern = /^themes\/[^\/]+\/public\//;
-        return themePattern.test(normalizedPath);
-      }
-      return normalizedPath.startsWith(allowedPath);
-    });
+    // Only allow the currently active theme's public directory (if any),
+    // not all existing theme folders.
+    if (activeTheme) {
+      allowedPaths.push(`themes/${activeTheme}/public/`);
+    }
+
+    const isAllowedPath = allowedPaths.some((allowedPath) =>
+      normalizedPath.startsWith(allowedPath)
+    );
 
     if (!isAllowedPath) {
       throw new Error(
@@ -199,9 +215,11 @@ export const imageProcessor = async (
         // Not in cache, fetch from external URL
       }
 
-      // Fetch image from external URL
+      // Fetch image from external URL. `secureFetch` blocks SSRF to internal /
+      // non-public addresses (loopback, link-local metadata, private ranges,
+      // DNS rebinding, and redirects to any of those).
       try {
-        const response = await fetch(src);
+        const response = await secureFetch(src);
         if (!response.ok) {
           throw new Error(
             `Failed to fetch image: ${response.status} ${response.statusText}`

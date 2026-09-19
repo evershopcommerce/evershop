@@ -1,0 +1,7 @@
+extend type BlogPost {
+  metaData: JSON
+  authorId: Int
+  editUrl: String!
+  updateApi: String!
+  deleteApi: String!
+}

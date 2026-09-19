@@ -1,6 +1,5 @@
 import { existsSync, readdirSync } from 'fs';
 import { resolve, sep } from 'path';
-import { Extension } from '../../types/extension.js';
 import { Route } from '../../types/route.js';
 
 interface ComponentsMap {

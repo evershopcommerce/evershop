@@ -1,0 +1,366 @@
+name: Release
+
+# Publishing is IRREVERSIBLE — a version number cannot be reused once taken.
+# So this never fires off a push: it is dispatched by hand, from an existing
+# tag, and every guard below runs before `npm publish` is reached.
+#
+# Two modes, both dispatched by hand:
+#
+#   PUBLISH (promote=false, the default) — verify, publish to npm, open the
+#   GitHub Release, build and push the Docker image. Run it after
+#   `git tag -a v2.2.1 -m "v2.2.1" && git push origin v2.2.1`:
+#     gh workflow run release.yml -f version=2.2.1 -f dist_tag=next
+#
+#   PROMOTE (promote=true) — publishes NOTHING. Moves the npm dist-tag,
+#   re-points Docker `latest` at the already-built manifest, and clears the
+#   GitHub pre-release flag. Run it once the `next` release has soaked:
+#     gh workflow run release.yml -f version=2.2.1 -f promote=true
+#
+#   Both honour dry_run. Promotion is deliberately a SEPARATE dispatch rather
+#   than a step of publishing — if publishing moved `latest` itself, the soak
+#   would be decorative.
+#
+# Requires repository secrets:
+#   NPM_TOKEN          — npm automation token with publish rights on @evershop
+#   DOCKERHUB_USERNAME — Docker Hub account with push rights on evershop/evershop
+#   DOCKERHUB_TOKEN    — Docker Hub access token for that account
+#
+# Optional but recommended: configure an environment named `npm-publish` with
+# required reviewers, so publishing needs an approval click.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish, without the leading v (e.g. 2.2.1)'
+        required: true
+        type: string
+      dist_tag:
+        description: 'npm dist-tag. Keep `next` for a soak; promote to latest separately.'
+        required: true
+        default: next
+        type: choice
+        options: [next, latest]
+      dry_run:
+        description: 'Run every guard and pack the tarball, but do not publish'
+        required: false
+        default: false
+        type: boolean
+      promote:
+        description: 'PROMOTE an already-published version to latest. Publishes nothing new — moves the npm dist-tag, re-points the Docker latest tag, and clears the pre-release flag. Ignores dist_tag.'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  verify:
+    name: Verify v${{ inputs.version }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/v${{ inputs.version }}
+          fetch-depth: 0 # need full history for the ancestry check below
+
+      - name: Tag exists and matches both package.json versions
+        run: |
+          ROOT_V=$(node -p "require('./package.json').version")
+          PKG_V=$(node -p "require('./packages/evershop/package.json').version")
+          echo "tag=${{ inputs.version }} root=$ROOT_V package=$PKG_V"
+          if [ "$ROOT_V" != "${{ inputs.version }}" ]; then
+            echo "::error::root package.json is $ROOT_V, expected ${{ inputs.version }}"; exit 1
+          fi
+          if [ "$PKG_V" != "${{ inputs.version }}" ]; then
+            echo "::error::packages/evershop is $PKG_V, expected ${{ inputs.version }}"; exit 1
+          fi
+
+      # v2.1.2 was tagged on dev before it reached main. It worked out only
+      # because dev was merged the same day. This makes that a rule.
+      - name: Tagged commit is contained in main
+        run: |
+          # NOT `--depth=0` — git rejects that ("depth 0 is not a positive
+          # number", exit 128). The checkout above already used fetch-depth: 0,
+          # so the full history is present; this just makes sure the origin/main
+          # ref itself exists to compare against.
+          git fetch origin main
+          if ! git merge-base --is-ancestor HEAD origin/main; then
+            echo "::error::v${{ inputs.version }} is not an ancestor of main. Merge to main before publishing."
+            exit 1
+          fi
+          echo "tagged commit is reachable from main"
+
+      - name: Changelog documents this version
+        run: |
+          if ! grep -qE "^# v${{ inputs.version }}\b" changelog.md; then
+            echo "::error::changelog.md has no '# v${{ inputs.version }}' section"; exit 1
+          fi
+
+      # Promotion moves tags on a release that already passed all of this,
+      # so the build/test half is skipped — only the guards above run.
+      - uses: actions/setup-node@v4
+        if: ${{ !inputs.promote }}
+        with:
+          node-version: '20' # the minimum supported runtime
+      - run: npm ci || npm install
+        if: ${{ !inputs.promote }}
+      - run: npm run compile
+        if: ${{ !inputs.promote }}
+      - run: npm run compile:db
+        if: ${{ !inputs.promote }}
+      - run: npm test
+        if: ${{ !inputs.promote }}
+
+  publish:
+    name: Publish to npm (${{ inputs.dist_tag }})
+    needs: verify
+    if: ${{ !inputs.promote }}
+    runs-on: ubuntu-latest
+    # Uncomment once the environment exists, to require a human approval:
+    # environment: npm-publish
+    permissions:
+      contents: write # create the GitHub Release
+      id-token: write # npm provenance
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/v${{ inputs.version }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      # No `npm install -g npm@latest` here: `latest` is now npm 12, which
+      # requires Node >= 22.22, and this job deliberately runs the minimum
+      # supported Node 20. The npm 10.8.2 that ships with Node 20 already
+      # supports --provenance (added in 9.5), so the bundled one is enough.
+      - run: npm ci || npm install
+
+      - name: Refuse to overwrite an existing version
+        run: |
+          NAME=$(node -p "require('./packages/evershop/package.json').name")
+          if npm view "$NAME@${{ inputs.version }}" version >/dev/null 2>&1; then
+            echo "::error::$NAME@${{ inputs.version }} is already on npm"; exit 1
+          fi
+
+      # `npm publish` triggers prepack (rimraf dist && tsc && copyfiles), which
+      # is a DIFFERENT build from the swc one used in dev — and the only one
+      # that emits .d.ts. Pack first so a type error fails here, not mid-publish.
+      - name: Pack and assert the tarball carries type declarations
+        working-directory: packages/evershop
+        run: |
+          npm pack --json > /tmp/pack.json
+          node -e '
+            const [m] = require("/tmp/pack.json");
+            const decls = m.files.filter(f => f.path.endsWith(".d.ts")).length;
+            console.log(`${m.entryCount} files, ${decls} declarations, ${(m.unpackedSize/1048576).toFixed(1)} MB`);
+            if (!decls) { console.error("::error::tarball has no .d.ts files"); process.exit(1); }
+          '
+
+      - name: Publish
+        if: ${{ !inputs.dry_run }}
+        working-directory: packages/evershop
+        run: npm publish --tag ${{ inputs.dist_tag }} --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Extract this version's changelog section
+        if: ${{ !inputs.dry_run }}
+        run: |
+          awk '/^# v${{ inputs.version }}([^0-9]|$)/{f=1;next} /^# v/{f=0} f' \
+            changelog.md > /tmp/notes.md
+          head -c 300 /tmp/notes.md
+
+      - name: Create the GitHub Release
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # A `next` publish is a pre-release until it is promoted to latest.
+          PRERELEASE=""
+          if [ "${{ inputs.dist_tag }}" = "next" ]; then PRERELEASE="--prerelease"; fi
+          gh release create "v${{ inputs.version }}" \
+            --title "v${{ inputs.version }}" \
+            --notes-file /tmp/notes.md \
+            $PRERELEASE
+
+      - name: Summary
+        run: |
+          {
+            echo "### v${{ inputs.version }} published"
+            echo ""
+            echo "- dist-tag: \`${{ inputs.dist_tag }}\`"
+            echo "- dry run: \`${{ inputs.dry_run }}\`"
+            if [ "${{ inputs.dist_tag }}" = "next" ]; then
+              echo ""
+              echo "This release is published as a PRE-RELEASE. To promote it"
+              echo "after soaking (npm tag, Docker tag, GitHub Release flag):"
+              echo '```'
+              echo "npm dist-tag add @evershop/evershop@${{ inputs.version }} latest"
+              echo "docker buildx imagetools create -t evershop/evershop:latest evershop/evershop:${{ inputs.version }}"
+              echo "gh release edit v${{ inputs.version }} --prerelease=false --latest"
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  docker:
+    name: Docker image (${{ inputs.dist_tag }})
+    needs: [verify, publish]
+    if: ${{ !inputs.promote }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/v${{ inputs.version }}
+
+      - uses: docker/setup-qemu-action@v3 # arm64 emulation
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        if: ${{ !inputs.dry_run }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Mirror the npm dist-tag: a `next` release must NOT move the Docker
+      # `latest` tag either, or `docker pull evershop/evershop` would hand
+      # everyone the soaking build.
+      - name: Compute image tags
+        id: meta
+        run: |
+          IMAGE=evershop/evershop
+          TAGS="$IMAGE:${{ inputs.version }}"
+          if [ "${{ inputs.dist_tag }}" = "latest" ]; then
+            TAGS="$TAGS,$IMAGE:latest"
+          else
+            TAGS="$TAGS,$IMAGE:next"
+          fi
+          echo "tags=$TAGS" >> "$GITHUB_OUTPUT"
+          echo "publishing: $TAGS"
+
+      # On a dry run this still BUILDS (both architectures) and simply skips
+      # the push — so a broken Dockerfile surfaces before release day.
+      # The image installs @evershop/evershop@<version> FROM NPM (see
+      # docker/Dockerfile), so it can only be built once the publish job has
+      # actually put that version on the registry — hence `needs: publish`.
+      # On a dry run there is no published package to install, so the build
+      # falls back to the last released version purely to exercise the
+      # Dockerfile itself.
+      - name: Resolve the version to install
+        id: ver
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            V=$(npm view @evershop/evershop version)
+            echo "dry run — building against currently published $V"
+          else
+            V="${{ inputs.version }}"
+            # npm can take a moment to make a fresh version installable.
+            for i in 1 2 3 4 5; do
+              if npm view "@evershop/evershop@$V" version >/dev/null 2>&1; then break; fi
+              echo "waiting for @evershop/evershop@$V to appear on npm ($i/5)"; sleep 15
+            done
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          build-args: EVERSHOP_VERSION=${{ steps.ver.outputs.version }}
+          platforms: linux/amd64,linux/arm64
+          push: ${{ !inputs.dry_run }}
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: true
+
+      - name: Summary
+        run: |
+          {
+            echo "### Docker"
+            echo ""
+            echo "- tags: \`${{ steps.meta.outputs.tags }}\`"
+            echo "- installed package: \`@evershop/evershop@${{ steps.ver.outputs.version }}\`"
+            echo "- platforms: linux/amd64, linux/arm64"
+            echo "- pushed: \`${{ !inputs.dry_run }}\`"
+            if [ "${{ inputs.dist_tag }}" = "next" ]; then
+              echo ""
+              echo "Promote to \`latest\` after soaking — this re-points the tag at the"
+              echo "existing multi-arch manifest, so nothing is rebuilt:"
+              echo '```'
+              echo "docker buildx imagetools create -t evershop/evershop:latest evershop/evershop:${{ inputs.version }}"
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  promote:
+    name: Promote v${{ inputs.version }} to latest
+    needs: verify
+    if: ${{ inputs.promote }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # flip the GitHub Release off pre-release
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/v${{ inputs.version }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      # Promotion must never be the first time a version is seen. Both
+      # registries have to already carry it, or we would be pointing `latest`
+      # at something that does not exist.
+      - name: Assert the version is already published
+        run: |
+          if ! npm view "@evershop/evershop@${{ inputs.version }}" version >/dev/null 2>&1; then
+            echo "::error::@evershop/evershop@${{ inputs.version }} is not on npm — publish it before promoting"; exit 1
+          fi
+          if ! docker manifest inspect "evershop/evershop:${{ inputs.version }}" >/dev/null 2>&1; then
+            echo "::error::evershop/evershop:${{ inputs.version }} is not on Docker Hub — publish it before promoting"; exit 1
+          fi
+          echo "both registries carry ${{ inputs.version }}"
+
+      - name: npm — point latest at this version
+        if: ${{ !inputs.dry_run }}
+        run: npm dist-tag add "@evershop/evershop@${{ inputs.version }}" latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Log in to Docker Hub
+        if: ${{ !inputs.dry_run }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # `imagetools create` re-points the tag at the EXISTING multi-arch
+      # manifest. Nothing is rebuilt, so latest is bit-identical to the image
+      # that just soaked as :next — which is the whole point of soaking.
+      - name: Docker — point latest at the soaked image
+        if: ${{ !inputs.dry_run }}
+        run: |
+          docker buildx imagetools create \
+            -t evershop/evershop:latest \
+            evershop/evershop:${{ inputs.version }}
+
+      - name: GitHub — clear the pre-release flag
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit "v${{ inputs.version }}" --prerelease=false --latest
+
+      - name: Summary
+        run: |
+          {
+            echo "### v${{ inputs.version }} promoted to latest"
+            echo ""
+            echo "- npm: \`npm install @evershop/evershop\` now resolves to ${{ inputs.version }}"
+            echo "- docker: \`docker pull evershop/evershop\` now serves ${{ inputs.version }}"
+            echo "- GitHub Release v${{ inputs.version }} is no longer a pre-release"
+            echo "- dry run: \`${{ inputs.dry_run }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"

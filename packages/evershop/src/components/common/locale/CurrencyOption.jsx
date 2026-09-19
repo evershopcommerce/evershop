@@ -3,7 +3,7 @@ import React from 'react';
 
 
 function CurrencyOptions(props) {
-  const { currencies, children } = props;
+  const { currencies = [], children } = props;
 
   const options = [
     { value: 'AFN', text: 'Afghan Afghani' },
@@ -188,10 +188,6 @@ function CurrencyOptions(props) {
 CurrencyOptions.propTypes = {
   children: PropTypes.node.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string)
-};
-
-CurrencyOptions.defaultProps = {
-  currencies: []
 };
 
 export { CurrencyOptions };

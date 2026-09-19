@@ -1,8 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-
-function Spinner({ width, height }) {
+/**
+ * @param {object} props
+ * @param {number | string} [props.width]
+ * @param {number | string} [props.height]
+ */
+function Spinner({ width = 60, height = 60 }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -14,8 +18,8 @@ function Spinner({ width, height }) {
       viewBox="0 0 100 100"
     >
       <g transform="translate(50 50) scale(.7)">
-        <circle r="50" fill="#215d38" />
-        <circle cy="-28" r="15" fill="#14a651">
+        <circle r="50" className="fill-primary" />
+        <circle cy="-28" r="15" className="fill-secondary">
           <animateTransform
             attributeName="transform"
             dur="1s"
@@ -31,13 +35,8 @@ function Spinner({ width, height }) {
 }
 
 Spinner.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number
-};
-
-Spinner.defaultProps = {
-  width: 60,
-  height: 60
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
 export default Spinner;

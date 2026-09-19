@@ -1,4 +1,14 @@
-import Button from '@components/common/Button.js';
+import { Button } from '@components/common/ui/Button.js';
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle
+} from '@components/common/ui/Item.js';
+import {
+  RadioGroup,
+  RadioGroupItem
+} from '@components/common/ui/RadioGroup.js';
 import {
   useCheckout,
   useCheckoutDispatch
@@ -26,14 +36,12 @@ export function BillingAddress({
   const { form, checkoutData } = useCheckout();
   const { updateCheckoutData } = useCheckoutDispatch();
   const {
-    register,
     setValue,
     getValues,
     trigger,
     formState: { disabled }
   } = form;
 
-  // Watch shipping address changes
   const shippingAddress = useWatch({
     control: form.control,
     name: 'shippingAddress'
@@ -44,16 +52,12 @@ export function BillingAddress({
     name: 'billingAddress'
   });
 
-  // State for radio selection
   const [useSameAddress, setUseSameAddress] = useState(!noShippingRequired);
 
-  // Effect to sync billing address with shipping when "same address" is selected
   useEffect(() => {
     if (useSameAddress && shippingAddress) {
-      // Copy shipping address to billing address
       updateCheckoutData({ billingAddress: shippingAddress });
     } else if (!useSameAddress) {
-      // Clear billing address when switching to different address
       setValue('billingAddress', billingAddress);
     }
   }, [useSameAddress, checkoutData.shippingAddress]);
@@ -79,7 +83,6 @@ export function BillingAddress({
   };
 
   const handleGoToPayment = async () => {
-    // Trigger validation only for fields with "billingAddress" prefix
     const isValid = await trigger('billingAddress');
 
     if (isValid && addBillingAddress) {
@@ -89,100 +92,126 @@ export function BillingAddress({
   };
 
   return (
-    <div className="billing-address-section">
-      <h3 className="text-lg font-medium mb-4">{_('Billing Address')}</h3>
-
-      {/* Radio options */}
-      <div className="mb-6 space-y-3">
-        {!noShippingRequired && (
-          <div
-            className={`border rounded-lg transition-all duration-200 cursor-pointer ${
-              useSameAddress
-                ? 'border-blue-500 bg-blue-50'
-                : 'border-gray-200 hover:border-gray-300'
-            }`}
+    <div className="billing-address-section mb-6">
+      <Item className="py-0 px-0">
+        <ItemContent className="gap-2">
+          <ItemTitle>{_('Billing Address')}</ItemTitle>
+          <RadioGroup
+            value={useSameAddress ? 'same' : 'different'}
+            onValueChange={(value) => {
+              handleAddressOptionChange(value as string);
+            }}
           >
-            <div className="p-3">
-              <div className="flex items-center space-x-3">
-                <input
-                  type="radio"
-                  id="same-address"
-                  value="same"
-                  checked={useSameAddress}
-                  onChange={(e) => handleAddressOptionChange(e.target.value)}
-                  className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                />
-                <div>
-                  <a
-                    href="#"
-                    className="font-normal cursor-pointer text-gray-900"
-                    onClick={(e) => {
-                      e.preventDefault();
+            {!noShippingRequired ? (
+              <>
+                {/* Whole-box click selects each option (Base UI radios only
+                    react to pointer events on their [role="radio"] element,
+                    so the boxes carry click handlers). The guard skips the
+                    radio itself and, on the second box, the controls of the
+                    expanded billing-address form. */}
+                <Item
+                  variant={'outline'}
+                  onClick={(e: React.MouseEvent) => {
+                    if (
+                      (e.target as HTMLElement).closest('[role="radio"]')
+                    ) {
+                      return;
+                    }
+                    if (!useSameAddress) {
                       handleAddressOptionChange('same');
-                    }}
-                  >
-                    {_('Same as shipping address')}
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        <div
-          className={`border rounded-lg transition-all overflow-hidden duration-200  ${
-            !useSameAddress
-              ? 'border-blue-500 bg-blue-50'
-              : 'border-gray-200 hover:border-gray-300'
-          }`}
-        >
-          {!noShippingRequired && (
-            <div className="p-3">
-              <div className="flex items-center space-x-3">
-                <input
-                  type="radio"
-                  {...register('useSameAddres')}
-                  id="different-address"
-                  value="different"
-                  checked={!useSameAddress}
-                  onChange={(e) => handleAddressOptionChange(e.target.value)}
-                  className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                />
-                <div>
-                  <a
-                    href="#"
-                    className="font-normal cursor-pointer text-gray-900"
-                    onClick={(e) => {
-                      e.preventDefault();
+                    }
+                  }}
+                  className="cursor-pointer"
+                >
+                  <ItemContent>
+                    <ItemTitle>
+                      <label className="flex items-center space-x-3 w-full cursor-pointer">
+                        <RadioGroupItem id="same-address" value="same" />
+                        <span className="select-none">
+                          {_('Same as shipping address')}
+                        </span>
+                      </label>
+                    </ItemTitle>
+                  </ItemContent>
+                </Item>
+                <Item
+                  variant={'outline'}
+                  onClick={(e: React.MouseEvent) => {
+                    if (
+                      (e.target as HTMLElement).closest(
+                        'input, button, a, select, textarea, [role="radio"], [role="combobox"]'
+                      )
+                    ) {
+                      return;
+                    }
+                    if (useSameAddress) {
                       handleAddressOptionChange('different');
-                    }}
-                  >
-                    {_('Use a different billing address')}
-                  </a>
-                </div>
-              </div>
-            </div>
-          )}
+                    }
+                  }}
+                  className="cursor-pointer"
+                >
+                  <ItemContent>
+                    <ItemTitle>
+                      <label className="flex items-center space-x-3 w-full cursor-pointer">
+                        <RadioGroupItem
+                          id="different-address"
+                          value="different"
+                        />
+                        <span className="select-none">
+                          {_('Use a different billing address')}
+                        </span>
+                      </label>
+                    </ItemTitle>
 
-          {/* Billing address form inside the card */}
-          {!useSameAddress && (
-            <div className="border-t border-gray-200 p-3 bg-white">
-              <CustomerAddressForm
-                areaId="checkoutBillingAddressForm"
-                fieldNamePrefix="billingAddress"
-                address={undefined} // Always start empty for different address
-              />
-              {noShippingRequired && (
-                <Button
-                  title={_('Continue to payment')}
-                  onAction={() => handleGoToPayment()}
-                  variant="primary"
-                  isLoading={addingBillingAddress}
-                />
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+                    {!useSameAddress && (
+                      <ItemDescription className="text-inherit mt-3 overflow-visible">
+                        <div className="text-inherit bg-white">
+                          <CustomerAddressForm
+                            areaId="checkoutBillingAddressForm"
+                            fieldNamePrefix="billingAddress"
+                            countryScope="all"
+                            address={undefined} // Always start empty for different address
+                          />
+                          {noShippingRequired && (
+                            <Button
+                              onClick={() => handleGoToPayment()}
+                              variant="default"
+                              isLoading={addingBillingAddress}
+                            >
+                              {_('Continue to payment')}
+                            </Button>
+                          )}
+                        </div>
+                      </ItemDescription>
+                    )}
+                  </ItemContent>
+                </Item>
+              </>
+            ) : (
+              <ItemDescription className="text-inherit mt-3 overflow-visible">
+                <div className="text-inherit bg-white">
+                  <CustomerAddressForm
+                    areaId="checkoutBillingAddressForm"
+                    fieldNamePrefix="billingAddress"
+                    countryScope="all"
+                    address={undefined} // Always start empty for different address
+                  />
+                  {noShippingRequired && (
+                    <Button
+                      onClick={() => handleGoToPayment()}
+                      variant="default"
+                      isLoading={addingBillingAddress}
+                      className="mt-4"
+                    >
+                      {_('Continue to payment')}
+                    </Button>
+                  )}
+                </div>
+              </ItemDescription>
+            )}
+          </RadioGroup>
+        </ItemContent>
+      </Item>
     </div>
   );
 }

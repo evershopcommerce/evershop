@@ -2,7 +2,7 @@ import { select, node } from '@evershop/postgres-query-builder';
 import uniqid from 'uniqid';
 import { buildUrl } from '../../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../../lib/util/camelCase.js';
-import { getConfig } from '../../../../../../lib/util/getConfig.js';
+import { getShowOutOfStockProducts } from '../../../../services/catalogSettings.js';
 import { getProductsBaseQuery } from '../../../../services/getProductsBaseQuery.js';
 
 export default {
@@ -55,19 +55,26 @@ export default {
             'attribute.attribute_id'
           );
 
-        if (!user && getConfig('catalog.showOutOfStockProduct') === false) {
-          query
-            .andWhere('product_inventory.manage_stock', '=', false)
-            .addNode(
-              node('OR')
-                .addLeaf('AND', 'product_inventory.qty', '>', 0)
-                .addLeaf(
-                  'AND',
-                  'product_inventory.stock_availability',
-                  '=',
-                  true
-                )
-            );
+        if (!user && getShowOutOfStockProducts() === false) {
+          // Wrap the disjunction in its own node. Chaining
+          // .andWhere(...).addNode(node('OR')...) leaves the OR at the same
+          // tree level as every LATER andWhere — SQL precedence then turns
+          // "A OR (B AND C) AND <rest>" into "A OR (...)", so any
+          // manage_stock=false product in the store bypassed the variant
+          // group / attribute / status filters below.
+          const stockFilter = node('AND');
+          stockFilter.addLeaf(
+            'AND',
+            'product_inventory.manage_stock',
+            '=',
+            false
+          );
+          stockFilter.addNode(
+            node('OR')
+              .addLeaf('AND', 'product_inventory.qty', '>', 0)
+              .addLeaf('AND', 'product_inventory.stock_availability', '=', true)
+          );
+          query.getWhere().addNode(stockFilter);
         }
 
         query.andWhere('variant_group_id', '=', variantGroupId);
@@ -108,33 +115,24 @@ export default {
               options
             };
           }),
-          items: () =>
-            vs
-              .reduce((acc, v) => {
-                const product = acc.find((p) => p.product_id === v.product_id);
-                if (!product) {
-                  acc.push({
-                    product_id: v.product_id,
-                    attributes: [
-                      {
-                        attributeId: v.attribute_id,
-                        attributeCode: v.attribute_code,
-                        optionId: v.option_id,
-                        optionText: v.option_text
-                      }
-                    ]
-                  });
-                } else {
-                  product.attributes.push({
-                    attributeId: v.attribute_id,
-                    attributeCode: v.attribute_code,
-                    optionId: v.option_id,
-                    optionText: v.option_text
-                  });
-                }
-                return acc;
-              }, [])
-              .map((p) => {
+          items: () => {
+            // Group rows per product with a Map — the previous
+            // find()-in-reduce was O(n²) over the variant list.
+            const byProduct = new Map();
+            for (const v of vs) {
+              let entry = byProduct.get(v.product_id);
+              if (!entry) {
+                entry = { product_id: v.product_id, attributes: [] };
+                byProduct.set(v.product_id, entry);
+              }
+              entry.attributes.push({
+                attributeId: v.attribute_id,
+                attributeCode: v.attribute_code,
+                optionId: v.option_id,
+                optionText: v.option_text
+              });
+            }
+            return [...byProduct.values()].map((p) => {
                 const productAttributes = p.attributes.map(
                   (a) => a.attributeCode
                 );
@@ -153,7 +151,8 @@ export default {
                     (a) => a.attributeCode
                   )
                 };
-              }),
+              });
+          },
           addItemApi: buildUrl('addVariantItem', { id: group.uuid })
         };
       }

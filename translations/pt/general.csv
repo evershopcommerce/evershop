@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, Desconto de ${discount} para todos os pedidos acima de ${price}
-Please select, Por favor selecione...
-The page you requested does not exist., A página que você está tentando acessar não existe.
-Continue shopping, Continue comprando
-404 Page Not Found, 404 Página Não Encontrada
-Home, Home
-Not found, Não encontrado
+Discount ${discount} For All Orders Over ${price},Desconto de ${discount} para todos os pedidos acima de ${price}
+Please select,Por favor selecione...
+The page you requested does not exist.,A página que você está tentando acessar não existe.
+404 Page Not Found,404 Página Não Encontrada
+Home,Home
+Not found,Não encontrado
+Search options,Buscar opções
+Show less,Mostrar menos
+Sort by,Ordenar por
+Search products…,Pesquisar produtos…
+Order Note,Observação do pedido
+Add a note to your order,Adicione uma observação ao seu pedido
+My account,Minha conta
+Log out,Sair
+Your profile has been updated,Seu perfil foi atualizado
+Update profile API not available,A API de atualização de perfil não está disponível
+Failed to update profile,Falha ao atualizar o perfil
+Something went wrong. Please refresh the page.,"Algo deu errado. Por favor, atualize a página."
+${count} result for “${keyword}”,${count} resultado para “${keyword}”
+${count} results for “${keyword}”,${count} resultados para “${keyword}”

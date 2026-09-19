@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "type": "Full name must be a string",
+        "minLength": "Full name cannot be empty"
+      }
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "errorMessage": {
+        "type": "Email must be a string",
+        "format": "Email must be a valid email address (e.g., user@example.com)"
+      }
+    }
+  },
+  "additionalProperties": true
+}

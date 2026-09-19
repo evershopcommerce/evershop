@@ -2,9 +2,9 @@ import { node, select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { get } from '../../../../../lib/util/get.js';
 import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
-import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { getShowOutOfStockProducts } from '../../../services/catalogSettings.js';
 
 export default async (request, response, next) => {
   let currentProduct;
@@ -80,19 +80,28 @@ export default async (request, response, next) => {
             .where('p.variant_group_id', '=', product.variant_group_id)
             .and('p.status', '=', 1);
 
-          if (getConfig('catalog.showOutOfStockProduct') === false) {
-            vsQuery
-              .andWhere('product_inventory.manage_stock', '=', false)
-              .addNode(
-                node('OR')
-                  .addLeaf('AND', 'product_inventory.qty', '>', 0)
-                  .addLeaf(
-                    'AND',
-                    'product_inventory.stock_availability',
-                    '=',
-                    true
-                  )
-              );
+          if (getShowOutOfStockProducts() === false) {
+            // Wrap the disjunction in its own node — see Variant.resolvers.js:
+            // the chained form let any in-stock product store-wide leak past
+            // the variant-group and attribute filters below.
+            const stockFilter = node('AND');
+            stockFilter.addLeaf(
+              'AND',
+              'product_inventory.manage_stock',
+              '=',
+              false
+            );
+            stockFilter.addNode(
+              node('OR')
+                .addLeaf('AND', 'product_inventory.qty', '>', 0)
+                .addLeaf(
+                  'AND',
+                  'product_inventory.stock_availability',
+                  '=',
+                  true
+                )
+            );
+            vsQuery.getWhere().addNode(stockFilter);
           }
           vsQuery
             .andWhere(
@@ -149,9 +158,16 @@ export default async (request, response, next) => {
         .load(pool);
       if (productImage) {
         const baseUrl = getBaseUrl();
+        // `origin_image` is a relative path for local storage but an ABSOLUTE
+        // URL for cloud storage (S3, etc.). Pass it straight to the `/images`
+        // processor as an encoded `src` — do NOT prepend baseUrl, or an S3 URL
+        // becomes `<baseUrl><s3Url>` (a doubled domain). Only the outer `/images`
+        // URL is absolute, as social crawlers require. Mirrors PageInfo.ogInfo.
         setPageMetaInfo(request, {
           ogInfo: {
-            image: `${baseUrl}/images?src=${baseUrl}${productImage.origin_image}&w=1200&q=80&h=675&f=png`
+            image: `${baseUrl}/images?src=${encodeURIComponent(
+              productImage.origin_image
+            )}&w=1200&q=80&h=675&f=png`
           }
         });
       }

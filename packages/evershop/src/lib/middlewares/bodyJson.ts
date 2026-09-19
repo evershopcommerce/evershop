@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
-import { EvershopRequest, EvershopResponse } from '../../types/index.js';
+import { EvershopRequest } from '../../types/request.js';
+import { EvershopResponse } from '../../types/response.js';
 
 export default (request: EvershopRequest, response: EvershopResponse, next) => {
   bodyParser.json()(request, response, next);

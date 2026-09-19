@@ -7,7 +7,6 @@ import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { CONSTANTS } from '../helpers.js';
 import { getEnabledTheme } from '../util/getEnabledTheme.js';
 import isProductionMode from '../util/isProductionMode.js';
-import { loadCsvTranslationFiles } from './loaders/loadTranslationFromCsv.js';
 
 // Get the directory name of the current module
 const __filename = fileURLToPath(import.meta.url);
@@ -66,18 +65,6 @@ export function createBaseConfig(isServer) {
             CONSTANTS.LIBPATH,
             'webpack/loaders/GraphqlLoader.js'
           )
-        },
-        {
-          loader: path.resolve(
-            CONSTANTS.LIBPATH,
-            'webpack/loaders/TranslationLoader.js'
-          ),
-          options: {
-            getTranslateData: async () => {
-              const result = await loadCsvTranslationFiles();
-              return result;
-            }
-          }
         }
       ]
     }
@@ -184,11 +171,9 @@ export function createBaseConfig(isServer) {
 
   config.optimization = {};
 
-  // Check if the flag --skip-minify is set
-  const skipMinify = process.argv.includes('--skip-minify');
   if (isProductionMode()) {
     config.optimization = Object.assign(config.optimization, {
-      minimize: !skipMinify,
+      minimize: true,
       minimizer: [
         new SwcMinifyWebpackPlugin({
           compress: true,
@@ -197,8 +182,7 @@ export function createBaseConfig(isServer) {
           sourceMap: true,
           keep_classnames: false,
           keep_fnames: false,
-          safari10: true,
-          sourceMap: true
+          safari10: true
         })
       ]
     });

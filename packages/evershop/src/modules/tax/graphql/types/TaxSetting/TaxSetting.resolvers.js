@@ -1,7 +1,7 @@
-import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { getPriceIncludingTax } from '../../../services/taxSettings.js';
 
 export default {
   Setting: {
-    priceIncludingTax: () => getConfig('pricing.tax.price_including_tax', false)
+    priceIncludingTax: () => getPriceIncludingTax()
   }
 };

@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/shop/metafields",
+  "access": "private"
+}

@@ -1,6 +1,7 @@
-import Button from '@components/common/Button.js';
+import { Button } from '@components/common/ui/Button.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useForm,
   FormProvider,
@@ -9,7 +10,6 @@ import {
   SubmitHandler,
   UseFormReturn
 } from 'react-hook-form';
-import { toast } from 'react-toastify';
 
 interface FormProps<T extends FieldValues = FieldValues>
   extends Omit<
@@ -53,6 +53,7 @@ export function Form<T extends FieldValues = FieldValues>({
     externalForm ||
     useForm<T>({
       shouldUnregister: true,
+      shouldFocusError: false,
       ...formOptions
     });
   const {
@@ -77,7 +78,7 @@ export function Form<T extends FieldValues = FieldValues>({
 
       if (result.error) {
         if (onError) {
-          onError(result.error, data);
+          onError(result.error.message, data);
         } else {
           toast.error(result.error.message || errorMessage);
         }
@@ -100,12 +101,49 @@ export function Form<T extends FieldValues = FieldValues>({
     }
   };
 
+  const [canFocus, setCanFocus] = useState(true);
+
+  const onValidationError = () => {
+    setCanFocus(true);
+  };
+
+  useEffect(() => {
+    if (theForm.formState.errors && canFocus) {
+      const elements = Array.from(
+        document.querySelectorAll('[aria-invalid="true"]')
+      ) as HTMLElement[];
+      elements.sort(
+        (a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top
+      );
+
+      if (elements.length > 0) {
+        const errorElement = elements[0];
+        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        errorElement.focus({ preventScroll: true });
+        setCanFocus(false);
+      }
+    }
+  }, [theForm.formState, canFocus]);
+
   const handleFormSubmit = onSubmit || defaultSubmit;
 
   return (
     <FormProvider {...theForm}>
       <form
-        onSubmit={handleSubmit(handleFormSubmit)}
+        onSubmit={(event) => {
+          // Nested forms must not submit this form. Dialogs render through
+          // React portals, and portals bubble events through the REACT tree
+          // (not the DOM tree) — so a popup form mounted inside this form
+          // (e.g. the core method editor inside the provider-settings page
+          // form) fires this handler too. Only handle submissions that
+          // originate from THIS form element, and stop our own submission
+          // from reaching ancestor forms.
+          if (event.target !== event.currentTarget) {
+            return;
+          }
+          event.stopPropagation();
+          handleSubmit(handleFormSubmit, onValidationError)(event);
+        }}
         className={className}
         noValidate={noValidate}
         {...props}
@@ -116,12 +154,15 @@ export function Form<T extends FieldValues = FieldValues>({
           <div className="mt-4">
             <Button
               title={submitBtnText}
+              // `type="submit"` submits through the form's own `onSubmit`
+              // (which runs `handleSubmit`) and also covers Enter-to-submit. An
+              // extra onClick calling handleSubmit here would fire the pipeline
+              // a second time — two validate+POST passes per click.
               type="submit"
-              onAction={() => {
-                handleSubmit(handleFormSubmit);
-              }}
               isLoading={isSubmitting || loading}
-            />
+            >
+              {submitBtnText}
+            </Button>
           </div>
         )}
       </form>

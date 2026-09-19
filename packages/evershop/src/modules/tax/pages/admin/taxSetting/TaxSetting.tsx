@@ -1,11 +1,25 @@
-import { Card } from '@components/admin/Card.js';
 import { SettingMenu } from '@components/admin/SettingMenu.js';
 import Spinner from '@components/admin/Spinner.js';
-import Button from '@components/common/Button.js';
 import { Form } from '@components/common/form/Form.js';
+import { InputField } from '@components/common/form/InputField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
-import { Modal } from '@components/common/modal/Modal.js';
-import { useModal } from '@components/common/modal/useModal.js';
+import { ToggleField } from '@components/common/form/ToggleField.js';
+import { Button } from '@components/common/ui/Button.js';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@components/common/ui/Dialog.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useQuery } from 'urql';
 import { TaxClasses } from './components/TaxClasses.js';
@@ -57,6 +71,12 @@ interface TaxSettingProps {
     defaultProductTaxClassId?: number;
     defaultShippingTaxClassId?: number;
     baseCalculationAddress?: string;
+    pricingRounding?: string;
+    pricingPrecision?: number;
+    taxRounding?: string;
+    taxPrecision?: number;
+    taxRoundLevel?: string;
+    priceIncludingTax?: boolean;
   };
 }
 export default function TaxSetting({
@@ -64,7 +84,7 @@ export default function TaxSetting({
   saveSettingApi,
   setting
 }: TaxSettingProps) {
-  const modal = useModal();
+  const [dialogOpen, setDialogOpen] = React.useState(false);
   const [countriesQueryData] = useQuery({
     query: CountriesQuery
   });
@@ -72,6 +92,17 @@ export default function TaxSetting({
   const [taxClassesQueryData, reexecuteQuery] = useQuery({
     query: TaxClassesQuery
   });
+
+  const roundingOptions = [
+    { value: 'round', label: _('Nearest') },
+    { value: 'ceil', label: _('Round up') },
+    { value: 'floor', label: _('Round down') }
+  ];
+  const roundLevelOptions = [
+    { value: 'total', label: _('Order total') },
+    { value: 'line', label: _('Line item') },
+    { value: 'unit', label: _('Per unit') }
+  ];
 
   if (countriesQueryData.fetching || taxClassesQueryData.fetching) {
     return (
@@ -82,9 +113,9 @@ export default function TaxSetting({
           </div>
           <div className="col-span-4">
             <Card>
-              <Card.Session>
+              <CardContent>
                 <Spinner width={30} height={30} />
-              </Card.Session>
+              </CardContent>
             </Card>
           </div>
         </div>
@@ -100,34 +131,82 @@ export default function TaxSetting({
         </div>
         <div className="col-span-4 grid grid-cols-1 gap-5">
           <Card>
-            <Card.Session title="Tax">
-              <div>
-                Configure the tax classes that will be available to your
-                customers at checkout.
-              </div>
-            </Card.Session>
-            <Card.Session title="Basic configuration">
+            <CardHeader>
+              <CardTitle>{_('Price rounding')}</CardTitle>
+              <CardDescription>
+                {_('How every monetary amount is rounded across the store.')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Form
+                id="pricingRoundingConfig"
+                method="POST"
+                action={saveSettingApi}
+                successMessage={_(
+                  'Pricing settings have been saved successfully!'
+                )}
+              >
+                <div className="grid grid-cols-2 gap-5">
+                  <div>
+                    <SelectField
+                      name="pricingRounding"
+                      label={_('Rounding mode')}
+                      defaultValue={setting.pricingRounding || 'round'}
+                      options={roundingOptions}
+                      helperText={_(
+                        'The direction used when rounding prices to the decimal precision.'
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <InputField
+                      type="number"
+                      name="pricingPrecision"
+                      label={_('Decimal precision')}
+                      defaultValue={setting.pricingPrecision ?? 2}
+                      min={0}
+                      helperText={_(
+                        'Number of decimal places prices are rounded to.'
+                      )}
+                    />
+                  </div>
+                </div>
+              </Form>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>{_('Tax calculation configuration')}</CardTitle>
+              <CardDescription>
+                {_(
+                  'Configure the tax classes that will be available to your customers at checkout.'
+                )}
+              </CardDescription>
+            </CardHeader>
+            <CardContent title={_('Basic configuration')}>
               <Form
                 id="taxBasicConfig"
                 method="POST"
                 action={saveSettingApi}
-                successMessage="Tax setting has been saved successfully!"
+                successMessage={_('Tax setting has been saved successfully!')}
               >
                 <div className="grid grid-cols-2 gap-5">
                   <div>
                     <SelectField
                       name="defaultShippingTaxClassId"
-                      label="Shipping tax class"
-                      defaultValue={setting.defaultShippingTaxClassId || ''}
-                      placeholder="None"
+                      label={_('Shipping tax class')}
+                      defaultValue={setting.defaultShippingTaxClassId}
+                      placeholder={_('None')}
                       options={[
                         {
                           value: -1,
-                          label: 'Proportional allocation based on cart items'
+                          label: _(
+                            'Proportional allocation based on cart items'
+                          )
                         },
                         {
                           value: 0,
-                          label: 'Higest tax rate based on cart items'
+                          label: _('Higest tax rate based on cart items')
                         }
                       ].concat(
                         taxClassesQueryData.data.taxClasses.items.map(
@@ -137,63 +216,124 @@ export default function TaxSetting({
                           })
                         ) || []
                       )}
-                      helperText="This is the tax class applied to shipping costs."
+                      helperText={_(
+                        'This is the tax class applied to shipping costs.'
+                      )}
                     />
                   </div>
                   <div>
                     <SelectField
                       name="baseCalculationAddress"
-                      label="Base calculation address"
-                      defaultValue={setting.baseCalculationAddress || ''}
+                      label={_('Base calculation address')}
+                      defaultValue={
+                        setting.baseCalculationAddress || 'shippingAddress'
+                      }
                       options={[
                         {
                           value: 'shippingAddress',
-                          label: 'Shipping address'
+                          label: _('Shipping address')
                         },
                         {
                           value: 'billingAddress',
-                          label: 'Billing address'
+                          label: _('Billing address')
                         },
                         {
                           value: 'storeAddress',
-                          label: 'Store address'
+                          label: _('Store address')
                         }
                       ]}
-                      helperText="This is the address used to calculate tax rates."
+                      helperText={_(
+                        'This is the address used to calculate tax rates.'
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <SelectField
+                      name="taxRounding"
+                      label={_('Tax rounding mode')}
+                      defaultValue={setting.taxRounding || 'round'}
+                      options={roundingOptions}
+                      helperText={_(
+                        'The direction used when rounding the calculated tax amount.'
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <InputField
+                      type="number"
+                      name="taxPrecision"
+                      label={_('Tax decimal precision')}
+                      defaultValue={setting.taxPrecision ?? 2}
+                      min={0}
+                      helperText={_(
+                        'Number of decimal places the tax amount is rounded to.'
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <SelectField
+                      name="taxRoundLevel"
+                      label={_('Tax rounding level')}
+                      defaultValue={setting.taxRoundLevel || 'total'}
+                      options={roundLevelOptions}
+                      helperText={_(
+                        'Where tax rounding is applied: per unit, per line, or on the order total.'
+                      )}
+                    />
+                  </div>
+                  <div>
+                    <ToggleField
+                      name="priceIncludingTax"
+                      label={_('Catalog prices include tax')}
+                      defaultValue={setting.priceIncludingTax ?? false}
+                      helperText={_(
+                        'Enable when the product prices you enter already include tax.'
+                      )}
                     />
                   </div>
                 </div>
               </Form>
-            </Card.Session>
+            </CardContent>
           </Card>
-          <Card title="Tax classes">
+          <Card title={_('Tax classes')}>
+            <CardHeader>
+              <CardTitle>{_('Tax classes')}</CardTitle>
+              <CardDescription>
+                {_('Manage tax classes and tax rates for different regions.')}
+              </CardDescription>
+            </CardHeader>
             <TaxClasses
               classes={taxClassesQueryData.data.taxClasses.items}
               getTaxClasses={reexecuteQuery}
             />
-            <Card.Session>
+            <CardContent>
               <div>
-                <Button
-                  title="Create new tax class"
-                  variant="primary"
-                  onAction={() => modal.open()}
-                />
+                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                  <DialogTrigger>
+                    <Button
+                      title={_('Create new tax class')}
+                      variant="outline"
+                      onClick={() => setDialogOpen(true)}
+                    >
+                      {_('Create new tax class')}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{_('Create New Tax Class')}</DialogTitle>
+                    </DialogHeader>
+                    <TaxClassForm
+                      saveTaxClassApi={createTaxClassApi}
+                      closeModal={() => setDialogOpen(false)}
+                      getTaxClasses={reexecuteQuery}
+                    />
+                  </DialogContent>
+                </Dialog>
               </div>
-            </Card.Session>
+            </CardContent>
           </Card>
         </div>
       </div>
-      <Modal
-        title={'Create a tax class'}
-        onClose={modal.close}
-        isOpen={modal.isOpen}
-      >
-        <TaxClassForm
-          saveTaxClassApi={createTaxClassApi}
-          closeModal={() => modal.close()}
-          getTaxClasses={reexecuteQuery}
-        />
-      </Modal>
     </div>
   );
 }
@@ -211,6 +351,12 @@ export const query = `
       defaultProductTaxClassId
       defaultShippingTaxClassId
       baseCalculationAddress
+      pricingRounding
+      pricingPrecision
+      taxRounding
+      taxPrecision
+      taxRoundLevel
+      priceIncludingTax
     }
   }
 `;

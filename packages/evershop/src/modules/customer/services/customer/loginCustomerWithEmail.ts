@@ -2,6 +2,7 @@ import { select } from '@evershop/postgres-query-builder';
 import { translate } from '../../../../lib/locale/translate/translate.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { comparePassword } from '../../../../lib/util/passwordHelper.js';
+import { buildCustomerPayload } from './buildCustomerPayload.js';
 /**
  * Login a customer with email and password. This function must be accessed from the request object (request.loginCustomerWithEmail(email, password, callback))
  * @param {string} email
@@ -22,10 +23,8 @@ async function loginCustomerWithEmail(email: string, password: string) {
   if (this.session) {
     this.session.customerID = customer.customer_id;
   }
-  // Delete the password field
-  delete customer.password;
-  // Save the customer in the request
-  this.locals.customer = customer;
+  // Save the customer in the request using a safe payload (no password)
+  this.locals.customer = buildCustomerPayload(customer);
 }
 
 export default loginCustomerWithEmail;

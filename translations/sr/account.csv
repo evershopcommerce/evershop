@@ -1,0 +1,47 @@
+Login,Login
+Logout,Logout
+Email,E-mail
+Password,Password
+Forgot your password?,Zaboravili ste lozinku?
+Create an account,Napravite nalog
+Register,Registrujte se
+Full Name,Ime i prezime
+Full name,Ime i prezime
+Sign In,Prijavite se
+Order History,Istorija porudžbina
+Account Details,Detalji naloga
+You have not placed any orders yet,Još niste obavili nijednu porudžbinu
+My Account,Moj nalog
+Already have an account?,Već imate nalog?
+Contact information,Kontakt informacije
+City,Grad
+Account Information,Podaci o nalogu
+Address,Adresa
+Postcode,Poštanski broj
+Postcode is required,Poštanski broj je obavezan
+Telephone is required,Telefon je obavezan
+Telephone,Telefon
+Full name is required,Ime i prezime su obavezni
+Country is required,Država je obavezna
+Country,Država
+Province is required,Pokrajina je obavezna
+Province,Pokrajina
+Billing Address,Adresa za naplatu
+Shipping Address,Adresa za isporuku
+Create A New Account,Napravite novi nalog
+Contact,Kontakt
+Customer information,Podaci o kupcu
+Address book,Adresar
+Account information,Podaci o nalogu
+Recent orders,Nedavne porudžbine
+View all,Prikaži sve
+Sign in,Prijavite se
+Welcome back — sign in to your account.,Dobro došli nazad — prijavite se na svoj nalog.
+New here?,Novi ste ovde?
+Back to orders,Nazad na porudžbine
+Create account,Napravite nalog
+You must be logged in to manage your addresses,Morate biti prijavljeni da biste upravljali svojim adresama
+You must be logged in to update your profile,Morate biti prijavljeni da biste ažurirali svoj profil
+There is nothing to update,Nema ničega za ažuriranje
+Email is already used,Ova e-mail adresa se već koristi
+Order #${orderNumber},Porudžbina br. ${orderNumber}

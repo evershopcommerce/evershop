@@ -1,204 +1,121 @@
-$font-size-sm: 0.875rem;
-$font-size-md: 0.875rem;
-$font-size-lg: 1rem;
+@layer base {
+  body {
+    /* Re-skin (2026-07-10): 16px base + 1.5 line-height + token text color,
+     * matching the design reference (was 14px, line-height up to 2.0, #3a3a3a). */
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--foreground);
 
-$line-height-sm: 1.25;
-$line-height-md: 1.5;
-$line-height-lg: 2;
+    input[type='email'],
+    input[type='password'],
+    input[type='tel'],
+    input[type='text'],
+    select,
+    textarea {
+      padding: 0.625rem 0.75rem;
+    }
 
-$font-size-base: $font-size-sm;
-$h1-font-size: $font-size-base * 2.1;
-$h2-font-size: $font-size-base * 1.9;
-$h3-font-size: $font-size-base * 1.65;
-$h4-font-size: $font-size-base * 1.45;
-$h5-font-size: $font-size-base * 1.15;
-$h6-font-size: $font-size-base;
-
-body.frontStore {
-  font-size: 100%;
-  color: #3a3a3a;
-  input[type='email'],
-  input[type='password'],
-  input[type='tel'],
-  input[type='text'],
-  select,
-  textarea {
-    padding: 0.625rem 0.75rem;
+    main.content {
+      padding-bottom: 2rem;
+    }
   }
 
-  main.content {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+  /* Heading scale — semibold, tight leading + tracking (reference-aligned). */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .h1,
+  .h2,
+  .h3,
+  .h4,
+  .h5,
+  .h6 {
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.011em;
+    color: var(--foreground);
   }
-}
-
-.header {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-@media (max-width: 640px) {
-  .slide__wrapper {
-    height: 30rem !important;
+  h1,
+  .h1 {
+    font-size: 1.875rem;
   }
-}
-
-@media screen and (max-width: 767px) {
-  $font-size-base: $font-size-sm;
-  body.frontStore {
-    font-size: $font-size-base;
-    line-height: $line-height-sm;
-    .h1,
-    h1 {
-      font-size: $h1-font-size;
-    }
-    .h2,
-    h2 {
-      font-size: $h2-font-size;
-    }
-    .h3,
-    h3 {
-      font-size: $h3-font-size;
-    }
-    .h4,
-    h4 {
-      font-size: $h4-font-size;
-    }
-    .h5,
-    h5 {
-      font-size: $h5-font-size;
-    }
-    .h6,
-    h6 {
-      font-size: $h6-font-size;
-    }
+  h2,
+  .h2 {
+    font-size: 1.5rem;
   }
-}
+  h3,
+  .h3 {
+    font-size: 1.25rem;
+  }
+  h4,
+  .h4 {
+    font-size: 1.125rem;
+  }
+  h5,
+  .h5 {
+    font-size: 1rem;
+  }
+  h6,
+  .h6 {
+    font-size: 0.875rem;
+  }
 
-@media (min-width: 768px) and (max-width: 1535px) {
-  $font-size-base: $font-size-md;
-  $h1-font-size: $font-size-base * 2.1;
-  $h2-font-size: $font-size-base * 1.9;
-  $h3-font-size: $font-size-base * 1.65;
-  $h4-font-size: $font-size-base * 1.45;
-  $h5-font-size: $font-size-base * 1.15;
-  $h6-font-size: $font-size-base;
-
-  body.frontStore {
-    font-size: $font-size-base;
-    line-height: $line-height-md;
-    .h1,
-    h1 {
-      font-size: $h1-font-size;
+  @media (min-width: 768px) {
+    h1,
+    .h1 {
+      font-size: 2.25rem;
     }
-    .h2,
-    h2 {
-      font-size: $h2-font-size;
-    }
-    .h3,
-    h3 {
-      font-size: $h3-font-size;
-    }
-    .h4,
-    h4 {
-      font-size: $h4-font-size;
-    }
-    .h5,
-    h5 {
-      font-size: $h5-font-size;
-    }
-    .h6,
-    h6 {
-      font-size: $h6-font-size;
+    h2,
+    .h2 {
+      font-size: 1.875rem;
     }
   }
-}
 
-@media (min-width: 1536px) {
-  $font-size-base: $font-size-lg;
-  $h1-font-size: $font-size-base * 2.1;
-  $h2-font-size: $font-size-base * 1.9;
-  $h3-font-size: $font-size-base * 1.65;
-  $h4-font-size: $font-size-base * 1.45;
-  $h5-font-size: $font-size-base * 1.15;
-  $h6-font-size: $font-size-base;
+  .wrapper .content {
+    min-height: calc(100vh - 50px);
+  }
 
-  body.frontStore {
-    font-size: $font-size-base;
-    line-height: $line-height-lg;
-    .h1,
-    h1 {
-      font-size: $h1-font-size;
-    }
-    .h2,
-    h2 {
-      font-size: $h2-font-size;
-    }
-    .h3,
-    h3 {
-      font-size: $h3-font-size;
-    }
-    .h4,
-    h4 {
-      font-size: $h4-font-size;
-    }
-    .h5,
-    h5 {
-      font-size: $h5-font-size;
-    }
-    .h6,
-    h6 {
-      font-size: $h6-font-size;
+  .container {
+    margin: 0 auto;
+  }
+
+  /* Container — tighter gutter to match the reference (was 22px / 55px). */
+  .page-width {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    @media screen and (min-width: 1024px) {
+      padding: 0 1.5rem;
     }
   }
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 600;
-}
-.wrapper .content {
-  min-height: calc(100vh - 50px);
-}
 
-.container {
-  margin: 0 auto;
-}
-.page-width {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 22px;
-  @media screen and (min-width: 1200px) {
-    padding: 0 55px;
-  }
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  td,
-  th {
-    border: 1px solid var(--divider);
-    padding: 0.313rem;
-    text-align: left;
-  }
-  th {
-    vertical-align: top;
-  }
-  &.listing {
+  table {
+    width: 100%;
+    border-collapse: collapse;
     td,
     th {
-      border-left: 0;
-      border-right: 0;
-      padding: 0.625rem;
+      border: 1px solid var(--divider);
+      padding: 0.313rem;
+      text-align: left;
     }
     th {
-      border: 0;
-      padding-top: 1.25rem;
-      padding-bottom: 1.25rem;
+      vertical-align: top;
+    }
+    &.listing {
+      td,
+      th {
+        border-left: 0;
+        border-right: 0;
+        padding: 0.625rem;
+      }
+      th {
+        border: 0;
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+      }
     }
   }
 }

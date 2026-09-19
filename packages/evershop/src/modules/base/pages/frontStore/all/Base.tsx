@@ -1,4 +1,5 @@
 import Area from '@components/common/Area.js';
+import { useAppState } from '@components/common/context/app.js';
 import { LoadingBar } from '@components/common/LoadingBar.js';
 import {
   CartProvider,
@@ -32,6 +33,8 @@ export default function Base({
   logoutApi,
   registerApi
 }: BaseProps) {
+  const { config } = useAppState();
+  const isLandingPage = config?.pageMeta?.route?.id === 'landingPageView';
   return (
     <CustomerProvider
       initialCustomer={customer}
@@ -46,10 +49,12 @@ export default function Base({
       >
         <LoadingBar />
         <Header />
-        <main className="content">
-          <Area id="content" noOuter />
-          <div className="p-2 bg-primary">Just test tailwind</div>
-        </main>
+        <Area
+          id={isLandingPage ? 'landing_page_content' : 'content'}
+          className="page-width min-h-36"
+          wrapper="main"
+          editableInPageBuilder
+        />
         <Footer copyRight={themeConfig.copyRight} />
       </CartProvider>
     </CustomerProvider>
@@ -75,6 +80,7 @@ export const query = `
       applyCouponApi
       removeCouponApi
       availableShippingMethods {
+        providerCode
         code
         name
         cost {
@@ -105,6 +111,7 @@ export const query = `
         text
       }
       addAddressApi
+      updateProfileApi
       addresses {
         addressId
         uuid

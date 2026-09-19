@@ -1,0 +1,4 @@
+extend type Setting {
+  metaData: JSON
+  shopMetafieldsApi: String!
+}

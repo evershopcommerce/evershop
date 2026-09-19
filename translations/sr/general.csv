@@ -1,0 +1,20 @@
+Discount ${discount} For All Orders Over ${price},Popust od ${discount} za sve porudžbine iznad ${price}
+Please select,Izaberite opciju
+The page you requested does not exist.,Čini se da tražena stranica ne postoji.
+404 Page Not Found,404 Stranica nije pronađena
+Home,Početna
+Not found,Nije pronađeno
+Search options,Pretraži opcije
+Show less,Prikaži manje
+Sort by,Sortiraj po
+Search products…,Pretraži proizvode…
+Order Note,Napomena uz porudžbinu
+Add a note to your order,Dodajte napomenu uz svoju porudžbinu
+My account,Moj nalog
+Log out,Odjavite se
+Your profile has been updated,Vaš profil je ažuriran
+Update profile API not available,API za ažuriranje profila nije dostupan
+Failed to update profile,Ažuriranje profila nije uspelo
+Something went wrong. Please refresh the page.,Nešto je pošlo naopako. Osvežite stranicu.
+${count} result for “${keyword}”,Rezultata za „${keyword}“: ${count}
+${count} results for “${keyword}”,Rezultata za „${keyword}“: ${count}

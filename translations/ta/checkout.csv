@@ -4,7 +4,6 @@ Sku,பொருள் குறியீடு
 Continue to shipping,அனுப்புதலுக்கு தொடரவும்
 Continue shopping,வாங்குவதைக் தொடரவும்
 Continue Shopping,வாங்குவதைக் தொடரவும்
-CONTINUE SHOPPING,வாங்குவதைக் தொடரவும்
 Shopping cart,வணிக வண்டி
 Product,பொருள்
 Price,விலை
@@ -15,10 +14,9 @@ Sub total,துணை மொத்தம்
 Discount($coupon),தள்ளுபடி ($coupon)
 Order summary,ஆர்டர் சுருக்கம்
 Taxes and shipping calculated at checkout,வரி மற்றும் அனுப்புதல் கட்டணம் செக்அவுட் போது கணக்கிடப்படும்
-CHECKOUT,செக்அவுட் செய்
+Checkout,செக்அவுட் செய்
 Change,மாற்று
 Payment Method,கட்டண முறைகள்
-Shipping Address,அனுப்பும் முகவரி
 Shipping Method,அனுப்பும் முறை
 No payment methods available,கட்டண முறைகள் இல்லை
 Place Order,ஆர்டரை வைக்கவும்
@@ -35,9 +33,8 @@ No payment method available,கட்டண முறை இல்லை
 Ship to,அனுப்பும் இடம்
 Shipment,அனுப்புதல்
 Thank you $name!,நன்றி $name!
-Contact information,தொடர்பு தகவல்
 Order #$orderNumber,ஆர்டர் எண் #$orderNumber
-ADD TO CART,வண்டியில் சேர்
+Add to cart,வண்டியில் சேர்
 Please select variant options,மாறுபாடு விருப்பங்களைத் தேர்ந்தெடுக்கவும்
 VIEW CART ($count),வண்டியைப் பார்க்கவும் ($count)
 JUST ADDED TO YOUR CART,உங்கள் வண்டியில் சேர்க்கப்பட்டது
@@ -45,18 +42,13 @@ Promotion code?,பிரச்சார குறியீடு?
 Enter coupon code,கூப்பன் குறியீட்டை உள்ளிடவும்
 Apply,பயன்படுத்தவும்
 Your cart is empty!,உங்கள் வண்டி காலியாக உள்ளது!
-Full name,முழுப் பெயர்
-Telephone,தொலைபேசி
-Address,முகவரி
-City,நகரம்
-Country,நாடு
-Postcode,அஞ்சல் குறியீடு
 Inclusive of tax,வரியுடன் சேர்த்து
-Sorry,மன்னிக்கவும்
-Full name is required,முழுப் பெயர் தேவையானது
-Telephone is required,தொலைபேசி எண் தேவையானது
 Address is required,முகவரி தேவையானது
 City is required,நகரம் தேவையானது
-Country is required,நாடு தேவையானது
-Postcode is required,அஞ்சல் குறியீடு தேவையானது
-Contact,தொடர்பு
+Proceed to checkout,செக்அவுட்டிற்குச் செல்
+Your cart,உங்கள் கார்ட்
+${count} items in your cart,உங்கள் கார்ட்டில் ${count} பொருட்கள்
+No payment required,கட்டணம் தேவையில்லை
+Your order total is 0 — no payment is needed to place this order.,உங்கள் ஆர்டரின் மொத்தத் தொகை 0 — இந்த ஆர்டரை வழங்க கட்டணம் தேவையில்லை.
+Thank you for your order!,உங்கள் ஆர்டருக்கு நன்றி!
+Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,ஆர்டர் #${orderNumber} உறுதிப்படுத்தப்பட்டது. ${email} க்கு ரசீது அனுப்பப்பட்டுள்ளது.

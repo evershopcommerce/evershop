@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "properties": {
+    "post_uuid": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_uuid": {
+      "type": ["string", "null"]
+    },
+    "name": {
+      "type": "string",
+      "skipEscape": true,
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "Name is required"
+      }
+    },
+    "email": {
+      "type": "string",
+      "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+      "errorMessage": {
+        "pattern": "A valid email is required"
+      }
+    },
+    "comment": {
+      "type": "string",
+      "skipEscape": true,
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "Comment is required"
+      }
+    },
+    "website": {
+      "type": ["string", "null"]
+    }
+  },
+  "required": ["post_uuid", "name", "email", "comment"],
+  "additionalProperties": true
+}

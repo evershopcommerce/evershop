@@ -1,15 +1,12 @@
 import { NavigationItem } from '@components/admin/NavigationItem.js';
-import { ArchiveBoxIcon } from '@heroicons/react/24/solid';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { BoxIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function NewProductQuickLink({ productNew }) {
   return (
-    <NavigationItem
-      Icon={ArchiveBoxIcon}
-      title="New Product"
-      url={productNew}
-    />
+    <NavigationItem Icon={BoxIcon} title={_('New Product')} url={productNew} />
   );
 }
 

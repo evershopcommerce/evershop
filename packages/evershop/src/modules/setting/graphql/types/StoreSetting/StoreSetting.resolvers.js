@@ -1,4 +1,10 @@
-import { getConfig } from '../../../../../lib/util/getConfig.js';
+import {
+  getAdditionalLanguages,
+  getAdminLanguage,
+  getStoreCurrency,
+  getStoreLanguage,
+  getStoreTimezone
+} from '../../../services/setting.js';
 
 export default {
   Setting: {
@@ -20,16 +26,16 @@ export default {
         return 'An Amazing EverShop Store';
       }
     },
-    storeLanguage: () => getConfig('shop.language', 'en'),
-    storeCurrency: () => getConfig('shop.currency', 'USD'),
-    storeTimeZone: (setting) => {
-      const storeTimeZone = setting.find((s) => s.name === 'storeTimeZone');
-      if (storeTimeZone) {
-        return storeTimeZone.value;
-      } else {
-        return 'America/New_York';
-      }
-    },
+    // Language fields delegate to the setting service helpers (single source of truth,
+    // DB-backed with config fallback + is_json parsing) rather than reading the raw
+    // `setting` rows — storeLanguages is persisted as a JSON string (spec §6.1 D11).
+    storeLanguage: () => getStoreLanguage(),
+    // The form's "Additional languages" field — the enabled set minus the default. The
+    // full enabled set is always default + these (getEnabledLanguages, server-side).
+    storeLanguages: () => getAdditionalLanguages(),
+    adminLanguage: () => getAdminLanguage(),
+    storeCurrency: () => getStoreCurrency(),
+    storeTimeZone: () => getStoreTimezone(),
     storePhoneNumber: (setting) => {
       const storePhoneNumber = setting.find(
         (s) => s.name === 'storePhoneNumber'

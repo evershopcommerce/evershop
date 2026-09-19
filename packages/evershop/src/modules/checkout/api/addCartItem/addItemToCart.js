@@ -1,4 +1,5 @@
 import { select } from '@evershop/postgres-query-builder';
+import { translate } from '../../../../lib/locale/translate/translate.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import {
   INVALID_PAYLOAD,
@@ -21,7 +22,7 @@ export default async (request, response, next) => {
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Invalid cart id'
+          message: translate('Invalid cart id')
         }
       });
       return;
@@ -39,7 +40,7 @@ export default async (request, response, next) => {
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Product not found'
+          message: translate('Product not found')
         }
       });
       return;

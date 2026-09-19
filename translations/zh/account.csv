@@ -1,33 +1,47 @@
-Login, 登录
-Logout, 登出
-Email, 邮箱
-Password, 密码
-Forgot your password?, 忘记密码？
-Create an account, 创建账户
-Register, 注册
-Full Name, 全名
-Full name, 全名
-SIGN IN, 登录
-Order History, 订单历史
-Account Details, 账户详情
-You have not placed any orders yet, 您还没有下过订单
-My Account, 我的账户
-Already have an account?, 已经有账户了？
-Contact information, 联系信息
-City, 城市
-Account Information, 账户信息
-Address, 地址
-Postcode, 邮编
-Postcode is required, 邮编是必填项
-Telephone is required, 电话是必填项
-Telephone, 电话
-Full name is required, 全名是必填项
-Country is required, 国家是必填项
-Country, 国家
-Province is required, 省份是必填项
-Province, 省份
-Billing Address, 账单地址
-Shipping Address, 配送地址
-Create A New Account, 创建新账户
-Contact, 联系
-Customer information, 客户信息
+Login,登录
+Logout,登出
+Email,邮箱
+Password,密码
+Forgot your password?,忘记密码？
+Create an account,创建账户
+Register,注册
+Full Name,全名
+Full name,全名
+Sign In,登录
+Order History,订单历史
+Account Details,账户详情
+You have not placed any orders yet,您还没有下过订单
+My Account,我的账户
+Already have an account?,已经有账户了？
+Contact information,联系信息
+City,城市
+Account Information,账户信息
+Address,地址
+Postcode,邮编
+Postcode is required,邮编是必填项
+Telephone is required,电话是必填项
+Telephone,电话
+Full name is required,全名是必填项
+Country is required,国家是必填项
+Country,国家
+Province is required,省份是必填项
+Province,省份
+Billing Address,账单地址
+Shipping Address,配送地址
+Create A New Account,创建新账户
+Contact,联系
+Customer information,客户信息
+Address book,地址簿
+Account information,账户信息
+Recent orders,最近订单
+View all,查看全部
+Sign in,登录
+Welcome back — sign in to your account.,欢迎回来 — 登录您的账户。
+New here?,第一次来?
+Back to orders,返回订单
+Create account,创建账户
+You must be logged in to manage your addresses,您必须登录后才能管理地址
+You must be logged in to update your profile,您必须登录后才能更新个人资料
+There is nothing to update,没有需要更新的内容
+Email is already used,该邮箱已被使用
+Order #${orderNumber},订单 #${orderNumber}

@@ -54,8 +54,8 @@ export function AppProvider({ value, children }: AppProviderProps) {
   }, []);
 
   const contextDispatchValue = useMemo<AppContextDispatchValue>(
-    () => ({ setData, fetchPageData }),
-    [setData, fetchPageData]
+    () => ({ setData, setFetching, fetchPageData }),
+    [setData, setFetching, fetchPageData]
   );
 
   const contextValue = useMemo<AppStateContextValue>(

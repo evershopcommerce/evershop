@@ -15,7 +15,17 @@ export default async function enableWatcher() {
       ignore: [
         '**/node_modules/**',
         '**/dist/**',
+        // compileSwc's temp output — compiled files land here before being
+        // swapped into dist; without this the swap right before/around boot
+        // floods the watcher and the effects run against half-built paths.
+        '**/dist.compiling/**',
         '**/build/**',
+        // Runtime-written directories: the sitemap cron rewrites public/*.xml
+        // on schedule and uploads land in media/. Neither needs compilation
+        // or a dev-server effect, and an event from them during the boot
+        // window used to crash the bootstrap (see detectEffect).
+        '**/public/**',
+        '**/media/**',
         '**/.git/**',
         '**/.cache/**',
         '**/.next/**',

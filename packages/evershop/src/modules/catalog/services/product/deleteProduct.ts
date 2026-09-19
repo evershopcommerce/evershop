@@ -7,10 +7,26 @@ import {
 } from '@evershop/postgres-query-builder';
 import type { PoolClient } from '@evershop/postgres-query-builder';
 import { getConnection } from '../../../../lib/postgres/connection.js';
-import { hookable } from '../../../../lib/util/hookable.js';
+import { CatalogUrn } from '../../../../lib/urn/index.js';
+import {
+  hookable,
+  hookBefore,
+  hookAfter
+} from '../../../../lib/util/hookable.js';
+import type {
+  ProductDescriptionRow,
+  ProductRow
+} from '../../../../types/db/index.js';
+import { clearRedirectsForEntity } from '../../../base/services/recordRedirect.js';
 import { ProductData } from './createProduct.js';
 
-async function deleteProductData(uuid: string, connection: PoolClient) {
+async function deleteProductData(
+  uuid: string,
+  connection: PoolClient
+): Promise<void> {
+  // Purge the product's historical redirect aliases (by entity_urn) so old URLs
+  // stop 302ing and can't 302 a re-taken slug to an unrelated product.
+  await clearRedirectsForEntity(connection, CatalogUrn.product(uuid));
   await del('product').where('uuid', '=', uuid).execute(connection);
 }
 
@@ -19,7 +35,10 @@ async function deleteProductData(uuid: string, connection: PoolClient) {
  * @param {String} uuid
  * @param {Object} context
  */
-async function deleteProduct(uuid: string, context: Record<string, any>) {
+async function deleteProduct(
+  uuid: string,
+  context: Record<string, any>
+): Promise<ProductRow & ProductDescriptionRow> {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -56,7 +75,7 @@ async function deleteProduct(uuid: string, context: Record<string, any>) {
 export default async (
   uuid: string,
   context: Record<string, any>
-): Promise<ProductData> => {
+): Promise<ProductRow & ProductDescriptionRow> => {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -80,3 +99,43 @@ export default async (
     throw e;
   }
 };
+
+export function hookBeforeDeleteProductData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [uuid: string, connection: PoolClient]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('deleteProductData', callback, priority);
+}
+
+export function hookAfterDeleteProductData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [uuid: string, connection: PoolClient]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('deleteProductData', callback, priority);
+}
+
+export function hookBeforeDeleteProduct(
+  callback: (
+    this: Record<string, any>,
+    ...args: [uuid: string, context: Record<string, any>]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('deleteProduct', callback, priority);
+}
+
+export function hookAfterDeleteProduct(
+  callback: (
+    this: Record<string, any>,
+    ...args: [uuid: string, context: Record<string, any>]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('deleteProduct', callback, priority);
+}

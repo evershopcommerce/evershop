@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "length": { "type": ["number", "string"] },
+    "width": { "type": ["number", "string"] },
+    "height": { "type": ["number", "string"] },
+    "weight": {
+      "type": ["number", "string"],
+      "description": "Tare — the empty package's own weight (store weight unit). Optional, defaults 0."
+    },
+    "is_default": { "type": "boolean" }
+  },
+  "required": ["name", "length", "width", "height"],
+  "additionalProperties": true
+}

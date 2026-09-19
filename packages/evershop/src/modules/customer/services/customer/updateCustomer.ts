@@ -8,16 +8,17 @@ import {
 } from '@evershop/postgres-query-builder';
 import { JSONSchemaType } from 'ajv';
 import { getConnection } from '../../../../lib/postgres/connection.js';
-import { hookable } from '../../../../lib/util/hookable.js';
+import { hookable, hookBefore, hookAfter } from '../../../../lib/util/hookable.js';
 import {
   getValue,
   getValueSync
 } from '../../../../lib/util/registry.js';
+import type { CustomerRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import { CustomerData } from './createCustomer.js';
 import customerDataSchema from './customerDataSchema.json' with { type: 'json' };
 
-function validateCustomerDataBeforeInsert(data: CustomerData) {
+function validateCustomerDataBeforeInsert(data: CustomerData): CustomerData {
   const ajv = getAjv();
   (customerDataSchema as JSONSchemaType<any>).required = [];
   const jsonSchema = getValueSync(
@@ -34,7 +35,7 @@ function validateCustomerDataBeforeInsert(data: CustomerData) {
   }
 }
 
-async function updateCustomerData(uuid: string, data: CustomerData, connection: PoolClient) {
+async function updateCustomerData(uuid: string, data: CustomerData, connection: PoolClient): Promise<Omit<CustomerRow, 'password'>> {
   const query = select().from('customer');
   const customer = await query.where('uuid', '=', uuid).load(connection);
   if (!customer) {
@@ -64,7 +65,7 @@ async function updateCustomerData(uuid: string, data: CustomerData, connection: 
  * @param {Object} data
  * @param {Object} context
  */
-async function updateCustomer(uuid: string, data: CustomerData, context: Record<string, any>) {
+async function updateCustomer(uuid: string, data: CustomerData, context: Record<string, any>): Promise<Omit<CustomerRow, 'password'>> {
   const connection = await getConnection();
   await startTransaction(connection);
   try {
@@ -94,7 +95,7 @@ async function updateCustomer(uuid: string, data: CustomerData, context: Record<
  * @param {Object} data
  * @param {Object} context
  */
-export default async (uuid: string, data: CustomerData, context: Record<string, any>): Promise<CustomerData> => {
+export default async (uuid: string, data: CustomerData, context: Record<string, any>): Promise<Omit<CustomerRow, 'password'>> => {
   // Make sure the context is either not provided or is an object
   if (context && typeof context !== 'object') {
     throw new Error('Context must be an object');
@@ -102,3 +103,59 @@ export default async (uuid: string, data: CustomerData, context: Record<string, 
   const customer = await hookable(updateCustomer, context)(uuid, data, context);
   return customer;
 };
+
+export function hookBeforeUpdateCustomerData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    uuid: string,
+    data: CustomerData,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('updateCustomerData', callback, priority);
+}
+
+export function hookAfterUpdateCustomerData(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    uuid: string,
+    data: CustomerData,
+    connection: PoolClient
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('updateCustomerData', callback, priority);
+}
+
+export function hookBeforeUpdateCustomer(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    uuid: string,
+    data: CustomerData,
+    context: Record<string, any>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('updateCustomer', callback, priority);
+}
+
+export function hookAfterUpdateCustomer(
+  callback: (
+    this: Record<string, any>,
+    ...args: [
+    uuid: string,
+    data: CustomerData,
+    context: Record<string, any>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('updateCustomer', callback, priority);
+}

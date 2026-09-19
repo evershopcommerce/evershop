@@ -3,7 +3,7 @@ import React from 'react';
 
 
 function CountryOptions(props) {
-  const { countries, children } = props;
+  const { countries = [], children } = props;
 
   const options = [
     { value: 'AF', text: 'Afghanistan' },
@@ -269,10 +269,6 @@ function CountryOptions(props) {
 CountryOptions.propTypes = {
   children: PropTypes.node.isRequired,
   countries: PropTypes.arrayOf(PropTypes.string)
-};
-
-CountryOptions.defaultProps = {
-  countries: []
 };
 
 export { CountryOptions };

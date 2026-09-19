@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/products/:product_id/links",
+  "access": "private"
+}

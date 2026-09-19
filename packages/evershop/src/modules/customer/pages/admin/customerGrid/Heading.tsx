@@ -1,8 +1,9 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export default function CustomerGridHeading() {
-  return <PageHeading heading="Customers" />;
+  return <PageHeading heading={_('Customers')} />;
 }
 
 export const layout = {

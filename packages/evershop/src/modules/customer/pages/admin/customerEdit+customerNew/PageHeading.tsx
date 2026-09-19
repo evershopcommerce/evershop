@@ -1,30 +1,29 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface CustomerEditPageHeadingProps {
   backUrl: string;
   customer?: {
     fullName: string;
-  };
+  } | null;
 }
 
 export default function CustomerEditPageHeading({
   backUrl,
-  customer
+  customer = null
 }: CustomerEditPageHeadingProps) {
   return (
     <PageHeading
       backUrl={backUrl}
       heading={
-        customer ? `Editing ${customer.fullName}` : 'Create A New Customer'
+        customer
+          ? _('Editing ${fullName}', { fullName: customer.fullName })
+          : _('Create A New Customer')
       }
     />
   );
 }
-
-CustomerEditPageHeading.defaultProps = {
-  customer: null
-};
 
 export const layout = {
   areaId: 'content',

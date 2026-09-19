@@ -1,5 +1,6 @@
 import { NavigationItem } from '@components/admin/NavigationItem.js';
-import { GiftIcon } from '@heroicons/react/24/solid';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { Gift } from 'lucide-react';
 import React from 'react';
 
 interface CouponNewMenuItemProps {
@@ -7,5 +8,5 @@ interface CouponNewMenuItemProps {
 }
 
 export default function CouponNewMenuItem({ url }: CouponNewMenuItemProps) {
-  return <NavigationItem Icon={GiftIcon} title="New coupon" url={url} />;
+  return <NavigationItem Icon={Gift} title={_('New coupon')} url={url} />;
 }

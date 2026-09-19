@@ -1,0 +1,30 @@
+"""
+A scheduled application of a changeset on the storefront. Active when
+`startTime <= NOW() < endTime` (or endTime IS NULL for indefinite). The
+overlay is applied per-request — no scheduler activates anything.
+"""
+type RolloutPlan {
+  rolloutPlanId: Int!
+  uuid: String!
+  name: String!
+  changesetId: Int!
+  """
+  Snapshot of the linked changeset's `routeCursors` at Save time. The
+  storefront overlay reads from this map (not the live changeset cursors),
+  so it represents what is currently live for this rollout. The editor
+  diffs this against `Changeset.routeCursors` to decide whether Save is
+  enabled.
+  """
+  routeCursors: JSON!
+  startTime: DateTime!
+  endTime: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  changeset: Changeset
+}
+
+extend type Query {
+  rolloutPlan(id: Int, uuid: String): RolloutPlan
+  rolloutPlans: [RolloutPlan!]!
+  activeRolloutPlans: [RolloutPlan!]!
+}

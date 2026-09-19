@@ -9,7 +9,7 @@ export class WidgetCollection {
 
   async init(filters = [], isAdmin = false) {
     if (!isAdmin) {
-      this.baseQuery.andWhere('widget.status', '=', 't');
+      this.baseQuery.andWhere('widget_instance.status', '=', 't');
     }
     const currentFilters = [];
 
@@ -35,7 +35,7 @@ export class WidgetCollection {
 
     // Clone the main query for getting total right before doing the paging
     const totalQuery = this.baseQuery.clone();
-    totalQuery.select('COUNT(widget.widget_id)', 'total');
+    totalQuery.select('COUNT(widget_instance.widget_instance_id)', 'total');
     totalQuery.removeOrderBy();
     totalQuery.removeLimit();
 

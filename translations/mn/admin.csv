@@ -1,0 +1,323 @@
+"Blog category","Блогийн ангилал"
+"Blog post","Блогийн нийтлэл"
+"Blog tag","Блогийн шошго"
+"Build in page builder","Хуудас бүтээгчид үүсгэх"
+"Change edit scope","Засварын хүрээг өөрчлөх"
+"Control when this landing page is published. Leave empty for no limit.","Энэ буух хуудсыг хэзээ нийтлэхийг удирдана. Хязгааргүй бол хоосон орхино уу."
+"Create a new landing page","Шинэ буух хуудас үүсгэх"
+"Current link: ${url}","Одоогийн холбоос: ${url}"
+"Delete ${count} landing pages","${count} буух хуудас устгах"
+"Disable ${count} landing pages","${count} буух хуудсыг идэвхгүй болгох"
+"Editing","Засварлаж байна"
+"Enable ${count} landing pages","${count} буух хуудсыг идэвхжүүлэх"
+"Enable this landing page to make it visible on the storefront.","Энэ буух хуудсыг дэлгүүрт харагдуулахын тулд идэвхжүүлнэ үү."
+"Enter landing page name","Буух хуудасны нэрийг оруулна уу"
+"Landing Pages","Буух хуудсууд"
+"Landing page","Буух хуудас"
+"Landing page created successfully!","Буух хуудас амжилттай үүслээ!"
+"Loading pages…","Хуудсуудыг ачааллаж байна…"
+"New Landing Page","Шинэ буух хуудас"
+"No ${kind}s match ""${query}"".","""${query}""-тай тохирох ${kind}s олдсонгүй."
+"No ${kind}s yet.","Одоогоор ${kind}s алга байна."
+"No categories match ""${query}"".","""${query}""-тай тохирох ангилал олдсонгүй."
+"No categories yet.","Одоогоор ангилал алга байна."
+"No collections match ""${query}"".","""${query}""-тай тохирох цуглуулга олдсонгүй."
+"No collections yet.","Одоогоор цуглуулга алга байна."
+"No landing pages match ""${query}"".","""${query}""-тай тохирох буух хуудас олдсонгүй."
+"No landing pages yet.","Одоогоор буух хуудас алга байна."
+"No pages found.","Хуудас олдсонгүй."
+"No pages match ""${query}"".","""${query}""-тай тохирох хуудас олдсонгүй."
+"No pages yet.","Одоогоор хуудас алга байна."
+"No products match ""${query}"".","""${query}""-тай тохирох бүтээгдэхүүн олдсонгүй."
+"No products yet.","Одоогоор бүтээгдэхүүн алга байна."
+Paste a URL or a relative path starting with ,URL эсвэл дараахаар эхлэх харьцангуй замыг буулгана уу: 
+"Pick a CMS page to link to.","Холбох CMS хуудсыг сонгоно уу."
+"Pick a blog ${kind} to link to.","Холбох блогийн ${kind} сонгоно уу."
+"Pick a category to link to.","Холбох ангиллыг сонгоно уу."
+"Pick a collection.","Цуглуулга сонгоно уу."
+"Pick a landing page to link to.","Холбох буух хуудсыг сонгоно уу."
+"Pick a product to link to.","Холбох бүтээгдэхүүнийг сонгоно уу."
+"Provide the SEO details for the landing page.","Буух хуудасны SEO мэдээллийг оруулна уу."
+"Provide the basic information for the landing page.","Буух хуудасны үндсэн мэдээллийг оруулна уу."
+"Publish end","Нийтлэлийн төгсгөл"
+"Publish start","Нийтлэлийн эхлэл"
+"Schedule","Хуваарь"
+"The internal name of the landing page shown in the admin panel.","Админ самбарт харагдах буух хуудасны дотоод нэр."
+"There is no landing page to display","Харуулах буух хуудас алга байна"
+"This is the URL path for the landing page.","Энэ бол буух хуудасны URL зам юм."
+"This page","Энэ хуудас"
+"Duplicating ${name}","${name}-г хувилж байна"
+"The duplicate is created from the last saved version of this product. Your unsaved edits will not be included and will be lost when you leave this page.","Хуулбар нь энэ бүтээгдэхүүний хамгийн сүүлд хадгалагдсан хувилбараас үүснэ. Таны хадгалаагүй өөрчлөлтүүд орохгүй бөгөөд энэ хуудаснаас гарахад устана."
+"Continue without saving","Хадгалахгүйгээр үргэлжлүүлэх"
+"You are creating a copy of ${name}","Та ${name}-н хуулбарыг үүсгэж байна"
+"The copy is created as a standalone product — it does not join the source's variant group. Add it from the copy's edit page if needed.","Хуулбар нь бие даасан бүтээгдэхүүн болж үүснэ — эх бүтээгдэхүүний хувилбарын бүлэгт нэгдэхгүй. Шаардлагатай бол хуулбарын засварлах хуудаснаас нэмнэ үү."
+"Nothing is duplicated yet — hit Save to complete the duplication. Leaving this page without saving discards the copy.","Одоогоор юу ч хувилагдаагүй байна — хувилалтыг дуусгахын тулд Хадгалах товчийг дарна уу. Хадгалахгүйгээр энэ хуудаснаас гарвал хуулбар устана."
+"Replace homepage with this page","Нүүр хуудсыг энэ хуудсаар солих"
+"The homepage will show the widgets of ""${name}"".","Нүүр хуудас ""${name}""-ийн виджетүүдийг харуулна."
+"Checking the homepage…","Нүүр хуудсыг шалгаж байна…"
+"Something changed since the preview. Please review again.","Урьдчилан харснаас хойш ямар нэг зүйл өөрчлөгдсөн. Дахин шалгана уу."
+"These rollout plans change the homepage. Cancel them or wait until they end, then try again.","Эдгээр нэвтрүүлэх төлөвлөгөө нүүр хуудсыг өөрчилдөг. Тэдгээрийг цуцлах эсвэл дуусахыг хүлээгээд дахин оролдоно уу."
+"The homepage has page-specific widget placements. Remove them in the page builder first.","Нүүр хуудсанд тодорхой хуудсанд зориулсан виджетийн байршил байна. Эхлээд тэдгээрийг хуудас бүтээгчид устгана уу."
+"active","идэвхтэй"
+"upcoming","удахгүй"
+"The current homepage widgets will be moved to a new disabled landing page named ""${name}"". You can restore it later with this same action.","Нүүр хуудасны одоогийн виджетүүд ""${name}"" нэртэй шинэ идэвхгүй буух хуудас руу шилжинэ. Дараа нь яг энэ үйлдлээр сэргээж болно."
+"${count} unpublished homepage change(s) by you will be discarded.","Таны хийсэн нүүр хуудасны нийтлэгдээгүй ${count} өөрчлөлт хаягдана."
+"${count} unpublished homepage change(s) by ${admins} other admin(s) will be discarded.","${admins} өөр админы хийсэн нүүр хуудасны нийтлэгдээгүй ${count} өөрчлөлт хаягдана."
+"${count} change(s) left over from cancelled rollout plans will be discarded.","Цуцлагдсан нэвтрүүлэх төлөвлөгөөнөөс үлдсэн ${count} өөрчлөлт хаягдана."
+"${count} ended rollout plan(s) that changed the homepage will be cancelled so they cannot be re-scheduled.","Нүүр хуудсыг өөрчилж байсан дууссан ${count} нэвтрүүлэх төлөвлөгөө дахин төлөвлөгдөхгүйн тулд цуцлагдана."
+"This landing page is not live (unpublished, scheduled, or expired). The homepage does not use its schedule; the copy goes live as soon as you confirm.","Энэ буух хуудас идэвхтэй биш (нийтлэгдээгүй, төлөвлөгдсөн эсвэл хугацаа дууссан). Нүүр хуудас түүний хуваарийг ашигладаггүй; баталгаажуулмагц хуулбар шууд нийтлэгдэнэ."
+"This landing page has ${count} unpublished change(s) in the page builder. Only published content is copied. Publish it first if the editor canvas is what you want.","Энэ буух хуудсанд хуудас бүтээгч дээр нийтлэгдээгүй ${count} өөрчлөлт байна. Зөвхөн нийтлэгдсэн агуулга хуулагдана. Засварлагч дээр харагдаж буйг хүсвэл эхлээд нийтлэнэ үү."
+"A rollout plan is changing this landing page. Only its published content is copied.","Нэвтрүүлэх төлөвлөгөө энэ буух хуудсыг өөрчилж байна. Зөвхөн нийтлэгдсэн агуулга нь хуулагдана."
+"${count} widget(s) shown on every landing page are not part of this page and will not be copied.","Бүх буух хуудсанд харагддаг ${count} виджет энэ хуудасны хэсэг биш тул хуулагдахгүй."
+"${count} hidden widget(s) in this page's ""content"" area will not be copied.","Энэ хуудасны ""content"" хэсэг дэх нуугдсан ${count} виджет хуулагдахгүй."
+"${count} link(s) in this page point at the page itself. They will still point there from the homepage.","Энэ хуудасны ${count} холбоос хуудас руугаа өөрөө заадаг. Нүүр хуудаснаас ч тэнд заасан хэвээр байна."
+"This landing page has no visible widgets in the current theme. The homepage will be empty.","Энэ буух хуудсанд одоогийн загварт харагдах виджет байхгүй. Нүүр хуудас хоосон байна."
+"${count} site-wide widget(s) sit in the homepage content area and will appear mixed into the copied layout.","Нүүр хуудасны агуулгын хэсэгт сайт даяарх ${count} виджет байгаа бөгөөд хуулсан бүтэцтэй холилдон харагдана."
+"Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Дууслаа. ""${name}"" өөрийн URL дээрээ нийтлэгдсэн хэвээр байна. Танд одоо нүүр хуудасны ${count} нөөц хуулбар байна."
+"View backup","Нөөц хуулбарыг харах"
+"Open homepage in page builder","Нүүр хуудсыг хуудас бүтээгчид нээх"
+Close,Хаах
+Cancel,Цуцлах
+"Replace homepage","Нүүр хуудсыг солих"
+"Could not check the homepage.","Нүүр хуудсыг шалгаж чадсангүй."
+"The homepage could not be replaced.","Нүүр хуудсыг сольж чадсангүй."
+"Include unpublished pages","Нийтлэгдээгүй хуудсуудыг оруулах"
+"This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Энэ виджет мөн хуудас бүтээгчид удирдагддаг ${count} тодорхой хуудсанд байршсан. Тэдгээр байршил энд харагдахгүй бөгөөд хадгалахад өөрчлөгдөхгүй."
+Blog Home,Блогийн нүүр
+All posts,Бүх нийтлэл
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Зөвхөн http(s), mailto, tel эсвэл харьцангуй холбоос зөвшөөрөгдөнө — энэ холбоосыг дэлгүүр дээр үл тооно."
+Link target,Холбоосын очих газар
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","“Бүгдийг харах” холбоос хаашаа очих вэ — ангилал, хуудас эсвэл өөрийн URL. Цуглуулгад өөрийн хуудас байхгүй тул холбоосыг нуухын тулд хоосон орхино уу."
+"Optional. Defaults to ""View all N →"".",Заавал биш. Анхдагч нь “Бүгдийг харах N →”.
+Whole country,Бүх улс
+${count} selected,${count} сонгогдсон
+Select provinces,Аймгуудыг сонгох
+Used below 640 px. Falls back to the main image.,640 px-ээс бага өргөнд ашиглагдана. Байхгүй бол үндсэн зургийг ашиглана.
+mobile,гар утас
+Webhook ID,Webhook ID
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.","PayPal хөгжүүлэгчийн хяналтын самбарт үүсгэсэн, /api/paypal/webhook руу чиглэсэн webhook-ийн ID. Сервер талын төлбөрийн баталгаажуулалтыг идэвхжүүлнэ."
+System Setting,Системийн тохиргоо
+File storage and service credentials,Файл хадгалалт болон үйлчилгээний нэвтрэх мэдээлэл
+Pricing & Tax,Үнэ ба татвар
+"Price rounding, tax calculation, classes & rates","Үнийн бөөрөнхийлөлт, татварын тооцоо, ангилал ба хувь"
+Social sharing preview,Сошиал хуваалцалтын урьдчилан харах
+Account menu,Бүртгэлийн цэс
+Grid columns.,Сүлжээний баганууд.
+Product listing and image settings,Бүтээгдэхүүний жагсаалт ба зургийн тохиргоо
+Edit variant,Хувилбар засах
+Sold,Зарагдсан
+Not collected (zero-total order),Цуглуулаагүй (нийт дүн тэг захиалга)
+All landing pages,Бүх бууж ирэх хуудас
+System setting saved,Системийн тохиргоо хадгалагдлаа
+All ${attribute},Бүх ${attribute}
+${count} of ${total},${total}-аас ${count}
+No variants match the selected options.,Сонгосон сонголтуудад тохирох хувилбар алга.
+This product has no other variants yet.,Энэ бүтээгдэхүүнд өөр хувилбар одоогоор алга.
+Optional. Shown under the row heading.,Заавал биш. Мөрийн гарчгийн доор харагдана.
+A short description for this row,Энэ мөрийн товч тайлбар
+Product count,Бүтээгдэхүүний тоо
+Total products to show per collection.,Цуглуулга тус бүрд харуулах бүтээгдэхүүний нийт тоо.
+Shown above the products. The shelf renders nothing at all when no products qualify.,Бүтээгдэхүүний дээр харагдана. Тохирох бүтээгдэхүүн байхгүй бол энэ хэсэг огт харагдахгүй.
+e.g. You may also like,жишээ нь: Танд бас таалагдаж магадгүй
+Products to show,Харуулах бүтээгдэхүүн
+Between 1 and 12 — 3 to 5 works best.,1-ээс 12-ын хооронд — 3-5 нь хамгийн тохиромжтой.
+Product count is required,Бүтээгдэхүүний тоо шаардлагатай
+Nearest,Хамгийн ойрын
+Round up,Дээш бөөрөнхийлөх
+Round down,Доош бөөрөнхийлөх
+Line item,Захиалгын мөр
+Per unit,Нэгж тутамд
+Price rounding,Үнийн бөөрөнхийлөлт
+How every monetary amount is rounded across the store.,Дэлгүүр даяар мөнгөн дүн бүрийг хэрхэн бөөрөнхийлөх.
+Pricing settings have been saved successfully!,Үнийн тохиргоо амжилттай хадгалагдлаа!
+Rounding mode,Бөөрөнхийлөх горим
+The direction used when rounding prices to the decimal precision.,Үнийг аравтын нарийвчлалд бөөрөнхийлөх чиглэл.
+Decimal precision,Аравтын нарийвчлал
+Number of decimal places prices are rounded to.,Үнийг хэдэн аравтын оронд бөөрөнхийлөх.
+Tax rounding mode,Татварын бөөрөнхийлөх горим
+The direction used when rounding the calculated tax amount.,Тооцоолсон татварын дүнг бөөрөнхийлөх чиглэл.
+Tax decimal precision,Татварын аравтын нарийвчлал
+Number of decimal places the tax amount is rounded to.,Татварын дүнг хэдэн аравтын оронд бөөрөнхийлөх.
+Tax rounding level,Татварын бөөрөнхийлөх түвшин
+"Where tax rounding is applied: per unit, per line, or on the order total.","Татварын бөөрөнхийлөлтийг хаана хэрэглэх: нэгж тутамд, мөр тутамд эсвэл захиалгын нийт дүнд."
+Catalog prices include tax,Каталогийн үнэд татвар багтсан
+Enable when the product prices you enter already include tax.,Таны оруулж буй бүтээгдэхүүний үнэд татвар аль хэдийн багтсан бол идэвхжүүлнэ үү.
+Catalog settings have been saved successfully!,Каталогийн тохиргоо амжилттай хадгалагдлаа!
+Product listing,Бүтээгдэхүүний жагсаалт
+Control how products appear in storefront listings.,Дэлгүүрийн жагсаалтад бүтээгдэхүүн хэрхэн харагдахыг тохируулна.
+Show out of stock products,Нөөцгүй бүтээгдэхүүнийг харуулах
+"When enabled, products with no available stock stay visible on the storefront.",Идэвхжүүлсэн үед нөөцгүй бүтээгдэхүүн дэлгүүрт харагдсаар байна.
+Products per page,Хуудас тутамд бүтээгдэхүүн
+Number of products shown per page on category and collection listings.,Ангилал болон цуглуулгын жагсаалтад хуудас тутамд харуулах бүтээгдэхүүний тоо.
+Product images,Бүтээгдэхүүний зураг
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","Таны бүтээгдэхүүний зургууд үүсгэгдэх хэмжээ. Энэ нь дэлгүүр даяарх бүтээгдэхүүний зургийн жишиг харьцаа болон дээд нягтралыг тогтооно — жагсаалт, сагс, төлбөр тооцоо, бүтээгдэхүүний хуудас. Байршил бүр өөрийн өргөнд тохирч, өндрийг энэ харьцаанаас гаргана."
+Original image width (px),Эх зургийн өргөн (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.","Таны эх бүтээгдэхүүний зургийн өргөн. Бүтээгдэхүүний хуудасны томруулалт том, өндөр нягтралтай дэлгэц дээр тод байхын тулд 1920px буюу түүнээс их байхыг зөвлөж байна."
+Original image height (px),Эх зургийн өндөр (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,Таны эх бүтээгдэхүүний зургийн өндөр. Өргөн ÷ өндөр нь бүтээгдэхүүний зураг бүрд хэрэглэгдэх харьцаа юм.
+Related products rules,Холбоотой бүтээгдэхүүний дүрэм
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,"Энэ ангилалд байгаа, дүрмээ өвлөж авдаг бүх бүтээгдэхүүнд хамаарна. Өөрийн тусгай тохиргоотой бүтээгдэхүүнд нөлөөлөхгүй."
+Override the global rules for this category,Энэ ангилалд глобал дүрмийг дарж бичих
+Overridden on this category,Энэ ангилалд дарж бичсэн
+Source: Global settings,Эх сурвалж: Глобал тохиргоо
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,Энэ ангилалын бүтээгдэхүүнүүд холбоотой бүтээгдэхүүний глобал дүрмийг дагана. Худалдан авагчид юу харахыг аль ч бүтээгдэхүүний засах дэлгэцээс урьдчилан үзнэ үү.
+Regional & Units,Бүс нутаг ба нэгж
+Currency,Мөнгөн тэмдэгт
+Default currency for new carts and price display. Existing orders keep their own currency.,Шинэ сагс болон үнийн харуулалтын анхдагч мөнгөн тэмдэгт. Одоо байгаа захиалгууд өөрсдийн мөнгөн тэмдэгтээ хадгална.
+Timezone,Цагийн бүс
+Timezone used to display dates in the store.,Дэлгүүрт огноо харуулахад ашиглах цагийн бүс.
+Weight unit,Жингийн нэгж
+Dimension unit,Хэмжээсийн нэгж
+Branding,Брэндинг
+"Your logo, favicon, and the image shown when your store is shared on social media.","Таны лого, favicon болон дэлгүүрийг сошиал медиад хуваалцахад харагдах зураг."
+Logo,Лого
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,"Дэлгүүрийн толгой хэсэгт харагдана. Тунгалаг дэвсгэртэй өндөр нягтралтай PNG ашиглана уу — энэ нь таны загварт автоматаар тохирч, оновчилсон WebP хэлбэрээр дамжина."
+Favicon,Favicon
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,Хөтчийн табан дээрх жижиг дүрс. Дор хаяж 512×512px хэмжээтэй дөрвөлжин PNG байршуулна уу — 16/32px дүрс болон 180px Apple touch icon автоматаар үүснэ.
+Social sharing image,Сошиал хуваалцалтын зураг
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","Хуудсыг сошиал медиад хуваалцахад харагдах урьдчилсан харагдац (Open Graph / Twitter). Санал болгох хэмжээ 1200×630px (1.91:1), PNG эсвэл JPG."
+Analytics,Аналитик
+Google Analytics 4 Measurement ID,Google Analytics 4 хэмжилтийн ID
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Google Analytics дотор Admin → Data Streams → таны вэб урсгал хэсэгт байна. Хяналтыг унтраахын тулд хоосон орхино уу.
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Хүчинтэй GA4 хэмжилтийн ID оруулна уу, жишээ нь G-XXXXXXXXXX"
+Allow guest checkout,Зочноор захиалга өгөхийг зөвшөөрөх
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",Идэвхжүүлсэн үед худалдан авагчид бүртгэлгүйгээр захиалга өгөх боломжтой. Идэвхгүй үед тэд нэвтрэх эсвэл бүртгүүлэх шаардлагатай.
+Enable rule-based related products,Дүрэмд суурилсан холбоотой бүтээгдэхүүнийг идэвхжүүлэх
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,Дүрмүүд үлдсэн байрыг дээрээс доош дүүргэнэ (гараар сонгосон нь үргэлж эхэнд байна). Тэргүүлэх эрэмбийг өөрчлөхийн тулд дарааллыг солино уу.
+Move rule up,Дүрмийг дээш зөөх
+Move rule down,Дүрмийг доош зөөх
+Match these attributes,Эдгээр шинжийг тааруулах
+No select-type attributes exist yet.,Сонголтын төрлийн шинж одоогоор алга.
+Within scope,Хүрээний дотор
+Same category,Ижил ангилал
+Same collection,Ижил цуглуулга
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",Шинжийн тохирол үргэлж хүрээтэй хослоно — бүх каталогийн хэмжээнд “ижил өнгө” гэвэл хамааралгүй бүтээгдэхүүнийг холбоно.
+Only show products in a similar price range,Зөвхөн ойролцоо үнийн хүрээний бүтээгдэхүүнийг харуулах
+Within ±,±
+% of the product price,% бүтээгдэхүүний үнийн
+Fill remaining slots with bestsellers,Үлдсэн байрыг хамгийн их зарагдсан бараагаар дүүргэх
+Recompute failed,Дахин тооцоолол амжилтгүй
+Co-purchase statistics recomputed,Хамт худалдан авалтын статистикийг дахин тооцоолов
+Related products,Холбоотой бүтээгдэхүүн
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,Бүтээгдэхүүний хуудсан дахь “Холбоотой бүтээгдэхүүн” хэсгийн дүрэм. Ангилал болон бүтээгдэхүүн эдгээрийг дарж бичиж болно; бүтээгдэхүүн дээрх гар сонголт үргэлж эхэнд байна.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.",Upsell хэсэг эдгээр ижил дүрмийг ашигладаг бөгөөд үзэж буй бүтээгдэхүүнээс ҮНЭТЭЙ бүтээгдэхүүнээр хязгаарлагдана (идэвхтэй үед үнийн хүрээний хувь нь дээд хязгаар болно) — хамгийн их зарагдсан бараагаар нөхөхгүй бөгөөд “Зөвхөн гар сонголт” тохируулсан бүтээгдэхүүнд upsell байхгүй.
+Frequently bought together,Ихэвчлэн хамт худалдаж авдаг
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.",Хамт худалдан авалтын зөвлөмжийг зөвхөн эдгээр босгоос дээш үед найдвартай гэж үзнэ. Анхдагч утга нь жижиг дэлгүүрт тохиромжтой — нэмэгдүүлбэл цөөн боловч илүү найдвартай санал гарна.
+Min times bought together,Хамт худалдаж авсан хамгийн бага тоо
+A pair must co-occur in at least this many orders.,Хос бүтээгдэхүүн дор хаяж энэ тооны захиалгад хамт орсон байх ёстой.
+Min orders of the product,Бүтээгдэхүүний хамгийн бага захиалгын тоо
+Orders of a product before its data is trusted.,Бүтээгдэхүүний өгөгдлийг найдвартай гэж үзэхээс өмнөх захиалгын тоо.
+Min lift,Хамгийн бага lift
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,1-ээс дээш = санамсаргүй тохиолдлоос илүү олон удаа хамт худалдаж авсан. Хаа сайгүй тааралддаг шилдэг борлуулалттай барааг шүүнэ.
+Fill empty slots with bestsellers,Хоосон байрыг хамгийн их зарагдсан бараагаар дүүргэх
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.",Босгоос доош үед энэ хэсэг юу ч харуулахгүй байхын оронд ангилал болон дэлгүүрийн шилдэг борлуулалттай барааг харуулна.
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Хамт худалдан авалтын өгөгдлийг сүүлд ${date}-нд ${total} захиалгаас тооцоолсон (${pairs} бүтээгдэхүүний хос).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Хамт худалдан авалтын өгөгдөл одоогоор алга — шөнө бүр тооцоологддог, эсвэл одоо дахин тооцоолно уу."
+Recomputing…,Дахин тооцоолж байна…
+Recompute now,Одоо дахин тооцоолох
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","Таны webhook URL нь: https://yourdomain.com/api/stripe/webhook байх ёстой. Эдгээр үйл явдлыг идэвхжүүлнэ үү (эсвэл “All events”): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Нуугдсан — ижил хувилбарын бүлэг
+Hidden — disabled or out of stock,Нуугдсан — идэвхгүй эсвэл нөөцгүй
+no orders yet — ranked newest first,захиалга одоогоор алга — хамгийн шинээр эрэмбэлэв
+Operation failed,Үйлдэл амжилтгүй боллоо
+Add products,Бүтээгдэхүүн нэмэх
+No manual picks yet.,Гараар сонгосон зүйл одоогоор алга.
+(product unavailable),(бүтээгдэхүүн боломжгүй)
+Overridden on this product,Энэ бүтээгдэхүүн дээр дарж бичсэн
+Source: category,Эх сурвалж: ангилал
+Could not pin the product,Бүтээгдэхүүнийг бэхлэж чадсангүй
+Recommendations,Зөвлөмжүүд
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,Энэ бүтээгдэхүүний хувьд “Холбоотой бүтээгдэхүүн” болон “Ихэвчлэн хамт худалдаж авдаг” хэсгүүд юу харуулах вэ. Upsell хэсэг нь холбоотой бүтээгдэхүүний дүрмээс үүсдэг (зөвхөн илүү үнэтэй тохирлууд) — энд тохируулах зүйл байхгүй.
+Rules,Дүрмүүд
+Inherit (category or global rules),Өвлөх (ангилал эсвэл глобал дүрэм)
+Custom rules for this product,Энэ бүтээгдэхүүний тусгай дүрэм
+Manual picks only,Зөвхөн гар сонголт
+Manual picks,Гар сонголт
+"Always shown first, in this order, before any rules fill the remaining slots.","Дүрмүүд үлдсэн байрыг дүүргэхээс өмнө үргэлж эхэнд, энэ дарааллаар харагдана."
+Shoppers will see,Худалдан авагчид дараахыг харна
+Based on the last saved configuration.,Сүүлд хадгалсан тохиргоонд үндэслэсэн.
+Mode changed — save to update this preview.,Горим өөрчлөгдлөө — энэ урьдчилан харагдацыг шинэчлэхийн тулд хадгална уу.
+Shoppers will see no related products for this product with the current configuration.,Одоогийн тохиргоогоор худалдан авагчид энэ бүтээгдэхүүний холбоотой бүтээгдэхүүнийг харахгүй.
+manual pick,гар сонголт
+bestseller fallback,шилдэг борлуулалтын нөөц
+Mode,Горим
+Automatic (co-purchase data),Автомат (хамт худалдан авалтын өгөгдөл)
+"Manual picks first, auto-fill the rest","Эхлээд гар сонголт, үлдсэнийг автоматаар дүүргэх"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,Горим болон гар сонголт зөвхөн энэ хувилбарт хамаарна — бүлэг даяар ижил ажиллуулахын тулд бусад хувилбаруудыг адилхан тохируулна уу.
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,Автомат горимд гар сонголтыг үл тооно — ашиглахын тулд “Эхлээд гар” эсвэл “Зөвхөн гар” руу шилжинэ үү.
+Computed from orders,Захиалгаас тооцоолсон
+${count} orders of this product · data from ${total} orders total,Энэ бүтээгдэхүүний ${count} захиалга · нийт ${total} захиалгын өгөгдлөөс
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).",Энэ бүтээгдэхүүний хамт худалдан авалтын өгөгдөл одоогоор алга — захиалга ирэх тусам хуримтлагдана. Нөөц сонголт идэвхтэй үед энэ хэсэг түр хугацаанд шилдэг борлуулалттай барааг харуулна (доороос үзнэ үү).
+Together,Хамт
+Confidence,Итгэл
+Lift,Lift
+(unavailable),(боломжгүй)
+hidden,нуугдсан
+shown,харуулсан
+below threshold,босгоос доош
+Pin,Бэхлэх
+Shoppers will see (frequently bought together),Худалдан авагчид дараахыг харна (ихэвчлэн хамт худалдаж авдаг)
+Shoppers will see no frequently-bought-together products with the current configuration.,Одоогийн тохиргоогоор худалдан авагчид ихэвчлэн хамт худалдаж авдаг бүтээгдэхүүнийг харахгүй.
+co-purchase data,хамт худалдан авалтын өгөгдөл
+category bestsellers (fallback),ангилалын шилдэг борлуулалт (нөөц)
+store bestsellers (fallback),дэлгүүрийн шилдэг борлуулалт (нөөц)
+Exclude this product from recommendations,Энэ бүтээгдэхүүнийг зөвлөмжөөс хасах
+Never suggest this product alongside others,Энэ бүтээгдэхүүнийг бусадтай хамт хэзээ ч санал болгохгүй
+Enter a type or remove the row,Төрөл оруулах эсвэл мөрийг устгана уу
+Use type/subtype (video/mp4) or a family (video/*),Төрөл/дэд төрөл (video/mp4) эсвэл бүлэг (video/*) ашиглана уу
+MB,МБ
+Enter a size,Хэмжээ оруулна уу
+Enter a size greater than zero,Тэгээс их хэмжээ оруулна уу
+Remove override,Дарж бичсэнийг устгах
+Add type override,Төрлийн дарж бичилт нэмэх
+Managed by configuration (config file or environment variable),Тохиргоогоор удирдагдана (тохиргооны файл эсвэл орчны хувьсагч)
+File Storage & Uploads,Файл хадгалалт ба байршуулалт
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Байршуулсан файлууд (бүтээгдэхүүний зураг, баннер, медиа) хаана хадгалагдах, ямар төрөл зөвшөөрөгдөх, хэр том байж болох"
+Local file system,Дотоод файлын систем
+Amazon S3 / S3-compatible,Amazon S3 / S3-тэй нийцтэй
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,Bucket шаардлагатай
+Bucket name,Bucket-ийн нэр
+Region,Бүс
+Region is required,Бүс шаардлагатай
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),S3-тэй нийцтэй үйлчилгээнд нийлүүлэгчийн утгыг ашиглана уу (жишээ нь Hetzner-ийн хувьд fsn1)
+Access key ID,Access key ID
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.","Хадгалалтын үйлчилгээ үзүүлэгчийнхээ консол дээр access key үүсгэнэ үү. AWS-ийн хувьд: AWS Console руу нэвтэрч, IAM → Users → таны хэрэглэгч → Security credentials → Create access key гэж нээнэ үү."
+Secret access key,Secret access key
+"The secret is shown only once, when the access key is created — copy it from there.",Нууц утга нь access key үүсгэх үед зөвхөн нэг удаа харагдана — тэндээс хуулж авна уу.
+Custom endpoint,Тусгай endpoint
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Зөвхөн S3-тэй нийцтэй үйлчилгээнд (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). AWS-ийн хувьд хоосон орхино уу."
+Force path-style,Path-style-г албадах
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","MinIO шаарддаг. AWS, Hetzner болон R2-ын хувьд идэвхгүй орхино уу."
+Public base URL,Нийтийн үндсэн URL
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","Bucket-ийг түгээх нэмэлт CDN (жишээ нь CloudFront) — ингэснээр bucket хувийн хэвээр үлдэнэ. Үгүй бол объектууд bucket policy-ээр нийтэд уншигдах ёстой. Жишээ: https://cdn.mystore.com эсвэл https://d111abcdef8.cloudfront.net, энэ bucket-ийг эх сурвалж болгосон CloudFront distribution. Файлууд <энэ URL>/<файлын зам> хэлбэрээр түгээгдэх тул домэйн нь bucket-ийн үндсэн хэсэг рүү заасан байх ёстой."
+Connection string,Холболтын мөр
+Connection string is required,Холболтын мөр шаардлагатай
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Үүнийг Azure portal-оос хуулна уу: нэвтэрч, хадгалалтын бүртгэлээ нээгээд Security + networking → Access keys → Connection string."
+Container,Container
+Container access,Container-ийн хандалт
+Private (recommended),Хувийн (санал болгох)
+Public read for blobs,Blob-уудад нийтийн унших эрх
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",Нийтийн унших эрхэд хадгалалтын бүртгэл дээр “Allow blob anonymous access” шаардлагатай — шинэ бүртгэлд анхдагчаар хориотой. Нийтийн үндсэн URL (CDN) бүхий хувийн container-ийг илүүд үзнэ үү.
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).","Container-ийг түгээх нэмэлт CDN (жишээ нь Azure CDN / Front Door) — ингэснээр container хувийн хэвээр үлдэнэ. Файлууд <энэ URL>/<файлын зам> хэлбэрээр, container хэсэг нэмэлгүйгээр түгээгдэнэ. Тиймээс CDN-ийн origin замыг /<container> болгож тохируулах эсвэл container-ийг энд оруулна уу (жишээ: https://mystore.azureedge.net/media)."
+Service account key,Үйлчилгээний бүртгэлийн түлхүүр
+Paste the entire content of the downloaded JSON key file,Татаж авсан JSON түлхүүр файлын бүх агуулгыг буулгана уу
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,Google Cloud Console дээр түлхүүр үүсгэнэ үү: IAM & Admin → Service Accounts → bucket дээр Storage Object Admin эрхтэй бүртгэл үүсгэх эсвэл сонгох → Keys → Add key → JSON. Татаж авсан файлыг бүхэлд нь энд буулгана уу.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Түлхүүр байхгүй юу? Хэрэв EverShop нь bucket руу аль хэдийн хандах эрхтэй сервер дээр ажиллаж байгаа бол — жишээ нь AWS IAM үүрэг, эсвэл сервер дээр орчны хувьсагчаар тохируулсан AWS түлхүүрүүд — хоёр талбарыг хоосон орхиход серверийн өөрийн нэвтрэх мэдээллийг автоматаар ашиглана. Хадгалах үед холболтыг шалгадаг тул буруу эсвэл дутуу тохиргоог хадгалах боломжгүй."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Түлхүүр байхгүй юу? Хэрэв EverShop нь үйлчилгээний бүртгэл хавсаргасан Google Cloud (Compute Engine, GKE, Cloud Run) дээр ажиллаж байгаа, эсвэл сервер дээр GOOGLE_APPLICATION_CREDENTIALS орчны хувьсагч тохируулагдсан бол энэ талбарыг хоосон орхиход серверийн өөрийн нэвтрэх мэдээллийг автоматаар ашиглана. Хадгалах үед холболтыг шалгадаг тул буруу эсвэл дутуу тохиргоог хадгалах боломжгүй."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.",Bucket-ийг түгээх нэмэлт CDN (жишээ нь Cloud CDN) — ингэснээр bucket хувийн хэвээр үлдэнэ. Үгүй бол объектууд нийтэд уншигдах ёстой: bucket дээр “allUsers”-д Storage Object Viewer эрхийг олгоно уу (танай байгууллагад Public Access Prevention хэрэгжиж байвал хориглоно). Жишээ: https://cdn.mystore.com — энэ bucket-ийг backend bucket болгосон load balancer домэйн.
+Local storage is not recommended for production,Дотоод хадгалалтыг үйлдвэрлэлийн орчинд санал болгодоггүй
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Энэ сервер дээр хадгалагдсан файлууд шинэчлэгдэх, зөөгдөх, эсвэл эвдрэх үед устаж болно. Ажиллаж буй дэлгүүрт S3 эсвэл Azure Blob Storage ашиглана уу."
+Upload rules,Байршуулах дүрэм
+What can be uploaded and how big it can be — applies on every storage provider.,"Юуг байршуулж болох, хэр том байж болох — бүх хадгалалтын үйлчилгээнд хамаарна."
+Allowed file types,Зөвшөөрөгдсөн файлын төрлүүд
+Select at least one file type,Дор хаяж нэг файлын төрөл сонгоно уу
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,Бусад төрлийн файлыг байршуулах үед татгалзана. SVG-г зориудаар санал болгоогүй — SVG файлууд скрипт агуулж болох бөгөөд түгээх үед аюулгүй байдлын эрсдэлтэй.
+Also allowed via server configuration: ${types},Серверийн тохиргоогоор мөн зөвшөөрөгдсөн: ${types}
+Maximum file size,Файлын дээд хэмжээ
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","Файл тутамд, мегабайтаар (MB). Анхдагч 10 MB-ын хувьд хоосон орхино уу. Админ хэсгийн бүх байршуулалтад хамаарна — бүтээгдэхүүний зураг, баннер, медиа."
+Per-type overrides,Төрөл тус бүрийн дарж бичилт
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Тохирох файлын төрлүүдийн дээд хэмжээг дарж бичнэ — жишээ нь зурагт бага, видеонд их хязгаар. Яг тодорхой төрөл (video/mp4) нь бүлгээс (video/*) давуу; тохирохгүй бүхэн дээрх дээд хэмжээг ашиглана. Дарж бичилт нь шинэ төрлийг зөвшөөрөхгүй: файлын төрөл өөрөө “Зөвшөөрөгдсөн файлын төрлүүд” дотор идэвхжсэн байх ёстой."
+Every product in the store,Дэлгүүрийн бүх бүтээгдэхүүн

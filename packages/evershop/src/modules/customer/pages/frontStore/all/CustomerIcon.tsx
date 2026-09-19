@@ -1,4 +1,4 @@
-import { UserCircleIcon as Icon } from '@heroicons/react/24/outline';
+import { User } from 'lucide-react';
 import React from 'react';
 
 interface UserIconProps {
@@ -17,9 +17,13 @@ export default function UserIcon({
   loginUrl
 }: UserIconProps) {
   return (
-    <div className="self-center">
-      <a href={customer ? accountUrl : loginUrl}>
-        <Icon width={25} height={25} />
+    <div className="customer-icon flex items-center">
+      <a
+        href={customer ? accountUrl : loginUrl}
+        aria-label={customer ? 'Account' : 'Sign in'}
+        className="rounded-md p-2 text-foreground/80 hover:bg-muted hover:text-foreground"
+      >
+        <User className="h-5 w-5" />
       </a>
     </div>
   );

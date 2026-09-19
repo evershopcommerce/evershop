@@ -1,8 +1,9 @@
 import { FormButtons } from '@components/admin/FormButtons.js';
 import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
+import { toast } from '@components/common/ui/Sonner.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 interface AttributeNewFormProps {
   action: string;
@@ -18,7 +19,7 @@ export default function AttributeNewForm({
       method="POST"
       id="attributeNewForm"
       onSuccess={(response) => {
-        toast.success('Attribute created successfully!');
+        toast.success(_('Attribute created successfully!'));
         setTimeout(() => {
           const editUrl = response.data.links.find(
             (link) => link.rel === 'edit'

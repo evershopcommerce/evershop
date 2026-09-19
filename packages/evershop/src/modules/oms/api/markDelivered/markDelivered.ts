@@ -15,6 +15,13 @@ import { EvershopResponse } from '../../../../types/response.js';
 import addOrderActivityLog from '../../services/addOrderActivityLog.js';
 import { updateShipmentStatus } from '../../services/updateShipmentStatus.js';
 
+/**
+ * Legacy single-shipment HTTP handler. Marks every non-`delivered`-non-`canceled`
+ * shipment on the order as delivered. In the multi-shipment model an order can
+ * have many shipments, so "mark delivered" sweeps them all. A4 introduces the
+ * per-shipment-UUID handler (`POST /api/shipments/:uuid/markDelivered`); this
+ * one stays as a thin back-compat wrapper.
+ */
 export default async (
   request: EvershopRequest,
   response: EvershopResponse,
@@ -39,27 +46,36 @@ export default async (
       });
       return;
     }
-    const shipment = await select()
+    const shipments = await select()
       .from('shipment')
       .where('shipment_order_id', '=', order_id)
-      .load(connection);
+      .execute(connection);
 
-    if (!shipment) {
+    if (!shipments || shipments.length === 0) {
       response.status(INVALID_PAYLOAD);
       response.json({
         error: {
           status: INVALID_PAYLOAD,
-          message: 'Shipment was not created'
+          message: 'No shipments to mark delivered'
         }
       });
       return;
     }
 
-    await updateShipmentStatus(order_id, 'delivered', connection);
+    let updatedCount = 0;
+    for (const s of shipments as Array<{ uuid: string; shipment_id: number }>) {
+      try {
+        await updateShipmentStatus(s.uuid, 'delivered', connection);
+        updatedCount += 1;
+      } catch (e) {
+        // Already delivered / canceled shipments throw on the phase-transition
+        // check; that's fine — we only count the ones we actually advanced.
+      }
+    }
     /* Add an activity log message */
     await addOrderActivityLog(
       order.order_id,
-      'Order delivered',
+      `Order delivered (${updatedCount} shipment${updatedCount === 1 ? '' : 's'} advanced)`,
       false,
       connection
     );
@@ -68,7 +84,7 @@ export default async (
     response.$body = {
       data: {
         order_id: order.order_id,
-        shipment_id: shipment.shipment_id
+        updated_count: updatedCount
       }
     };
     next();

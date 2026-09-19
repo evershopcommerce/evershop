@@ -1,0 +1,20 @@
+extend type BlogComment {
+  blogCommentId: Int
+  postId: Int
+  email: String
+  status: String!
+  postName: String
+  moderateApi: String!
+  deleteApi: String!
+}
+
+type BlogCommentCollection {
+  items: [BlogComment!]!
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  blogComments(filters: [FilterInput]): BlogCommentCollection
+}

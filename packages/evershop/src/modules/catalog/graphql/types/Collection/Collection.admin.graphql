@@ -3,6 +3,7 @@ extend type Collection {
   addProductUrl: String
   updateApi: String!
   deleteApi: String!
+  metaData: JSON
 }
 
 extend type Product {

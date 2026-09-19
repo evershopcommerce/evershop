@@ -1,3 +1,4 @@
+import { translate } from '../../../../lib/locale/translate/translate.js';
 import {
   INTERNAL_SERVER_ERROR,
   INVALID_PAYLOAD,
@@ -15,7 +16,7 @@ export default async (request, response, next) => {
       response.status(INVALID_PAYLOAD);
       response.json({
         error: {
-          message: 'Invalid cart',
+          message: translate('Invalid cart'),
           status: INVALID_PAYLOAD
         }
       });

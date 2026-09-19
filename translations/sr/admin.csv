@@ -1,0 +1,323 @@
+"Blog category","Kategorija bloga"
+"Blog post","Objava na blogu"
+"Blog tag","Oznaka bloga"
+"Build in page builder","Napravi u alatu za izradu stranica"
+"Change edit scope","Promeni opseg uređivanja"
+"Control when this landing page is published. Leave empty for no limit.","Kontrolišite kada se ova odredišna stranica objavljuje. Ostavite prazno za bez ograničenja."
+"Create a new landing page","Kreirajte novu odredišnu stranicu"
+"Current link: ${url}","Trenutni link: ${url}"
+"Delete ${count} landing pages","Izbriši ${count} odredišnih stranica"
+"Disable ${count} landing pages","Onemogući ${count} odredišnih stranica"
+"Editing","Uređivanje"
+"Enable ${count} landing pages","Omogući ${count} odredišnih stranica"
+"Enable this landing page to make it visible on the storefront.","Omogućite ovu odredišnu stranicu da bi bila vidljiva u prodavnici."
+"Enter landing page name","Unesite naziv odredišne stranice"
+"Landing Pages","Odredišne stranice"
+"Landing page","Odredišna stranica"
+"Landing page created successfully!","Odredišna stranica je uspešno kreirana!"
+"Loading pages…","Učitavanje stranica…"
+"New Landing Page","Nova odredišna stranica"
+"No ${kind}s match ""${query}"".","Nema ${kind}s koji odgovaraju ""${query}""."
+"No ${kind}s yet.","Još nema ${kind}s."
+"No categories match ""${query}"".","Nema kategorija koje odgovaraju ""${query}""."
+"No categories yet.","Još nema kategorija."
+"No collections match ""${query}"".","Nema kolekcija koje odgovaraju ""${query}""."
+"No collections yet.","Još nema kolekcija."
+"No landing pages match ""${query}"".","Nema odredišnih stranica koje odgovaraju ""${query}""."
+"No landing pages yet.","Još nema odredišnih stranica."
+"No pages found.","Nema pronađenih stranica."
+"No pages match ""${query}"".","Nema stranica koje odgovaraju ""${query}""."
+"No pages yet.","Još nema stranica."
+"No products match ""${query}"".","Nema proizvoda koji odgovaraju ""${query}""."
+"No products yet.","Još nema proizvoda."
+Paste a URL or a relative path starting with ,Nalepite URL ili relativnu putanju koja počinje sa 
+"Pick a CMS page to link to.","Izaberite CMS stranicu za povezivanje."
+"Pick a blog ${kind} to link to.","Izaberite blog ${kind} za povezivanje."
+"Pick a category to link to.","Izaberite kategoriju za povezivanje."
+"Pick a collection.","Izaberite kolekciju."
+"Pick a landing page to link to.","Izaberite odredišnu stranicu za povezivanje."
+"Pick a product to link to.","Izaberite proizvod za povezivanje."
+"Provide the SEO details for the landing page.","Navedite SEO detalje za odredišnu stranicu."
+"Provide the basic information for the landing page.","Navedite osnovne informacije za odredišnu stranicu."
+"Publish end","Kraj objavljivanja"
+"Publish start","Početak objavljivanja"
+"Schedule","Raspored"
+"The internal name of the landing page shown in the admin panel.","Interni naziv odredišne stranice prikazan u administrativnom panelu."
+"There is no landing page to display","Nema odredišne stranice za prikaz"
+"This is the URL path for the landing page.","Ovo je URL putanja za odredišnu stranicu."
+"This page","Ova stranica"
+"Duplicating ${name}","Dupliranje ${name}"
+"The duplicate is created from the last saved version of this product. Your unsaved edits will not be included and will be lost when you leave this page.","Duplikat se kreira od poslednje sačuvane verzije ovog proizvoda. Vaše nesačuvane izmene neće biti uključene i biće izgubljene kada napustite ovu stranicu."
+"Continue without saving","Nastavi bez čuvanja"
+"You are creating a copy of ${name}","Pravite kopiju proizvoda ${name}"
+"The copy is created as a standalone product — it does not join the source's variant group. Add it from the copy's edit page if needed.","Kopija se kreira kao samostalan proizvod — ne pridružuje se grupi varijanti izvornog proizvoda. Po potrebi je dodajte sa stranice za izmenu kopije."
+"Nothing is duplicated yet — hit Save to complete the duplication. Leaving this page without saving discards the copy.","Još ništa nije duplirano — kliknite na Sačuvaj da biste završili dupliranje. Ako napustite ovu stranicu bez čuvanja, kopija će biti odbačena."
+"Replace homepage with this page","Zameni početnu stranicu ovom stranicom"
+"The homepage will show the widgets of ""${name}"".","Početna stranica će prikazivati vidžete stranice ""${name}""."
+"Checking the homepage…","Provera početne stranice…"
+"Something changed since the preview. Please review again.","Nešto se promenilo od pregleda. Proverite ponovo."
+"These rollout plans change the homepage. Cancel them or wait until they end, then try again.","Ovi planovi objave menjaju početnu stranicu. Otkažite ih ili sačekajte da se završe, pa pokušajte ponovo."
+"The homepage has page-specific widget placements. Remove them in the page builder first.","Početna stranica ima postavke vidžeta vezane za određenu stranicu. Prvo ih uklonite u page builderu."
+"active","aktivan"
+"upcoming","predstojeći"
+"The current homepage widgets will be moved to a new disabled landing page named ""${name}"". You can restore it later with this same action.","Trenutni vidžeti početne stranice biće premešteni na novu, onemogućenu landing stranicu pod imenom ""${name}"". Kasnije je možete vratiti istom radnjom."
+"${count} unpublished homepage change(s) by you will be discarded.","${count} neobjavljena(e) izmena(e) početne stranice koje ste vi napravili biće odbačene."
+"${count} unpublished homepage change(s) by ${admins} other admin(s) will be discarded.","${count} neobjavljena(e) izmena(e) početne stranice od ${admins} drugog(ih) administratora biće odbačene."
+"${count} change(s) left over from cancelled rollout plans will be discarded.","${count} izmena(e) zaostale iz otkazanih planova objave biće odbačene."
+"${count} ended rollout plan(s) that changed the homepage will be cancelled so they cannot be re-scheduled.","${count} završen(ih) plan(ova) objave koji su menjali početnu stranicu biće otkazan(i) da ne bi mogli ponovo da se zakažu."
+"This landing page is not live (unpublished, scheduled, or expired). The homepage does not use its schedule; the copy goes live as soon as you confirm.","Ova landing stranica nije aktivna (neobjavljena, zakazana ili istekla). Početna stranica ne koristi njen raspored; kopija je aktivna čim potvrdite."
+"This landing page has ${count} unpublished change(s) in the page builder. Only published content is copied. Publish it first if the editor canvas is what you want.","Ova landing stranica ima ${count} neobjavljenu(e) izmenu(e) u page builderu. Kopira se samo objavljeni sadržaj. Prvo je objavite ako želite ono što prikazuje uređivač."
+"A rollout plan is changing this landing page. Only its published content is copied.","Plan objave menja ovu landing stranicu. Kopira se samo njen objavljeni sadržaj."
+"${count} widget(s) shown on every landing page are not part of this page and will not be copied.","${count} vidžet(a) prikazan(ih) na svakoj landing stranici nisu deo ove stranice i neće biti kopirani."
+"${count} hidden widget(s) in this page's ""content"" area will not be copied.","${count} skriven(ih) vidžet(a) u oblasti ""content"" ove stranice neće biti kopirani."
+"${count} link(s) in this page point at the page itself. They will still point there from the homepage.","${count} link(ova) na ovoj stranici pokazuju na samu stranicu. Sa početne stranice i dalje će pokazivati tamo."
+"This landing page has no visible widgets in the current theme. The homepage will be empty.","Ova landing stranica nema vidljivih vidžeta u trenutnoj temi. Početna stranica će biti prazna."
+"${count} site-wide widget(s) sit in the homepage content area and will appear mixed into the copied layout.","${count} vidžet(a) za ceo sajt nalaze se u oblasti sadržaja početne stranice i pojaviće se pomešani sa kopiranim rasporedom."
+"Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Gotovo. ""${name}"" je i dalje objavljena na svojoj adresi. Sada imate ${count} rezervnu(ih) kopiju(a) početne stranice."
+"View backup","Prikaži rezervnu kopiju"
+"Open homepage in page builder","Otvori početnu stranicu u page builderu"
+Close,Zatvori
+Cancel,Otkaži
+"Replace homepage","Zameni početnu stranicu"
+"Could not check the homepage.","Nije moguće proveriti početnu stranicu."
+"The homepage could not be replaced.","Početna stranica nije mogla biti zamenjena."
+"Include unpublished pages","Uključi neobjavljene stranice"
+"This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Ovaj vidžet je postavljen i na ${count} određenu(ih) stranicu(a) kojima se upravlja u page builderu. Te postavke nisu prikazane ovde i ne menjaju se pri čuvanju."
+Blog Home,Početna bloga
+All posts,Sve objave
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Dozvoljeni su samo http(s), mailto, tel ili relativni linkovi — ovaj link će biti ignorisan u prodavnici."
+Link target,Odredište linka
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","Gde vodi link „Prikaži sve“ — kategorija, stranica ili prilagođeni URL. Kolekcije nemaju sopstvenu stranicu, pa ostavite prazno da biste sakrili link."
+"Optional. Defaults to ""View all N →"".",Opciono. Podrazumevano: „Prikaži sve N →“.
+Whole country,Cela zemlja
+${count} selected,Izabrano: ${count}
+Select provinces,Izaberite pokrajine
+Used below 640 px. Falls back to the main image.,Koristi se ispod 640 px. U suprotnom se koristi glavna slika.
+mobile,mobilni
+Webhook ID,Webhook ID
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.","ID webhook-a kreiranog u PayPal developer kontrolnoj tabli, koji pokazuje na /api/paypal/webhook. Omogućava potvrdu plaćanja na strani servera."
+System Setting,Sistemska podešavanja
+File storage and service credentials,Skladištenje datoteka i akreditivi servisa
+Pricing & Tax,Cene i porez
+"Price rounding, tax calculation, classes & rates","Zaokruživanje cena, obračun poreza, klase i stope"
+Social sharing preview,Pregled deljenja na mrežama
+Account menu,Meni naloga
+Grid columns.,Kolone mreže.
+Product listing and image settings,Podešavanja liste proizvoda i slika
+Edit variant,Izmeni varijantu
+Sold,Prodato
+Not collected (zero-total order),Nije prikupljeno (porudžbina sa nultim iznosom)
+All landing pages,Sve landing stranice
+System setting saved,Sistemsko podešavanje je sačuvano
+All ${attribute},Svi: ${attribute}
+${count} of ${total},${count} od ${total}
+No variants match the selected options.,Nijedna varijanta ne odgovara izabranim opcijama.
+This product has no other variants yet.,Ovaj proizvod još nema druge varijante.
+Optional. Shown under the row heading.,Opciono. Prikazuje se ispod naslova reda.
+A short description for this row,Kratak opis ovog reda
+Product count,Broj proizvoda
+Total products to show per collection.,Ukupan broj proizvoda po kolekciji.
+Shown above the products. The shelf renders nothing at all when no products qualify.,Prikazuje se iznad proizvoda. Polica se uopšte ne prikazuje kada nijedan proizvod ne ispunjava uslove.
+e.g. You may also like,npr. Možda će vam se svideti
+Products to show,Proizvodi za prikaz
+Between 1 and 12 — 3 to 5 works best.,Između 1 i 12 — 3 do 5 daje najbolje rezultate.
+Product count is required,Broj proizvoda je obavezan
+Nearest,Najbliže
+Round up,Zaokruži naviše
+Round down,Zaokruži naniže
+Line item,Stavka
+Per unit,Po jedinici
+Price rounding,Zaokruživanje cena
+How every monetary amount is rounded across the store.,Kako se zaokružuje svaki novčani iznos u celoj prodavnici.
+Pricing settings have been saved successfully!,Podešavanja cena su uspešno sačuvana!
+Rounding mode,Režim zaokruživanja
+The direction used when rounding prices to the decimal precision.,Smer koji se koristi pri zaokruživanju cena na decimalnu preciznost.
+Decimal precision,Decimalna preciznost
+Number of decimal places prices are rounded to.,Broj decimala na koji se zaokružuju cene.
+Tax rounding mode,Režim zaokruživanja poreza
+The direction used when rounding the calculated tax amount.,Smer koji se koristi pri zaokruživanju obračunatog iznosa poreza.
+Tax decimal precision,Decimalna preciznost poreza
+Number of decimal places the tax amount is rounded to.,Broj decimala na koji se zaokružuje iznos poreza.
+Tax rounding level,Nivo zaokruživanja poreza
+"Where tax rounding is applied: per unit, per line, or on the order total.","Gde se primenjuje zaokruživanje poreza: po jedinici, po stavci ili na ukupan iznos porudžbine."
+Catalog prices include tax,Cene u katalogu uključuju porez
+Enable when the product prices you enter already include tax.,Uključite kada cene proizvoda koje unosite već uključuju porez.
+Catalog settings have been saved successfully!,Podešavanja kataloga su uspešno sačuvana!
+Product listing,Lista proizvoda
+Control how products appear in storefront listings.,Kontrolišite kako se proizvodi prikazuju u listama prodavnice.
+Show out of stock products,Prikaži proizvode kojih nema na stanju
+"When enabled, products with no available stock stay visible on the storefront.","Kada je uključeno, proizvodi bez dostupnih zaliha ostaju vidljivi u prodavnici."
+Products per page,Proizvoda po stranici
+Number of products shown per page on category and collection listings.,Broj proizvoda prikazanih po stranici u listama kategorija i kolekcija.
+Product images,Slike proizvoda
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","Veličina u kojoj se kreiraju slike vaših proizvoda. Ovo postavlja referentni odnos stranica i maksimalnu rezoluciju za slike proizvoda u celoj prodavnici — liste, korpa, plaćanje i stranice proizvoda. Svako mesto se prilagođava svojoj širini i izvodi visinu iz ovog odnosa."
+Original image width (px),Širina originalne slike (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.",Širina vaših originalnih slika proizvoda. Preporučuje se 1920px ili više kako bi zum na stranici proizvoda ostao oštar na velikim ekranima visoke gustine.
+Original image height (px),Visina originalne slike (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,Visina vaših originalnih slika proizvoda. Širina ÷ visina je odnos stranica koji se primenjuje na svaku sliku proizvoda.
+Related products rules,Pravila za povezane proizvode
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,Primenjuje se na sve proizvode u ovoj kategoriji koji nasleđuju pravila. Proizvodi sa sopstvenim podešavanjem nisu pogođeni.
+Override the global rules for this category,Zameni globalna pravila za ovu kategoriju
+Overridden on this category,Zamenjeno na ovoj kategoriji
+Source: Global settings,Izvor: Globalna podešavanja
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,Proizvodi u ovoj kategoriji prate globalna pravila za povezane proizvode. Pregledajte šta kupci vide sa ekrana za izmenu bilo kog proizvoda.
+Regional & Units,Region i jedinice
+Currency,Valuta
+Default currency for new carts and price display. Existing orders keep their own currency.,Podrazumevana valuta za nove korpe i prikaz cena. Postojeće porudžbine zadržavaju sopstvenu valutu.
+Timezone,Vremenska zona
+Timezone used to display dates in the store.,Vremenska zona koja se koristi za prikaz datuma u prodavnici.
+Weight unit,Jedinica težine
+Dimension unit,Jedinica dimenzija
+Branding,Brendiranje
+"Your logo, favicon, and the image shown when your store is shared on social media.","Vaš logo, favicon i slika koja se prikazuje kada se prodavnica deli na društvenim mrežama."
+Logo,Logo
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,Prikazuje se u zaglavlju prodavnice. Koristite PNG visoke rezolucije sa providnom pozadinom — automatski se skalira prema vašoj temi i isporučuje kao optimizovani WebP.
+Favicon,Favicon
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,Mala ikona u karticama pregledača. Otpremite kvadratni PNG od najmanje 512×512px — ikone 16/32px i Apple touch ikona od 180px generišu se automatski.
+Social sharing image,Slika za deljenje na mrežama
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","Pregled koji se prikazuje kada se stranica deli na društvenim mrežama (Open Graph / Twitter). Preporučeno 1200×630px (1.91:1), PNG ili JPG."
+Analytics,Analitika
+Google Analytics 4 Measurement ID,Google Analytics 4 ID merenja
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Nalazi se u Google Analytics-u pod Admin → Data Streams → vaš veb tok. Ostavite prazno da biste isključili praćenje.
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Unesite važeći GA4 ID merenja, npr. G-XXXXXXXXXX"
+Allow guest checkout,Dozvoli plaćanje kao gost
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Kada je uključeno, kupci mogu da naruče bez naloga. Kada je isključeno, moraju da se prijave ili registruju da bi platili."
+Enable rule-based related products,Omogući povezane proizvode na osnovu pravila
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,Pravila popunjavaju preostala mesta odozgo nadole (ručni izbori uvek idu prvi). Promenite redosled da biste izmenili prioritet.
+Move rule up,Pomeri pravilo gore
+Move rule down,Pomeri pravilo dole
+Match these attributes,Uparivanje po ovim atributima
+No select-type attributes exist yet.,Još uvek ne postoje atributi tipa izbora.
+Within scope,U okviru opsega
+Same category,Ista kategorija
+Same collection,Ista kolekcija
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",Uparivanje po atributima uvek se kombinuje sa opsegom — „ista boja“ u celom katalogu povezala bi nepovezane proizvode.
+Only show products in a similar price range,Prikaži samo proizvode u sličnom cenovnom rasponu
+Within ±,U okviru ±
+% of the product price,% cene proizvoda
+Fill remaining slots with bestsellers,Popuni preostala mesta najprodavanijim proizvodima
+Recompute failed,Ponovno izračunavanje nije uspelo
+Co-purchase statistics recomputed,Statistika zajedničkih kupovina je ponovo izračunata
+Related products,Povezani proizvodi
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,Pravila za policu „Povezani proizvodi“ na stranicama proizvoda. Kategorije i proizvodi mogu ih zameniti; ručni izbori na proizvodu uvek idu prvi.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.","Upsell polica koristi ista ova pravila, ograničena na proizvode SKUPLJE od onog koji se gleda (sa procentom cenovnog raspona kao gornjom granicom kada je uključen) — bez popunjavanja najprodavanijim proizvodima i bez upsell-a za proizvode podešene na „Samo ručni izbori“."
+Frequently bought together,Često se kupuju zajedno
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.","Preporuke na osnovu zajedničkih kupovina smatraju se pouzdanim tek iznad ovih pragova. Podrazumevane vrednosti odgovaraju malim prodavnicama — povećanje znači manje, ali jače preporuke."
+Min times bought together,Najmanji broj zajedničkih kupovina
+A pair must co-occur in at least this many orders.,Par mora da se pojavi zajedno u najmanje ovoliko porudžbina.
+Min orders of the product,Najmanji broj porudžbina proizvoda
+Orders of a product before its data is trusted.,Broj porudžbina proizvoda pre nego što se njegovi podaci smatraju pouzdanim.
+Min lift,Najmanji lift
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,Iznad 1 = kupuju se zajedno češće nego slučajno. Filtrira sveprisutne najprodavanije proizvode.
+Fill empty slots with bestsellers,Popuni prazna mesta najprodavanijim proizvodima
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.","Ispod pragova, polica prikazuje najprodavanije proizvode kategorije i prodavnice umesto da ne prikaže ništa."
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Podaci o zajedničkim kupovinama poslednji put su izračunati ${date} iz ${total} porudžbina (${pairs} parova proizvoda).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Još uvek nema podataka o zajedničkim kupovinama — računaju se svake noći, ili ih ponovo izračunajte sada."
+Recomputing…,Ponovno izračunavanje…
+Recompute now,Ponovo izračunaj sada
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","Vaš webhook URL treba da bude: https://yourdomain.com/api/stripe/webhook. Omogućite ove događaje (ili „All events“): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Sakriveno — ista grupa varijanti
+Hidden — disabled or out of stock,Sakriveno — onemogućeno ili nema na stanju
+no orders yet — ranked newest first,još nema porudžbina — poređano od najnovijih
+Operation failed,Operacija nije uspela
+Add products,Dodaj proizvode
+No manual picks yet.,Još uvek nema ručnih izbora.
+(product unavailable),(proizvod nije dostupan)
+Overridden on this product,Zamenjeno na ovom proizvodu
+Source: category,Izvor: kategorija
+Could not pin the product,Nije moguće zakačiti proizvod
+Recommendations,Preporuke
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,Šta police „Povezani proizvodi“ i „Često se kupuju zajedno“ prikazuju za ovaj proizvod. Upsell polica proizlazi iz pravila za povezane proizvode (samo skuplja podudaranja) — ovde nema šta da se podešava.
+Rules,Pravila
+Inherit (category or global rules),Nasledi (pravila kategorije ili globalna)
+Custom rules for this product,Prilagođena pravila za ovaj proizvod
+Manual picks only,Samo ručni izbori
+Manual picks,Ručni izbori
+"Always shown first, in this order, before any rules fill the remaining slots.","Uvek se prikazuju prvi, ovim redosledom, pre nego što pravila popune preostala mesta."
+Shoppers will see,Kupci će videti
+Based on the last saved configuration.,Na osnovu poslednje sačuvane konfiguracije.
+Mode changed — save to update this preview.,Režim je promenjen — sačuvajte da biste ažurirali ovaj pregled.
+Shoppers will see no related products for this product with the current configuration.,Sa trenutnom konfiguracijom kupci neće videti povezane proizvode za ovaj proizvod.
+manual pick,ručni izbor
+bestseller fallback,rezerva najprodavanijih
+Mode,Režim
+Automatic (co-purchase data),Automatski (podaci o zajedničkim kupovinama)
+"Manual picks first, auto-fill the rest","Prvo ručni izbori, ostalo se popunjava automatski"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,Režim i ručni izbori važe samo za ovu varijantu — podesite srodne varijante isto za ponašanje na nivou cele grupe.
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,U automatskom režimu ručni izbori se zanemaruju — pređite na „Prvo ručni“ ili „Samo ručni“ da biste ih koristili.
+Computed from orders,Izračunato iz porudžbina
+${count} orders of this product · data from ${total} orders total,${count} porudžbina ovog proizvoda · podaci iz ukupno ${total} porudžbina
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).","Za ovaj proizvod još nema podataka o zajedničkim kupovinama — prikupljaju se kako porudžbine stižu. Uz uključenu rezervu, polica u međuvremenu prikazuje najprodavanije proizvode (vidi ispod)."
+Together,Zajedno
+Confidence,Pouzdanost
+Lift,Lift
+(unavailable),(nedostupno)
+hidden,sakriveno
+shown,prikazano
+below threshold,ispod praga
+Pin,Zakači
+Shoppers will see (frequently bought together),Kupci će videti (često se kupuju zajedno)
+Shoppers will see no frequently-bought-together products with the current configuration.,Sa trenutnom konfiguracijom kupci neće videti proizvode koji se često kupuju zajedno.
+co-purchase data,podaci o zajedničkim kupovinama
+category bestsellers (fallback),najprodavaniji u kategoriji (rezerva)
+store bestsellers (fallback),najprodavaniji u prodavnici (rezerva)
+Exclude this product from recommendations,Izuzmi ovaj proizvod iz preporuka
+Never suggest this product alongside others,Nikada ne predlaži ovaj proizvod uz druge
+Enter a type or remove the row,Unesite tip ili uklonite red
+Use type/subtype (video/mp4) or a family (video/*),Koristite tip/podtip (video/mp4) ili familiju (video/*)
+MB,MB
+Enter a size,Unesite veličinu
+Enter a size greater than zero,Unesite veličinu veću od nule
+Remove override,Ukloni zamenu
+Add type override,Dodaj zamenu za tip
+Managed by configuration (config file or environment variable),Upravlja se konfiguracijom (konfiguracioni fajl ili promenljiva okruženja)
+File Storage & Uploads,Skladištenje datoteka i otpremanja
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Gde se čuvaju otpremljene datoteke (slike proizvoda, baneri, mediji), koji tipovi su dozvoljeni i koliko velike mogu biti"
+Local file system,Lokalni sistem datoteka
+Amazon S3 / S3-compatible,Amazon S3 / S3-kompatibilno
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,Bucket je obavezan
+Bucket name,Naziv bucket-a
+Region,Region
+Region is required,Region je obavezan
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),Za S3-kompatibilne servise koristite vrednost provajdera (npr. fsn1 za Hetzner)
+Access key ID,Access key ID
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.",Kreirajte access key u konzoli vašeg provajdera skladišta. Za AWS: prijavite se na AWS Console i otvorite IAM → Users → vaš korisnik → Security credentials → Create access key.
+Secret access key,Secret access key
+"The secret is shown only once, when the access key is created — copy it from there.","Tajni ključ se prikazuje samo jednom, prilikom kreiranja access key-a — kopirajte ga odatle."
+Custom endpoint,Prilagođeni endpoint
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Samo za S3-kompatibilne servise (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Ostavite prazno za AWS."
+Force path-style,Prinudi path-style
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","Potrebno za MinIO. Ostavite isključeno za AWS, Hetzner i R2."
+Public base URL,Javni osnovni URL
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","Opcioni CDN (npr. CloudFront) koji poslužuje bucket — omogućava da bucket ostane privatan. Bez njega objekti moraju biti javno čitljivi preko bucket policy-ja. Primer: https://cdn.mystore.com ili https://d111abcdef8.cloudfront.net, CloudFront distribucija sa ovim bucket-om kao origin. Datoteke se poslužuju kao <ovaj URL>/<putanja datoteke>, pa domen mora da pokazuje na koren bucket-a."
+Connection string,Konekcioni string
+Connection string is required,Konekcioni string je obavezan
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Kopirajte ga sa Azure portala: prijavite se, otvorite svoj storage account, zatim Security + networking → Access keys → Connection string."
+Container,Kontejner
+Container access,Pristup kontejneru
+Private (recommended),Privatno (preporučeno)
+Public read for blobs,Javno čitanje za blob-ove
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",Javno čitanje zahteva „Allow blob anonymous access“ na storage account-u — podrazumevano zabranjeno na novim nalozima. Bolje koristite privatni kontejner sa javnim osnovnim URL-om (CDN).
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).","Opcioni CDN (npr. Azure CDN / Front Door) koji poslužuje kontejner — omogućava da kontejner ostane privatan. Datoteke se poslužuju kao <ovaj URL>/<putanja datoteke> bez dodavanja segmenta kontejnera, pa ili podesite CDN origin putanju na /<container> (primer: https://mystore.azureedge.net) ili ovde uključite kontejner (primer: https://mystore.azureedge.net/media)."
+Service account key,Ključ servisnog naloga
+Paste the entire content of the downloaded JSON key file,Nalepite ceo sadržaj preuzete JSON datoteke sa ključem
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,Kreirajte ključ u Google Cloud Console: IAM & Admin → Service Accounts → kreirajte ili izaberite nalog sa ulogom Storage Object Admin nad bucket-om → Keys → Add key → JSON. Nalepite ovde ceo preuzeti fajl.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Nemate ključeve? Ako EverShop radi na serveru koji već ima pristup bucket-u — na primer AWS IAM uloga ili AWS ključevi podešeni kao promenljive okruženja na serveru — ostavite oba polja prazna i automatski će se koristiti serverovi sopstveni akreditivi. Veza se testira prilikom čuvanja, pa pogrešno ili nepotpuno podešavanje ne može biti sačuvano."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Nemate ključ? Ako EverShop radi na Google Cloud-u (Compute Engine, GKE, Cloud Run) sa priključenim servisnim nalogom, ili je promenljiva okruženja GOOGLE_APPLICATION_CREDENTIALS podešena na serveru, ostavite ovo polje prazno i automatski će se koristiti serverovi sopstveni akreditivi. Veza se testira prilikom čuvanja, pa pogrešno ili nepotpuno podešavanje ne može biti sačuvano."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.","Opcioni CDN (npr. Cloud CDN) koji poslužuje bucket — omogućava da bucket ostane privatan. Bez njega objekti moraju biti javno čitljivi: dodelite „allUsers“ ulogu Storage Object Viewer nad bucket-om (blokirano kada je u vašoj organizaciji nametnut Public Access Prevention). Primer: https://cdn.mystore.com, domen load balancer-a sa ovim bucket-om kao backend bucket."
+Local storage is not recommended for production,Lokalno skladištenje se ne preporučuje za produkciju
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Datoteke smeštene na ovom serveru mogu biti izgubljene kada se on ažurira, premesti ili otkaže. Za prodavnicu u produkciji koristite S3 ili Azure Blob Storage."
+Upload rules,Pravila otpremanja
+What can be uploaded and how big it can be — applies on every storage provider.,Šta može da se otpremi i koliko veliko može biti — važi za sve provajdere skladišta.
+Allowed file types,Dozvoljeni tipovi datoteka
+Select at least one file type,Izaberite bar jedan tip datoteke
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,Datoteke drugih tipova se odbijaju pri otpremanju. SVG namerno nije ponuđen — SVG datoteke mogu sadržati skripte i predstavljaju bezbednosni rizik pri posluživanju.
+Also allowed via server configuration: ${types},Takođe dozvoljeno preko konfiguracije servera: ${types}
+Maximum file size,Maksimalna veličina datoteke
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","Po datoteci, u megabajtima (MB). Ostavite prazno za podrazumevanih 10 MB. Važi za svako otpremanje u administratorskom panelu — slike proizvoda, baneri, mediji."
+Per-type overrides,Zamene po tipu
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Zamenjuje maksimalnu veličinu za odgovarajuće tipove datoteka — na primer manje ograničenje za slike, a veće za video. Tačan tip (video/mp4) ima prednost nad familijom (video/*); sve bez podudaranja koristi maksimalnu veličinu iznad. Zamene ne dozvoljavaju nove tipove: sam tip datoteke mora biti omogućen u „Dozvoljenim tipovima datoteka“."
+Every product in the store,Сви производи у продавници

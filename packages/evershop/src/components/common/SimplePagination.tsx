@@ -1,5 +1,4 @@
-import { ChevronLeftIcon } from '@heroicons/react/24/outline';
-import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import React from 'react';
 
 interface SimplePaginationProps {
@@ -26,36 +25,36 @@ export function SimplePagination({
       <div className="flex gap-2">
         {page > 1 && (
           <a
-            className="hover:text-interactive border rounded p-[5px] border-divider"
+            className="hover:text-interactive border rounded p-1.25 border-divider"
             href="#"
             onClick={(e) => {
               e.preventDefault();
               setPage(page - 1);
             }}
           >
-            <ChevronLeftIcon width={15} height={15} />
+            <ChevronLeft width={15} height={15} />
           </a>
         )}
         {page === 1 && (
-          <span className="border rounded p-[5px] border-divider text-divider">
-            <ChevronLeftIcon width={15} height={15} />
+          <span className="border rounded p-1.25 border-divider text-divider">
+            <ChevronLeft width={15} height={15} />
           </span>
         )}
         {hasNext && (
           <a
-            className="hover:text-interactive border rounded p-[5px] border-divider"
+            className="hover:text-interactive border rounded p-1.25 border-divider"
             href="#"
             onClick={(e) => {
               e.preventDefault();
               setPage(page + 1);
             }}
           >
-            <ChevronRightIcon width={15} height={15} />
+            <ChevronRight width={15} height={15} />
           </a>
         )}
         {!hasNext && (
-          <span className="border rounded p-[5px] border-divider text-divider">
-            <ChevronRightIcon width={15} height={15} />
+          <span className="border rounded p-1.25 border-divider text-divider">
+            <ChevronRight width={15} height={15} />
           </span>
         )}
       </div>

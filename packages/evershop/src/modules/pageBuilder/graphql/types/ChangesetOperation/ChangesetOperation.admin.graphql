@@ -1,0 +1,20 @@
+"""
+A single operation within a changeset. References its target entity by URN
+(e.g. `urn:evershop:cms:widget_instance:<uuid>`). The operation type is
+inferred from `(oldPayload, newPayload)`:
+  (null, set)  → INSERT
+  (set, set)   → UPDATE
+  (set, null)  → DELETE
+  (null, null) → invalid (rejected at API layer)
+"""
+type ChangesetOperation {
+  changesetOperationId: Int!
+  uuid: String!
+  changesetId: Int!
+  route: String!
+  entityUrn: String!
+  oldPayload: JSON
+  newPayload: JSON
+  changeOrder: Int!
+  createdAt: DateTime!
+}

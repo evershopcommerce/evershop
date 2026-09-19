@@ -1,4 +1,5 @@
-import { Card } from '@components/admin/Card.js';
+import { SettingMenuItem } from '@components/admin/SettingMenuItem.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface PaymentSettingMenuProps {
@@ -9,9 +10,11 @@ export default function PaymentSettingMenu({
   paymentSettingUrl
 }: PaymentSettingMenuProps) {
   return (
-    <Card.Session title={<a href={paymentSettingUrl}>Payment Setting</a>}>
-      <div>Configure the available payment methods</div>
-    </Card.Session>
+    <SettingMenuItem
+      url={paymentSettingUrl}
+      title={_('Payment Setting')}
+      description={_('Configure the available payment methods')}
+    />
   );
 }
 

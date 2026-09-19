@@ -9,18 +9,26 @@ import { InjectTailwindSources } from '../plugins/InjectTailwindSources.js';
 import { ThemeWatcherPlugin } from '../plugins/ThemeWatcherPlugin.js';
 import { getTailwindSources } from '../util/getTailwindSources.js';
 
-export function createConfigClient() {
+export function createConfigClient(isAdmin = false) {
   const extensions = getEnabledExtensions();
   const tailwindSources = getTailwindSources();
   const config = createBaseConfig(false);
-  config.name = 'bundle-client';
+  config.name = isAdmin ? 'bundle-client-admin' : 'bundle-client-frontstore';
+
+  // Set different output filenames for admin and frontstore to avoid conflicts
+  config.output.filename = isAdmin ? 'admin-[name].js' : '[name].js';
+  config.output.publicPath = isAdmin ? '/backend/' : '/';
 
   const loaders = config.module.rules;
   loaders.unshift({
     test: /common[\\/]react[\\/]client[\\/]Index\.js$/i,
     use: [
       {
-        loader: path.resolve(CONSTANTS.LIBPATH, 'webpack/loaders/AreaLoader.js')
+        loader: path.resolve(
+          CONSTANTS.LIBPATH,
+          'webpack/loaders/AreaLoader.js'
+        ),
+        options: { isAdmin }
       }
     ]
   });
@@ -87,7 +95,7 @@ export function createConfigClient() {
   });
 
   const { plugins } = config;
-  plugins.push(new GraphqlPlugin());
+  plugins.push(new GraphqlPlugin(isAdmin));
   plugins.push(new webpack.ProgressPlugin());
   plugins.push(new webpack.HotModuleReplacementPlugin());
   plugins.push(
@@ -103,7 +111,9 @@ export function createConfigClient() {
         CONSTANTS.MODULESPATH,
         '../components/common/react/client/Index.js'
       ),
-      `webpack-hot-middleware/client?path=/eHot&reload=true&overlay=true`
+      isAdmin
+        ? `webpack-hot-middleware/client?path=/__webpack_hmr_admin&reload=true&overlay=true`
+        : `webpack-hot-middleware/client?path=/__webpack_hmr_frontstore&reload=true&overlay=true`
     ];
     return entry;
   };

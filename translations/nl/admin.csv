@@ -1,0 +1,323 @@
+"Blog category","Blogcategorie"
+"Blog post","Blogbericht"
+"Blog tag","Blogtag"
+"Build in page builder","Bouwen in paginabouwer"
+"Change edit scope","Bewerkingsbereik wijzigen"
+"Control when this landing page is published. Leave empty for no limit.","Bepaal wanneer deze landingspagina wordt gepubliceerd. Laat leeg voor geen limiet."
+"Create a new landing page","Een nieuwe landingspagina maken"
+"Current link: ${url}","Huidige link: ${url}"
+"Delete ${count} landing pages","${count} landingspagina's verwijderen"
+"Disable ${count} landing pages","${count} landingspagina's uitschakelen"
+"Editing","Bewerken"
+"Enable ${count} landing pages","${count} landingspagina's inschakelen"
+"Enable this landing page to make it visible on the storefront.","Schakel deze landingspagina in om deze zichtbaar te maken in de winkel."
+"Enter landing page name","Voer de naam van de landingspagina in"
+"Landing Pages","Landingspagina's"
+"Landing page","Landingspagina"
+"Landing page created successfully!","Landingspagina succesvol aangemaakt!"
+"Loading pages…","Pagina's laden…"
+"New Landing Page","Nieuwe landingspagina"
+"No ${kind}s match ""${query}"".","Geen ${kind}s gevonden voor ""${query}""."
+"No ${kind}s yet.","Nog geen ${kind}s."
+"No categories match ""${query}"".","Geen categorieën gevonden voor ""${query}""."
+"No categories yet.","Nog geen categorieën."
+"No collections match ""${query}"".","Geen collecties gevonden voor ""${query}""."
+"No collections yet.","Nog geen collecties."
+"No landing pages match ""${query}"".","Geen landingspagina's gevonden voor ""${query}""."
+"No landing pages yet.","Nog geen landingspagina's."
+"No pages found.","Geen pagina's gevonden."
+"No pages match ""${query}"".","Geen pagina's gevonden voor ""${query}""."
+"No pages yet.","Nog geen pagina's."
+"No products match ""${query}"".","Geen producten gevonden voor ""${query}""."
+"No products yet.","Nog geen producten."
+Paste a URL or a relative path starting with ,Plak een URL of een relatief pad dat begint met 
+"Pick a CMS page to link to.","Kies een CMS-pagina om naar te linken."
+"Pick a blog ${kind} to link to.","Kies een blog-${kind} om naar te linken."
+"Pick a category to link to.","Kies een categorie om naar te linken."
+"Pick a collection.","Kies een collectie."
+"Pick a landing page to link to.","Kies een landingspagina om naar te linken."
+"Pick a product to link to.","Kies een product om naar te linken."
+"Provide the SEO details for the landing page.","Geef de SEO-details voor de landingspagina op."
+"Provide the basic information for the landing page.","Geef de basisgegevens voor de landingspagina op."
+"Publish end","Einde publicatie"
+"Publish start","Start publicatie"
+"Schedule","Planning"
+"The internal name of the landing page shown in the admin panel.","De interne naam van de landingspagina die in het adminpaneel wordt weergegeven."
+"There is no landing page to display","Er is geen landingspagina om weer te geven"
+"This is the URL path for the landing page.","Dit is het URL-pad voor de landingspagina."
+"This page","Deze pagina"
+"Duplicating ${name}","${name} dupliceren"
+"The duplicate is created from the last saved version of this product. Your unsaved edits will not be included and will be lost when you leave this page.","Het duplicaat wordt gemaakt op basis van de laatst opgeslagen versie van dit product. Uw niet-opgeslagen wijzigingen worden niet meegenomen en gaan verloren wanneer u deze pagina verlaat."
+"Continue without saving","Doorgaan zonder opslaan"
+"You are creating a copy of ${name}","U maakt een kopie van ${name}"
+"The copy is created as a standalone product — it does not join the source's variant group. Add it from the copy's edit page if needed.","De kopie wordt als zelfstandig product aangemaakt — deze sluit zich niet aan bij de variantgroep van het bronproduct. Voeg het zo nodig toe via de bewerkpagina van de kopie."
+"Nothing is duplicated yet — hit Save to complete the duplication. Leaving this page without saving discards the copy.","Er is nog niets gedupliceerd — klik op Opslaan om het dupliceren te voltooien. Als u deze pagina verlaat zonder op te slaan, wordt de kopie verwijderd."
+"Replace homepage with this page","Homepage vervangen door deze pagina"
+"The homepage will show the widgets of ""${name}"".","De homepage toont dan de widgets van ""${name}""."
+"Checking the homepage…","Homepage wordt gecontroleerd…"
+"Something changed since the preview. Please review again.","Er is iets veranderd sinds het voorbeeld. Controleer opnieuw."
+"These rollout plans change the homepage. Cancel them or wait until they end, then try again.","Deze uitrolplannen wijzigen de homepage. Annuleer ze of wacht tot ze eindigen en probeer het opnieuw."
+"The homepage has page-specific widget placements. Remove them in the page builder first.","De homepage heeft paginaspecifieke widgetplaatsingen. Verwijder die eerst in de page builder."
+"active","actief"
+"upcoming","gepland"
+"The current homepage widgets will be moved to a new disabled landing page named ""${name}"". You can restore it later with this same action.","De huidige homepagewidgets worden verplaatst naar een nieuwe, uitgeschakelde landingspagina met de naam ""${name}"". U kunt die later met dezelfde actie herstellen."
+"${count} unpublished homepage change(s) by you will be discarded.","${count} niet-gepubliceerde homepagewijziging(en) van u worden verwijderd."
+"${count} unpublished homepage change(s) by ${admins} other admin(s) will be discarded.","${count} niet-gepubliceerde homepagewijziging(en) van ${admins} andere beheerder(s) worden verwijderd."
+"${count} change(s) left over from cancelled rollout plans will be discarded.","${count} wijziging(en) die overbleven van geannuleerde uitrolplannen worden verwijderd."
+"${count} ended rollout plan(s) that changed the homepage will be cancelled so they cannot be re-scheduled.","${count} beëindigd(e) uitrolplan(nen) die de homepage wijzigden worden geannuleerd zodat ze niet opnieuw ingepland kunnen worden."
+"This landing page is not live (unpublished, scheduled, or expired). The homepage does not use its schedule; the copy goes live as soon as you confirm.","Deze landingspagina is niet live (niet gepubliceerd, ingepland of verlopen). De homepage gebruikt haar planning niet; de kopie is live zodra u bevestigt."
+"This landing page has ${count} unpublished change(s) in the page builder. Only published content is copied. Publish it first if the editor canvas is what you want.","Deze landingspagina heeft ${count} niet-gepubliceerde wijziging(en) in de page builder. Alleen gepubliceerde inhoud wordt gekopieerd. Publiceer eerst als u wilt wat de editor toont."
+"A rollout plan is changing this landing page. Only its published content is copied.","Een uitrolplan wijzigt deze landingspagina. Alleen de gepubliceerde inhoud wordt gekopieerd."
+"${count} widget(s) shown on every landing page are not part of this page and will not be copied.","${count} widget(s) die op elke landingspagina staan, horen niet bij deze pagina en worden niet gekopieerd."
+"${count} hidden widget(s) in this page's ""content"" area will not be copied.","${count} verborgen widget(s) in het gebied ""content"" van deze pagina worden niet gekopieerd."
+"${count} link(s) in this page point at the page itself. They will still point there from the homepage.","${count} link(s) op deze pagina verwijzen naar de pagina zelf. Vanaf de homepage blijven ze daarheen verwijzen."
+"This landing page has no visible widgets in the current theme. The homepage will be empty.","Deze landingspagina heeft geen zichtbare widgets in het huidige thema. De homepage wordt leeg."
+"${count} site-wide widget(s) sit in the homepage content area and will appear mixed into the copied layout.","${count} sitebrede widget(s) staan in het inhoudsgebied van de homepage en verschijnen gemengd met de gekopieerde lay-out."
+"Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Klaar. ""${name}"" blijft gepubliceerd op de eigen URL. U heeft nu ${count} homepageback-up(s)."
+"View backup","Back-up bekijken"
+"Open homepage in page builder","Homepage openen in de page builder"
+Close,Sluiten
+Cancel,Annuleren
+"Replace homepage","Homepage vervangen"
+"Could not check the homepage.","De homepage kon niet worden gecontroleerd."
+"The homepage could not be replaced.","De homepage kon niet worden vervangen."
+"Include unpublished pages","Niet-gepubliceerde pagina's opnemen"
+"This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Deze widget staat ook op ${count} specifieke pagina('s), beheerd in de page builder. Die plaatsingen staan hier niet en veranderen niet bij het opslaan."
+Blog Home,Bloghome
+All posts,Alle berichten
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Alleen http(s)-, mailto-, tel- of relatieve links zijn toegestaan — deze link wordt in de winkel genegeerd."
+Link target,Linkbestemming
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","Waar de link “Alles bekijken” naartoe gaat — een categorie, pagina of aangepaste URL. Collecties hebben geen eigen pagina; laat leeg om de link te verbergen."
+"Optional. Defaults to ""View all N →"".",Optioneel. Standaard “Alles bekijken N →”.
+Whole country,Hele land
+${count} selected,${count} geselecteerd
+Select provinces,Provincies selecteren
+Used below 640 px. Falls back to the main image.,Wordt gebruikt onder 640 px. Valt terug op de hoofdafbeelding.
+mobile,mobiel
+Webhook ID,Webhook-ID
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.",De ID van een webhook die in het PayPal-ontwikkelaarsdashboard is aangemaakt en naar /api/paypal/webhook wijst. Schakelt betalingsbevestiging aan de serverzijde in.
+System Setting,Systeeminstellingen
+File storage and service credentials,Bestandsopslag en servicegegevens
+Pricing & Tax,Prijzen en belasting
+"Price rounding, tax calculation, classes & rates","Prijsafronding, belastingberekening, klassen en tarieven"
+Social sharing preview,Voorbeeld voor delen op social media
+Account menu,Accountmenu
+Grid columns.,Rasterkolommen.
+Product listing and image settings,Instellingen voor productoverzicht en afbeeldingen
+Edit variant,Variant bewerken
+Sold,Verkocht
+Not collected (zero-total order),Niet verzameld (bestelling met totaal nul)
+All landing pages,Alle landingspagina’s
+System setting saved,Systeeminstelling opgeslagen
+All ${attribute},Alle ${attribute}
+${count} of ${total},${count} van ${total}
+No variants match the selected options.,Geen varianten komen overeen met de geselecteerde opties.
+This product has no other variants yet.,Dit product heeft nog geen andere varianten.
+Optional. Shown under the row heading.,Optioneel. Wordt onder de rijkop getoond.
+A short description for this row,Een korte beschrijving voor deze rij
+Product count,Aantal producten
+Total products to show per collection.,Totaal aantal producten dat per collectie wordt getoond.
+Shown above the products. The shelf renders nothing at all when no products qualify.,Wordt boven de producten getoond. Het schap wordt helemaal niet weergegeven als geen enkel product in aanmerking komt.
+e.g. You may also like,bijv. Misschien vind je dit ook leuk
+Products to show,Te tonen producten
+Between 1 and 12 — 3 to 5 works best.,Tussen 1 en 12 — 3 tot 5 werkt het best.
+Product count is required,Aantal producten is verplicht
+Nearest,Dichtstbijzijnde
+Round up,Naar boven afronden
+Round down,Naar beneden afronden
+Line item,Orderregel
+Per unit,Per eenheid
+Price rounding,Prijsafronding
+How every monetary amount is rounded across the store.,Hoe elk geldbedrag in de hele winkel wordt afgerond.
+Pricing settings have been saved successfully!,De prijsinstellingen zijn opgeslagen!
+Rounding mode,Afrondingsmodus
+The direction used when rounding prices to the decimal precision.,De richting die wordt gebruikt bij het afronden van prijzen op de decimale precisie.
+Decimal precision,Decimale precisie
+Number of decimal places prices are rounded to.,Aantal decimalen waarop prijzen worden afgerond.
+Tax rounding mode,Afrondingsmodus belasting
+The direction used when rounding the calculated tax amount.,De richting die wordt gebruikt bij het afronden van het berekende belastingbedrag.
+Tax decimal precision,Decimale precisie belasting
+Number of decimal places the tax amount is rounded to.,Aantal decimalen waarop het belastingbedrag wordt afgerond.
+Tax rounding level,Afrondingsniveau belasting
+"Where tax rounding is applied: per unit, per line, or on the order total.","Waar de belastingafronding wordt toegepast: per eenheid, per regel of op het ordertotaal."
+Catalog prices include tax,Catalogusprijzen zijn inclusief belasting
+Enable when the product prices you enter already include tax.,Schakel dit in als de productprijzen die je invoert al inclusief belasting zijn.
+Catalog settings have been saved successfully!,De catalogusinstellingen zijn opgeslagen!
+Product listing,Productoverzicht
+Control how products appear in storefront listings.,Bepaal hoe producten in de winkeloverzichten verschijnen.
+Show out of stock products,Uitverkochte producten tonen
+"When enabled, products with no available stock stay visible on the storefront.",Indien ingeschakeld blijven producten zonder beschikbare voorraad zichtbaar in de winkel.
+Products per page,Producten per pagina
+Number of products shown per page on category and collection listings.,Aantal producten dat per pagina wordt getoond in categorie- en collectieoverzichten.
+Product images,Productafbeeldingen
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","De grootte waarop je productafbeeldingen worden aangemaakt. Dit bepaalt de referentie-beeldverhouding en de maximale resolutie voor productafbeeldingen in de hele winkel — overzichten, winkelwagen, afrekenen en productpagina’s. Elke plaatsing past zich aan haar breedte aan en leidt de hoogte af uit deze verhouding."
+Original image width (px),Breedte originele afbeelding (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.",De breedte van je originele productafbeeldingen. 1920px of groter wordt aanbevolen zodat de zoom op de productpagina scherp blijft op grote schermen met hoge dichtheid.
+Original image height (px),Hoogte originele afbeelding (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,De hoogte van je originele productafbeeldingen. Breedte ÷ hoogte is de beeldverhouding die op elke productafbeelding wordt toegepast.
+Related products rules,Regels voor gerelateerde producten
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,Geldt voor alle producten in deze categorie die hun regels erven. Producten met een eigen overschrijving blijven onaangetast.
+Override the global rules for this category,De globale regels voor deze categorie overschrijven
+Overridden on this category,Overschreven op deze categorie
+Source: Global settings,Bron: globale instellingen
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,Producten in deze categorie volgen de globale regels voor gerelateerde producten. Bekijk een voorbeeld van wat klanten zien vanaf het bewerkscherm van een willekeurig product.
+Regional & Units,Regio en eenheden
+Currency,Valuta
+Default currency for new carts and price display. Existing orders keep their own currency.,Standaardvaluta voor nieuwe winkelwagens en prijsweergave. Bestaande bestellingen behouden hun eigen valuta.
+Timezone,Tijdzone
+Timezone used to display dates in the store.,Tijdzone die wordt gebruikt om datums in de winkel weer te geven.
+Weight unit,Gewichtseenheid
+Dimension unit,Afmetingseenheid
+Branding,Huisstijl
+"Your logo, favicon, and the image shown when your store is shared on social media.","Je logo, favicon en de afbeelding die wordt getoond wanneer je winkel op social media wordt gedeeld."
+Logo,Logo
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,Wordt getoond in de winkelheader. Gebruik een PNG met hoge resolutie en transparante achtergrond — deze wordt automatisch op je thema geschaald en geleverd als geoptimaliseerde WebP.
+Favicon,Favicon
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,Het kleine pictogram in browsertabbladen. Upload een vierkante PNG van minimaal 512×512px — de 16/32px-pictogrammen en het 180px Apple touch icon worden automatisch gegenereerd.
+Social sharing image,Afbeelding voor social media
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","Het voorbeeld dat wordt getoond wanneer een pagina op social media wordt gedeeld (Open Graph / Twitter). Aanbevolen 1200×630px (1.91:1), PNG of JPG."
+Analytics,Analytics
+Google Analytics 4 Measurement ID,Google Analytics 4 meet-ID
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Te vinden in Google Analytics onder Admin → Data Streams → je webstream. Laat leeg om tracking uit te schakelen.
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Voer een geldig GA4-meet-ID in, bijv. G-XXXXXXXXXX"
+Allow guest checkout,Afrekenen als gast toestaan
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",Indien ingeschakeld kunnen klanten bestellen zonder account. Indien uitgeschakeld moeten ze inloggen of zich registreren om af te rekenen.
+Enable rule-based related products,Regelgebaseerde gerelateerde producten inschakelen
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,Regels vullen de resterende plekken van boven naar beneden (handmatige keuzes komen altijd eerst). Wijzig de volgorde om de prioriteit aan te passen.
+Move rule up,Regel omhoog verplaatsen
+Move rule down,Regel omlaag verplaatsen
+Match these attributes,Deze kenmerken matchen
+No select-type attributes exist yet.,Er bestaan nog geen kenmerken van het type selectie.
+Within scope,Binnen bereik
+Same category,Zelfde categorie
+Same collection,Zelfde collectie
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",Kenmerkmatching wordt altijd gecombineerd met een bereik — “dezelfde kleur” over de hele catalogus zou niet-gerelateerde producten koppelen.
+Only show products in a similar price range,Alleen producten in een vergelijkbare prijsklasse tonen
+Within ±,Binnen ±
+% of the product price,% van de productprijs
+Fill remaining slots with bestsellers,Resterende plekken vullen met bestsellers
+Recompute failed,Herberekening mislukt
+Co-purchase statistics recomputed,Statistieken voor gezamenlijke aankopen herberekend
+Related products,Gerelateerde producten
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,Regels voor het schap “Gerelateerde producten” op productpagina’s. Categorieën en producten kunnen deze overschrijven; handmatige keuzes op een product komen altijd eerst.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.","Het upsell-schap gebruikt dezelfde regels, beperkt tot producten die DUURDER zijn dan het bekeken product (met het prijsbandpercentage als bovengrens indien ingeschakeld) — geen aanvulling met bestsellers en geen upsell voor producten met “Alleen handmatige keuzes”."
+Frequently bought together,Vaak samen gekocht
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.",Aanbevelingen op basis van gezamenlijke aankopen worden pas boven deze drempels als betrouwbaar beschouwd. De standaardwaarden passen bij kleine winkels — hoger instellen betekent minder maar sterkere suggesties.
+Min times bought together,Minimaal aantal keer samen gekocht
+A pair must co-occur in at least this many orders.,Een paar moet in minstens zoveel bestellingen samen voorkomen.
+Min orders of the product,Minimaal aantal bestellingen van het product
+Orders of a product before its data is trusted.,Aantal bestellingen van een product voordat de gegevens betrouwbaar worden geacht.
+Min lift,Minimale lift
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,Boven 1 = vaker samen gekocht dan op toeval berust. Filtert alomtegenwoordige bestsellers eruit.
+Fill empty slots with bestsellers,Lege plekken vullen met bestsellers
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.",Onder de drempels toont het schap categorie- en winkelbestsellers in plaats van niets weer te geven.
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Gegevens over gezamenlijke aankopen laatst berekend op ${date} uit ${total} bestellingen (${pairs} productparen).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Nog geen gegevens over gezamenlijke aankopen — deze worden ’s nachts berekend, of herbereken nu."
+Recomputing…,Bezig met herberekenen…
+Recompute now,Nu herberekenen
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","Je webhook-URL moet zijn: https://yourdomain.com/api/stripe/webhook. Schakel deze gebeurtenissen in (of “All events”): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Verborgen — zelfde variantgroep
+Hidden — disabled or out of stock,Verborgen — uitgeschakeld of niet op voorraad
+no orders yet — ranked newest first,nog geen bestellingen — nieuwste eerst gerangschikt
+Operation failed,Bewerking mislukt
+Add products,Producten toevoegen
+No manual picks yet.,Nog geen handmatige keuzes.
+(product unavailable),(product niet beschikbaar)
+Overridden on this product,Overschreven op dit product
+Source: category,Bron: categorie
+Could not pin the product,Kon het product niet vastzetten
+Recommendations,Aanbevelingen
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,Wat de schappen “Gerelateerde producten” en “Vaak samen gekocht” tonen voor dit product. Het upsell-schap volgt uit de regels voor gerelateerde producten (alleen duurdere treffers) — hier valt niets in te stellen.
+Rules,Regels
+Inherit (category or global rules),Overerven (categorie- of globale regels)
+Custom rules for this product,Aangepaste regels voor dit product
+Manual picks only,Alleen handmatige keuzes
+Manual picks,Handmatige keuzes
+"Always shown first, in this order, before any rules fill the remaining slots.","Worden altijd eerst getoond, in deze volgorde, voordat regels de resterende plekken vullen."
+Shoppers will see,Klanten zien
+Based on the last saved configuration.,Gebaseerd op de laatst opgeslagen configuratie.
+Mode changed — save to update this preview.,Modus gewijzigd — sla op om dit voorbeeld bij te werken.
+Shoppers will see no related products for this product with the current configuration.,Met de huidige configuratie zien klanten geen gerelateerde producten voor dit product.
+manual pick,handmatige keuze
+bestseller fallback,terugval op bestsellers
+Mode,Modus
+Automatic (co-purchase data),Automatisch (gegevens gezamenlijke aankopen)
+"Manual picks first, auto-fill the rest","Eerst handmatige keuzes, de rest automatisch aanvullen"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,Modus en handmatige keuzes gelden alleen voor deze variant — configureer de zusjesvarianten identiek voor groepsbreed gedrag.
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,In de automatische modus worden handmatige keuzes genegeerd — schakel over naar “Handmatig eerst” of “Alleen handmatig” om ze te gebruiken.
+Computed from orders,Berekend op basis van bestellingen
+${count} orders of this product · data from ${total} orders total,${count} bestellingen van dit product · gegevens uit in totaal ${total} bestellingen
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).",Nog geen gegevens over gezamenlijke aankopen voor dit product — die worden opgebouwd naarmate er bestellingen binnenkomen. Met terugval ingeschakeld toont het schap intussen bestsellers (zie hieronder).
+Together,Samen
+Confidence,Betrouwbaarheid
+Lift,Lift
+(unavailable),(niet beschikbaar)
+hidden,verborgen
+shown,getoond
+below threshold,onder de drempel
+Pin,Vastzetten
+Shoppers will see (frequently bought together),Klanten zien (vaak samen gekocht)
+Shoppers will see no frequently-bought-together products with the current configuration.,Met de huidige configuratie zien klanten geen producten die vaak samen worden gekocht.
+co-purchase data,gegevens gezamenlijke aankopen
+category bestsellers (fallback),bestsellers van de categorie (terugval)
+store bestsellers (fallback),bestsellers van de winkel (terugval)
+Exclude this product from recommendations,Dit product uitsluiten van aanbevelingen
+Never suggest this product alongside others,Dit product nooit samen met andere voorstellen
+Enter a type or remove the row,Voer een type in of verwijder de rij
+Use type/subtype (video/mp4) or a family (video/*),Gebruik type/subtype (video/mp4) of een familie (video/*)
+MB,MB
+Enter a size,Voer een grootte in
+Enter a size greater than zero,Voer een grootte groter dan nul in
+Remove override,Overschrijving verwijderen
+Add type override,Type-overschrijving toevoegen
+Managed by configuration (config file or environment variable),Beheerd via configuratie (configuratiebestand of omgevingsvariabele)
+File Storage & Uploads,Bestandsopslag en uploads
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Waar geüploade bestanden (productafbeeldingen, banners, media) worden opgeslagen, welke typen zijn toegestaan en hoe groot ze mogen zijn"
+Local file system,Lokaal bestandssysteem
+Amazon S3 / S3-compatible,Amazon S3 / S3-compatibel
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,Bucket is verplicht
+Bucket name,Bucketnaam
+Region,Regio
+Region is required,Regio is verplicht
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),Gebruik voor S3-compatibele diensten de waarde van de provider (bijv. fsn1 voor Hetzner)
+Access key ID,Toegangssleutel-ID
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.",Maak een access key aan in de console van je opslagprovider. Voor AWS: log in op de AWS Console en open IAM → Users → je gebruiker → Security credentials → Create access key.
+Secret access key,Geheime toegangssleutel
+"The secret is shown only once, when the access key is created — copy it from there.","Het geheim wordt slechts één keer getoond, bij het aanmaken van de access key — kopieer het daar."
+Custom endpoint,Aangepast endpoint
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Alleen voor S3-compatibele diensten (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Laat leeg voor AWS."
+Force path-style,Path-style forceren
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","Vereist door MinIO. Laat uit voor AWS, Hetzner en R2."
+Public base URL,Publieke basis-URL
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","Optioneel CDN (bijv. CloudFront) dat de bucket serveert — zo kan de bucket privé blijven. Zonder CDN moeten de objecten publiek leesbaar zijn via een bucket policy. Voorbeeld: https://cdn.mystore.com of https://d111abcdef8.cloudfront.net, een CloudFront-distributie met deze bucket als origin. Bestanden worden geserveerd als <deze URL>/<bestandspad>, dus het domein moet naar de bucketroot wijzen."
+Connection string,Verbindingsreeks
+Connection string is required,Verbindingsreeks is verplicht
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Kopieer deze uit de Azure-portal: log in, open je opslagaccount en ga dan naar Security + networking → Access keys → Connection string."
+Container,Container
+Container access,Containertoegang
+Private (recommended),Privé (aanbevolen)
+Public read for blobs,Openbaar lezen voor blobs
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",Openbaar lezen vereist “Allow blob anonymous access” op het opslagaccount — standaard niet toegestaan op nieuwe accounts. Gebruik bij voorkeur een privécontainer met een publieke basis-URL (CDN).
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).",Optioneel CDN (bijv. Azure CDN / Front Door) dat de container serveert — zo kan de container privé blijven. Bestanden worden geserveerd als <deze URL>/<bestandspad> zonder toegevoegd containersegment: stel dus het origin-pad van het CDN in op /<container> (voorbeeld: https://mystore.azureedge.net) of neem de container hier op (voorbeeld: https://mystore.azureedge.net/media).
+Service account key,Serviceaccountsleutel
+Paste the entire content of the downloaded JSON key file,Plak de volledige inhoud van het gedownloade JSON-sleutelbestand
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,Maak een sleutel aan in de Google Cloud Console: IAM & Admin → Service Accounts → maak of kies een account met de rol Storage Object Admin op de bucket → Keys → Add key → JSON. Plak hier het volledige gedownloade bestand.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Geen sleutels? Als EverShop draait op een server die al toegang heeft tot de bucket — bijvoorbeeld via een AWS IAM-rol, of AWS-sleutels die als omgevingsvariabelen op de server zijn ingesteld — laat je beide velden leeg en worden de eigen inloggegevens van de server automatisch gebruikt. De verbinding wordt bij het opslaan getest, dus een verkeerde of ontbrekende configuratie kan niet worden opgeslagen."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Geen sleutel? Als EverShop draait op Google Cloud (Compute Engine, GKE, Cloud Run) met een gekoppeld serviceaccount, of als de omgevingsvariabele GOOGLE_APPLICATION_CREDENTIALS op de server is ingesteld, laat je dit veld leeg en worden de eigen inloggegevens van de server automatisch gebruikt. De verbinding wordt bij het opslaan getest, dus een verkeerde of ontbrekende configuratie kan niet worden opgeslagen."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.","Optioneel CDN (bijv. Cloud CDN) dat de bucket serveert — zo kan de bucket privé blijven. Zonder CDN moeten de objecten publiek leesbaar zijn: geef “allUsers” de rol Storage Object Viewer op de bucket (geblokkeerd wanneer Public Access Prevention in je organisatie wordt afgedwongen). Voorbeeld: https://cdn.mystore.com, een load balancer-domein met deze bucket als backend bucket."
+Local storage is not recommended for production,Lokale opslag wordt niet aanbevolen voor productie
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Bestanden die op deze server staan kunnen verloren gaan bij een update, verplaatsing of storing. Gebruik voor een live winkel liever S3 of Azure Blob Storage."
+Upload rules,Uploadregels
+What can be uploaded and how big it can be — applies on every storage provider.,Wat kan worden geüpload en hoe groot het mag zijn — geldt voor elke opslagprovider.
+Allowed file types,Toegestane bestandstypen
+Select at least one file type,Selecteer minstens één bestandstype
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,Bestanden van andere typen worden bij het uploaden geweigerd. SVG wordt bewust niet aangeboden — SVG-bestanden kunnen scripts bevatten en vormen een beveiligingsrisico bij het serveren.
+Also allowed via server configuration: ${types},Ook toegestaan via de serverconfiguratie: ${types}
+Maximum file size,Maximale bestandsgrootte
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","Per bestand, in megabytes (MB). Laat leeg voor de standaardwaarde van 10 MB. Geldt voor elke upload in het beheerpaneel — productafbeeldingen, banners, media."
+Per-type overrides,Overschrijvingen per type
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",Overschrijft de maximale grootte voor overeenkomende bestandstypen — bijvoorbeeld een kleinere limiet voor afbeeldingen en een grotere voor video’s. Een exact type (video/mp4) gaat voor op een familie (video/*); alles zonder overeenkomst gebruikt de maximale bestandsgrootte hierboven. Overschrijvingen staan geen nieuwe typen toe: het bestandstype zelf moet zijn ingeschakeld bij “Toegestane bestandstypen”.
+Every product in the store,Alle producten in de winkel

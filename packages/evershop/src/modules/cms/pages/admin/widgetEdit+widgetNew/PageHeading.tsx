@@ -1,27 +1,28 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface WidgetEditPageHeadingProps {
   backUrl: string;
   widget?: {
     name: string;
-  };
+  } | null;
 }
 export default function WidgetEditPageHeading({
   backUrl,
-  widget
+  widget = null
 }: WidgetEditPageHeadingProps) {
   return (
     <PageHeading
       backUrl={backUrl}
-      heading={widget ? `Editing widget ${widget.name}` : 'Create a new widget'}
+      heading={
+        widget
+          ? _('Editing widget ${name}', { name: widget.name })
+          : _('Create a new widget')
+      }
     />
   );
 }
-
-WidgetEditPageHeading.defaultProps = {
-  widget: null
-};
 
 export const layout = {
   areaId: 'content',
@@ -30,7 +31,7 @@ export const layout = {
 
 export const query = `
   query Query {
-    page: widget(id: getContextValue("widgetId", null)) {
+    widget(id: getContextValue("widgetId", null)) {
       name
     }
     backUrl: url(routeId: "widgetGrid")

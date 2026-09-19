@@ -1,0 +1,40 @@
+"""
+Delivery window for a shipping method. All fields optional — providers fill
+in what they know.
+"""
+type DeliveryWindow {
+  minBusinessDays: Int
+  maxBusinessDays: Int
+  """ISO 8601 estimated delivery date."""
+  estimatedDate: String
+}
+
+"""
+Snapshot of a shipping method at selection time. Cost is in cart currency
+and tax-exclusive (the provider was passed the cart's currency in its
+ShippingContext and must quote in it).
+"""
+type ShippingMethodSnapshot {
+  code: String!
+  name: String!
+  cost: Price!
+  carrier: String
+  serviceCode: String
+  delivery: DeliveryWindow
+}
+
+"""
+Structured shipping selection persisted on cart and order rows.
+
+On the cart, fingerprint + quotedAt drive the fingerprint-cached validation
+(Option D). Order rows omit those fields — orders don't recompute.
+"""
+type ShippingMethodData {
+  providerCode: String!
+  methodCode: String!
+  snapshot: ShippingMethodSnapshot!
+  """Cart-only: hash of the shipping-relevant cart state at quote time."""
+  fingerprint: String
+  """Cart-only: ISO 8601 timestamp of when the snapshot was produced."""
+  quotedAt: String
+}

@@ -1,4 +1,5 @@
 import { NumberField } from '@components/common/form/NumberField.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import {
   RequiredProduct,
@@ -21,18 +22,22 @@ export default function OrderCondition({ coupon = {} }: OrderConditionProps) {
     <div className="space-y-2">
       <NumberField
         name="condition.order_total"
-        label="Minimum purchase amount"
-        placeholder="Minimum purchase amount"
+        label={_('Minimum purchase amount')}
+        placeholder={_('Minimum purchase amount')}
         defaultValue={condition.orderTotal || 0}
-        helperText="The minimum total amount required for the order to qualify for this coupon."
+        helperText={_(
+          'The minimum total amount required for the order to qualify for this coupon.'
+        )}
       />
 
       <NumberField
         name="condition.order_qty"
-        label="Minimum purchase qty"
-        placeholder="Minimum purchase quantity"
+        label={_('Minimum purchase qty')}
+        placeholder={_('Minimum purchase quantity')}
         defaultValue={condition.orderQty || 0}
-        helperText="The minimum quantity of items required in the order to qualify for this coupon."
+        helperText={_(
+          'The minimum quantity of items required in the order to qualify for this coupon.'
+        )}
         allowDecimals={false}
         min={0}
       />

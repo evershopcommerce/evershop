@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "properties": {
+    "sort_order": {
+      "type": [
+        "integer",
+        "string"
+      ],
+      "pattern": "^-?[0-9]+$",
+      "errorMessage": {
+        "type": "sort_order must be a number",
+        "pattern": "sort_order must be a whole number",
+        "minimum": "sort_order must fit a 32-bit integer",
+        "maximum": "sort_order must fit a 32-bit integer",
+        "maxLength": "sort_order must fit a 32-bit integer"
+      },
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "maxLength": 10
+    }
+  },
+  "required": [
+    "sort_order"
+  ],
+  "additionalProperties": true
+}

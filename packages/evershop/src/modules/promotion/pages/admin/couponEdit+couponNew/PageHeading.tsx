@@ -1,26 +1,27 @@
 import { PageHeading } from '@components/admin/PageHeading.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 export interface CouponEditPageHeadingProps {
   backUrl: string;
-  coupon?: { coupon: string };
+  coupon?: { coupon: string } | null;
 }
 
 export default function CouponEditPageHeading({
   backUrl,
-  coupon
+  coupon = null
 }: CouponEditPageHeadingProps) {
   return (
     <PageHeading
       backUrl={backUrl}
-      heading={coupon ? `Editing ${coupon.coupon}` : 'Create a new coupon'}
+      heading={
+        coupon
+          ? _('Editing ${coupon}', { coupon: coupon.coupon })
+          : _('Create a new coupon')
+      }
     />
   );
 }
-
-CouponEditPageHeading.defaultProps = {
-  coupon: null
-};
 
 export const layout = {
   areaId: 'content',

@@ -17,7 +17,7 @@ export default async (request, response, next) => {
     if (!cart) {
       response.status(INVALID_PAYLOAD).json({
         error: {
-          message: 'Invalid cart',
+          message: translate('Invalid cart'),
           status: INVALID_PAYLOAD
         }
       });

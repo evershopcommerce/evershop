@@ -1,7 +1,13 @@
-import { Card } from '@components/admin/Card.js';
 import { SettingMenu } from '@components/admin/SettingMenu.js';
-import Button from '@components/common/Button.js';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
+import { Packages } from './shippingSetting/Packages.js';
 import { Zones } from './shippingSetting/Zones.js';
 
 export default function ShippingSetting({
@@ -17,12 +23,26 @@ export default function ShippingSetting({
         </div>
         <div className="col-span-4">
           <Card>
-            <Card.Session title="Shipping">
-              <div>
-                Choose where you ship and how much you charge for shipping.
-              </div>
-            </Card.Session>
+            <CardHeader>
+              <CardTitle>{_('Shipping')}</CardTitle>
+              <CardDescription>
+                {_(
+                  'Choose where you ship and how much you charge for shipping.'
+                )}
+              </CardDescription>
+            </CardHeader>
             <Zones createShippingZoneApi={createShippingZoneApi} />
+          </Card>
+          <Card className="mt-5">
+            <CardHeader>
+              <CardTitle>{_('Packages')}</CardTitle>
+              <CardDescription>
+                {_(
+                  'The boxes and envelopes you ship with. Every shippable product references one — its dimensions and empty weight drive shipping quotes and labels.'
+                )}
+              </CardDescription>
+            </CardHeader>
+            <Packages />
           </Card>
         </div>
       </div>

@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "errorMessage": {
+        "minLength": "Tag name is required"
+      }
+    },
+    "url_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "errorMessage": {
+        "pattern": "URL key must contain only lowercase letters, numbers, and hyphens"
+      }
+    },
+    "meta_title": {
+      "type": ["string", "null"]
+    },
+    "meta_description": {
+      "type": ["string", "null"]
+    }
+  },
+  "additionalProperties": true,
+  "required": ["name"]
+}

@@ -1,5 +1,11 @@
-import { Card } from '@components/admin/Card.js';
 import { AddressSummary } from '@components/common/customer/address/AddressSummary.js';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from '@components/common/ui/Card.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 
 interface CustomerProps {
@@ -39,7 +45,7 @@ interface CustomerProps {
         code: string;
         name: string;
       };
-    };
+    } | null; // zero-total orders don't collect a billing address
   };
 }
 
@@ -54,8 +60,11 @@ export default function Customer({
   }
 }: CustomerProps) {
   return (
-    <Card title="Customer">
-      <Card.Session>
+    <Card className="">
+      <CardHeader>
+        <CardTitle>{_('Customer Information')}</CardTitle>
+      </CardHeader>
+      <CardContent>
         {customerUrl && (
           <a
             href={customerUrl}
@@ -64,9 +73,14 @@ export default function Customer({
             {customerFullName}
           </a>
         )}
-        {!customerUrl && <span>{customerEmail} (Guest Checkout)</span>}
-      </Card.Session>
-      <Card.Session title="Contact information">
+        {!customerUrl && (
+          <span>
+            {customerEmail} {_('(Guest Checkout)')}
+          </span>
+        )}
+      </CardContent>
+      <CardContent className="border-t border-border pt-3">
+        <CardTitle className="mb-2">{_('Contact Information')}</CardTitle>
         <div>
           <a href="#" className="text-interactive hover:underline">
             {customerEmail}
@@ -77,14 +91,26 @@ export default function Customer({
             <span>{shippingAddress.telephone}</span>
           </div>
         )}
-      </Card.Session>
-      <Card.Session title="Shipping Address">
+      </CardContent>
+      <CardContent className="border-t border-border pt-3">
+        <CardTitle className="mb-2">{_('Shipping Address')}</CardTitle>
         {!noShippingRequired && <AddressSummary address={shippingAddress} />}
-        {noShippingRequired && <span>{'No shipping required'}</span>}
-      </Card.Session>
-      <Card.Session title="Billing address">
-        <AddressSummary address={billingAddress} />
-      </Card.Session>
+        {noShippingRequired && (
+          <span className="text-muted-foreground">
+            {_('No shipping required')}
+          </span>
+        )}
+      </CardContent>
+      <CardContent className="border-t border-border pt-3">
+        <CardTitle className="mb-2">{_('Billing address')}</CardTitle>
+        {billingAddress ? (
+          <AddressSummary address={billingAddress} />
+        ) : (
+          <span className="text-muted-foreground">
+            {_('Not collected (zero-total order)')}
+          </span>
+        )}
+      </CardContent>
     </Card>
   );
 }

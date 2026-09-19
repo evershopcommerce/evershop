@@ -2,12 +2,12 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import JSON5 from 'json5';
 import uniqid from 'uniqid';
+import { getDevMiddleware } from '../../../../bin/lib/devEnvHelper.js';
 import { CONSTANTS } from '../../../../lib/helpers.js';
 import { error } from '../../../../lib/log/logger.js';
 import { getRoutes } from '../../../../lib/router/Router.js';
 import { get } from '../../../../lib/util/get.js';
 import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
-import isProductionMode from '../../../../lib/util/isProductionMode.js';
 import { getRouteBuildPath } from '../../../../lib/webpack/getRouteBuildPath.js';
 import { getEnabledWidgets } from '../../../../lib/widget/widgetManager.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
@@ -19,23 +19,42 @@ export default async (request, response, next) => {
     getContextValue(request, 'dummy', null);
     if (isDevelopmentMode()) {
       const route = request.currentRoute;
-      const devMiddleware = request.app.locals.webpackMiddleware;
+      const devMiddleware = getDevMiddleware(route.isAdmin);
       const { outputFileSystem } = devMiddleware.context;
-      const { jsonWebpackStats } = response.locals;
+
+      // Wait for webpack to be ready
+      await new Promise((resolve) => {
+        devMiddleware.waitUntilValid(() => resolve());
+      });
+
+      const { stats } = devMiddleware.context;
+      if (!stats) {
+        throw new Error('Webpack stats not available');
+      }
+
+      const jsonWebpackStats = stats.toJson();
       const { outputPath } = jsonWebpackStats;
 
-      query = outputFileSystem.readFileSync(
-        path.join(outputPath, `query-${route.id}.graphql`),
-        'utf8'
-      );
-    } else if (isProductionMode()) {
+      const queryPath = path.resolve(outputPath, `query-${route.id}.graphql`);
+      query = outputFileSystem.readFileSync(queryPath, 'utf8');
+      // Not development → read the compiled query. Previously guarded on
+      // isProductionMode(), which left a gap: any NODE_ENV that is neither
+      // 'development' nor 'production' (a test/e2e runner, or unset) matched
+      // neither branch, so `query` stayed undefined and `next()` below (only
+      // reached inside `if (query)`) never ran — the request hung. The two real
+      // modes are the webpack dev server or a compiled build, so treat anything
+      // that is not development as the build.
+    } else {
       const routes = getRoutes();
       const route = request.currentRoute;
       const subPath = getRouteBuildPath(route);
-      query = readFileSync(
-        path.resolve(CONSTANTS.BUILDPATH, subPath, 'server/query.graphql'),
-        'utf8'
+      const queryPath = path.resolve(
+        CONSTANTS.BUILDPATH,
+        subPath,
+        'server',
+        'query.graphql'
       );
+      query = readFileSync(queryPath, 'utf8');
     }
     const widgetInstances = await loadWidgetInstances(request);
     const enabledWidgets = getEnabledWidgets();
@@ -316,6 +335,6 @@ export default async (request, response, next) => {
     }
   } catch (e) {
     error(e);
-    throw error;
+    throw e;
   }
 };

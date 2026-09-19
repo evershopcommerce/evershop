@@ -1,0 +1,5 @@
+{
+  "methods": ["DELETE"],
+  "path": "/metafield-definitions/:uuid",
+  "access": "private"
+}

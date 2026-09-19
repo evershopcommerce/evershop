@@ -1,3 +1,4 @@
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 function Up() {
@@ -90,7 +91,7 @@ export interface SortableHeaderProps {
 export function SortableHeader({
   title,
   name,
-  currentFilters
+  currentFilters = []
 }: SortableHeaderProps) {
   const [currentDirection] = React.useState(() => {
     const currentOrderBy = currentFilters.find((filter) => filter.key === 'ob');
@@ -118,12 +119,12 @@ export function SortableHeader({
   };
 
   return (
-    <th className="column">
+    <TableCell>
       <div className="table-header flex justify-start gap-2 content-center">
         <div className="font-medium uppercase text-xs">
           <span>{title}</span>
         </div>
-        <div className="sort">
+        <div className="sort flex items-center">
           <button type="button" onClick={onChange}>
             {currentDirection === 'asc' ? (
               <Down />
@@ -135,10 +136,6 @@ export function SortableHeader({
           </button>
         </div>
       </div>
-    </th>
+    </TableCell>
   );
 }
-
-SortableHeader.defaultProps = {
-  currentFilters: []
-};

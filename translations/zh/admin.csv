@@ -1,0 +1,323 @@
+"Blog category","博客分类"
+"Blog post","博客文章"
+"Blog tag","博客标签"
+"Build in page builder","在页面构建器中构建"
+"Change edit scope","更改编辑范围"
+"Control when this landing page is published. Leave empty for no limit.","控制此落地页的发布时间。留空则不限制。"
+"Create a new landing page","创建新的落地页"
+"Current link: ${url}","当前链接：${url}"
+"Delete ${count} landing pages","删除 ${count} 个落地页"
+"Disable ${count} landing pages","禁用 ${count} 个落地页"
+"Editing","编辑中"
+"Enable ${count} landing pages","启用 ${count} 个落地页"
+"Enable this landing page to make it visible on the storefront.","启用此落地页，使其显示在店铺前台。"
+"Enter landing page name","输入落地页名称"
+"Landing Pages","落地页"
+"Landing page","落地页"
+"Landing page created successfully!","落地页创建成功!"
+"Loading pages…","正在加载页面…"
+"New Landing Page","新建落地页"
+"No ${kind}s match ""${query}"".","没有与 ""${query}"" 匹配的 ${kind}s。"
+"No ${kind}s yet.","还没有 ${kind}s。"
+"No categories match ""${query}"".","没有与 ""${query}"" 匹配的分类。"
+"No categories yet.","还没有分类。"
+"No collections match ""${query}"".","没有与 ""${query}"" 匹配的系列。"
+"No collections yet.","还没有系列。"
+"No landing pages match ""${query}"".","没有与 ""${query}"" 匹配的落地页。"
+"No landing pages yet.","还没有落地页。"
+"No pages found.","未找到页面。"
+"No pages match ""${query}"".","没有与 ""${query}"" 匹配的页面。"
+"No pages yet.","还没有页面。"
+"No products match ""${query}"".","没有与 ""${query}"" 匹配的商品。"
+"No products yet.","还没有商品。"
+Paste a URL or a relative path starting with ,粘贴 URL 或以此开头的相对路径： 
+"Pick a CMS page to link to.","选择要链接到的 CMS 页面。"
+"Pick a blog ${kind} to link to.","选择要链接到的博客 ${kind}。"
+"Pick a category to link to.","选择要链接到的分类。"
+"Pick a collection.","选择一个系列。"
+"Pick a landing page to link to.","选择要链接到的落地页。"
+"Pick a product to link to.","选择要链接到的商品。"
+"Provide the SEO details for the landing page.","提供该落地页的 SEO 详细信息。"
+"Provide the basic information for the landing page.","提供该落地页的基本信息。"
+"Publish end","发布结束"
+"Publish start","发布开始"
+"Schedule","排期"
+"The internal name of the landing page shown in the admin panel.","在管理面板中显示的落地页内部名称。"
+"There is no landing page to display","没有可显示的落地页"
+"This is the URL path for the landing page.","这是该落地页的 URL 路径。"
+"This page","本页面"
+"Duplicating ${name}","正在复制 ${name}"
+"The duplicate is created from the last saved version of this product. Your unsaved edits will not be included and will be lost when you leave this page.","副本基于此商品最近保存的版本创建。您未保存的更改不会包含在内，离开此页面后将丢失。"
+"Continue without saving","不保存并继续"
+"You are creating a copy of ${name}","您正在创建 ${name} 的副本"
+"The copy is created as a standalone product — it does not join the source's variant group. Add it from the copy's edit page if needed.","副本将作为独立商品创建 — 不会加入源商品的变体组。如有需要，请在副本的编辑页面中添加。"
+"Nothing is duplicated yet — hit Save to complete the duplication. Leaving this page without saving discards the copy.","尚未完成复制 — 点击保存以完成复制。若不保存就离开此页面，副本将被丢弃。"
+"Replace homepage with this page","用此页面替换首页"
+"The homepage will show the widgets of ""${name}"".","首页将显示“${name}”的组件。"
+"Checking the homepage…","正在检查首页…"
+"Something changed since the preview. Please review again.","预览后有内容发生了变化，请重新确认。"
+"These rollout plans change the homepage. Cancel them or wait until they end, then try again.","这些发布计划会更改首页。请先取消它们或等待其结束，然后重试。"
+"The homepage has page-specific widget placements. Remove them in the page builder first.","首页存在针对特定页面的组件放置。请先在页面构建器中移除。"
+"active","进行中"
+"upcoming","即将开始"
+"The current homepage widgets will be moved to a new disabled landing page named ""${name}"". You can restore it later with this same action.","当前首页的组件将被移动到一个新的已停用落地页“${name}”。之后可以用同样的操作恢复。"
+"${count} unpublished homepage change(s) by you will be discarded.","您有 ${count} 处未发布的首页更改将被丢弃。"
+"${count} unpublished homepage change(s) by ${admins} other admin(s) will be discarded.","${admins} 位其他管理员的 ${count} 处未发布的首页更改将被丢弃。"
+"${count} change(s) left over from cancelled rollout plans will be discarded.","已取消的发布计划遗留的 ${count} 处更改将被丢弃。"
+"${count} ended rollout plan(s) that changed the homepage will be cancelled so they cannot be re-scheduled.","${count} 个曾更改首页的已结束发布计划将被取消，以免被重新排期。"
+"This landing page is not live (unpublished, scheduled, or expired). The homepage does not use its schedule; the copy goes live as soon as you confirm.","此落地页当前未上线（未发布、已排期或已过期）。首页不使用其排期；确认后副本将立即上线。"
+"This landing page has ${count} unpublished change(s) in the page builder. Only published content is copied. Publish it first if the editor canvas is what you want.","此落地页在页面构建器中有 ${count} 处未发布的更改。只会复制已发布的内容。如需编辑器中的效果，请先发布。"
+"A rollout plan is changing this landing page. Only its published content is copied.","一个发布计划正在更改此落地页。只会复制其已发布的内容。"
+"${count} widget(s) shown on every landing page are not part of this page and will not be copied.","在所有落地页上显示的 ${count} 个组件不属于此页面，不会被复制。"
+"${count} hidden widget(s) in this page's ""content"" area will not be copied.","此页面“content”区域中的 ${count} 个隐藏组件不会被复制。"
+"${count} link(s) in this page point at the page itself. They will still point there from the homepage.","此页面中有 ${count} 个链接指向页面自身。从首页访问时它们仍会指向该页。"
+"This landing page has no visible widgets in the current theme. The homepage will be empty.","此落地页在当前主题中没有可见组件。首页将为空。"
+"${count} site-wide widget(s) sit in the homepage content area and will appear mixed into the copied layout.","首页内容区域中有 ${count} 个全站组件，它们将与复制的布局混合显示。"
+"Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","完成。“${name}”仍在其自身网址发布。您现在有 ${count} 个首页备份。"
+"View backup","查看备份"
+"Open homepage in page builder","在页面构建器中打开首页"
+Close,关闭
+Cancel,取消
+"Replace homepage","替换首页"
+"Could not check the homepage.","无法检查首页。"
+"The homepage could not be replaced.","无法替换首页。"
+"Include unpublished pages","包含未发布的页面"
+"This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","此组件还被放置在 ${count} 个特定页面上，由页面构建器管理。这些放置不会在此列出，保存时也不会更改。"
+Blog Home,博客首页
+All posts,所有文章
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.",仅允许 http(s)、mailto、tel 或相对链接 — 此链接将在店面中被忽略。
+Link target,链接目标
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.",“查看全部”链接的目标 — 分类、页面或自定义网址。合集没有独立页面，留空即可隐藏该链接。
+"Optional. Defaults to ""View all N →"".",可选。默认为“查看全部 N →”。
+Whole country,整个国家/地区
+${count} selected,已选择 ${count} 项
+Select provinces,选择省份
+Used below 640 px. Falls back to the main image.,在 640 px 以下使用。缺省时回退到主图。
+mobile,移动端
+Webhook ID,Webhook ID
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.",在 PayPal 开发者控制台中创建、指向 /api/paypal/webhook 的 Webhook ID。启用服务器端付款确认。
+System Setting,系统设置
+File storage and service credentials,文件存储与服务凭据
+Pricing & Tax,定价与税费
+"Price rounding, tax calculation, classes & rates",价格取整、税费计算、税类与税率
+Social sharing preview,社交分享预览
+Account menu,账户菜单
+Grid columns.,网格列数。
+Product listing and image settings,商品列表与图片设置
+Edit variant,编辑变体
+Sold,已售
+Not collected (zero-total order),未收集（订单总额为零）
+All landing pages,所有着陆页
+System setting saved,系统设置已保存
+All ${attribute},所有${attribute}
+${count} of ${total},${total} 中的 ${count}
+No variants match the selected options.,没有与所选选项匹配的变体。
+This product has no other variants yet.,此商品尚无其他变体。
+Optional. Shown under the row heading.,可选。显示在该行标题下方。
+A short description for this row,该行的简短描述
+Product count,商品数量
+Total products to show per collection.,每个合集显示的商品总数。
+Shown above the products. The shelf renders nothing at all when no products qualify.,显示在商品上方。当没有符合条件的商品时，该板块完全不渲染。
+e.g. You may also like,例如：您可能还喜欢
+Products to show,显示的商品数
+Between 1 and 12 — 3 to 5 works best.,介于 1 和 12 之间 — 3 到 5 效果最好。
+Product count is required,商品数量为必填项
+Nearest,四舍五入
+Round up,向上取整
+Round down,向下取整
+Line item,订单行
+Per unit,按单件
+Price rounding,价格取整
+How every monetary amount is rounded across the store.,全店所有金额的取整方式。
+Pricing settings have been saved successfully!,定价设置已成功保存！
+Rounding mode,取整方式
+The direction used when rounding prices to the decimal precision.,将价格取整到小数精度时使用的方向。
+Decimal precision,小数精度
+Number of decimal places prices are rounded to.,价格取整到的小数位数。
+Tax rounding mode,税额取整方式
+The direction used when rounding the calculated tax amount.,对计算出的税额取整时使用的方向。
+Tax decimal precision,税额小数精度
+Number of decimal places the tax amount is rounded to.,税额取整到的小数位数。
+Tax rounding level,税额取整层级
+"Where tax rounding is applied: per unit, per line, or on the order total.",税额取整应用的层级：按单件、按订单行或按订单总额。
+Catalog prices include tax,目录价格含税
+Enable when the product prices you enter already include tax.,当您录入的商品价格已含税时启用。
+Catalog settings have been saved successfully!,目录设置已成功保存！
+Product listing,商品列表
+Control how products appear in storefront listings.,控制商品在店面列表中的显示方式。
+Show out of stock products,显示缺货商品
+"When enabled, products with no available stock stay visible on the storefront.",启用后，无可用库存的商品仍在店面中可见。
+Products per page,每页商品数
+Number of products shown per page on category and collection listings.,分类和合集列表中每页显示的商品数量。
+Product images,商品图片
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.",商品图片的生成尺寸。它设定了整个店面商品图片的参考宽高比和最大分辨率 — 包括列表、购物车、结账和商品页。每个展示位按自身宽度适配，并依据该比例推导高度。
+Original image width (px),原始图片宽度（px）
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.",原始商品图片的宽度。建议 1920px 或更大，以便商品页缩放在大尺寸高密度屏幕上保持清晰。
+Original image height (px),原始图片高度（px）
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,原始商品图片的高度。宽度 ÷ 高度即应用于每张商品图片的宽高比。
+Related products rules,相关商品规则
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,适用于本分类中继承规则的所有商品。已单独覆盖设置的商品不受影响。
+Override the global rules for this category,为此分类覆盖全局规则
+Overridden on this category,已在此分类覆盖
+Source: Global settings,来源：全局设置
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,此分类中的商品遵循全局相关商品规则。可在任意商品的编辑页预览买家看到的内容。
+Regional & Units,区域与单位
+Currency,货币
+Default currency for new carts and price display. Existing orders keep their own currency.,新购物车和价格显示的默认货币。已有订单保留各自的货币。
+Timezone,时区
+Timezone used to display dates in the store.,店铺中显示日期所用的时区。
+Weight unit,重量单位
+Dimension unit,尺寸单位
+Branding,品牌
+"Your logo, favicon, and the image shown when your store is shared on social media.",您的徽标、网站图标，以及店铺被分享到社交媒体时显示的图片。
+Logo,徽标
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,显示在店面页头。请使用透明背景的高分辨率 PNG — 系统会自动缩放以适配主题，并以优化后的 WebP 提供。
+Favicon,网站图标
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,浏览器标签页上的小图标。请上传至少 512×512px 的正方形 PNG — 16/32px 图标和 180px 的 Apple touch icon 会自动生成。
+Social sharing image,社交分享图片
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.",页面被分享到社交媒体时显示的预览图（Open Graph / Twitter）。建议 1200×630px（1.91:1），PNG 或 JPG。
+Analytics,分析
+Google Analytics 4 Measurement ID,Google Analytics 4 衡量 ID
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,在 Google Analytics 的 Admin → Data Streams → 您的网站数据流中查找。留空则停用跟踪。
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX",请输入有效的 GA4 衡量 ID，例如 G-XXXXXXXXXX
+Allow guest checkout,允许访客结账
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",启用后，购物者无需账户即可下单。停用后，他们必须登录或注册才能结账。
+Enable rule-based related products,启用基于规则的相关商品
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,规则自上而下填充剩余位置（手动选择始终优先）。重新排序可更改优先级。
+Move rule up,上移规则
+Move rule down,下移规则
+Match these attributes,匹配这些属性
+No select-type attributes exist yet.,尚不存在选择类型的属性。
+Within scope,在范围内
+Same category,同一分类
+Same collection,同一合集
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",属性匹配始终与范围结合使用 — 在整个目录中“同色”会把不相关的商品关联起来。
+Only show products in a similar price range,仅显示价格区间相近的商品
+Within ±,在 ±
+% of the product price,% 的商品价格
+Fill remaining slots with bestsellers,用畅销商品填充剩余位置
+Recompute failed,重新计算失败
+Co-purchase statistics recomputed,已重新计算共同购买统计
+Related products,相关商品
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,商品页“相关商品”板块的规则。分类和商品可覆盖这些规则；商品上的手动选择始终优先。
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.",追加销售板块复用这些相同规则，仅限价格高于当前浏览商品的商品（启用时以价格区间百分比作为上限）— 不用畅销商品填充，且对设为“仅手动选择”的商品不做追加销售。
+Frequently bought together,经常一起购买
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.",共同购买推荐仅在超过这些阈值后才被采信。默认值适合小型店铺 — 调高意味着推荐更少但更可靠。
+Min times bought together,最少共同购买次数
+A pair must co-occur in at least this many orders.,一对商品必须至少在这么多订单中同时出现。
+Min orders of the product,商品的最少订单数
+Orders of a product before its data is trusted.,商品数据被采信前所需的订单数。
+Min lift,最小提升度
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,大于 1 = 共同购买的频率高于随机水平。可过滤无处不在的畅销品。
+Fill empty slots with bestsellers,用畅销商品填充空位
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.",低于阈值时，该板块会显示分类和店铺畅销商品，而不是什么都不显示。
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,共同购买数据上次计算于 ${date}，基于 ${total} 个订单（${pairs} 个商品对）。
+"No co-purchase data yet — it is computed nightly, or recompute now.",尚无共同购买数据 — 数据每晚计算一次，或立即重新计算。
+Recomputing…,正在重新计算…
+Recompute now,立即重新计算
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.",您的 Webhook URL 应为：https://yourdomain.com/api/stripe/webhook。请启用这些事件（或“All events”）：payment_intent.succeeded、payment_intent.amount_capturable_updated、payment_intent.payment_failed、payment_intent.canceled、charge.refunded。
+Hidden — same variant group,已隐藏 — 同一变体组
+Hidden — disabled or out of stock,已隐藏 — 已停用或缺货
+no orders yet — ranked newest first,尚无订单 — 按最新优先排序
+Operation failed,操作失败
+Add products,添加商品
+No manual picks yet.,尚无手动选择。
+(product unavailable),（商品不可用）
+Overridden on this product,已在此商品覆盖
+Source: category,来源：分类
+Could not pin the product,无法置顶该商品
+Recommendations,推荐
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,“相关商品”和“经常一起购买”板块为此商品显示的内容。追加销售板块由相关规则推导得出（仅取价格更高的匹配项）— 此处无需配置。
+Rules,规则
+Inherit (category or global rules),继承（分类或全局规则）
+Custom rules for this product,此商品的自定义规则
+Manual picks only,仅手动选择
+Manual picks,手动选择
+"Always shown first, in this order, before any rules fill the remaining slots.",始终按此顺序优先显示，然后才由规则填充剩余位置。
+Shoppers will see,买家将看到
+Based on the last saved configuration.,基于最后保存的配置。
+Mode changed — save to update this preview.,模式已更改 — 请保存以更新此预览。
+Shoppers will see no related products for this product with the current configuration.,在当前配置下，买家不会看到此商品的任何相关商品。
+manual pick,手动选择
+bestseller fallback,畅销商品兜底
+Mode,模式
+Automatic (co-purchase data),自动（共同购买数据）
+"Manual picks first, auto-fill the rest",先手动选择，其余自动填充
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,模式和手动选择仅适用于此变体 — 若要整组一致，请对同组其他变体做相同配置。
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,自动模式下会忽略手动选择 — 请切换到“手动优先”或“仅手动”以使用它们。
+Computed from orders,根据订单计算
+${count} orders of this product · data from ${total} orders total,此商品的 ${count} 个订单 · 数据来自共 ${total} 个订单
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).",此商品尚无共同购买数据 — 随着订单产生会逐步累积。启用兜底后，该板块在此期间会显示畅销商品（见下文）。
+Together,共同
+Confidence,置信度
+Lift,提升度
+(unavailable),（不可用）
+hidden,已隐藏
+shown,已显示
+below threshold,低于阈值
+Pin,置顶
+Shoppers will see (frequently bought together),买家将看到（经常一起购买）
+Shoppers will see no frequently-bought-together products with the current configuration.,在当前配置下，买家不会看到经常一起购买的商品。
+co-purchase data,共同购买数据
+category bestsellers (fallback),分类畅销商品（兜底）
+store bestsellers (fallback),店铺畅销商品（兜底）
+Exclude this product from recommendations,将此商品排除在推荐之外
+Never suggest this product alongside others,绝不将此商品与其他商品一起推荐
+Enter a type or remove the row,请输入类型或删除该行
+Use type/subtype (video/mp4) or a family (video/*),使用类型/子类型（video/mp4）或类型族（video/*）
+MB,MB
+Enter a size,请输入大小
+Enter a size greater than zero,请输入大于零的大小
+Remove override,移除覆盖
+Add type override,添加类型覆盖
+Managed by configuration (config file or environment variable),由配置管理（配置文件或环境变量）
+File Storage & Uploads,文件存储与上传
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be",上传文件（商品图片、横幅、媒体）的存储位置、允许的类型及大小上限
+Local file system,本地文件系统
+Amazon S3 / S3-compatible,Amazon S3 / S3 兼容
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,存储桶
+Bucket is required,存储桶为必填项
+Bucket name,存储桶名称
+Region,区域
+Region is required,区域为必填项
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),对于 S3 兼容服务，请使用服务商的取值（例如 Hetzner 为 fsn1）
+Access key ID,访问密钥 ID
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.",在存储服务商的控制台中创建访问密钥。对于 AWS：登录 AWS Console，打开 IAM → Users → 您的用户 → Security credentials → Create access key。
+Secret access key,私有访问密钥
+"The secret is shown only once, when the access key is created — copy it from there.",私钥仅在创建访问密钥时显示一次 — 请在那时复制。
+Custom endpoint,自定义终端节点
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.",仅适用于 S3 兼容服务（Hetzner、Cloudflare R2、MinIO、DigitalOcean Spaces）。使用 AWS 时请留空。
+Force path-style,强制 path-style
+"Required by MinIO. Leave off for AWS, Hetzner and R2.",MinIO 需要启用。使用 AWS、Hetzner 和 R2 时请保持关闭。
+Public base URL,公开基础 URL
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.",为存储桶提供服务的可选 CDN（例如 CloudFront）— 可让存储桶保持私有。若不使用，必须通过存储桶策略将对象设为公开可读。示例：https://cdn.mystore.com 或 https://d111abcdef8.cloudfront.net，即以此存储桶为源站的 CloudFront 分配。文件以 <此 URL>/<文件路径> 的形式提供，因此域名必须指向存储桶根目录。
+Connection string,连接字符串
+Connection string is required,连接字符串为必填项
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.",从 Azure 门户复制：登录后打开您的存储账户，然后依次进入 Security + networking → Access keys → Connection string。
+Container,容器
+Container access,容器访问权限
+Private (recommended),私有（推荐）
+Public read for blobs,blob 公开读取
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",公开读取需要在存储账户上启用“Allow blob anonymous access” — 新账户默认禁用。建议使用私有容器配合公开基础 URL（CDN）。
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).",为容器提供服务的可选 CDN（例如 Azure CDN / Front Door）— 可让容器保持私有。文件以 <此 URL>/<文件路径> 的形式提供，不会自动添加容器段；因此请将 CDN 源站路径设为 /<container>（示例：https://mystore.azureedge.net），或在此处包含容器（示例：https://mystore.azureedge.net/media）。
+Service account key,服务账号密钥
+Paste the entire content of the downloaded JSON key file,粘贴下载的 JSON 密钥文件的全部内容
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,在 Google Cloud Console 中创建密钥：IAM & Admin → Service Accounts → 创建或选择对该存储桶具有 Storage Object Admin 角色的账号 → Keys → Add key → JSON。将下载的整个文件粘贴到此处。
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.",没有密钥？如果 EverShop 运行在已能访问该存储桶的服务器上 — 例如通过 AWS IAM 角色，或在服务器上以环境变量配置的 AWS 密钥 — 请将两个字段都留空，系统会自动使用服务器自身的凭据。保存时会测试连接，因此错误或缺失的配置无法保存。
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.",没有密钥？如果 EverShop 运行在已附加服务账号的 Google Cloud 上（Compute Engine、GKE、Cloud Run），或服务器上已设置 GOOGLE_APPLICATION_CREDENTIALS 环境变量，请将此字段留空，系统会自动使用服务器自身的凭据。保存时会测试连接，因此错误或缺失的配置无法保存。
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.",为存储桶提供服务的可选 CDN（例如 Cloud CDN）— 可让存储桶保持私有。若不使用，必须将对象设为公开可读：在存储桶上向“allUsers”授予 Storage Object Viewer 角色（若贵组织强制启用 Public Access Prevention 则会被阻止）。示例：https://cdn.mystore.com，即以此存储桶作为后端存储桶的负载均衡器域名。
+Local storage is not recommended for production,不建议在生产环境使用本地存储
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.",存储在此服务器上的文件可能在服务器更新、迁移或故障时丢失。对于正式运营的店铺，请改用 S3 或 Azure Blob Storage。
+Upload rules,上传规则
+What can be uploaded and how big it can be — applies on every storage provider.,可上传的内容及其大小上限 — 适用于所有存储服务商。
+Allowed file types,允许的文件类型
+Select at least one file type,请至少选择一种文件类型
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,其他类型的文件在上传时会被拒绝。有意不提供 SVG — SVG 文件可能包含脚本，对外提供时存在安全风险。
+Also allowed via server configuration: ${types},通过服务器配置同样允许：${types}
+Maximum file size,最大文件大小
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.",每个文件，单位为兆字节（MB）。留空则使用默认的 10 MB。适用于管理后台的所有上传 — 商品图片、横幅、媒体。
+Per-type overrides,按类型覆盖
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",为匹配的文件类型覆盖最大大小 — 例如图片限制更小、视频限制更大。精确类型（video/mp4）优先于类型族（video/*）；没有匹配项的一律使用上方的最大文件大小。覆盖不会允许新类型：该文件类型本身必须在“允许的文件类型”中启用。
+Every product in the store,店铺中的所有商品

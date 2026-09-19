@@ -3,18 +3,12 @@ import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilter
 import { hookAfter } from '../../lib/util/hookable.js';
 import { merge } from '../../lib/util/merge.js';
 import { addProcessor } from '../../lib/util/registry.js';
-import {
-  CreateOrderResult,
-  SaveOrderArgs,
-  SaveOrderContext
-} from '../checkout/services/orderCreator.js';
-import createShipment from './services/createShipment.js';
+import { registerCarrier } from './services/carrier/registry.js';
 import registerDefaultOrderCollectionFilters from './services/registerDefaultOrderCollectionFilters.js';
 import {
   changeOrderStatus,
   resolveOrderStatus
 } from './services/updateOrderStatus.js';
-import { updateShipmentStatus } from './services/updateShipmentStatus.js';
 
 export default () => {
   addProcessor('configurationSchema', (schema) => {
@@ -38,17 +32,17 @@ export default () => {
                         badge: {
                           type: 'string'
                         },
-                        progress: {
-                          type: 'string'
-                        },
-                        isDefault: {
-                          type: 'boolean'
-                        },
-                        isCancelable: {
-                          type: 'boolean'
+                        phase: {
+                          type: 'string',
+                          enum: ['pending', 'shipped', 'delivered', 'canceled']
                         }
+                        // No `isDefault` (the default status is decided by
+                        // createShipment, not by a per-status flag) and no
+                        // `isCancelable` (cancelability is now driven by
+                        // the `shipmentRollupCancelable` map keyed on the
+                        // order-level rollup value).
                       },
-                      required: ['name', 'badge', 'progress']
+                      required: ['name', 'badge', 'phase']
                     }
                   },
                   additionalProperties: false
@@ -65,9 +59,6 @@ export default () => {
                         badge: {
                           type: 'string'
                         },
-                        progress: {
-                          type: 'string'
-                        },
                         isDefault: {
                           type: 'boolean'
                         },
@@ -75,7 +66,7 @@ export default () => {
                           type: 'boolean'
                         }
                       },
-                      required: ['name', 'badge', 'progress']
+                      required: ['name', 'badge']
                     }
                   },
                   additionalProperties: false
@@ -92,9 +83,6 @@ export default () => {
                         badge: {
                           type: 'string'
                         },
-                        progress: {
-                          type: 'string'
-                        },
                         isDefault: {
                           type: 'boolean'
                         },
@@ -105,7 +93,7 @@ export default () => {
                           }
                         }
                       },
-                      required: ['name', 'badge', 'progress']
+                      required: ['name', 'badge']
                     },
                     processing: {
                       type: 'object',
@@ -116,9 +104,6 @@ export default () => {
                         badge: {
                           type: 'string'
                         },
-                        progress: {
-                          type: 'string'
-                        },
                         next: {
                           type: 'array',
                           items: {
@@ -126,7 +111,7 @@ export default () => {
                           }
                         }
                       },
-                      required: ['name', 'badge', 'progress']
+                      required: ['name', 'badge']
                     },
                     completed: {
                       type: 'object',
@@ -137,9 +122,6 @@ export default () => {
                         badge: {
                           type: 'string'
                         },
-                        progress: {
-                          type: 'string'
-                        },
                         next: {
                           type: 'array',
                           items: {
@@ -147,7 +129,7 @@ export default () => {
                           }
                         }
                       },
-                      required: ['name', 'badge', 'progress']
+                      required: ['name', 'badge']
                     },
                     canceled: {
                       type: 'object',
@@ -158,9 +140,6 @@ export default () => {
                         badge: {
                           type: 'string'
                         },
-                        progress: {
-                          type: 'string'
-                        },
                         next: {
                           type: 'array',
                           items: {
@@ -168,7 +147,7 @@ export default () => {
                           }
                         }
                       },
-                      required: ['name', 'badge', 'progress']
+                      required: ['name', 'badge']
                     },
                     closed: {
                       type: 'object',
@@ -179,9 +158,6 @@ export default () => {
                         badge: {
                           type: 'string'
                         },
-                        progress: {
-                          type: 'string'
-                        },
                         next: {
                           type: 'array',
                           items: {
@@ -189,7 +165,7 @@ export default () => {
                           }
                         }
                       },
-                      required: ['name', 'badge', 'progress']
+                      required: ['name', 'badge']
                     }
                   },
                   additionalProperties: true
@@ -203,27 +179,43 @@ export default () => {
                   },
                   additionalProperties: false
                 },
+                shipmentRollup: {
+                  type: 'object',
+                  patternProperties: {
+                    '^(all|any):(pending|shipped|delivered|canceled)$': {
+                      type: 'string',
+                      enum: [
+                        'pending',
+                        'partially_shipped',
+                        'shipped',
+                        'partially_delivered',
+                        'delivered',
+                        'partially_canceled',
+                        'canceled'
+                      ]
+                    }
+                  },
+                  additionalProperties: false
+                },
+                shipmentRollupCancelable: {
+                  type: 'object',
+                  properties: {
+                    pending: { type: 'boolean' },
+                    partially_shipped: { type: 'boolean' },
+                    shipped: { type: 'boolean' },
+                    partially_delivered: { type: 'boolean' },
+                    delivered: { type: 'boolean' },
+                    partially_canceled: { type: 'boolean' },
+                    canceled: { type: 'boolean' }
+                  },
+                  additionalProperties: false
+                },
                 reStockAfterCancellation: {
                   type: 'boolean'
                 }
               },
               required: ['shipmentStatus', 'paymentStatus'],
               additionalProperties: false
-            },
-            carriers: {
-              type: 'object',
-              additionalProperties: {
-                type: 'object',
-                properties: {
-                  name: {
-                    type: 'string'
-                  },
-                  trackingUrl: {
-                    type: 'string'
-                  }
-                },
-                required: ['name']
-              }
             }
           }
         }
@@ -235,55 +227,51 @@ export default () => {
   // Default order configuration
   const defaultOrderConfig = {
     order: {
+      // Default shipment statuses. No `pending` or `processing` — every
+      // shipment row exists because something was actually shipped (stock
+      // is deducted at order placement, so there's no pre-shipped
+      // reservation to model). The `pending` ROLLUP value still exists at
+      // the order level ("no items shipped yet"), but no per-shipment row
+      // uses the `pending` phase.
+      //
+      // Cancelability is now a rollup-level config (`shipmentRollupCancelable`
+      // below), not a per-status flag — see the §3 design notes. Extensions
+      // can still register custom shipment statuses, but they MUST pick a
+      // phase from `shipped | delivered | canceled` for the merchant-visible
+      // lifecycle to behave consistently.
       shipmentStatus: {
-        pending: {
-          name: 'Pending',
-          badge: 'default',
-          progress: 'incomplete',
-          isDefault: true
-        },
-        processing: {
-          name: 'Processing',
-          badge: 'default',
-          progress: 'incomplete',
-          isDefault: false
-        },
         shipped: {
           name: 'Shipped',
-          badge: 'attention',
-          progress: 'complete'
+          badge: 'warning',
+          phase: 'shipped'
         },
         delivered: {
           name: 'Delivered',
           badge: 'success',
-          progress: 'complete',
-          isCancelable: false
+          phase: 'delivered'
         },
         canceled: {
           name: 'Canceled',
-          badge: 'critical',
-          progress: 'complete',
-          isCancelable: false
+          badge: 'destructive',
+          phase: 'canceled'
         }
       },
       paymentStatus: {
         pending: {
           name: 'Pending',
           badge: 'default',
-          progress: 'incomplete',
           isDefault: true,
           isCancelable: true
         },
         paid: {
           name: 'Paid',
           badge: 'success',
-          progress: 'complete',
-          isCancelable: false
+          isCancelable: false,
+          isRefundable: true
         },
         canceled: {
           name: 'Canceled',
-          badge: 'critical',
-          progress: 'complete',
+          badge: 'destructive',
           isCancelable: true
         }
       },
@@ -291,63 +279,96 @@ export default () => {
         new: {
           name: 'New',
           badge: 'default',
-          progress: 'incomplete',
           isDefault: true,
           next: ['processing', 'canceled']
         },
         processing: {
           name: 'Processing',
           badge: 'default',
-          progress: 'incomplete',
           next: ['completed', 'canceled']
         },
         completed: {
           name: 'Completed',
           badge: 'success',
-          progress: 'complete',
           next: ['closed']
         },
         canceled: {
           name: 'Canceled',
-          badge: 'critical',
-          progress: 'complete',
+          badge: 'destructive',
           next: []
         },
         closed: {
           name: 'Closed',
-          badge: 'default',
-          progress: 'complete',
+          badge: 'outline',
           next: []
         }
       },
+      // Payment × Shipment → Order status. Resolution precedence (see
+      // resolveOrderStatus): exact `payment:shipment` → `payment:*` →
+      // `*:shipment` → `*:*`, first hit wins. Payment-wildcard beats
+      // shipment-wildcard, so a terminal payment (refunded/canceled) dominates
+      // its shipment rollup. Keys MERGE across modules — stripe/paypal/cod each
+      // add their own `<method>_*` entries — and an exact `payment:shipment` key
+      // is the escape hatch to override any wildcard. (A priority-ordered rule
+      // list was considered and rejected: arrays don't config-merge across
+      // modules and would need a cross-module ordering contract this gets for
+      // free. See wiki/multi-shipment-design.md → "Order-status derivation".)
       psoMapping: {
         'pending:pending': 'new',
         'pending:*': 'processing',
-        'paid:*': 'processing',
+        'paid:pending': 'processing',
+        'paid:partially_shipped': 'processing',
+        'paid:shipped': 'processing',
+        'paid:partially_delivered': 'processing',
         'paid:delivered': 'completed',
-        'canceled:*': 'processing',
-        'canceled:canceled': 'canceled'
+        // Shipment-side cancellation does NOT cancel the ORDER: canceling every
+        // shipment leaves the order in `processing` so the merchant can re-ship
+        // or cancel deliberately. PAYMENT-side cancellation (`canceled:*`,
+        // driven by cancelOrder) is what cancels the order; per the precedence
+        // noted above, `canceled:*` out-ranks these `*:canceled` rules on its
+        // own (no explicit `canceled:canceled` entry needed).
+        '*:partially_canceled': 'processing',
+        '*:canceled': 'processing',
+        'canceled:*': 'canceled'
+      },
+      // Predicate → rollup output. The resolver walks these in priority order
+      // (all:delivered → any:delivered → all:shipped → any:shipped →
+      // all:canceled → any:canceled → all:pending) and returns the first
+      // match. The canceled rules sit after shipped/delivered (shipping
+      // progress wins) but before all:pending — canceled items count zero
+      // toward shipped/delivered, so a canceled order also satisfies
+      // all:pending and would be masked otherwise. See
+      // wiki/multi-shipment-design.md → "Item-based rollup math".
+      shipmentRollup: {
+        'all:delivered': 'delivered',
+        'any:delivered': 'partially_delivered',
+        'all:shipped': 'shipped',
+        'any:shipped': 'partially_shipped',
+        'all:canceled': 'canceled',
+        'any:canceled': 'partially_canceled',
+        'all:pending': 'pending'
+      },
+      // Per-rollup-value cancelability. Keys are the six possible outputs of
+      // the order-level shipment-status rollup (`pending` / `partially_shipped`
+      // / `shipped` / `partially_delivered` / `delivered` / `canceled`). The
+      // two policy knobs merchants actually want to vary are `shipped` and
+      // `partially_delivered`: "can the order still be canceled once it's
+      // physically in transit?" Defaults err on the side of allowing
+      // cancellation; tighten via `addProcessor('shipmentRollupCancelable',
+      // ...)` if the merchant's carrier policy says otherwise.
+      shipmentRollupCancelable: {
+        pending: true,
+        partially_shipped: true,
+        shipped: true,
+        partially_delivered: true,
+        delivered: false,
+        // Canceling shipments now KEEPS the order in `processing`, so these
+        // rollup states must stay cancelable — otherwise the merchant could
+        // neither re-ship nor cancel an order whose shipments are all gone.
+        partially_canceled: true,
+        canceled: true
       },
       reStockAfterCancellation: true
-    },
-    carriers: {
-      default: {
-        name: 'Default'
-      },
-      fedex: {
-        name: 'FedEx',
-        trackingUrl: 'https://www.fedex.com/fedextrack/?trknbr={trackingNumber}'
-      },
-      usps: {
-        name: 'USPS',
-        trackingUrl:
-          'https://tools.usps.com/go/TrackConfirmAction?qtc_tLabels1={trackingNumber}'
-      },
-      ups: {
-        name: 'UPS',
-        trackingUrl:
-          'https://www.ups.com/track?loc=en_US&tracknum={trackingNumber}'
-      }
     }
   };
   config.util.setModuleDefaults('oms', defaultOrderConfig);
@@ -364,48 +385,69 @@ export default () => {
     2
   );
 
+  // Order status is derived: whenever payment or shipment status changes, we
+  // re-project (payment, shipment) -> order status and let `changeOrderStatus`
+  // clamp the result against where the order already is. The clamp holds a
+  // terminal order terminal and never reverts, so these hooks no longer throw
+  // when the projection "can't move" — a shipment cancel on a refunded (closed)
+  // order commits, and the order simply stays closed. Do NOT re-add
+  // terminal-sticky throw-guards here: they coupled a harmless projection result
+  // to a rollback of the merchant's actual action. See
+  // wiki/multi-shipment-design.md → "Order-status derivation".
   hookAfter(
     'changePaymentStatus',
     async (order, orderId, status, connection) => {
-      if (order.status === 'canceled') {
-        throw new Error('Order is already canceled');
-      }
-      if (order.status === 'closed') {
-        throw new Error('Order is already closed');
-      }
-      const orderStatus = resolveOrderStatus(status, order.shipment_status);
-      await changeOrderStatus(orderId, orderStatus, connection);
+      const newOrderStatus = resolveOrderStatus(status, order.shipment_status);
+      await changeOrderStatus(orderId, newOrderStatus, connection);
     }
   );
 
   hookAfter(
     'changeShipmentStatus',
     async (order, orderId, status, connection) => {
-      if (order.status === 'canceled') {
-        throw new Error('Order is already canceled');
-      }
-      if (order.status === 'closed') {
-        throw new Error('Order is already closed');
-      }
-      const orderStatus = resolveOrderStatus(order.payment_status, status);
-      await changeOrderStatus(orderId, orderStatus, connection);
+      const newOrderStatus = resolveOrderStatus(order.payment_status, status);
+      await changeOrderStatus(orderId, newOrderStatus, connection);
     }
   );
 
-  hookAfter<SaveOrderContext, CreateOrderResult, SaveOrderArgs>(
-    'saveOrder',
-    async function createShipmentForVirtualProductsOrder(
-      order,
-      cart,
-      connection
-    ) {
-      if (order.no_shipping_required) {
-        // Create a shipment for this order
-        await createShipment(order.uuid, null, null, connection);
+  /**
+   * Built-in "Custom / Other" carrier. Pure metadata — no `createLabel`,
+   * `voidLabel`, `generateTrackingUrl`, `fetchStatus`, or `schedulePickup`
+   * methods. This isn't a real carrier integration; it's the fallback an
+   * admin picks when shipping via a carrier with no API integration (a
+   * local courier, an obscure regional carrier, etc.).
+   *
+   * Without this entry the carrier dropdown is empty out of the box and
+   * admins can't create shipments at all unless they install a carrier
+   * extension first. With it, the dropdown always has at least one option
+   * and the create flow works without any extension.
+   *
+   * Capability-gated UI behavior:
+   *   - Tracking number input is hidden in the create-shipment modal and
+   *     in the inline edit-tracking form when this carrier is selected
+   *     (no method consumes the tracking number, so prompting for one is
+   *     misleading).
+   *   - The "Track →" link, "Print Label" button, and "Void Label" button
+   *     on the per-shipment row never appear (they're gated on the
+   *     corresponding capabilities, which this carrier lacks).
+   *   - The customer email's "Track shipment →" CTA degrades to plain
+   *     "Carrier: Custom / Other" text.
+   *
+   * Note: this registration could equally live in an extension. It's
+   * registered in core so the out-of-box experience works. Shops that
+   * install a real carrier extension can simply ignore this entry — the
+   * registry permits unlimited carriers.
+   */
+  registerCarrier({
+    code: 'custom',
+    name: 'Custom / Other',
+    description:
+      'Generic fallback for shipping without a specific carrier integration.'
+  });
 
-        // And update shipment status to delivered
-        await updateShipmentStatus(order.order_id, 'delivered', connection);
-      }
-    }
-  );
+  // Multi-shipment refactor A3: the previous `createShipmentForVirtualProductsOrder`
+  // hook is gone. For all-digital orders the rollup short-circuits to
+  // `'delivered'` and orderCreator writes that as the initial `shipment_status`
+  // directly — no need to fabricate a shipment row to drive the math. Pre-migration
+  // digital orders keep their vestigial shipment row as historical record.
 };

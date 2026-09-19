@@ -1,0 +1,22 @@
+extend type Setting {
+  fileStorage: String!
+  s3Region: String
+  s3Bucket: String
+  s3AccessKeyId: String
+  s3SecretAccessKey: String
+  s3Endpoint: String
+  s3ForcePathStyle: Boolean!
+  s3BaseUrl: String
+  azureStorageConnectionString: String
+  azureStorageContainerName: String!
+  azureContainerAccess: String!
+  azureBaseUrl: String
+  gcsBucket: String
+  gcsServiceAccountKey: String
+  gcsBaseUrl: String
+  """
+  Setting keys pinned by the config file or an environment variable — the
+  System Setting form renders these read-only.
+  """
+  fileStorageConfigOverrides: [String!]!
+}

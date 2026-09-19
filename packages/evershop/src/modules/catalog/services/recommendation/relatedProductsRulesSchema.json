@@ -1,0 +1,135 @@
+{
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "errorMessage": {
+        "type": "Related products rules: 'enabled' must be a boolean"
+      }
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["same_category", "same_collection", "same_attribute_values"],
+            "errorMessage": {
+              "type": "Rule type must be a string",
+              "enum": "Rule type must be one of 'same_category', 'same_collection', 'same_attribute_values'"
+            }
+          },
+          "enabled": {
+            "type": "boolean",
+            "errorMessage": {
+              "type": "Rule 'enabled' must be a boolean"
+            }
+          },
+          "attributeCodes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "errorMessage": {
+                "type": "Attribute code must be a string",
+                "minLength": "Attribute code cannot be empty"
+              }
+            },
+            "errorMessage": {
+              "type": "attributeCodes must be an array of attribute codes"
+            }
+          },
+          "scope": {
+            "type": "string",
+            "enum": ["same_category", "same_collection"],
+            "errorMessage": {
+              "type": "Rule scope must be a string",
+              "enum": "Rule scope must be 'same_category' or 'same_collection'"
+            }
+          }
+        },
+        "required": ["type", "enabled"],
+        "if": {
+          "properties": {
+            "type": { "const": "same_attribute_values" },
+            "enabled": { "const": true }
+          },
+          "required": ["type", "enabled"]
+        },
+        "then": {
+          "required": ["attributeCodes", "scope"],
+          "properties": {
+            "attributeCodes": {
+              "minItems": 1,
+              "errorMessage": {
+                "minItems": "At least one attribute code is required for a same-attribute-values rule"
+              }
+            }
+          },
+          "errorMessage": {
+            "required": {
+              "attributeCodes": "A same-attribute-values rule requires attributeCodes",
+              "scope": "A same-attribute-values rule requires a scope ('same_category' or 'same_collection')"
+            }
+          }
+        },
+        "additionalProperties": true,
+        "errorMessage": {
+          "type": "Each rule must be an object",
+          "required": {
+            "type": "Rule type is required",
+            "enabled": "Rule 'enabled' is required"
+          }
+        }
+      },
+      "errorMessage": {
+        "type": "Related products rules: 'rules' must be an ordered array of rule objects"
+      }
+    },
+    "priceBand": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "errorMessage": {
+            "type": "Price band 'enabled' must be a boolean"
+          }
+        },
+        "percent": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100,
+          "errorMessage": {
+            "type": "Price band percent must be a number",
+            "minimum": "Price band percent must be at least 1",
+            "maximum": "Price band percent cannot exceed 100"
+          }
+        }
+      },
+      "required": ["enabled"],
+      "additionalProperties": true,
+      "errorMessage": {
+        "type": "priceBand must be an object",
+        "required": {
+          "enabled": "priceBand requires 'enabled'"
+        }
+      }
+    },
+    "fallbackToBestsellers": {
+      "type": "boolean",
+      "errorMessage": {
+        "type": "'fallbackToBestsellers' must be a boolean"
+      }
+    }
+  },
+  "required": ["enabled", "rules"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "type": "Related products rules must be an object",
+    "required": {
+      "enabled": "Related products rules require 'enabled'",
+      "rules": "Related products rules require the 'rules' array"
+    }
+  }
+}

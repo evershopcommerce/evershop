@@ -1,33 +1,47 @@
-Login, Login
-Logout, Logout
-Email, E-Mail
-Password, Senha
-Forgot your password?, Esqueceu sua senha?
-Create an account, Criar uma conta
-Register, Registrar
-Full Name, Nome Completo
-Full name, Nome completo
-SIGN IN, REGISTRAR
-Order History, Histórico de Compras
-Account Details, Detalhes da Conta
-You have not placed any orders yet, Você não fez nenhuma compra ainda
-My Account, Minha Conta
-Already have an account?, Já possui uma conta?
-Contact information, Informações de contato
-City, Cidade
-Account Information, Informações da Conta
-Address, Endereço
-Postcode, CEP
-Postcode is required, CEP é obrigatório
-Telephone is required, Telefone é obrigatório
-Telephone, Telefone
-Full name is required, Nome completo é obrigatório
-Country is required, País é obrigatório
-Country, País
-Province is required, Estado é obrigatório
-Province, Estado
-Billing Address, Endereço de Cobrança
-Shipping Address, Endereço de Entrega
-Create A New Account, Criar uma Nova Conta
-Contact, Contato
-Customer information, Informações do cliente
+Login,Login
+Logout,Logout
+Email,E-Mail
+Password,Senha
+Forgot your password?,Esqueceu sua senha?
+Create an account,Criar uma conta
+Register,Registrar
+Full Name,Nome Completo
+Full name,Nome completo
+Sign In,REGISTRAR
+Order History,Histórico de Compras
+Account Details,Detalhes da Conta
+You have not placed any orders yet,Você não fez nenhuma compra ainda
+My Account,Minha Conta
+Already have an account?,Já possui uma conta?
+Contact information,Informações de contato
+City,Cidade
+Account Information,Informações da Conta
+Address,Endereço
+Postcode,CEP
+Postcode is required,CEP é obrigatório
+Telephone is required,Telefone é obrigatório
+Telephone,Telefone
+Full name is required,Nome completo é obrigatório
+Country is required,País é obrigatório
+Country,País
+Province is required,Estado é obrigatório
+Province,Estado
+Billing Address,Endereço de Cobrança
+Shipping Address,Endereço de Entrega
+Create A New Account,Criar uma Nova Conta
+Contact,Contato
+Customer information,Informações do cliente
+Address book,Livro de endereços
+Account information,Informações da conta
+Recent orders,Pedidos recentes
+View all,Ver tudo
+Sign in,Entrar
+Welcome back — sign in to your account.,Bem-vindo de volta — entre na sua conta.
+New here?,É novo por aqui?
+Back to orders,Voltar aos pedidos
+Create account,Criar conta
+You must be logged in to manage your addresses,Você precisa estar conectado para gerenciar seus endereços
+You must be logged in to update your profile,Você precisa estar conectado para atualizar seu perfil
+There is nothing to update,Não há nada para atualizar
+Email is already used,Este e-mail já está em uso
+Order #${orderNumber},Pedido nº ${orderNumber}

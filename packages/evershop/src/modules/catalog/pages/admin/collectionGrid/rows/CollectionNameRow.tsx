@@ -1,3 +1,4 @@
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 interface CollectionNameRowProps {
@@ -7,12 +8,12 @@ interface CollectionNameRowProps {
 
 export function CollectionNameRow({ name, url }: CollectionNameRowProps) {
   return (
-    <td>
+    <TableCell>
       <div>
         <a className="hover:underline font-semibold" href={url}>
           {name}
         </a>
       </div>
-    </td>
+    </TableCell>
   );
 }

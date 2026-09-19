@@ -1,3 +1,6 @@
+import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { Input } from '@components/common/ui/Input.js';
+import { Label } from '@components/common/ui/Label.js';
 import {
   CategoryFilter,
   FilterInput,
@@ -6,16 +9,22 @@ import {
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useState } from 'react';
 
+/**
+ * Above this many categories the list gets a search box. `/products` offers the
+ * whole tree, which can run long; the category page offers one level of
+ * children — usually three or four — where a search field would be noise.
+ */
+const SEARCH_THRESHOLD = 8;
+
 export const DefaultCategoryFilterRender: React.FC<{
   categories: CategoryFilter[];
   currentFilters: FilterInput[];
 }> = ({ categories, currentFilters }) => {
   const { updateFilter } = useProductFilter();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleCategoryChange = (categoryId: string, checked: boolean) => {
-    let newFilters = [...currentFilters];
+    let newFilters = currentFilters.map((f) => ({ ...f }));
     const existingFilter = newFilters.find((f) => f.key === 'cat');
 
     if (checked) {
@@ -76,104 +85,79 @@ export const DefaultCategoryFilterRender: React.FC<{
   const filteredCategories = getFilteredCategories();
 
   return (
-    <div className="category__filter__section border-b border-gray-200 pb-2 mb-2">
+    <div className="category__filter__section border-b border-border pb-8 mb-8 last:mb-0 last:border-b-0 last:pb-0">
       <div className="filter__header flex items-center justify-between mb-3">
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="flex items-center space-x-2 text-left flex-1 hover:text-blue-600 transition-colors"
-        >
-          <span className="font-medium">Categories</span>
-          {selectedCount > 0 && (
-            <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-              {selectedCount}
-            </span>
-          )}
-          <svg
-            className={`w-4 h-4 transition-transform ${
-              isCollapsed ? 'rotate-180' : ''
-            }`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
+        <h3 className="text-sm font-semibold">{_('Categories')}</h3>
 
         {selectedCount > 0 && (
           <button
             onClick={clearCategoryFilter}
-            className="text-gray-400 hover:text-red-500 text-sm transition-colors"
-            title="Clear categories"
+            className="text-muted-foreground hover:text-destructive text-sm transition-colors"
+            title={_('Clear categories')}
           >
             ✕
           </button>
         )}
       </div>
 
-      {!isCollapsed && (
-        <div className="filter__content">
-          {categories.length > 5 && (
-            <div className="mb-3">
-              <input
-                type="text"
-                placeholder="Search categories..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+      <div className="filter__content">
+        {categories.length > SEARCH_THRESHOLD && (
+          <Input
+            type="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder={_('Search categories')}
+            aria-label={_('Search categories')}
+            className="mb-3 h-8 text-sm"
+          />
+        )}
+        <div className="category__options space-y-2.5 max-h-48 overflow-y-auto">
+          {filteredCategories.length > 0 ? (
+            filteredCategories.map((category) => {
+              const isSelected = isCategorySelected(
+                category.categoryId.toString()
+              );
+              // The `/products` listing offers the whole tree flattened with a
+              // depth; the category page offers one level of children and sets
+              // none, which falls back to 0 and renders exactly as before.
+              // Indentation is the only thing that tells a shopper "Kids" sits
+              // under "Accessories" rather than beside it — the `cat` filter
+              // matches subtrees, so every level is a valid choice.
+              const depth = category.depth ?? 0;
+              return (
+                <div
+                  key={category.categoryId}
+                  className="flex items-center gap-2.5 cursor-pointer"
+                  style={
+                    depth > 0 ? { paddingInlineStart: depth * 14 } : undefined
+                  }
+                >
+                  <Checkbox
+                    id={`category-${category.categoryId}`}
+                    checked={isSelected}
+                    onCheckedChange={(checked) =>
+                      handleCategoryChange(
+                        category.categoryId.toString(),
+                        checked
+                      )
+                    }
+                  />
+                  <Label
+                    htmlFor={`category-${category.categoryId}`}
+                    className="cursor-pointer font-normal leading-5 text-muted-foreground"
+                  >
+                    {category.name}
+                  </Label>
+                </div>
+              );
+            })
+          ) : (
+            <div className="text-muted-foreground text-sm text-center py-4">
+              {_('No categories found for "${term}"', { term: searchTerm })}
             </div>
           )}
-
-          <div className="category__options space-y-2 max-h-48 overflow-y-auto">
-            {filteredCategories.length > 0 ? (
-              filteredCategories.map((category) => {
-                const isSelected = isCategorySelected(
-                  category.categoryId.toString()
-                );
-                return (
-                  <label
-                    key={category.categoryId}
-                    className={`flex items-center space-x-3 cursor-pointer p-2 rounded hover:bg-gray-50 transition-colors ${
-                      isSelected ? 'bg-blue-50 border border-blue-200' : ''
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={(e) =>
-                        handleCategoryChange(
-                          category.categoryId.toString(),
-                          e.target.checked
-                        )
-                      }
-                      className="form-checkbox h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                    />
-                    <span
-                      className={`text-sm ${
-                        isSelected
-                          ? 'font-medium text-blue-900'
-                          : 'text-gray-700'
-                      }`}
-                    >
-                      {category.name}
-                    </span>
-                  </label>
-                );
-              })
-            ) : (
-              <div className="text-gray-500 text-sm text-center py-4">
-                {_('No categories found for "${term}"', { term: searchTerm })}
-              </div>
-            )}
-          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

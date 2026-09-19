@@ -1,0 +1,5 @@
+{
+  "methods": ["PATCH"],
+  "path": "/shippingZones/:zone_id/providers/:provider_code",
+  "access": "private"
+}

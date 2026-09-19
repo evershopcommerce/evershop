@@ -2,6 +2,7 @@ import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
+import { getAllowGuestCheckout } from '../../../services/checkoutSettings.js';
 import { getMyCart } from '../../../services/getMyCart.js';
 
 declare module 'express-session' {
@@ -25,6 +26,13 @@ export default async (request: EvershopRequest, response, next) => {
 
   if (items.length === 0 || cart.hasItemError()) {
     response.redirect(302, buildUrl('cart'));
+  } else if (!customer && !getAllowGuestCheckout()) {
+    // Guest checkout is disabled: an anonymous shopper must sign in first. Send them to
+    // login with a redirect back to the checkout page so they return here after logging in.
+    response.redirect(
+      302,
+      `${buildUrl('login')}?redirect=${encodeURIComponent(request.originalUrl)}`
+    );
   } else {
     setPageMetaInfo(request, {
       title: translate('Checkout'),

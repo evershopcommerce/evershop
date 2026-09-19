@@ -255,7 +255,7 @@ async function getOverrideCandidates(): Promise<string[]> {
 }
 
 function getCurrentTheme(): string {
-  const theme = getConfig<string>('system.theme');
+  const theme = getConfig('system.theme');
   if (theme) {
     return theme;
   } else {

@@ -1,5 +1,6 @@
 import { NavigationItemGroup } from '@components/admin/NavigationItemGroup.js';
-import { GiftIcon } from '@heroicons/react/24/solid';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { GiftIcon } from 'lucide-react';
 import React from 'react';
 
 interface CouponMenuGroupProps {
@@ -10,12 +11,12 @@ export default function CatalogMenuGroup({ couponGrid }: CouponMenuGroupProps) {
   return (
     <NavigationItemGroup
       id="couponMenuGroup"
-      name="Promotion"
+      name={_('Promotion')}
       items={[
         {
           Icon: GiftIcon,
           url: couponGrid,
-          title: 'Coupons'
+          title: _('Coupons')
         }
       ]}
     />

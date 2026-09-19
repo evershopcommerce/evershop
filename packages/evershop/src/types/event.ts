@@ -50,6 +50,20 @@ export interface EventDataRegistry {
   product_deleted: ProductRow;
 
   /**
+   * Fired after a product duplication — a create whose payload carried
+   * `duplicate_of` — committed and the source's collection memberships were
+   * copied. Subscribe to copy extension-owned product data from the source
+   * to the copy. The regular `product_created` event fires for the copy too;
+   * this event is the source→copy link.
+   */
+  product_duplicated: {
+    source_product_id: number;
+    source_product_uuid: string;
+    product_id: number;
+    product_uuid: string;
+  };
+
+  /**
    * Fired when a product image is added
    * Data: Complete product_image table row
    */
@@ -82,40 +96,165 @@ export interface EventDataRegistry {
   };
 
   /**
-   * Fired when a new customer is registered
+   * Fired when a new customer is registered and status = 1 (account is active)
    * Data: Complete customer table row
    */
   customer_registered: CustomerRow;
 
   /**
-   * Fired when a new order is created
+   * Fired when a new customer record is added to database, regardless of the status value
+   * Data: Complete customer table row
+   */
+  customer_created: CustomerRow;
+
+  /**
+   * Fired when a customer record in database is updated
+   * Data: Complete customer table row
+   */
+  customer_updated: CustomerRow;
+
+  /**
+   * Fired when a customer record is deleted
+   * Data: Complete customer table row
+   */
+  customer_deleted: CustomerRow;
+
+  /**
+   * Fired when a new order record is created in database, regardless of the payment method or order status
    * Data: Complete order table row
    */
   order_created: OrderRow;
 
   /**
    * Fired when a new order is placed
-   * Data: Complete order table row
+   * (This means the order is created and the payment is successful (decided by the payment method, for example, for cod, the order is created when the order is placed, but for online payment, the order is created when the payment is successful))
    */
   order_placed: OrderRow;
 
   /**
-   * Fired when a new customer is created by admin
-   * Data: Complete customer table row
+   * Fired when an order status is updated.
+   * Data: {
+   *   orderId: number;
+   *   before: string; // the previous order status
+   *   after: string; // the new order status
+   * }
    */
-  customer_created: CustomerRow;
+  order_status_updated: {
+    orderId: number;
+    before: string;
+    after: string;
+  };
 
   /**
-   * Fired when a customer is updated by admin
-   * Data: Complete customer table row
+   * Fired once when an order is refunded, in full or in part, by core's refund
+   * recorder — whether the refund originated from the admin refund action or a
+   * gateway refund webhook. Emit-once is guaranteed by the idempotent
+   * refund-transaction insert (admin + webhook echo dedupe to one event).
    */
-  customer_updated: CustomerRow;
+  order_refunded: {
+    orderId: number;
+    /** This refund's amount, in major currency units. */
+    amount: number;
+    currency: string;
+    /** True when the cumulative refunded total reaches the captured amount. */
+    isFullRefund: boolean;
+    /** The gateway's refund transaction id. */
+    transactionId: string;
+    paymentMethod: string;
+  };
 
   /**
-   * Fired when a customer is deleted by admin
-   * Data: Complete customer table row
+   * Fired when an order is canceled via `cancelOrder` (any uncaptured
+   * authorization voided, inventory restocked). Carries the cancellation reason
+   * — `order_status_updated{after:'canceled'}` also fires on a cancel, but can't
+   * carry the reason.
    */
-  customer_deleted: CustomerRow;
+  order_canceled: {
+    orderId: number;
+    reason?: string;
+  };
+
+  /**
+   * Fired after a shipment row has been inserted by `createShipment` and the
+   * order rollup has been recomputed. The transaction is already committed.
+   * Subscribers (lifecycle emails, webhook bridges) consume this.
+   * `notifyCustomer` reflects the admin's checkbox at creation time —
+   * subscribers must short-circuit when false.
+   */
+  shipment_created: {
+    shipmentId: number;
+    orderId: number;
+    notifyCustomer: boolean;
+  };
+
+  /**
+   * Fired when a shipment transitions to a status whose phase is `delivered`.
+   * Cross-checked against the registry's `phase` field. Always fires;
+   * customer notification gating belongs in the subscriber.
+   */
+  shipment_delivered: {
+    shipmentId: number;
+    orderId: number;
+  };
+
+  /**
+   * Fired on every shipment status write by `updateShipmentStatus`. Carries
+   * both the previous (`from`) and new (`to`) status codes plus the
+   * resolved `phase` of the new state.
+   */
+  shipment_status_changed: {
+    shipmentId: number;
+    orderId: number;
+    from: string;
+    to: string;
+    phase: 'pending' | 'shipped' | 'delivered' | 'canceled';
+  };
+
+  /**
+   * Fired when a carrier integration successfully purchases a label for a
+   * shipment. `labelUrl` may be null when the carrier returns only a tracking
+   * number (e.g. drop-off providers).
+   */
+  shipment_label_created: {
+    shipmentId: number;
+    orderId: number;
+    labelUrl: string | null;
+    trackingNumber: string | undefined;
+  };
+
+  /**
+   * Fired when an admin voids a previously purchased label via
+   * `voidShipmentLabel`. The tracking number stays on the shipment for
+   * historical record; only the label artifacts (`label_url`, `label_format`)
+   * are cleared.
+   */
+  shipment_label_voided: {
+    shipmentId: number;
+    orderId: number;
+    trackingNumber: string;
+  };
+
+  /**
+   * Fired when a metafield definition is created.
+   * Data: the created metafield_definition (API shape).
+   */
+  metafield_definition_created: Record<string, any>;
+
+  /**
+   * Fired when a metafield definition is updated.
+   * Data: the updated metafield_definition (API shape).
+   */
+  metafield_definition_updated: Record<string, any>;
+
+  /**
+   * Fired when a metafield definition is deleted. Drives per-entity prune
+   * subscribers that strip the key from each owner table's `meta_data`.
+   */
+  metafield_definition_deleted: {
+    ownerType: string;
+    namespace: string;
+    fieldKey: string;
+  };
 }
 
 /**

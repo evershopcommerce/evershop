@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, 所有超过 ${price} 的订单可享受 ${discount} 折扣
-Please select, 请选择
-The page you requested does not exist., 您请求的页面不存在。
-Continue shopping, 继续购物
-404 Page Not Found, 404 页面未找到
-Home, 首页
-Not found, 未找到
+Discount ${discount} For All Orders Over ${price},所有超过 ${price} 的订单可享受 ${discount} 折扣
+Please select,请选择
+The page you requested does not exist.,您请求的页面不存在。
+404 Page Not Found,404 页面未找到
+Home,首页
+Not found,未找到
+Search options,搜索选项
+Show less,收起
+Sort by,排序方式
+Search products…,搜索商品…
+Order Note,订单备注
+Add a note to your order,为您的订单添加备注
+My account,我的账户
+Log out,退出登录
+Your profile has been updated,您的个人资料已更新
+Update profile API not available,个人资料更新接口不可用
+Failed to update profile,更新个人资料失败
+Something went wrong. Please refresh the page.,出现了一些问题。请刷新页面。
+${count} result for “${keyword}”,“${keyword}” 的 ${count} 个结果
+${count} results for “${keyword}”,“${keyword}” 的 ${count} 个结果

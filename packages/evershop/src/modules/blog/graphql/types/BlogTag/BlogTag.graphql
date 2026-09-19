@@ -1,0 +1,23 @@
+type BlogTag {
+  blogTagId: Int
+  uuid: String!
+  name: String!
+  urlKey: String!
+  url: String!
+  posts(filters: [FilterInput]): BlogPostCollection
+  metaTitle: String
+  metaDescription: String
+}
+
+type BlogTagCollection {
+  items: [BlogTag]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+extend type Query {
+  blogTag(id: ID): BlogTag
+  blogTags(filters: [FilterInput]): BlogTagCollection
+  currentBlogTag: BlogTag
+}

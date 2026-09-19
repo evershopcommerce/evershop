@@ -4,6 +4,13 @@ export interface Timezone {
 }
 
 export const timezones: Timezone[] = [
+  // UTC first: it's the default `shop.timezone`, so the Store Settings timezone
+  // picker must offer it as a selectable option (otherwise the field renders blank
+  // on a fresh store). Valid IANA zone, accepted by Luxon and Postgres alike.
+  {
+    code: 'UTC',
+    name: 'Coordinated Universal Time (UTC)'
+  },
   {
     code: 'Australia/Darwin',
     name: 'AUS Central Standard Time (Australia/Darwin)'

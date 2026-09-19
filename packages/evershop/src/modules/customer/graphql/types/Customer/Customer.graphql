@@ -27,6 +27,7 @@ type Customer {
   email: String!
   addresses: [CustomerAddress]
   addAddressApi: String!
+  updateProfileApi: String!
   fullName: String!
   createdAt: Date!
 }

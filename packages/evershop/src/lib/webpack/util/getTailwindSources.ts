@@ -23,5 +23,5 @@ export function getTailwindSources(): string[] {
     sources.push(path.resolve(theme.path, '**/*.{js,jsx,ts,tsx}'));
   }
 
-  return sources;
+  return sources.map((s) => s.replace(/\\/g, '/'));
 }

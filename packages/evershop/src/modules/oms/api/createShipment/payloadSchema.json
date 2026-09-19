@@ -1,12 +1,22 @@
 {
   "type": "object",
   "properties": {
-    "carrier": {
-      "type": "string"
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "order_item_id": { "type": "integer" },
+          "qty": { "type": "integer", "minimum": 1 }
+        },
+        "required": ["order_item_id", "qty"]
+      }
     },
-    "tracking_number": {
-      "type": "string"
-    }
+    "carrier": { "type": "string", "minLength": 1 },
+    "tracking_number": { "type": "string" },
+    "notifyCustomer": { "type": "boolean" }
   },
+  "required": ["items", "carrier"],
   "additionalProperties": true
 }

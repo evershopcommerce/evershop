@@ -1,32 +1,46 @@
-Login, Connexion
-Logout, Déconnexion
-Email, Email
-Password, Mot de passe
-Forgot your password?, Mot de passe oublié ?
-Create an account, Créer un compte
-Register, S'inscrire
-Full Name, Nom complet
-SIGN IN, SE CONNECTER
-Order History, Historique des commandes
-Account Details, Détails du compte
-You have not placed any orders yet, Vous n'avez pas encore passé de commande
-My Account, Mon compte
-Already have an account?, Vous avez déjà un compte ?
-Contact information, Informations de contact
-City, Ville
-Account Information, Informations du compte
-Address, Adresse
-Postcode, Code postal
-Postcode is required, Le code postal est requis
-Telephone is required, Le téléphone est requis
-Telephone, Téléphone
-Full name is required, Le nom complet est requis
-Country is required, Le pays est requis
-Country, Pays
-Province is required, La province est requise
-Province, Province
-Billing Address, Adresse de facturation
-Shipping Address, Adresse de livraison
-Create A New Account, Créer un nouveau compte
-Contact, Contact
-Customer information, Informations client
+Login,Connexion
+Logout,Déconnexion
+Email,Email
+Password,Mot de passe
+Forgot your password?,Mot de passe oublié ?
+Create an account,Créer un compte
+Register,S'inscrire
+Full Name,Nom complet
+Sign In,SE CONNECTER
+Order History,Historique des commandes
+Account Details,Détails du compte
+You have not placed any orders yet,Vous n'avez pas encore passé de commande
+My Account,Mon compte
+Already have an account?,Vous avez déjà un compte ?
+Contact information,Informations de contact
+City,Ville
+Account Information,Informations du compte
+Address,Adresse
+Postcode,Code postal
+Postcode is required,Le code postal est requis
+Telephone is required,Le téléphone est requis
+Telephone,Téléphone
+Full name is required,Le nom complet est requis
+Country is required,Le pays est requis
+Country,Pays
+Province is required,La province est requise
+Province,Province
+Billing Address,Adresse de facturation
+Shipping Address,Adresse de livraison
+Create A New Account,Créer un nouveau compte
+Contact,Contact
+Customer information,Informations client
+Address book,Carnet d'adresses
+Account information,Informations du compte
+Recent orders,Commandes récentes
+View all,Tout voir
+Sign in,Se connecter
+Welcome back — sign in to your account.,Bon retour — connectez-vous à votre compte.
+New here?,Nouveau ici ?
+Back to orders,Retour aux commandes
+Create account,Créer un compte
+You must be logged in to manage your addresses,Vous devez être connecté pour gérer vos adresses
+You must be logged in to update your profile,Vous devez être connecté pour mettre à jour votre profil
+There is nothing to update,Il n’y a rien à mettre à jour
+Email is already used,Cette adresse email est déjà utilisée
+Order #${orderNumber},Commande n° ${orderNumber}

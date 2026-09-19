@@ -1,16 +1,18 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@components/common/ui/DropdownMenu.js';
+import { toast } from '@components/common/ui/Sonner.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { LogOut } from 'lucide-react';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { toast } from 'react-toastify';
-import './AdminUser.scss';
 
-export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
-  const [showLogout, setShowLogout] = React.useState(false);
-
-  const show = (e) => {
-    e.preventDefault();
-    setShowLogout(!showLogout);
-  };
-
+export default function AdminUser({ adminUser = null, logoutUrl, loginPage }) {
   const logout = async () => {
     const response = await fetch(logoutUrl, {
       method: 'GET',
@@ -21,7 +23,7 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
     if (response.status === 200) {
       window.location.href = loginPage;
     } else {
-      toast.error('Logout failed');
+      toast.error(_('Logout failed'));
     }
   };
 
@@ -30,34 +32,45 @@ export default function AdminUser({ adminUser, logoutUrl, loginPage }) {
   }
   const { fullName } = adminUser;
   return (
-    <div className="admin-user flex flex-grow justify-end items-center">
+    <div className="admin-user flex grow justify-end items-center">
       <div className="flex justify-items-start gap-2 justify-center">
-        <div className="relative">
-          <a className="first-letter" href="#" onClick={(e) => show(e)}>
+        <DropdownMenu>
+          {/* `render` makes the trigger BE the avatar button. Nesting a
+              <button> inside the trigger (which renders its own <button>) is
+              invalid HTML — the browser reparents it on parse, so the
+              server-rendered markup and the hydrated DOM diverge and every
+              admin page logs React hydration error #418. */}
+          <DropdownMenuTrigger
+            aria-label={_('Account menu')}
+            render={
+              <button
+                type="button"
+                className="w-[2.188rem] h-[2.188rem] flex items-center justify-center rounded-full bg-primary/45 font-semibold border-2 border-primary cursor-pointer hover:bg-primary/60 transition-colors"
+              />
+            }
+          >
             {fullName[0]}
-          </a>
-          {showLogout && (
-            <div className="logout bg-background shadow p-5">
-              <div>
-                <div>
-                  Hello <span className="text-primary">{fullName}!</span>
-                </div>
-                <div className="mt-2">
-                  <a
-                    className="text-critical"
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      logout();
-                    }}
-                  >
-                    Logout
-                  </a>
-                </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-45">
+            <DropdownMenuLabel className="text-base font-normal">
+              {_('Hello')}{' '}
+              <span className="text-primary">{fullName}!</span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault();
+                logout();
+              }}
+            >
+              <div className="flex justify-start items-center gap-2">
+                <LogOut className="w-4 h-4" />
+                <span>{_('Logout')}</span>
               </div>
-            </div>
-          )}
-        </div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );
@@ -70,10 +83,6 @@ AdminUser.propTypes = {
   }),
   loginPage: PropTypes.string.isRequired,
   logoutUrl: PropTypes.string.isRequired
-};
-
-AdminUser.defaultProps = {
-  adminUser: null
 };
 
 export const layout = {

@@ -1,3 +1,4 @@
+import { TableCell } from '@components/common/ui/Table.js';
 import React from 'react';
 
 interface PageNameProps {
@@ -7,12 +8,12 @@ interface PageNameProps {
 
 export function PageName({ url, name }: PageNameProps) {
   return (
-    <td>
+    <TableCell>
       <div>
         <a className="hover:underline font-semibold" href={url}>
           {name}
         </a>
       </div>
-    </td>
+    </TableCell>
   );
 }

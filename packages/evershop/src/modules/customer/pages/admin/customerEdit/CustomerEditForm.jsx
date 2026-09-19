@@ -1,5 +1,6 @@
 import Area from '@components/common/Area';
 import React from 'react';
+import './CustomerEditForm.scss';
 
 export default function CustomerEditForm() {
   return (

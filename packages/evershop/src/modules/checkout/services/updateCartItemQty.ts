@@ -1,4 +1,4 @@
-import { hookable } from '../../../lib/util/hookable.js';
+import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
 import { Cart, Item } from './cart/Cart.js';
 
 async function updateCartItemQty(
@@ -52,3 +52,35 @@ export default async (
   );
   return updatedItem;
 };
+
+export function hookBeforeUpdateCartItemQty(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    cart: Cart,
+    uuid: string,
+    qty: string,
+    action: 'increase' | 'decrease',
+    context: Record<string, unknown>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookBefore('updateCartItemQty', callback, priority);
+}
+
+export function hookAfterUpdateCartItemQty(
+  callback: (
+    this: Record<string, unknown>,
+    ...args: [
+    cart: Cart,
+    uuid: string,
+    qty: string,
+    action: 'increase' | 'decrease',
+    context: Record<string, unknown>
+    ]
+  ) => void | Promise<void>,
+  priority: number = 10
+): void {
+  hookAfter('updateCartItemQty', callback, priority);
+}

@@ -1,541 +1,314 @@
-import Spinner from '@components/admin/Spinner.js';
-import Button from '@components/common/Button.js';
-import { CheckboxField } from '@components/common/form/CheckboxField.js';
-import { InputField } from '@components/common/form/InputField.js';
-import { Modal } from '@components/common/modal/Modal.js';
-import { useModal } from '@components/common/modal/useModal.js';
 import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors
-} from '@dnd-kit/core';
+  asArray,
+  drawerInputClass,
+  Field,
+  RepeatableAccordion,
+  Section,
+  Toggle,
+  useArraySetting,
+  useScopedFormContext
+} from '@components/common/page-builder/index.js';
 import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy
-} from '@dnd-kit/sortable';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import React, { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
-import CreatableSelect from 'react-select/creatable';
+  LinkPicker,
+  type LinkKind
+} from '@components/common/page-builder/pickers/LinkPicker.js';
+import { useWidgetSettings } from '@components/common/page-builder/WidgetContext.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { CatalogUrn, CmsUrn, UrnService } from '@evershop/evershop/lib/urn';
+import React from 'react';
 import uniqid from 'uniqid';
-import { useQuery } from 'urql';
-import { Card } from '../../../components/admin/Card.js';
-import './BasicMenuSetting.scss';
 
-const menuQuery = `
-  query Query ($filters: [FilterInput]) {
-    categories (filters: $filters) {
-      items {
-        value: uuid,
-        label: name
-        path {
-          name
-        }
-      }
-    }
-    cmsPages (filters: $filters) {
-      items {
-        value: uuid,
-        label: name
-      }
-    }
-  }
-`;
-
+/**
+ * One menu entry. `type`/`uuid` are legacy fields kept for backward compat:
+ * items saved before the LinkPicker switch only carry `{ type, uuid }` (no
+ * URN in `url`), and the resolver still synthesizes a URN from them. New
+ * picks keep both in sync. `newTab`/`nofollow`/`noReferrer` are the optional
+ * link attributes (absent on legacy items → treated as false).
+ */
 interface MenuItem {
   id: string;
   name: string;
   url: string;
   type: string;
   uuid: string;
+  newTab?: boolean;
+  nofollow?: boolean;
+  noReferrer?: boolean;
   children: MenuItem[];
 }
 
-interface SortableMenuItemProps {
-  item: MenuItem;
-  updateItem: (item: MenuItem) => void;
-  deleteItem: (item: MenuItem) => void;
-  isChild?: boolean;
+// Legacy → LinkPicker value: a stored URN / custom URL, or a URN synthesized
+// from the legacy `{ type, uuid }` shape so the picker re-opens on the right
+// tab with the entity already selected.
+function toLinkValue(item: MenuItem): string {
+  if (item.url && UrnService.isValid(item.url)) return item.url;
+  if (item.type === 'category' && item.uuid) return CatalogUrn.category(item.uuid);
+  if (item.type === 'page' && item.uuid) return CmsUrn.page(item.uuid);
+  if (item.type === 'product' && item.uuid) return CatalogUrn.product(item.uuid);
+  return item.url || '';
 }
 
-const SortableMenuItem: React.FC<SortableMenuItemProps> = ({
+function initialKindOf(item: MenuItem): LinkKind {
+  return item.type === 'category' ||
+    item.type === 'page' ||
+    item.type === 'product'
+    ? (item.type as LinkKind)
+    : 'custom';
+}
+
+// Patch produced when a link is (re)picked. Keeps `type`/`uuid` aligned with
+// the URN (legacy-reader + resolver fallback compat) and seeds the display
+// name from the entity only when the merchant hasn't typed one.
+function linkPatch(
+  next: { url: string; kind: LinkKind; label?: string },
+  prevName: string
+): Partial<MenuItem> {
+  return {
+    url: next.url,
+    type: next.kind,
+    uuid: UrnService.isValid(next.url)
+      ? UrnService.parse(next.url).uuid
+      : next.url,
+    name: prevName && prevName.trim() ? prevName : next.label ?? prevName
+  };
+}
+
+function makeBlankItem(): MenuItem {
+  return {
+    id: uniqid(),
+    name: 'New item',
+    url: '/',
+    type: 'custom',
+    uuid: '',
+    newTab: false,
+    nofollow: false,
+    noReferrer: false,
+    children: []
+  };
+}
+
+/**
+ * Shared body for an item / sub-item row: name + link picker + the three
+ * link-attribute toggles. `onPatch` merges a partial back into the right
+ * place (top-level item or child).
+ */
+function LinkFields({
   item,
-  updateItem,
-  deleteItem,
-  isChild = false
-}) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging
-  } = useSortable({ id: item.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1
-  };
-
-  const modal = useModal();
-  const [itemInEdit, setItemInEdit] = React.useState(item);
-
-  const addChildren = (i) => {
-    updateItem({
-      ...item,
-      children: [...item.children, i]
-    });
-  };
-
-  const updateItemFunc = (i) => {
-    if (i.id === item.id) {
-      updateItem(i);
-    } else {
-      addChildren(i);
-    }
-    modal.close();
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="flex justify-between py-2 px-2 bg-white border rounded mb-2"
-    >
-      <div className="flex justify-start gap-3 items-center">
-        <button
-          type="button"
-          className="cursor-move p-1"
-          {...attributes}
-          {...listeners}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="#949494"
-            width={20}
-            height={20}
-          >
-            <g>
-              <path fill="none" d="M0 0h24v24H0z" />
-              <path
-                fillRule="nonzero"
-                d="M14 6h2v2h5a1 1 0 0 1 1 1v7.5L16 13l.036 8.062 2.223-2.15L20.041 22H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zm8 11.338V21a1 1 0 0 1-.048.307l-1.96-3.394L22 17.338zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z"
-              />
-            </g>
-          </svg>
-        </button>
-        <div>{item.name}</div>
-      </div>
-      <div className="flex justify-end gap-3 items-center">
-        <button
-          type="button"
-          className="text-interactive"
-          onClick={() => {
-            setItemInEdit(item);
-            modal.open();
-          }}
-        >
-          Edit
-        </button>
-        {!isChild && (
-          <button
-            type="button"
-            className="text-interactive"
-            onClick={() => {
-              setItemInEdit({
-                id: uniqid(),
-                name: '',
-                url: '',
-                type: 'category',
-                uuid: '',
-                children: []
-              });
-              modal.open();
-            }}
-          >
-            Add child
-          </button>
-        )}
-        <button
-          type="button"
-          className="text-critical"
-          onClick={() => deleteItem(item)}
-        >
-          Delete
-        </button>
-      </div>
-      <Modal
-        title={`Edit Menu Item: ${itemInEdit.name}`}
-        onClose={modal.close}
-        isOpen={modal.isOpen}
-      >
-        <MenuSettingPopup item={itemInEdit} updateItem={updateItemFunc} />
-      </Modal>
-    </div>
-  );
-};
-
-const MenuSettingPopup: React.FC<{
+  onPatch
+}: {
   item: MenuItem;
-  updateItem: (item: MenuItem) => void;
-}> = ({ item, updateItem }) => {
-  const [currentItem, setCurrentItem] = React.useState(item);
-  const [err, setErr] = React.useState<string | null>(null);
-
-  const [result] = useQuery({
-    query: menuQuery,
-    variables: {
-      filters: []
-    }
-  });
-  const { data, fetching, error } = result;
-
-  if (fetching) {
-    return (
-      <div className="flex justify-center items-center">
-        <Spinner width={30} height={30} />
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <div className="flex justify-center items-center">
-        <p className="text-critical">{error.message}</p>
-      </div>
-    );
-  }
-
-  const groupOptions = [
-    {
-      label: 'Categories',
-      options: data.categories.items.map((i) => ({
-        ...i,
-        label: i.path.map((p) => p.name).join(' > ')
-      }))
-    },
-    {
-      label: 'CMS Pages',
-      options: data.cmsPages.items
-    },
-    {
-      label: 'Custom',
-      options:
-        currentItem.type === 'custom'
-          ? [
-              {
-                value: currentItem.uuid,
-                label: currentItem.uuid
-              }
-            ]
-          : []
-    }
-  ];
-
-  const handleCreate = (inputValue) => {
-    setCurrentItem({
-      ...item,
-      uuid: inputValue,
-      name: inputValue,
-      url: inputValue,
-      type: 'custom'
-    });
-  };
-
+  onPatch: (patch: Partial<MenuItem>) => void;
+}) {
   return (
-    <Card title="Menu item">
-      <Card.Session>
-        <div className="grid grid-flow-row gap-5">
-          <div>
-            <label htmlFor="menuName" className="block mb-2 font-medium">
-              Name
-            </label>
-            <input
-              id="menuName"
-              type="text"
-              value={currentItem.name}
-              onChange={(e) =>
-                setCurrentItem({
-                  ...currentItem,
-                  name: e.target.value
-                })
-              }
-              className="w-full border border-gray-300 rounded-md p-2"
-            />
-          </div>
-          <div>
-            <CreatableSelect
-              isClearable
-              onChange={(newValue: {
-                value: string;
-                label: string;
-                __typename?: string;
-              }) => {
-                setCurrentItem({
-                  ...currentItem,
-                  uuid: newValue?.value || '',
-                  name: newValue?.label || '',
-                  type:
-                    newValue?.__typename === 'Category' ? 'category' : 'page'
-                });
-              }}
-              onCreateOption={handleCreate}
-              options={groupOptions}
-              value={{
-                value: currentItem.uuid,
-                label:
-                  currentItem.type === 'custom'
-                    ? currentItem.uuid
-                    : [
-                        ...groupOptions[0].options,
-                        ...groupOptions[1].options
-                      ].find((option) => option.value === currentItem.uuid)
-                        ?.label || ''
-              }}
-            />
-          </div>
-          {err && <div className="text-critical">{err}</div>}
-          <div className="flex justify-end">
-            <Button
-              title="Save"
-              onAction={() => {
-                if (currentItem.uuid === '') {
-                  setErr('Please select a menu item');
-                  return;
-                }
-                if (currentItem.name === '') {
-                  setErr('Please enter a name');
-                  return;
-                }
-                updateItem(currentItem);
-              }}
-            />
-          </div>
-        </div>
-      </Card.Session>
-    </Card>
+    <>
+      <Field label={_('Display name')}>
+        <input
+          type="text"
+          value={item.name || ''}
+          onChange={(e) => onPatch({ name: e.target.value })}
+          placeholder={_('Shop')}
+          className={drawerInputClass}
+        />
+      </Field>
+      <Field label={_('Target')} hint={_('Page, category, product, or a custom URL.')}>
+        <LinkPicker
+          value={toLinkValue(item)}
+          initialKind={initialKindOf(item)}
+          onChange={(next) => onPatch(linkPatch(next, item.name))}
+        />
+      </Field>
+      <Toggle
+        label={_('Open in new tab')}
+        checked={!!item.newTab}
+        onChange={(v) => onPatch({ newTab: v })}
+      />
+      <Toggle
+        label={_('Nofollow')}
+        description={_(
+          "SEO: don't pass ranking credit to this link (rel=nofollow)."
+        )}
+        checked={!!item.nofollow}
+        onChange={(v) => onPatch({ nofollow: v })}
+      />
+      <Toggle
+        label={_('No referrer')}
+        description={_(
+          'Privacy: drop the referring URL (rel=noreferrer). New-tab links always include this.'
+        )}
+        checked={!!item.noReferrer}
+        onChange={(v) => onPatch({ noReferrer: v })}
+      />
+    </>
   );
-};
+}
 
 interface BasicMenuSettingProps {
-  basicMenuWidget: {
-    menus: MenuItem[];
-    isMain: boolean;
-    className: string;
+  // Optional: the page-builder drawer mounts this without GraphQL props.
+  basicMenuWidget?: {
+    menus?: MenuItem[];
+    isMain?: boolean;
+    className?: string;
   };
 }
 
 export default function BasicMenuSetting({
-  basicMenuWidget: { menus, isMain, className }
+  basicMenuWidget
 }: BasicMenuSettingProps) {
-  const { register, setValue } = useFormContext();
-  const [items, setItems] = React.useState(menus);
-  const modal = useModal();
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates
-    })
+  const { register, setValue, watch, getValues } = useScopedFormContext();
+  // WidgetContext is the reliable settings source in the page-builder drawer
+  // (no per-widget GraphQL query is merged there); the GraphQL prop is the
+  // standalone widgetEdit page's source. Either way we coerce to an array —
+  // the legacy editor seeds list settings as a JSON string.
+  const widgetSettings = useWidgetSettings();
+  const initialMenus = asArray<MenuItem>(
+    basicMenuWidget?.menus ?? (widgetSettings.menus as MenuItem[] | undefined),
+    []
   );
+  const initialIsMain =
+    basicMenuWidget?.isMain ?? Boolean(widgetSettings.isMain ?? false);
+  const initialClassName =
+    basicMenuWidget?.className ??
+    ((widgetSettings.className as string | undefined) ?? '');
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
+  const menus = useArraySetting<MenuItem>('settings.menus', initialMenus);
+  const isMainV = Boolean(watch('settings.isMain') ?? initialIsMain);
 
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
+  // Mutators read live form state via getValues so back-to-back edits don't
+  // clobber one another (same pattern as the footer-menu widget).
+  const readMenus = (): MenuItem[] =>
+    asArray<MenuItem>(getValues('settings.menus'), initialMenus);
+
+  const setMenus = (next: MenuItem[]) =>
+    setValue('settings.menus', next, { shouldDirty: true });
+
+  const updateItem = (i: number, patch: Partial<MenuItem>) =>
+    setMenus(readMenus().map((m, idx) => (idx === i ? { ...m, ...patch } : m)));
+  const moveItem = (from: number, to: number) => {
+    const cur = readMenus();
+    if (to < 0 || to >= cur.length) return;
+    const next = cur.slice();
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    setMenus(next);
   };
+  const removeItem = (i: number) =>
+    setMenus(readMenus().filter((_, idx) => idx !== i));
+  const addItem = () => setMenus([...readMenus(), makeBlankItem()]);
 
-  const handleChildDragEnd = (event, parentId) => {
-    const { active, over } = event;
-    if (active.id !== over.id) {
-      setItems((items) => {
-        return items.map((item) => {
-          if (item.id === parentId) {
-            const oldIndex = item.children.findIndex(
-              (child) => child.id === active.id
-            );
-            const newIndex = item.children.findIndex(
-              (child) => child.id === over.id
-            );
+  const childrenOf = (item: MenuItem): MenuItem[] => asArray(item.children, []);
 
-            return {
-              ...item,
-              children: arrayMove(item.children, oldIndex, newIndex)
-            };
-          }
-          return item;
-        });
-      });
-    }
-  };
-
-  const updateItem = (item) => {
-    setItems((prevItems) => {
-      const newItems = prevItems.map((prevItem) => {
-        if (prevItem.id === item.id) {
-          return item;
-        } else if (prevItem.children.length > 0) {
-          return {
-            ...prevItem,
-            children: prevItem.children.map((child) => {
-              if (child.id === item.id) {
-                return item;
-              }
-              return child;
-            })
-          };
-        }
-        return prevItem;
-      });
-      return newItems;
+  const updateChild = (i: number, ci: number, patch: Partial<MenuItem>) => {
+    const item = readMenus()[i];
+    if (!item) return;
+    updateItem(i, {
+      children: childrenOf(item).map((c, idx) =>
+        idx === ci ? { ...c, ...patch } : c
+      )
     });
   };
-
-  const deleteItem = (item) => {
-    setItems((prevItems) => {
-      const newItems = prevItems.filter((prevItem) => {
-        if (prevItem.id === item.id) {
-          return false;
-        } else if (prevItem.children.length > 0) {
-          prevItem.children = prevItem.children.filter(
-            (child) => child.id !== item.id
-          );
-        }
-        return true;
-      });
-      return newItems;
+  const moveChild = (i: number, from: number, to: number) => {
+    const item = readMenus()[i];
+    if (!item) return;
+    const kids = childrenOf(item);
+    if (to < 0 || to >= kids.length) return;
+    const next = kids.slice();
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    updateItem(i, { children: next });
+  };
+  const removeChild = (i: number, ci: number) => {
+    const item = readMenus()[i];
+    if (!item) return;
+    updateItem(i, {
+      children: childrenOf(item).filter((_, idx) => idx !== ci)
     });
   };
-
-  useEffect(() => {
-    setValue('settings.menus', items);
-  }, [items]);
+  const addChild = (i: number) => {
+    const item = readMenus()[i];
+    if (!item) return;
+    updateItem(i, { children: [...childrenOf(item), makeBlankItem()] });
+  };
 
   return (
-    <>
-      <Card.Session title="Menu Items">
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext
-            items={items.map((item) => item.id)}
-            strategy={verticalListSortingStrategy}
-          >
-            <div className="space-y-2">
-              {items.map((menu) => (
-                <div key={menu.id}>
-                  <SortableMenuItem
-                    item={menu}
-                    updateItem={updateItem}
-                    deleteItem={deleteItem}
-                  />
-                  {menu.children && menu.children.length > 0 && (
-                    <div className="ml-5 mt-2">
-                      <DndContext
-                        sensors={sensors}
-                        collisionDetection={closestCenter}
-                        onDragEnd={(event) =>
-                          handleChildDragEnd(event, menu.id)
-                        }
-                      >
-                        <SortableContext
-                          items={menu.children.map((child) => child.id)}
-                          strategy={verticalListSortingStrategy}
-                        >
-                          <div className="space-y-1">
-                            {menu.children.map((child) => (
-                              <SortableMenuItem
-                                key={child.id}
-                                item={child}
-                                updateItem={updateItem}
-                                deleteItem={deleteItem}
-                                isChild={true}
-                              />
-                            ))}
-                          </div>
-                        </SortableContext>
-                      </DndContext>
-                    </div>
+    <div className="space-y-3">
+      <Section title={_('Menu items')}>
+        <RepeatableAccordion<MenuItem>
+          items={menus}
+          onAdd={addItem}
+          onRemove={removeItem}
+          onMove={moveItem}
+          addLabel={_('Add menu item')}
+          minItems={0}
+          initiallyOpenFirst
+          renderHeader={({ item }) =>
+            `${item.name || _('Untitled')}${
+              childrenOf(item).length > 0
+                ? ` · ${childrenOf(item).length} sub`
+                : ''
+            }`
+          }
+          renderItem={({ item, index }) => (
+            <>
+              <LinkFields
+                item={item}
+                onPatch={(patch) => updateItem(index, patch)}
+              />
+              <Field
+                label={_('Sub-items')}
+                hint={_('Optional dropdown links (1 level).')}
+              >
+                <RepeatableAccordion<MenuItem>
+                  items={childrenOf(item)}
+                  onAdd={() => addChild(index)}
+                  onRemove={(ci) => removeChild(index, ci)}
+                  onMove={(f, t) => moveChild(index, f, t)}
+                  addLabel={_('Add sub-item')}
+                  minItems={0}
+                  renderHeader={({ item: child }) => child.name || _('Untitled')}
+                  renderItem={({ item: child, index: ci }) => (
+                    <LinkFields
+                      item={child}
+                      onPatch={(patch) => updateChild(index, ci, patch)}
+                    />
                   )}
-                </div>
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
-
-        <input
-          type="hidden"
-          {...register('settings.menus')}
-          value={JSON.stringify(items)}
+                />
+              </Field>
+            </>
+          )}
         />
+      </Section>
 
-        <div className="mt-3">
-          <button
-            type="button"
-            className="text-interactive"
-            onClick={() => modal.open()}
-          >
-            Add menu item
-          </button>
-        </div>
-
-        <Modal
-          title="Create New Menu Item"
-          onClose={modal.close}
-          isOpen={modal.isOpen}
+      <Section title={_('Options')}>
+        <Toggle
+          label={_('Use as main menu')}
+          description={_(
+            'Primary navigation — on mobile it collapses into a hamburger menu. Turn off for a simple link list (e.g. a footer), which stays inline on mobile.'
+          )}
+          checked={isMainV}
+          onChange={(v) => setValue('settings.isMain', v, { shouldDirty: true })}
+        />
+        <Field
+          label={_('Custom CSS classes')}
+          hint={_('Applied to the rendered menu element.')}
         >
-          <MenuSettingPopup
-            item={{
-              id: uniqid(),
-              name: '',
-              url: '',
-              type: 'category',
-              uuid: '',
-              children: []
-            }}
-            updateItem={(item) => {
-              setItems((prevItems) => [...prevItems, item]);
-              modal.close();
-            }}
+          <input
+            type="text"
+            {...register('settings.className')}
+            defaultValue={initialClassName}
+            placeholder={_('e.g. main-nav font-semibold')}
+            className={drawerInputClass}
           />
-        </Modal>
-      </Card.Session>
-      <Card.Session title="Setting">
-        <div className="space-y-2">
-          <div>
-            <CheckboxField
-              label="Is Main Menu?"
-              name="settings.isMain"
-              defaultValue={isMain}
-            />
-          </div>
-          <div>
-            <InputField
-              label="Custom CSS classes"
-              name="settings.className"
-              defaultValue={className}
-              helperText="Custom CSS classes for the menu"
-            />
-          </div>
-        </div>
-      </Card.Session>
-    </>
+        </Field>
+      </Section>
+
+      {/* Keeps the standalone widgetEdit form (no drawer auto-save) submitting
+          the latest menus on Save. */}
+      <input
+        type="hidden"
+        {...register('settings.menus')}
+        defaultValue={JSON.stringify(initialMenus)}
+      />
+    </div>
   );
 }
 
@@ -548,12 +321,18 @@ export const query = `
         url
         type
         uuid
+        newTab
+        nofollow
+        noReferrer
         children {
           id
           name
           url
           type
           uuid
+          newTab
+          nofollow
+          noReferrer
         }
       }
       isMain

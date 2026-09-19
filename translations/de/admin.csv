@@ -1,0 +1,323 @@
+"Blog category","Blog-Kategorie"
+"Blog post","Blogbeitrag"
+"Blog tag","Blog-Tag"
+"Build in page builder","Im Page Builder erstellen"
+"Change edit scope","Bearbeitungsbereich ändern"
+"Control when this landing page is published. Leave empty for no limit.","Legen Sie fest, wann diese Landingpage veröffentlicht wird. Leer lassen für keine Begrenzung."
+"Create a new landing page","Neue Landingpage erstellen"
+"Current link: ${url}","Aktueller Link: ${url}"
+"Delete ${count} landing pages","${count} Landingpages löschen"
+"Disable ${count} landing pages","${count} Landingpages deaktivieren"
+"Editing","Bearbeitung"
+"Enable ${count} landing pages","${count} Landingpages aktivieren"
+"Enable this landing page to make it visible on the storefront.","Aktivieren Sie diese Landingpage, um sie im Storefront sichtbar zu machen."
+"Enter landing page name","Landingpage-Namen eingeben"
+"Landing Pages","Landingpages"
+"Landing page","Landingpage"
+"Landing page created successfully!","Landingpage erfolgreich erstellt!"
+"Loading pages…","Seiten werden geladen…"
+"New Landing Page","Neue Landingpage"
+"No ${kind}s match ""${query}"".","Keine ${kind}s entsprechen ""${query}""."
+"No ${kind}s yet.","Noch keine ${kind}s."
+"No categories match ""${query}"".","Keine Kategorien entsprechen ""${query}""."
+"No categories yet.","Noch keine Kategorien."
+"No collections match ""${query}"".","Keine Kollektionen entsprechen ""${query}""."
+"No collections yet.","Noch keine Kollektionen."
+"No landing pages match ""${query}"".","Keine Landingpages entsprechen ""${query}""."
+"No landing pages yet.","Noch keine Landingpages."
+"No pages found.","Keine Seiten gefunden."
+"No pages match ""${query}"".","Keine Seiten entsprechen ""${query}""."
+"No pages yet.","Noch keine Seiten."
+"No products match ""${query}"".","Keine Produkte entsprechen ""${query}""."
+"No products yet.","Noch keine Produkte."
+Paste a URL or a relative path starting with ,"Fügen Sie eine URL oder einen relativen Pfad ein, beginnend mit "
+"Pick a CMS page to link to.","Wählen Sie eine CMS-Seite zum Verlinken aus."
+"Pick a blog ${kind} to link to.","Blog-${kind} zum Verlinken auswählen."
+"Pick a category to link to.","Wählen Sie eine Kategorie zum Verlinken aus."
+"Pick a collection.","Wählen Sie eine Kollektion aus."
+"Pick a landing page to link to.","Wählen Sie eine Landingpage zum Verlinken aus."
+"Pick a product to link to.","Wählen Sie ein Produkt zum Verlinken aus."
+"Provide the SEO details for the landing page.","Geben Sie die SEO-Details für die Landingpage an."
+"Provide the basic information for the landing page.","Geben Sie die grundlegenden Informationen für die Landingpage an."
+"Publish end","Veröffentlichungsende"
+"Publish start","Veröffentlichungsbeginn"
+"Schedule","Zeitplan"
+"The internal name of the landing page shown in the admin panel.","Der interne Name der Landingpage, der im Admin-Panel angezeigt wird."
+"There is no landing page to display","Es gibt keine Landingpage zum Anzeigen"
+"This is the URL path for the landing page.","Dies ist der URL-Pfad für die Landingpage."
+"This page","Diese Seite"
+"Duplicating ${name}","${name} duplizieren"
+"The duplicate is created from the last saved version of this product. Your unsaved edits will not be included and will be lost when you leave this page.","Das Duplikat wird aus der zuletzt gespeicherten Version dieses Produkts erstellt. Ihre ungespeicherten Änderungen werden nicht übernommen und gehen beim Verlassen dieser Seite verloren."
+"Continue without saving","Ohne Speichern fortfahren"
+"You are creating a copy of ${name}","Sie erstellen eine Kopie von ${name}"
+"The copy is created as a standalone product — it does not join the source's variant group. Add it from the copy's edit page if needed.","Die Kopie wird als eigenständiges Produkt angelegt — sie tritt der Variantengruppe des Originals nicht bei. Bei Bedarf auf der Bearbeitungsseite der Kopie hinzufügen."
+"Nothing is duplicated yet — hit Save to complete the duplication. Leaving this page without saving discards the copy.","Es wurde noch nichts dupliziert — klicken Sie auf Speichern, um die Duplizierung abzuschließen. Wenn Sie diese Seite ohne Speichern verlassen, wird die Kopie verworfen."
+"Replace homepage with this page","Startseite durch diese Seite ersetzen"
+"The homepage will show the widgets of ""${name}"".","Die Startseite zeigt dann die Widgets von ""${name}""."
+"Checking the homepage…","Startseite wird geprüft…"
+"Something changed since the preview. Please review again.","Seit der Vorschau hat sich etwas geändert. Bitte erneut prüfen."
+"These rollout plans change the homepage. Cancel them or wait until they end, then try again.","Diese Rollout-Pläne ändern die Startseite. Brechen Sie sie ab oder warten Sie, bis sie enden, und versuchen Sie es erneut."
+"The homepage has page-specific widget placements. Remove them in the page builder first.","Die Startseite hat seitenspezifische Widget-Platzierungen. Entfernen Sie diese zuerst im Page Builder."
+"active","aktiv"
+"upcoming","bevorstehend"
+"The current homepage widgets will be moved to a new disabled landing page named ""${name}"". You can restore it later with this same action.","Die aktuellen Widgets der Startseite werden in eine neue, deaktivierte Landingpage namens ""${name}"" verschoben. Sie können sie später mit derselben Aktion wiederherstellen."
+"${count} unpublished homepage change(s) by you will be discarded.","${count} unveröffentlichte Startseiten-Änderung(en) von Ihnen werden verworfen."
+"${count} unpublished homepage change(s) by ${admins} other admin(s) will be discarded.","${count} unveröffentlichte Startseiten-Änderung(en) von ${admins} anderen Admin(s) werden verworfen."
+"${count} change(s) left over from cancelled rollout plans will be discarded.","${count} Änderung(en) aus abgebrochenen Rollout-Plänen werden verworfen."
+"${count} ended rollout plan(s) that changed the homepage will be cancelled so they cannot be re-scheduled.","${count} beendete(r) Rollout-Plan/Pläne, die die Startseite geändert haben, werden abgebrochen, damit sie nicht erneut geplant werden können."
+"This landing page is not live (unpublished, scheduled, or expired). The homepage does not use its schedule; the copy goes live as soon as you confirm.","Diese Landingpage ist nicht live (unveröffentlicht, geplant oder abgelaufen). Die Startseite verwendet ihren Zeitplan nicht; die Kopie ist sofort nach der Bestätigung live."
+"This landing page has ${count} unpublished change(s) in the page builder. Only published content is copied. Publish it first if the editor canvas is what you want.","Diese Landingpage hat ${count} unveröffentlichte Änderung(en) im Page Builder. Nur veröffentlichte Inhalte werden kopiert. Veröffentlichen Sie sie zuerst, wenn Sie den Editor-Stand möchten."
+"A rollout plan is changing this landing page. Only its published content is copied.","Ein Rollout-Plan ändert diese Landingpage. Nur ihre veröffentlichten Inhalte werden kopiert."
+"${count} widget(s) shown on every landing page are not part of this page and will not be copied.","${count} Widget(s), die auf jeder Landingpage angezeigt werden, gehören nicht zu dieser Seite und werden nicht kopiert."
+"${count} hidden widget(s) in this page's ""content"" area will not be copied.","${count} verborgene(s) Widget(s) im Bereich ""content"" dieser Seite werden nicht kopiert."
+"${count} link(s) in this page point at the page itself. They will still point there from the homepage.","${count} Link(s) auf dieser Seite verweisen auf die Seite selbst. Von der Startseite aus verweisen sie weiterhin dorthin."
+"This landing page has no visible widgets in the current theme. The homepage will be empty.","Diese Landingpage hat im aktuellen Theme keine sichtbaren Widgets. Die Startseite wird leer sein."
+"${count} site-wide widget(s) sit in the homepage content area and will appear mixed into the copied layout.","${count} seitenweite(s) Widget(s) liegen im Inhaltsbereich der Startseite und erscheinen vermischt mit dem kopierten Layout."
+"Done. ""${name}"" is still published at its own URL. You now have ${count} homepage backup(s).","Fertig. ""${name}"" bleibt unter der eigenen URL veröffentlicht. Sie haben jetzt ${count} Startseiten-Backup(s)."
+"View backup","Backup ansehen"
+"Open homepage in page builder","Startseite im Page Builder öffnen"
+Close,Schließen
+Cancel,Abbrechen
+"Replace homepage","Startseite ersetzen"
+"Could not check the homepage.","Die Startseite konnte nicht geprüft werden."
+"The homepage could not be replaced.","Die Startseite konnte nicht ersetzt werden."
+"Include unpublished pages","Unveröffentlichte Seiten einbeziehen"
+"This widget is also placed on ${count} specific page(s), managed in the page builder. Those placements are not listed here and are not changed when you save.","Dieses Widget ist außerdem auf ${count} bestimmten Seite(n) platziert, die im Page Builder verwaltet werden. Diese Platzierungen werden hier nicht angezeigt und beim Speichern nicht verändert."
+Blog Home,Blog-Startseite
+All posts,Alle Beiträge
+"Only http(s), mailto, tel or relative links are allowed — this link will be ignored on the storefront.","Nur http(s)-, mailto-, tel- oder relative Links sind erlaubt — dieser Link wird im Shop ignoriert."
+Link target,Linkziel
+"Where the ""View all"" link goes — a category, page, or custom URL. Collections have no page of their own, so leave this empty to hide the link.","Wohin der „Alle anzeigen“-Link führt — eine Kategorie, Seite oder eigene URL. Kollektionen haben keine eigene Seite; lassen Sie das Feld leer, um den Link auszublenden."
+"Optional. Defaults to ""View all N →"".",Optional. Standard ist „Alle anzeigen N →“.
+Whole country,Gesamtes Land
+${count} selected,${count} ausgewählt
+Select provinces,Provinzen auswählen
+Used below 640 px. Falls back to the main image.,Wird unter 640 px verwendet. Fällt auf das Hauptbild zurück.
+mobile,mobil
+Webhook ID,Webhook-ID
+"The ID of a webhook created in the PayPal developer dashboard, pointing at /api/paypal/webhook. Enables server-side payment confirmation.","Die ID eines im PayPal-Entwickler-Dashboard erstellten Webhooks, der auf /api/paypal/webhook zeigt. Ermöglicht die serverseitige Zahlungsbestätigung."
+System Setting,Systemeinstellungen
+File storage and service credentials,Dateispeicher und Dienst-Zugangsdaten
+Pricing & Tax,Preise & Steuern
+"Price rounding, tax calculation, classes & rates","Preisrundung, Steuerberechnung, Klassen & Sätze"
+Social sharing preview,Vorschau für soziale Netzwerke
+Account menu,Kontomenü
+Grid columns.,Rasterspalten.
+Product listing and image settings,Einstellungen für Produktlisten und Bilder
+Edit variant,Variante bearbeiten
+Sold,Verkauft
+Not collected (zero-total order),Nicht erfasst (Bestellung mit Gesamtwert 0)
+All landing pages,Alle Landingpages
+System setting saved,Systemeinstellung gespeichert
+All ${attribute},Alle ${attribute}
+${count} of ${total},${count} von ${total}
+No variants match the selected options.,Keine Varianten entsprechen den gewählten Optionen.
+This product has no other variants yet.,Dieses Produkt hat noch keine weiteren Varianten.
+Optional. Shown under the row heading.,Optional. Wird unter der Zeilenüberschrift angezeigt.
+A short description for this row,Eine kurze Beschreibung für diese Zeile
+Product count,Produktanzahl
+Total products to show per collection.,Gesamtzahl der pro Kollektion angezeigten Produkte.
+Shown above the products. The shelf renders nothing at all when no products qualify.,"Wird über den Produkten angezeigt. Das Regal wird gar nicht dargestellt, wenn keine Produkte infrage kommen."
+e.g. You may also like,z. B. Das könnte Ihnen auch gefallen
+Products to show,Anzuzeigende Produkte
+Between 1 and 12 — 3 to 5 works best.,Zwischen 1 und 12 — 3 bis 5 funktionieren am besten.
+Product count is required,Produktanzahl ist erforderlich
+Nearest,Kaufmännisch
+Round up,Aufrunden
+Round down,Abrunden
+Line item,Position
+Per unit,Pro Einheit
+Price rounding,Preisrundung
+How every monetary amount is rounded across the store.,Wie jeder Geldbetrag im gesamten Shop gerundet wird.
+Pricing settings have been saved successfully!,Preiseinstellungen wurden erfolgreich gespeichert!
+Rounding mode,Rundungsmodus
+The direction used when rounding prices to the decimal precision.,"Die Richtung, in der Preise auf die Dezimalgenauigkeit gerundet werden."
+Decimal precision,Dezimalstellen
+Number of decimal places prices are rounded to.,"Anzahl der Nachkommastellen, auf die Preise gerundet werden."
+Tax rounding mode,Steuerrundungsmodus
+The direction used when rounding the calculated tax amount.,"Die Richtung, in der der berechnete Steuerbetrag gerundet wird."
+Tax decimal precision,Dezimalstellen für Steuern
+Number of decimal places the tax amount is rounded to.,"Anzahl der Nachkommastellen, auf die der Steuerbetrag gerundet wird."
+Tax rounding level,Ebene der Steuerrundung
+"Where tax rounding is applied: per unit, per line, or on the order total.","Wo die Steuerrundung angewendet wird: pro Einheit, pro Position oder auf die Bestellsumme."
+Catalog prices include tax,Katalogpreise enthalten Steuern
+Enable when the product prices you enter already include tax.,"Aktivieren Sie dies, wenn die eingegebenen Produktpreise bereits Steuern enthalten."
+Catalog settings have been saved successfully!,Katalogeinstellungen wurden erfolgreich gespeichert!
+Product listing,Produktliste
+Control how products appear in storefront listings.,"Legen Sie fest, wie Produkte in den Shop-Listen erscheinen."
+Show out of stock products,Nicht vorrätige Produkte anzeigen
+"When enabled, products with no available stock stay visible on the storefront.","Wenn aktiviert, bleiben Produkte ohne verfügbaren Bestand im Shop sichtbar."
+Products per page,Produkte pro Seite
+Number of products shown per page on category and collection listings.,Anzahl der pro Seite angezeigten Produkte in Kategorie- und Kollektionslisten.
+Product images,Produktbilder
+"The size your product images are created at. This sets the reference aspect ratio and the maximum resolution used for product images across the storefront — listings, cart, checkout, and product pages. Each placement fits its width and derives the height from this ratio.","Die Größe, in der Ihre Produktbilder erzeugt werden. Sie legt das Referenz-Seitenverhältnis und die maximale Auflösung für Produktbilder im gesamten Shop fest — Listen, Warenkorb, Kasse und Produktseiten. Jede Platzierung passt sich ihrer Breite an und leitet die Höhe aus diesem Verhältnis ab."
+Original image width (px),Breite des Originalbilds (px)
+"The width of your original product images. 1920px or larger is recommended so the product-page zoom stays sharp on large, high-density screens.","Die Breite Ihrer Original-Produktbilder. 1920px oder mehr wird empfohlen, damit der Zoom auf der Produktseite auf großen, hochauflösenden Bildschirmen scharf bleibt."
+Original image height (px),Höhe des Originalbilds (px)
+The height of your original product images. Width ÷ height is the aspect ratio applied to every product image.,"Die Höhe Ihrer Original-Produktbilder. Breite ÷ Höhe ergibt das Seitenverhältnis, das auf jedes Produktbild angewendet wird."
+Related products rules,Regeln für ähnliche Produkte
+Applies to all products in this category that inherit their rules. Products with their own override are unaffected.,"Gilt für alle Produkte dieser Kategorie, die ihre Regeln erben. Produkte mit eigener Überschreibung sind nicht betroffen."
+Override the global rules for this category,Globale Regeln für diese Kategorie überschreiben
+Overridden on this category,Für diese Kategorie überschrieben
+Source: Global settings,Quelle: Globale Einstellungen
+Products in this category follow the global related-products rules. Preview what shoppers see from any product’s edit screen.,"Produkte dieser Kategorie folgen den globalen Regeln für ähnliche Produkte. Was Kunden sehen, können Sie im Bearbeitungsbildschirm jedes Produkts in der Vorschau ansehen."
+Regional & Units,Region & Einheiten
+Currency,Währung
+Default currency for new carts and price display. Existing orders keep their own currency.,Standardwährung für neue Warenkörbe und die Preisanzeige. Bestehende Bestellungen behalten ihre eigene Währung.
+Timezone,Zeitzone
+Timezone used to display dates in the store.,Zeitzone für die Anzeige von Daten im Shop.
+Weight unit,Gewichtseinheit
+Dimension unit,Maßeinheit
+Branding,Markenauftritt
+"Your logo, favicon, and the image shown when your store is shared on social media.","Ihr Logo, Favicon und das Bild, das beim Teilen Ihres Shops in sozialen Netzwerken angezeigt wird."
+Logo,Logo
+Shown in the storefront header. Use a high-resolution PNG with a transparent background — it is scaled to fit your theme automatically and served as optimized WebP.,Wird in der Shop-Kopfzeile angezeigt. Verwenden Sie ein hochauflösendes PNG mit transparentem Hintergrund — es wird automatisch an Ihr Theme angepasst und als optimiertes WebP ausgeliefert.
+Favicon,Favicon
+The small icon in browser tabs. Upload a square PNG of at least 512×512px — the 16/32px icons and the 180px Apple touch icon are generated automatically.,Das kleine Symbol in Browser-Tabs. Laden Sie ein quadratisches PNG mit mindestens 512×512px hoch — die 16/32px-Symbole und das 180px Apple-Touch-Icon werden automatisch erzeugt.
+Social sharing image,Bild für soziale Netzwerke
+"The preview shown when a page is shared on social media (Open Graph / Twitter). Recommended 1200×630px (1.91:1), PNG or JPG.","Die Vorschau, die beim Teilen einer Seite in sozialen Netzwerken angezeigt wird (Open Graph / Twitter). Empfohlen: 1200×630px (1.91:1), PNG oder JPG."
+Analytics,Analytics
+Google Analytics 4 Measurement ID,Google Analytics 4 Mess-ID
+Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,"Zu finden in Google Analytics unter Admin → Data Streams → Ihr Web-Stream. Leer lassen, um das Tracking zu deaktivieren."
+"Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Geben Sie eine gültige GA4-Mess-ID ein, z. B. G-XXXXXXXXXX"
+Allow guest checkout,Gastbestellung erlauben
+"When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Wenn aktiviert, können Kunden ohne Konto bestellen. Wenn deaktiviert, müssen sie sich zum Bestellen anmelden oder registrieren."
+Enable rule-based related products,Regelbasierte ähnliche Produkte aktivieren
+Rules fill remaining slots top-down (manual picks always come first). Reorder to change priority.,"Regeln füllen die verbleibenden Plätze von oben nach unten (manuelle Auswahlen kommen immer zuerst). Ändern Sie die Reihenfolge, um die Priorität anzupassen."
+Move rule up,Regel nach oben verschieben
+Move rule down,Regel nach unten verschieben
+Match these attributes,Diese Attribute abgleichen
+No select-type attributes exist yet.,Es existieren noch keine Auswahl-Attribute.
+Within scope,Innerhalb des Bereichs
+Same category,Gleiche Kategorie
+Same collection,Gleiche Kollektion
+"Attribute matching always combines with a scope — ""same color"" across the whole catalog would relate unrelated products.",Der Attribut-Abgleich wird immer mit einem Bereich kombiniert — „gleiche Farbe“ über den gesamten Katalog würde nicht zusammengehörende Produkte verknüpfen.
+Only show products in a similar price range,Nur Produkte in einer ähnlichen Preisspanne anzeigen
+Within ±,Innerhalb von ±
+% of the product price,% des Produktpreises
+Fill remaining slots with bestsellers,Verbleibende Plätze mit Bestsellern füllen
+Recompute failed,Neuberechnung fehlgeschlagen
+Co-purchase statistics recomputed,Statistiken zu Gemeinsamkäufen neu berechnet
+Related products,Ähnliche Produkte
+Rules for the Related-products shelf on product pages. Categories and products can override them; manual picks on a product always come first.,Regeln für das Regal „Ähnliche Produkte“ auf Produktseiten. Kategorien und Produkte können sie überschreiben; manuelle Auswahlen an einem Produkt stehen immer an erster Stelle.
+"The Upsell shelf reuses these same rules, restricted to products PRICIER than the one being viewed (with the price band percent as the upper cap when enabled) — no bestseller fill, and no upsell for products set to “Manual picks only”.","Das Upsell-Regal verwendet dieselben Regeln, beschränkt auf Produkte, die TEURER sind als das angezeigte (mit dem Preisband-Prozentsatz als Obergrenze, wenn aktiviert) — keine Auffüllung mit Bestsellern und kein Upsell für Produkte mit „Nur manuelle Auswahl“."
+Frequently bought together,Häufig zusammen gekauft
+"Co-purchase recommendations are trusted only above these thresholds. Defaults suit small stores — raising them means fewer, stronger suggestions.","Empfehlungen aus Gemeinsamkäufen gelten erst oberhalb dieser Schwellenwerte als verlässlich. Die Standardwerte eignen sich für kleine Shops — höhere Werte bedeuten weniger, aber stärkere Vorschläge."
+Min times bought together,Mindestanzahl gemeinsamer Käufe
+A pair must co-occur in at least this many orders.,Ein Produktpaar muss in mindestens so vielen Bestellungen gemeinsam vorkommen.
+Min orders of the product,Mindestanzahl Bestellungen des Produkts
+Orders of a product before its data is trusted.,"Anzahl Bestellungen eines Produkts, bevor seinen Daten vertraut wird."
+Min lift,Mindest-Lift
+Above 1 = bought together more than chance. Filters ubiquitous bestsellers.,Über 1 = häufiger gemeinsam gekauft als zufällig zu erwarten. Filtert allgegenwärtige Bestseller heraus.
+Fill empty slots with bestsellers,Leere Plätze mit Bestsellern füllen
+"Below the thresholds, the shelf shows category and store bestsellers instead of rendering nothing.","Unterhalb der Schwellenwerte zeigt das Regal Kategorie- und Shop-Bestseller an, statt nichts darzustellen."
+Co-purchase data last computed ${date} from ${total} orders (${pairs} product pairs).,Daten zu Gemeinsamkäufen zuletzt berechnet am ${date} aus ${total} Bestellungen (${pairs} Produktpaare).
+"No co-purchase data yet — it is computed nightly, or recompute now.","Noch keine Daten zu Gemeinsamkäufen — sie werden nächtlich berechnet, oder Sie berechnen jetzt neu."
+Recomputing…,Wird neu berechnet…
+Recompute now,Jetzt neu berechnen
+"Your webhook URL should be: https://yourdomain.com/api/stripe/webhook. Enable these events (or ""All events""): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded.","Ihre Webhook-URL sollte lauten: https://yourdomain.com/api/stripe/webhook. Aktivieren Sie diese Ereignisse (oder „All events“): payment_intent.succeeded, payment_intent.amount_capturable_updated, payment_intent.payment_failed, payment_intent.canceled, charge.refunded."
+Hidden — same variant group,Ausgeblendet — gleiche Variantengruppe
+Hidden — disabled or out of stock,Ausgeblendet — deaktiviert oder nicht vorrätig
+no orders yet — ranked newest first,noch keine Bestellungen — neueste zuerst sortiert
+Operation failed,Vorgang fehlgeschlagen
+Add products,Produkte hinzufügen
+No manual picks yet.,Noch keine manuellen Auswahlen.
+(product unavailable),(Produkt nicht verfügbar)
+Overridden on this product,Für dieses Produkt überschrieben
+Source: category,Quelle: Kategorie
+Could not pin the product,Produkt konnte nicht angeheftet werden
+Recommendations,Empfehlungen
+What the Related-products and Frequently-bought-together shelves show for this product. The Upsell shelf derives from the related rules (pricier matches only) — nothing to configure here.,Was die Regale „Ähnliche Produkte“ und „Häufig zusammen gekauft“ für dieses Produkt anzeigen. Das Upsell-Regal leitet sich aus den Regeln für ähnliche Produkte ab (nur teurere Treffer) — hier ist nichts einzustellen.
+Rules,Regeln
+Inherit (category or global rules),Erben (Kategorie- oder globale Regeln)
+Custom rules for this product,Eigene Regeln für dieses Produkt
+Manual picks only,Nur manuelle Auswahl
+Manual picks,Manuelle Auswahl
+"Always shown first, in this order, before any rules fill the remaining slots.","Werden immer zuerst in dieser Reihenfolge angezeigt, bevor Regeln die restlichen Plätze füllen."
+Shoppers will see,Kunden sehen
+Based on the last saved configuration.,Basierend auf der zuletzt gespeicherten Konfiguration.
+Mode changed — save to update this preview.,"Modus geändert — speichern Sie, um diese Vorschau zu aktualisieren."
+Shoppers will see no related products for this product with the current configuration.,Mit der aktuellen Konfiguration sehen Kunden für dieses Produkt keine ähnlichen Produkte.
+manual pick,manuelle Auswahl
+bestseller fallback,Bestseller-Fallback
+Mode,Modus
+Automatic (co-purchase data),Automatisch (Daten zu Gemeinsamkäufen)
+"Manual picks first, auto-fill the rest","Manuelle Auswahl zuerst, Rest automatisch auffüllen"
+Mode and manual picks apply to this variant only — configure siblings identically for group-wide behavior.,"Modus und manuelle Auswahl gelten nur für diese Variante — konfigurieren Sie Geschwistervarianten identisch, um ein gruppenweites Verhalten zu erzielen."
+Manual picks are ignored in Automatic mode — switch to “Manual first” or “Manual only” to use them.,"Im automatischen Modus werden manuelle Auswahlen ignoriert — wechseln Sie zu „Manuelle zuerst“ oder „Nur manuelle“, um sie zu verwenden."
+Computed from orders,Aus Bestellungen berechnet
+${count} orders of this product · data from ${total} orders total,${count} Bestellungen dieses Produkts · Daten aus insgesamt ${total} Bestellungen
+"No co-purchase data for this product yet — it accumulates as orders come in. With fallback enabled, the shelf shows bestsellers meanwhile (see below).",Für dieses Produkt gibt es noch keine Daten zu Gemeinsamkäufen — sie sammeln sich mit eingehenden Bestellungen an. Bei aktiviertem Fallback zeigt das Regal währenddessen Bestseller (siehe unten).
+Together,Gemeinsam
+Confidence,Konfidenz
+Lift,Lift
+(unavailable),(nicht verfügbar)
+hidden,ausgeblendet
+shown,angezeigt
+below threshold,unter dem Schwellenwert
+Pin,Anheften
+Shoppers will see (frequently bought together),Kunden sehen (häufig zusammen gekauft)
+Shoppers will see no frequently-bought-together products with the current configuration.,Mit der aktuellen Konfiguration sehen Kunden keine häufig zusammen gekauften Produkte.
+co-purchase data,Daten zu Gemeinsamkäufen
+category bestsellers (fallback),Kategorie-Bestseller (Fallback)
+store bestsellers (fallback),Shop-Bestseller (Fallback)
+Exclude this product from recommendations,Dieses Produkt von Empfehlungen ausschließen
+Never suggest this product alongside others,Dieses Produkt nie zusammen mit anderen vorschlagen
+Enter a type or remove the row,Geben Sie einen Typ ein oder entfernen Sie die Zeile
+Use type/subtype (video/mp4) or a family (video/*),Verwenden Sie Typ/Subtyp (video/mp4) oder eine Familie (video/*)
+MB,MB
+Enter a size,Geben Sie eine Größe ein
+Enter a size greater than zero,Geben Sie eine Größe größer als null ein
+Remove override,Überschreibung entfernen
+Add type override,Typ-Überschreibung hinzufügen
+Managed by configuration (config file or environment variable),Über die Konfiguration verwaltet (Konfigurationsdatei oder Umgebungsvariable)
+File Storage & Uploads,Dateispeicher & Uploads
+"Where uploaded files (product images, banners, media) are stored, which types are allowed, and how big they can be","Wo hochgeladene Dateien (Produktbilder, Banner, Medien) gespeichert werden, welche Typen erlaubt sind und wie groß sie sein dürfen"
+Local file system,Lokales Dateisystem
+Amazon S3 / S3-compatible,Amazon S3 / S3-kompatibel
+Azure Blob Storage,Azure Blob Storage
+Google Cloud Storage,Google Cloud Storage
+Bucket,Bucket
+Bucket is required,Bucket ist erforderlich
+Bucket name,Bucket-Name
+Region,Region
+Region is required,Region ist erforderlich
+For S3-compatible services use the provider value (e.g. fsn1 for Hetzner),Bei S3-kompatiblen Diensten verwenden Sie den Wert des Anbieters (z. B. fsn1 für Hetzner)
+Access key ID,Access Key ID
+"Create an access key in your storage provider console. For AWS: sign in to the AWS Console, open IAM → Users → your user → Security credentials → Create access key.",Erstellen Sie einen Access Key in der Konsole Ihres Speicheranbieters. Für AWS: Melden Sie sich an der AWS Console an und öffnen Sie IAM → Users → Ihr Benutzer → Security credentials → Create access key.
+Secret access key,Secret Access Key
+"The secret is shown only once, when the access key is created — copy it from there.","Das Secret wird nur einmal angezeigt, beim Erstellen des Access Keys — kopieren Sie es dort."
+Custom endpoint,Eigener Endpunkt
+"S3-compatible services only (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Leave empty for AWS.","Nur für S3-kompatible Dienste (Hetzner, Cloudflare R2, MinIO, DigitalOcean Spaces). Für AWS leer lassen."
+Force path-style,Path-Style erzwingen
+"Required by MinIO. Leave off for AWS, Hetzner and R2.","Von MinIO benötigt. Für AWS, Hetzner und R2 deaktiviert lassen."
+Public base URL,Öffentliche Basis-URL
+"Optional CDN (e.g. CloudFront) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable via a bucket policy. Example: https://cdn.mystore.com or https://d111abcdef8.cloudfront.net, a CloudFront distribution with this bucket as its origin. Files are served as <this URL>/<file path>, so the domain must point at the bucket root.","Optionales CDN (z. B. CloudFront), das den Bucket ausliefert — so kann der Bucket privat bleiben. Ohne CDN müssen die Objekte über eine Bucket-Policy öffentlich lesbar sein. Beispiel: https://cdn.mystore.com oder https://d111abcdef8.cloudfront.net, eine CloudFront-Distribution mit diesem Bucket als Origin. Dateien werden als <diese URL>/<Dateipfad> ausgeliefert, die Domain muss also auf das Bucket-Root zeigen."
+Connection string,Verbindungszeichenfolge
+Connection string is required,Verbindungszeichenfolge ist erforderlich
+"Copy it from the Azure portal: sign in, open your storage account, then Security + networking → Access keys → Connection string.","Kopieren Sie sie aus dem Azure-Portal: anmelden, Ihr Speicherkonto öffnen, dann Security + networking → Access keys → Connection string."
+Container,Container
+Container access,Container-Zugriff
+Private (recommended),Privat (empfohlen)
+Public read for blobs,Öffentlicher Lesezugriff für Blobs
+"Public read requires ""Allow blob anonymous access"" on the storage account — disallowed by default on new accounts. Prefer a private container with a public base URL (CDN).",Öffentlicher Lesezugriff erfordert „Allow blob anonymous access“ für das Speicherkonto — bei neuen Konten standardmäßig deaktiviert. Bevorzugen Sie einen privaten Container mit einer öffentlichen Basis-URL (CDN).
+"Optional CDN (e.g. Azure CDN / Front Door) serving the container — lets the container stay private. Files are served as <this URL>/<file path> with no container segment added, so either set the CDN origin path to /<container> (example: https://mystore.azureedge.net) or include the container here (example: https://mystore.azureedge.net/media).","Optionales CDN (z. B. Azure CDN / Front Door), das den Container ausliefert — so kann der Container privat bleiben. Dateien werden als <diese URL>/<Dateipfad> ausgeliefert, ohne zusätzliches Container-Segment. Setzen Sie daher entweder den CDN-Origin-Pfad auf /<container> (Beispiel: https://mystore.azureedge.net) oder geben Sie den Container hier mit an (Beispiel: https://mystore.azureedge.net/media)."
+Service account key,Dienstkonto-Schlüssel
+Paste the entire content of the downloaded JSON key file,Fügen Sie den gesamten Inhalt der heruntergeladenen JSON-Schlüsseldatei ein
+Create a key in the Google Cloud Console: IAM & Admin → Service Accounts → create or pick an account with the Storage Object Admin role on the bucket → Keys → Add key → JSON. Paste the whole downloaded file here.,Erstellen Sie einen Schlüssel in der Google Cloud Console: IAM & Admin → Service Accounts → ein Konto mit der Rolle Storage Object Admin für den Bucket erstellen oder auswählen → Keys → Add key → JSON. Fügen Sie die gesamte heruntergeladene Datei hier ein.
+"Don't have keys? If EverShop runs on a server that already has access to the bucket — for example an AWS IAM role, or AWS keys set up as environment variables on the server — leave both fields empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Keine Schlüssel zur Hand? Wenn EverShop auf einem Server läuft, der bereits Zugriff auf den Bucket hat — zum Beispiel über eine AWS-IAM-Rolle oder AWS-Schlüssel als Umgebungsvariablen auf dem Server — lassen Sie beide Felder leer; die Zugangsdaten des Servers werden dann automatisch verwendet. Die Verbindung wird beim Speichern geprüft, eine falsche oder fehlende Konfiguration kann also nicht gespeichert werden."
+"Don't have a key? If EverShop runs on Google Cloud (Compute Engine, GKE, Cloud Run) with a service account attached, or the GOOGLE_APPLICATION_CREDENTIALS environment variable is set on the server, leave this field empty and the server's own credentials are used automatically. The connection is tested when you save, so a wrong or missing setup cannot be saved.","Keinen Schlüssel zur Hand? Wenn EverShop auf Google Cloud läuft (Compute Engine, GKE, Cloud Run) und ein Dienstkonto zugewiesen ist, oder die Umgebungsvariable GOOGLE_APPLICATION_CREDENTIALS auf dem Server gesetzt ist, lassen Sie dieses Feld leer; die Zugangsdaten des Servers werden dann automatisch verwendet. Die Verbindung wird beim Speichern geprüft, eine falsche oder fehlende Konfiguration kann also nicht gespeichert werden."
+"Optional CDN (e.g. Cloud CDN) serving the bucket — lets the bucket stay private. Without it, objects must be publicly readable: grant ""allUsers"" the Storage Object Viewer role on the bucket (blocked when Public Access Prevention is enforced on your organization). Example: https://cdn.mystore.com, a load balancer domain with this bucket as its backend bucket.","Optionales CDN (z. B. Cloud CDN), das den Bucket ausliefert — so kann der Bucket privat bleiben. Ohne CDN müssen die Objekte öffentlich lesbar sein: Weisen Sie „allUsers“ die Rolle Storage Object Viewer für den Bucket zu (blockiert, wenn in Ihrer Organisation Public Access Prevention erzwungen wird). Beispiel: https://cdn.mystore.com, eine Load-Balancer-Domain mit diesem Bucket als Backend-Bucket."
+Local storage is not recommended for production,Lokaler Speicher wird für den Produktivbetrieb nicht empfohlen
+"Files stored on this server can be lost when it is updated, moved, or fails. For a live store, use S3 or Azure Blob Storage instead.","Dateien auf diesem Server können verloren gehen, wenn er aktualisiert, verschoben wird oder ausfällt. Verwenden Sie für einen Live-Shop stattdessen S3 oder Azure Blob Storage."
+Upload rules,Upload-Regeln
+What can be uploaded and how big it can be — applies on every storage provider.,Was hochgeladen werden darf und wie groß es sein darf — gilt für jeden Speicheranbieter.
+Allowed file types,Erlaubte Dateitypen
+Select at least one file type,Wählen Sie mindestens einen Dateityp aus
+Files with other types are rejected at upload. SVG is not offered on purpose — SVG files can contain scripts and are a security risk when served.,Dateien anderer Typen werden beim Upload abgelehnt. SVG wird bewusst nicht angeboten — SVG-Dateien können Skripte enthalten und stellen beim Ausliefern ein Sicherheitsrisiko dar.
+Also allowed via server configuration: ${types},Zusätzlich über die Serverkonfiguration erlaubt: ${types}
+Maximum file size,Maximale Dateigröße
+"Per file, in megabytes (MB). Leave empty for the default of 10 MB. Applies to every upload in the admin panel — product images, banners, media.","Pro Datei, in Megabyte (MB). Leer lassen für den Standardwert von 10 MB. Gilt für jeden Upload im Administrationsbereich — Produktbilder, Banner, Medien."
+Per-type overrides,Überschreibungen pro Typ
+"Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",Überschreibt die maximale Größe für passende Dateitypen — zum Beispiel ein kleineres Limit für Bilder und ein größeres für Videos. Ein exakter Typ (video/mp4) hat Vorrang vor einer Familie (video/*); alles ohne Treffer verwendet die maximale Dateigröße oben. Überschreibungen erlauben keine neuen Typen: Der Dateityp selbst muss unter „Erlaubte Dateitypen“ aktiviert sein.
+Every product in the store,Jedes Produkt im Shop

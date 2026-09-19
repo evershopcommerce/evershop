@@ -2,4 +2,9 @@ extend type Product {
   editUrl: String
   updateApi: String!
   deleteApi: String!
+  """
+  Raw metafield values keyed namespace -> key. Admin-only — the storefront reads
+  visibility-gated values via `metafields`/`metafield`, never this raw column.
+  """
+  metaData: JSON
 }

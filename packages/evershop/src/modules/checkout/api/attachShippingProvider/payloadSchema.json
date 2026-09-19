@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "provider_code": { "type": "string", "minLength": 1 },
+    "config": { "type": "object" },
+    "is_enabled": { "type": "boolean" },
+    "sort_order": { "type": "integer" }
+  },
+  "required": ["provider_code"],
+  "additionalProperties": false
+}

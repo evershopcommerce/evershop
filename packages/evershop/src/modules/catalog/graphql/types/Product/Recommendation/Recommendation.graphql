@@ -1,0 +1,15 @@
+# Product recommendations (specifications/05 § 8.1). Non-admin file: both
+# fields are visible to the admin schema too, where they back the product-edit
+# previews — but they ALWAYS apply storefront gating (D9): status, stock,
+# visibility incl. the variant-group policy, and the exclude flag. What an
+# admin previews is exactly what a shopper gets.
+# NOTE: a block description above `extend type` is invalid SDL (graphql-js
+# only allows descriptions on definitions) — keep this header as comments.
+extend type Product {
+  "Rule-driven related products (waterfall: manual picks, then configured rules, then bestseller fallback)."
+  relatedProducts(limit: Int = 5): [Product]
+  "Frequently bought together: co-purchase data gated by pair count, anchor orders, and lift; manual modes and fallback ladder per configuration."
+  crossSellProducts(limit: Int = 4): [Product]
+  "Upsell: the effective related-products rules re-run with price strictly above this product (band percent = upper cap). No manual tier, no fallback; empty for manual_only products."
+  upsellProducts(limit: Int = 4): [Product]
+}

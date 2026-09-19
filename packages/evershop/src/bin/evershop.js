@@ -19,6 +19,12 @@ try {
     await import('./user/changePassword.js');
   } else if (command === 'theme:active') {
     await import('./theme/active.js');
+  } else if (command === 'theme:status') {
+    await import('./theme/status.js');
+  } else if (command === 'theme:uninstall') {
+    await import('./theme/uninstall.js');
+  } else if (command === 'theme:export-content') {
+    await import('./theme/export-content.js');
   } else if (command === 'theme:twizz') {
     await import('./theme/twizz.js');
   } else if (command === 'theme:create') {

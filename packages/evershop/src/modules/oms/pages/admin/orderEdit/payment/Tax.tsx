@@ -8,11 +8,13 @@ interface TaxProps {
 
 export function Tax({ taxClass, amount }: TaxProps) {
   return (
-    <div className="summary-row">
-      <span>{_('Tax')}</span>
-      <div>
-        <div>{taxClass}</div>
-        <div>{amount}</div>
+    <div className="flex items-start justify-between gap-4">
+      <span className="text-sm text-muted-foreground min-w-[8.75rem]">
+        {_('Tax')}
+      </span>
+      <div className="flex-1 flex items-start justify-between gap-2">
+        <div className="text-sm text-muted-foreground">{taxClass}</div>
+        <div className="font-semibold text-sm">{amount}</div>
       </div>
     </div>
   );

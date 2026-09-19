@@ -16,7 +16,8 @@ export function registerFrontStoreRoute(
   isApi = false,
   folder = '',
   payloadSchema = null,
-  access = 'private'
+  access = 'private',
+  editable = false
 ) {
   // const route = validateRoute(id, method, path);
   const route = {
@@ -30,5 +31,6 @@ export function registerFrontStoreRoute(
   route.isApi = isApi;
   route.folder = folder;
   route.name = name;
+  route.editable = editable === true;
   addRoute(route);
 }

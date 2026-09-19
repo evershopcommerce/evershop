@@ -1,0 +1,5 @@
+extend type BlogTag {
+  editUrl: String!
+  updateApi: String!
+  deleteApi: String!
+}
