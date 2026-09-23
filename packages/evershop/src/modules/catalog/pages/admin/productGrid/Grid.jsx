@@ -70,55 +70,77 @@ function Actions({ products = [], selectedIds = [], newProductUrl }) {
     window.location.reload();
   };
 
+  // With a single product selected, only offer the action that applies to its
+  // current status (a product can't be both enabled and disabled at once).
+  // With multiple products selected, keep both — they may have mixed statuses
+  // and either action should apply to all of them.
+  const selectedProducts = products.filter((product) =>
+    selectedIds.includes(product.uuid)
+  );
+  const showDisable =
+    selectedProducts.length !== 1 ||
+    parseInt(selectedProducts[0].status, 10) === 1;
+  const showEnable =
+    selectedProducts.length !== 1 ||
+    parseInt(selectedProducts[0].status, 10) === 0;
+
   const actions = [
-    {
-      name: _('Disable'),
-      onAction: () => {
-        openAlert({
-          heading: _('Disable ${count} products', {
-            count: selectedIds.length
-          }),
-          content: _('Are you sure?'),
-          primaryAction: {
-            title: _('Cancel'),
-            onAction: closeAlert,
-            variant: 'secondary'
-          },
-          secondaryAction: {
-            title: _('Disable'),
-            onAction: async () => {
-              await updateProducts(0);
-            },
-            variant: 'default',
-            isLoading: false
+    ...(showDisable
+      ? [
+          {
+            name: _('Disable'),
+            onAction: () => {
+              openAlert({
+                heading: _('Disable ${count} products', {
+                  count: selectedIds.length
+                }),
+                content: _('Are you sure?'),
+                primaryAction: {
+                  title: _('Cancel'),
+                  onAction: closeAlert,
+                  variant: 'secondary'
+                },
+                secondaryAction: {
+                  title: _('Disable'),
+                  onAction: async () => {
+                    await updateProducts(0);
+                  },
+                  variant: 'default',
+                  isLoading: false
+                }
+              });
+            }
           }
-        });
-      }
-    },
-    {
-      name: _('Enable'),
-      onAction: () => {
-        openAlert({
-          heading: _('Enable ${count} products', {
-            count: selectedIds.length
-          }),
-          content: _('Are you sure?'),
-          primaryAction: {
-            title: _('Cancel'),
-            onAction: closeAlert,
-            variant: 'secondary'
-          },
-          secondaryAction: {
-            title: _('Enable'),
-            onAction: async () => {
-              await updateProducts(1);
-            },
-            variant: 'default',
-            isLoading: false
+        ]
+      : []),
+    ...(showEnable
+      ? [
+          {
+            name: _('Enable'),
+            onAction: () => {
+              openAlert({
+                heading: _('Enable ${count} products', {
+                  count: selectedIds.length
+                }),
+                content: _('Are you sure?'),
+                primaryAction: {
+                  title: _('Cancel'),
+                  onAction: closeAlert,
+                  variant: 'secondary'
+                },
+                secondaryAction: {
+                  title: _('Enable'),
+                  onAction: async () => {
+                    await updateProducts(1);
+                  },
+                  variant: 'default',
+                  isLoading: false
+                }
+              });
+            }
           }
-        });
-      }
-    },
+        ]
+      : []),
     // Duplicate opens the creation form prefilled from the selected product
     // (review-before-save), so it only applies to a single selection.
     ...(selectedIds.length === 1
