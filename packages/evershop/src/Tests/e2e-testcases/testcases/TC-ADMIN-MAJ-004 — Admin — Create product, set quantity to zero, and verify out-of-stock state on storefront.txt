@@ -1,0 +1,27 @@
+admin-login
+// 1. Create the product
+product-create-new
+click button on the right of "Search"
+click "Logout"
+// 2. Verify the product
+open url stored value "homePrefix"
+click "Search"
+enter stored value "productName" into "Search"
+type enter
+click stored value "productName"
+check that page contains "Add to cart"
+grab url and save it as "productUrl"
+// 3. set quantity to zero
+open URL from string with parameters "${homePrefix}/admin"
+admin-login
+click "Products"
+click stored value "productName"
+enter "0" into "Quantity"
+scroll down until page contains "Save"
+click "Save" until page contains "Product updated successfully"
+click "close"
+click button on the right of "Search"
+click "Logout"
+//4 verify out-of-stock state on storefront
+open url stored value "productUrl"
+check that page contains "Sold out"

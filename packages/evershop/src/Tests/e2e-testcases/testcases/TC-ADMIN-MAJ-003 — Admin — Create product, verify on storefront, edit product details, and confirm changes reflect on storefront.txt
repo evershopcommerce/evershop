@@ -1,0 +1,31 @@
+// 1. Create a Product
+admin-login
+product-create-new
+click button on the right of "Search"
+click "Logout"
+// 2. Verifying the product
+open url stored value "homePrefix"
+click "Search"
+enter stored value "productName" into "Search"
+type enter
+check that page contains stored value "productName"
+// 3. Edit product details in admin
+open URL from string with parameters "${homePrefix}/admin"
+admin-login
+click "Products"
+click stored value "productName"
+enter "40.29" into "Price"
+scroll down until page contains "Save"
+click "Save" until page contains "Product updated successfully"
+click "close"
+grab value from input "Price" and save as "updatedPrice"
+click button on the right of "Search"
+click "Logout"
+//4. verification of the changes on storefront
+open url stored value "homePrefix"
+click "Search"
+enter stored value "productName" into "Search"
+type enter
+click stored value "productName"
+check that page does not contain stored value "productPrice"
+check that page contains stored value "updatedPrice"

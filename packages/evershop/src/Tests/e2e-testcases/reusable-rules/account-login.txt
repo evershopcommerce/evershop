@@ -1,0 +1,4 @@
+save stored value "userEmail" as "username"
+save stored value "userPass" as "password"
+login
+check that page contains "Shop now"

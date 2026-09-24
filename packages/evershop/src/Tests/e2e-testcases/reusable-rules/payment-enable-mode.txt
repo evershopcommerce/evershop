@@ -1,0 +1,5 @@
+click "Setting"
+click "Payment Setting"
+click button below "Cash On Delivery Payment" and on the left of "No"
+click "Save"
+check that page contains "Payment setting saved"
