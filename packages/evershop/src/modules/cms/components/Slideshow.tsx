@@ -1,10 +1,12 @@
 import { buildImageSrcSet, Image } from '@components/common/Image.js';
 import {
   Editable,
-  EditableImageOverlay
+  EditableImageOverlay,
+  isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { ImagePlus } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -467,6 +469,13 @@ export default function Slideshow({
     return () => mq.removeEventListener?.('change', update);
   }, []);
 
+  // Client-only: the page builder is detected after mount, so SSR and the
+  // first client render agree. Same idiom as ProductHero/SplitFeature.
+  const [inPageBuilder, setInPageBuilder] = useState(false);
+  useEffect(() => {
+    setInPageBuilder(isPageBuilderActive());
+  }, []);
+
   // Slick custom dots: we map both `customPaging` (per-dot rendering) and
   // `appendDots` (container) so DotsStyle drives both shape and layout.
   // `dotsClass` provides Tailwind utility classes for the container.
@@ -529,7 +538,22 @@ export default function Slideshow({
   };
 
   if (!visibleSlides || visibleSlides.length === 0) {
-    return null;
+    // On the storefront an unconfigured slideshow stays invisible. In the page
+    // builder it MUST render something: with no DOM there is nothing to select,
+    // so a slideshow added before its first slide was stranded on the canvas —
+    // impossible to edit, impossible to remove.
+    if (!inPageBuilder) {
+      return null;
+    }
+    return (
+      <div className="evershop-slideshow evershop-slideshow--empty w-full py-6 md:py-10">
+        <div className="flex aspect-[16/9] w-full flex-col items-center justify-center gap-2 border-2 border-dashed border-foreground/15 bg-muted/30 text-muted-foreground">
+          <ImagePlus className="h-8 w-8" aria-hidden="true" />
+          <span className="text-sm font-medium">{_('Slideshow')}</span>
+          <span className="text-xs">{_('Add a slide to get started.')}</span>
+        </div>
+      </div>
+    );
   }
 
   const containerClass = ['evershop-slideshow', 'slideshow-widget', 'relative', 'w-full'].join(' ');
@@ -664,7 +688,7 @@ export default function Slideshow({
                       <Editable
                         as="span"
                         fieldPath={`settings.slides.${idx}.eyebrow`}
-                        className="evershop-slideshow__eyebrow inline-block uppercase tracking-widest text-xs md:text-sm text-white/90 font-semibold mb-2 drop-shadow"
+                        className="evershop-slideshow__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest inline-block text-white/90 mb-2 drop-shadow"
                       >
                         {slide.eyebrow}
                       </Editable>
@@ -673,7 +697,7 @@ export default function Slideshow({
                       <Editable
                         as="h2"
                         fieldPath={`settings.slides.${idx}.headline`}
-                        className="evershop-slideshow__heading text-white text-2xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4 drop-shadow-lg"
+                        className="evershop-slideshow__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl text-white mb-2 md:mb-4 drop-shadow-lg"
                       >
                         {slide.headline}
                       </Editable>
@@ -683,7 +707,7 @@ export default function Slideshow({
                         as="p"
                         fieldPath={`settings.slides.${idx}.subText`}
                         multiline
-                        className="evershop-slideshow__subtext text-white text-sm md:text-base lg:text-lg mb-4 md:mb-8 max-w-2xl drop-shadow-md"
+                        className="evershop-slideshow__subtext evershop-widget__subtext text-sm md:text-base text-white mb-4 md:mb-8 max-w-2xl drop-shadow-md"
                       >
                         {slide.subText}
                       </Editable>
