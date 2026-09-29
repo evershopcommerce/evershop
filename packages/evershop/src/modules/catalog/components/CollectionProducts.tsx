@@ -97,7 +97,7 @@ export default function CollectionProducts({
           <Editable
             as="h2"
             fieldPath="settings.heading"
-            className="evershop-collection-products__heading text-xl font-semibold tracking-tight md:text-2xl"
+            className="evershop-collection-products__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl"
           >
             {displayHeading}
           </Editable>
@@ -119,7 +119,7 @@ export default function CollectionProducts({
               as="p"
               fieldPath="settings.subText"
               multiline
-              className="evershop-collection-products__subtext text-sm text-foreground/80 md:text-base"
+              className="evershop-collection-products__subtext evershop-widget__subtext text-sm md:text-base text-muted-foreground"
             >
               {subText as string}
             </Editable>

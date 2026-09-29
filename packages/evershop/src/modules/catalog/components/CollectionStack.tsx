@@ -45,7 +45,7 @@ function PlaceholderRow({
   return (
     <div className="evershop-collection-stack__row evershop-collection-stack__row--placeholder">
       <div className="evershop-collection-stack__row-header mb-4 flex items-baseline justify-between gap-3">
-        <div className="evershop-collection-stack__heading flex items-center gap-2 text-muted-foreground">
+        <div className="evershop-collection-stack__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl flex items-center gap-2 text-muted-foreground">
           <Package className="h-5 w-5" />
           <div className="h-5 w-40 rounded-sm bg-muted-foreground/30" />
         </div>
@@ -108,7 +108,7 @@ export default function CollectionStack({
             <Editable
               as="h2"
               fieldPath={`settings.collections.${i}.title`}
-              className="evershop-collection-stack__heading text-xl font-semibold tracking-tight md:text-2xl"
+              className="evershop-collection-stack__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl"
             >
               {row.title}
             </Editable>
@@ -127,7 +127,7 @@ export default function CollectionStack({
               as="p"
               multiline
               fieldPath={`settings.collections.${i}.subText`}
-              className="evershop-collection-stack__subtext mb-4 text-sm text-foreground/80 md:text-base"
+              className="evershop-collection-stack__subtext evershop-widget__subtext text-sm md:text-base mb-4 text-muted-foreground"
             >
               {row.subText}
             </Editable>

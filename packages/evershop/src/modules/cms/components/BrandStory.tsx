@@ -67,7 +67,7 @@ function Copy({
         <Editable
           as="div"
           fieldPath="settings.eyebrow"
-          className="evershop-brand-story__eyebrow text-[11px] font-semibold uppercase tracking-widest text-foreground/70"
+          className="evershop-brand-story__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest text-muted-foreground"
         >
           {eyebrow}
         </Editable>
@@ -75,14 +75,14 @@ function Copy({
       <Editable
         as="h2"
         fieldPath="settings.heading"
-        className="evershop-brand-story__heading text-2xl font-semibold tracking-tight md:text-3xl"
+        className="evershop-brand-story__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl"
       >
         {heading}
       </Editable>
       <EditableMarkdown
         as="p"
         fieldPath="settings.body"
-        className="evershop-brand-story__body text-sm text-foreground/80 md:text-base"
+        className="evershop-brand-story__body evershop-widget__subtext text-sm md:text-base text-muted-foreground"
       >
         {body}
       </EditableMarkdown>
@@ -90,7 +90,7 @@ function Copy({
         <EditableMarkdown
           as="p"
           fieldPath="settings.bodySecondary"
-          className="evershop-brand-story__body evershop-brand-story__body--secondary text-sm text-foreground/80 md:text-base"
+          className="evershop-brand-story__body evershop-widget__subtext evershop-brand-story__body--secondary text-sm md:text-base text-muted-foreground"
         >
           {bodySecondary}
         </EditableMarkdown>
@@ -158,7 +158,7 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
           <Editable
             as="div"
             fieldPath="settings.eyebrow"
-            className="evershop-brand-story__eyebrow mb-2 text-[11px] font-semibold uppercase tracking-widest text-foreground/70"
+            className="evershop-brand-story__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest mb-2 text-muted-foreground"
           >
             {eyebrow}
           </Editable>
@@ -187,7 +187,7 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
           <EditableMarkdown
             as="p"
             fieldPath="settings.body"
-            className="evershop-brand-story__body text-sm text-foreground/80 md:text-base"
+            className="evershop-brand-story__body evershop-widget__subtext text-sm md:text-base text-muted-foreground"
           >
             {body}
           </EditableMarkdown>
@@ -195,7 +195,7 @@ export default function BrandStory({ brandStoryWidget }: BrandStoryProps) {
             <EditableMarkdown
               as="p"
               fieldPath="settings.bodySecondary"
-              className="evershop-brand-story__body evershop-brand-story__body--secondary mt-3 text-sm text-foreground/80 md:text-base"
+              className="evershop-brand-story__body evershop-widget__subtext evershop-brand-story__body--secondary text-sm md:text-base mt-3 text-muted-foreground"
             >
               {bodySecondary}
             </EditableMarkdown>

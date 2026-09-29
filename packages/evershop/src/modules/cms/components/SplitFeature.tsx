@@ -75,7 +75,7 @@ function Placeholder({ imagePosition }: { imagePosition: SplitImagePosition }) {
   );
   const reverse = imagePosition === 'right';
   return (
-    <div className="evershop-split-feature evershop-split-feature--empty grid grid-cols-1 md:grid-cols-2">
+    <div className="evershop-split-feature evershop-split-feature--empty grid grid-cols-1 md:grid-cols-2 py-6 md:py-10">
       {!reverse ? (
         <>
           {imagePanel}
@@ -164,7 +164,7 @@ export default function SplitFeature({ splitFeatureWidget }: SplitFeatureProps) 
         <Editable
           as="div"
           fieldPath="settings.eyebrow"
-          className="evershop-split-feature__eyebrow text-[11px] font-semibold uppercase tracking-widest text-foreground/70"
+          className="evershop-split-feature__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest text-muted-foreground"
         >
           {eyebrow}
         </Editable>
@@ -172,7 +172,7 @@ export default function SplitFeature({ splitFeatureWidget }: SplitFeatureProps) 
       <Editable
         as="h2"
         fieldPath="settings.heading"
-        className="evershop-split-feature__heading text-2xl font-semibold tracking-tight md:text-3xl"
+        className="evershop-split-feature__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl"
       >
         {heading}
       </Editable>
@@ -180,7 +180,7 @@ export default function SplitFeature({ splitFeatureWidget }: SplitFeatureProps) 
         <EditableMarkdown
           as="p"
           fieldPath="settings.body"
-          className="evershop-split-feature__body text-sm text-foreground/80 md:text-base"
+          className="evershop-split-feature__body evershop-widget__subtext text-sm md:text-base text-muted-foreground"
         >
           {body}
         </EditableMarkdown>
@@ -205,7 +205,7 @@ export default function SplitFeature({ splitFeatureWidget }: SplitFeatureProps) 
 
   return (
     <div
-      className={`evershop-split-feature evershop-split-feature--${imagePosition ?? 'left'} grid grid-cols-1 md:grid-cols-2 ${
+      className={`evershop-split-feature evershop-split-feature--${imagePosition ?? 'left'} grid grid-cols-1 md:grid-cols-2 py-6 md:py-10 ${
         reverse ? 'md:[direction:rtl]' : ''
       }`}
     >

@@ -91,12 +91,12 @@ export default function ContactForm({ contactFormWidget }: ContactFormProps) {
   const inPageBuilder = isClient && isPageBuilderActive();
 
   return (
-    <section className="evershop-contact-form max-w-2xl mx-auto py-8">
+    <section className="evershop-contact-form max-w-2xl mx-auto py-6 md:py-10">
       {title && (
         <Editable
           as="h2"
           fieldPath="settings.title"
-          className="evershop-contact-form__title text-2xl font-semibold mb-2"
+          className="evershop-contact-form__title evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl mb-2"
         >
           {title}
         </Editable>
@@ -106,7 +106,7 @@ export default function ContactForm({ contactFormWidget }: ContactFormProps) {
           as="p"
           fieldPath="settings.subtitle"
           multiline
-          className="evershop-contact-form__subtitle text-muted-foreground mb-6"
+          className="evershop-contact-form__subtitle evershop-widget__subtext text-sm md:text-base mb-6 text-muted-foreground"
         >
           {subtitle}
         </Editable>

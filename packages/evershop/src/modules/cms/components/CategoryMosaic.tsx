@@ -92,7 +92,7 @@ function Placeholder({
         <Editable
           as="h2"
           fieldPath="settings.heading"
-          className="evershop-category-mosaic__heading mb-4 text-2xl font-semibold tracking-tight"
+          className="evershop-category-mosaic__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl mb-4"
         >
           {heading}
         </Editable>
@@ -178,7 +178,7 @@ export default function CategoryMosaic({
         <Editable
           as="h2"
           fieldPath="settings.heading"
-          className="evershop-category-mosaic__heading mb-4 text-2xl font-semibold tracking-tight"
+          className="evershop-category-mosaic__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl mb-4"
         >
           {heading}
         </Editable>

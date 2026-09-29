@@ -83,7 +83,7 @@ export default function ProductHero({ productHeroWidget }: ProductHeroProps) {
       );
       const copyBlock = (
         <div className="evershop-product-hero__copy-panel flex flex-col justify-center gap-3 p-6 md:p-8">
-          <div className="evershop-product-hero__eyebrow flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+          <div className="evershop-product-hero__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2 text-muted-foreground">
             <ShoppingBag className="h-3 w-3" />
             Featured
           </div>
@@ -163,12 +163,12 @@ export default function ProductHero({ productHeroWidget }: ProductHeroProps) {
         <Editable
           as="div"
           fieldPath="settings.eyebrow"
-          className="evershop-product-hero__eyebrow text-[11px] font-semibold uppercase tracking-widest text-foreground/70"
+          className="evershop-product-hero__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest text-muted-foreground"
         >
           {eyebrow}
         </Editable>
       )}
-      <h2 className="evershop-product-hero__heading text-2xl font-semibold tracking-tight md:text-3xl">
+      <h2 className="evershop-product-hero__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl">
         {product.name}
       </h2>
       {price && <div className="evershop-product-hero__price text-xl font-semibold">{price}</div>}
@@ -176,7 +176,7 @@ export default function ProductHero({ productHeroWidget }: ProductHeroProps) {
         <EditableMarkdown
           as="p"
           fieldPath="settings.copy"
-          className="evershop-product-hero__body text-sm text-foreground/80 md:text-base"
+          className="evershop-product-hero__body evershop-widget__subtext text-sm md:text-base text-muted-foreground"
         >
           {copy}
         </EditableMarkdown>

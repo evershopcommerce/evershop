@@ -312,7 +312,7 @@ export default function Banner({
           <Editable
             as="div"
             fieldPath="settings.eyebrow"
-            className="evershop-banner__eyebrow text-[11px] font-semibold uppercase tracking-widest opacity-90"
+            className="evershop-banner__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest opacity-90"
           >
             {eyebrow}
           </Editable>
@@ -321,7 +321,7 @@ export default function Banner({
           <Editable
             as="h2"
             fieldPath="settings.heading"
-            className="evershop-banner__heading text-2xl font-semibold tracking-tight md:text-4xl"
+            className="evershop-banner__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl"
           >
             {heading}
           </Editable>
@@ -331,7 +331,7 @@ export default function Banner({
             as="p"
             fieldPath="settings.subText"
             multiline
-            className="evershop-banner__subtext text-sm opacity-90 md:text-base"
+            className="evershop-banner__subtext evershop-widget__subtext text-sm md:text-base opacity-90"
           >
             {subText}
           </Editable>
