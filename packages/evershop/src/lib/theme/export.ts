@@ -5,6 +5,7 @@ import {
   sanitizeForManifest
 } from '../metafield/provision.js';
 import type { ManifestMetafieldDefinition } from '../metafield/provision.js';
+import { harvestAssets, type AssetReader, type HarvestResult } from './assetHarvest.js';
 import {
   derivePagesForTheme,
   landingPageUrn,
@@ -17,6 +18,15 @@ import type {
   PlacementRecord,
   WidgetRecord
 } from './manifest.js';
+
+export interface HarvestOptions {
+  /** The theme's directory — images are copied into its `public/` folder. */
+  themeDir: string;
+  read: AssetReader;
+  isStoreOwned?: (value: string) => boolean;
+  /** Called once with what was copied and what was skipped, for the CLI to print. */
+  onReport?: (report: HarvestResult<Manifest>) => void;
+}
 
 export interface ExportOpts {
   themeId: string;
@@ -31,6 +41,13 @@ export interface ExportOpts {
    * section entirely (`--no-pages`).
    */
   landingPageUuids?: string[];
+  /**
+   * Copy the store's images into the theme and replace them with
+   * `theme-asset:` tokens, declaring each in `assets[]` (see
+   * `lib/theme/assetHarvest.ts`). Omit to export settings exactly as stored,
+   * pointing at this store's URLs.
+   */
+  harvestAssets?: HarvestOptions;
 }
 
 /** The pages `exportToManifest` would write, for the CLI's selection prompt. */
@@ -190,12 +207,24 @@ export async function exportToManifest(opts: ExportOpts): Promise<Manifest> {
     }
   }
 
-  return {
+  const manifest: Manifest = {
     theme_name: opts.preserveThemeName ?? opts.themeId,
     version: opts.version,
     widgets,
     placements,
     ...(landingPages.length > 0 ? { landingPages } : {}),
     ...(metafieldDefinitions.length > 0 ? { metafieldDefinitions } : {})
+  };
+  if (!opts.harvestAssets) {
+    return manifest;
+  }
+  // Every image in the exported settings is a file in THIS store's storage.
+  // Copy them into the theme and swap the URLs for tokens, so the manifest
+  // travels: `assets[]` is written for the author rather than by the author.
+  const harvest = await harvestAssets(manifest, opts.harvestAssets);
+  opts.harvestAssets.onReport?.(harvest);
+  return {
+    ...harvest.value,
+    ...(harvest.assets.length > 0 ? { assets: harvest.assets } : {})
   };
 }

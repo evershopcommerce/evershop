@@ -5,6 +5,11 @@ import { validate as uuidValidate, version as uuidVersion } from 'uuid';
 import { validateManifestMetafieldDefinitions } from '../metafield/provision.js';
 import type { ManifestMetafieldDefinition } from '../metafield/provision.js';
 import { slugify } from '../util/slugify.js';
+import {
+  collectAssetTokens,
+  isSafeAssetPath,
+  type AssetRecord
+} from './assets.js';
 import { isValidVersion } from './version.js';
 
 /**
@@ -81,6 +86,13 @@ export interface Manifest {
    * content SemVer/snapshot protocol (unlike `metafieldDefinitions`).
    */
   landingPages?: LandingPageRecord[];
+  /**
+   * Files this theme ships with its content (images for its widgets).
+   * `theme:active` uploads them through the store's configured storage
+   * provider; settings refer to them as `theme-asset:<path>`. See
+   * `lib/theme/assets.ts`.
+   */
+  assets?: AssetRecord[];
 }
 
 export interface ValidationError {
@@ -89,6 +101,7 @@ export interface ValidationError {
     | 'widget'
     | 'placement'
     | 'landing-page'
+    | 'asset'
     | 'cross-record'
     | 'db'
     | 'metafield';
@@ -484,6 +497,49 @@ export async function validateManifest(
           message: `widget '${w.uuid}' already exists under theme '${t}', cannot install it under '${ctx.themeId}'`
         });
       }
+    }
+  }
+
+  // ---- Assets ----
+  // Declared files are read off disk at install, so a path is validated as
+  // data: relative, no traversal, with an extension.
+  const assets = manifest.assets;
+  const declared = new Set<string>();
+  if (assets !== undefined && !Array.isArray(assets)) {
+    errors.push({ scope: 'top-level', message: 'assets must be an array' });
+  } else if (Array.isArray(assets)) {
+    assets.forEach((a, index) => {
+      const p = (a as unknown as Record<string, unknown>)?.path;
+      if (!isSafeAssetPath(p)) {
+        errors.push({
+          scope: 'asset',
+          index,
+          message: `assets[${index}].path must be a relative path inside the theme's public/ folder, with a file extension (got ${JSON.stringify(p)})`
+        });
+        return;
+      }
+      if (declared.has(p)) {
+        errors.push({
+          scope: 'cross-record',
+          message: `duplicate asset path '${p}'`
+        });
+      }
+      declared.add(p);
+    });
+  }
+  // A token nothing declares would be written to the DB verbatim and render as
+  // a broken image. Warn rather than fail: the manifest is still installable.
+  for (const token of collectAssetTokens({
+    widgets: manifest.widgets,
+    placements: manifest.placements,
+    landingPages: manifest.landingPages
+  })) {
+    if (!declared.has(token)) {
+      errors.push({
+        scope: 'asset',
+        severity: 'warning',
+        message: `'theme-asset:${token}' is referenced but not declared in assets[] — it will not be uploaded and the setting will keep the raw token`
+      });
     }
   }
 

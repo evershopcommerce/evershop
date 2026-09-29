@@ -25,6 +25,8 @@ import {
   type ValidationError
 } from '../../lib/theme/manifest.js';
 import { assertValidThemeId } from '../../lib/theme/themeId.js';
+import { uploadFile } from '../../modules/cms/services/uploadFile.js';
+import { ensureRoutesLoaded } from '../lib/ensureRoutesLoaded.js';
 
 const { prompt } = enquirer;
 const argv = yargs(hideBin(process.argv))
@@ -276,7 +278,72 @@ async function runInstallPipeline(
     return false; // dry run never proceeds to config write
   }
 
-  const result = await installOrUpgrade({ themeId, manifest, pool });
+  // Uploading a theme's assets goes through the store's storage provider, and
+  // the LOCAL provider builds its public URL from the `staticAsset` route
+  // (`/assets/*`). A CLI has no app, so the route registry is empty and
+  // `buildUrl` throws. Load the routes the same way `evershop build` does —
+  // module metadata only, no database, no bootstrap.
+  ensureRoutesLoaded();
+  const result = await installOrUpgrade({
+    themeId,
+    manifest,
+    pool,
+    themeDir: themeDir(themeId),
+    // The store's configured provider, not the local disk: `uploadFile` reads
+    // the `fileStorage` setting (config fallback), so a theme's images land in
+    // the same bucket as everything the merchant uploads.
+    uploadAsset: (files, destination) =>
+      uploadFile(files as unknown as Express.Multer.File[], destination)
+  });
+  if (result.storeRefs) {
+    const rows = result.storeRefs.resolved;
+    const exact = rows.filter((r) => r.match === 'exact').length;
+    const byName = rows.filter((r) => r.match === 'name');
+    const unresolved = rows.filter((r) => r.match === 'unresolved');
+    console.log(
+      `  Store references: ${rows.length} (${exact} matched exactly` +
+        `${byName.length > 0 ? `, ${byName.length} by name` : ''}` +
+        `${unresolved.length > 0 ? `, ${unresolved.length} unmatched` : ''})`
+    );
+    for (const r of byName) {
+      console.log(
+        kleur.yellow(
+          `    matched by name: ${r.entity} '${r.key}' → ${r.value}`
+        )
+      );
+    }
+    if (unresolved.length > 0) {
+      console.warn(
+        kleur.yellow(
+          `    These widgets have nothing to show until the data exists — ` +
+            `activation never creates it. Pick a replacement in the page builder, ` +
+            `or add the ${unresolved.length === 1 ? 'record' : 'records'} and re-activate:`
+        )
+      );
+      for (const r of unresolved) {
+        console.warn(kleur.yellow(`      ${r.entity} ${r.by}='${r.key}' not found`));
+      }
+    }
+  }
+  if (result.assets) {
+    const { uploaded, missing } = result.assets;
+    if (uploaded.length > 0) {
+      console.log(
+        kleur.green(
+          `  Uploaded ${uploaded.length} theme asset${uploaded.length === 1 ? '' : 's'} to file storage.`
+        )
+      );
+    }
+    if (missing.length > 0) {
+      console.warn(
+        kleur.yellow(
+          `  ${missing.length} declared asset${missing.length === 1 ? ' is' : 's are'} missing from ` +
+            `themes/${themeId}/public/ and ${missing.length === 1 ? 'was' : 'were'} not uploaded:`
+        )
+      );
+      for (const m of missing) console.warn(kleur.yellow(`    ${m}`));
+    }
+  }
   if (result.command === 'rejected') {
     console.error(
       kleur.red(`Refusing to activate '${themeId}': ${result.rejectedReason}`)

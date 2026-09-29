@@ -2,16 +2,21 @@
 /* eslint-disable no-console */
 import 'dotenv/config';
 import fs from 'fs/promises';
+import { readFile } from 'node:fs/promises';
 import path from 'path';
 import enquirer from 'enquirer';
 import kleur from 'kleur';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import { CONSTANTS } from '../../lib/helpers.js';
 import { pool } from '../../lib/postgres/connection.js';
+import type { HarvestResult } from '../../lib/theme/assetHarvest.js';
 import { exportToManifest, listExportablePages } from '../../lib/theme/export.js';
+import type { Manifest } from '../../lib/theme/manifest.js';
 import { readManifest } from '../../lib/theme/manifest.js';
 import { assertValidThemeId } from '../../lib/theme/themeId.js';
 import { assertValidVersion } from '../../lib/theme/version.js';
+import { getFileStorageImageHosts } from '../../modules/cms/services/storage/storageConfig.js';
 
 /**
  * `theme:export-content <theme-id> <version> [--force]`
@@ -51,6 +56,52 @@ const rawVersion =
   argv._[2] != null
     ? String(argv._[2])
     : (argv['set-version'] as string | undefined);
+
+/**
+ * Read an image the store owns. A root-relative path is a file in the local
+ * media folder; an absolute URL belongs to a cloud provider and is fetched over
+ * HTTP, which is how the storefront reads it too.
+ */
+async function readStoreAsset(source: string): Promise<Buffer> {
+  if (/^[a-z][a-z0-9+.-]*:\/\//i.test(source)) {
+    const response = await fetch(source);
+    if (!response.ok) {
+      throw new Error(`${response.status} ${response.statusText}`);
+    }
+    return Buffer.from(await response.arrayBuffer());
+  }
+  const rel = decodeURIComponent(source.split('?')[0])
+    .replace(/^\/+/, '')
+    .replace(/^assets\//, '')
+    .replace(/^media\//, '');
+  return readFile(path.join(CONSTANTS.MEDIAPATH, rel));
+}
+
+/**
+ * Which image values belong to this store. Always root-relative paths (local
+ * storage); on a cloud provider, also absolute URLs on the bucket's own host,
+ * so a foreign CDN link is left alone rather than silently re-hosted.
+ */
+function storeOwnedMatcher(): (value: string) => boolean {
+  // The same host list the image processor trusts for this store's files, so a
+  // cloud-hosted store harvests its own bucket and nothing else.
+  let hosts: string[] = [];
+  try {
+    hosts = getFileStorageImageHosts().filter(Boolean);
+  } catch {
+    hosts = [];
+  }
+  return (value: string) => {
+    if (value.startsWith('/')) {
+      return true;
+    }
+    try {
+      return hosts.includes(new URL(value).host);
+    } catch {
+      return false;
+    }
+  };
+}
 
 function themeDir(id: string): string {
   return path.join(process.cwd(), 'themes', id);
@@ -144,13 +195,56 @@ async function main(): Promise<void> {
 
   const landingPageUuids = await resolvePageSelection(themeId);
 
+  let harvest: HarvestResult<Manifest> | null = null;
   const manifest = await exportToManifest({
     themeId,
     pool,
     version,
     preserveThemeName: existing?.theme_name,
-    landingPageUuids
+    landingPageUuids,
+    // Images in the exported settings are files in THIS store's storage; copy
+    // them into the theme so the manifest can travel (see lib/theme/assetHarvest.ts).
+    harvestAssets: {
+      themeDir: dir,
+      read: readStoreAsset,
+      isStoreOwned: storeOwnedMatcher(),
+      onReport: (r) => {
+        harvest = r;
+      }
+    }
   });
+
+  if (harvest) {
+    const { harvested, skipped } = harvest as HarvestResult<Manifest>;
+    if (harvested.length > 0) {
+      const kb = Math.round(harvested.reduce((n, h) => n + h.bytes, 0) / 1024);
+      console.log(
+        kleur.green(
+          `  Copied ${harvested.length} image${harvested.length === 1 ? '' : 's'} (${kb} KB) into ` +
+            `themes/${themeId}/public/ and declared them in assets[].`
+        )
+      );
+    }
+    const external = skipped.filter((x) => x.reason === 'external');
+    const unreadable = skipped.filter((x) => x.reason !== 'external');
+    if (external.length > 0) {
+      console.log(
+        `  ${external.length} image${external.length === 1 ? '' : 's'} left as ${external.length === 1 ? 'a link' : 'links'} ` +
+          `(not this store's file):`
+      );
+      for (const x of external.slice(0, 5)) console.log(`    ${x.value}`);
+      if (external.length > 5) console.log(`    …and ${external.length - 5} more`);
+    }
+    if (unreadable.length > 0) {
+      console.warn(
+        kleur.yellow(
+          `  ${unreadable.length} image${unreadable.length === 1 ? '' : 's'} could not be read and ` +
+            `${unreadable.length === 1 ? 'was' : 'were'} left pointing at this store:`
+        )
+      );
+      for (const x of unreadable) console.warn(kleur.yellow(`    ${x.value} (${x.reason})`));
+    }
+  }
 
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(target, JSON.stringify(manifest, null, 2), 'utf8');
