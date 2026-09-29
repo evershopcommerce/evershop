@@ -4,9 +4,9 @@ import {
   rollback,
   startTransaction
 } from '@evershop/postgres-query-builder';
-import { stripTags } from '../../../../lib/util/sanitizeHtml.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
+import { stripTags } from '../../../../lib/util/sanitizeHtml.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import blogCommentDataSchema from './blogCommentDataSchema.json' with { type: 'json' };
 

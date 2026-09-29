@@ -68,7 +68,7 @@ export function RecommendationShelf({
           <Editable
             as="h2"
             fieldPath="settings.heading"
-            className="evershop-recommendation-shelf__heading text-xl font-semibold tracking-tight md:text-2xl"
+            className="evershop-recommendation-shelf__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl"
           >
             {hasHeading ? (heading as string) : ''}
           </Editable>

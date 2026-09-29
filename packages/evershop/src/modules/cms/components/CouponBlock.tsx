@@ -103,7 +103,7 @@ export default function CouponBlock({ couponBlockWidget }: CouponBlockProps) {
     <>
       <div
         data-evershop-coupon-expires={expires || undefined}
-        className={`evershop-coupon-block mx-auto max-w-[640px] rounded-lg px-6 py-8 text-center ${borderClass}`}
+        className={`evershop-coupon-block mx-auto my-6 md:my-10 max-w-[640px] rounded-lg px-6 py-8 text-center ${borderClass}`}
         style={{
           backgroundColor: backgroundColor || undefined
         }}
@@ -112,7 +112,7 @@ export default function CouponBlock({ couponBlockWidget }: CouponBlockProps) {
           <Editable
             as="div"
             fieldPath="settings.eyebrow"
-            className="evershop-coupon-block__eyebrow mb-2 text-[11px] font-semibold uppercase tracking-widest text-foreground/70"
+            className="evershop-coupon-block__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest mb-2 text-muted-foreground"
           >
             {eyebrow}
           </Editable>
@@ -120,7 +120,7 @@ export default function CouponBlock({ couponBlockWidget }: CouponBlockProps) {
         <Editable
           as="h2"
           fieldPath="settings.heading"
-          className="evershop-coupon-block__heading text-2xl font-semibold tracking-tight"
+          className="evershop-coupon-block__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl"
         >
           {heading}
         </Editable>
@@ -129,7 +129,7 @@ export default function CouponBlock({ couponBlockWidget }: CouponBlockProps) {
             as="p"
             fieldPath="settings.body"
             multiline
-            className="evershop-coupon-block__body mt-2 text-sm text-foreground/70"
+            className="evershop-coupon-block__body evershop-widget__subtext text-sm md:text-base mt-2 text-muted-foreground"
           >
             {body}
           </Editable>

@@ -124,7 +124,7 @@ export default function CheckoutPage({
       placeOrderApi={placeOrderApi}
       checkoutSuccessUrl={checkoutSuccessUrl}
     >
-      <h1 className="mb-8 text-3xl font-semibold tracking-tight">
+      <h1 className="checkout__page__title mb-8 text-3xl font-semibold tracking-tight">
         {_('Checkout')}
       </h1>
       <MobileOrderSummary />
