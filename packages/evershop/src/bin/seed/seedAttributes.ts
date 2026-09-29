@@ -5,6 +5,7 @@ import { insert, select } from '@evershop/postgres-query-builder';
 import { info, success, error } from '../../lib/log/logger.js';
 import { pool } from '../../lib/postgres/connection.js';
 import createProductAttribute from '../../modules/catalog/services/attribute/createProductAttribute.js';
+import { reportSeedSource, resolveSeedData } from './themeSeedData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,8 +45,11 @@ export async function seedAttributes(
   demoAttributeGroupId: number
 ): Promise<void> {
   info('Seeding attributes...');
-  const dataPath = path.join(__dirname, 'data', 'attributes.json');
-  const attributesData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+  const { data: attributesData, source } = resolveSeedData<any[]>(
+    'attributes',
+    path.join(__dirname, 'data')
+  );
+  reportSeedSource('attributes', source);
 
   for (const attributeData of attributesData) {
     try {

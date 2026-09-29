@@ -5,6 +5,7 @@ import { select } from '@evershop/postgres-query-builder';
 import { info, success, error } from '../../lib/log/logger.js';
 import { pool } from '../../lib/postgres/connection.js';
 import createCollection from '../../modules/catalog/services/collection/createCollection.js';
+import { reportSeedSource, resolveSeedData } from './themeSeedData.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,8 +15,11 @@ const __dirname = path.dirname(__filename);
  */
 export async function seedCollections(): Promise<void> {
   info('Seeding collections...');
-  const dataPath = path.join(__dirname, 'data', 'collections.json');
-  const collectionsData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+  const { data: collectionsData, source } = resolveSeedData<any[]>(
+    'collections',
+    path.join(__dirname, 'data')
+  );
+  reportSeedSource('collections', source);
 
   for (const collectionData of collectionsData) {
     try {
