@@ -1,6 +1,8 @@
 import { select } from '@evershop/postgres-query-builder';
 import { camelCase } from '../../../../../../lib/util/camelCase.js';
+import { getVirtualCollection } from '../../../../../../lib/util/virtualCollection.js';
 import { resolveLink } from '../../../../../../lib/widget/linkResolver.js';
+import { getProductsBaseQuery } from '../../../../services/getProductsBaseQuery.js';
 import { getProductsByCollectionBaseQuery } from '../../../../services/getProductsByCollectionBaseQuery.js';
 import { ProductCollection } from '../../../../services/ProductCollection.js';
 
@@ -47,11 +49,17 @@ export default {
           .from('collection')
           .where('code', '=', collection)
           .load(pool);
-        if (col) {
-          collectionName = col.name;
+        // A virtual collection has no row: it is answered by a query, so a
+        // theme's widget resolves on any store (services/virtualCollection.js).
+        // A real collection always wins — this runs only when the lookup misses.
+        const virtual = col ? null : getVirtualCollection(collection);
+        const membersQuery = () =>
+          col ? getProductsByCollectionBaseQuery(col.collection_id) : getProductsBaseQuery();
+        if (col || virtual) {
+          collectionName = col ? col.name : virtual.name;
 
           // Preview slice.
-          const previewQuery = getProductsByCollectionBaseQuery(col.collection_id);
+          const previewQuery = membersQuery();
           const previewList = new ProductCollection(previewQuery);
           await previewList.init(
             [
@@ -65,14 +73,19 @@ export default {
 
           // Full total — separate `total` lookup so we can show the live count
           // without fetching every row.
-          const totalQuery = getProductsByCollectionBaseQuery(col.collection_id);
+          const totalQuery = membersQuery();
           const totalList = new ProductCollection(totalQuery);
           await totalList.init(
             [{ key: 'limit', operation: 'eq', value: '1' }],
             !!user
           );
-          const total = await totalList.total();
-          totalProducts = typeof total === 'number' ? total : 0;
+          // Postgres returns COUNT as a bigint, which node-postgres hands back
+          // as a STRING — the old `typeof total === 'number'` guard therefore
+          // discarded every count and the widget always said 0 products
+          // (2026-09-18). GraphQL coerces the string elsewhere, which is why
+          // only this hand-rolled check was affected.
+          const total = Number(await totalList.total());
+          totalProducts = Number.isFinite(total) ? total : 0;
         }
       }
 

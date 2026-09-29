@@ -1,6 +1,8 @@
 import { select } from '@evershop/postgres-query-builder';
 import { camelCase } from '../../../../../../lib/util/camelCase.js';
+import { getVirtualCollection } from '../../../../../../lib/util/virtualCollection.js';
 import { resolveLink } from '../../../../../../lib/widget/linkResolver.js';
+import { getProductsBaseQuery } from '../../../../services/getProductsBaseQuery.js';
 import { getProductsByCollectionBaseQuery } from '../../../../services/getProductsByCollectionBaseQuery.js';
 import { ProductCollection } from '../../../../services/ProductCollection.js';
 
@@ -37,8 +39,13 @@ export default {
               .from('collection')
               .where('code', '=', row.source)
               .load(pool);
-            if (!col) return null;
-            const query = getProductsByCollectionBaseQuery(col.collection_id);
+            // See the spotlight resolver: a virtual collection has no row and is
+            // answered by a query instead. A real collection always wins.
+            const virtual = col ? null : getVirtualCollection(row.source);
+            if (!col && !virtual) return null;
+            const query = col
+              ? getProductsByCollectionBaseQuery(col.collection_id)
+              : getProductsBaseQuery();
             const productList = new ProductCollection(query);
             await productList.init(
               [

@@ -52,3 +52,8 @@ export * from './getProductsByCollectionBaseQuery.js';
 
 // Catalog behaviour settings (admin setting → config → default)
 export * from './catalogSettings.js';
+
+// Virtual collections (no rows; answered by a query). Defined in lib/ so the
+// page-builder pickers can import it too — the webpack alias maps
+// `@evershop/evershop/*` straight at dist/, where only `lib/*` paths resolve.
+export * from '../../../lib/util/virtualCollection.js';

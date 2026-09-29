@@ -1,5 +1,6 @@
 import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { listVirtualCollections } from '@evershop/evershop/lib/util/virtualCollection';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
 
@@ -62,14 +63,30 @@ export function CollectionPicker({
 
   const [result] = useQuery({ query: SEARCH_QUERY, variables: { filters } });
 
-  const items = (result.data?.collections?.items ?? []).map(
-    (c: { uuid: string; code: string; name: string }) => ({
+  // Built-in collections have no row, so `collections` cannot return them; they
+  // are merged in here and filtered by the same search box. A theme ships one
+  // when it cannot know which collections a store has, and a merchant should be
+  // able to pick it deliberately (catalog/services/virtualCollection.ts).
+  const needle = debounced.trim().toLowerCase();
+  const virtualItems = listVirtualCollections()
+    .filter((c) => !needle || c.name.toLowerCase().includes(needle))
+    .map((c) => ({
       id: c.code,
       primary: c.name,
-      secondary: c.code,
+      secondary: _('built-in'),
       _uuid: c.uuid
-    })
-  );
+    }));
+  const items = [
+    ...virtualItems,
+    ...(result.data?.collections?.items ?? []).map(
+      (c: { uuid: string; code: string; name: string }) => ({
+        id: c.code,
+        primary: c.name,
+        secondary: c.code,
+        _uuid: c.uuid
+      })
+    )
+  ];
 
   return (
     <EntitySearchList
