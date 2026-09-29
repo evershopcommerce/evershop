@@ -18,8 +18,14 @@
       { "option_text": "Pink" },
       { "option_text": "Gray" },
       { "option_text": "Navy" },
-      { "option_text": "Beige" }
-    ]
+      { "option_text": "Beige" },
+      { "option_text": "Brown" },
+      { "option_text": "Tan" },
+      { "option_text": "Taupe" },
+      { "option_text": "Cream" },
+      { "option_text": "Olive" }
+    ],
+    "is_variant": true
   },
   {
     "attribute_code": "size",
@@ -37,6 +43,7 @@
       { "option_text": "L" },
       { "option_text": "XL" },
       { "option_text": "XXL" }
-    ]
+    ],
+    "is_variant": true
   }
 ]

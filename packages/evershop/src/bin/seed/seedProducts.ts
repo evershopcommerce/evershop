@@ -7,8 +7,10 @@ import { pool } from '../../lib/postgres/connection.js';
 import createProduct from '../../modules/catalog/services/product/createProduct.js';
 import { seedProductImages } from './seedImages.js';
 import { seedSamplePackage } from './seedPackages.js';
+import { reportSeedSource, resolveSeedData } from './themeSeedData.js';
 import {
   createVariantGroups,
+  loadSeedAttributes,
   resolveAttributeOptions
 } from './variantGroupHelpers.js';
 
@@ -22,23 +24,34 @@ export async function seedProducts(
   demoAttributeGroupId: number
 ): Promise<void> {
   info('Seeding products...');
-  const dataPath = path.join(__dirname, 'data', 'products.json');
-  const productsData = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+  const { data: productsData, source } = resolveSeedData<any[]>(
+    'products',
+    path.join(__dirname, 'data')
+  );
+  reportSeedSource('products', source);
 
-  // Get color and size attribute IDs
-  const colorAttribute = await select()
-    .from('attribute')
-    .where('attribute_code', '=', 'color')
-    .load(pool);
+  // Which attributes exist, and which of them the data allows as variant axes.
+  // This used to look up the codes `color` and `size` by hand and abort if
+  // either was missing, which forced every industry to keep two fashion
+  // attributes around whether or not it used them.
+  const { data: attributesData } = resolveSeedData<any[]>(
+    'attributes',
+    path.join(__dirname, 'data')
+  );
+  const attributes = await loadSeedAttributes(attributesData);
 
-  const sizeAttribute = await select()
-    .from('attribute')
-    .where('attribute_code', '=', 'size')
-    .load(pool);
-
-  if (!colorAttribute || !sizeAttribute) {
+  const referenced = new Set<string>();
+  for (const p of productsData) {
+    for (const a of p.attributes || []) {
+      referenced.add(a.attribute_code);
+    }
+  }
+  const missing = [...referenced].filter((code) => !attributes.has(code));
+  if (missing.length > 0) {
     error(
-      'Color and Size attributes must be seeded first. Run: npm run seed -- --attributes'
+      `Attributes ${missing.join(
+        ', '
+      )} are referenced by the products but do not exist. Run: npm run seed -- --attributes`
     );
     return;
   }
@@ -52,7 +65,7 @@ export async function seedProducts(
   const variantGroupIds = await createVariantGroups(
     productsData,
     demoAttributeGroupId,
-    colorAttribute.attribute_id
+    attributes
   );
 
   // Seed products

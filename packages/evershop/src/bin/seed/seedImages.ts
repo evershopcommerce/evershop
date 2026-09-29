@@ -5,33 +5,98 @@ import { insert, select } from '@evershop/postgres-query-builder';
 import { info, success, warning, error } from '../../lib/log/logger.js';
 import { pool } from '../../lib/postgres/connection.js';
 import { uploadFile } from '../../modules/cms/services/uploadFile.js';
+import { ensureRoutesLoaded } from '../lib/ensureRoutesLoaded.js';
 import { downloadImage, getFilenameFromUrl } from './imageDownloader.js';
+import { resolveSeedImage } from './themeSeedData.js';
+
+const mimetypeFor = (filename: string): string => {
+  const name = filename.toLowerCase();
+  if (name.endsWith('.png')) return 'image/png';
+  if (name.endsWith('.webp')) return 'image/webp';
+  if (name.endsWith('.svg')) return 'image/svg+xml';
+  if (name.endsWith('.avif')) return 'image/avif';
+  return 'image/jpeg';
+};
+
+/** A random two-level folder, so a re-seed doesn't overwrite the last one. */
+const randomSubPath = (prefix: string): string =>
+  `${prefix}/${Math.floor(Math.random() * (9999 - 1000)) + 1000}/${
+    Math.floor(Math.random() * (9999 - 1000)) + 1000
+  }`;
 
 /**
- * Seed product images by downloading from GitHub raw URLs
+ * Put a file the active theme ships in its `public/` folder into the store's
+ * file storage and return its public URL.
+ *
+ * A theme's seed data names its own photos relatively (`demo/blog-1.jpg`), so
+ * seeding works offline and the demo content matches the demo theme. Only
+ * product images went through the storage provider; a category image or a blog
+ * thumbnail was written to the database verbatim and 404'd on the storefront.
+ *
+ * Returns null when the reference is not a readable theme file — an absolute
+ * URL keeps its existing behaviour (hot-linked for blog/category data,
+ * downloaded for product images), so core's own seed data is unaffected.
+ */
+export async function uploadThemeSeedImage(
+  url: string | undefined | null,
+  pathPrefix: string
+): Promise<string | null> {
+  const localFile = url ? resolveSeedImage(url) : null;
+  if (!localFile) {
+    return null;
+  }
+  // The LOCAL storage provider builds a file's public URL from the
+  // `staticAsset` route, and a CLI has not loaded the route registry — without
+  // this, seeding a local-storage store dies on the first image with
+  // `Route staticAsset is not existed` (FINDINGS #28).
+  ensureRoutesLoaded();
+
+  const filename = localFile.split('/').pop() as string;
+  const buffer = await readFile(localFile);
+  const [uploaded] = await uploadFile(
+    [
+      {
+        filename,
+        buffer,
+        mimetype: mimetypeFor(filename),
+        size: buffer.length
+      } as Express.Multer.File
+    ],
+    randomSubPath(pathPrefix)
+  );
+  return uploaded.url;
+}
+
+/**
+ * Seed product images: theme-local files are read from disk, everything else is
+ * downloaded, and both are handed to the configured storage provider.
  */
 export async function seedProductImages(
   productId: number,
   images: any[]
 ): Promise<void> {
   if (!images || images.length === 0) return;
+  ensureRoutesLoaded();
 
   for (let i = 0; i < images.length; i++) {
     const imageData = images[i];
     try {
       let finalImageUrl = imageData.url;
 
-      // Download image if it's a remote URL
-      if (imageData.url && imageData.url.startsWith('http')) {
-        info(`  → Downloading image: ${imageData.url}`);
+      const localFile = resolveSeedImage(imageData.url);
+      if (localFile || (imageData.url && imageData.url.startsWith('http'))) {
+        info(
+          localFile
+            ? `  → Theme image: ${imageData.url}`
+            : `  → Downloading image: ${imageData.url}`
+        );
 
-        // Get filename from URL
-        const filename = getFilenameFromUrl(imageData.url);
+        const filename = localFile
+          ? (localFile.split('/').pop() as string)
+          : getFilenameFromUrl(imageData.url);
 
         // Destination path - organize by SKU
-        const subPath = `catalog/${
-          Math.floor(Math.random() * (9999 - 1000)) + 1000
-        }/${Math.floor(Math.random() * (9999 - 1000)) + 1000}`;
+        const subPath = randomSubPath('catalog');
 
         // Download to a temp file, then hand the bytes to the configured
         // storage provider (local, S3, Azure, GCS). Writing straight into
@@ -41,20 +106,16 @@ export async function seedProductImages(
         const tempPath = join(tmpdir(), `seed-${Date.now()}-${filename}`);
 
         try {
-          // Download image
-          await downloadImage(imageData.url, tempPath);
-          const buffer = await readFile(tempPath);
-          const mimetype = filename.toLowerCase().endsWith('.png')
-            ? 'image/png'
-            : filename.toLowerCase().endsWith('.webp')
-              ? 'image/webp'
-              : 'image/jpeg';
+          if (!localFile) {
+            await downloadImage(imageData.url, tempPath);
+          }
+          const buffer = await readFile(localFile ?? tempPath);
           const [uploaded] = await uploadFile(
             [
               {
                 filename,
                 buffer,
-                mimetype,
+                mimetype: mimetypeFor(filename),
                 size: buffer.length
               } as Express.Multer.File
             ],
