@@ -8,6 +8,11 @@ import {
 } from '@evershop/postgres-query-builder';
 import type { Pool, PoolClient } from 'pg';
 import semver from 'semver';
+import {
+  resolveAssetTokens,
+  uploadThemeAssets,
+  type AssetUploader
+} from './assets.js';
 import { writeAuditLog } from './auditLog.js';
 import {
   Conflict,
@@ -33,15 +38,46 @@ import type {
   PlacementRecord,
   WidgetRecord
 } from './manifest.js';
+import {
+  applyStoreRefs,
+  collectStoreRefs,
+  resolveStoreRefs,
+  type ResolvedStoreRef
+} from './storeRefs.js';
 
 export interface InstallOpts {
   themeId: string;
   manifest: Manifest;
   pool: Pool;
+  /**
+   * The theme's directory, needed to read the files `manifest.assets` declares.
+   * Omit to skip asset upload entirely (tests, and callers that only diff).
+   */
+  themeDir?: string;
+  /**
+   * Uploads a theme's assets through the store's configured storage provider.
+   * Injected so `lib/theme` stays free of a hard `modules/cms` import and so
+   * install can be tested without touching a filesystem or a bucket.
+   */
+  uploadAsset?: AssetUploader;
+}
+
+export interface StoreRefReport {
+  resolved: ResolvedStoreRef[];
+}
+
+export interface AssetUploadReport {
+  uploaded: { path: string; url: string }[];
+  /** Declared but absent from the theme folder; their tokens stay unresolved. */
+  missing: string[];
 }
 
 export interface InstallResult {
   command: 'install' | 'upgrade' | 'no-op' | 'rejected';
+  /** Present when the manifest declared `assets[]`. */
+  assets?: AssetUploadReport;
+  /** Present when the manifest referenced store data (`store-ref:` tokens). */
+  storeRefs?: StoreRefReport;
   counts: DiffResult['counts'];
   conflicts: Conflict[];
   /**
@@ -338,6 +374,39 @@ export async function installOrUpgrade(
   // Reserved slugs + enabled locales, read once: url_key generation consults
   // them for every new landing page.
   const guard = await loadUrlKeyGuard();
+  // Ship the theme's files into the store's storage BEFORE the transaction:
+  // it is network I/O (S3/Azure/GCS), and an upload is idempotent by key, so a
+  // later rollback leaves a harmless overwritten object rather than a torn
+  // transaction. `assetUrls` then resolves `theme-asset:` tokens on BOTH sides
+  // of the diff — the snapshot keeps the authored tokens (see the write below),
+  // so an upgrade compares like with like instead of reading every image as a
+  // change.
+  const declaredAssets = opts.manifest.assets ?? [];
+  let assets: AssetUploadReport | undefined;
+  let assetUrls = new Map<string, string>();
+  if (declaredAssets.length > 0 && opts.themeDir && opts.uploadAsset) {
+    const result = await uploadThemeAssets(
+      opts.themeDir,
+      opts.themeId,
+      declaredAssets,
+      opts.uploadAsset
+    );
+    assetUrls = result.urls;
+    assets = { uploaded: result.uploaded, missing: result.missing };
+  }
+  // Point the theme's widgets at THIS store's data. Read-only: activation
+  // installs a theme's content, never a store's catalogue, so a reference that
+  // matches nothing becomes an empty setting (the widget renders its own empty
+  // state) and is reported rather than invented.
+  const refs = collectStoreRefs(opts.manifest);
+  const resolvedRefs =
+    refs.length > 0 ? await resolveStoreRefs(opts.pool, refs) : [];
+  const storeRefs: StoreRefReport | undefined =
+    resolvedRefs.length > 0 ? { resolved: resolvedRefs } : undefined;
+  const manifest = applyStoreRefs(
+    resolveAssetTokens(opts.manifest, assetUrls),
+    resolvedRefs
+  );
   const conn = await opts.pool.connect();
   await startTransaction(conn);
   try {
@@ -355,13 +424,13 @@ export async function installOrUpgrade(
       // skip their INSERT (they're already the source of truth) and insert
       // only what's genuinely missing. This avoids colliding on the uuid
       // unique constraint while still recording the install baseline.
-      const pageUuids = knownPageUuids(opts.manifest);
+      const pageUuids = knownPageUuids(manifest);
       const liveDb = await loadLiveDbForTheme(conn, opts.themeId, pageUuids);
       // A landing page uuid that already exists is ADOPTED, whatever theme (if
       // any) built it: pages are not theme property, so there is no foreign
       // owner to refuse. Its live fields and url_key are left untouched.
       const existingPages = await findLandingPagesByUuid(conn, pageUuids);
-      const toInsert = freshInstallOps(opts.manifest).filter((op) => {
+      const toInsert = freshInstallOps(manifest).filter((op) => {
         if (op.table === 'widget_instance') return !liveDb.widgets.has(op.uuid);
         if (op.table === 'landing_page') return !existingPages.has(op.uuid);
         return !liveDb.placements.has(op.uuid);
@@ -369,6 +438,8 @@ export async function installOrUpgrade(
       await applyOps(conn, opts.themeId, toInsert, guard);
       await conn.query(
         `INSERT INTO theme_install_state (theme, snapshot) VALUES ($1, $2::jsonb)`,
+        // Authored form on purpose: tokens, not the URLs this store happens
+        // to have produced. Resolution is re-applied on every upgrade.
         [opts.themeId, JSON.stringify(opts.manifest)]
       );
       const widgetsAdded = toInsert.filter(
@@ -392,16 +463,18 @@ export async function installOrUpgrade(
         command: 'install',
         counts,
         conflicts: [],
+        ...(assets ? { assets } : {}),
+        ...(storeRefs ? { storeRefs } : {}),
         adopted: {
-          widgets: opts.manifest.widgets.length - widgetsAdded,
+          widgets: manifest.widgets.length - widgetsAdded,
           placements:
-            opts.manifest.placements.length +
-            (opts.manifest.landingPages ?? []).reduce(
+            manifest.placements.length +
+            (manifest.landingPages ?? []).reduce(
               (n, lp) => n + (lp.placements?.length ?? 0),
               0
             ) -
             placementsAdded,
-          landingPages: (opts.manifest.landingPages ?? []).length - pagesAdded
+          landingPages: (manifest.landingPages ?? []).length - pagesAdded
         }
       };
     }
@@ -412,8 +485,12 @@ export async function installOrUpgrade(
     //   - equal to installed     → no-op (warn if content drifted)
     //   - higher than installed  → apply the content diff + record new version
     const snapshot = stateRow.rows[0].snapshot as Manifest;
+    const resolvedSnapshot = applyStoreRefs(
+      resolveAssetTokens(snapshot, assetUrls),
+      resolvedRefs
+    );
     const installedVersion = snapshot.version;
-    const newVersion = opts.manifest.version;
+    const newVersion = manifest.version;
     // A legacy / invalid recorded version (e.g. a pre-rename snapshot) can't be
     // compared — treat it as upgradeable rather than crashing the comparator.
     const cmp = semver.valid(installedVersion)
@@ -436,7 +513,7 @@ export async function installOrUpgrade(
       // Same version: no upgrade. Flag content drift so the CLI can nudge the
       // author to bump the version.
       const contentSame =
-        contentFingerprint(opts.manifest) === contentFingerprint(snapshot);
+        contentFingerprint(manifest) === contentFingerprint(resolvedSnapshot);
       await commit(conn);
       return {
         command: 'no-op',
@@ -451,9 +528,9 @@ export async function installOrUpgrade(
     const liveDb = await loadLiveDbForTheme(
       conn,
       opts.themeId,
-      knownPageUuids(snapshot, opts.manifest)
+      knownPageUuids(resolvedSnapshot, manifest)
     );
-    const diff = diffManifest(snapshot, opts.manifest, liveDb);
+    const diff = diffManifest(resolvedSnapshot, manifest, liveDb);
     await applyOps(conn, opts.themeId, diff.ops, guard);
     await conn.query(
       `UPDATE theme_install_state SET snapshot = $2::jsonb, updated_at = NOW()
@@ -470,6 +547,8 @@ export async function installOrUpgrade(
     await commit(conn);
     return {
       command: 'upgrade',
+      ...(assets ? { assets } : {}),
+      ...(storeRefs ? { storeRefs } : {}),
       counts: diff.counts,
       conflicts: diff.conflicts,
       releasedLandingPages: diff.releasedLandingPages,
