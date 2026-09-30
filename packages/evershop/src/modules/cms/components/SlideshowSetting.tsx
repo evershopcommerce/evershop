@@ -1,4 +1,3 @@
- 
 import { FileBrowser } from '@components/admin/FileBrowser.js';
 import { normalizeImageSrc } from '@components/common/page-builder/normalizeImageSrc.js';
 import { LinkPicker } from '@components/common/page-builder/pickers/LinkPicker.js';
@@ -450,18 +449,16 @@ export default function SlideshowSetting({
     'settings.dotsStyle',
     dotsStyle ?? (dots ? 'dots' : 'hidden')
   ) ?? (dots ? 'dots' : 'hidden')) as DotsStyle;
-  const currentAspectRatio = (watch(
-    'settings.aspectRatio',
-    aspectRatio
-  ) as AspectRatio) || 'auto';
-  const currentDefaultPosition = (watch(
-    'settings.defaultContentPosition',
-    defaultContentPosition
-  ) as ContentAnchor) || 'mc';
-  const currentDefaultTint = (watch(
-    'settings.defaultOverlayTint',
-    defaultOverlayTint
-  ) as OverlayTint) || 'none';
+  const currentAspectRatio =
+    (watch('settings.aspectRatio', aspectRatio) as AspectRatio) || 'auto';
+  const currentDefaultPosition =
+    (watch(
+      'settings.defaultContentPosition',
+      defaultContentPosition
+    ) as ContentAnchor) || 'mc';
+  const currentDefaultTint =
+    (watch('settings.defaultOverlayTint', defaultOverlayTint) as OverlayTint) ||
+    'none';
   const currentDefaultOpacity = Number(
     watch('settings.defaultOverlayOpacity', defaultOverlayOpacity)
   );
@@ -508,10 +505,7 @@ export default function SlideshowSetting({
       if (slide.image && (!slide.width || !slide.height)) {
         loadImageDimensions(slide.image, idx);
       }
-      if (
-        slide.mobileImage &&
-        (!slide.mobileWidth || !slide.mobileHeight)
-      ) {
+      if (slide.mobileImage && (!slide.mobileWidth || !slide.mobileHeight)) {
         loadImageDimensions(slide.mobileImage, idx, 'mobile');
       }
     });
@@ -520,10 +514,10 @@ export default function SlideshowSetting({
   const [activeSlideIndex, setActiveSlideIndex] = useState<number | null>(
     fields.length > 0 ? 0 : null
   );
-  const [imagePickerTarget, setImagePickerTarget] = useState<
-    | { kind: 'desktop' | 'mobile'; slideIndex: number }
-    | null
-  >(null);
+  const [imagePickerTarget, setImagePickerTarget] = useState<{
+    kind: 'desktop' | 'mobile';
+    slideIndex: number;
+  } | null>(null);
 
   const loadImageDimensions = (
     imageUrl: string,
@@ -533,7 +527,9 @@ export default function SlideshowSetting({
     if (!imageUrl) return;
     const img = new Image();
     const [widthKey, heightKey] =
-      target === 'mobile' ? ['mobileWidth', 'mobileHeight'] : ['width', 'height'];
+      target === 'mobile'
+        ? ['mobileWidth', 'mobileHeight']
+        : ['width', 'height'];
     img.onload = () => {
       // Path-level setValue (rather than rebuilding the slides array) so
       // text inputs registered in the same slide row don't get remounted
@@ -763,7 +759,9 @@ export default function SlideshowSetting({
           <Field label={_('Sub text')}>
             <textarea
               {...register(`settings.slides.${idx}.subText` as any)}
-              placeholder={_('Check out our latest products with special discounts.')}
+              placeholder={_(
+                'Check out our latest products with special discounts.'
+              )}
               rows={2}
               className="w-full rounded-md border border-divider bg-card px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary resize-vertical"
             />
@@ -923,6 +921,7 @@ export default function SlideshowSetting({
       {imagePickerTarget && (
         <div className="max-h-96">
           <FileBrowser
+            accept={['image/*']}
             isMultiple={false}
             onInsert={handleImagePick}
             close={() => setImagePickerTarget(null)}
@@ -1079,7 +1078,12 @@ export default function SlideshowSetting({
             <p className="text-sm text-muted-foreground mb-3">
               {_('No slides yet.')}
             </p>
-            <Button variant="outline" size="sm" type="button" onClick={addSlide}>
+            <Button
+              variant="outline"
+              size="sm"
+              type="button"
+              onClick={addSlide}
+            >
               <Plus className="h-3 w-3 mr-1" />
               {_('Add your first slide')}
             </Button>
@@ -1087,7 +1091,8 @@ export default function SlideshowSetting({
         ) : (
           <ul className="space-y-2">
             {fields.map((field, idx) => {
-              const slide = currentSlides[idx] || (field as unknown as SlideData);
+              const slide =
+                currentSlides[idx] || (field as unknown as SlideData);
               const active = activeSlideIndex === idx;
               const isHidden = Boolean(slide.hidden);
               return (
@@ -1102,9 +1107,7 @@ export default function SlideshowSetting({
                   <div className="flex items-center gap-2 p-2">
                     <button
                       type="button"
-                      onClick={() =>
-                        setActiveSlideIndex(active ? null : idx)
-                      }
+                      onClick={() => setActiveSlideIndex(active ? null : idx)}
                       className="flex flex-1 items-center gap-2 text-left"
                     >
                       <div className="relative h-10 w-16 shrink-0 overflow-hidden rounded border border-divider bg-muted/40">
@@ -1194,7 +1197,6 @@ export default function SlideshowSetting({
     </div>
   );
 }
-
 
 export const query = `
   query Query(

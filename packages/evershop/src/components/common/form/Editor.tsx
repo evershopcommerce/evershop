@@ -116,101 +116,103 @@ const SortableRow: React.FC<{
       style={style}
     >
       {showActions && (
-      <div
-        className="row__actions"
-        ref={actionsRef}
-        style={dropdownOpen ? { opacity: 1, pointerEvents: 'all' } : undefined}
-      >
-        <button
-          type="button"
-          className="row__actions-btn"
-          {...attributes}
-          {...listeners}
-          onClick={() => setDropdownOpen((prev) => !prev)}
+        <div
+          className="row__actions"
+          ref={actionsRef}
+          style={
+            dropdownOpen ? { opacity: 1, pointerEvents: 'all' } : undefined
+          }
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            fill="none"
-            viewBox="0 0 24 24"
+          <button
+            type="button"
+            className="row__actions-btn"
+            {...attributes}
+            {...listeners}
+            onClick={() => setDropdownOpen((prev) => !prev)}
           >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="2.6"
-              d="M9.40999 7.29999H9.4"
-            ></path>
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="2.6"
-              d="M14.6 7.29999H14.59"
-            ></path>
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="2.6"
-              d="M9.30999 12H9.3"
-            ></path>
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="2.6"
-              d="M14.6 12H14.59"
-            ></path>
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="2.6"
-              d="M9.40999 16.7H9.4"
-            ></path>
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeWidth="2.6"
-              d="M14.6 16.7H14.59"
-            ></path>
-          </svg>
-        </button>
-        {dropdownOpen && (
-          <div className="row__dropdown">
-            <button
-              type="button"
-              className="row__dropdown-item"
-              onClick={() => {
-                moveRowUp(row.id);
-                setDropdownOpen(false);
-              }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
             >
-              <ArrowUp width={14} height={14} />
-              <span>{_('Move up')}</span>
-            </button>
-            <button
-              type="button"
-              className="row__dropdown-item"
-              onClick={() => {
-                moveRowDown(row.id);
-                setDropdownOpen(false);
-              }}
-            >
-              <ArrowDown width={14} height={14} />
-              <span>{_('Move down')}</span>
-            </button>
-            <button
-              type="button"
-              className="row__dropdown-item row__dropdown-item--danger"
-              onClick={() => {
-                removeRow(row.id);
-                setDropdownOpen(false);
-              }}
-            >
-              <Trash2 width={14} height={14} />
-              <span>{_('Delete')}</span>
-            </button>
-          </div>
-        )}
-      </div>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="2.6"
+                d="M9.40999 7.29999H9.4"
+              ></path>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="2.6"
+                d="M14.6 7.29999H14.59"
+              ></path>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="2.6"
+                d="M9.30999 12H9.3"
+              ></path>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="2.6"
+                d="M14.6 12H14.59"
+              ></path>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="2.6"
+                d="M9.40999 16.7H9.4"
+              ></path>
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeWidth="2.6"
+                d="M14.6 16.7H14.59"
+              ></path>
+            </svg>
+          </button>
+          {dropdownOpen && (
+            <div className="row__dropdown">
+              <button
+                type="button"
+                className="row__dropdown-item"
+                onClick={() => {
+                  moveRowUp(row.id);
+                  setDropdownOpen(false);
+                }}
+              >
+                <ArrowUp width={14} height={14} />
+                <span>{_('Move up')}</span>
+              </button>
+              <button
+                type="button"
+                className="row__dropdown-item"
+                onClick={() => {
+                  moveRowDown(row.id);
+                  setDropdownOpen(false);
+                }}
+              >
+                <ArrowDown width={14} height={14} />
+                <span>{_('Move down')}</span>
+              </button>
+              <button
+                type="button"
+                className="row__dropdown-item row__dropdown-item--danger"
+                onClick={() => {
+                  removeRow(row.id);
+                  setDropdownOpen(false);
+                }}
+              >
+                <Trash2 width={14} height={14} />
+                <span>{_('Delete')}</span>
+              </button>
+            </div>
+          )}
+        </div>
       )}
       {children}
     </div>
@@ -618,6 +620,7 @@ export const Editor: React.FC<EditorProps> = ({
       <input type="hidden" {...register(name)} />
       {openFileBrowser && (
         <FileBrowser
+          accept={['image/*']}
           onInsert={(url) => {
             fileBrowser && fileBrowser.onUpload(url);
             setOpenFileBrowser(false);

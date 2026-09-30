@@ -1,5 +1,8 @@
 import { getConfig } from '../../../../../lib/util/getConfig.js';
-import { SELECTABLE_MIME_TYPES } from '../../../services/getMulter.js';
+import {
+  getAllowedMimeTypes,
+  SELECTABLE_MIME_TYPES
+} from '../../../services/getMulter.js';
 
 type SettingRow = { name: string; value: string };
 type OverrideRow = { type: string; maxSize: number };
@@ -18,7 +21,9 @@ const toOverrideRows = (value: unknown): OverrideRow[] => {
       type: String((row as OverrideRow)?.type || ''),
       maxSize: toPositiveNumber((row as OverrideRow)?.maxSize)
     }))
-    .filter((row): row is OverrideRow => Boolean(row.type) && row.maxSize !== null);
+    .filter(
+      (row): row is OverrideRow => Boolean(row.type) && row.maxSize !== null
+    );
 };
 
 export default {
@@ -74,6 +79,9 @@ export default {
     uploadAllowedMimeTypesConfigExtras: () => {
       const extras = getConfig('system.upload_allowed_mime_types', []);
       return Array.isArray(extras) ? extras : [];
-    }
+    },
+    // The same function `fileFilter` calls, so the file picker's `accept` and
+    // the server's rejection can never disagree.
+    uploadAllowedMimeTypesEffective: () => getAllowedMimeTypes()
   }
 };

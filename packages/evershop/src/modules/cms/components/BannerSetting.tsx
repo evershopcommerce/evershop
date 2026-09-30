@@ -269,6 +269,7 @@ export default function BannerSetting({ bannerWidget }: BannerSettingProps) {
       {openFileBrowser && (
         <div className="max-h-96">
           <FileBrowser
+            accept={['image/*']}
             isMultiple={false}
             onInsert={(file) => {
               const normalized = normalizeImageSrc(file);

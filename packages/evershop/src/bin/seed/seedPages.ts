@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 import {
   commit,
   insert,
@@ -7,7 +8,6 @@ import {
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
-import { fileURLToPath } from 'url';
 import { error, info, success } from '../../lib/log/logger.js';
 import { getConnection, pool } from '../../lib/postgres/connection.js';
 import { reportSeedSource, resolveSeedData } from './themeSeedData.js';

@@ -1,4 +1,3 @@
- 
 import { FileBrowser } from '@components/admin/FileBrowser.js';
 // Aliased to avoid the name clash with the DOM `Image` constructor we use
 // below to read natural dimensions on insert / mount.
@@ -96,6 +95,7 @@ export function ImagePickerField({
         {open && (
           <div className="max-h-96">
             <FileBrowser
+              accept={['image/*']}
               isMultiple={false}
               onInsert={handleInsert}
               close={() => setOpen(false)}
@@ -135,6 +135,7 @@ export function ImagePickerField({
       {open && (
         <div className="max-h-96">
           <FileBrowser
+            accept={['image/*']}
             isMultiple={false}
             onInsert={handleInsert}
             close={() => setOpen(false)}

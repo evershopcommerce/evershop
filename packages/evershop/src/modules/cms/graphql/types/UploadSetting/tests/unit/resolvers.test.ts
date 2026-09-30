@@ -120,5 +120,41 @@ describe('UploadSetting admin resolvers', () => {
         'application/x-abc'
       ]);
     });
+
+    describe('uploadAllowedMimeTypesEffective', () => {
+      // The file browser sets the file picker's `accept` from this. It has to
+      // be the list the server actually enforces, or the picker offers a type
+      // the upload then refuses.
+      it('is the built-in image defaults when nothing is selected', () => {
+        const effective = resolvers.uploadAllowedMimeTypesEffective(
+          []
+        ) as string[];
+        expect(effective).toContain('image/png');
+        expect(effective).toContain('image/webp');
+        // SVG can carry scripts and is never offered.
+        expect(effective).not.toContain('image/svg+xml');
+      });
+
+      it('includes the config extras on top of the defaults', () => {
+        configValues['system.upload_allowed_mime_types'] = ['application/pdf'];
+        const effective = resolvers.uploadAllowedMimeTypesEffective(
+          []
+        ) as string[];
+        expect(effective).toContain('application/pdf');
+        expect(effective).toContain('image/png');
+      });
+
+      it('matches what fileFilter enforces', async () => {
+        // One list, two consumers. If these ever diverge, the admin offers
+        // uploads the server rejects.
+        configValues['system.upload_allowed_mime_types'] = ['video/mp4'];
+        const { getAllowedMimeTypes } = await import(
+          '../../../../../services/getMulter.js'
+        );
+        expect(resolvers.uploadAllowedMimeTypesEffective([])).toEqual(
+          getAllowedMimeTypes()
+        );
+      });
+    });
   });
 });
