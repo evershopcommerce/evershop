@@ -15,18 +15,21 @@ import { registerDefaultContactSubmissionFilters } from './services/contact/regi
 import {
   azureFileBrowser,
   azureFileDeleter,
+  azureFileRenamer,
   azureFileUploader,
   azureFolderCreator
 } from './services/storage/azure/azureStorage.js';
 import {
   gcsFileBrowser,
   gcsFileDeleter,
+  gcsFileRenamer,
   gcsFileUploader,
   gcsFolderCreator
 } from './services/storage/gcs/gcsStorage.js';
 import {
   s3FileBrowser,
   s3FileDeleter,
+  s3FileRenamer,
   s3FileUploader,
   s3FolderCreator
 } from './services/storage/s3/s3Storage.js';
@@ -239,6 +242,10 @@ export default (context: { command?: string } = {}) => {
     const ctx = this as { config?: string };
     return ctx.config === 's3' ? s3FolderCreator : value;
   });
+  addProcessor('fileRenamer', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 's3' ? s3FileRenamer : value;
+  });
   addProcessor('fileUploader', function (value) {
     const ctx = this as { config?: string };
     return ctx.config === 'azure' ? azureFileUploader : value;
@@ -255,6 +262,10 @@ export default (context: { command?: string } = {}) => {
     const ctx = this as { config?: string };
     return ctx.config === 'azure' ? azureFolderCreator : value;
   });
+  addProcessor('fileRenamer', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'azure' ? azureFileRenamer : value;
+  });
   addProcessor('fileUploader', function (value) {
     const ctx = this as { config?: string };
     return ctx.config === 'gcs' ? gcsFileUploader : value;
@@ -270,6 +281,10 @@ export default (context: { command?: string } = {}) => {
   addProcessor('folderCreator', function (value) {
     const ctx = this as { config?: string };
     return ctx.config === 'gcs' ? gcsFolderCreator : value;
+  });
+  addProcessor('fileRenamer', function (value) {
+    const ctx = this as { config?: string };
+    return ctx.config === 'gcs' ? gcsFileRenamer : value;
   });
 
   const defaultThemeConfig = {
