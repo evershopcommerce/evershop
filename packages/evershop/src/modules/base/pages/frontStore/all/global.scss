@@ -1,4 +1,18 @@
 @layer base {
+  /* The page's content column, in one place. Consumed by `.page-width` below
+   * and by any widget that has to rebuild the column after breaking out of it
+   * (see `modules/cms/components/Section.tsx`). */
+  :root {
+    --page-max-width: 1200px;
+    --page-gutter: 1rem;
+  }
+
+  @media screen and (min-width: 1024px) {
+    :root {
+      --page-gutter: 1.5rem;
+    }
+  }
+
   body {
     /* Re-skin (2026-07-10): 16px base + 1.5 line-height + token text color,
      * matching the design reference (was 14px, line-height up to 2.0, #3a3a3a). */
@@ -82,14 +96,23 @@
     margin: 0 auto;
   }
 
-  /* Container — tighter gutter to match the reference (was 22px / 55px). */
+  /* Container — tighter gutter to match the reference (was 22px / 55px).
+   *
+   * The two numbers are published as custom properties because widgets need
+   * them too: the Section widget's "wide" mode breaks out to the viewport to
+   * paint a full-bleed background and then has to rebuild this exact column
+   * for its content, and "boxed" has to cap at this exact width. Reading them
+   * from here rather than copying the numbers is what keeps a theme that
+   * changes its page width from leaving those widgets behind.
+   *
+   * A theme overriding `.page-width` must set these rather than restate the
+   * numbers: a theme's GlobalCss REPLACES this file rather than extending it
+   * (both are the component key `all/GlobalCss`), so this :root block does not
+   * load in a themed store and the widgets fall back to the values above. */
   .page-width {
-    max-width: 1200px;
+    max-width: var(--page-max-width);
     margin: 0 auto;
-    padding: 0 1rem;
-    @media screen and (min-width: 1024px) {
-      padding: 0 1.5rem;
-    }
+    padding: 0 var(--page-gutter);
   }
 
   table {
