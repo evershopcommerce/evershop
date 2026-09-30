@@ -9,6 +9,7 @@ let deleteIfExistsResults: Array<{ succeeded: boolean }> = [];
 const deleteIfExistsCalls: string[] = [];
 let hierarchyItems: any[] = [];
 let hierarchyOptions: any = null;
+let byPageOptions: any = null;
 
 const encode = (name: string) =>
   name.split('/').map(encodeURIComponent).join('/');
@@ -37,11 +38,43 @@ const containerClient = {
   }),
   listBlobsByHierarchy: (delimiter: string, options: any) => {
     hierarchyOptions = { delimiter, options };
-    return (async function* generate() {
-      for (const item of hierarchyItems) {
-        yield item;
+    const matching = hierarchyItems.filter((item) =>
+      options?.prefix ? item.name.startsWith(options.prefix) : true
+    );
+    return {
+      // The real SDK's PagedAsyncIterableIterator: `byPage` hands back one
+      // segment at a time plus a continuation token, which is what makes the
+      // listing resumable. The bare iterator (still spread below) pages
+      // transparently and would walk the whole container.
+      byPage: (pageOptions: any) => {
+        byPageOptions = pageOptions;
+        const start = pageOptions?.continuationToken
+          ? Number(pageOptions.continuationToken)
+          : 0;
+        const size = pageOptions?.maxPageSize ?? matching.length;
+        const slice = matching.slice(start, start + size);
+        const end = start + slice.length;
+        return {
+          next: async () => ({
+            done: false,
+            value: {
+              segment: {
+                blobPrefixes: slice.filter((i) => i.kind === 'prefix'),
+                blobItems: slice.filter((i) => i.kind !== 'prefix')
+              },
+              ...(end < matching.length
+                ? { continuationToken: String(end) }
+                : {})
+            }
+          })
+        };
+      },
+      [Symbol.asyncIterator]: async function* generate() {
+        for (const item of matching) {
+          yield item;
+        }
       }
-    })();
+    };
   }
 };
 
@@ -101,6 +134,7 @@ describe('azureStorage', () => {
     deleteIfExistsCalls.length = 0;
     deleteIfExistsResults = [];
     hierarchyItems = [];
+    byPageOptions = null;
     hierarchyOptions = null;
     warning.mockClear();
     azureConfig = makeConfig();
@@ -121,9 +155,9 @@ describe('azureStorage', () => {
 
   it('retries the container ensure after a failure instead of caching it', async () => {
     createIfNotExistsFailures = 1;
-    await expect(azureFileUploader.upload([file('a.webp')], '')).rejects.toThrow(
-      'PublicAccessNotPermitted'
-    );
+    await expect(
+      azureFileUploader.upload([file('a.webp')], '')
+    ).rejects.toThrow('PublicAccessNotPermitted');
     await expect(
       azureFileUploader.upload([file('a.webp')], '')
     ).resolves.toHaveLength(1);
@@ -154,28 +188,82 @@ describe('azureStorage', () => {
     hierarchyItems = [
       { kind: 'prefix', name: 'catalog/sub1/' },
       { kind: 'blob', name: 'catalog/', properties: { contentLength: 0 } },
-      { kind: 'blob', name: 'catalog/one.webp', properties: { contentLength: 5 } },
-      { kind: 'blob', name: 'catalog/empty.txt', properties: { contentLength: 0 } }
+      {
+        kind: 'blob',
+        name: 'catalog/one.webp',
+        properties: { contentLength: 5 }
+      },
+      {
+        kind: 'blob',
+        name: 'catalog/empty.txt',
+        properties: { contentLength: 0 }
+      }
     ];
-    const { files, folders } = await azureFileBrowser.list('catalog');
+    const { files, folders, nextCursor } = await azureFileBrowser.list(
+      'catalog'
+    );
     expect(hierarchyOptions).toEqual({
       delimiter: '/',
       options: { prefix: 'catalog/' }
     });
     expect(folders).toEqual(['sub1']);
     expect(files.map((f) => f.name)).toEqual(['one.webp', 'empty.txt']);
+    expect(nextCursor).toBeUndefined();
     expect(files[0].url).toBe(
       'https://acct.blob.core.windows.net/images/catalog/one.webp'
     );
+  });
+
+  it('returns ONE page and a resumable cursor, not the whole container', async () => {
+    // Before pagination this drained the auto-paging iterator, so rendering a
+    // folder of 50,000 blobs meant listing all 50,000.
+    hierarchyItems = [
+      { kind: 'blob', name: 'catalog/a.webp', properties: {} },
+      { kind: 'blob', name: 'catalog/b.webp', properties: {} },
+      { kind: 'blob', name: 'catalog/c.webp', properties: {} },
+      // Alphabetically last, so it falls outside the first file page — and
+      // must still reach the sidebar with that page.
+      { kind: 'prefix', name: 'catalog/zzz-late/' }
+    ];
+    const first = await azureFileBrowser.list('catalog', { limit: 2 });
+    expect(first.files.map((f) => f.name)).toEqual(['a.webp', 'b.webp']);
+    expect(first.folders).toEqual(['zzz-late']);
+    expect(first.nextCursor).toBeDefined();
+    // The scan that found it uses the largest page the API allows.
+    expect(byPageOptions).toMatchObject({ maxPageSize: 1000 });
+
+    const second = await azureFileBrowser.list('catalog', {
+      limit: 2,
+      cursor: first.nextCursor as string
+    });
+    expect(second.files.map((f) => f.name)).toEqual(['c.webp']);
+    // A later page never re-sends the folders; the caller has them.
+    expect(second.folders).toEqual([]);
+    expect(second.nextCursor).toBeUndefined();
+    expect(byPageOptions).toMatchObject({
+      continuationToken: first.nextCursor
+    });
+  });
+
+  it('pushes a name search down to the blob prefix', async () => {
+    hierarchyItems = [
+      { kind: 'blob', name: 'catalog/apple.webp', properties: {} },
+      { kind: 'blob', name: 'catalog/banana.webp', properties: {} }
+    ];
+    const { files } = await azureFileBrowser.list('catalog', {
+      limit: 10,
+      prefix: 'app'
+    });
+    // Native prefix filter — the container is never scanned client-side.
+    expect(hierarchyOptions.options.prefix).toBe('catalog/app');
+    expect(files.map((f) => f.name)).toEqual(['apple.webp']);
   });
 
   it('treats deleting a missing blob as a successful no-op with a warning', async () => {
     deleteIfExistsResults = [{ succeeded: false }];
     await expect(azureFileDeleter.delete('gone.webp')).resolves.toBeUndefined();
     expect(deleteIfExistsCalls).toEqual(['gone.webp']);
-    expect(warning).toHaveBeenCalledWith(
-      expect.stringContaining('gone.webp')
-    );
+    expect(warning).toHaveBeenCalledWith(expect.stringContaining('gone.webp'));
   });
 
   it('creates a zero-byte folder marker and returns the normalized path', async () => {
