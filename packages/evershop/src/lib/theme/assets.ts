@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
+import { mimeFor } from '../util/mime.js';
 
 /**
  * Image (and other binary) files a theme ships with its content
@@ -133,7 +134,10 @@ export function resolveAssetTokens<T>(value: T, urls: Map<string, string>): T {
 }
 
 /** Where an asset lands in storage: `theme/<themeId>/<dir>`, filename kept. */
-export function assetDestination(themeId: string, assetPath: string): {
+export function assetDestination(
+  themeId: string,
+  assetPath: string
+): {
   destination: string;
   filename: string;
 } {
@@ -142,23 +146,7 @@ export function assetDestination(themeId: string, assetPath: string): {
   return { destination: base, filename: path.posix.basename(assetPath) };
 }
 
-const MIME_BY_EXT: Record<string, string> = {
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.png': 'image/png',
-  '.webp': 'image/webp',
-  '.avif': 'image/avif',
-  '.gif': 'image/gif',
-  '.svg': 'image/svg+xml',
-  '.ico': 'image/x-icon',
-  '.mp4': 'video/mp4',
-  '.webm': 'video/webm',
-  '.pdf': 'application/pdf'
-};
-
-export function mimeFor(assetPath: string): string {
-  return MIME_BY_EXT[path.posix.extname(assetPath).toLowerCase()] ?? 'application/octet-stream';
-}
+export { mimeFor };
 
 export function assetContentHash(buffer: Buffer): string {
   return createHash('sha256').update(buffer).digest('hex').slice(0, 16);
@@ -189,7 +177,10 @@ export async function uploadThemeAssets(
   const uploaded: UploadedAsset[] = [];
   const missing: string[] = [];
   // Group by destination folder: one upload call per folder, as the providers expect.
-  const byDestination = new Map<string, { filename: string; assetPath: string }[]>();
+  const byDestination = new Map<
+    string,
+    { filename: string; assetPath: string }[]
+  >();
   for (const asset of assets) {
     const file = path.join(themeDir, THEME_ASSETS_DIR, asset.path);
     try {

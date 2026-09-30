@@ -27,4 +27,14 @@ extend type Setting {
   of the selection (operator-managed, read-only in the admin).
   """
   uploadAllowedMimeTypesConfigExtras: JSON!
+  """
+  The allowlist actually enforced on upload: the admin's selection (or the
+  built-in image defaults when nothing is selected) plus the config extras.
+
+  Exposed as one field rather than left to the client to recombine from the
+  three above, because this is the exact list `fileFilter` checks — a second
+  derivation of the same rule would eventually disagree with it, and the
+  symptom would be a file picker that offers a type the server then rejects.
+  """
+  uploadAllowedMimeTypesEffective: JSON!
 }
