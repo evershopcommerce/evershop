@@ -162,6 +162,18 @@ export default (context: { command?: string } = {}) => {
                     },
                     required: ['href']
                   }
+                },
+                noscripts: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      html: {
+                        type: 'string'
+                      }
+                    },
+                    required: ['html']
+                  }
                 }
               }
             }
@@ -298,7 +310,8 @@ export default (context: { command?: string } = {}) => {
       links: [],
       metas: [],
       scripts: [],
-      bases: []
+      bases: [],
+      noscripts: []
     },
     // No static default: when neither the shop "copyright" metafield nor a
     // theme's own themeConfig.copyRight is set, the ThemeConfig resolver
