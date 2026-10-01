@@ -10,7 +10,6 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import './FileBrowser.scss';
 import { useQuery } from 'urql';
-import Spinner from '@components/admin/Spinner.js';
 import { Input } from '@components/common/ui/Input.js';
 
 /**
@@ -394,6 +393,47 @@ const File: React.FC<{
   );
 };
 
+/**
+ * Placeholder tiles shown while a folder is being fetched.
+ *
+ * A spinner says "something is happening"; this says what is coming and where
+ * it will be. Because the tiles are the same shape as real ones, the grid does
+ * not jump when they are replaced — the layout is already correct before the
+ * data arrives, which a centred spinner cannot manage.
+ */
+const FileGridSkeleton: React.FC<{ count?: number }> = ({ count = 18 }) => (
+  <div className="file-browser__grid" aria-hidden="true">
+    {Array.from({ length: count }, (_unused, index) => (
+      <div className="file-browser__skeleton" key={index}>
+        <div className="file-browser__skeleton-well" />
+        <div className="file-browser__skeleton-name" />
+      </div>
+    ))}
+  </div>
+);
+
+/**
+ * Placeholder rows for the folder list.
+ *
+ * Same purpose as the grid's: hold the shape so the sidebar does not appear
+ * from nothing. Each row matches a real one — a 2rem icon square and a name
+ * beside it — and the names vary in width, because a column of identical bars
+ * reads as a pattern rather than as a list.
+ */
+const FolderListSkeleton: React.FC<{ count?: number }> = ({ count = 6 }) => (
+  <ul className="mt-4 mb-4 file-browser__folders" aria-hidden="true">
+    {Array.from({ length: count }, (_unused, index) => (
+      <li className="file-browser__folder-skeleton" key={index}>
+        <span className="file-browser__folder-skeleton-icon" />
+        <span
+          className="file-browser__folder-skeleton-name"
+          style={{ width: `${55 + ((index * 13) % 35)}%` }}
+        />
+      </li>
+    ))}
+  </ul>
+);
+
 const FileBrowser: React.FC<{
   /**
    * Called with the chosen file's URL.
@@ -644,6 +684,11 @@ const FileBrowser: React.FC<{
   // Drives the disabled state of the actions that need a selection, so the
   // buttons say what is possible instead of failing when pressed.
   const selectedFile = files.find((f) => f.isSelected === true);
+
+  // Showing the skeleton INSTEAD of the grid: the APIs are still resolving, or
+  // a folder's first page is in flight. Not `loadingMore`, which appends to
+  // what is already on screen and must not blank it.
+  const busy = fetching || loading;
 
   const insertFile = () => {
     const file = selectedFile;
@@ -908,13 +953,6 @@ const FileBrowser: React.FC<{
       </p>
     );
   }
-  if (fetching) {
-    return (
-      <div className="fixed top-0 left-0 bottom-0 right-0 flex justify-center">
-        <Spinner width={30} height={30} />
-      </div>
-    );
-  }
 
   /*
    * Rendered into <body>, not where it is mounted.
@@ -933,11 +971,6 @@ const FileBrowser: React.FC<{
    */
   const overlay = (
     <div className="file-browser">
-      {loading === true && (
-        <div className="fixed top-0 left-0 bottom-0 right-0 flex justify-center">
-          <Spinner width={30} height={30} />
-        </div>
-      )}
       {recentUploads.length > 0 && !recentDismissed && (
         /* A panel pinned to the bottom-left rather than a row in the toolbar:
            it holds the files just added, which is a temporary concern, and
@@ -1163,42 +1196,46 @@ const FileBrowser: React.FC<{
                     ))}
                 </div>
               </div>
-              <ul className="mt-4 mb-4 file-browser__folders">
-                {folders.map((f, i) => (
-                  <li
-                    key={i}
-                    className="text-primary fill-current flex list-group-item"
-                  >
-                    <svg
-                      style={{ width: '2rem', height: '2rem' }}
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+              {busy ? (
+                <FolderListSkeleton />
+              ) : (
+                <ul className="mt-4 mb-4 file-browser__folders">
+                  {folders.map((f, i) => (
+                    <li
+                      key={i}
+                      className="text-primary fill-current flex list-group-item"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                      />
-                    </svg>
-                    <a
-                      className="pl-2 hover:underline"
-                      href="#"
-                      onClick={(e) => onSelectFolder(e, f)}
-                    >
-                      {f}
-                    </a>
-                  </li>
-                ))}
-                {folders.length === 0 && (
-                  <li className="list-group-item">
-                    <span>{_('There is no sub folder.')}</span>
-                  </li>
-                )}
-              </ul>
+                      <svg
+                        style={{ width: '2rem', height: '2rem' }}
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                        />
+                      </svg>
+                      <a
+                        className="pl-2 hover:underline"
+                        href="#"
+                        onClick={(e) => onSelectFolder(e, f)}
+                      >
+                        {f}
+                      </a>
+                    </li>
+                  ))}
+                  {folders.length === 0 && (
+                    <li className="list-group-item">
+                      <span>{_('There is no sub folder.')}</span>
+                    </li>
+                  )}
+                </ul>
+              )}
               <div className="justify-start items-center gap-2 flex file-browser__new-folder">
                 <Input
                   type="text"
@@ -1217,7 +1254,7 @@ const FileBrowser: React.FC<{
             </div>
             <div className="file-browser__main">
               <div className="file-browser__files">
-                {files.length === 0 && (
+                {files.length === 0 && !busy && (
                   <div className="file-browser__empty">
                     <div>{_('There is no file to display.')}</div>
                     <div className="file-browser__empty-hint">
@@ -1227,18 +1264,23 @@ const FileBrowser: React.FC<{
                     </div>
                   </div>
                 )}
-                <div className="file-browser__grid">
-                  {files.map((f) => (
-                    <File
-                      file={f}
-                      baseUrl={baseUrl}
-                      insertable={matchesAccept(f.mimeType, accept)}
-                      select={onSelectFile}
-                      rename={renameFile}
-                      key={f.name}
-                    />
-                  ))}
-                </div>
+                {busy ? (
+                  <FileGridSkeleton />
+                ) : (
+                  <div className="file-browser__grid">
+                    {files.map((f) => (
+                      <File
+                        file={f}
+                        baseUrl={baseUrl}
+                        insertable={matchesAccept(f.mimeType, accept)}
+                        select={onSelectFile}
+                        rename={renameFile}
+                        key={f.name}
+                      />
+                    ))}
+                  </div>
+                )}
+                {loadingMore && <FileGridSkeleton count={6} />}
                 {nextCursor && (
                   <div className="flex justify-center mt-5">
                     <Button
