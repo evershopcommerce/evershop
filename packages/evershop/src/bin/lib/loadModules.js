@@ -85,6 +85,11 @@ const coreModules = [
     name: 'pageBuilder',
     resolve: path.resolve(__dirname, '../../modules/pageBuilder'),
     path: path.resolve(__dirname, '../../modules/pageBuilder')
+  },
+  {
+    name: 'cashback',
+    resolve: path.resolve(__dirname, '../../modules/cashback'),
+    path: path.resolve(__dirname, '../../modules/cashback')
   }
 ];
 

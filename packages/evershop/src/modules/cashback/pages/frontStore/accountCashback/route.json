@@ -1,0 +1,6 @@
+{
+  "methods": ["GET"],
+  "path": "/account/cashback",
+  "name": "Account Cashback page",
+  "editable": true
+}
