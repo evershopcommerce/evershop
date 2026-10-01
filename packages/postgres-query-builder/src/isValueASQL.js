@@ -1,7 +1,11 @@
+import { isRawSql } from './rawSqlMarker.js';
+
 export function isValueASQL(value) {
-  // Check if value is an object and has property "isSQL" and it's true
-  if (typeof value === 'object' && value.isSQL === true) {
-    return true;
+  // An object is raw SQL only when it carries the internal marker (produced by
+  // `sql(...)` or internal column rendering). A plain `{ isSQL: true }` object
+  // forged from request data is NOT treated as SQL.
+  if (typeof value === 'object' && value !== null) {
+    return isRawSql(value);
   }
   return (
     /^([A-Za-z_][A-Za-z0-9_]*\()?(DISTINCT )?"?([A-Za-z_][A-Za-z0-9_]*"?\.)?"?[A-Za-z_][A-Za-z0-9_]*"?(\))$/.test(
