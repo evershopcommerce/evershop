@@ -1051,7 +1051,16 @@ const FileBrowser: React.FC<{
    * the screen must not be subject to where it happens to be mounted.
    */
   const overlay = (
-    <div className="file-browser">
+    /*
+     * `data-slot` marks this as a portalled popup layer for outside-click
+     * handlers to skip. The page builder's settings drawer closes itself on any
+     * mousedown it does not contain (`Editor.tsx`), and because this overlay
+     * portals to <body> it is never contained — so without the marker the first
+     * click on a thumbnail closed the drawer that opened the browser, taking
+     * the browser down with it. The drawer already skips
+     * `alert-dialog-content` and `dialog-content` for the same reason.
+     */
+    <div className="file-browser" data-slot="file-browser">
       {recentUploads.length > 0 && !recentDismissed && (
         /* A panel pinned to the bottom-left rather than a row in the toolbar:
            it holds the files just added, which is a temporary concern, and

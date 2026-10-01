@@ -477,6 +477,10 @@ export default function Editor({
       // confirm flow doesn't collapse the drawer state mid-confirm.
       if (target?.closest('[data-slot="alert-dialog-content"]')) return;
       if (target?.closest('[data-slot="dialog-content"]')) return;
+      // The file browser portals to <body>, so it is never inside the drawer.
+      // Without this the first click on a thumbnail closed the drawer that
+      // opened the browser, and the browser went with it.
+      if (target?.closest('[data-slot="file-browser"]')) return;
       setSelectedWidget(null);
     };
     window.addEventListener('mousedown', onDown);
@@ -494,6 +498,10 @@ export default function Editor({
       if (target?.tagName === 'IFRAME') return;
       if (target?.closest('[data-slot="alert-dialog-content"]')) return;
       if (target?.closest('[data-slot="dialog-content"]')) return;
+      // The file browser portals to <body>, so it is never inside the drawer.
+      // Without this the first click on a thumbnail closed the drawer that
+      // opened the browser, and the browser went with it.
+      if (target?.closest('[data-slot="file-browser"]')) return;
       setSelectedMetafield(null);
     };
     window.addEventListener('mousedown', onDown);
