@@ -182,13 +182,6 @@
   border: 1px solid #e1e1e1;
   position: relative;
 }
-.file-browser .image-item .inner .select {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  font-size: 20px;
-  z-index: 2;
-}
 
 /* The thumbnail grid.
  *
@@ -213,12 +206,31 @@
   overflow: hidden;
 }
 
-.file-browser .image-item .inner > a {
+/* The thumbnail is a button now, not a link: it opens a panel beside the grid
+   rather than navigating anywhere. Strip the control chrome the browser adds. */
+.file-browser .image-item__open {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  appearance: none;
+}
+.file-browser .image-item__open:focus-visible {
+  outline: 2px solid var(--primary, #2563eb);
+  outline-offset: 2px;
+}
+
+/* The tile whose panel is open. A ring rather than a fill — the thumbnail is
+   the content, and tinting it would misreport the picture. */
+.file-browser .image-item.active .inner {
+  border-color: var(--primary, #2563eb);
+  box-shadow: 0 0 0 2px
+    color-mix(in oklab, var(--primary, #2563eb) 30%, transparent);
 }
 
 .file-browser .image-item img {
@@ -282,153 +294,246 @@
  *
  * `pointer-events: none` — see below. The card covers the thumbnail, so if it
  * took the mouse it would swallow the click that selects the file. */
-.file-browser .image-item__info {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+/* The type badge, used in the details panel. Light surface, because the panel
+   is light — it was white-on-dark when it lived inside the hover card. */
+.file-browser .image-item__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: var(--muted, #f4f4f5);
+  color: var(--muted-foreground, #52525b);
+}
+
+/* ===== Details panel =====================================================
+ *
+ * Replaces a card that was revealed on hover INSIDE the thumbnail. At the
+ * smaller cell size there was no room in a tile for a name, a type, a size, a
+ * pixel count and a full URL, so the card covered the picture it described and
+ * truncated anyway.
+ *
+ * It OVERLAYS the right edge rather than taking a column of its own: making
+ * room would re-flow the grid on every click, moving the thumbnail just
+ * clicked out from under the pointer.
+ *
+ * `fixed`, not `absolute`. The shell scrolls in a window too short to hold the
+ * toolbar and a usable grid, and an absolutely positioned panel would scroll
+ * away with it. Nothing above it establishes a containing block. */
+.file-browser__info {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(23rem, 100%);
+  z-index: 3;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 0.25rem;
-  padding: 0.5rem;
-  font-size: 0.75rem;
-  line-height: 1.4;
-  color: #fff;
-  background: linear-gradient(
-    to top,
-    rgba(9, 9, 11, 0.94) 0%,
-    rgba(9, 9, 11, 0.88) 42%,
-    rgba(9, 9, 11, 0.55) 68%,
-    rgba(9, 9, 11, 0) 100%
-  );
-  opacity: 0;
-  transform: translateY(0.35rem);
-  transition: opacity 0.14s ease-out, transform 0.14s ease-out;
-  pointer-events: none;
+  background: #fff;
+  border-left: 1px solid var(--border, #e4e4e7);
+  box-shadow: -14px 0 32px -20px rgba(9, 9, 11, 0.5);
+  animation: file-browser-info-in 0.18s ease-out;
 }
 
-.file-browser .image-item:hover .image-item__info,
-.file-browser .image-item:focus-within .image-item__info {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .file-browser .image-item__info {
-    transition: none;
-    transform: none;
+@keyframes file-browser-info-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
-/* Clamped to two lines: a long name must not push the size and the URL row
-   out of the bottom of the cell. */
-.file-browser .image-item__info-name {
-  font-weight: 600;
-  font-size: 0.8125rem;
-  overflow-wrap: anywhere;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.file-browser .image-item__info-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.72);
-  font-variant-numeric: tabular-nums;
-}
-
-.file-browser .image-item__info-meta-row {
+.file-browser__info-head {
   display: flex;
   align-items: center;
-  gap: 0.35rem;
-  /* A value must not break inside itself. Without this the dimensions split
-     as "1800 ×" / "1800 px" whenever the column is a few pixels too narrow. */
-  white-space: nowrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--border, #e4e4e7);
 }
 
-/* The file type, as a short badge rather than a sentence of mime. */
-.file-browser .image-item__chip {
-  flex-shrink: 0;
-  padding: 0.05rem 0.3rem;
-  border-radius: 3px;
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.18);
-}
-
-/* The URL reads as a copyable field: an inset well with the button attached,
-   on ONE line with an ellipsis. Wrapping a long URL over three lines was
-   legible but untidy, and the whole value is on the tooltip and one click
-   from the clipboard. */
-.file-browser .image-item__info-url-row {
-  display: flex;
-  align-items: stretch;
-  gap: 1px;
-  border-radius: 5px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.file-browser .image-item__info-url {
-  flex: 1;
-  min-width: 0;
-  padding: 0.2rem 0.35rem;
+.file-browser__info-title {
   font-size: 0.6875rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.88);
-  /* Wrapped over two lines rather than truncated to one.
-   *
-   * Every single-line option was worse. Plain truncation shows the head of the
-   * URL, which is the origin every file in the store shares — it identifies
-   * nothing. `direction: rtl` keeps the identifying tail in view but hands the
-   * string to the bidi algorithm, which moves trailing neutral characters to
-   * the far end: a URL ending in "/" rendered without its slash (measured —
-   * "…assets/catalog/subfolder"). Adding `unicode-bidi: plaintext` fixes the
-   * ordering but takes the base direction from the content, putting the head
-   * back in view and returning to the first problem.
-   *
-   * Two wrapped lines simply show more of the URL than any of them, and the
-   * whole value is on the tooltip and one click from the clipboard. */
-  overflow-wrap: anywhere;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground, #71717a);
 }
 
-/* The one part of the card that takes the mouse. */
-.file-browser .image-item__copy {
-  pointer-events: auto;
-  flex-shrink: 0;
+.file-browser__info-close {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.6rem;
-  padding: 0.3rem;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.16);
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 5px;
+  background: none;
   cursor: pointer;
-  transition: background 0.12s ease-out;
+  color: var(--muted-foreground, #71717a);
+}
+.file-browser__info-close:hover {
+  background: var(--muted, #f4f4f5);
+  color: inherit;
+}
+.file-browser__info-close svg {
+  width: 1rem;
+  height: 1rem;
 }
 
-.file-browser .image-item__copy:hover {
-  background: rgba(255, 255, 255, 0.34);
+/* Only the body scrolls, so the title and the actions stay reachable for a
+   long file name or a long URL. */
+.file-browser__info-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
-.file-browser .image-item__copy:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: -2px;
+/* A checkerboard, so a transparent PNG reads as transparent rather than as
+   white — which matters when the point of the panel is to tell you what the
+   file actually is. */
+.file-browser__info-preview {
+  /* A FIXED height, not a square. At the panel's width a 1:1 well is ~23rem
+     tall, which pushed the URL — one of the two things people come here for —
+     below the fold on a laptop. Letterboxing a portrait image costs nothing,
+     since `contain` keeps it whole either way. */
+  height: 11rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--border, #e4e4e7);
+  border-radius: 8px;
+  background-color: #fcfcfd;
+  background-image: linear-gradient(45deg, #f1f1f4 25%, transparent 25%),
+    linear-gradient(-45deg, #f1f1f4 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f1f1f4 75%),
+    linear-gradient(-45deg, transparent 75%, #f1f1f4 75%);
+  background-size: 14px 14px;
+  background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+}
+.file-browser__info-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-.file-browser .image-item__copy svg {
+.file-browser__info-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  /* A file name has no spaces to break on. */
+  overflow-wrap: anywhere;
+}
+
+.file-browser__info-meta {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+}
+.file-browser__info-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.file-browser__info-meta-row dt {
+  color: var(--muted-foreground, #71717a);
+}
+.file-browser__info-meta-row dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  /* A value must not break inside itself — "1800 ×" / "1800 px". */
+  white-space: nowrap;
+}
+
+.file-browser__info-url-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground, #71717a);
+  margin-bottom: -0.45rem;
+}
+
+/* Not a field — plain text that wraps, with the copy control sitting inline
+   after the last character.
+   It used to be a bordered box of a fixed two-line height. That hid the END of
+   the URL, which on cloud storage is the only part that identifies the file:
+   everything before it is the same bucket and prefix on every row. A box also
+   has to decide how tall to be, and every answer was wrong for some URL. */
+.file-browser__info-url-row {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--muted-foreground, #52525b);
+  /* A URL is one unbroken token; without this it pushes the panel wider. */
+  overflow-wrap: anywhere;
+}
+
+/* Inline, so the copy control can follow the text instead of being parked in
+   a column of its own. */
+.file-browser__info-url {
+  display: inline;
+}
+
+.file-browser__info-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Rides with the text rather than the line box, so it sits beside the last
+     characters however the URL happens to wrap. */
+  vertical-align: text-bottom;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-left: 0.25rem;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  color: var(--muted-foreground, #71717a);
+}
+.file-browser__info-copy:hover {
+  background: var(--muted, #f4f4f5);
+  color: inherit;
+}
+.file-browser__info-copy:focus-visible {
+  outline: 2px solid var(--primary, #2563eb);
+  outline-offset: 1px;
+}
+.file-browser__info-copy svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+/* Pinned below the scrolling body: the reason the panel was opened must not
+   be something you have to scroll to reach. */
+.file-browser__info-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  border-top: 1px solid var(--border, #e4e4e7);
+}
+.file-browser__info-actions > button {
   width: 100%;
-  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .file-browser__info {
+    animation: none;
+  }
 }
 .image-tool__image-picture {
   margin-top: 0 !important;

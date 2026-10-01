@@ -1,4 +1,6 @@
 import { Button } from '@components/common/ui/Button.js';
+import { Input } from '@components/common/ui/Input.js';
+import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { matchesAccept } from '@evershop/evershop/lib/util/mimeMatch';
 import {
@@ -10,7 +12,6 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import './FileBrowser.scss';
 import { useQuery } from 'urql';
-import { Input } from '@components/common/ui/Input.js';
 
 /**
  * How many just-uploaded files to keep in the panel. It is its own surface
@@ -40,7 +41,6 @@ const GetApisQuery = `
 `;
 
 export interface File {
-  isSelected?: boolean;
   name: string;
   url: string;
   size?: number;
@@ -199,27 +199,21 @@ const EditableName: React.FC<{
 
 const File: React.FC<{
   file: File;
-  baseUrl?: string;
+  /** True when this file's details panel is open, so the panel's subject is
+   *  obvious when the grid runs long. */
+  active: boolean;
   /**
-   * False when this type cannot be INSERTED by the caller — drawn dimmed.
-   * It can still be selected: selection is also how a file is picked for
-   * deletion, and an image picker must not make a stray PDF unremovable.
+   * False when this type cannot be INSERTED by the caller — drawn dimmed. It
+   * can still be opened: the details panel is also where a file is deleted,
+   * and an image picker must not make a stray PDF unremovable.
    */
   insertable?: boolean;
-  select: (url: File) => void;
+  openInfo: (file: File) => void;
   rename: (file: File, newName: string) => Promise<void> | void;
-}> = ({ file, baseUrl, insertable = true, select, rename }) => {
-  const className = [
-    file.isSelected === true ? 'selected' : '',
-    insertable ? '' : 'not-insertable'
-  ]
+}> = ({ file, active, insertable = true, openInfo, rename }) => {
+  const className = [active ? 'active' : '', insertable ? '' : 'not-insertable']
     .filter(Boolean)
     .join(' ');
-  // Dimensions come from the rendered element, never from the server: no
-  // listing API on any storage provider reports them, and reading each file's
-  // header would be one request per image. The browser has already downloaded
-  // the picture to draw this thumbnail, so the numbers are free here.
-  const [dimensions, setDimensions] = React.useState<string>('');
   // A file can be an image by extension and still fail to load — truncated
   // upload, a `.png` that is not one. Fall back to the badge rather than
   // leaving a broken image in the grid.
@@ -227,23 +221,90 @@ const File: React.FC<{
   const showPreview =
     !previewFailed && (file.mimeType ?? '').startsWith('image/');
 
-  const size = formatBytes(file.size);
+  return (
+    <div className={`col image-item ${className}`}>
+      <div className="inner">
+        {/* A button, not a link. This opens a panel beside the grid; it does
+            not navigate, and the old `<a href="#">` both announced itself as
+            a link and needed its default suppressed on every click. */}
+        <button
+          type="button"
+          className="image-item__open"
+          aria-label={_('Show details for ${name}', { name: file.name })}
+          aria-expanded={active}
+          onClick={() => openInfo(file)}
+        >
+          {showPreview ? (
+            <img src={file.url} alt="" onError={() => setPreviewFailed(true)} />
+          ) : (
+            <div
+              className="image-item__badge"
+              aria-label={file.mimeType || _('File')}
+            >
+              {extensionOf(file.name)}
+            </div>
+          )}
+        </button>
+      </div>
+      {/* The name, with its extension — the thing you are actually looking
+          for when scanning a folder, and the way to rename it. */}
+      <EditableName
+        name={file.name}
+        className="image-item__name"
+        onRename={(next) => rename(file, next)}
+      />
+    </div>
+  );
+};
+
+/**
+ * Details for one file, sliding in beside the grid.
+ *
+ * This replaces a card that was revealed on hover and drawn INSIDE the
+ * thumbnail. Once the cells were made smaller there was no room in them for a
+ * name, a type, a size, a pixel count and a full URL, so the card covered the
+ * picture it was describing and still truncated. Out of the cell the same
+ * information is legible at any grid density, and it becomes the natural home
+ * for the actions that act on one file.
+ *
+ * Mount it with a `key` of the file name. Each file then gets a fresh
+ * instance, so a measured pixel size or a copied-URL flash cannot carry over
+ * from the file looked at before.
+ */
+const FileInfoPanel: React.FC<{
+  file: File;
+  baseUrl?: string;
+  /** Whether the caller can accept this type — wording only, see below. */
+  insertable: boolean;
+  /** Absent when the browser was opened to manage files rather than pick one;
+   *  the insert action is then not offered at all. */
+  onInsert?: (file: File) => void;
+  onDelete: (file: File) => void;
+  onClose: () => void;
+}> = ({ file, baseUrl, insertable, onInsert, onDelete, onClose }) => {
+  // Measured from the rendered preview, never from the server: no listing API
+  // on any storage provider reports dimensions, and reading each file's header
+  // would be one request per image. The browser has to fetch the picture to
+  // draw it here anyway, so the numbers are free.
+  const [dimensions, setDimensions] = React.useState<string>('');
+  const [previewFailed, setPreviewFailed] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
+  const panelRef = React.useRef<HTMLElement>(null);
+  const showPreview =
+    !previewFailed && (file.mimeType ?? '').startsWith('image/');
+  const size = formatBytes(file.size);
 
   // The stored URL stays as the provider gave it — relative for local disk
   // (`/assets/...`), absolute for S3/Azure/GCS — because that is what gets
-  // inserted into content, and a relative path has to stay relative to
-  // survive the store changing domain. Only the DISPLAYED and COPIED value is
+  // inserted into content, and a relative path has to stay relative to survive
+  // the store changing domain. Only the DISPLAYED and COPIED value is
   // resolved, which is what is useful outside this screen.
   //
   // Resolved against the STORE's base URL, which the API sends, not against
   // `window.location.origin`: the admin can be reached on a different origin
-  // from the storefront — behind a proxy, by IP, or on a separate admin host
-  // — and the origin would then produce a URL that does not serve the file.
-  // The origin is only the fallback for a response without the field.
-  //
-  // An already-absolute cloud URL ignores the base entirely, which is what
-  // makes one code path correct for every provider.
+  // from the storefront — behind a proxy, by IP, or on a separate admin host —
+  // and the origin would then produce a URL that does not serve the file. The
+  // origin is only the fallback for a response without the field.
   const absoluteUrl = React.useMemo(() => {
     try {
       return new URL(file.url, baseUrl || window.location.origin).href;
@@ -252,39 +313,78 @@ const File: React.FC<{
     }
   }, [file.url, baseUrl]);
 
-  const copyUrl = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const copyUrl = async () => {
     try {
       await navigator.clipboard.writeText(absoluteUrl);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1500);
     } catch {
       // Clipboard access needs a secure context and can be refused outright.
-      // The URL is still on screen to select by hand, so a failure here is
-      // not worth an error banner.
+      // The URL is still on screen to select by hand, so a failure here is not
+      // worth an error banner.
       setCopied(false);
     }
   };
-  // One spoken string for the link, which otherwise had no accessible name at
-  // all: it wraps an `<img alt="">`, so a screen reader announced only
-  // "link". NOT a `title` on the cell — the native tooltip would open on top
-  // of the hover card and say the same thing twice.
-  const label = [file.name, size, dimensions ? `${dimensions} pixels` : null]
-    .filter(Boolean)
-    .join(', ');
+
+  // Escape closes the panel rather than the whole browser: the panel is the
+  // innermost thing open, and dismissing the browser out from under someone
+  // who meant to close a side panel loses their place in the folder.
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose();
+      }
+    };
+    document.addEventListener('keydown', onKey, true);
+    return () => document.removeEventListener('keydown', onKey, true);
+  }, [onClose]);
+
+  // Clicking away closes it, so the X is a convenience rather than the only
+  // way out.
+  //
+  // A thumbnail is the one exception. Without it, moving from one file to the
+  // next would cost two clicks — one to dismiss, one to open — and which of
+  // the two handlers ran first would decide whether the second click even
+  // landed. Skipping the grid entirely leaves the tile's own handler to swap
+  // the subject, and makes the behaviour independent of listener order.
+  //
+  // `mousedown`, not `click`: it matches how every other dismissable layer
+  // feels, and it cannot be lost to the target being re-rendered away between
+  // press and release.
+  React.useEffect(() => {
+    const onPointerDown = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      if (!target) return;
+      if (panelRef.current?.contains(target)) return;
+      if (target.closest?.('.image-item')) return;
+      onClose();
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    return () => document.removeEventListener('mousedown', onPointerDown);
+  }, [onClose]);
 
   return (
-    <div className={`col image-item ${className}`}>
-      <div className="inner">
-        <a
-          href="#"
-          aria-label={label}
-          onClick={(e) => {
-            e.preventDefault();
-            select(file);
-          }}
+    <aside
+      ref={panelRef}
+      className="file-browser__info"
+      aria-label={_('File details')}
+    >
+      <div className="file-browser__info-head">
+        <span className="file-browser__info-title">{_('Details')}</span>
+        <button
+          type="button"
+          className="file-browser__info-close"
+          title={_('Close')}
+          aria-label={_('Close details')}
+          onClick={onClose}
         >
+          <X aria-hidden="true" />
+        </button>
+      </div>
+
+      <div className="file-browser__info-body">
+        <div className="file-browser__info-preview">
           {showPreview ? (
             <img
               src={file.url}
@@ -305,91 +405,88 @@ const File: React.FC<{
               {extensionOf(file.name)}
             </div>
           )}
-        </a>
-        {file.isSelected === true && (
-          <div className="select fill-current text-primary">
-            <svg
-              style={{ width: '2rem' }}
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-        )}
-        {/* Hover card. The text is aria-hidden because the link already
-            announces the same thing; the copy button is not, because a
-            focusable control inside an aria-hidden subtree is unreachable. */}
-        <div className="image-item__info">
-          <div className="image-item__info-name" aria-hidden="true">
-            {file.name}
-          </div>
-          {/* Size and dimensions get a line each. Joined on one line they
-              wrapped mid-value — "812.4 KB · 1800 ×" then "1800 px" — because
-              the break lands wherever the column runs out. */}
-          <div className="image-item__info-meta" aria-hidden="true">
-            <div className="image-item__info-meta-row">
+        </div>
+
+        <div className="file-browser__info-name">{file.name}</div>
+
+        <dl className="file-browser__info-meta">
+          <div className="file-browser__info-meta-row">
+            <dt>{_('Type')}</dt>
+            <dd>
               {/* The EXTENSION, not the media type. A modern Office mime
                   string is seventy characters
-                  ("application/vnd.openxmlformats-…"), which would wrap this
-                  card into a wall of text; the full value stays on the
-                  element's tooltip. */}
+                  ("application/vnd.openxmlformats-…"); the full value stays on
+                  the tooltip. */}
               <span className="image-item__chip" title={file.mimeType}>
                 {extensionOf(file.name)}
               </span>
-              {size && <span>{size}</span>}
+            </dd>
+          </div>
+          {size && (
+            <div className="file-browser__info-meta-row">
+              <dt>{_('Size')}</dt>
+              <dd>{size}</dd>
             </div>
-            {dimensions && (
-              <div className="image-item__info-meta-row">{dimensions} px</div>
-            )}
-          </div>
-          <div className="image-item__info-url-row">
-            <span
-              className="image-item__info-url"
-              title={absoluteUrl}
-              aria-hidden="true"
-            >
-              {absoluteUrl}
-            </span>
-            <button
-              type="button"
-              className="image-item__copy"
-              title={copied ? _('Copied') : _('Copy URL')}
-              // The file NAME, not the URL: a screen reader would otherwise
-              // read out the whole address character by character, and the
-              // name is what identifies which file this copies.
-              aria-label={
-                copied
-                  ? _('URL copied')
-                  : _('Copy URL for ${name}', { name: file.name })
-              }
-              onClick={copyUrl}
-            >
-              {copied ? (
-                <Check aria-hidden="true" />
-              ) : (
-                <Copy aria-hidden="true" />
-              )}
-            </button>
-          </div>
+          )}
+          {dimensions && (
+            <div className="file-browser__info-meta-row">
+              <dt>{_('Dimensions')}</dt>
+              <dd>{dimensions} px</dd>
+            </div>
+          )}
+        </dl>
+
+        <div className="file-browser__info-url-label">{_('URL')}</div>
+        <div className="file-browser__info-url-row">
+          <span className="file-browser__info-url" title={absoluteUrl}>
+            {absoluteUrl}
+          </span>
+          <button
+            type="button"
+            className="file-browser__info-copy"
+            title={copied ? _('Copied') : _('Copy URL')}
+            // The file NAME, not the URL: a screen reader would otherwise read
+            // out the whole address character by character, and the name is
+            // what identifies which file this copies.
+            aria-label={
+              copied
+                ? _('URL copied')
+                : _('Copy URL for ${name}', { name: file.name })
+            }
+            onClick={copyUrl}
+          >
+            {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
+          </button>
         </div>
       </div>
-      {/* The name, with its extension — the thing you are actually looking
-          for when scanning a folder, and the way to rename it. */}
-      <EditableName
-        name={file.name}
-        className="image-item__name"
-        onRename={(next) => rename(file, next)}
-      />
-    </div>
+
+      <div className="file-browser__info-actions">
+        {/* Deliberately NOT disabled for a type the caller cannot take. The
+            press is what produces the explanation, and a dead button with no
+            stated reason is worse than a clear refusal — the same reasoning
+            the toolbar button carried before this panel replaced it. */}
+        {onInsert && (
+          <Button
+            variant="default"
+            title={
+              insertable
+                ? _('Use ${name}', { name: file.name })
+                : _('${name} cannot be used here', { name: file.name })
+            }
+            onClick={() => onInsert(file)}
+          >
+            {_('Insert')}
+          </Button>
+        )}
+        <Button
+          variant="destructive"
+          title={_('Delete ${name}', { name: file.name })}
+          onClick={() => onDelete(file)}
+        >
+          {_('Delete')}
+        </Button>
+      </div>
+    </aside>
   );
 };
 
@@ -461,7 +558,7 @@ const FileBrowser: React.FC<{
    * library may hold.
    */
   accept?: string[];
-}> = ({ onInsert, isMultiple, close, accept }) => {
+}> = ({ onInsert, close, accept }) => {
   // Portals need a document, and this component is rendered from places that
   // may render on the server. Mount first, portal after.
   const [mounted, setMounted] = React.useState(false);
@@ -542,37 +639,6 @@ const FileBrowser: React.FC<{
     setCurrentPath(newPath);
   };
 
-  const onSelectFile = (f) => {
-    // Selecting is NOT gated on `accept`. Selection is also how a file is
-    // picked for deletion, and refusing it would mean a PDF could never be
-    // removed from a folder opened by an image picker. `accept` governs what
-    // can be INSERTED, and that is checked there.
-    setError('');
-    if (isMultiple === false) {
-      setFiles(
-        files.map((file) => {
-          if (f.name === file.name) {
-            file.isSelected = !file.isSelected;
-          } else {
-            file.isSelected = false;
-          }
-          return file;
-        })
-      );
-    } else {
-      setFiles(
-        files.map((file) => {
-          if (f.name === file.name) {
-            file.isSelected = true;
-          } else {
-            file.isSelected = false;
-          }
-          return file;
-        })
-      );
-    }
-  };
-
   const closeFileBrowser = (e) => {
     e.preventDefault();
     close?.();
@@ -609,34 +675,40 @@ const FileBrowser: React.FC<{
       .finally(() => setLoading(false));
   };
 
-  const deleteFile = () => {
-    let file;
-    files.forEach((f) => {
-      if (f.isSelected === true) {
-        file = f;
-      }
-    });
-
-    if (!file) {
-      setError(_('No file selected'));
-    } else {
-      const path = currentPath.map((f) => f.name);
-      path.push(file.name);
-      setLoading(true);
-      fetch(deleteApiRef.current + path.join('/'), {
-        method: 'DELETE'
+  const deleteFile = (file: File) => {
+    // Close the panel BEFORE the request, not in its success handler.
+    //
+    // `setLoading(true)` below already swaps the grid for its skeleton, so the
+    // delete is visibly in flight. Keeping the panel up until the round trip
+    // finished added a second wait on top of that with no feedback of its own,
+    // and spent it describing a file that is on its way out.
+    //
+    // A failure is still reported: `setError` surfaces it in the browser's own
+    // banner, and the file stays in the listing, which is refreshed only on
+    // success.
+    setInfoFile(null);
+    const path = currentPath.map((f) => f.name);
+    path.push(file.name);
+    setLoading(true);
+    fetch(deleteApiRef.current + path.join('/'), {
+      method: 'DELETE'
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        if (!response.error) {
+          // The panel closed on the press, and the grid comes back without the
+          // file — but a tile quietly missing from a folder of thumbnails is
+          // easy to miss, and "did that work?" is the question a destructive
+          // action has to answer. The failure path keeps the persistent banner
+          // instead: an error should not time out before it is read.
+          toast.success(_('${name} deleted', { name: file.name }));
+          setCurrentPath(currentPath.map((f) => f));
+        } else {
+          setError(response.error.message);
+        }
       })
-        .then((res) => res.json())
-        .then((response) => {
-          if (!response.error) {
-            setCurrentPath(currentPath.map((f) => f));
-          } else {
-            setError(response.error.message);
-          }
-        })
-        .catch((err) => setError(err.message))
-        .finally(() => setLoading(false));
-    }
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   };
 
   /**
@@ -681,22 +753,29 @@ const FileBrowser: React.FC<{
     [currentPath]
   );
 
-  // Drives the disabled state of the actions that need a selection, so the
-  // buttons say what is possible instead of failing when pressed.
-  const selectedFile = files.find((f) => f.isSelected === true);
+  // The file whose details panel is open. Clicking a thumbnail opens this
+  // rather than selecting — there is no selection any more, because every
+  // action that needed one now lives in the panel and acts on its own subject.
+  const [infoFile, setInfoFile] = React.useState<File | null>(null);
+
+  // Keep the panel pointing at the listing's own object. A refresh replaces
+  // `files`, and a file that is no longer there — deleted, renamed, or in a
+  // folder we have navigated away from — closes the panel instead of leaving
+  // details for something that is gone. The functional form keeps `infoFile`
+  // out of the dependency list, so this cannot re-run itself.
+  React.useEffect(() => {
+    setInfoFile((prev) =>
+      prev ? (files.find((f) => f.name === prev.name) ?? null) : prev
+    );
+  }, [files]);
 
   // Showing the skeleton INSTEAD of the grid: the APIs are still resolving, or
   // a folder's first page is in flight. Not `loadingMore`, which appends to
   // what is already on screen and must not blank it.
   const busy = fetching || loading;
 
-  const insertFile = () => {
-    const file = selectedFile;
-    if (!file) {
-      setError(_('No file selected'));
-      return;
-    }
-    // Backstop for the selection check: a selection made before the caller's
+  const insertFile = (file: File) => {
+    // Backstop: a file opened before the caller's
     // requirements were known, or a file replaced under the same name, must
     // not reach a caller that cannot render it.
     if (!matchesAccept(file.mimeType, accept)) {
@@ -1089,41 +1168,11 @@ const FileBrowser: React.FC<{
               >
                 {_('Upload')}
               </Button>
-              <Button
-                variant="destructive"
-                disabled={!selectedFile}
-                title={
-                  selectedFile
-                    ? _('Delete ${name}', { name: selectedFile.name })
-                    : _('Select a file first')
-                }
-                onClick={() => deleteFile()}
-              >
-                {_('Delete')}
-              </Button>
-              {/* Insert last: it is the reason the browser is open, and
-                  a toolbar's primary action sits at the end of the
-                  group. */}
-              {/* Disabled until something is selected, so the button states
-                  what is possible rather than failing when pressed. It stays
-                  ENABLED for a selected file of the wrong type: the press is
-                  what produces the explanation, and a dead button with no
-                  reason is worse than a clear refusal. Absent entirely when
-                  there is nothing to insert into. */}
-              {onInsert && (
-                <Button
-                  variant="default"
-                  disabled={!selectedFile}
-                  title={
-                    selectedFile
-                      ? _('Insert ${name}', { name: selectedFile.name })
-                      : _('Select a file first')
-                  }
-                  onClick={() => insertFile()}
-                >
-                  {_('Insert')}
-                </Button>
-              )}
+              {/* Delete and Insert used to sit here, driven by whichever
+                  thumbnail was selected. Both now live in the details panel,
+                  which opens on the file they act on — so the action is beside
+                  its subject instead of across the screen from it, and neither
+                  needs a selection to exist. */}
               <label
                 className="hidden"
                 id="upload-image-label"
@@ -1273,9 +1322,9 @@ const FileBrowser: React.FC<{
                     {files.map((f) => (
                       <File
                         file={f}
-                        baseUrl={baseUrl}
+                        active={infoFile?.name === f.name}
                         insertable={matchesAccept(f.mimeType, accept)}
-                        select={onSelectFile}
+                        openInfo={setInfoFile}
                         rename={renameFile}
                         key={f.name}
                       />
@@ -1299,6 +1348,20 @@ const FileBrowser: React.FC<{
           </div>
         </div>
       </div>
+      {/* Keyed by name so each file gets a fresh panel: the measured pixel
+          size and the copied-URL flash belong to one file and must not be
+          inherited by the next one opened. */}
+      {infoFile && (
+        <FileInfoPanel
+          key={infoFile.name}
+          file={infoFile}
+          baseUrl={baseUrl}
+          insertable={matchesAccept(infoFile.mimeType, accept)}
+          onInsert={onInsert ? insertFile : undefined}
+          onDelete={deleteFile}
+          onClose={() => setInfoFile(null)}
+        />
+      )}
     </div>
   );
 
