@@ -724,3 +724,111 @@
   .file-browser__rename-input {
   flex-basis: auto;
 }
+
+/* --- Loading ------------------------------------------------------------- */
+
+/* Placeholder tiles, not a spinner.
+ *
+ * They occupy the same cell as a real file, so the grid is already laid out
+ * correctly before the data arrives and nothing jumps when it does. A centred
+ * spinner says only that something is happening; this says what is coming and
+ * where. */
+.file-browser__skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-browser__skeleton-well {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background: var(--muted, #f4f4f5);
+}
+
+/* Two-thirds width, so a row of them reads as names rather than as blocks. */
+.file-browser__skeleton-name {
+  width: 66%;
+  height: 0.6875rem;
+  margin-top: 0.4rem;
+  border-radius: 3px;
+  background: var(--muted, #f4f4f5);
+}
+
+/* The shimmer travels across the row rather than pulsing each tile in unison:
+   tiles blinking together read as a fault, a sweep reads as progress. */
+.file-browser__skeleton-well,
+.file-browser__skeleton-name {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: file-browser-skeleton 1.2s ease-in-out infinite;
+}
+
+@keyframes file-browser-skeleton {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+/* Folder rows, matching the real ones: a 2rem icon square and a name beside
+   it. The widths vary per row (set inline) because a column of identical bars
+   reads as a pattern rather than as a list of names. */
+/* The ROW is pinned to 2rem because that is exactly how tall a real one is —
+   its folder icon, with no padding. Anything else and six rows drift enough to
+   shift the list when the real folders replace it. */
+.file-browser__folder-skeleton {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  gap: 0.5rem;
+}
+
+/* The square is SMALLER than its row. At the full 2rem the squares sit flush
+   against each other and read as one continuous bar rather than six rows; the
+   gap is what makes them countable. */
+.file-browser__folder-skeleton-icon {
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-left: 0.3rem;
+  border-radius: 4px;
+  background: var(--muted, #f4f4f5);
+}
+
+.file-browser__folder-skeleton-name {
+  height: 0.75rem;
+  border-radius: 3px;
+  background: var(--muted, #f4f4f5);
+}
+
+.file-browser__folder-skeleton-icon,
+.file-browser__folder-skeleton-name {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: file-browser-skeleton 1.2s ease-in-out infinite;
+}
+
+/* A moving gradient is exactly what this setting is for. The tiles stay, so
+   the message — "the grid is coming, here is its shape" — survives. */
+@media (prefers-reduced-motion: reduce) {
+  .file-browser__skeleton-well,
+  .file-browser__skeleton-name,
+  .file-browser__folder-skeleton-icon,
+  .file-browser__folder-skeleton-name {
+    animation: none;
+    background-image: none;
+  }
+}
