@@ -12,6 +12,7 @@ import { getRouteBuildPath } from '../../../../lib/webpack/getRouteBuildPath.js'
 import { getEnabledWidgets } from '../../../../lib/widget/widgetManager.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getContextValue } from '../../services/contextHelper.js';
+import { parseContextValueArgs } from '../../services/parseContextValueArgs.js';
 
 export default async (request, response, next) => {
   try {
@@ -66,7 +67,7 @@ export default async (request, response, next) => {
       query = query.replace(regex, (match, p1) => {
         const base64 = p1;
         const decoded = Buffer.from(base64, 'base64').toString('ascii');
-        let value = eval(`getContextValue(request, ${decoded})`);
+        let value = getContextValue(request, ...parseContextValueArgs(decoded));
 
         // JSON sringify without adding double quotes to the property name
         value = JSON5.stringify(value, { quote: '"' });
@@ -322,7 +323,10 @@ export default async (request, response, next) => {
               );
               const decoded = Buffer.from(base64, 'base64').toString('ascii');
 
-              const actualValue = eval(`getContextValue(request, ${decoded})`);
+              const actualValue = getContextValue(
+                request,
+                ...parseContextValueArgs(decoded)
+              );
               variables.values[key] = actualValue;
             }
           }
