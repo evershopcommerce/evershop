@@ -957,13 +957,15 @@ const FileBrowser: React.FC<{
   /*
    * Rendered into <body>, not where it is mounted.
    *
-   * This is a full-screen overlay, and its `z-index: 1000` only means anything
-   * within its own stacking context. Opened from the CMS menu it sits inside
+   * This is a full-screen overlay, and its z-index only means anything within
+   * its own stacking context. Opened from the CMS menu it sits inside
    * `.admin-navigation`, which is `position: fixed` — and a fixed element
    * creates a stacking context, at `z-index: auto` here. So the whole overlay
    * was confined to a layer sitting BELOW the header's `z-index: 1000`, and
    * the header painted over it. No z-index on the overlay could have fixed
-   * that; it had to leave the subtree.
+   * that; it had to leave the subtree. Leaving it also means the overlay is
+   * now a SIBLING of what it covers rather than nested inside it, which is why
+   * its z-index sits at the modal tier — see the stylesheet.
    *
    * Doing it here rather than at the one call site that hit the problem,
    * because it is a property of what this component IS: a thing that covers

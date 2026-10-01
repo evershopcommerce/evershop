@@ -6,7 +6,18 @@
   right: 0;
   bottom: 0;
   background: #fff;
-  z-index: 1000;
+  /* The modal layer, matching `Dialog` (z-[1200]).
+   *
+   * 1000 was enough only while this rendered inside whatever opened it. Now
+   * that it portals to <body> it is a SIBLING of the things it must cover, and
+   * both of them sit higher: the admin header is also 1000 (a tie, resolved by
+   * DOM order) and the page-builder editor shell is 1100 — so opening the
+   * browser from a widget's settings drawer put it behind the editor, present
+   * in the DOM, full size, and completely invisible.
+   *
+   * Keep this in step with `components/common/ui/Dialog.tsx`, which documents
+   * the same tier for the same reason. */
+  z-index: 1200;
   padding: 20px;
   /* The shell itself never scrolls. Only the file grid does, so the folder
    * list and the toolbar stay put while you page through images — the toolbar
