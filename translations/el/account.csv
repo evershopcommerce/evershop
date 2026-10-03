@@ -18,13 +18,8 @@ City,Πόλη
 Account Information,Πληροφορίες Λογαριασμού
 Address,Διεύθυνση
 Postcode,Ταχυδρομικός Κώδικας
-Postcode is required,Απαιτείται ταχυδρομικός κώδικας
-Telephone is required,Απαιτείται τηλέφωνο
 Telephone,Τηλέφωνο
-Full name is required,Απαιτείται ονοματεπώνυμο
-Country is required,Απαιτείται χώρα
 Country,Χώρα
-Province is required,Απαιτείται Επαρχία
 Province,Επαρχία
 Billing Address,Διεύθυνση Τιμολόγησης
 Shipping Address,Διεύθυνση Αποστολής
@@ -45,3 +40,36 @@ You must be logged in to update your profile,Πρέπει να συνδεθεί�
 There is nothing to update,Δεν υπάρχει τίποτα προς ενημέρωση
 Email is already used,Το email χρησιμοποιείται ήδη
 Order #${orderNumber},Παραγγελία #${orderNumber}
+Given name,Όνομα
+Family name,Επώνυμο
+Company,Εταιρεία
+Address line 3,Γραμμή διεύθυνσης 3
+State,Πολιτεία
+Prefecture,Νομός
+County,Κομητεία
+Emirate,Εμιράτο
+Department,Διαμέρισμα
+District,Επαρχία
+Do/Si,Do/Si
+Island,Νησί
+Oblast,Όμπλαστ
+Parish,Ενορία
+Post town,Ταχυδρομική πόλη
+Suburb,Προάστιο
+Neighborhood,Γειτονιά
+Village,Χωριό
+Village/Township,Χωριό/Κοινότητα
+Townland,Townland
+Ward,Συνοικία
+ZIP code,Ταχυδρομικός κώδικας
+PIN code,Κωδικός PIN
+Eircode,Eircode
+Sorting code,Κωδικός διαλογής
+${field} is not valid,Το πεδίο ${field} δεν είναι έγκυρο
+${field} is not a valid region,Το πεδίο ${field} δεν είναι έγκυρη περιοχή
+${field} has the wrong type,Το πεδίο ${field} έχει λάθος τύπο
+${field} is not a known address field,Το πεδίο ${field} δεν είναι γνωστό πεδίο διεύθυνσης
+We do not sell to ${country},Δεν πουλάμε σε ${country}
+Select ${field},Επιλέξτε ${field}
+no longer available,δεν είναι πλέον διαθέσιμο
+Please check the highlighted fields,Ελέγξτε τα επισημασμένα πεδία

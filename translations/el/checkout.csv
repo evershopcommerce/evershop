@@ -42,8 +42,6 @@ Enter coupon code,Εισαγωγή κωδικού κουπονιού
 Apply,Εφαρμογή
 Your cart is empty!,Το καλάθι αγορών σας είναι άδειο!
 Inclusive of tax,Συμπεριλαμβανομένου του φόρου
-Address is required,Απαιτείται διεύθυνση
-City is required,Απαιτείται πόλη
 Proceed to checkout,Ολοκλήρωση παραγγελίας
 Your cart,Το καλάθι σας
 ${count} items in your cart,${count} προϊόντα στο καλάθι σας
@@ -51,3 +49,4 @@ No payment required,Δεν απαιτείται πληρωμή
 Your order total is 0 — no payment is needed to place this order.,Το σύνολο της παραγγελίας σας είναι 0 — δεν απαιτείται πληρωμή για την υποβολή της.
 Thank you for your order!,Ευχαριστούμε για την παραγγελία σας!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Η παραγγελία #${orderNumber} επιβεβαιώθηκε. Στείλαμε απόδειξη στο ${email}.
+Shipping is not available at the moment. Please contact us to complete your order.,Η αποστολή δεν είναι διαθέσιμη προς το παρόν. Επικοινωνήστε μαζί μας για να ολοκληρώσετε την παραγγελία σας.

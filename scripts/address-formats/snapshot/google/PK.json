@@ -1,0 +1,9 @@
+{
+  "fmt": "%N%n%O%n%A%n%D%n%C-%Z",
+  "id": "data/PK",
+  "key": "PK",
+  "name": "PAKISTAN",
+  "posturl": "http://www.pakpost.gov.pk/postcodes.php",
+  "zip": "\\d{5}",
+  "zipex": "44000"
+}

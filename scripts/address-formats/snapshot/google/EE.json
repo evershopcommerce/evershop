@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%Z %C %S",
+  "id": "data/EE",
+  "key": "EE",
+  "lang": "et",
+  "languages": "et",
+  "name": "ESTONIA",
+  "posturl": "https://www.omniva.ee/era/sihtnumbrite_otsing",
+  "require": "ACZ",
+  "sub_isoids": "37~39~45~50~52~60~56~64~68~71~74~79~81~84~87",
+  "sub_keys": "Harjumaa~Hiiumaa~Ida-Virumaa~Jõgevamaa~Järvamaa~Lääne-Virumaa~Läänemaa~Põlvamaa~Pärnumaa~Raplamaa~Saaremaa~Tartumaa~Valgamaa~Viljandimaa~Võrumaa",
+  "zip": "\\d{5}",
+  "zipex": "69501,11212"
+}

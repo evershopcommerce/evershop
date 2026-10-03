@@ -34,13 +34,8 @@ City,Thành phố
 Account Information,Thông tin tài khoản
 Address,Địa chỉ
 Postcode,Mã bưu điện
-Postcode is required,Mã bưu điện là bắt buộc
-Telephone is required,Số điện thoại là bắt buộc
 Telephone,Số điện thoại
-Full name is required,Họ và tên là bắt buộc
-Country is required,Quốc gia là bắt buộc
 Country,Quốc gia
-Province is required,Tỉnh/Thành phố là bắt buộc
 Province,Tỉnh/Thành phố
 Billing Address,Địa chỉ thanh toán
 Shipping Address,Địa chỉ giao hàng
@@ -61,3 +56,36 @@ You must be logged in to update your profile,Bạn phải đăng nhập để c�
 There is nothing to update,Không có gì để cập nhật
 Email is already used,Email đã được sử dụng
 Order #${orderNumber},Đơn hàng #${orderNumber}
+Given name,Tên
+Family name,Họ
+Company,Công ty
+Address line 3,Địa chỉ dòng 3
+State,Bang
+Prefecture,Tỉnh
+County,Hạt
+Emirate,Tiểu vương quốc
+Department,Tỉnh
+District,Quận/Huyện
+Do/Si,Do/Si
+Island,Đảo
+Oblast,Oblast
+Parish,Giáo xứ
+Post town,Thị trấn bưu điện
+Suburb,Ngoại ô
+Neighborhood,Khu phố
+Village,Làng
+Village/Township,Làng/Thị trấn
+Townland,Townland
+Ward,Phường/Xã
+ZIP code,Mã ZIP
+PIN code,Mã PIN
+Eircode,Eircode
+Sorting code,Mã phân loại
+${field} is not valid,${field} không hợp lệ
+${field} is not a valid region,${field} không phải là khu vực hợp lệ
+${field} has the wrong type,${field} có kiểu dữ liệu không đúng
+${field} is not a known address field,${field} không phải là trường địa chỉ hợp lệ
+We do not sell to ${country},Chúng tôi không bán hàng đến ${country}
+Select ${field},Chọn ${field}
+no longer available,không còn khả dụng
+Please check the highlighted fields,Vui lòng kiểm tra các trường được đánh dấu

@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "recipient": { "type": ["string", "null"] },
+    "given_name": { "type": ["string", "null"] },
+    "family_name": { "type": ["string", "null"] },
+    "organization": { "type": ["string", "null"] },
+    "address_line_1": { "type": ["string", "null"] },
+    "address_line_2": { "type": ["string", "null"] },
+    "address_line_3": { "type": ["string", "null"] },
+    "dependent_locality": { "type": ["string", "null"] },
+    "locality": { "type": ["string", "null"] },
+    "administrative_area": { "type": ["string", "null"] },
+    "postal_code": { "type": ["string", "null"] },
+    "sorting_code": { "type": ["string", "null"] },
+    "country": { "type": "string", "minLength": 2, "maxLength": 2 },
+    "telephone": { "type": ["string", "null"] },
+    "extra": { "type": ["object", "null"] },
+    "is_default": { "type": ["boolean", "number", "string", "null"] }
+  },
+  "required": ["country"],
+  "additionalProperties": true,
+  "errorMessage": {
+    "required": {
+      "country": "Country is required"
+    }
+  }
+}

@@ -1,0 +1,177 @@
+{
+  "main": {
+    "tk": {
+      "identity": {
+        "language": "tk"
+      },
+      "personNames": {
+        "foreignSpaceReplacement": " ",
+        "formality": "formal",
+        "givenFirst": [
+          "und",
+          "tk"
+        ],
+        "initial": "{0}.",
+        "initialSequence": "{0} {1}",
+        "length": "medium",
+        "nativeSpaceReplacement": " ",
+        "personName": {
+          "givenFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{title} {given} {given2} {surname} {surname2}, {credentials}",
+                "informal": "{title} {given} {given2} {surname} {surname2}, {credentials}"
+              },
+              "monogram": {
+                "formal": "{given-monogram-allCaps}{given2-monogram-allCaps}{surname-monogram-allCaps}",
+                "informal": "{given-monogram-allCaps}{given2-monogram-allCaps}{surname-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{title} {given} {given2} {surname} {surname2}, {credentials}",
+                "informal": "{title} {given} {given2} {surname} {surname2}, {credentials}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{title} {given} {given2} {surname} {surname2}, {credentials}",
+                "informal": "{title} {given} {given2} {surname} {surname2}, {credentials}"
+              },
+              "monogram": {
+                "formal": "{given-monogram-allCaps}{given2-monogram-allCaps}{surname-monogram-allCaps}",
+                "informal": "{given-monogram-allCaps}{given2-monogram-allCaps}{surname-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{title} {given} {given2} {surname} {surname2}, {credentials}",
+                "informal": "{title} {given} {given2} {surname} {surname2}, {credentials}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{given-initial} {given2-initial} {surname}",
+                "informal": "{given-initial} {surname}"
+              }
+            }
+          },
+          "sorting": {
+            "long": {
+              "referring": {
+                "formal": "{surname-core}, {given} {given2} {surname-prefix}",
+                "informal": "{surname}, {given}"
+              }
+            },
+            "medium": {
+              "referring": {
+                "formal": "{surname-core}, {given} {surname-prefix}",
+                "informal": "{surname}, {given}"
+              }
+            },
+            "short": {
+              "referring": {
+                "formal": "{surname-core}, {given-initial} {given2-initial} {surname-prefix}",
+                "informal": "{surname}, {given-initial}"
+              }
+            }
+          },
+          "surnameFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}",
+                "informal": "{surname-monogram-allCaps}{given-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given} {given2}, {credentials}",
+                "informal": "{surname} {given}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given} {given2}, {credentials}",
+                "informal": "{surname} {given}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given-initial} {given2-initial}",
+                "informal": "{surname} {given-initial}"
+              }
+            }
+          }
+        },
+        "sampleName": {
+          "foreignFull": {
+            "credentials": "hirurg-stomatolog lukman",
+            "generation": "kiçi",
+            "given": "Ada Kornelia",
+            "given-informal": "Nil",
+            "given2": "Sezar Martin",
+            "surname-core": "Brül",
+            "surname-prefix": "fon",
+            "surname2": "Gonzales Domingo",
+            "title": "ylymlaryň doktory, professor"
+          },
+          "foreignG": {
+            "given": "Sinbad"
+          },
+          "foreignGGS": {
+            "given": "Zezilia",
+            "given2": "Hemiş",
+            "surname": "Stöber"
+          },
+          "foreignGS": {
+            "given": "Kete",
+            "surname": "Müller"
+          },
+          "nativeFull": {
+            "credentials": "magistr, ylymlaryň kandidaty",
+            "given": "Atajan",
+            "given-informal": "Ataş",
+            "given2": "Saparowiç",
+            "surname-core": "Gurdow",
+            "title": "jenap"
+          },
+          "nativeG": {
+            "given": "Gurban"
+          },
+          "nativeGGS": {
+            "given": "Meretgeldi",
+            "given2": "Durdyýewiç",
+            "surname": "Gurbanow"
+          },
+          "nativeGS": {
+            "given": "Amangeldi",
+            "surname": "Saparow"
+          }
+        },
+        "surnameFirst": []
+      }
+    }
+  }
+}

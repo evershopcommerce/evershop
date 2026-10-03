@@ -1,0 +1,185 @@
+{
+  "main": {
+    "my": {
+      "identity": {
+        "language": "my"
+      },
+      "personNames": {
+        "foreignSpaceReplacement": " ",
+        "formality": "informal",
+        "givenFirst": [
+          "und",
+          "my"
+        ],
+        "initial": "{0}.",
+        "initialSequence": "{0} {1}",
+        "length": "medium",
+        "nativeSpaceReplacement": " ",
+        "personName": {
+          "givenFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{given-monogram-allCaps} {given2-monogram-allCaps} {surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps} {surname-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{title} {given} {given2} {surname} {generation}၊ {credentials}",
+                "informal": "{given-informal} {surname}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{given} {given2-initial} {surname} {generation}၊ {credentials}",
+                "informal": "{given-informal} {surname}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{given-initial} {given2-initial} {surname}",
+                "informal": "{given-informal} {surname-initial}"
+              }
+            }
+          },
+          "sorting": {
+            "long": {
+              "referring": {
+                "formal": "{surname-core}၊ {given} {given2} {surname-prefix}",
+                "informal": "{surname}၊ {given-informal}"
+              }
+            },
+            "medium": {
+              "referring": {
+                "formal": "{surname-core}၊ {given} {given2-initial} {surname-prefix}",
+                "informal": "{surname}၊ {given-informal}"
+              }
+            },
+            "short": {
+              "referring": {
+                "formal": "{surname-core}၊ {given-initial} {given2-initial} {surname-prefix}",
+                "informal": "{surname}၊ {given-informal}"
+              }
+            }
+          },
+          "surnameFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps} {given-monogram-allCaps} {given2-monogram-allCaps}",
+                "informal": "{surname-monogram-allCaps}{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {title} {given} {given2} {generation}၊ {credentials}",
+                "informal": "{surname} {given-informal}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given} {given2-initial} {generation}, {credentials}",
+                "informal": "{surname} {given-informal}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given-initial} {given2-initial}",
+                "informal": "{surname} {given-initial}"
+              }
+            }
+          }
+        },
+        "sampleName": {
+          "foreignFull": {
+            "credentials": "ဒေါက်တာ",
+            "generation": "ဂျူနီယာ",
+            "given": "အာဒါ ကွန်နီလီယာ",
+            "given-informal": "နီလီ",
+            "given2": "ဆီဇာ မာတင်",
+            "surname-core": "ဝူစ်တာ ဘရူ",
+            "surname-prefix": "ဝူစ်တာ ဗွန်",
+            "title": "ပရော်ဖက်ဆာ ဒေါက်တာ"
+          },
+          "foreignG": {
+            "given": "ဆင်းဘတ်"
+          },
+          "foreignGGS": {
+            "given": "ဇာဇီလာ",
+            "given2": "ဟာမစ်ရှ်",
+            "surname": "စတိုဘာ"
+          },
+          "foreignGS": {
+            "given": "ကက်သီ",
+            "surname": "မူလာ"
+          },
+          "nativeFull": {
+            "credentials": "ဒေါက်တာ",
+            "generation": "ဂျူနီယာ",
+            "given": "ဘာထရမ် ဝဲလ်ဘာဖို့စ်",
+            "given-informal": "ဘာတီ",
+            "given2": "ဟင်နရီ ရောဘတ်",
+            "surname-core": "ဝူစ်တာ",
+            "title": "မစ္စတာ"
+          },
+          "nativeG": {
+            "given": "ဇင်ဒါယာ"
+          },
+          "nativeGGS": {
+            "given": "မေရီ စူး",
+            "given2": "ဟာမစ်ရှ်",
+            "surname": "ဝပ်ဆင်"
+          },
+          "nativeGS": {
+            "given": "အိုင်ရင်း",
+            "surname": "အက်ဒ်လာ"
+          }
+        },
+        "surnameFirst": [
+          "ko",
+          "si",
+          "ta",
+          "te",
+          "vi",
+          "yue",
+          "zh"
+        ]
+      }
+    }
+  }
+}

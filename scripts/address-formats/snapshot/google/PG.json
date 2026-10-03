@@ -1,0 +1,13 @@
+{
+  "fmt": "%N%n%O%n%A%n%C %Z %S",
+  "id": "data/PG",
+  "key": "PG",
+  "lang": "tpi",
+  "languages": "tpi~en~ho",
+  "name": "PAPUA NEW GUINEA",
+  "require": "ACS",
+  "sub_isoids": "NSB~CPM~EPW~GPK~HLA~EBR~ESW~EHG~JWK~MPM~MRL~MBA~MPL~NCD~NIK~NPP~SAN~SHM~CPK~WBK~WHM~WPD",
+  "sub_keys": "Bougainville~Central Provins~Enga Provins~Gulf Provins~Hela Provins~Is Niu Briten Provins~Is Sepik Provins~Isten Hailans Provins~Jiwaka Provins~Madang Provins~Manus Provins~Milen Be Provins~Morobe Provins~Nesenel Kapitol Distrik~Niu Ailan Provins~Oro Provins~Sandaun Provins~Sauten Hailans Provins~Simbu Provins~Wes Niu Briten Provins~Western Hailans Provins~Western Provins",
+  "zip": "\\d{3}",
+  "zipex": "111"
+}

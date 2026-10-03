@@ -1,0 +1,17 @@
+{
+  "fmt": "%N%n%O%n%A%n%C %S %Z",
+  "id": "data/PW",
+  "key": "PW",
+  "lang": "pau",
+  "languages": "pau~en",
+  "name": "PALAU",
+  "posturl": "http://zip4.usps.com/zip4/welcome.jsp",
+  "require": "ACSZ",
+  "state_name_type": "state",
+  "sub_isoids": "002~004~010~050~100~150~212~214~218~222~227~224~226~228~350~370",
+  "sub_keys": "Aimeliik~Airai~Angaur~Hatohobei~Kayangel~Koror~Melekeok~Ngaraard~Ngarchelong~Ngardmau~Ngaremlengui~Ngatpang~Ngchesar~Ngiwal~Peleliu~Sonsorol",
+  "upper": "ACNOS",
+  "zip": "(969(?:39|40))(?:[ \\-](\\d{4}))?",
+  "zip_name_type": "zip",
+  "zipex": "96940"
+}

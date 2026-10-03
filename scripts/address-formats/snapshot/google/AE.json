@@ -1,0 +1,15 @@
+{
+  "fmt": "%N%n%O%n%A%n%S",
+  "id": "data/AE",
+  "key": "AE",
+  "lang": "ar",
+  "languages": "ar",
+  "lfmt": "%N%n%O%n%A%n%S",
+  "name": "UNITED ARAB EMIRATES",
+  "require": "AS",
+  "state_name_type": "emirate",
+  "sub_isoids": "AZ~SH~FU~UQ~DU~RK~AJ",
+  "sub_keys": "أبو ظبي~إمارة الشارقةّ~الفجيرة~ام القيوين~إمارة دبيّ~إمارة رأس الخيمة~عجمان",
+  "sub_lnames": "Abu Dhabi~Sharjah~Fujairah~Umm Al Quwain~Dubai~Ras al Khaimah~Ajman",
+  "sub_names": "أبو ظبي~الشارقة~الفجيرة~ام القيوين~دبي~رأس الخيمة~عجمان"
+}

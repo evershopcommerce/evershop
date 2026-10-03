@@ -1,6 +1,6 @@
 import { useAppDispatch } from '@components/common/context/app.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
+import { AddressGraphql } from '@evershop/evershop/types/address';
 import { produce } from 'immer';
 import React, {
   createContext,
@@ -12,8 +12,8 @@ import React, {
   useEffect
 } from 'react';
 
-type ExtendedCustomerAddress = CustomerAddressGraphql & {
-  addressId: string | number;
+type ExtendedCustomerAddress = AddressGraphql & {
+  customerAddressId?: number;
   isDefault?: boolean;
   updateApi?: string;
   deleteApi?: string;
@@ -179,8 +179,8 @@ export interface Order {
     value: number;
     text: string;
   };
-  billingAddress?: CustomerAddressGraphql;
-  shippingAddress?: CustomerAddressGraphql;
+  billingAddress?: AddressGraphql;
+  shippingAddress?: AddressGraphql;
   createdAt: {
     value: string;
     text: string;
@@ -482,12 +482,14 @@ export function CustomerProvider({
 
       const json = await response.json();
 
-      if (!response.ok) {
-        throw new Error(json.error?.message || _('Failed to add address'));
-      }
-
-      if (json.error) {
-        throw new Error(json.error.message || _('Failed to add address'));
+      if (!response.ok || json.error) {
+        // Spec § 3.8: `error.errors[]` carries field-targeted messages; keep
+        // them on the thrown error so the address form can highlight inputs.
+        const failure = new Error(
+          json.error?.message || _('Failed to add address')
+        ) as Error & { errors?: unknown };
+        failure.errors = json.error?.errors;
+        throw failure;
       }
 
       // Sync with server to get fresh customer data including the new address
@@ -529,12 +531,14 @@ export function CustomerProvider({
 
       const json = await response.json();
 
-      if (!response.ok) {
-        throw new Error(json.error?.message || _('Failed to update address'));
-      }
-
-      if (json.error) {
-        throw new Error(json.error.message || _('Failed to update address'));
+      if (!response.ok || json.error) {
+        // Spec § 3.8: `error.errors[]` carries field-targeted messages; keep
+        // them on the thrown error so the address form can highlight inputs.
+        const failure = new Error(
+          json.error?.message || _('Failed to update address')
+        ) as Error & { errors?: unknown };
+        failure.errors = json.error?.errors;
+        throw failure;
       }
 
       // Sync with server to get fresh customer data including the updated address

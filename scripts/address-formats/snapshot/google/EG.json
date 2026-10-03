@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%C%n%S%n%Z",
+  "id": "data/EG",
+  "key": "EG",
+  "lang": "ar",
+  "languages": "ar",
+  "lfmt": "%N%n%O%n%A%n%C%n%S%n%Z",
+  "name": "EGYPT",
+  "sub_isoids": "ASN~AST~ALX~IS~LX~BA~BH~GZ~DK~SUZ~SHR~GH~FYM~C~KB~MNF~MN~WAD~BNS~PTS~JS~DT~SHG~SIN~KN~KFS~MT",
+  "sub_keys": "أسوان~أسيوط~الإسكندرية~الإسماعيلية~الأقصر~البحر الأحمر~البحيرة~الجيزة~الدقهلية~السويس~الشرقية~الغربية~الفيوم~القاهرة~القليوبية~المنوفية~المنيا~الوادي الجديد~بني سويف~بورسعيد~جنوب سيناء~دمياط~سوهاج~شمال سيناء~قنا~كفر الشيخ~مطروح",
+  "sub_lnames": "Aswan Governorate~Asyut Governorate~Alexandria Governorate~Ismailia Governorate~Luxor Governorate~Red Sea Governorate~El Beheira Governorate~Giza Governorate~Dakahlia Governorate~Suez Governorate~Ash Sharqia Governorate~Gharbia Governorate~Faiyum Governorate~Cairo Governorate~Qalyubia Governorate~Menofia Governorate~Menia Governorate~New Valley Governorate~Beni Suef Governorate~Port Said Governorate~South Sinai Governorate~Damietta Governorate~Sohag Governorate~North Sinai Governorate~Qena Governorate~Kafr El Sheikh Governorate~Matrouh Governorate",
+  "zip": "\\d{7}|\\d{5}",
+  "zipex": "4460232,5734356"
+}

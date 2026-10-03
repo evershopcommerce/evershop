@@ -321,3 +321,51 @@ Maximum file size,Файлын дээд хэмжээ
 Per-type overrides,Төрөл тус бүрийн дарж бичилт
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Тохирох файлын төрлүүдийн дээд хэмжээг дарж бичнэ — жишээ нь зурагт бага, видеонд их хязгаар. Яг тодорхой төрөл (video/mp4) нь бүлгээс (video/*) давуу; тохирохгүй бүхэн дээрх дээд хэмжээг ашиглана. Дарж бичилт нь шинэ төрлийг зөвшөөрөхгүй: файлын төрөл өөрөө “Зөвшөөрөгдсөн файлын төрлүүд” дотор идэвхжсэн байх ёстой."
 Every product in the store,Дэлгүүрийн бүх бүтээгдэхүүн
+"Region restrictions","Бүс нутгийн хязгаарлалт"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","Улс орныг бүхэлд нь хамруулахын тулд жагсаалтыг хоосон үлдээнэ үү. Тодорхой бүс нутгаар хязгаарлахын тулд бүс нэмнэ үү."
+"Select regions","Бүс нутаг сонгох"
+"Regions:","Бүс нутаг:"
+"Regions","Бүс нутаг"
+"Regions is required","Бүс нутаг заавал шаардлагатай"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","Бүсийн түлхүүрүүд (жишээ нь ""US-CA""), таслалаар тусгаарлана. Бүх бүсэд ""*"" ашиглана уу."
+"Postal code","Шуудангийн код"
+"Postal code is required","Шуудангийн код заавал шаардлагатай"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","Шуудангийн кодууд (жишээ нь ""90210""), таслалаар тусгаарлана. Бүх кодод ""*"" ашиглана уу."
+"not sold to","борлуулдаггүй"
+"retired","хүчингүй"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","Төлбөр хийх боломжгүй: таны хүргэлтийн бүсүүдийн аль нь ч та борлуулдаг улсыг хамрахгүй байна."
+"This region was retired; its successor is ${name}.","Энэ бүс хүчингүй болсон; залгамжлагч нь ${name}."
+"Show region keys for ${country}","${country}-ийн бүсийн түлхүүрүүдийг харуулах"
+"Retired region keys on this rate: ${keys}","Энэ хувь хэмжээн дэх хүчингүй бүсийн түлхүүрүүд: ${keys}"
+Country is required,Улс шаардлагатай
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","Хаягийн дэвтэр болон төлбөрийн хэсэгт хаягийн маягт бүр юу авдаг. Улсын загвар, бүс нутгийн жагсаалт, шошго нь улс бүрийг дагадаг бөгөөд засварлах боломжгүй."
+Name format,Нэрийн формат
+Single field,Нэг талбар
+First and last name,Нэр ба овог
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,Солих нь аль ч чиглэлд аюулгүй: хадгалсан хаягууд харагдсаар байх ба засварлахад хөрвүүлэгдэнэ.
+Optional,Сонголттой
+Hidden,Нуугдсан
+Address line 2,Хаягийн 2-р мөр
+Shown,Харагдана
+Required fields,Заавал бөглөх талбарууд
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,Улс сонголттой орхисон талбаруудыг энд заавал болгож болно; улсын шаардсан зүйл хэзээ ч сонголттой болохгүй.
+State / Province,Муж / Аймаг
+Ward / Neighbourhood,Хороо / Хороолол
+As the country requires,Улсын шаардлагаар
+Always required,Үргэлж заавал
+Default country,Үндсэн улс
+Use store country,Дэлгүүрийн улсыг ашиглах
+No default,Үндсэн утга байхгүй
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,Шинэ хаяг дээр урьдчилан сонгогдоно. Хүргэлт таны бүсүүдийн хамрах улсуудаар хязгаарлагдсан хэвээр.
+Sell to countries,Борлуулах улсууд
+All countries,Бүх улс
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,Зөвхөн эдгээр улс хаягийн дэвтэр болон төлбөрийн хэсэгт санал болгогдоно. Хүргэлтэд мөн тухайн улсыг хамарсан бүс шаардлагатай.
+These zones will stop serving: ${zones},Эдгээр бүс дараах газарт үйлчлэхээ болино: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","Бүсүүд хадгалагдаж тэмдэглэгдэнэ, юу ч устгагдахгүй. Төлбөрийн хэсэг эдгээр улсыг санал болгохгүй."
+Narrow the countries you sell to?,Борлуулах улсуудыг хязгаарлах уу?
+Save anyway,Ямар ч байсан хадгалах
+Customer Setting,Харилцагчийн тохиргоо
+Customer Settings,Харилцагчийн тохиргоо
+"Customer accounts, checkout and addresses","Хэрэглэгчийн бүртгэл, төлбөр тооцоо, хаяг"
+"Rules for customer accounts, checkout and addresses","Хэрэглэгчийн бүртгэл, төлбөр тооцоо, хаягийн дүрэм"
+Addresses,Хаягууд

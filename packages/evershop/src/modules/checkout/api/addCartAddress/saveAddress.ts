@@ -4,6 +4,7 @@ import {
   INVALID_PAYLOAD,
   OK
 } from '../../../../lib/util/httpStatus.js';
+import { respondAddressValidationError } from '../../../customer/services/customer/address/addressValidationResponse.js';
 import { addBillingAddress } from '../../services/addBillingAddress.js';
 import { addShippingAddress } from '../../services/addShippingAddress.js';
 import { getCartByUUID } from '../../services/getCartByUUID.js';
@@ -39,6 +40,9 @@ export default async (request, response, next) => {
       data: addedAddress
     });
   } catch (e) {
+    if (respondAddressValidationError(response, e)) {
+      return undefined;
+    }
     response.status(INTERNAL_SERVER_ERROR);
     return response.json({
       error: {

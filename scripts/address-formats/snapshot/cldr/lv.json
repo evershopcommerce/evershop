@@ -1,0 +1,184 @@
+{
+  "main": {
+    "lv": {
+      "identity": {
+        "language": "lv"
+      },
+      "personNames": {
+        "foreignSpaceReplacement": " ",
+        "formality": "formal",
+        "givenFirst": [
+          "und",
+          "lv"
+        ],
+        "initial": "{0}.",
+        "initialSequence": "{0} {1}",
+        "length": "medium",
+        "nativeSpaceReplacement": " ",
+        "personName": {
+          "givenFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{given-monogram-allCaps}{given2-monogram-allCaps}{surname-monogram-allCaps}",
+                "informal": "{given-monogram-allCaps}{given2-monogram-allCaps}{surname-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{credentials} {given} {given2} {surname} {surname2}",
+                "informal": "{given} {surname}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{given-monogram-allCaps}{given2-monogram-allCaps}{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{credentials} {given} {given2} {surname} {surname2}",
+                "informal": "{given} {surname}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{surname}",
+                "informal": "{given}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{given-initial} {given2-initial} {surname}",
+                "informal": "{given} {surname-initial}"
+              }
+            }
+          },
+          "sorting": {
+            "long": {
+              "referring": {
+                "formal": "{surname} {given} {given2}",
+                "informal": "{surname}, {given} {given2}"
+              }
+            },
+            "medium": {
+              "referring": {
+                "formal": "{surname} {given} {given2}",
+                "informal": "{surname}, {given}"
+              }
+            },
+            "short": {
+              "referring": {
+                "formal": "{surname-core}, {given-initial} {given2-initial}",
+                "informal": "{surname}, {given}"
+              }
+            }
+          },
+          "surnameFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{surname-genitive} {title}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}",
+                "informal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given}",
+                "informal": "{surname} {given}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{surname-genitive} {title}",
+                "informal": "{given}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}",
+                "informal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{credentials} {surname} {given} {given2-initial}",
+                "informal": "{surname} {given}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{surname} {given}",
+                "informal": "{given}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}",
+                "informal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given-initial} {given2-initial}",
+                "informal": "{surname} {given-initial}"
+              }
+            }
+          }
+        },
+        "sampleName": {
+          "foreignFull": {
+            "credentials": "Dr.philol.",
+            "generation": "jaunākā",
+            "given": "Laima Kristīne",
+            "given-informal": "Ella",
+            "given2": "Eva Sofija",
+            "surname-core": "Volfa",
+            "surname-prefix": "van den",
+            "surname2": "Bērziņa-Kalniņa",
+            "title": "Prof."
+          },
+          "foreignG": {
+            "given": "Sinbads"
+          },
+          "foreignGGS": {
+            "given": "Pīters",
+            "given2": "Džims",
+            "surname": "Millers"
+          },
+          "foreignGS": {
+            "given": "Keita",
+            "surname": "Millere"
+          },
+          "nativeFull": {
+            "credentials": "MP",
+            "generation": "jaunākais",
+            "given": "Pēteris",
+            "given-informal": "Pēcis",
+            "given2": "Kārlis",
+            "surname-core": "Ozoliņš",
+            "title": "kungs"
+          },
+          "nativeG": {
+            "given": "Jānis"
+          },
+          "nativeGGS": {
+            "given": "Anna",
+            "given2": "Paula",
+            "surname": "Bērziņa"
+          },
+          "nativeGS": {
+            "given": "Aina",
+            "surname": "Kalniņa"
+          }
+        },
+        "surnameFirst": [
+          "ja",
+          "ko",
+          "vi",
+          "yue",
+          "zh"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%Z %C%n%S",
+  "id": "data/CL",
+  "key": "CL",
+  "lang": "es",
+  "languages": "es",
+  "name": "CHILE",
+  "sub_isoids": "AN~AR~AP~AT~AI~BI~CO~LI~LL~LR~MA~ML~RM~NB~TA~VS",
+  "sub_keys": "Antofagasta~Araucanía~Arica y Parinacota~Atacama~Aysén~Biobío~Coquimbo~O'Higgins~Los Lagos~Los Ríos~Magallanes~Maule~Región Metropolitana~Ñuble~Tarapacá~Valparaíso",
+  "sub_mores": "true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true",
+  "sub_names": "Antofagasta~Araucanía~Arica y Parinacota~Atacama~Aysén del General Carlos Ibáñez del Campo~Biobío~Coquimbo~Libertador General Bernardo O'Higgins~Los Lagos~Los Ríos~Magallanes y de la Antártica Chilena~Maule~Metropolitana de Santiago~Ñuble~Tarapacá~Valparaíso",
+  "zip": "\\d{7}",
+  "zipex": "8340457,8720019,1230000,8329100"
+}

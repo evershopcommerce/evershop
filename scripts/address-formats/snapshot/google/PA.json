@@ -1,0 +1,11 @@
+{
+  "fmt": "%N%n%O%n%A%n%C%n%S",
+  "id": "data/PA",
+  "key": "PA",
+  "lang": "es",
+  "languages": "es",
+  "name": "PANAMA (REP.)",
+  "sub_isoids": "1~4~2~3~5~EM~KY~6~7~NT~NB~8~10~9",
+  "sub_keys": "Bocas del Toro~Chiriquí~Coclé~Colón~Darién~Emberá~Guna Yala~Herrera~Los Santos~Naso Tjër Di~Ngäbe-Buglé~Panamá~Panamá Oeste~Veraguas",
+  "upper": "CS"
+}

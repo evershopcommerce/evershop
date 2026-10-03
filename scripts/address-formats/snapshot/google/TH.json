@@ -1,0 +1,16 @@
+{
+  "fmt": "%N%n%O%n%A%n%D %C%n%S %Z",
+  "id": "data/TH",
+  "key": "TH",
+  "lang": "th",
+  "languages": "th",
+  "lfmt": "%N%n%O%n%A%n%D, %C%n%S %Z",
+  "name": "THAILAND",
+  "sub_isoids": "81~10~71~46~62~40~38~22~24~20~18~36~86~57~50~92~23~63~26~73~48~30~80~60~12~96~55~31~13~77~25~94~14~56~82~93~66~65~76~67~54~83~44~49~58~35~95~45~85~21~70~16~52~51~42~33~47~90~91~11~75~74~27~19~17~64~72~84~32~43~39~15~37~41~53~61~34",
+  "sub_keys": "กระบี่~กรุงเทพมหานคร~กาญจนบุรี~กาฬสินธุ์~กำแพงเพชร~ขอนแก่น~จังหวัด บึงกาฬ~จันทบุรี~ฉะเชิงเทรา~ชลบุรี~ชัยนาท~ชัยภูมิ~ชุมพร~เชียงราย~เชียงใหม่~ตรัง~ตราด~ตาก~นครนายก~นครปฐม~นครพนม~นครราชสีมา~นครศรีธรรมราช~นครสวรรค์~นนทบุรี~นราธิวาส~น่าน~บุรีรัมย์~ปทุมธานี~ประจวบคีรีขันธ์~ปราจีนบุรี~ปัตตานี~พระนครศรีอยุธยา~พะเยา~พังงา~พัทลุง~พิจิตร~พิษณุโลก~เพชรบุรี~เพชรบูรณ์~แพร่~ภูเก็ต~มหาสารคาม~มุกดาหาร~แม่ฮ่องสอน~ยโสธร~ยะลา~ร้อยเอ็ด~ระนอง~ระยอง~ราชบุรี~ลพบุรี~ลำปาง~ลำพูน~เลย~ศรีสะเกษ~สกลนคร~สงขลา~สตูล~สมุทรปราการ~สมุทรสงคราม~สมุทรสาคร~สระแก้ว~สระบุรี~สิงห์บุรี~สุโขทัย~สุพรรณบุรี~สุราษฎร์ธานี~สุรินทร์~หนองคาย~หนองบัวลำภู~อ่างทอง~อำนาจเจริญ~อุดรธานี~อุตรดิตถ์~อุทัยธานี~อุบลราชธานี",
+  "sub_lnames": "Krabi~Bangkok~Kanchanaburi~Kalasin~Kamphaeng Phet~Khon Kaen~Bueng Kan~Chanthaburi~Chachoengsao~Chon Buri~Chai Nat~Chaiyaphum~Chumpon~Chiang Rai~Chiang Mai~Trang~Trat~Tak~Nakhon Nayok~Nakhon Pathom~Nakhon Phanom~Nakhon Ratchasima~Nakhon Si Thammarat~Nakhon Sawan~Nonthaburi~Narathiwat~Nan~Buri Ram~Pathum Thani~Prachuap Khiri Khan~Prachin Buri~Pattani~Phra Nakhon Si Ayutthaya~Phayao~Phang Nga~Phattalung~Phichit~Phitsanulok~Phetchaburi~Phetchabun~Phrae~Phuket~Maha Sarakham~Mukdahan~Mae Hong Son~Yasothon~Yala~Roi Et~Ranong~Rayong~Ratchaburi~Lop Buri~Lampang~Lamphun~Loei~Si Sa Ket~Sakon Nakhon~Songkhla~Satun~Samut Prakan~Samut Songkhram~Samut Sakhon~Sa Kaeo~Saraburi~Sing Buri~Sukhothai~Suphanburi~Surat Thani~Surin~Nong Khai~Nong Bua Lam Phu~Ang Thong~Amnat Charoen~Udon Thani~Uttaradit~Uthai Thani~Ubon Ratchathani",
+  "sub_zips": "81~10~71~46~62~40~~22~24~20~17~36~86~57~50~92~23~63~26~73~48~30~80~60~11~96~55~31~12~77~25~94~13~56~82~93~66~65~76~67~54~83~44~49~58~35~95~45~85~21~70~15~52~51~42~33~47~90~91~10~75~74~27~18~16~64~72~84~32~43~39~14~37~41~53~61~34",
+  "upper": "S",
+  "zip": "\\d{5}",
+  "zipex": "10150,10210"
+}

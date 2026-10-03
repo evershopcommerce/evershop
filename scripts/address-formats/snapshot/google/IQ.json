@@ -1,0 +1,15 @@
+{
+  "fmt": "%O%n%N%n%A%n%C, %S%n%Z",
+  "id": "data/IQ",
+  "key": "IQ",
+  "lang": "ar",
+  "languages": "ar",
+  "name": "IRAQ",
+  "require": "ACS",
+  "sub_isoids": "AR~KR~AN~BA~SU~QA~MU~NA~BB~BG~DA~DI~DQ~SD~KA~KI~MA~NI~WA",
+  "sub_keys": "أربيل~إقليم كوردستان~الانبار~البصرة~السليمانية~القادسية~المثنى~النجف~بابل~بغداد~دهوك~ديالى~ذي قار~صلاح الدين~كربلاء~كركوك~ميسان~نينوى~واسط",
+  "sub_lnames": "Erbil~Kurdistan Region~Al Anbar~Basra~Sulaymaniyah~Al-Qādisiyyah~Al Muthanna~Najaf~Babylon~Baghdad~Duhok~Diyala~Dhi Qar~Saladin~Karbala~Kirkuk~Maysan~Nineveh~Wasit",
+  "upper": "CS",
+  "zip": "\\d{5}",
+  "zipex": "31001"
+}

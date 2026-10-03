@@ -1,0 +1,12 @@
+{
+  "fmt": "%N%n%O%n%A%n%C%n%S %X",
+  "id": "data/JM",
+  "key": "JM",
+  "lang": "en",
+  "languages": "en",
+  "name": "JAMAICA",
+  "require": "ACS",
+  "state_name_type": "parish",
+  "sub_isoids": "13~09~01~12~04~02~06~14~11~08~05~03~07~10",
+  "sub_keys": "Clarendon~Hanover~Kingston~Manchester~Portland~St. Andrew~St. Ann~St. Catherine~St. Elizabeth~St. James~St. Mary~St. Thomas~Trelawny~Westmoreland"
+}

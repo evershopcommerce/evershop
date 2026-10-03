@@ -1,0 +1,472 @@
+[
+  {
+    "key": "VN-01",
+    "name": "Lai Châu",
+    "latinName": "Lai Chau",
+    "isoCode": "VN-01",
+    "retired": false
+  },
+  {
+    "key": "VN-02",
+    "name": "Lào Cai",
+    "latinName": "Lao Cai",
+    "isoCode": "VN-02",
+    "retired": false
+  },
+  {
+    "key": "VN-04",
+    "name": "Cao Bằng",
+    "latinName": "Cao Bang",
+    "isoCode": "VN-04",
+    "retired": false
+  },
+  {
+    "key": "VN-05",
+    "name": "Sơn La",
+    "latinName": "Son La",
+    "isoCode": "VN-05",
+    "retired": false
+  },
+  {
+    "key": "VN-07",
+    "name": "Tuyên Quang",
+    "latinName": "Tuyen Quang",
+    "isoCode": "VN-07",
+    "retired": false
+  },
+  {
+    "key": "VN-09",
+    "name": "Lạng Sơn",
+    "latinName": "Lang Son",
+    "isoCode": "VN-09",
+    "retired": false
+  },
+  {
+    "key": "VN-13",
+    "name": "Quảng Ninh",
+    "latinName": "Quang Ninh",
+    "isoCode": "VN-13",
+    "retired": false
+  },
+  {
+    "key": "VN-18",
+    "name": "Ninh Bình",
+    "latinName": "Ninh Binh",
+    "isoCode": "VN-18",
+    "retired": false
+  },
+  {
+    "key": "VN-21",
+    "name": "Thanh Hóa",
+    "latinName": "Thanh Hoa",
+    "isoCode": "VN-21",
+    "retired": false
+  },
+  {
+    "key": "VN-22",
+    "name": "Nghệ An",
+    "latinName": "Nghe An",
+    "isoCode": "VN-22",
+    "retired": false
+  },
+  {
+    "key": "VN-23",
+    "name": "Hà Tĩnh",
+    "latinName": "Ha Tinh",
+    "isoCode": "VN-23",
+    "retired": false
+  },
+  {
+    "key": "VN-25",
+    "name": "Quảng Trị",
+    "latinName": "Quang Tri",
+    "isoCode": "VN-25",
+    "retired": false
+  },
+  {
+    "key": "VN-26",
+    "name": "Huế",
+    "latinName": "Hue",
+    "isoCode": "VN-26",
+    "retired": false
+  },
+  {
+    "key": "VN-29",
+    "name": "Quảng Ngãi",
+    "latinName": "Quang Ngai",
+    "isoCode": "VN-29",
+    "retired": false
+  },
+  {
+    "key": "VN-30",
+    "name": "Gia Lai",
+    "latinName": "Gia Lai",
+    "isoCode": "VN-30",
+    "retired": false
+  },
+  {
+    "key": "VN-33",
+    "name": "Đắk Lắk",
+    "latinName": "Dak Lak",
+    "isoCode": "VN-33",
+    "retired": false
+  },
+  {
+    "key": "VN-34",
+    "name": "Khánh Hòa",
+    "latinName": "Khanh Hoa",
+    "isoCode": "VN-34",
+    "retired": false
+  },
+  {
+    "key": "VN-35",
+    "name": "Lâm Đồng",
+    "latinName": "Lam Dong",
+    "isoCode": "VN-35",
+    "retired": false
+  },
+  {
+    "key": "VN-37",
+    "name": "Tây Ninh",
+    "latinName": "Tay Ninh",
+    "isoCode": "VN-37",
+    "retired": false
+  },
+  {
+    "key": "VN-39",
+    "name": "Đồng Nai",
+    "latinName": "Dong Nai",
+    "isoCode": "VN-39",
+    "retired": false
+  },
+  {
+    "key": "VN-44",
+    "name": "An Giang",
+    "latinName": "An Giang",
+    "isoCode": "VN-44",
+    "retired": false
+  },
+  {
+    "key": "VN-45",
+    "name": "Đồng Tháp",
+    "latinName": "Dong Thap",
+    "isoCode": "VN-45",
+    "retired": false
+  },
+  {
+    "key": "VN-49",
+    "name": "Vĩnh Long",
+    "latinName": "Vinh Long",
+    "isoCode": "VN-49",
+    "retired": false
+  },
+  {
+    "key": "VN-56",
+    "name": "Bắc Ninh",
+    "latinName": "Bac Ninh",
+    "isoCode": "VN-56",
+    "retired": false
+  },
+  {
+    "key": "VN-59",
+    "name": "Cà Mau",
+    "latinName": "Ca Mau",
+    "isoCode": "VN-59",
+    "retired": false
+  },
+  {
+    "key": "VN-66",
+    "name": "Hưng Yên",
+    "latinName": "Hung Yen",
+    "isoCode": "VN-66",
+    "retired": false
+  },
+  {
+    "key": "VN-68",
+    "name": "Phú Thọ",
+    "latinName": "Phu Tho",
+    "isoCode": "VN-68",
+    "retired": false
+  },
+  {
+    "key": "VN-69",
+    "name": "Thái Nguyên",
+    "latinName": "Thai Nguyen",
+    "isoCode": "VN-69",
+    "retired": false
+  },
+  {
+    "key": "VN-71",
+    "name": "Điện Biên",
+    "latinName": "Dien Bien",
+    "isoCode": "VN-71",
+    "retired": false
+  },
+  {
+    "key": "VN-CT",
+    "name": "Cần Thơ",
+    "latinName": "Can Tho",
+    "isoCode": "VN-CT",
+    "retired": false
+  },
+  {
+    "key": "VN-DN",
+    "name": "Đà Nẵng",
+    "latinName": "Da Nang",
+    "isoCode": "VN-DN",
+    "retired": false
+  },
+  {
+    "key": "VN-HN",
+    "name": "Hà Nội",
+    "latinName": "Ha Noi",
+    "isoCode": "VN-HN",
+    "retired": false
+  },
+  {
+    "key": "VN-HP",
+    "name": "Hải Phòng",
+    "latinName": "Hai Phong",
+    "isoCode": "VN-HP",
+    "retired": false
+  },
+  {
+    "key": "VN-SG",
+    "name": "Hồ Chí Minh",
+    "latinName": "Ho Chi Minh",
+    "isoCode": "VN-SG",
+    "retired": false
+  },
+  {
+    "key": "VN-03",
+    "name": "Hà Giang",
+    "latinName": "Ha Giang",
+    "isoCode": "VN-03",
+    "retired": true,
+    "mergedInto": "VN-07"
+  },
+  {
+    "key": "VN-06",
+    "name": "Yên Bái",
+    "latinName": "Yen Bai",
+    "isoCode": "VN-06",
+    "retired": true,
+    "mergedInto": "VN-02"
+  },
+  {
+    "key": "VN-14",
+    "name": "Hòa Bình",
+    "latinName": "Hoa Binh",
+    "isoCode": "VN-14",
+    "retired": true,
+    "mergedInto": "VN-68"
+  },
+  {
+    "key": "VN-20",
+    "name": "Thái Bình",
+    "latinName": "Thai Binh",
+    "isoCode": "VN-20",
+    "retired": true,
+    "mergedInto": "VN-66"
+  },
+  {
+    "key": "VN-24",
+    "name": "Quảng Bình",
+    "latinName": "Quang Binh",
+    "isoCode": "VN-24",
+    "retired": true,
+    "mergedInto": "VN-25"
+  },
+  {
+    "key": "VN-27",
+    "name": "Quảng Nam",
+    "latinName": "Quang Nam",
+    "isoCode": "VN-27",
+    "retired": true,
+    "mergedInto": "VN-DN"
+  },
+  {
+    "key": "VN-28",
+    "name": "Kon Tum",
+    "latinName": "Kon Tum",
+    "isoCode": "VN-28",
+    "retired": true,
+    "mergedInto": "VN-29"
+  },
+  {
+    "key": "VN-31",
+    "name": "Bình Định",
+    "latinName": "Binh Dinh",
+    "isoCode": "VN-31",
+    "retired": true,
+    "mergedInto": "VN-30"
+  },
+  {
+    "key": "VN-32",
+    "name": "Phú Yên",
+    "latinName": "Phu Yen",
+    "isoCode": "VN-32",
+    "retired": true,
+    "mergedInto": "VN-33"
+  },
+  {
+    "key": "VN-36",
+    "name": "Ninh Thuận",
+    "latinName": "Ninh Thuan",
+    "isoCode": "VN-36",
+    "retired": true,
+    "mergedInto": "VN-34"
+  },
+  {
+    "key": "VN-40",
+    "name": "Bình Thuận",
+    "latinName": "Binh Thuan",
+    "isoCode": "VN-40",
+    "retired": true,
+    "mergedInto": "VN-35"
+  },
+  {
+    "key": "VN-41",
+    "name": "Long An",
+    "latinName": "Long An",
+    "isoCode": "VN-41",
+    "retired": true,
+    "mergedInto": "VN-37"
+  },
+  {
+    "key": "VN-43",
+    "name": "Bà Rịa - Vũng Tàu",
+    "latinName": "Ba Ria - Vung Tau",
+    "isoCode": "VN-43",
+    "retired": true,
+    "mergedInto": "VN-SG"
+  },
+  {
+    "key": "VN-46",
+    "name": "Tiền Giang",
+    "latinName": "Tien Giang",
+    "isoCode": "VN-46",
+    "retired": true,
+    "mergedInto": "VN-45"
+  },
+  {
+    "key": "VN-47",
+    "name": "Kiên Giang",
+    "latinName": "Kien Giang",
+    "isoCode": "VN-47",
+    "retired": true,
+    "mergedInto": "VN-44"
+  },
+  {
+    "key": "VN-50",
+    "name": "Bến Tre",
+    "latinName": "Ben Tre",
+    "isoCode": "VN-50",
+    "retired": true,
+    "mergedInto": "VN-49"
+  },
+  {
+    "key": "VN-51",
+    "name": "Trà Vinh",
+    "latinName": "Tra Vinh",
+    "isoCode": "VN-51",
+    "retired": true,
+    "mergedInto": "VN-49"
+  },
+  {
+    "key": "VN-52",
+    "name": "Sóc Trăng",
+    "latinName": "Soc Trang",
+    "isoCode": "VN-52",
+    "retired": true,
+    "mergedInto": "VN-CT"
+  },
+  {
+    "key": "VN-53",
+    "name": "Bắc Kạn",
+    "latinName": "Bac Kan",
+    "isoCode": "VN-53",
+    "retired": true,
+    "mergedInto": "VN-69"
+  },
+  {
+    "key": "VN-54",
+    "name": "Bắc Giang",
+    "latinName": "Bac Giang",
+    "isoCode": "VN-54",
+    "retired": true,
+    "mergedInto": "VN-56"
+  },
+  {
+    "key": "VN-55",
+    "name": "Bạc Liêu",
+    "latinName": "Bac Lieu",
+    "isoCode": "VN-55",
+    "retired": true,
+    "mergedInto": "VN-59"
+  },
+  {
+    "key": "VN-57",
+    "name": "Bình Dương",
+    "latinName": "Binh Duong",
+    "isoCode": "VN-57",
+    "retired": true,
+    "mergedInto": "VN-SG"
+  },
+  {
+    "key": "VN-58",
+    "name": "Bình Phước",
+    "latinName": "Binh Phuoc",
+    "isoCode": "VN-58",
+    "retired": true,
+    "mergedInto": "VN-39"
+  },
+  {
+    "key": "VN-61",
+    "name": "Hải Dương",
+    "latinName": "Hai Duong",
+    "isoCode": "VN-61",
+    "retired": true,
+    "mergedInto": "VN-HP"
+  },
+  {
+    "key": "VN-63",
+    "name": "Hà Nam",
+    "latinName": "Ha Nam",
+    "isoCode": "VN-63",
+    "retired": true,
+    "mergedInto": "VN-18"
+  },
+  {
+    "key": "VN-67",
+    "name": "Nam Định",
+    "latinName": "Nam Dinh",
+    "isoCode": "VN-67",
+    "retired": true,
+    "mergedInto": "VN-18"
+  },
+  {
+    "key": "VN-70",
+    "name": "Vĩnh Phúc",
+    "latinName": "Vinh Phuc",
+    "isoCode": "VN-70",
+    "retired": true,
+    "mergedInto": "VN-68"
+  },
+  {
+    "key": "VN-72",
+    "name": "Đắk Nông",
+    "latinName": "Dak Nong",
+    "isoCode": "VN-72",
+    "retired": true,
+    "mergedInto": "VN-35"
+  },
+  {
+    "key": "VN-73",
+    "name": "Hậu Giang",
+    "latinName": "Hau Giang",
+    "isoCode": "VN-73",
+    "retired": true,
+    "mergedInto": "VN-CT"
+  }
+]

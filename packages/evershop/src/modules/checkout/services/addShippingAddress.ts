@@ -8,10 +8,14 @@ import {
   rollback,
   PoolClient
 } from '@evershop/postgres-query-builder';
+import { validateAddress } from '../../../lib/address/validate.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
-import { Address } from '../../../types/customerAddress.js';
-import { validateAddress } from '../../customer/services/customer/address/addressValidators.js';
+import { getValue } from '../../../lib/util/registry.js';
+import type { Address } from '../../../types/address.js';
+import { AddressValidationError } from '../../customer/services/customer/address/AddressValidationError.js';
+import { foldAddressExtras } from '../../customer/services/customer/address/foldAddressExtras.js';
+import { resolveSavedCartAddress } from './resolveSavedCartAddress.js';
 
 interface ShippingAddress extends Address {
   /**
@@ -66,14 +70,32 @@ const _addShippingAddress = async function addShippingAddress<
       throw new Error('Cart not found or not active');
     }
 
-    // Validate address
-    const validationResult = validateAddress(addressData);
+    // Saved-address reuse (spec § 3.8): `{ customerAddressUuid }` copies the
+    // customer's address-book row verbatim, `extra` included.
+    const sourceAddress = await resolveSavedCartAddress(
+      addressData,
+      cart,
+      connection
+    );
 
-    if (!validationResult.valid) {
-      const errorMessage =
-        validationResult.errors?.[0] || 'Invalid address data';
-      throw new Error(errorMessage);
+    // D4: data seam, the cart twin of `customerAddressDataBeforeCreate`.
+    // Processors may transform the address before it is validated and saved.
+    const data = await getValue('cartAddressDataBeforeSave', sourceAddress, {
+      ...context,
+      cart,
+      type: 'shipping'
+    });
+
+    // Validate against the country's schema (spec § 3.5, § 3.8): required
+    // fields, patterns, active region keys, unknown keys, and — for this
+    // surface — the merchant's sell-to list (`country_not_allowed`). Zone
+    // coverage is enforced later by shipping-method resolution, as before.
+    const validation = await validateAddress(data, { surface: 'shipping' });
+    if (!validation.valid) {
+      throw new AddressValidationError(validation.errors);
     }
+    // Registered extras travel in `extra`; nothing unknown reaches `given()`.
+    const row = foldAddressExtras(data);
 
     // Zone resolution moved into the provider abstraction. The cart's
     // shipping_method_data field resolver calls resolveZonesForAddress when
@@ -86,9 +108,10 @@ const _addShippingAddress = async function addShippingAddress<
     const savedAddress = await hookable(saveShippingAddress, {
       cartUUID,
       addressData,
+      data,
       cart,
       ...context
-    })(addressData, connection);
+    })(row, connection);
 
     // Update cart with shipping address.
     await hookable(updateCartWithShippingAddress, {

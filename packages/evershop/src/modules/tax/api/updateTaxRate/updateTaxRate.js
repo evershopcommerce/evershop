@@ -16,7 +16,7 @@ export default async (request, response, next) => {
   const connection = await getConnection();
   await startTransaction(connection);
   const { id } = request.params;
-  const { name, country, province, postcode, rate, is_compound, priority } =
+  const { name, country, administrative_area, postal_code, rate, is_compound, priority } =
     request.body;
   try {
     const taxRate = await select()
@@ -39,8 +39,8 @@ export default async (request, response, next) => {
       .given({
         name,
         country,
-        province,
-        postcode,
+        administrative_area,
+        postal_code,
         rate,
         is_compound,
         priority

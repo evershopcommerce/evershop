@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%S %Z",
+  "id": "data/KY",
+  "key": "KY",
+  "lang": "en",
+  "languages": "en",
+  "name": "CAYMAN ISLANDS",
+  "posturl": "http://www.caymanpost.gov.ky/",
+  "require": "AS",
+  "state_name_type": "island",
+  "sub_keys": "Cayman Brac~Grand Cayman~Little Cayman",
+  "zip": "KY\\d-\\d{4}",
+  "zipex": "KY1-1100,KY1-1702,KY2-2101"
+}

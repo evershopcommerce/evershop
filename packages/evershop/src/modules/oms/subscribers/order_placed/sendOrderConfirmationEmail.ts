@@ -2,8 +2,6 @@ import fs from 'fs/promises';
 import path from 'path';
 import { select } from '@evershop/postgres-query-builder';
 import { CONSTANTS } from '../../../../lib/helpers.js';
-import { countries } from '../../../../lib/locale/countries.js';
-import { provinces } from '../../../../lib/locale/provinces.js';
 import { translate } from '../../../../lib/locale/translate/translate.js';
 import { debug, error } from '../../../../lib/log/logger.js';
 import {
@@ -16,10 +14,11 @@ import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValue } from '../../../../lib/util/registry.js';
 import { EventData } from '../../../../types/event.js';
 import { getStoreLanguage } from '../../../setting/services/setting.js';
+import { decorateAddressForEmail } from '../../services/addressEmailData.js';
 import { signTrackingToken } from '../../services/anonymousTrackingToken.js';
 import { resolveThumbnailUrl } from '../../services/thumbnailUrl.js';
 
-const TEMPLATE = `{{#> emailLayout preheader=(t "Your order #\${number} is confirmed." number=order.order_number)}}
+export const TEMPLATE = `{{#> emailLayout preheader=(t "Your order #\${number} is confirmed." number=order.order_number)}}
 <h1 style="margin:0 0 6px;font-size:22px;line-height:1.3;font-weight:700;color:#111114;">{{t "Your order is confirmed"}}</h1>
 <p style="margin:0 0 20px;font-size:14px;color:#6b7280;">{{t "Order #\${number}" number=order.order_number}} &middot; {{date order.created_at}}</p>
 {{> itemsTable}}
@@ -31,7 +30,7 @@ const TEMPLATE = `{{#> emailLayout preheader=(t "Your order #\${number} is confi
 <tr><td style="padding:12px 0 0;font-size:16px;font-weight:700;color:#111114;border-top:1px solid #e7e8ea;">{{t "Total"}}</td><td style="padding:12px 0 0;font-size:16px;font-weight:700;text-align:right;color:#111114;border-top:1px solid #e7e8ea;">{{currency order.grand_total}}</td></tr>
 </table>
 {{#if orderUrl}}{{> button href=orderUrl label=(t "View your order")}}{{/if}}
-{{#if shippingAddress}}<p style="margin:24px 0 4px;font-size:13px;font-weight:600;color:#111114;">{{t "Shipping to"}}</p><p style="margin:0;font-size:13px;line-height:1.55;color:#6b7280;">{{shippingAddress.full_name}}<br>{{shippingAddress.address_1}}<br>{{shippingAddress.city}}{{#if shippingAddress.province_name}}, {{shippingAddress.province_name}}{{/if}} {{shippingAddress.postcode}}</p>{{/if}}
+{{#if shippingAddress}}<p style="margin:24px 0 4px;font-size:13px;font-weight:600;color:#111114;">{{t "Shipping to"}}</p><p style="margin:0;font-size:13px;line-height:1.55;color:#6b7280;">{{#each shippingAddress.formatted}}{{this}}<br>{{/each}}</p>{{/if}}
 {{/emailLayout}}`;
 
 export default async function sendOrderConfirmationEmail(
@@ -68,34 +67,36 @@ export default async function sendOrderConfirmationEmail(
       }
       return item;
     });
-    const shippingAddress = await select()
-      .from('order_address')
-      .where('order_address_id', '=', order.shipping_address_id)
-      .load(pool);
-    if (!data.no_shipping_required) {
-      shippingAddress.country_name =
-        countries.find((c) => c.code === shippingAddress.country)?.name || '';
-      shippingAddress.province_name =
-        provinces.find((p) => p.code === shippingAddress.province)?.name || '';
-    }
+    // Off-request (event subscriber) — resolve the store locale explicitly (D7).
+    // It drives the subject, the body's currency/date format and the address
+    // lines, and is passed to sendEmail so everything matches.
+    const locale = await getStoreLanguage();
+
+    // Addresses travel under the new column names plus `formatted` (the display
+    // lines the default template prints — line 2 and the country included) and
+    // the derived names (spec § 3.6). `province_name` is gone with the rename.
+    const shippingRow = order.shipping_address_id
+      ? await select()
+          .from('order_address')
+          .where('order_address_id', '=', order.shipping_address_id)
+          .load(pool)
+      : null;
+    const shippingAddress = shippingRow
+      ? await decorateAddressForEmail(shippingRow, locale)
+      : null;
 
     // Zero-total orders may have no billing address — pass null through so
     // custom templates can `{{#if billingAddress}}` it (the default template
     // does not render billing at all).
-    const billingAddress = order.billing_address_id
+    const billingRow = order.billing_address_id
       ? await select()
           .from('order_address')
           .where('order_address_id', '=', order.billing_address_id)
           .load(pool)
       : null;
-
-    if (billingAddress) {
-      billingAddress.country_name =
-        countries.find((c) => c.code === billingAddress.country)?.name || '';
-
-      billingAddress.province_name =
-        provinces.find((p) => p.code === billingAddress.province)?.name || '';
-    }
+    const billingAddress = billingRow
+      ? await decorateAddressForEmail(billingRow, locale)
+      : null;
 
     let template;
     if (config?.templatePath) {
@@ -130,9 +131,6 @@ export default async function sendOrderConfirmationEmail(
       billingAddress,
       orderUrl
     });
-    // Off-request (event subscriber) — resolve the store locale explicitly (D7), use it
-    // for the subject and pass it to sendEmail so the body's currency/date format match.
-    const locale = await getStoreLanguage();
     const subject = translate('Your order has been confirmed!', {}, locale);
     if (data.customer_email) {
       const args = await getValue(

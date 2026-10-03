@@ -1,0 +1,11 @@
+{
+  "fmt": "%O%n%N%n%A%n%Z %C %X",
+  "id": "data/GF",
+  "key": "GF",
+  "name": "FRENCH GUIANA",
+  "posturl": "https://www.laposte.fr/outils/trouver-un-code-postal",
+  "require": "ACZ",
+  "upper": "ACX",
+  "zip": "9[78]3\\d{2}",
+  "zipex": "97300"
+}

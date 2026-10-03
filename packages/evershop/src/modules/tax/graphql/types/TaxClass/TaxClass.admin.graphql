@@ -9,8 +9,14 @@ type TaxRate {
   rate: Float!
   isCompound: Boolean!
   country: String!
-  province: String!
-  postcode: String!
+  """
+  Comma-separated region keys (`US-CA,US-NV`) or `*`.
+  """
+  administrativeArea: String!
+  """
+  Comma-separated postal codes or `*`.
+  """
+  postalCode: String!
   priority: Int!
   updateApi: String!
   deleteApi: String!

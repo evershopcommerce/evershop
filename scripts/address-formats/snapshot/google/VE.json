@@ -1,0 +1,15 @@
+{
+  "fmt": "%N%n%O%n%A%n%C %Z, %S",
+  "id": "data/VE",
+  "key": "VE",
+  "lang": "es",
+  "languages": "es",
+  "name": "VENEZUELA",
+  "require": "ACS",
+  "state_name_type": "state",
+  "sub_isoids": "Z~B~C~D~E~F~G~H~Y~W~A~I~J~K~L~M~N~O~P~R~S~T~X~U~V",
+  "sub_keys": "Amazonas~Anzoátegui~Apure~Aragua~Barinas~Bolívar~Carabobo~Cojedes~Delta Amacuro~Dependencias Federales~Distrito Federal~Falcón~Guárico~Lara~Mérida~Miranda~Monagas~Nueva Esparta~Portuguesa~Sucre~Táchira~Trujillo~Vargas~Yaracuy~Zulia",
+  "upper": "CS",
+  "zip": "\\d{4}",
+  "zipex": "1010,3001,8011,1020"
+}

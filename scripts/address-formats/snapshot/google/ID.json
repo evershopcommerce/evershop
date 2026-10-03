@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%C%n%S %Z",
+  "id": "data/ID",
+  "key": "ID",
+  "lang": "id",
+  "languages": "id",
+  "name": "INDONESIA",
+  "require": "AS",
+  "sub_isoids": "AC~BA~BT~BE~YO~JK~GO~JA~JB~JT~JI~KB~KS~KT~KI~KU~BB~KR~LA~MA~MU~NB~NT~PA~PB~RI~SR~SN~ST~SG~SA~SB~SS~SU",
+  "sub_keys": "Aceh~Bali~Banten~Bengkulu~Daerah Istimewa Yogyakarta~DKI Jakarta~Gorontalo~Jambi~Jawa Barat~Jawa Tengah~Jawa Timur~Kalimantan Barat~Kalimantan Selatan~Kalimantan Tengah~Kalimantan Timur~Kalimantan Utara~Kepulauan Bangka Belitung~Kepulauan Riau~Lampung~Maluku~Maluku Utara~Nusa Tenggara Barat~Nusa Tenggara Timur~Papua~Papua Barat~Riau~Sulawesi Barat~Sulawesi Selatan~Sulawesi Tengah~Sulawesi Tenggara~Sulawesi Utara~Sumatera Barat~Sumatera Selatan~Sumatera Utara",
+  "sub_lnames": "Aceh~Bali~Banten~Bengkulu~Special Region of Yogyakarta~Jakarta~Gorontalo~Jambi~West Java~Central Java~East Java~West Kalimantan~South Kalimantan~Central Kalimantan~East Kalimantan~North Kalimantan~Bangka Belitung Islands~Riau Islands~Lampung~Maluku~North Maluku~West Nusa Tenggara~East Nusa Tenggara~Papua~West Papua~Riau~West Sulawesi~South Sulawesi~Central Sulawesi~South East Sulawesi~North Sulawesi~West Sumatra~South Sumatra~North Sumatra",
+  "zip": "\\d{5}",
+  "zipex": "40115"
+}

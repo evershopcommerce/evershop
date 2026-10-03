@@ -18,13 +18,8 @@ City,شهر
 Account Information,اطلاعات حساب
 Address,آدرس
 Postcode,کد پستی
-Postcode is required,وارد کردن کد پستی الزامی است
-Telephone is required,وارد کردن شماره تلفن الزامی است
 Telephone,شماره تلفن
-Full name is required,وارد کردن نام کامل الزامی است
-Country is required,انتخاب کشور الزامی است
 Country,کشور
-Province is required,وارد کردن استان الزامی است
 Province,استان
 Billing Address,آدرس صورتحساب
 Shipping Address,آدرس ارسال
@@ -45,3 +40,36 @@ You must be logged in to update your profile,برای به‌روزرسانی پ
 There is nothing to update,چیزی برای به‌روزرسانی وجود ندارد
 Email is already used,این ایمیل قبلاً استفاده شده است
 Order #${orderNumber},سفارش شماره ${orderNumber}
+Given name,نام
+Family name,نام خانوادگی
+Company,شرکت
+Address line 3,خط ۳ نشانی
+State,ایالت
+Prefecture,استان
+County,شهرستان
+Emirate,امارت
+Department,دپارتمان
+District,بخش
+Do/Si,Do/Si
+Island,جزیره
+Oblast,اوبلاست
+Parish,پاریش
+Post town,شهر پستی
+Suburb,حومه
+Neighborhood,محله
+Village,روستا
+Village/Township,روستا/دهستان
+Townland,Townland
+Ward,ناحیه شهری
+ZIP code,کد پستی
+PIN code,کد PIN
+Eircode,Eircode
+Sorting code,کد مرتب‌سازی
+${field} is not valid,${field} معتبر نیست
+${field} is not a valid region,${field} یک منطقه معتبر نیست
+${field} has the wrong type,${field} نوع نادرستی دارد
+${field} is not a known address field,${field} یک فیلد نشانی شناخته‌شده نیست
+We do not sell to ${country},ما به ${country} نمی‌فروشیم
+Select ${field},${field} را انتخاب کنید
+no longer available,دیگر در دسترس نیست
+Please check the highlighted fields,لطفاً فیلدهای مشخص‌شده را بررسی کنید

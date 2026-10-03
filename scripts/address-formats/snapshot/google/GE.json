@@ -1,0 +1,9 @@
+{
+  "fmt": "%N%n%O%n%A%n%Z %C",
+  "id": "data/GE",
+  "key": "GE",
+  "name": "GEORGIA",
+  "posturl": "https://www.gpost.ge/help/postal-codes",
+  "zip": "\\d{4}",
+  "zipex": "0101"
+}

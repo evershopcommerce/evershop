@@ -50,7 +50,7 @@ import type {
   ShipmentRow,
   ShipmentItemRow,
   ShippingZoneRow,
-  ShippingZoneProvinceRow,
+  ShippingZoneRegionRow,
   ShippingZoneCountryRow,
   ShippingZoneProviderRow,
   CoreShippingMethodRow,
@@ -110,7 +110,7 @@ export type TableName =
   | 'shipment'
   | 'shipment_item'
   | 'shipping_zone'
-  | 'shipping_zone_province'
+  | 'shipping_zone_region'
   | 'shipping_zone_country'
   | 'shipping_zone_provider'
   | 'core_shipping_method'
@@ -168,7 +168,7 @@ type TableColumnMap = {
   shipment: keyof ShipmentRow;
   shipment_item: keyof ShipmentItemRow;
   shipping_zone: keyof ShippingZoneRow;
-  shipping_zone_province: keyof ShippingZoneProvinceRow;
+  shipping_zone_region: keyof ShippingZoneRegionRow;
   shipping_zone_country: keyof ShippingZoneCountryRow;
   shipping_zone_provider: keyof ShippingZoneProviderRow;
   core_shipping_method: keyof CoreShippingMethodRow;
@@ -235,7 +235,7 @@ type TableRowMap = {
   shipment: ShipmentRow;
   shipment_item: ShipmentItemRow;
   shipping_zone: ShippingZoneRow;
-  shipping_zone_province: ShippingZoneProvinceRow;
+  shipping_zone_region: ShippingZoneRegionRow;
   shipping_zone_country: ShippingZoneCountryRow;
   shipping_zone_provider: ShippingZoneProviderRow;
   core_shipping_method: CoreShippingMethodRow;

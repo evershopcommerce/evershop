@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%S, %C%n%Z",
+  "id": "data/CR",
+  "key": "CR",
+  "lang": "es",
+  "languages": "es",
+  "name": "COSTA RICA",
+  "posturl": "https://correos.go.cr/codigo-postal/",
+  "require": "ACS",
+  "sub_isoids": "A~C~G~H~L~P~SJ",
+  "sub_keys": "Alajuela~Cartago~Guanacaste~Heredia~Limón~Puntarenas~San José",
+  "zip": "\\d{4,5}|\\d{3}-\\d{4}",
+  "zipex": "1000,2010,1001"
+}

@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%C, %S%n%Z",
+  "id": "data/HN",
+  "key": "HN",
+  "lang": "es",
+  "languages": "es",
+  "name": "HONDURAS",
+  "require": "ACS",
+  "state_name_type": "department",
+  "sub_isoids": "AT~CH~CL~CM~CP~CR~EP~FM~GD~IN~IB~LP~LE~OC~OL~SB~VA~YO",
+  "sub_keys": "Atlántida~Choluteca~Colón~Comayagua~Copán~Cortés~El Paraíso~Francisco Morazán~Gracias a Dios~Intibucá~Islas de la Bahía~La Paz~Lempira~Ocotepeque~Olancho~Santa Bárbara~Valle~Yoro",
+  "zip": "\\d{5}",
+  "zipex": "31301"
+}

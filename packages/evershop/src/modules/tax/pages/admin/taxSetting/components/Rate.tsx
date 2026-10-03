@@ -16,8 +16,10 @@ export interface TaxRate {
   isCompound: boolean;
   priority: number;
   country: string;
-  province: string;
-  postcode: string;
+  /** Comma-separated region keys or `*`. */
+  administrativeArea: string;
+  /** Comma-separated postal codes or `*`. */
+  postalCode: string;
   updateApi: string;
   deleteApi: string;
 }
@@ -33,6 +35,7 @@ function Rate({ rate, getTaxClasses }: RateProps) {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <td className="border-none py-2 w-1/5">{rate.name}</td>
         <td className="border-none py-2">{rate.country}</td>
+        <td className="border-none py-2">{rate.administrativeArea}</td>
         <td className="border-none py-2">{rate.rate}%</td>
         <td className="border-none py-2">
           {rate.isCompound ? _('Yes') : _('No')}

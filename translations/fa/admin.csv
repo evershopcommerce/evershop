@@ -321,3 +321,51 @@ Maximum file size,بیشینه اندازه فایل
 Per-type overrides,بازنویسی به تفکیک نوع
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",بیشینه اندازه را برای انواع فایل منطبق بازنویسی می‌کند — مثلاً محدودیت کوچک‌تر برای تصاویر و بزرگ‌تر برای ویدیوها. نوع دقیق (video/mp4) بر خانواده (video/*) اولویت دارد؛ هر چیزی که منطبق نباشد از بیشینه اندازه بالا استفاده می‌کند. بازنویسی‌ها انواع جدید را مجاز نمی‌کنند: خود نوع فایل باید در «انواع فایل مجاز» فعال باشد.
 Every product in the store,همه محصولات فروشگاه
+"Region restrictions","محدودیت‌های منطقه"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","فهرست یک کشور را خالی بگذارید تا کل کشور را پوشش دهد. برای محدود کردن ارسال به مناطق خاص، منطقه اضافه کنید."
+"Select regions","انتخاب مناطق"
+"Regions:","مناطق:"
+"Regions","مناطق"
+"Regions is required","مناطق الزامی است"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","کلیدهای منطقه (مثلاً ""US-CA"")، جدا شده با کاما. برای همه مناطق از ""*"" استفاده کنید."
+"Postal code","کد پستی"
+"Postal code is required","کد پستی الزامی است"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","کدهای پستی (مثلاً ""90210"")، جدا شده با کاما. برای همه کدهای پستی از ""*"" استفاده کنید."
+"not sold to","فروخته نمی‌شود"
+"retired","منسوخ"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","تسویه حساب ممکن نیست: هیچ‌یک از مناطق ارسال شما کشوری را که به آن می‌فروشید پوشش نمی‌دهد."
+"This region was retired; its successor is ${name}.","این منطقه منسوخ شده است؛ جانشین آن ${name} است."
+"Show region keys for ${country}","نمایش کلیدهای منطقه برای ${country}"
+"Retired region keys on this rate: ${keys}","کلیدهای منطقه منسوخ در این نرخ: ${keys}"
+Country is required,انتخاب کشور الزامی است
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.",آنچه هر فرم نشانی دریافت می‌کند، در دفترچه نشانی و در پرداخت. چیدمان کشورها، فهرست مناطق و برچسب‌ها از هر کشور پیروی می‌کنند و قابل ویرایش نیستند.
+Name format,قالب نام
+Single field,یک فیلد
+First and last name,نام و نام خانوادگی
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,تغییر در هر دو جهت امن است: نشانی‌های ذخیره‌شده همچنان نمایش داده می‌شوند و هنگام ویرایش تبدیل می‌شوند.
+Optional,اختیاری
+Hidden,پنهان
+Address line 2,خط ۲ نشانی
+Shown,نمایان
+Required fields,فیلدهای الزامی
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,فیلدهایی که یک کشور اختیاری می‌گذارد را می‌توان اینجا الزامی کرد؛ آنچه یک کشور الزامی می‌داند هرگز اختیاری نمی‌شود.
+State / Province,ایالت / استان
+Ward / Neighbourhood,محله / ناحیه
+As the country requires,مطابق الزام کشور
+Always required,همیشه الزامی
+Default country,کشور پیش‌فرض
+Use store country,استفاده از کشور فروشگاه
+No default,بدون پیش‌فرض
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,در نشانی جدید از پیش انتخاب می‌شود. ارسال همچنان به کشورهای تحت پوشش مناطق شما محدود است.
+Sell to countries,کشورهای فروش
+All countries,همه کشورها
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,فقط این کشورها در دفترچه نشانی و پرداخت ارائه می‌شوند. ارسال همچنین به منطقه‌ای نیاز دارد که کشور را پوشش دهد.
+These zones will stop serving: ${zones},این مناطق دیگر خدمات نمی‌دهند: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.",مناطق نگه داشته و علامت‌گذاری می‌شوند، چیزی حذف نمی‌شود. پرداخت این کشورها را ارائه نخواهد کرد.
+Narrow the countries you sell to?,کشورهای فروش محدود شوند؟
+Save anyway,به هر حال ذخیره شود
+Customer Setting,تنظیمات مشتری
+Customer Settings,تنظیمات مشتری
+"Customer accounts, checkout and addresses",حساب‌های مشتریان، تسویه‌حساب و آدرس‌ها
+"Rules for customer accounts, checkout and addresses",قوانین حساب‌های مشتریان، تسویه‌حساب و آدرس‌ها
+Addresses,نشانی‌ها

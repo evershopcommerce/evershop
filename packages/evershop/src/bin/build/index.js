@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, rmSync } from 'fs';
 import path from 'path';
 import config from 'config';
+import { lockAddressRegistry } from '../../lib/address/formats.js';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { error } from '../../lib/log/logger.js';
 import { loadModuleRoutes } from '../../lib/router/loadModuleRoutes.js';
@@ -52,6 +53,7 @@ export default async function build() {
     lockHooks();
     lockRegistry();
     lockCarrierRegistry();
+    lockAddressRegistry();
     // Get the configuration (nodeconfig)
     validateConfiguration(config);
   } catch (e) {

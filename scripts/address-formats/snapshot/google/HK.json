@@ -1,0 +1,16 @@
+{
+  "fmt": "%S%n%C%n%A%n%O%n%N",
+  "id": "data/HK",
+  "key": "HK",
+  "lang": "zh-Hant",
+  "languages": "zh-Hant~en",
+  "lfmt": "%N%n%O%n%A%n%C%n%S",
+  "locality_name_type": "district",
+  "name": "HONG KONG",
+  "require": "AS",
+  "state_name_type": "area",
+  "sub_keys": "Kowloon~Hong Kong Island~New Territories",
+  "sub_mores": "true~true~true",
+  "sub_names": "九龍~香港島~新界",
+  "upper": "S"
+}

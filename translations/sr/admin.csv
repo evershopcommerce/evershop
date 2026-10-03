@@ -321,3 +321,51 @@ Maximum file size,Maksimalna veličina datoteke
 Per-type overrides,Zamene po tipu
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Zamenjuje maksimalnu veličinu za odgovarajuće tipove datoteka — na primer manje ograničenje za slike, a veće za video. Tačan tip (video/mp4) ima prednost nad familijom (video/*); sve bez podudaranja koristi maksimalnu veličinu iznad. Zamene ne dozvoljavaju nove tipove: sam tip datoteke mora biti omogućen u „Dozvoljenim tipovima datoteka“."
 Every product in the store,Сви производи у продавници
+"Region restrictions","Ograničenja po regionima"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","Ostavite listu zemlje praznom da pokrijete celu zemlju. Dodajte regione da ograničite isporuku na određena područja."
+"Select regions","Izaberite regione"
+"Regions:","Regioni:"
+"Regions","Regioni"
+"Regions is required","Regioni su obavezni"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","Ključevi regiona (npr. ""US-CA""), odvojeni zarezom. Koristite ""*"" za sve regione."
+"Postal code","Poštanski broj"
+"Postal code is required","Poštanski broj je obavezan"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","Poštanski brojevi (npr. ""90210""), odvojeni zarezom. Koristite ""*"" za sve poštanske brojeve."
+"not sold to","ne prodaje se"
+"retired","ukinut"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","Plaćanje se ne može završiti: nijedna zona isporuke ne pokriva zemlju u koju prodajete."
+"This region was retired; its successor is ${name}.","Ovaj region je ukinut; naslednik je ${name}."
+"Show region keys for ${country}","Prikaži ključeve regiona za ${country}"
+"Retired region keys on this rate: ${keys}","Ukinuti ključevi regiona na ovoj stopi: ${keys}"
+Country is required,Država je obavezna
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","Šta svaki obrazac adrese prikuplja, u adresaru i pri plaćanju. Rasporedi po zemljama, liste regiona i oznake prate svaku zemlju i ne mogu se menjati."
+Name format,Format imena
+Single field,Jedno polje
+First and last name,Ime i prezime
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,Promena je bezbedna u oba smera: sačuvane adrese se i dalje prikazuju i pretvaraju se pri izmeni.
+Optional,Opciono
+Hidden,Skriveno
+Address line 2,"Adresa, red 2"
+Shown,Prikazano
+Required fields,Obavezna polja
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,Polja koja zemlja ostavlja opcionim ovde mogu postati obavezna; ono što zemlja zahteva nikada ne postaje opciono.
+State / Province,Savezna država / Pokrajina
+Ward / Neighbourhood,Mesna zajednica / Naselje
+As the country requires,Kako zemlja zahteva
+Always required,Uvek obavezno
+Default country,Podrazumevana zemlja
+Use store country,Koristi zemlju prodavnice
+No default,Bez podrazumevane
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,Unapred izabrana za novu adresu. Isporuka ostaje ograničena na zemlje koje pokrivaju vaše zone.
+Sell to countries,Zemlje prodaje
+All countries,Sve zemlje
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,Samo ove zemlje se nude u adresaru i pri plaćanju. Za isporuku je potrebna i zona koja pokriva zemlju.
+These zones will stop serving: ${zones},Ove zone će prestati da opslužuju: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","Zone se zadržavaju i označavaju, ništa se ne briše. Plaćanje neće nuditi ove zemlje."
+Narrow the countries you sell to?,Suziti zemlje prodaje?
+Save anyway,Ipak sačuvaj
+Customer Setting,Podešavanja kupaca
+Customer Settings,Podešavanja kupaca
+"Customer accounts, checkout and addresses","Nalozi kupaca, plaćanje i adrese"
+"Rules for customer accounts, checkout and addresses","Pravila za naloge kupaca, plaćanje i adrese"
+Addresses,Adrese

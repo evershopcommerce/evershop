@@ -1,0 +1,10 @@
+{
+  "fmt": "%O%n%N%n%A%n%Z %C",
+  "id": "data/BE",
+  "key": "BE",
+  "name": "BELGIUM",
+  "posturl": "https://www.bpost.be/nl/postcodevalidatie-tool",
+  "require": "ACZ",
+  "zip": "\\d{4}",
+  "zipex": "4000,1000"
+}

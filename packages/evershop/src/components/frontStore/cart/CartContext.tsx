@@ -1,9 +1,6 @@
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { Address, AddressGraphql } from '@evershop/evershop/types/address';
 import { ApiResponse } from '@evershop/evershop/types/apiResponse';
-import {
-  CustomerAddressGraphql,
-  Address
-} from '@evershop/evershop/types/customerAddress';
 import { produce } from 'immer';
 import React, {
   createContext,
@@ -15,9 +12,9 @@ import React, {
 import { useQuery, useClient } from 'urql';
 
 const ShippingMethodsQuery = `
-  query GetCartShippingMethods($country: String!, $province: String, $postcode: String) {
+  query GetCartShippingMethods($country: String!, $administrativeArea: String, $locality: String, $dependentLocality: String, $postalCode: String) {
     myCart {
-      availableShippingMethods(country: $country, province: $province, postcode: $postcode) {
+      availableShippingMethods(country: $country, administrativeArea: $administrativeArea, locality: $locality, dependentLocality: $dependentLocality, postalCode: $postalCode) {
         providerCode
         code
         name
@@ -137,10 +134,13 @@ export interface ShippingMethod {
   price: number;
 }
 
+/** Destination fields that affect shipping quotes (spec § 3.10, D-16). */
 export interface ShippingAddressParams {
   country: string;
-  province?: string;
-  postcode?: string;
+  administrativeArea?: string;
+  locality?: string;
+  dependentLocality?: string;
+  postalCode?: string;
 }
 
 export interface CartError {
@@ -218,8 +218,8 @@ export interface CartData {
     value: number;
     text: string;
   };
-  billingAddress?: CustomerAddressGraphql;
-  shippingAddress?: CustomerAddressGraphql;
+  billingAddress?: AddressGraphql;
+  shippingAddress?: AddressGraphql;
   createdAt: {
     value: string;
     text: string;
@@ -893,9 +893,13 @@ export const CartProvider = ({
         const json = await response.json();
 
         if (!response.ok) {
-          throw new Error(
+          // Spec § 3.8: `error.errors[]` carries field-targeted messages; keep
+          // them on the thrown error so a form can highlight the inputs.
+          const failure = new Error(
             json.error?.message || _('Failed to add shipping address.')
-          );
+          ) as Error & { errors?: unknown };
+          failure.errors = json.error?.errors;
+          throw failure;
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
@@ -943,9 +947,13 @@ export const CartProvider = ({
         const json = await response.json();
 
         if (!response.ok) {
-          throw new Error(
+          // Spec § 3.8: `error.errors[]` carries field-targeted messages; keep
+          // them on the thrown error so a form can highlight the inputs.
+          const failure = new Error(
             json.error?.message || _('Failed to add billing address.')
-          );
+          ) as Error & { errors?: unknown };
+          failure.errors = json.error?.errors;
+          throw failure;
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
@@ -1159,8 +1167,10 @@ export const CartProvider = ({
         const result = await client
           .query(ShippingMethodsQuery, {
             country: params.country,
-            province: params.province || null,
-            postcode: params.postcode || null
+            administrativeArea: params.administrativeArea || null,
+            locality: params.locality || null,
+            dependentLocality: params.dependentLocality || null,
+            postalCode: params.postalCode || null
           })
           .toPromise();
 

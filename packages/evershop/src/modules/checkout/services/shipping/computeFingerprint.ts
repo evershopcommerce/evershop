@@ -14,22 +14,25 @@ interface CartLike {
 
 interface AddressLike {
   country?: string | null;
-  province?: string | null;
-  postcode?: string | null;
-  city?: string | null;
+  administrative_area?: string | null;
+  locality?: string | null;
+  dependent_locality?: string | null;
+  postal_code?: string | null;
 }
 
 /**
- * Subset of an address that affects provider quotes. Different copies of an
+ * Subset of an address that affects provider quotes: the country, every
+ * geographic level and the postal code (spec § 3.10). Different copies of an
  * address with the same destination-relevant fields produce the same hash.
- * Fields like `full_name` and `telephone` are intentionally excluded.
+ * `recipient`, `telephone`, the street lines and `extra` are excluded.
  */
 function pickAddressFields(addr: AddressLike | null | undefined): AddressLike {
   return {
     country: addr?.country ?? null,
-    province: addr?.province ?? null,
-    postcode: addr?.postcode ?? null,
-    city: addr?.city ?? null
+    administrative_area: addr?.administrative_area ?? null,
+    locality: addr?.locality ?? null,
+    dependent_locality: addr?.dependent_locality ?? null,
+    postal_code: addr?.postal_code ?? null
   };
 }
 

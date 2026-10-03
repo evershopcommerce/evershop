@@ -321,3 +321,51 @@ Maximum file size,最大文件大小
 Per-type overrides,按类型覆盖
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",为匹配的文件类型覆盖最大大小 — 例如图片限制更小、视频限制更大。精确类型（video/mp4）优先于类型族（video/*）；没有匹配项的一律使用上方的最大文件大小。覆盖不会允许新类型：该文件类型本身必须在“允许的文件类型”中启用。
 Every product in the store,店铺中的所有商品
+"Region restrictions","地区限制"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","留空某个国家的列表即覆盖整个国家。添加地区可将配送限制在特定区域。"
+"Select regions","选择地区"
+"Regions:","地区："
+"Regions","地区"
+"Regions is required","地区为必填项"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","地区键（例如 ""US-CA""），以逗号分隔。使用 ""*"" 表示所有地区。"
+"Postal code","邮政编码"
+"Postal code is required","邮政编码为必填项"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","邮政编码（例如 ""90210""），以逗号分隔。使用 ""*"" 表示所有邮政编码。"
+"not sold to","不销售"
+"retired","已撤销"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","无法完成结账：您的配送区域均未覆盖您销售的国家。"
+"This region was retired; its successor is ${name}.","该地区已撤销，其继任地区为 ${name}。"
+"Show region keys for ${country}","显示 ${country} 的地区键"
+"Retired region keys on this rate: ${keys}","此税率中已撤销的地区键：${keys}"
+Country is required,国家是必填项
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.",地址簿和结账中每个地址表单收集的内容。各国的布局、地区列表和标签遵循各自国家，不可编辑。
+Name format,姓名格式
+Single field,单一字段
+First and last name,名和姓
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,切换双向均安全：已保存的地址继续显示，编辑时自动转换。
+Optional,可选
+Hidden,隐藏
+Address line 2,地址第 2 行
+Shown,显示
+Required fields,必填字段
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,国家留作可选的字段可在此设为必填；国家要求的字段永远不会变为可选。
+State / Province,州 / 省
+Ward / Neighbourhood,坊 / 街区
+As the country requires,按国家要求
+Always required,始终必填
+Default country,默认国家
+Use store country,使用商店所在国家
+No default,无默认值
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,新地址预先选中。配送仍限于您的区域所覆盖的国家。
+Sell to countries,销售国家
+All countries,所有国家
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,地址簿和结账仅提供这些国家。配送还需要一个覆盖该国家的区域。
+These zones will stop serving: ${zones},以下区域将停止服务：${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.",区域会保留并标记，不会删除任何内容。结账将不再提供这些国家。
+Narrow the countries you sell to?,缩小销售国家范围？
+Save anyway,仍然保存
+Customer Setting,客户设置
+Customer Settings,客户设置
+"Customer accounts, checkout and addresses",客户账户、结账和地址
+"Rules for customer accounts, checkout and addresses",客户账户、结账和地址的规则
+Addresses,地址

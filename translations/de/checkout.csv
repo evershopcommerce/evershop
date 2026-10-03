@@ -42,8 +42,6 @@ Enter coupon code,Gutscheincode eingeben
 Apply,Anwenden
 Your cart is empty!,Ihr Warenkorb ist leer!
 Inclusive of tax,Enthaltene Steuern
-Address is required,Bitte angeben
-City is required,Bitte angeben
 Proceed to checkout,Zur Kasse gehen
 Your cart,Ihr Warenkorb
 ${count} items in your cart,${count} Artikel in Ihrem Warenkorb
@@ -51,3 +49,4 @@ No payment required,Keine Zahlung erforderlich
 Your order total is 0 — no payment is needed to place this order.,Ihr Bestellwert beträgt 0 — für diese Bestellung ist keine Zahlung erforderlich.
 Thank you for your order!,Vielen Dank für Ihre Bestellung!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Bestellung Nr. ${orderNumber} ist bestätigt. Wir haben eine Bestätigung an ${email} gesendet.
+Shipping is not available at the moment. Please contact us to complete your order.,"Der Versand ist derzeit nicht möglich. Bitte kontaktieren Sie uns, um Ihre Bestellung abzuschließen."

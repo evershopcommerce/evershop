@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%C %Z%n%S",
+  "id": "data/PE",
+  "key": "PE",
+  "lang": "es",
+  "languages": "es",
+  "locality_name_type": "district",
+  "name": "PERU",
+  "posturl": "http://www.codigopostal.gob.pe/pages/invitado/consulta.jsf",
+  "sub_isoids": "AMA~ANC~APU~ARE~AYA~CAJ~CAL~CUS~LIM~HUV~HUC~ICA~JUN~LAL~LAM~LOR~MDD~MOQ~LMA~PAS~PIU~PUN~SAM~TAC~TUM~UCA",
+  "sub_keys": "Amazonas~Áncash~Apurímac~Arequipa~Ayacucho~Cajamarca~Callao~Cuzco~Gobierno Regional de Lima~Huancavelica~Huánuco~Ica~Junín~La Libertad~Lambayeque~Loreto~Madre de Dios~Moquegua~Municipalidad Metropolitana de Lima~Pasco~Piura~Puno~San Martín~Tacna~Tumbes~Ucayali",
+  "zip": "(?:LIMA \\d{1,2}|CALLAO 0?\\d)|[0-2]\\d{4}",
+  "zipex": "LIMA 23,LIMA 42,CALLAO 2,02001"
+}

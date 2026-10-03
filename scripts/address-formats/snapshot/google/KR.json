@@ -1,0 +1,23 @@
+{
+  "fmt": "%S %C%D%n%A%n%O%n%N%n%Z",
+  "id": "data/KR",
+  "key": "KR",
+  "lang": "ko",
+  "languages": "ko",
+  "lfmt": "%N%n%O%n%A%n%D%n%C%n%S%n%Z",
+  "name": "SOUTH KOREA",
+  "posturl": "http://www.epost.go.kr/search/zipcode/search5.jsp",
+  "require": "ACSZ",
+  "state_name_type": "do_si",
+  "sub_isoids": "42~41~48~47~29~27~30~26~11~50~31~28~46~45~49~44~43",
+  "sub_keys": "강원도~경기도~경상남도~경상북도~광주광역시~대구광역시~대전광역시~부산광역시~서울특별시~세종특별자치시~울산광역시~인천광역시~전라남도~전라북도~제주특별자치도~충청남도~충청북도",
+  "sub_lnames": "Gangwon-do~Gyeonggi-do~Gyeongsangnam-do~Gyeongsangbuk-do~Gwangju~Daegu~Daejeon~Busan~Seoul~Sejong~Ulsan~Incheon~Jeollanam-do~Jeollabuk-do~Jeju-do~Chungcheongnam-do~Chungcheongbuk-do",
+  "sub_mores": "true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true",
+  "sub_names": "강원~경기~경남~경북~광주~대구~대전~부산~서울~세종~울산~인천~전남~전북~제주~충남~충북",
+  "sub_zipexs": "25627~12410~53286~38540~62394~42456~34316~46706~06321~30065~44782~23024~59222~56445~63563~32832~28006",
+  "sub_zips": "2[456]\\d{2}~1[0-8]\\d{2}~5[0-3]\\d{2}~(?:3[6-9]|40)\\d{2}~6[12]\\d{2}~4[123]\\d{2}~3[45]\\d{2}~4[6-9]\\d{2}~0[1-8]\\d{2}~30[01]\\d~4[45]\\d{2}~2[1-3]\\d{2}~5[7-9]\\d{2}~5[4-6]\\d{2}~63[0-356]\\d~3[1-3]\\d{2}~2[789]\\d{2}",
+  "sublocality_name_type": "district",
+  "upper": "Z",
+  "zip": "\\d{5}",
+  "zipex": "03051"
+}

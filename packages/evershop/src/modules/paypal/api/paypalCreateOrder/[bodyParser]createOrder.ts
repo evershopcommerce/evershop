@@ -18,6 +18,7 @@ import {
   buildPaypalAmount,
   findApprovalUrl
 } from '../../services/paypalPayload.js';
+import { buildPaypalShipping } from '../../services/paypalShippingAddress.js';
 import { createAxiosInstance } from '../../services/requester.js';
 
 export default async (
@@ -96,29 +97,11 @@ export default async (
         .where('order_address_id', '=', order.shipping_address_id)
         .load(pool);
 
-      // Add shipping address
+      // Add shipping address, mapped by token (spec § 3.10).
       if (shippingAddress) {
-        const address: any = {
-          address_line_1: shippingAddress.address_1,
-          postal_code: shippingAddress.postcode,
-          country_code: shippingAddress.country
-        };
-        if (shippingAddress.address_2) {
-          address.address_line_2 = shippingAddress.address_2;
-        }
-        if (shippingAddress.city) {
-          address.admin_area_2 = shippingAddress.city;
-        }
-        if (shippingAddress.province) {
-          address.admin_area_1 = shippingAddress.province.split('-').pop();
-        }
-        orderData.purchase_units[0].shipping = {
-          name: {
-            full_name: `${shippingAddress.full_name}`
-          },
-          type: 'SHIPPING',
-          address
-        };
+        orderData.purchase_units[0].shipping = (await buildPaypalShipping(
+          shippingAddress
+        )) as any;
       } else {
         (
           orderData.payment_source!.paypal as any

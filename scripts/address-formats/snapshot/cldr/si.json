@@ -1,0 +1,185 @@
+{
+  "main": {
+    "si": {
+      "identity": {
+        "language": "si"
+      },
+      "personNames": {
+        "foreignSpaceReplacement": " ",
+        "formality": "formal",
+        "givenFirst": [
+          "und"
+        ],
+        "initial": "{0}.",
+        "initialSequence": "{0} {1}",
+        "length": "medium",
+        "nativeSpaceReplacement": " ",
+        "personName": {
+          "givenFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{title} {given} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{given-monogram-allCaps}{given2-monogram-allCaps}{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}{surname-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{title} {given} {given2} {surname} {surname2} {credentials}",
+                "informal": "{given-informal} {surname}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{given} {given2-initial} {surname} {generation}, {credentials}",
+                "informal": "{given-informal} {surname}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{given-initial} {given2-initial} {surname}",
+                "informal": "{given-informal} {surname-initial}"
+              }
+            }
+          },
+          "sorting": {
+            "long": {
+              "referring": {
+                "formal": "{given} {given2}, {surname}",
+                "informal": "{given-informal} {surname}"
+              }
+            },
+            "medium": {
+              "referring": {
+                "formal": "{given} {given2-initial} {surname}",
+                "informal": "{given-informal}, {surname}"
+              }
+            },
+            "short": {
+              "referring": {
+                "formal": "{given-initial} {given2-initial}, {surname}",
+                "informal": "{given-informal}, {surname}"
+              }
+            }
+          },
+          "surnameFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}",
+                "informal": "{surname-monogram-allCaps}{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {title} {given} {given2} {generation}, {credentials}",
+                "informal": "{surname} {given-informal}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given} {given2-initial} {generation}, {credentials}",
+                "informal": "{surname} {given-informal}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{title} {surname}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given-initial} {given2-initial}",
+                "informal": "{surname} {given-initial}"
+              }
+            }
+          }
+        },
+        "sampleName": {
+          "foreignFull": {
+            "credentials": "එම්.ඩී. පී.එච්.ඩී.",
+            "generation": "බාල",
+            "given": "ඇඩා කොර්නේලියා",
+            "given-informal": "නීලේ",
+            "given2": "සීසර් මාටින්",
+            "surname-core": "බෲල්",
+            "surname-prefix": "වොන්",
+            "surname2": "ගොන්සාලෙස් ඩොමින්ගෝ",
+            "title": "මහාචාර්ය. ආචාර්ය."
+          },
+          "foreignG": {
+            "given": "සින්බෑඩ්"
+          },
+          "foreignGGS": {
+            "given": "සාසිලියා",
+            "given2": "හමිෂ්",
+            "surname": "ස්ටෝබර්"
+          },
+          "foreignGS": {
+            "given": "කේතේ",
+            "surname": "මුලර්"
+          },
+          "nativeFull": {
+            "credentials": "පා.ම.",
+            "generation": "බාල",
+            "given": "බර්ට්‍රම් විල්බර්ෆෝස්",
+            "given-informal": "බර්ටි",
+            "given2": "හෙන්රි රොබට්",
+            "surname-core": "වූස්ටර්",
+            "title": "මහතා"
+          },
+          "nativeG": {
+            "given": "සෙන්ඩයා"
+          },
+          "nativeGGS": {
+            "given": "මේරි සූ",
+            "given2": "හමිෂ්",
+            "surname": "වොට්සන්"
+          },
+          "nativeGS": {
+            "given": "අයිරින්",
+            "surname": "ඇඩ්ලර්"
+          }
+        },
+        "surnameFirst": [
+          "ko",
+          "si",
+          "ta",
+          "te",
+          "vi",
+          "yue",
+          "zh"
+        ]
+      }
+    }
+  }
+}

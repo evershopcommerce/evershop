@@ -31,6 +31,7 @@
     "test:e2e:report": "npm run test:report --prefix tests/e2e",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./packages",
     "release:preflight": "node scripts/release-preflight.mjs",
+    "generate:address-formats": "node scripts/address-formats/generate.mjs",
     "prepare": "husky install"
   },
   "author": "The Nguyen (https://evershop.io)",
@@ -53,6 +54,7 @@
     "execa": "^9.6.0",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
+    "jsdom": "^28.1.0",
     "prettier": "2.8.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^6.0.1",

@@ -1,0 +1,16 @@
+{
+  "fmt": "%N%n%O%n%A%n%Z %C/%S",
+  "id": "data/TR",
+  "key": "TR",
+  "lang": "tr",
+  "languages": "tr",
+  "locality_name_type": "district",
+  "name": "TURKEY",
+  "posturl": "http://postakodu.ptt.gov.tr/",
+  "require": "ACZ",
+  "sub_isoids": "01~02~03~04~68~05~06~07~75~08~09~10~74~72~69~11~12~13~14~15~16~17~18~19~20~21~81~22~23~24~25~26~27~28~29~30~31~76~32~34~35~46~78~70~36~37~38~71~39~40~79~41~42~43~44~45~47~33~48~49~50~51~52~80~53~54~55~56~57~58~63~73~59~60~61~62~64~65~77~66~67",
+  "sub_keys": "Adana~Adıyaman~Afyon~Ağrı~Aksaray~Amasya~Ankara~Antalya~Ardahan~Artvin~Aydın~Balıkesir~Bartın~Batman~Bayburt~Bilecik~Bingöl~Bitlis~Bolu~Burdur~Bursa~Çanakkale~Çankırı~Çorum~Denizli~Diyarbakır~Düzce~Edirne~Elazığ~Erzincan~Erzurum~Eskişehir~Gaziantep~Giresun~Gümüşhane~Hakkari~Hatay~Iğdır~Isparta~İstanbul~İzmir~Kahramanmaraş~Karabük~Karaman~Kars~Kastamonu~Kayseri~Kırıkkale~Kırklareli~Kırşehir~Kilis~Kocaeli~Konya~Kütahya~Malatya~Manisa~Mardin~Mersin~Muğla~Muş~Nevşehir~Niğde~Ordu~Osmaniye~Rize~Sakarya~Samsun~Siirt~Sinop~Sivas~Şanlıurfa~Şırnak~Tekirdağ~Tokat~Trabzon~Tunceli~Uşak~Van~Yalova~Yozgat~Zonguldak",
+  "sub_zips": "01~02~03~04~68~05~06~07~75~08~09~10~74~72~69~11~12~13~14~15~16~17~18~19~20~21~81~22~23~24~25~26~27~28~29~30~31~76~32~34~35~46~78~70~36~37~38~71~39~40~79~41~42~43~44~45~47~33~48~49~50~51~52~80~53~54~55~56~57~58~63~73~59~60~61~62~64~65~77~66~67",
+  "zip": "\\d{5}",
+  "zipex": "01960,06101"
+}

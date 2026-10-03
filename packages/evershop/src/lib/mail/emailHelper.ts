@@ -5,8 +5,9 @@ import {
   getStoreLanguage,
   getStoreLanguageSync
 } from '../../modules/setting/services/setting.js';
-import { countries } from '../locale/countries.js';
-import { provinces } from '../locale/provinces.js';
+import { getCountryName } from '../address/countries.js';
+import { formatAddressRow } from '../address/display.js';
+import { resolveRegionName } from '../address/regions.js';
 import { translate } from '../locale/translate/translate.js';
 import { getBaseUrl } from '../util/getBaseUrl.js';
 import { getConfig } from '../util/getConfig.js';
@@ -265,12 +266,18 @@ export interface EmailData {
     storeDescription: string;
     phone: string;
     homeUrl: string;
+    /**
+     * The store's own address. Keys are the store settings' own names (kept,
+     * D-29); `formatted` is the display, ready to print, added by the
+     * Address Format Registry.
+     */
     address: {
       country?: string;
       province?: string;
       city?: string;
       street?: string;
       postalCode?: string;
+      formatted?: string[];
     };
   };
   brand?: {
@@ -361,11 +368,24 @@ async function prepareData(data: EmailData): Promise<EmailData> {
     phone: await getSetting('storePhoneNumber', ''),
     homeUrl: getBaseUrl(),
     address: {
-      country: countries.find((c) => c.code === addressCountry)?.name,
-      province: provinces.find((p) => p.code === addressProvince)?.name,
+      country: addressCountry ? getCountryName(addressCountry) : undefined,
+      province: addressProvince
+        ? await resolveRegionName(
+            addressCountry,
+            'administrative_area',
+            addressProvince
+          )
+        : undefined,
       city: addressCity,
       street: addressStreet,
-      postalCode: addressPostalCode
+      postalCode: addressPostalCode,
+      formatted: await formatAddressRow({
+        country: addressCountry || null,
+        administrative_area: addressProvince || null,
+        locality: addressCity || null,
+        address_line_1: addressStreet || null,
+        postal_code: addressPostalCode || null
+      })
     }
   };
   data.storeInfo = storeInformation;

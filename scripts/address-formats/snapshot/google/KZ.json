@@ -1,0 +1,13 @@
+{
+  "fmt": "%Z%n%S%n%C%n%A%n%O%n%N",
+  "id": "data/KZ",
+  "key": "KZ",
+  "lang": "kk",
+  "languages": "kk~ru",
+  "name": "KAZAKHSTAN",
+  "sub_isoids": "10~11~15~75~19~71~23~27~31~33~35~39~43~47~55~59~61~62~63~79",
+  "sub_keys": "Абай облысы~Ақмола облысы~Ақтөбе облысы~Алматы~Алматы облысы~Астана~Атырау облысы~Батыс Қазақстан облысы~Жамбыл облысы~Жетісу облысы~Қарағанды облысы~Қостанай облысы~Қызылорда облысы~Маңғыстау облысы~Павлодар облысы~Солтүстік Қазақстан облысы~Түркістан облысы~Ұлытау облысы~Шығыс Қазақстан облысы~Шымкент",
+  "sub_lnames": "Abai Region~Akmola Region~Aktobe Region~Almaty~Almaty Region~Astana~Atyrau Region~West Kazakhstan Region~Jambyl Region~Jetisu Region~Karaganda Region~Kostanay Region~Kyzylorda Region~Mangystau Region~Pavlodar Region~North Kazakhstan Region~Turkistan Region~Ulytau Region~East Kazakhstan Region~Shymkent",
+  "zip": "\\d{6}",
+  "zipex": "040900,050012"
+}

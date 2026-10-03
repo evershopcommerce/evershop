@@ -199,4 +199,38 @@ describe('registry', () => {
     expect(callback3).not.toHaveBeenCalled();
     expect(callback1).toHaveBeenCalled();
   });
+
+  // D3: a factory default used to be unshifted into the processors array on
+  // EVERY call, so the array grew for the life of the process (53 processors
+  // after 52 validateAddress() calls was measured). The factory must register
+  // exactly once per key; later factories for the same key are ignored.
+  it('getValueSync registers a factory default exactly once per key (D3)', () => {
+    const factory = jest.fn(() => ({ created: true }));
+    for (let i = 0; i < 52; i += 1) {
+      // A fresh inline arrow on every call, the way callers actually use it
+      getValueSync('d3SyncKey', () => factory(), {});
+    }
+    expect(getProcessors('d3SyncKey')).toHaveLength(1);
+    expect(factory).toHaveBeenCalledTimes(1);
+  });
+
+  it('getValue registers a factory default exactly once per key and keeps later processors (D3)', async () => {
+    addProcessor('d3AsyncKey', (value) => ({ ...value, processed: true }));
+    for (let i = 0; i < 10; i += 1) {
+      await getValue('d3AsyncKey', () => ({ created: true }), {});
+    }
+    const processors = getProcessors('d3AsyncKey');
+    expect(processors).toHaveLength(2);
+    expect(processors[0].priority).toBe(0);
+    const value = await getValue('d3AsyncKey', () => ({ created: true }), {});
+    expect(value).toEqual({ created: true, processed: true });
+  });
+
+  it('ignores a different factory passed later for the same key (first wins)', () => {
+    const first = getValueSync('d3FirstWinsKey', () => 'first', {});
+    const second = getValueSync('d3FirstWinsKey', () => 'second', {});
+    expect(first).toBe('first');
+    expect(second).toBe('first');
+    expect(getProcessors('d3FirstWinsKey')).toHaveLength(1);
+  });
 });

@@ -2,6 +2,7 @@ import { select } from '@evershop/postgres-query-builder';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { toGraphqlAddress } from '../../../../base/services/address/graphqlAddress.js';
 import { getCarrier } from '../../../services/carrier/registry.js';
 import { getOrdersBaseQuery } from '../../../services/getOrdersBaseQuery.js';
 import { getPhaseOf } from '../../../services/updateShipmentStatus.js';
@@ -57,14 +58,14 @@ export default {
         .from('order_address')
         .where('order_address_id', '=', shippingAddressId)
         .load(pool);
-      return address ? camelCase(address) : null;
+      return address ? toGraphqlAddress(address, 'OrderAddress') : null;
     },
     billingAddress: async ({ billingAddressId }, _, { pool }) => {
       const address = await select()
         .from('order_address')
         .where('order_address_id', '=', billingAddressId)
         .load(pool);
-      return address ? camelCase(address) : null;
+      return address ? toGraphqlAddress(address, 'OrderAddress') : null;
     },
     activities: async ({ orderId }, _, { pool }) => {
       const query = select().from('order_activity');

@@ -1,0 +1,25 @@
+enum AddressConfigWarningKind {
+  RETIRED_REGION
+  COUNTRY_NOT_SOLD_TO
+}
+
+"""
+One stale reference in merchant data. `source` is `shipping_zone`, `tax_rate`
+or `store_address`; `keyName` is the retired region's name; `mergedInto` is its
+successor when the data knows it.
+"""
+type AddressConfigWarning {
+  kind: AddressConfigWarningKind!
+  source: String!
+  sourceId: String!
+  sourceName: String
+  country: String!
+  level: String
+  key: String
+  keyName: String
+  mergedInto: Region
+}
+
+extend type Query {
+  addressConfigWarnings: [AddressConfigWarning!]!
+}

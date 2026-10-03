@@ -16,6 +16,14 @@ import {
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import { ShippingMethods } from '@components/frontStore/checkout/shipment/ShippingMethods.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
+import {
+  geographicFieldsReady,
+  requoteKey,
+  requoteParamsFor,
+  serverAddressErrors,
+  storedRequoteParams
+} from '@components/frontStore/customer/address/addressFormLogic.js';
+import { useAddressSchema } from '@components/frontStore/customer/address/useAddressSchema.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useRef } from 'react';
 import { useWatch } from 'react-hook-form';
@@ -52,50 +60,38 @@ export function Shipment() {
 
   const dirtyFields = form.formState.dirtyFields;
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const lastFetchParamsRef = useRef<{
-    country?: string;
-    province?: string;
-    postcode?: string;
-  } | null>(
-    // Initialize with current shipping address if available
-    shippingAddress
-      ? {
-          country: shippingAddress.country?.code,
-          province: shippingAddress.province?.code,
-          postcode: shippingAddress.postcode || undefined
-        }
-      : null
+  // The schema of the country being entered drives the re-quote: its
+  // geographic tokens (C S Z D) plus the country, never the name or telephone
+  // (spec § 3.10). urql shares this request with the address form's own.
+  const { schema } = useAddressSchema(
+    (watchedShippingAddress?.country as string | undefined) ||
+      shippingAddress?.country?.code ||
+      null,
+    'shipping'
+  );
+  // Baseline: the stored shipping address, so an untouched form never
+  // re-quotes on mount and editing a field back to its value is a no-op.
+  const lastFetchParamsRef = useRef<string | null>(
+    requoteKey(storedRequoteParams(shippingAddress))
   );
 
   useEffect(() => {
     const fetchShippingMethods = async () => {
       try {
-        const country = form.getValues('shippingAddress.country');
-        const province = form.getValues('shippingAddress.province');
-        const postcode = form.getValues('shippingAddress.postcode');
-
-        if (!country) {
+        const params = requoteParamsFor(
+          schema,
+          form.getValues('shippingAddress') as Record<string, unknown>
+        );
+        if (!params) {
           return;
         }
-
-        // Check if parameters have actually changed
-        const currentParams = { country, province, postcode };
-        const lastParams = lastFetchParamsRef.current;
-
-        if (
-          lastParams &&
-          lastParams.country === country &&
-          lastParams.province === province &&
-          lastParams.postcode === postcode
-        ) {
-          // Parameters haven't changed, skip API call
+        // Skip when nothing a carrier quotes on has changed.
+        const key = requoteKey(params);
+        if (lastFetchParamsRef.current === key) {
           return;
         }
-
-        // Cache the current parameters
-        lastFetchParamsRef.current = currentParams;
-
-        await fetchAvailableShippingMethods({ country, province, postcode });
+        lastFetchParamsRef.current = key;
+        await fetchAvailableShippingMethods(params);
       } catch (error) {
         toast.error(
           error instanceof Error
@@ -123,7 +119,7 @@ export function Shipment() {
         clearTimeout(debounceTimeoutRef.current);
       }
     };
-  }, [watchedShippingAddress, dirtyFields.shippingAddress]); // Clean dependency array
+  }, [watchedShippingAddress, dirtyFields.shippingAddress, schema]);
 
   const updateShipment = async (method: {
     code: string;
@@ -165,8 +161,20 @@ export function Shipment() {
       });
       return true;
     } catch (error) {
+      // Field-targeted errors from the server land on the inputs (spec § 3.8);
+      // anything else is toasted.
+      const { applied, unassigned } = serverAddressErrors(
+        error,
+        'shippingAddress',
+        (name, err) => form.setError(name, err)
+      );
       toast.error(
-        error instanceof Error ? error.message : _('Failed to update shipment')
+        applied > 0
+          ? _('Please check the highlighted fields')
+          : unassigned[0] ??
+              (error instanceof Error
+                ? error.message
+                : _('Failed to update shipment'))
       );
       return false;
     }
@@ -191,8 +199,8 @@ export function Shipment() {
           </CardHeader>
           <CardContent>
             <CustomerAddressForm
-              areaId="checkoutShippingAddressForm"
-              fieldNamePrefix="shippingAddress"
+              surface="shipping"
+              namePrefix="shippingAddress"
               address={shippingAddress}
             />
           </CardContent>
@@ -204,6 +212,11 @@ export function Shipment() {
             isSelected: method.code === selectedShippingMethod
           }))}
           shippingAddress={shippingAddress}
+          addressReady={geographicFieldsReady(
+            schema,
+            (watchedShippingAddress as Record<string, unknown> | undefined) ??
+              form.getValues('shippingAddress')
+          )}
           onSelect={updateShipment}
           isLoading={fetchingShippingMethods}
         />
