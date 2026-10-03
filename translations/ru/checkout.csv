@@ -41,8 +41,6 @@ Enter coupon code,Введите промокод
 Apply,Принять
 Your cart is empty!,Ваша корзина пуста!
 Inclusive of tax ${taxAmount},Включая налог ${taxAmount}
-Address is required,Адрес обязателен для заполнения
-City is required,Город обязателен для заполнения
 Payment,Оплата
 Proceed to checkout,Перейти к оформлению
 Your cart,Ваша корзина
@@ -51,3 +49,4 @@ No payment required,Оплата не требуется
 Your order total is 0 — no payment is needed to place this order.,Сумма вашего заказа — 0 — оплата для оформления этого заказа не требуется.
 Thank you for your order!,Спасибо за ваш заказ!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Заказ № ${orderNumber} подтверждён. Мы отправили чек на ${email}.
+Shipping is not available at the moment. Please contact us to complete your order.,"Доставка в данный момент недоступна. Свяжитесь с нами, чтобы завершить заказ."

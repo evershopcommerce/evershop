@@ -11,36 +11,15 @@ interface CustomerInfoProps {
     paymentMethodName: string;
     noShippingRequired: boolean;
     shippingAddress: {
-      fullName: string;
-      postcode: string;
+      recipient: string;
       telephone: string;
-      country: {
-        name: string;
-        code: string;
-      };
-      province: {
-        name: string;
-        code: string;
-      };
-      city: string;
-      address1: string;
-      address2: string;
+      /** Display lines for the address's country (spec § 3.6). */
+      formatted: string[];
     };
     billingAddress: {
-      fullName: string;
-      postcode: string;
+      recipient: string;
       telephone: string;
-      country: {
-        name: string;
-        code: string;
-      };
-      province: {
-        name: string;
-        code: string;
-      };
-      city: string;
-      address1: string;
-      address2: string;
+      formatted: string[];
     } | null; // zero-total orders don't collect a billing address
   };
 }
@@ -88,7 +67,7 @@ export default function CustomerInfo({
               {_('Contact information')}
             </h3>
             <div className="text-sm text-muted-foreground">
-              {customerFullName || billingAddress?.fullName}
+              {customerFullName || billingAddress?.recipient}
             </div>
             <div className="text-sm text-muted-foreground">{customerEmail}</div>
           </div>
@@ -143,36 +122,14 @@ export const query = `
       noShippingRequired
       shippingNote
       shippingAddress {
-        fullName
-        postcode
+        recipient
         telephone
-        country {
-          name
-          code
-        }
-        province {
-          name
-          code
-        }
-        city
-        address1
-        address2
+        formatted
       }
       billingAddress {
-        fullName
-        postcode
+        recipient
         telephone
-        country {
-          name
-          code
-        }
-        province {
-          name
-          code
-        }
-        city
-        address1
-        address2
+        formatted
       }
     }
   }

@@ -48,3 +48,4 @@ No payment required,भुक्तानी आवश्यक छैन
 Your order total is 0 — no payment is needed to place this order.,तपाईंको अर्डरको कुल रकम ० छ — यो अर्डर गर्न कुनै भुक्तानी आवश्यक छैन।
 Thank you for your order!,तपाईंको अर्डरको लागि धन्यवाद!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,अर्डर #${orderNumber} पुष्टि भयो। हामीले ${email} मा रसिद पठाएका छौं।
+Shipping is not available at the moment. Please contact us to complete your order.,हाल ढुवानी उपलब्ध छैन। अर्डर पूरा गर्न कृपया हामीलाई सम्पर्क गर्नुहोस्।

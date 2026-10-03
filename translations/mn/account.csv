@@ -18,13 +18,8 @@ City,Хот
 Account Information,Бүртгэлийн мэдээлэл
 Address,Хаяг
 Postcode,Шуудангийн код
-Postcode is required,Шуудангийн код шаардлагатай
-Telephone is required,Утасны дугаар шаардлагатай
 Telephone,Утас
-Full name is required,Бүтэн нэр шаардлагатай
-Country is required,Улс шаардлагатай
 Country,Улс
-Province is required,Муж/аймаг шаардлагатай
 Province,Муж/аймаг
 Billing Address,Төлбөрийн хаяг
 Shipping Address,Хүргэлтийн хаяг
@@ -45,3 +40,36 @@ You must be logged in to update your profile,Профайлаа шинэчлэх
 There is nothing to update,Шинэчлэх зүйл байхгүй байна
 Email is already used,Энэ и-мэйл аль хэдийн ашиглагдсан байна
 Order #${orderNumber},${orderNumber} дугаартай захиалга
+Given name,Нэр
+Family name,Овог
+Company,Компани
+Address line 3,Хаягийн 3-р мөр
+State,Муж
+Prefecture,Префектур
+County,Тойрог
+Emirate,Эмират
+Department,Департамент
+District,Дүүрэг
+Do/Si,Do/Si
+Island,Арал
+Oblast,Область
+Parish,Париш
+Post town,Шуудангийн хот
+Suburb,Хотын зах
+Neighborhood,Хороолол
+Village,Тосгон
+Village/Township,Тосгон/Сум
+Townland,Townland
+Ward,Хороо
+ZIP code,ZIP код
+PIN code,PIN код
+Eircode,Eircode
+Sorting code,Ангилах код
+${field} is not valid,${field} буруу байна
+${field} is not a valid region,${field} нь хүчинтэй бүс биш байна
+${field} has the wrong type,${field} буруу төрөлтэй байна
+${field} is not a known address field,${field} нь мэдэгдэж буй хаягийн талбар биш
+We do not sell to ${country},Бид ${country} руу зардаггүй
+Select ${field},${field} сонгоно уу
+no longer available,ашиглах боломжгүй болсон
+Please check the highlighted fields,Тэмдэглэсэн талбаруудыг шалгана уу

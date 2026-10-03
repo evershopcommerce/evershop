@@ -96,6 +96,13 @@ async function saveOrder<T = CreateOrderResult>(
       defaultPaymentStatus = key;
     }
   });
+  // Cart → order address copy. Column-agnostic on purpose (spec § 1.11, § 3.1
+  // strict three-table parity): the whole `cart_address` row — the fourteen
+  // shared columns and the `extra` JSONB, which `given()` serializes as is —
+  // lands in `order_address` without naming a field, so a registered extra
+  // field reaches the order untouched. An extension that keeps address data in
+  // a side table keyed by uuid carries it across with `hookAfter('createOrder')`
+  // (acceptance #12).
   let shipAddr;
   if (cart.getData('shipping_address_id')) {
     // Save the shipping address

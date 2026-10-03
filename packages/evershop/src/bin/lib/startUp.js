@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import config from 'config';
 import spawn from 'cross-spawn';
+import { lockAddressRegistry } from '../../lib/address/formats.js';
 import { error, debug } from '../../lib/log/logger.js';
 import { Handler } from '../../lib/middleware/Handler.js';
 import { provisionActiveThemeMetafields } from '../../lib/theme/provisionOnBoot.js';
@@ -39,6 +40,7 @@ export const start = async function start(context, cb) {
     lockHooks();
     lockRegistry();
     lockCarrierRegistry();
+    lockAddressRegistry();
     // Get the configuration (nodeconfig)
     validateConfiguration(config);
   } catch (e) {

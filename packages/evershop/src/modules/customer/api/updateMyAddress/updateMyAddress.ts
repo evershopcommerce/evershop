@@ -10,6 +10,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import { respondAddressValidationError } from '../../services/customer/address/addressValidationResponse.js';
 import updateCustomerAddress from '../../services/customer/address/updateCustomerAddress.js';
 
 // Identity/ownership columns a customer must never change on their own address.
@@ -89,6 +90,9 @@ export default async (
     };
     return next();
   } catch (e) {
+    if (respondAddressValidationError(response, e)) {
+      return undefined;
+    }
     response.status(INTERNAL_SERVER_ERROR);
     return response.json({
       error: {

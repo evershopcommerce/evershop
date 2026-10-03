@@ -23,9 +23,15 @@ type AvailableShippingMethod {
 }
 
 extend type Cart {
+  """
+  Methods for a destination. Every argument overrides the stored shipping
+  address field by field (a pre-checkout estimate before an address is saved).
+  """
   availableShippingMethods(
     country: String
-    province: String
-    postcode: String
+    administrativeArea: String
+    locality: String
+    dependentLocality: String
+    postalCode: String
   ): [AvailableShippingMethod]
 }

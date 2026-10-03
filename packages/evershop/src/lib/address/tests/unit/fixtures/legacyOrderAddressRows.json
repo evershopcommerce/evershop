@@ -1,0 +1,98 @@
+{
+  "$comment": "Pre-migration order_address rows, in the OLD column names exactly as stored before checkout Version-1.0.12 renamed them. These rows pin the legacy-order invariant (spec § 5.3): rendered through `formatted` they must produce the SAME lines before and after the migration, and after a region data refresh retires keys. `expected` holds the display lines per locale. Keep this file untouched once recorded; add rows, never edit. One exception recorded: on 2026-10-02 the layout rule changed to follow the record `lang` (spec § 3.2), so the HK `en` lines moved from the native order to the Latin order, name first; the stored values did not change.",
+  "recordedAt": "2026-10-02",
+  "rows": [
+    {
+      "label": "US with a second address line and an ISO state code",
+      "row": {
+        "order_address_id": 9001,
+        "uuid": "00000000-0000-4000-8000-000000009001",
+        "full_name": "Jane Smith",
+        "telephone": "+1 650 253 0000",
+        "address_1": "1600 Amphitheatre Pkwy",
+        "address_2": "Suite 200",
+        "postcode": "94043",
+        "city": "Mountain View",
+        "province": "US-CA",
+        "country": "US"
+      },
+      "expected": {
+        "en": ["Jane Smith", "1600 Amphitheatre Pkwy", "Suite 200", "Mountain View, California 94043", "United States"]
+      }
+    },
+    {
+      "label": "DE with no province (Germany's format has no administrative area)",
+      "row": {
+        "order_address_id": 9002,
+        "uuid": "00000000-0000-4000-8000-000000009002",
+        "full_name": "Max Mustermann",
+        "telephone": "+49 30 1234567",
+        "address_1": "Unter den Linden 1",
+        "address_2": null,
+        "postcode": "10117",
+        "city": "Berlin",
+        "province": null,
+        "country": "DE"
+      },
+      "expected": {
+        "en": ["Max Mustermann", "Unter den Linden 1", "10117 Berlin", "Germany"]
+      }
+    },
+    {
+      "label": "VN on a surviving code (Hồ Chí Minh keeps VN-SG after the 2025 merger)",
+      "row": {
+        "order_address_id": 9003,
+        "uuid": "00000000-0000-4000-8000-000000009003",
+        "full_name": "Nguyễn Văn A",
+        "telephone": "0912 345 678",
+        "address_1": "1 Lê Lợi",
+        "address_2": null,
+        "postcode": "70000",
+        "city": "Quận 1",
+        "province": "VN-SG",
+        "country": "VN"
+      },
+      "expected": {
+        "en": ["Nguyễn Văn A", "1 Lê Lợi", "Quận 1", "Ho Chi Minh 70000", "Vietnam"],
+        "vi": ["Nguyễn Văn A", "1 Lê Lợi", "Quận 1", "Hồ Chí Minh 70000", "Vietnam"]
+      }
+    },
+    {
+      "label": "VN on an absorbed code (Bình Dương, VN-57, retired into VN-SG) — must still print its name, never the raw code",
+      "row": {
+        "order_address_id": 9004,
+        "uuid": "00000000-0000-4000-8000-000000009004",
+        "full_name": "Trần Thị B",
+        "telephone": "0987 654 321",
+        "address_1": "12 Đại lộ Bình Dương",
+        "address_2": null,
+        "postcode": "75000",
+        "city": "Thủ Dầu Một",
+        "province": "VN-57",
+        "country": "VN"
+      },
+      "expected": {
+        "en": ["Trần Thị B", "12 Đại lộ Bình Dương", "Thủ Dầu Một", "Binh Duong 75000", "Vietnam"],
+        "vi": ["Trần Thị B", "12 Đại lộ Bình Dương", "Thủ Dầu Một", "Bình Dương 75000", "Vietnam"]
+      }
+    },
+    {
+      "label": "HK with an empty province and no postcode (Hong Kong collects neither as required)",
+      "row": {
+        "order_address_id": 9005,
+        "uuid": "00000000-0000-4000-8000-000000009005",
+        "full_name": "Chan Tai Man",
+        "telephone": "+852 2345 6789",
+        "address_1": "1 Nathan Road",
+        "address_2": null,
+        "postcode": "",
+        "city": "Tsim Sha Tsui",
+        "province": "",
+        "country": "HK"
+      },
+      "expected": {
+        "en": ["Chan Tai Man", "1 Nathan Road", "Tsim Sha Tsui", "Hong Kong SAR China"]
+      }
+    }
+  ]
+}

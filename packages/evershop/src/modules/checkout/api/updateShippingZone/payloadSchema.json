@@ -1,14 +1,35 @@
 {
   "type": "object",
   "properties": {
-    "name": { "type": "string" },
-    "country": { "type": "string" },
+    "name": { "type": "string", "minLength": 1 },
     "countries": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": { "type": "string", "minLength": 2, "maxLength": 2 },
+      "description": "ISO 3166-1 alpha-2 codes the zone covers."
     },
-    "provinces": {}
+    "regions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "country": { "type": "string", "minLength": 2, "maxLength": 2 },
+          "level": {
+            "type": "string",
+            "enum": ["administrative_area", "locality", "dependent_locality"]
+          },
+          "key": { "type": "string", "minLength": 1 }
+        },
+        "required": ["country", "key"]
+      },
+      "description": "Region restrictions per country: { country, level (default administrative_area), key }. A country with no entries is covered whole."
+    }
   },
   "additionalProperties": true,
-  "required": ["name"]
+  "required": ["name", "countries"],
+  "errorMessage": {
+    "required": {
+      "name": "Zone name is required",
+      "countries": "At least one country is required"
+    }
+  }
 }

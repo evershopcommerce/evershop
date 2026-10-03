@@ -1,13 +1,17 @@
 """
-The `Country` type represents a country.
+The `Country` type represents a country. Regions below it come from
+`Country.regions` / `Query.regions` (Address.graphql).
 """
 type Country {
   name: String!
   code: String!
-  provinces: [Province]
 }
 
 extend type Query {
-  countries(countries: [String]): [Country]
-  allowedCountries: [Country]
+  """
+  Countries for a scope: ALL for the store's own address, SELL_TO for the
+  address book and billing, SHIPPING for the shipping address. Replaces
+  `countries(countries:)` and `allowedCountries`.
+  """
+  countries(scope: CountryScope = ALL): [Country!]!
 }

@@ -321,3 +321,51 @@ Maximum file size,Максимальный размер файла
 Per-type overrides,Переопределения по типам
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Переопределяет максимальный размер для подходящих типов файлов — например, меньший лимит для изображений и больший для видео. Точный тип (video/mp4) имеет приоритет над семейством (video/*); всё без совпадения использует максимальный размер выше. Переопределения не разрешают новые типы: сам тип файла должен быть включён в «Разрешённых типах файлов»."
 Every product in the store,Все товары магазина
+"Region restrictions","Ограничения по регионам"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","Оставьте список страны пустым, чтобы охватить всю страну. Добавьте регионы, чтобы ограничить доставку определёнными территориями."
+"Select regions","Выберите регионы"
+"Regions:","Регионы:"
+"Regions","Регионы"
+"Regions is required","Укажите регионы"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","Ключи регионов (например, ""US-CA"") через запятую. Используйте ""*"" для всех регионов."
+"Postal code","Почтовый индекс"
+"Postal code is required","Укажите почтовый индекс"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","Почтовые индексы (например, ""90210"") через запятую. Используйте ""*"" для всех индексов."
+"not sold to","не продаётся"
+"retired","упразднён"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","Оформление заказа невозможно: ни одна зона доставки не охватывает страну, в которую вы продаёте."
+"This region was retired; its successor is ${name}.","Этот регион упразднён; его преемник — ${name}."
+"Show region keys for ${country}","Показать ключи регионов для ${country}"
+"Retired region keys on this rate: ${keys}","Упразднённые ключи регионов в этой ставке: ${keys}"
+Country is required,Страна обязательна для заполнения
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","Что собирает каждая форма адреса в адресной книге и при оформлении заказа. Форматы стран, списки регионов и подписи следуют каждой стране и не редактируются."
+Name format,Формат имени
+Single field,Одно поле
+First and last name,Имя и фамилия
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,Переключение безопасно в обе стороны: сохранённые адреса продолжают отображаться и преобразуются при редактировании.
+Optional,Необязательно
+Hidden,Скрыто
+Address line 2,Адресная строка 2
+Shown,Показано
+Required fields,Обязательные поля
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,"Поля, которые страна оставляет необязательными, здесь можно сделать обязательными; требуемое страной никогда не становится необязательным."
+State / Province,Штат / Область
+Ward / Neighbourhood,Район / Микрорайон
+As the country requires,Как требует страна
+Always required,Всегда обязательно
+Default country,Страна по умолчанию
+Use store country,Использовать страну магазина
+No default,Без значения по умолчанию
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,Предвыбрана для нового адреса. Доставка по-прежнему ограничена странами ваших зон.
+Sell to countries,Страны продаж
+All countries,Все страны
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,"Только эти страны предлагаются в адресной книге и при оформлении заказа. Для доставки также нужна зона, покрывающая страну."
+These zones will stop serving: ${zones},Эти зоны перестанут обслуживать: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","Зоны сохраняются и помечаются, ничего не удаляется. Оформление заказа не будет предлагать эти страны."
+Narrow the countries you sell to?,Сузить страны продаж?
+Save anyway,Всё равно сохранить
+Customer Setting,Настройки покупателей
+Customer Settings,Настройки покупателей
+"Customer accounts, checkout and addresses","Учётные записи клиентов, оформление заказа и адреса"
+"Rules for customer accounts, checkout and addresses","Правила для учётных записей клиентов, оформления заказа и адресов"
+Addresses,Адреса

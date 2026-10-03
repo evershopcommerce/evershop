@@ -321,3 +321,51 @@ Maximum file size,Tamanho máximo do arquivo
 Per-type overrides,Substituições por tipo
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Substitui o tamanho máximo para os tipos de arquivo correspondentes — por exemplo, um limite menor para imagens e maior para vídeos. Um tipo exato (video/mp4) prevalece sobre uma família (video/*); o que não corresponder usa o tamanho máximo acima. As substituições não permitem novos tipos: o tipo de arquivo precisa estar habilitado em “Tipos de arquivo permitidos”."
 Every product in the store,Todos os produtos da loja
+"Region restrictions","Restrições por região"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","Deixe a lista de um país vazia para cobrir todo o país. Adicione regiões para restringir o envio a áreas específicas."
+"Select regions","Selecionar regiões"
+"Regions:","Regiões:"
+"Regions","Regiões"
+"Regions is required","As regiões são obrigatórias"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","Chaves de região (ex.: ""US-CA""), separadas por vírgulas. Use ""*"" para todas as regiões."
+"Postal code","Código postal"
+"Postal code is required","O código postal é obrigatório"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","Códigos postais (ex.: ""90210""), separados por vírgulas. Use ""*"" para todos os códigos postais."
+"not sold to","não vendido"
+"retired","desativado"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","A finalização da compra não pode ser concluída: nenhuma zona de envio cobre um país para o qual vende."
+"This region was retired; its successor is ${name}.","Esta região foi desativada; a sucessora é ${name}."
+"Show region keys for ${country}","Mostrar chaves de região de ${country}"
+"Retired region keys on this rate: ${keys}","Chaves de região desativadas nesta taxa: ${keys}"
+Country is required,País é obrigatório
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","O que cada formulário de endereço coleta, no catálogo de endereços e no checkout. Layouts por país, listas de regiões e rótulos seguem cada país e não são editáveis."
+Name format,Formato do nome
+Single field,Campo único
+First and last name,Nome e sobrenome
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,A troca é segura nos dois sentidos: endereços salvos continuam sendo exibidos e são convertidos ao editar.
+Optional,Opcional
+Hidden,Oculto
+Address line 2,Linha de endereço 2
+Shown,Visível
+Required fields,Campos obrigatórios
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,Campos que um país deixa opcionais podem se tornar obrigatórios aqui; o que um país exige nunca se torna opcional.
+State / Province,Estado / Província
+Ward / Neighbourhood,Bairro / Distrito
+As the country requires,Conforme o país exige
+Always required,Sempre obrigatório
+Default country,País padrão
+Use store country,Usar o país da loja
+No default,Sem padrão
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,Pré-selecionado em um novo endereço. O envio continua limitado aos países cobertos pelas suas zonas.
+Sell to countries,Países de venda
+All countries,Todos os países
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,Apenas estes países são oferecidos no catálogo de endereços e no checkout. O envio também precisa de uma zona que cubra o país.
+These zones will stop serving: ${zones},Estas zonas deixarão de atender: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","As zonas são mantidas e sinalizadas, nada é excluído. O checkout não oferecerá estes países."
+Narrow the countries you sell to?,Restringir os países de venda?
+Save anyway,Salvar mesmo assim
+Customer Setting,Configurações de clientes
+Customer Settings,Configurações de clientes
+"Customer accounts, checkout and addresses","Contas de clientes, checkout e endereços"
+"Rules for customer accounts, checkout and addresses","Regras para contas de clientes, checkout e endereços"
+Addresses,Endereços

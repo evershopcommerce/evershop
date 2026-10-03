@@ -1,6 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
+import { toGraphqlAddress } from '../../../../base/services/address/graphqlAddress.js';
 
 export default {
   Query: {
@@ -19,7 +20,7 @@ export default {
       // no customer id is placed in the URL. The admin-only
       // create/update/deleteCustomerAddress routes are not used here.
       return addresses.map((address) => ({
-        ...camelCase(address),
+        ...toGraphqlAddress(address, 'CustomerAddress'),
         updateApi: buildUrl('updateMyAddress', {
           address_id: address.uuid
         }),

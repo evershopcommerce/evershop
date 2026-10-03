@@ -11,10 +11,11 @@ import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValue } from '../../../../lib/util/registry.js';
 import { EventData } from '../../../../types/event.js';
 import { getStoreLanguage } from '../../../setting/services/setting.js';
+import { decorateAddressForEmail } from '../../services/addressEmailData.js';
 import { signTrackingToken } from '../../services/anonymousTrackingToken.js';
 import { getCarrier } from '../../services/carrier/registry.js';
 
-const TEMPLATE = `{{#> emailLayout preheader=(t "Your order #\${number} is on the way." number=order.order_number)}}
+export const TEMPLATE = `{{#> emailLayout preheader=(t "Your order #\${number} is on the way." number=order.order_number)}}
 <h1 style="margin:0 0 6px;font-size:22px;line-height:1.3;font-weight:700;color:#111114;">{{t "Your order is on the way"}}</h1>
 <p style="margin:0 0 18px;font-size:14px;color:#6b7280;">{{t "Order #\${number}" number=order.order_number}} &middot; {{date order.created_at}}</p>
 {{#if shipment.tracking_number}}
@@ -25,6 +26,7 @@ const TEMPLATE = `{{#> emailLayout preheader=(t "Your order #\${number} is on th
 {{else}}
 <p style="margin:0 0 6px;font-size:14px;color:#6b7280;">{{t "We'll send tracking details as soon as the carrier scans the package."}}</p>
 {{/if}}
+{{#if shippingAddress}}<p style="margin:22px 0 4px;font-size:13px;font-weight:600;color:#111114;">{{t "Shipping to"}}</p><p style="margin:0;font-size:13px;line-height:1.55;color:#6b7280;">{{#each shippingAddress.formatted}}{{this}}<br>{{/each}}</p>{{/if}}
 {{#if items.length}}<p style="margin:22px 0 8px;font-size:13px;font-weight:600;color:#111114;">{{t "Items in this shipment"}}</p><table role="presentation" width="100%" cellpadding="0" cellspacing="0">{{#each items}}<tr><td style="padding:9px 0;border-bottom:1px solid #e7e8ea;font-size:14px;color:#111114;">{{this.product_name}}<span style="color:#6b7280;font-size:13px;"> &middot; {{t "Qty"}} {{this.qty}}</span></td></tr>{{/each}}</table>{{/if}}
 {{#if trackingUrl}}{{> button href=trackingUrl label=(t "Track shipment")}}{{else}}{{> button href=trackOrderUrl label=(t "View your order")}}{{/if}}
 {{/emailLayout}}`;
@@ -119,16 +121,29 @@ export default async function sendShipmentCreatedEmail(
       template = TEMPLATE;
     }
 
+    // Off-request (event subscriber) — resolve the store locale explicitly (D7).
+    const locale = await getStoreLanguage();
+    // The delivery address, as `formatted` lines plus the derived names
+    // (spec § 3.6) — the same data the order confirmation prints.
+    const shippingRow = order.shipping_address_id
+      ? await select()
+          .from('order_address')
+          .where('order_address_id', '=', order.shipping_address_id)
+          .load(pool)
+      : null;
+    const shippingAddress = shippingRow
+      ? await decorateAddressForEmail(shippingRow, locale)
+      : null;
+
     const dynamicData = await getValue('shipmentCreatedEmailData', {
       order,
+      shippingAddress,
       shipment,
       items,
       carrierName,
       trackingUrl,
       trackOrderUrl
     });
-    // Off-request (event subscriber) — resolve the store locale explicitly (D7).
-    const locale = await getStoreLanguage();
     const subject = translate(
       'Your order #${number} is on the way',
       {

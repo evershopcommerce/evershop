@@ -78,8 +78,8 @@ export async function resolveShippingQuote(
   const shippingAddress = cart.getData('shipping_address') as
     | {
         country?: string | null;
-        province?: string | null;
-        postcode?: string | null;
+        administrative_area?: string | null;
+        postal_code?: string | null;
       }
     | undefined;
   if (!shippingAddress?.country) {
@@ -88,8 +88,8 @@ export async function resolveShippingQuote(
 
   const zones = await resolveZonesForAddress({
     country: shippingAddress.country,
-    province: shippingAddress.province,
-    postcode: shippingAddress.postcode
+    administrativeArea: shippingAddress.administrative_area,
+    postalCode: shippingAddress.postal_code
   });
   if (zones.length === 0) {
     throw new ShippingQuoteError('We do not ship to this address');

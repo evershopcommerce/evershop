@@ -41,9 +41,6 @@ Enter coupon code,Add meg a kuponkódodat!
 Apply,Jóváhagy
 Your cart is empty!,A bevásárlókosarad üres!
 Inclusive of tax,ÁFA nélküli
-Full name is required,Kérjük add meg a teljes nevedet!
-Address is required,Kérjük add meg a címedet!
-City is required,Kérjük add meg a várost!
 Proceed to checkout,Tovább a fizetéshez
 Your cart,Az Ön kosara
 ${count} items in your cart,${count} termék a kosarában
@@ -51,3 +48,4 @@ No payment required,Nincs szükség fizetésre
 Your order total is 0 — no payment is needed to place this order.,A rendelés végösszege 0 — a megrendelés leadásához nincs szükség fizetésre.
 Thank you for your order!,Köszönjük a rendelését!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,A(z) ${orderNumber}. számú rendelés megerősítve. A visszaigazolást elküldtük a ${email} címre.
+Shipping is not available at the moment. Please contact us to complete your order.,"A szállítás jelenleg nem elérhető. Kérjük, lépjen kapcsolatba velünk a rendelés befejezéséhez."

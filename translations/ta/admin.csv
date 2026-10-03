@@ -321,3 +321,51 @@ Maximum file size,அதிகபட்ச கோப்பு அளவு
 Per-type overrides,வகை வாரியான மேலெழுதல்கள்
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","பொருந்தும் கோப்பு வகைகளுக்கான அதிகபட்ச அளவை மேலெழுதுகிறது — எடுத்துக்காட்டாக படங்களுக்குக் குறைவான, வீடியோக்களுக்கு அதிகமான வரம்பு. சரியான வகை (video/mp4) குடும்பத்தை (video/*) விட முன்னுரிமை பெறும்; பொருத்தம் இல்லாதவை மேலே உள்ள அதிகபட்ச அளவைப் பயன்படுத்தும். மேலெழுதல்கள் புதிய வகைகளை அனுமதிக்காது: கோப்பு வகை “அனுமதிக்கப்பட்ட கோப்பு வகைகள்” இல் இயக்கப்பட்டிருக்க வேண்டும்."
 Every product in the store,கடையின் அனைத்து தயாரிப்புகளும்
+"Region restrictions","பிராந்திய கட்டுப்பாடுகள்"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","முழு நாட்டையும் உள்ளடக்க ஒரு நாட்டின் பட்டியலை காலியாக விடவும். குறிப்பிட்ட பகுதிகளுக்கு அனுப்புதலைக் கட்டுப்படுத்த பிராந்தியங்களைச் சேர்க்கவும்."
+"Select regions","பிராந்தியங்களைத் தேர்ந்தெடுக்கவும்"
+"Regions:","பிராந்தியங்கள்:"
+"Regions","பிராந்தியங்கள்"
+"Regions is required","பிராந்தியங்கள் தேவை"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","பிராந்திய விசைகள் (எ.கா. ""US-CA""), காற்புள்ளியால் பிரிக்கப்பட்டவை. அனைத்து பிராந்தியங்களுக்கும் ""*"" பயன்படுத்தவும்."
+"Postal code","அஞ்சல் குறியீடு"
+"Postal code is required","அஞ்சல் குறியீடு தேவை"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","அஞ்சல் குறியீடுகள் (எ.கா. ""90210""), காற்புள்ளியால் பிரிக்கப்பட்டவை. அனைத்திற்கும் ""*"" பயன்படுத்தவும்."
+"not sold to","விற்பனை இல்லை"
+"retired","நீக்கப்பட்டது"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","செக்அவுட் முடிக்க முடியாது: நீங்கள் விற்கும் எந்த நாட்டையும் உங்கள் அனுப்புதல் மண்டலங்கள் உள்ளடக்கவில்லை."
+"This region was retired; its successor is ${name}.","இந்தப் பிராந்தியம் நீக்கப்பட்டது; அதன் வாரிசு ${name}."
+"Show region keys for ${country}","${country} பிராந்திய விசைகளைக் காட்டு"
+"Retired region keys on this rate: ${keys}","இந்த விகிதத்தில் நீக்கப்பட்ட பிராந்திய விசைகள்: ${keys}"
+Country is required,நாடு தேவையானது
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","முகவரி புத்தகத்திலும் செக்அவுட்டிலும் ஒவ்வொரு முகவரிப் படிவமும் எதைச் சேகரிக்கிறது. நாட்டு அமைப்புகள், பிராந்தியப் பட்டியல்கள் மற்றும் லேபிள்கள் ஒவ்வொரு நாட்டையும் பின்பற்றுகின்றன; திருத்த முடியாது."
+Name format,பெயர் வடிவம்
+Single field,ஒரே புலம்
+First and last name,பெயர் மற்றும் குடும்பப் பெயர்
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,"மாற்றுவது இரு திசையிலும் பாதுகாப்பானது: சேமித்த முகவரிகள் தொடர்ந்து காட்டப்பட்டு, திருத்தும்போது மாற்றப்படும்."
+Optional,விருப்பத்தேர்வு
+Hidden,மறைக்கப்பட்டது
+Address line 2,முகவரி வரி 2
+Shown,காட்டப்படுகிறது
+Required fields,கட்டாயப் புலங்கள்
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,ஒரு நாடு விருப்பத்தேர்வாக விட்ட புலங்களை இங்கே கட்டாயமாக்கலாம்; ஒரு நாடு கோருவது ஒருபோதும் விருப்பத்தேர்வாக ஆகாது.
+State / Province,மாநிலம் / மாகாணம்
+Ward / Neighbourhood,வார்டு / அக்கம்பக்கம்
+As the country requires,நாடு கோருவது போல
+Always required,எப்போதும் கட்டாயம்
+Default country,இயல்புநிலை நாடு
+Use store country,கடையின் நாட்டைப் பயன்படுத்து
+No default,இயல்புநிலை இல்லை
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,புதிய முகவரியில் முன்தேர்வு செய்யப்படும். அனுப்புதல் உங்கள் மண்டலங்கள் உள்ளடக்கிய நாடுகளுக்கு மட்டுமே.
+Sell to countries,விற்பனை நாடுகள்
+All countries,அனைத்து நாடுகளும்
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,முகவரி புத்தகத்திலும் செக்அவுட்டிலும் இந்த நாடுகள் மட்டுமே வழங்கப்படும். அனுப்புதலுக்கு நாட்டை உள்ளடக்கிய மண்டலமும் தேவை.
+These zones will stop serving: ${zones},இந்த மண்டலங்கள் சேவை வழங்குவதை நிறுத்தும்: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","மண்டலங்கள் வைக்கப்பட்டு குறிக்கப்படும், எதுவும் நீக்கப்படாது. செக்அவுட் இந்த நாடுகளை வழங்காது."
+Narrow the countries you sell to?,விற்பனை நாடுகளைக் குறைக்கவா?
+Save anyway,எப்படியும் சேமி
+Customer Setting,வாடிக்கையாளர் அமைப்பு
+Customer Settings,வாடிக்கையாளர் அமைப்புகள்
+"Customer accounts, checkout and addresses","வாடிக்கையாளர் கணக்குகள், செக்அவுட் மற்றும் முகவரிகள்"
+"Rules for customer accounts, checkout and addresses","வாடிக்கையாளர் கணக்குகள், செக்அவுட் மற்றும் முகவரிகளுக்கான விதிகள்"
+Addresses,முகவரிகள்

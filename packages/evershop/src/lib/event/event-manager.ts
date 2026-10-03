@@ -4,6 +4,7 @@ import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { pool, connectionSetting } from '../../lib/postgres/connection.js';
 import { refreshSetting } from '../../modules/setting/services/setting.js';
+import { lockAddressRegistry } from '../address/formats.js';
 import { debug, error } from '../log/logger.js';
 import { lockHooks } from '../util/hookable.js';
 import { lockRegistry } from '../util/registry.js';
@@ -36,6 +37,7 @@ const init = async () => {
     }
     lockHooks();
     lockRegistry();
+    lockAddressRegistry();
   } catch (e) {
     error(e);
     process.exit(0);

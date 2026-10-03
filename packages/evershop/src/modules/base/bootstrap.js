@@ -1,11 +1,16 @@
 import path from 'path';
 import config from 'config';
+import { configureAddressRuntime } from '../../lib/address/runtime.js';
 import { registerJob } from '../../lib/cronjob/jobManager.js';
 import { loadAllLocales } from '../../lib/locale/dictionary.js';
+import { getActiveLocale } from '../../lib/locale/localeContext.js';
+import { translate } from '../../lib/locale/translate/translate.js';
 import { loadThemeMetafieldProjection } from '../../lib/metafield/projection.js';
 import { assertValidHomeUrlEnv } from '../../lib/util/getBaseUrl.js';
 import { merge } from '../../lib/util/merge.js';
-import { addProcessor } from '../../lib/util/registry.js';
+import { addProcessor, getValueSync } from '../../lib/util/registry.js';
+import { getSettingSync } from '../setting/services/setting.js';
+import { getAddressSettings } from './services/address/getAddressSettings.js';
 import { getBuiltinSitemapCollectors } from './services/sitemap/collectors/builtins.js';
 import { SITEMAP_CONFIG_DEFAULTS, getSitemapConfig } from './services/sitemap/config.js';
 import { registerSitemapCollector } from './services/sitemap/registry.js';
@@ -28,6 +33,24 @@ export default async () => {
   // Build the runtime locale registry from disk (spec §6.2/§6.3). `translate()` and
   // `_()` now read this registry / the per-request ALS context — no separate loadCsv.
   await loadAllLocales();
+
+  // --- Address Format Registry (wiki/address-format-registry.md, spec § 3.4 / § 3.13) ---
+  // `lib/address` is pure; everything the server owns reaches it through this
+  // one call: the eight merchant settings (flat `setting` rows, code defaults),
+  // the `addressSchema` processor hook, server-side translation, the request
+  // locale and the store country for `defaultCountry: 'store'`. The derived
+  // schema is passed to `getValueSync` as the init VALUE, never a factory (D3).
+  // Zone countries for the SHIPPING scope are resolved by the resolvers from
+  // `shipping_zone_country` (modules/base/services/address/countryScopes.ts),
+  // so the runtime keeps its default there.
+  configureAddressRuntime({
+    getSettings: getAddressSettings,
+    applyHook: (schema, context) =>
+      getValueSync('addressSchema', schema, context),
+    translate: (text, values) => translate(text, values ?? {}),
+    getLocale: getActiveLocale,
+    getStoreCountry: () => getSettingSync('storeCountry', undefined) ?? undefined
+  });
   addProcessor('configurationSchema', (schema) => {
     merge(schema, {
       properties: {

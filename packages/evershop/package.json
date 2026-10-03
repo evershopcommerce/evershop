@@ -5,6 +5,7 @@
   "description": "The React Ecommerce platform. Built with Typescript, React and Postgres. Open-source and free. Fast and customizable.",
   "files": [
     "dist",
+    "NOTICE",
     "src",
     ".swcrc"
   ],
@@ -46,6 +47,14 @@
     "./lib/locale/*": {
       "import": "./dist/lib/locale/*.js",
       "types": "./dist/lib/locale/*.d.ts"
+    },
+    "./lib/address": {
+      "import": "./dist/lib/address/index.js",
+      "types": "./dist/lib/address/index.d.ts"
+    },
+    "./lib/address/*": {
+      "import": "./dist/lib/address/*.js",
+      "types": "./dist/lib/address/*.d.ts"
     },
     "./lib/log": {
       "import": "./dist/lib/log/logger.js",

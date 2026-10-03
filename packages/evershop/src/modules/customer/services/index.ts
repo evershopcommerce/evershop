@@ -29,8 +29,17 @@ export * from './customer/address/updateCustomerAddress.js';
 export { default as deleteCustomerAddress } from './customer/address/deleteCustomerAddress.js';
 export * from './customer/address/deleteCustomerAddress.js';
 
-// address validators
-export * from './customer/address/addressValidators.js';
+// Address validation lives in the Address Format Registry (`lib/address`);
+// the rules derive from the country's schema, there is no hand-written list.
+export {
+  validateAddress,
+  addAddressValidationRule
+} from '../../../lib/address/validate.js';
+export {
+  AddressValidationError,
+  isAddressValidationError
+} from './customer/address/AddressValidationError.js';
+export { foldAddressExtras } from './customer/address/foldAddressExtras.js';
 
 // utilities
 export * from './getCustomersBaseQuery.js';

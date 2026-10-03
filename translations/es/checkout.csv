@@ -43,8 +43,6 @@ Enter coupon code,Ingrese código de cupón
 Apply,Aplicar
 Your cart is empty!,¡Su carrito está vacío!
 Inclusive of tax,Impuestos incluidos
-Address is required,Se requiere la dirección
-City is required,Se requiere la ciudad
 Proceed to checkout,Finalizar compra
 Your cart,Tu carrito
 ${count} items in your cart,${count} artículos en tu carrito
@@ -52,3 +50,4 @@ No payment required,No se requiere pago
 Your order total is 0 — no payment is needed to place this order.,El total de tu pedido es 0 — no se necesita ningún pago para realizarlo.
 Thank you for your order!,¡Gracias por tu pedido!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,El pedido n.º ${orderNumber} está confirmado. Hemos enviado un recibo a ${email}.
+Shipping is not available at the moment. Please contact us to complete your order.,El envío no está disponible por el momento. Contáctenos para completar su pedido.

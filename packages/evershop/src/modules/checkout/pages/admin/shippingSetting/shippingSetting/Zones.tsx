@@ -10,7 +10,8 @@ import {
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useQuery } from 'urql';
-import { Zone, ShippingZone } from './Zone.js';
+import { SellToCountriesCard } from './SellToCountries.js';
+import { Zone, ShippingZone, ZoneWarning } from './Zone.js';
 import { ZoneForm } from './ZoneForm.js';
 
 const ZonesQuery = `
@@ -22,10 +23,16 @@ const ZonesQuery = `
         name
         code
       }
-      provinces {
+      regions {
+        country
+        level
+        key
         name
-        code
-        countryCode
+        retired
+        mergedInto {
+          key
+          name
+        }
       }
       providers {
         shippingZoneProviderId
@@ -44,6 +51,25 @@ const ZonesQuery = `
       deleteApi
     }
     createShippingZoneApi: url(routeId: "createShippingZone")
+    saveSettingApi: url(routeId: "saveSetting")
+    setting {
+      addressSellToCountries
+    }
+    allCountries: countries(scope: ALL) {
+      code
+      name
+    }
+    addressConfigWarnings {
+      kind
+      source
+      sourceId
+      country
+      key
+      keyName
+    }
+    shippingCountries: countries(scope: SHIPPING) {
+      code
+    }
   }
 `;
 
@@ -68,10 +94,39 @@ export function Zones({
   const createShippingZoneApi =
     createShippingZoneApiProp ?? data.createShippingZoneApi;
 
+  const warnings: ZoneWarning[] = data.addressConfigWarnings ?? [];
+  // Spec § 3.13: when no zone country is in the sell-to list, checkout cannot
+  // complete for anyone — say so store-wide, name both sides.
+  const strandedStore =
+    data.shippingZones.length > 0 &&
+    (data.shippingCountries ?? []).length === 0;
+
+  const sellTo = data.setting?.addressSellToCountries;
+
   return (
     <>
+      {/* Spec § 3.13: the sell-to list sits above the zones it interacts with. */}
+      <SellToCountriesCard
+        zones={data.shippingZones}
+        countries={data.allCountries ?? []}
+        sellTo={Array.isArray(sellTo) ? sellTo : 'all'}
+        saveSettingApi={data.saveSettingApi}
+        onSaved={reload}
+      />
+      {strandedStore && (
+        <div className="mx-5 mb-3 rounded border border-destructive/40 bg-destructive/5 px-3 py-2 text-sm text-destructive">
+          {_(
+            'Checkout cannot complete: none of your shipping zones covers a country you sell to.'
+          )}
+        </div>
+      )}
       {data.shippingZones.map((zone: ShippingZone) => (
-        <Zone zone={zone} reload={reload} key={zone.uuid} />
+        <Zone
+          zone={zone}
+          reload={reload}
+          key={zone.uuid}
+          warnings={warnings.filter((w) => w.sourceId === zone.uuid)}
+        />
       ))}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <div className="flex justify-end pr-5">

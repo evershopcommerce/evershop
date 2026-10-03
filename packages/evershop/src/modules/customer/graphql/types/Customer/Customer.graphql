@@ -2,16 +2,24 @@
 Represent a customer address
 """
 type CustomerAddress implements Address {
-  cartAddressId: Int!
+  customerAddressId: Int!
   uuid: String!
-  fullName: String
-  postcode: String
-  telephone: String
+  recipient: String
+  givenName: String
+  familyName: String
+  organization: String
+  addressLine1: String
+  addressLine2: String
+  addressLine3: String
+  dependentLocality: Region
+  locality: Region
+  administrativeArea: Region
+  postalCode: String
+  sortingCode: String
   country: Country
-  province: Province
-  city: String
-  address1: String
-  address2: String
+  telephone: String
+  extra: JSON
+  formatted: [String!]!
   isDefault: Boolean
   updateApi: String!
   deleteApi: String!

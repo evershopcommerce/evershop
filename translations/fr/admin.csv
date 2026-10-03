@@ -321,3 +321,51 @@ Maximum file size,Taille maximale de fichier
 Per-type overrides,Remplacements par type
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",Remplace la taille maximale pour les types de fichiers correspondants — par exemple une limite plus basse pour les images et plus élevée pour les vidéos. Un type exact (video/mp4) prime sur une famille (video/*) ; tout ce qui ne correspond pas utilise la taille maximale ci-dessus. Les remplacements n’autorisent pas de nouveaux types : le type de fichier doit être activé dans « Types de fichiers autorisés ».
 Every product in the store,Tous les produits de la boutique
+"Region restrictions","Restrictions par région"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","Laissez la liste d'un pays vide pour couvrir tout le pays. Ajoutez des régions pour limiter la livraison à certaines zones."
+"Select regions","Sélectionner des régions"
+"Regions:","Régions :"
+"Regions","Régions"
+"Regions is required","Les régions sont obligatoires"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","Clés de région (p. ex. « US-CA »), séparées par des virgules. Utilisez « * » pour toutes les régions."
+"Postal code","Code postal"
+"Postal code is required","Le code postal est obligatoire"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","Codes postaux (p. ex. « 90210 »), séparés par des virgules. Utilisez « * » pour tous les codes postaux."
+"not sold to","non vendu"
+"retired","retiré"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","Le paiement ne peut pas aboutir : aucune de vos zones de livraison ne couvre un pays où vous vendez."
+"This region was retired; its successor is ${name}.","Cette région a été retirée ; elle est remplacée par ${name}."
+"Show region keys for ${country}","Afficher les clés de région pour ${country}"
+"Retired region keys on this rate: ${keys}","Clés de région retirées sur ce taux : ${keys}"
+Country is required,Le pays est requis
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","Ce que chaque formulaire d'adresse collecte, dans le carnet d'adresses et au paiement. Les formats par pays, les listes de régions et les libellés suivent chaque pays et ne sont pas modifiables."
+Name format,Format du nom
+Single field,Un seul champ
+First and last name,Prénom et nom
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,Le changement est sûr dans les deux sens : les adresses enregistrées restent affichées et sont converties à la modification.
+Optional,Facultatif
+Hidden,Masqué
+Address line 2,Ligne d'adresse 2
+Shown,Affiché
+Required fields,Champs obligatoires
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,Les champs qu'un pays laisse facultatifs peuvent être rendus obligatoires ici ; ce qu'un pays exige ne devient jamais facultatif.
+State / Province,État / Province
+Ward / Neighbourhood,Quartier / Arrondissement
+As the country requires,Selon le pays
+Always required,Toujours obligatoire
+Default country,Pays par défaut
+Use store country,Utiliser le pays de la boutique
+No default,Aucun par défaut
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,Présélectionné pour une nouvelle adresse. La livraison reste limitée aux pays couverts par vos zones.
+Sell to countries,Pays de vente
+All countries,Tous les pays
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,Seuls ces pays sont proposés dans le carnet d'adresses et au paiement. La livraison exige aussi une zone couvrant le pays.
+These zones will stop serving: ${zones},Ces zones ne desserviront plus : ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","Les zones sont conservées et signalées, rien n'est supprimé. Le paiement ne proposera plus ces pays."
+Narrow the countries you sell to?,Restreindre les pays de vente ?
+Save anyway,Enregistrer quand même
+Customer Setting,Paramètres clients
+Customer Settings,Paramètres clients
+"Customer accounts, checkout and addresses","Comptes clients, paiement et adresses"
+"Rules for customer accounts, checkout and addresses","Règles pour les comptes clients, le paiement et les adresses"
+Addresses,Adresses

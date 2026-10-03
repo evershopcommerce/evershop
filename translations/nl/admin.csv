@@ -321,3 +321,51 @@ Maximum file size,Maximale bestandsgrootte
 Per-type overrides,Overschrijvingen per type
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",Overschrijft de maximale grootte voor overeenkomende bestandstypen — bijvoorbeeld een kleinere limiet voor afbeeldingen en een grotere voor video’s. Een exact type (video/mp4) gaat voor op een familie (video/*); alles zonder overeenkomst gebruikt de maximale bestandsgrootte hierboven. Overschrijvingen staan geen nieuwe typen toe: het bestandstype zelf moet zijn ingeschakeld bij “Toegestane bestandstypen”.
 Every product in the store,Alle producten in de winkel
+"Region restrictions","Regiobeperkingen"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","Laat de lijst van een land leeg om het hele land te dekken. Voeg regio’s toe om verzending tot bepaalde gebieden te beperken."
+"Select regions","Regio’s selecteren"
+"Regions:","Regio’s:"
+"Regions","Regio’s"
+"Regions is required","Regio’s zijn verplicht"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","Regiosleutels (bijv. ""US-CA""), gescheiden door komma’s. Gebruik ""*"" voor alle regio’s."
+"Postal code","Postcode"
+"Postal code is required","Postcode is verplicht"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","Postcodes (bijv. ""90210""), gescheiden door komma’s. Gebruik ""*"" voor alle postcodes."
+"not sold to","niet verkocht aan"
+"retired","vervallen"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","Afrekenen is niet mogelijk: geen enkele verzendzone dekt een land waaraan u verkoopt."
+"This region was retired; its successor is ${name}.","Deze regio is vervallen; de opvolger is ${name}."
+"Show region keys for ${country}","Regiosleutels voor ${country} tonen"
+"Retired region keys on this rate: ${keys}","Vervallen regiosleutels op dit tarief: ${keys}"
+Country is required,Land is verplicht
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","Wat elk adresformulier verzamelt, in het adresboek en bij het afrekenen. Landindelingen, regiolijsten en labels volgen elk land en zijn niet bewerkbaar."
+Name format,Naamformaat
+Single field,Eén veld
+First and last name,Voor- en achternaam
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,Wisselen is in beide richtingen veilig: opgeslagen adressen blijven zichtbaar en worden bij bewerken omgezet.
+Optional,Optioneel
+Hidden,Verborgen
+Address line 2,Adresregel 2
+Shown,Zichtbaar
+Required fields,Verplichte velden
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,"Velden die een land optioneel laat, kunnen hier verplicht worden gemaakt; wat een land vereist, wordt nooit optioneel."
+State / Province,Staat / Provincie
+Ward / Neighbourhood,Wijk / Buurt
+As the country requires,Zoals het land vereist
+Always required,Altijd verplicht
+Default country,Standaardland
+Use store country,Land van de winkel gebruiken
+No default,Geen standaard
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,Vooraf geselecteerd bij een nieuw adres. Verzending blijft beperkt tot de landen die uw zones dekken.
+Sell to countries,Verkooplanden
+All countries,Alle landen
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,Alleen deze landen worden aangeboden in het adresboek en bij het afrekenen. Verzending vereist ook een zone die het land dekt.
+These zones will stop serving: ${zones},Deze zones bedienen dan niet meer: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","De zones blijven bestaan en worden gemarkeerd, er wordt niets verwijderd. Het afrekenen biedt deze landen niet meer aan."
+Narrow the countries you sell to?,Verkooplanden beperken?
+Save anyway,Toch opslaan
+Customer Setting,Klantinstellingen
+Customer Settings,Klantinstellingen
+"Customer accounts, checkout and addresses","Klantaccounts, afrekenen en adressen"
+"Rules for customer accounts, checkout and addresses","Regels voor klantaccounts, afrekenen en adressen"
+Addresses,Adressen

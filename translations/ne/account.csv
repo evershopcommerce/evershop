@@ -18,13 +18,8 @@ City,शहर
 Account Information,खाता जानकारी
 Address,ठेगाना
 Postcode,पिन कोड
-Postcode is required,पिन कोड आवश्यक छ
-Telephone is required,टेलिफोन आवश्यक छ
 Telephone,टेलिफोन
-Full name is required,पुरा नाम आवश्यक छ
-Country is required,देश आवश्यक छ
 Country,देश
-Province is required,प्रदेश आवश्यक छ
 Province,प्रदेश
 Billing Address,बिल पठाउने ठेगाना
 Shipping Address,ढुवानी ठेगाना
@@ -45,3 +40,36 @@ You must be logged in to update your profile,आफ्नो प्रोफा�
 There is nothing to update,अद्यावधिक गर्न केही छैन
 Email is already used,यो इमेल पहिले नै प्रयोग भइसकेको छ
 Order #${orderNumber},अर्डर #${orderNumber}
+Given name,नाम
+Family name,थर
+Company,कम्पनी
+Address line 3,ठेगाना लाइन ३
+State,राज्य
+Prefecture,प्रिफेक्चर
+County,काउन्टी
+Emirate,अमिरात
+Department,विभाग
+District,जिल्ला
+Do/Si,Do/Si
+Island,टापु
+Oblast,ओब्लास्ट
+Parish,पारिश
+Post town,हुलाक सहर
+Suburb,उपनगर
+Neighborhood,टोल
+Village,गाउँ
+Village/Township,गाउँ/नगरपालिका
+Townland,Townland
+Ward,वडा
+ZIP code,जिप कोड
+PIN code,पिन कोड
+Eircode,Eircode
+Sorting code,छँटाइ कोड
+${field} is not valid,${field} मान्य छैन
+${field} is not a valid region,${field} मान्य क्षेत्र होइन
+${field} has the wrong type,${field} को प्रकार गलत छ
+${field} is not a known address field,${field} ज्ञात ठेगाना फिल्ड होइन
+We do not sell to ${country},हामी ${country} मा बिक्री गर्दैनौं
+Select ${field},${field} छान्नुहोस्
+no longer available,अब उपलब्ध छैन
+Please check the highlighted fields,कृपया हाइलाइट गरिएका फिल्डहरू जाँच गर्नुहोस्

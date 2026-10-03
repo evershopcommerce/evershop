@@ -42,13 +42,19 @@ export interface Money {
 
 /**
  * Shipping address as the carrier API needs it. Built by `createShipment` from
- * the order's `order_address` row.
+ * the order's `order_address` row through `toIntegrationAddress` (spec
+ * § 3.10): `company` ← `organization`, `address2` ← the remaining address
+ * lines, `province` ← the stored administrative-area key (`US-CA`), `city` ←
+ * the locality's display name. Integration DTOs keep the carriers' own field
+ * names (D-15); `dependentLocality` is the one addition.
  */
 export interface CarrierAddress {
   fullName: string;
   company?: string;
   address1: string;
   address2?: string;
+  /** Ward, district or neighbourhood below the city, where a country has one. */
+  dependentLocality?: string;
   city: string;
   province?: string;
   postcode: string;

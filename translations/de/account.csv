@@ -18,13 +18,8 @@ City,Stadt
 Account Information,Kontoinformationen
 Address,Adresse
 Postcode,Postleitzahl
-Postcode is required,Postleitzahl ist erforderlich
-Telephone is required,Telefonnummer ist erforderlich
 Telephone,Telefon
-Full name is required,Vollständiger Name ist erforderlich
-Country is required,Land ist erforderlich
 Country,Land
-Province is required,Provinz ist erforderlich
 Province,Provinz
 Billing Address,Rechnungsadresse
 Shipping Address,Lieferadresse
@@ -45,3 +40,36 @@ You must be logged in to update your profile,"Sie müssen angemeldet sein, um Ih
 There is nothing to update,Es gibt nichts zu aktualisieren
 Email is already used,Diese E-Mail-Adresse wird bereits verwendet
 Order #${orderNumber},Bestellung Nr. ${orderNumber}
+Given name,Vorname
+Family name,Nachname
+Company,Firma
+Address line 3,Adresszeile 3
+State,Bundesstaat
+Prefecture,Präfektur
+County,Grafschaft
+Emirate,Emirat
+Department,Departement
+District,Bezirk
+Do/Si,Do/Si
+Island,Insel
+Oblast,Oblast
+Parish,Gemeinde
+Post town,Poststadt
+Suburb,Vorort
+Neighborhood,Stadtviertel
+Village,Dorf
+Village/Township,Dorf/Gemeinde
+Townland,Townland
+Ward,Stadtteil
+ZIP code,Postleitzahl
+PIN code,PIN-Code
+Eircode,Eircode
+Sorting code,Sortiercode
+${field} is not valid,${field} ist ungültig
+${field} is not a valid region,${field} ist keine gültige Region
+${field} has the wrong type,${field} hat den falschen Typ
+${field} is not a known address field,${field} ist kein bekanntes Adressfeld
+We do not sell to ${country},Wir liefern nicht nach ${country}
+Select ${field},${field} auswählen
+no longer available,nicht mehr verfügbar
+Please check the highlighted fields,Bitte überprüfen Sie die markierten Felder

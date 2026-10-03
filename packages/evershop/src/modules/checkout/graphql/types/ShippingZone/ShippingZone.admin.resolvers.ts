@@ -1,6 +1,11 @@
 import { select } from '@evershop/postgres-query-builder';
-import { countries } from '../../../../../lib/locale/countries.js';
-import { provinces as provinceLocales } from '../../../../../lib/locale/provinces.js';
+import { getCountryName } from '../../../../../lib/address/countries.js';
+import {
+  getRegionProvider,
+  regionDisplayName
+} from '../../../../../lib/address/regions.js';
+import type { Region } from '../../../../../lib/address/types.js';
+import { getActiveLocale } from '../../../../../lib/locale/localeContext.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
@@ -12,20 +17,60 @@ interface ShippingZoneRowCamel {
   name: string;
 }
 
-interface CountryLocale {
+interface CountryGraphql {
   code: string;
   name: string;
 }
 
-interface ProvinceLocale {
-  code: string;
-  name: string;
-  countryCode: string;
-}
-
-interface ShippingZoneProvinceRow {
+interface ZoneRegionRow {
   country: string;
-  province: string;
+  level: string;
+  region_key: string;
+}
+
+interface ZoneRegionGraphql {
+  country: string;
+  level: string;
+  key: string;
+  name: string;
+  retired: boolean;
+  mergedInto: { key: string; name: string; isoCode: string | null } | null;
+}
+
+/**
+ * Name, retired flag and successor for a zone's stored key. Only the top level
+ * (`administrative_area`) is enumerated by the default data; a key at a level
+ * the provider does not list, or an unknown key, keeps the key as its name.
+ */
+async function describeZoneRegion(
+  row: ZoneRegionRow,
+  locale: string
+): Promise<ZoneRegionGraphql> {
+  const provider = getRegionProvider(row.country);
+  let list: Region[] = [];
+  if (provider.levels[0] === row.level) {
+    list = await provider.list([], locale);
+  }
+  const match = list.find((r) => r.key === row.region_key);
+  const successor = match?.mergedInto
+    ? list.find((r) => r.key === match.mergedInto)
+    : undefined;
+  return {
+    country: row.country,
+    level: row.level,
+    key: row.region_key,
+    name: match ? regionDisplayName(match, row.country, locale) : row.region_key,
+    retired: Boolean(match?.retired),
+    mergedInto: match?.mergedInto
+      ? {
+          key: match.mergedInto,
+          name: successor
+            ? regionDisplayName(successor, row.country, locale)
+            : match.mergedInto,
+          isoCode: successor?.isoCode ?? null
+        }
+      : null
+  };
 }
 
 interface ShippingZoneProviderRowProjection {
@@ -65,31 +110,26 @@ export default {
       shippingZoneId,
     countries: async ({
       shippingZoneId
-    }: ShippingZoneRowCamel): Promise<CountryLocale[]> => {
+    }: ShippingZoneRowCamel): Promise<CountryGraphql[]> => {
       const rows = (await select('country')
         .from('shipping_zone_country')
         .where('zone_id', '=', shippingZoneId)
         .execute(pool)) as Array<{ country: string }>;
-      return rows
-        .map((r) => countries.find((c: CountryLocale) => c.code === r.country))
-        .filter((c): c is CountryLocale => Boolean(c));
+      const locale = getActiveLocale();
+      return rows.map((r) => ({
+        code: r.country,
+        name: getCountryName(r.country, locale)
+      }));
     },
-    provinces: async ({
+    regions: async ({
       shippingZoneId
-    }: ShippingZoneRowCamel): Promise<ProvinceLocale[]> => {
-      const rows = (await select('country', 'province')
-        .from('shipping_zone_province')
+    }: ShippingZoneRowCamel): Promise<ZoneRegionGraphql[]> => {
+      const rows = (await select('country', 'level', 'region_key')
+        .from('shipping_zone_region')
         .where('zone_id', '=', shippingZoneId)
-        .execute(pool)) as ShippingZoneProvinceRow[];
-      return rows.map((r) => {
-        const p = provinceLocales.find(
-          (loc: ProvinceLocale) =>
-            loc.code === r.province && loc.countryCode === r.country
-        );
-        return (
-          p ?? { code: r.province, name: r.province, countryCode: r.country }
-        );
-      });
+        .execute(pool)) as ZoneRegionRow[];
+      const locale = getActiveLocale();
+      return Promise.all(rows.map((row) => describeZoneRegion(row, locale)));
     },
     providers: async ({ shippingZoneId }: ShippingZoneRowCamel) => {
       // Read attachments straight off `shipping_zone_provider`; `provider_code`

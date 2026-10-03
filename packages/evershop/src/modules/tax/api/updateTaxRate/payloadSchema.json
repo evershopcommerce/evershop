@@ -21,20 +21,20 @@
         "pattern": "Country must be either '*' (all countries) or a valid 2-letter ISO code (e.g., US, CA, GB)"
       }
     },
-    "province": {
+    "administrative_area": {
       "type": "string",
       "maxLength": 255,
       "errorMessage": {
-        "type": "Province/state must be a string",
-        "maxLength": "Province/state cannot exceed 255 characters. Use '*' for all provinces"
+        "type": "Region must be a string",
+        "maxLength": "Region cannot exceed 255 characters. Use '*' for all regions"
       }
     },
-    "postcode": {
+    "postal_code": {
       "type": "string",
       "maxLength": 20,
       "errorMessage": {
-        "type": "Postcode must be a string",
-        "maxLength": "Postcode cannot exceed 20 characters. Use '*' for all postcodes"
+        "type": "Postal code must be a string",
+        "maxLength": "Postal code cannot exceed 20 characters. Use '*' for all postal codes"
       }
     },
     "rate": {

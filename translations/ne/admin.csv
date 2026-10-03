@@ -321,3 +321,51 @@ Maximum file size,अधिकतम फाइल आकार
 Per-type overrides,प्रति-प्रकार ओभरराइड
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",मिल्ने फाइल प्रकारहरूका लागि अधिकतम आकार ओभरराइड गर्छ — जस्तै छविका लागि सानो र भिडियोका लागि ठूलो सीमा। ठ्याक्कै मिल्ने प्रकार (video/mp4) ले परिवार (video/*) लाई जित्छ; नमिल्ने जुनसुकैले माथिको अधिकतम फाइल आकार प्रयोग गर्छ। ओभरराइडले नयाँ प्रकार अनुमति दिँदैन: फाइल प्रकार आफैँ “अनुमति दिइएका फाइल प्रकारहरू” मा सक्षम हुनुपर्छ।
 Every product in the store,पसलका सबै उत्पादनहरू
+"Region restrictions","क्षेत्र प्रतिबन्धहरू"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","पूरै देश समेट्न देशको सूची खाली छोड्नुहोस्। ढुवानी निश्चित क्षेत्रमा सीमित गर्न क्षेत्रहरू थप्नुहोस्।"
+"Select regions","क्षेत्रहरू छान्नुहोस्"
+"Regions:","क्षेत्रहरू:"
+"Regions","क्षेत्रहरू"
+"Regions is required","क्षेत्रहरू आवश्यक छ"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","क्षेत्र कुञ्जीहरू (जस्तै ""US-CA""), अल्पविरामले छुट्याइएको। सबै क्षेत्रका लागि ""*"" प्रयोग गर्नुहोस्।"
+"Postal code","हुलाक कोड"
+"Postal code is required","हुलाक कोड आवश्यक छ"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","हुलाक कोडहरू (जस्तै ""90210""), अल्पविरामले छुट्याइएको। सबैका लागि ""*"" प्रयोग गर्नुहोस्।"
+"not sold to","बिक्री हुँदैन"
+"retired","हटाइएको"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","चेकआउट पूरा हुन सक्दैन: तपाईंको कुनै पनि ढुवानी क्षेत्रले तपाईंले बिक्री गर्ने देश समेट्दैन।"
+"This region was retired; its successor is ${name}.","यो क्षेत्र हटाइएको छ; यसको उत्तराधिकारी ${name} हो।"
+"Show region keys for ${country}","${country} का क्षेत्र कुञ्जीहरू देखाउनुहोस्"
+"Retired region keys on this rate: ${keys}","यस दरमा हटाइएका क्षेत्र कुञ्जीहरू: ${keys}"
+Country is required,देश आवश्यक छ
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","ठेगाना पुस्तिका र चेकआउटमा हरेक ठेगाना फारमले के सङ्कलन गर्छ। देश अनुसारको लेआउट, क्षेत्र सूची र लेबलहरू प्रत्येक देश अनुसार हुन्छन् र सम्पादन गर्न मिल्दैन।"
+Name format,नाम ढाँचा
+Single field,एउटै फिल्ड
+First and last name,नाम र थर
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,परिवर्तन दुवैतर्फ सुरक्षित छ: सुरक्षित ठेगानाहरू देखिइरहन्छन् र सम्पादन गर्दा रूपान्तरण हुन्छन्।
+Optional,वैकल्पिक
+Hidden,लुकाइएको
+Address line 2,ठेगाना लाइन २
+Shown,देखाइएको
+Required fields,आवश्यक फिल्डहरू
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,देशले वैकल्पिक छोडेका फिल्डहरू यहाँ अनिवार्य बनाउन सकिन्छ; देशले माग गरेको कुरा कहिल्यै वैकल्पिक हुँदैन।
+State / Province,राज्य / प्रदेश
+Ward / Neighbourhood,वडा / टोल
+As the country requires,देशको आवश्यकता अनुसार
+Always required,सधैं आवश्यक
+Default country,पूर्वनिर्धारित देश
+Use store country,पसलको देश प्रयोग गर्नुहोस्
+No default,पूर्वनिर्धारित छैन
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,नयाँ ठेगानामा पहिल्यै छानिएको। ढुवानी तपाईंका क्षेत्रहरूले समेटेका देशहरूमा मात्र सीमित रहन्छ।
+Sell to countries,बिक्री गर्ने देशहरू
+All countries,सबै देश
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,ठेगाना पुस्तिका र चेकआउटमा यी देशहरू मात्र देखाइन्छन्। ढुवानीका लागि देश समेट्ने क्षेत्र पनि चाहिन्छ।
+These zones will stop serving: ${zones},यी क्षेत्रहरूले सेवा दिन छोड्नेछन्: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","क्षेत्रहरू राखिन्छन् र चिन्ह लगाइन्छ, केही मेटिँदैन। चेकआउटले यी देशहरू देखाउने छैन।"
+Narrow the countries you sell to?,बिक्री गर्ने देशहरू घटाउने?
+Save anyway,जे भए पनि सुरक्षित गर्नुहोस्
+Customer Setting,ग्राहक सेटिङ
+Customer Settings,ग्राहक सेटिङहरू
+"Customer accounts, checkout and addresses","ग्राहक खाता, चेकआउट र ठेगानाहरू"
+"Rules for customer accounts, checkout and addresses","ग्राहक खाता, चेकआउट र ठेगानाका नियमहरू"
+Addresses,ठेगानाहरू

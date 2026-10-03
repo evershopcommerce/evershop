@@ -321,3 +321,51 @@ Maximum file size,Kích thước tệp tối đa
 Per-type overrides,Ghi đè theo loại
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".",Ghi đè kích thước tối đa cho các loại tệp khớp — ví dụ giới hạn nhỏ hơn cho ảnh và lớn hơn cho video. Loại chính xác (video/mp4) được ưu tiên hơn một họ (video/*); những gì không khớp sẽ dùng kích thước tệp tối đa ở trên. Ghi đè không cho phép loại mới: bản thân loại tệp phải được bật trong “Loại tệp được phép”.
 Every product in the store,Mọi sản phẩm trong cửa hàng
+"Region restrictions","Giới hạn theo khu vực"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","Để trống danh sách của một quốc gia để áp dụng cho toàn quốc. Thêm khu vực để giới hạn giao hàng tới các khu vực cụ thể."
+"Select regions","Chọn khu vực"
+"Regions:","Khu vực:"
+"Regions","Khu vực"
+"Regions is required","Khu vực là bắt buộc"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","Mã khu vực (ví dụ ""US-CA""), cách nhau bằng dấu phẩy. Dùng ""*"" cho tất cả khu vực."
+"Postal code","Mã bưu điện"
+"Postal code is required","Mã bưu điện là bắt buộc"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","Mã bưu điện (ví dụ ""90210""), cách nhau bằng dấu phẩy. Dùng ""*"" cho tất cả mã bưu điện."
+"not sold to","không bán tới"
+"retired","đã bãi bỏ"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","Không thể hoàn tất thanh toán: không có khu vực giao hàng nào bao phủ quốc gia bạn bán hàng tới."
+"This region was retired; its successor is ${name}.","Khu vực này đã bị bãi bỏ; khu vực kế thừa là ${name}."
+"Show region keys for ${country}","Hiện mã khu vực của ${country}"
+"Retired region keys on this rate: ${keys}","Mã khu vực đã bãi bỏ trong mức thuế này: ${keys}"
+Country is required,Quốc gia là bắt buộc
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","Những gì mỗi biểu mẫu địa chỉ thu thập, trong sổ địa chỉ và khi thanh toán. Bố cục theo quốc gia, danh sách vùng và nhãn đi theo từng quốc gia và không chỉnh sửa được."
+Name format,Định dạng tên
+Single field,Một trường
+First and last name,Họ và tên riêng
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,Chuyển đổi an toàn theo cả hai chiều: địa chỉ đã lưu vẫn hiển thị và được chuyển đổi khi chỉnh sửa.
+Optional,Tùy chọn
+Hidden,Ẩn
+Address line 2,Địa chỉ dòng 2
+Shown,Hiển thị
+Required fields,Trường bắt buộc
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,Các trường mà một quốc gia để tùy chọn có thể đặt thành bắt buộc tại đây; những gì quốc gia yêu cầu không bao giờ trở thành tùy chọn.
+State / Province,Bang / Tỉnh
+Ward / Neighbourhood,Phường / Xã
+As the country requires,Theo yêu cầu của quốc gia
+Always required,Luôn bắt buộc
+Default country,Quốc gia mặc định
+Use store country,Dùng quốc gia của cửa hàng
+No default,Không mặc định
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,Được chọn sẵn cho địa chỉ mới. Giao hàng vẫn giới hạn trong các quốc gia mà khu vực của bạn bao phủ.
+Sell to countries,Quốc gia bán hàng
+All countries,Tất cả quốc gia
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,Chỉ các quốc gia này được hiển thị trong sổ địa chỉ và khi thanh toán. Giao hàng còn cần một khu vực bao phủ quốc gia đó.
+These zones will stop serving: ${zones},Các khu vực này sẽ ngừng phục vụ: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","Các khu vực được giữ lại và đánh dấu, không có gì bị xóa. Thanh toán sẽ không hiển thị các quốc gia này."
+Narrow the countries you sell to?,Thu hẹp các quốc gia bán hàng?
+Save anyway,Vẫn lưu
+Customer Setting,Cài đặt khách hàng
+Customer Settings,Cài đặt khách hàng
+"Customer accounts, checkout and addresses","Tài khoản khách hàng, thanh toán và địa chỉ"
+"Rules for customer accounts, checkout and addresses","Quy tắc cho tài khoản khách hàng, thanh toán và địa chỉ"
+Addresses,Địa chỉ

@@ -11,6 +11,13 @@ export type RegistryValue<T> = {
     callback: SyncProcessor<T> | AsyncProcessor<T>;
     priority: number;
   }[];
+  /**
+   * The factory passed as `initialization` to `getValue` / `getValueSync`.
+   * Recorded so the factory is registered as the first processor exactly
+   * once per key. Callers typically pass a fresh inline arrow on every call,
+   * so the first factory wins and later ones are ignored (D3).
+   */
+  factory?: SyncProcessor<T> | AsyncProcessor<T>;
 };
 
 export type SyncProcessor<T> = (value: T) => T;
@@ -230,17 +237,24 @@ export async function getValue<T>(
   const value = registry.values[name] || ({} as RegistryValue<T>);
   // Check if the initValue is a function, then add this function to the processors as the first processor
   if (typeof initialization === 'function') {
-    // Add this function to the biginning of the processors
-    const processors = value.processors || [];
-    processors.unshift({
-      callback: initialization as SyncProcessor<T> | AsyncProcessor<T>,
-      priority: 0
-    });
-    registry.values[name] = {
-      ...value,
-      processors
-    };
-    initValue = value.initValue;
+    // Register the factory as the first processor exactly once per key.
+    // Before this guard every call unshifted the factory again, so the
+    // processors array grew by one on each call for the life of the
+    // process (D3). Callers pass a fresh inline arrow each time, so the
+    // first factory wins and later ones are ignored.
+    if (!value.factory) {
+      const processors = value.processors || [];
+      processors.unshift({
+        callback: initialization as SyncProcessor<T> | AsyncProcessor<T>,
+        priority: 0
+      });
+      registry.values[name] = {
+        ...value,
+        processors,
+        factory: initialization as SyncProcessor<T> | AsyncProcessor<T>
+      };
+    }
+    initValue = registry.values[name].initValue;
   } else {
     initValue = initialization as T;
   }
@@ -265,14 +279,18 @@ export function getValueSync<T>(
   let initValue;
   // Check if the initValue is a function, then add this function to the processors as the first processor
   if (typeof initialization === 'function') {
-    // Add this function to the processors, add this to the biginning of the processors
-    const processors = registry.values[name]?.processors || [];
-    processors.unshift({
-      callback: initialization as SyncProcessor<T>,
-      priority: 0
-    });
+    // Same single-registration guard as `getValue` (D3): the factory is
+    // unshifted once per key; later factories for the same key are ignored.
     registry.values[name] = registry.values[name] || ({} as RegistryValue<T>);
-    registry.values[name].processors = processors;
+    if (!registry.values[name].factory) {
+      const processors = registry.values[name].processors || [];
+      processors.unshift({
+        callback: initialization as SyncProcessor<T>,
+        priority: 0
+      });
+      registry.values[name].processors = processors;
+      registry.values[name].factory = initialization as SyncProcessor<T>;
+    }
     initValue = registry.values[name].initValue;
   } else {
     initValue = initialization;

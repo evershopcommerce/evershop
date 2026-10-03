@@ -43,8 +43,6 @@ Apply,Appliquer
 Your cart is empty!,Votre panier est vide !
 Full name,Nom complet
 Inclusive of tax,Taxes incluses
-Address is required,L'adresse est requise
-City is required,La ville est requise
 Proceed to checkout,Passer à la caisse
 Your cart,Votre panier
 ${count} items in your cart,${count} articles dans votre panier
@@ -52,3 +50,4 @@ No payment required,Aucun paiement requis
 Your order total is 0 — no payment is needed to place this order.,Le total de votre commande est de 0 — aucun paiement n’est nécessaire pour la valider.
 Thank you for your order!,Merci pour votre commande !
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,La commande n° ${orderNumber} est confirmée. Nous avons envoyé un reçu à ${email}.
+Shipping is not available at the moment. Please contact us to complete your order.,La livraison n'est pas disponible pour le moment. Contactez-nous pour finaliser votre commande.

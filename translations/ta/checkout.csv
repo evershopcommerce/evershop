@@ -43,8 +43,6 @@ Enter coupon code,கூப்பன் குறியீட்டை உள்
 Apply,பயன்படுத்தவும்
 Your cart is empty!,உங்கள் வண்டி காலியாக உள்ளது!
 Inclusive of tax,வரியுடன் சேர்த்து
-Address is required,முகவரி தேவையானது
-City is required,நகரம் தேவையானது
 Proceed to checkout,செக்அவுட்டிற்குச் செல்
 Your cart,உங்கள் கார்ட்
 ${count} items in your cart,உங்கள் கார்ட்டில் ${count} பொருட்கள்
@@ -52,3 +50,4 @@ No payment required,கட்டணம் தேவையில்லை
 Your order total is 0 — no payment is needed to place this order.,உங்கள் ஆர்டரின் மொத்தத் தொகை 0 — இந்த ஆர்டரை வழங்க கட்டணம் தேவையில்லை.
 Thank you for your order!,உங்கள் ஆர்டருக்கு நன்றி!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,ஆர்டர் #${orderNumber} உறுதிப்படுத்தப்பட்டது. ${email} க்கு ரசீது அனுப்பப்பட்டுள்ளது.
+Shipping is not available at the moment. Please contact us to complete your order.,தற்போது அனுப்புதல் கிடைக்கவில்லை. உங்கள் ஆர்டரை முடிக்க எங்களைத் தொடர்பு கொள்ளவும்.

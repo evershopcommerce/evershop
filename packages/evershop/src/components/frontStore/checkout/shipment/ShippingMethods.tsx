@@ -17,7 +17,7 @@ import {
 } from '@components/common/ui/RadioGroup.js';
 import { useCheckout } from '@components/frontStore/checkout/CheckoutContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
+import { AddressGraphql } from '@evershop/evershop/types/address';
 import { Package } from 'lucide-react';
 import React from 'react';
 
@@ -72,14 +72,22 @@ function ShippingMethodSkeleton() {
 export function ShippingMethods({
   methods,
   shippingAddress,
+  addressReady,
   isLoading,
   onSelect
 }: {
   methods: ShippingMethod[];
-  shippingAddress?: CustomerAddressGraphql;
+  shippingAddress?: AddressGraphql;
+  /**
+   * True once the country and every REQUIRED geographic field of the
+   * country's schema are filled (spec § 9 AC1: Hong Kong has no postal code,
+   * Germany no administrative area). Decides which empty state to show.
+   */
+  addressReady?: boolean;
   isLoading?: boolean;
   onSelect?: (method: ShippingMethod) => Promise<boolean> | boolean;
 }) {
+  const ready = addressReady ?? Boolean(shippingAddress?.country);
   const { form } = useCheckout();
   const { formState, setValue, watch } = form;
   const [isProcessing, setIsProcessing] = React.useState(false);
@@ -140,7 +148,7 @@ export function ShippingMethods({
                 />
                 {methods?.length === 0 ? (
                   <div className="text-left">
-                    {!shippingAddress?.country || !shippingAddress?.province ? (
+                    {!ready ? (
                       <div>
                         <div className="text-sm">
                           {_(

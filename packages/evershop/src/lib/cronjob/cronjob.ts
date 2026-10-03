@@ -3,6 +3,7 @@ import cron from 'node-cron';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
+import { lockAddressRegistry } from '../address/formats.js';
 import { debug, error } from '../log/logger.js';
 import { lockHooks } from '../util/hookable.js';
 import { lockRegistry } from '../util/registry.js';
@@ -20,6 +21,7 @@ async function start() {
     }
     lockHooks();
     lockRegistry();
+    lockAddressRegistry();
   } catch (e) {
     error(e);
     process.exit(0);

@@ -1,4 +1,4 @@
-import { Address } from './customerAddress.js';
+import { Address } from './address.js';
 
 export interface CheckoutData {
   customer?: {

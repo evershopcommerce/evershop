@@ -321,3 +321,51 @@ Maximum file size,Μέγιστο μέγεθος αρχείου
 Per-type overrides,Παρακάμψεις ανά τύπο
 "Overrides the maximum size for matching file types — for example a smaller limit for images and a bigger one for videos. An exact type (video/mp4) wins over a family (video/*); anything without a match uses the maximum file size above. Overrides do not allow new types: the file type itself must be enabled in ""Allowed file types"".","Παρακάμπτει το μέγιστο μέγεθος για τους τύπους αρχείων που ταιριάζουν — για παράδειγμα μικρότερο όριο για εικόνες και μεγαλύτερο για βίντεο. Ένας ακριβής τύπος (video/mp4) υπερισχύει μιας οικογένειας (video/*)· ό,τι δεν ταιριάζει χρησιμοποιεί το παραπάνω μέγιστο μέγεθος. Οι παρακάμψεις δεν επιτρέπουν νέους τύπους: ο ίδιος ο τύπος αρχείου πρέπει να είναι ενεργοποιημένος στους «Επιτρεπόμενους τύπους αρχείων»."
 Every product in the store,Κάθε προϊόν του καταστήματος
+"Region restrictions","Περιορισμοί περιοχών"
+"Leave a country's list empty to cover the whole country. Add regions to restrict shipping to specific areas.","Αφήστε τη λίστα μιας χώρας κενή για να καλύψετε ολόκληρη τη χώρα. Προσθέστε περιοχές για να περιορίσετε την αποστολή σε συγκεκριμένες περιοχές."
+"Select regions","Επιλέξτε περιοχές"
+"Regions:","Περιοχές:"
+"Regions","Περιοχές"
+"Regions is required","Οι περιοχές είναι υποχρεωτικές"
+"Region keys (e.g., ""US-CA""), comma-separated. Use ""*"" for all regions.","Κλειδιά περιοχών (π.χ. ""US-CA""), χωρισμένα με κόμμα. Χρησιμοποιήστε ""*"" για όλες τις περιοχές."
+"Postal code","Ταχυδρομικός κώδικας"
+"Postal code is required","Ο ταχυδρομικός κώδικας είναι υποχρεωτικός"
+"Postal codes (e.g., ""90210""), comma-separated. Use ""*"" for all postal codes.","Ταχυδρομικοί κώδικες (π.χ. ""90210""), χωρισμένοι με κόμμα. Χρησιμοποιήστε ""*"" για όλους."
+"not sold to","δεν πωλείται"
+"retired","καταργήθηκε"
+"Checkout cannot complete: none of your shipping zones covers a country you sell to.","Η ολοκλήρωση αγοράς δεν είναι δυνατή: καμία ζώνη αποστολής δεν καλύπτει χώρα στην οποία πωλείτε."
+"This region was retired; its successor is ${name}.","Αυτή η περιοχή καταργήθηκε· διάδοχός της είναι ${name}."
+"Show region keys for ${country}","Εμφάνιση κλειδιών περιοχών για ${country}"
+"Retired region keys on this rate: ${keys}","Καταργημένα κλειδιά περιοχών σε αυτόν τον συντελεστή: ${keys}"
+Country is required,Απαιτείται χώρα
+"What every address form collects, in the address book and at checkout. Country layouts, region lists and labels follow each country and are not editable.","Τι συλλέγει κάθε φόρμα διεύθυνσης, στο βιβλίο διευθύνσεων και στο ταμείο. Οι διατάξεις ανά χώρα, οι λίστες περιοχών και οι ετικέτες ακολουθούν κάθε χώρα και δεν επεξεργάζονται."
+Name format,Μορφή ονόματος
+Single field,Ένα πεδίο
+First and last name,Όνομα και επώνυμο
+Switching is safe either way: saved addresses keep displaying and are converted when edited.,Η αλλαγή είναι ασφαλής και προς τις δύο κατευθύνσεις: οι αποθηκευμένες διευθύνσεις εμφανίζονται κανονικά και μετατρέπονται κατά την επεξεργασία.
+Optional,Προαιρετικό
+Hidden,Κρυφό
+Address line 2,Γραμμή διεύθυνσης 2
+Shown,Εμφανές
+Required fields,Υποχρεωτικά πεδία
+Fields a country leaves optional can be made mandatory here; nothing a country requires is ever made optional.,"Πεδία που μια χώρα αφήνει προαιρετικά μπορούν να γίνουν υποχρεωτικά εδώ· ό,τι απαιτεί μια χώρα δεν γίνεται ποτέ προαιρετικό."
+State / Province,Πολιτεία / Νομός
+Ward / Neighbourhood,Συνοικία / Γειτονιά
+As the country requires,Όπως απαιτεί η χώρα
+Always required,Πάντα υποχρεωτικό
+Default country,Προεπιλεγμένη χώρα
+Use store country,Χρήση της χώρας του καταστήματος
+No default,Χωρίς προεπιλογή
+Pre-selected on a new address. Shipping is still limited to the countries your zones cover.,Προεπιλεγμένη σε νέα διεύθυνση. Η αποστολή περιορίζεται στις χώρες που καλύπτουν οι ζώνες σας.
+Sell to countries,Χώρες πώλησης
+All countries,Όλες οι χώρες
+Only these countries are offered in the address book and at checkout. Shipping also needs a zone that covers the country.,Μόνο αυτές οι χώρες προσφέρονται στο βιβλίο διευθύνσεων και στο ταμείο. Η αποστολή χρειάζεται επίσης μια ζώνη που καλύπτει τη χώρα.
+These zones will stop serving: ${zones},Αυτές οι ζώνες θα σταματήσουν να εξυπηρετούν: ${zones}
+"The zones are kept and flagged, nothing is deleted. Checkout will not offer these countries.","Οι ζώνες διατηρούνται και επισημαίνονται, τίποτα δεν διαγράφεται. Το ταμείο δεν θα προσφέρει αυτές τις χώρες."
+Narrow the countries you sell to?,Περιορισμός των χωρών πώλησης;
+Save anyway,Αποθήκευση ούτως ή άλλως
+Customer Setting,Ρυθμίσεις πελατών
+Customer Settings,Ρυθμίσεις πελατών
+"Customer accounts, checkout and addresses","Λογαριασμοί πελατών, ολοκλήρωση αγοράς και διευθύνσεις"
+"Rules for customer accounts, checkout and addresses","Κανόνες για λογαριασμούς πελατών, ολοκλήρωση αγοράς και διευθύνσεις"
+Addresses,Διευθύνσεις

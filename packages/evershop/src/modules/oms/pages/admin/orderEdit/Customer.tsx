@@ -15,36 +15,15 @@ interface CustomerProps {
     customerUrl?: string;
     noShippingRequired: boolean;
     shippingAddress: {
-      fullName: string;
-      city: string;
-      address1: string;
-      address2?: string;
-      postcode: string;
+      recipient: string;
       telephone: string;
-      province: {
-        code: string;
-        name: string;
-      };
-      country: {
-        code: string;
-        name: string;
-      };
+      /** Display lines for the address's country (spec § 3.6). */
+      formatted: string[];
     };
     billingAddress: {
-      fullName: string;
-      city: string;
-      address1: string;
-      address2?: string;
-      postcode: string;
+      recipient: string;
       telephone: string;
-      province: {
-        code: string;
-        name: string;
-      };
-      country: {
-        code: string;
-        name: string;
-      };
+      formatted: string[];
     } | null; // zero-total orders don't collect a billing address
   };
 }
@@ -128,36 +107,14 @@ export const query = `
       customerUrl
       noShippingRequired
       shippingAddress {
-        fullName
-        city
-        address1
-        address2
-        postcode
+        recipient
         telephone
-        province {
-          code
-          name
-        }
-        country {
-          code
-          name
-        }
+        formatted
       }
       billingAddress {
-        fullName
-        city
-        address1
-        address2
-        postcode
+        recipient
         telephone
-        province {
-          code
-          name
-        }
-        country {
-          code
-          name
-        }
+        formatted
       }
     }
   }

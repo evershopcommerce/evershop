@@ -1,4 +1,4 @@
-import type { Address } from '../../../../types/customerAddress.js';
+import type { Address } from '../../../../types/address.js';
 import type {
   ShippingZoneRow,
   ShippingZoneProviderRow

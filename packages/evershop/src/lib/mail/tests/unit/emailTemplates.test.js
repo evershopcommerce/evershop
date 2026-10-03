@@ -32,7 +32,8 @@ const DATA = {
       city: 'Portland',
       province: 'OR',
       postalCode: '97204',
-      country: 'United States'
+      country: 'United States',
+      formatted: ['214 Mill St', 'Portland, OR 97204', 'United States']
     }
   },
   brand: { accentColor: '#123456' },

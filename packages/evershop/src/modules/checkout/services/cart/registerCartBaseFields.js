@@ -260,7 +260,10 @@ export function registerCartBaseFields(fields) {
             return null;
           }
           if (!this.getData('shipping_address_id')) {
-            if (validateAddress(address)) {
+            // D1: validateAddress returns `{ valid, errors }`, an always-truthy
+            // object; the guard must read `.valid`. Schema-derived and async
+            // since the Address Format Registry.
+            if ((await validateAddress(address, { surface: 'shipping' })).valid) {
               return address;
             }
             return undefined;
@@ -442,8 +445,8 @@ export function registerCartBaseFields(fields) {
                   await getTaxRates(
                     shippingTaxClass,
                     shippingAddress.country,
-                    shippingAddress.province,
-                    shippingAddress.postcode
+                    shippingAddress.administrative_area,
+                    shippingAddress.postal_code
                   )
                 );
                 return percentage;
@@ -596,7 +599,10 @@ export function registerCartBaseFields(fields) {
       resolvers: [
         async function resolver(address) {
           if (!this.getData('billing_address_id')) {
-            if (validateAddress(address)) {
+            // D1: validateAddress returns `{ valid, errors }`, an always-truthy
+            // object; the guard must read `.valid`. Schema-derived and async
+            // since the Address Format Registry.
+            if ((await validateAddress(address, { surface: 'billing' })).valid) {
               return address;
             }
             return undefined;

@@ -3,12 +3,22 @@ import { defaultPaginationFilters } from '../../lib/util/defaultPaginationFilter
 import { hookable } from '../../lib/util/hookable.js';
 import { addProcessor } from '../../lib/util/registry.js';
 import type { EvershopRequest } from '../../types/request.js';
+import { normalizeAddressInput } from './services/customer/address/normalizeAddressInput.js';
 import loginCustomerWithEmail from './services/customer/loginCustomerWithEmail.js';
 import logoutCustomer from './services/customer/logoutCustomer.js';
 import { registerDefaultCustomerCollectionFilters } from './services/registerDefaultCustomerCollectionFilters.js';
 import { registerDefaultCustomerGroupCollectionFilters } from './services/registerDefaultCustomerGroupCollectionFilters.js';
 
 export default () => {
+  // Address normalization seam (spec § 3.8): trim, E.164 telephone, recipient
+  // composition. Priority 0 so it runs before any extension processor and
+  // before `validateAddress`, which never mutates. `function` form is kept by
+  // the import: the registry invokes callback.call(context, value) and the
+  // seam reads `previous` / `type` from `this`.
+  addProcessor('customerAddressDataBeforeCreate', normalizeAddressInput, 0);
+  addProcessor('customerAddressDataBeforeUpdate', normalizeAddressInput, 0);
+  addProcessor('cartAddressDataBeforeSave', normalizeAddressInput, 0);
+
   addProcessor('cartFields', (fields: any[]) => {
     fields.push({
       key: 'customer_id',

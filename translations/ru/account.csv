@@ -20,13 +20,8 @@ City,Город
 Account Information,Информация об аккаунте
 Address,Адрес
 Postcode,Почтовый индекс
-Postcode is required,Почтовый индекс обязателен для заполнения
-Telephone is required,Телефон обязателен для заполнения
 Telephone,Телефон
-Full name is required,Фамилия и Имя обязательны для заполнения
-Country is required,Страна обязательна для заполнения
 Country,Страна
-Province is required,Область обязательна для заполнения
 Province,Область
 Billing Address,Платежный адрес
 Shipping Address,Адрес доставки
@@ -47,3 +42,36 @@ You must be logged in to update your profile,"Чтобы обновить про
 There is nothing to update,Нечего обновлять
 Email is already used,Этот email уже используется
 Order #${orderNumber},Заказ № ${orderNumber}
+Given name,Имя
+Family name,Фамилия
+Company,Компания
+Address line 3,Адресная строка 3
+State,Штат
+Prefecture,Префектура
+County,Округ
+Emirate,Эмират
+Department,Департамент
+District,Район
+Do/Si,Do/Si
+Island,Остров
+Oblast,Область
+Parish,Приход
+Post town,Почтовый город
+Suburb,Пригород
+Neighborhood,Микрорайон
+Village,Деревня
+Village/Township,Деревня/Посёлок
+Townland,Townland
+Ward,Квартал
+ZIP code,Почтовый индекс
+PIN code,PIN-код
+Eircode,Eircode
+Sorting code,Код сортировки
+${field} is not valid,Поле «${field}» заполнено неверно
+${field} is not a valid region,${field} — недопустимый регион
+${field} has the wrong type,Поле «${field}» имеет неверный тип
+${field} is not a known address field,${field} — неизвестное поле адреса
+We do not sell to ${country},Мы не осуществляем продажи в ${country}
+Select ${field},Выберите ${field}
+no longer available,больше не доступно
+Please check the highlighted fields,Проверьте выделенные поля

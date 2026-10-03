@@ -56,8 +56,8 @@ export const registerCartItemTaxPercentField = (fields) => {
                       await getTaxRates(
                         this.getData('tax_class_id'),
                         address.country,
-                        address.province,
-                        address.postcode
+                        address.administrative_area,
+                        address.postal_code
                       )
                     );
                     return percentage;

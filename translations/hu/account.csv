@@ -18,12 +18,8 @@ City,Város
 Account Information,Fiókinformációk
 Address,Cím
 Postcode,IRSZ
-Postcode is required,Az irányítószám megadása kötelező
-Telephone is required,A telefonszám megadása kötelező
 Telephone,Telefonszám
-Country is required,Az ország megadása kötelező
 Country,Ország
-Province is required,A megye megadása kötelező
 Province,Megye
 Billing Address,Számlázási cím
 Shipping Address,Szállítási cím
@@ -44,3 +40,36 @@ You must be logged in to update your profile,A profilja frissítéséhez be kell
 There is nothing to update,Nincs mit frissíteni
 Email is already used,Ez az e-mail cím már használatban van
 Order #${orderNumber},${orderNumber}. számú rendelés
+Given name,Keresztnév
+Family name,Vezetéknév
+Company,Cég
+Address line 3,Cím 3. sora
+State,Állam
+Prefecture,Prefektúra
+County,Megye
+Emirate,Emírség
+Department,Departement
+District,Kerület
+Do/Si,Do/Si
+Island,Sziget
+Oblast,Oblaszty
+Parish,Körzet
+Post town,Postai város
+Suburb,Külváros
+Neighborhood,Városrész
+Village,Falu
+Village/Township,Falu/Község
+Townland,Townland
+Ward,Városnegyed
+ZIP code,Irányítószám
+PIN code,PIN kód
+Eircode,Eircode
+Sorting code,Rendezési kód
+${field} is not valid,A(z) ${field} érvénytelen
+${field} is not a valid region,A(z) ${field} nem érvényes régió
+${field} has the wrong type,A(z) ${field} típusa hibás
+${field} is not a known address field,A(z) ${field} nem ismert címmező
+We do not sell to ${country},Nem szállítunk ide: ${country}
+Select ${field},Válasszon: ${field}
+no longer available,már nem elérhető
+Please check the highlighted fields,"Kérjük, ellenőrizze a kiemelt mezőket"

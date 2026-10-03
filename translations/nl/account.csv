@@ -18,13 +18,8 @@ City,Stad
 Account Information,Account informatie
 Address,Adres
 Postcode,Postcode
-Postcode is required,Postcode is verplicht
-Telephone is required,Telefoon is verplicht
 Telephone,Telefoon
-Full name is required,Volledige naam is verplicht
-Country is required,Land is verplicht
 Country,Land
-Province is required,Provincie is verplicht
 Province,Provincie
 Billing Address,Factuuradres
 Shipping Address,Verzendadres
@@ -45,3 +40,36 @@ You must be logged in to update your profile,Je moet ingelogd zijn om je profiel
 There is nothing to update,Er is niets om bij te werken
 Email is already used,Dit e-mailadres is al in gebruik
 Order #${orderNumber},Bestelling #${orderNumber}
+Given name,Voornaam
+Family name,Achternaam
+Company,Bedrijf
+Address line 3,Adresregel 3
+State,Staat
+Prefecture,Prefectuur
+County,Graafschap
+Emirate,Emiraat
+Department,Departement
+District,District
+Do/Si,Do/Si
+Island,Eiland
+Oblast,Oblast
+Parish,Parochie
+Post town,Postplaats
+Suburb,Buitenwijk
+Neighborhood,Buurt
+Village,Dorp
+Village/Township,Dorp/Gemeente
+Townland,Townland
+Ward,Wijk
+ZIP code,Postcode
+PIN code,PIN-code
+Eircode,Eircode
+Sorting code,Sorteercode
+${field} is not valid,${field} is ongeldig
+${field} is not a valid region,${field} is geen geldige regio
+${field} has the wrong type,${field} heeft het verkeerde type
+${field} is not a known address field,${field} is geen bekend adresveld
+We do not sell to ${country},Wij verkopen niet aan ${country}
+Select ${field},Selecteer ${field}
+no longer available,niet meer beschikbaar
+Please check the highlighted fields,Controleer de gemarkeerde velden

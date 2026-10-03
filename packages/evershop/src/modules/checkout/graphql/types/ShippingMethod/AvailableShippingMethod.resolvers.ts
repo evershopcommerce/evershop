@@ -4,15 +4,14 @@ export default {
   Cart: {
     availableShippingMethods: async (
       { uuid },
-      { country, province, postcode }
-    ) => {
-      const methods = await getAvailableShippingMethods(
-        uuid,
+      { country, administrativeArea, locality, dependentLocality, postalCode }
+    ) =>
+      getAvailableShippingMethods(uuid, {
         country,
-        province,
-        postcode
-      );
-      return methods;
-    }
+        administrative_area: administrativeArea,
+        locality,
+        dependent_locality: dependentLocality,
+        postal_code: postalCode
+      })
   }
 };
