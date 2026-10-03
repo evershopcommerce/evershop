@@ -1,0 +1,21 @@
+{
+  "fmt": "%O%n%N%n%A%n%D%n%C-%S%n%Z",
+  "id": "data/BR",
+  "key": "BR",
+  "lang": "pt",
+  "languages": "pt",
+  "name": "BRAZIL",
+  "posturl": "http://www.buscacep.correios.com.br/",
+  "require": "ASCZ",
+  "state_name_type": "state",
+  "sub_isoids": "AC~AL~AP~AM~BA~CE~DF~ES~GO~MA~MT~MS~MG~PA~PB~PR~PE~PI~RJ~RN~RS~RO~RR~SC~SP~SE~TO",
+  "sub_keys": "AC~AL~AP~AM~BA~CE~DF~ES~GO~MA~MT~MS~MG~PA~PB~PR~PE~PI~RJ~RN~RS~RO~RR~SC~SP~SE~TO",
+  "sub_mores": "true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true",
+  "sub_names": "Acre~Alagoas~Amapá~Amazonas~Bahia~Ceará~Distrito Federal~Espírito Santo~Goiás~Maranhão~Mato Grosso~Mato Grosso do Sul~Minas Gerais~Pará~Paraíba~Paraná~Pernambuco~Piauí~Rio de Janeiro~Rio Grande do Norte~Rio Grande do Sul~Rondônia~Roraima~Santa Catarina~São Paulo~Sergipe~Tocantins",
+  "sub_zipexs": "69900-000,69999-999~57000-000,57999-999~68900-000,68999-999~69000-000,69400-123~40000-000,48999-999~60000-000,63999-999~70000-000,73500-123~29000-000,29999-999~72800-000,73700-123~65000-000,65999-999~78000-000,78899-999~79000-000,79999-999~30000-000,39999-999~66000-000,68899-999~58000-000,58999-999~80000-000,87999-999~50000-000,56999-999~64000-000,64999-999~20000-000,28999-999~59000-000,59999-999~90000-000,99999-999~76800-000,76999-999~69300-000,69399-999~88000-000,89999-999~01000-000,13000-123~49000-000,49999-999~77000-000,77999-999",
+  "sub_zips": "699~57~689~69[0-24-8]~4[0-8]~6[0-3]~7[0-1]|72[0-7]|73[0-6]~29~72[89]|73[7-9]|7[4-6]~65~78[0-8]~79~3~6[6-7]|68[0-8]~58~8[0-7]~5[0-6]~64~2[0-8]~59~9~76[89]~693~8[89]~[01][1-9]~49~77",
+  "sublocality_name_type": "neighborhood",
+  "upper": "CS",
+  "zip": "\\d{5}-?\\d{3}",
+  "zipex": "40301-110,70002-900"
+}

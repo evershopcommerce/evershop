@@ -1,0 +1,16 @@
+{
+  "fmt": "%N%n%O%n%A%n%D%n%C%n%S%n%Z",
+  "id": "data/IE",
+  "key": "IE",
+  "lang": "en",
+  "languages": "en",
+  "name": "IRELAND",
+  "posturl": "https://finder.eircode.ie",
+  "state_name_type": "county",
+  "sub_isoids": "CW~CN~CE~CO~DL~D~G~KY~KE~KK~LS~LM~LK~LD~LH~MO~MH~MN~OY~RN~SO~TA~WD~WH~WX~WW",
+  "sub_keys": "Co. Carlow~Co. Cavan~Co. Clare~Co. Cork~Co. Donegal~Co. Dublin~Co. Galway~Co. Kerry~Co. Kildare~Co. Kilkenny~Co. Laois~Co. Leitrim~Co. Limerick~Co. Longford~Co. Louth~Co. Mayo~Co. Meath~Co. Monaghan~Co. Offaly~Co. Roscommon~Co. Sligo~Co. Tipperary~Co. Waterford~Co. Westmeath~Co. Wexford~Co. Wicklow",
+  "sublocality_name_type": "townland",
+  "zip": "[\\dA-Z]{3} ?[\\dA-Z]{4}",
+  "zip_name_type": "eircode",
+  "zipex": "A65 F4E2"
+}

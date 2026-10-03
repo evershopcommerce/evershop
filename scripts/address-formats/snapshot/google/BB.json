@@ -1,0 +1,13 @@
+{
+  "fmt": "%N%n%O%n%A%n%C, %S %Z",
+  "id": "data/BB",
+  "key": "BB",
+  "lang": "en",
+  "languages": "en",
+  "name": "BARBADOS",
+  "state_name_type": "parish",
+  "sub_isoids": "01~02~03~04~05~06~07~08~09~10~11",
+  "sub_keys": "Christ Church~Saint Andrew~Saint George~Saint James~Saint John~Saint Joseph~Saint Lucy~Saint Michael~Saint Peter~Saint Philip~Saint Thomas",
+  "zip": "BB\\d{5}",
+  "zipex": "BB23026,BB22025"
+}

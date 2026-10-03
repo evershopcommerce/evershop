@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%C%n%S %Z",
+  "id": "data/MN",
+  "key": "MN",
+  "lang": "mn",
+  "languages": "mn",
+  "name": "MONGOLIA",
+  "posturl": "http://www.zipcode.mn/",
+  "sub_isoids": "073~071~069~067~065~064~037~063~061~059~057~035~055~053~051~049~047~046~1~043~041~039",
+  "sub_keys": "Архангай~Баян-Өлгий~Баянхонгор~Булган~Говь-Алтай~Говьсүмбэр~Дархан-Уул~Дорноговь~Дорнод~Дундговь~Завхан~Орхон~Өвөрхангай~Өмнөговь~Сүхбаатар~Сэлэнгэ~Төв~Увс~Улаанбаатар~Ховд~Хөвсгөл~Хэнтий",
+  "sub_lnames": "Arkhangai~Bayan-Ölgii~Bayankhongor~Bulgan~Govi-Altai~Govisümber~Darkhan-Uul~Dornogovi~Dornod~Dundgovi~Zavkhan~Orkhon~Ovorkhangai~Ömnögovi~Sükhbaatar~Selenge~Töv~Uvs~Ulaanbaatar~Khovd~Khovsgol~Khentii",
+  "zip": "\\d{5}",
+  "zipex": "65030,65270"
+}

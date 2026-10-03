@@ -1,0 +1,10 @@
+{
+  "fmt": "%N%n%O%n%A%nFO%Z %C",
+  "id": "data/FO",
+  "key": "FO",
+  "name": "FAROE ISLANDS",
+  "postprefix": "FO",
+  "posturl": "https://posta.fo/en/private/send-receive/postcodes",
+  "zip": "\\d{3}",
+  "zipex": "100"
+}

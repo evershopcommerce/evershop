@@ -1,0 +1,181 @@
+{
+  "main": {
+    "ka": {
+      "identity": {
+        "language": "ka"
+      },
+      "personNames": {
+        "foreignSpaceReplacement": " ",
+        "formality": "formal",
+        "givenFirst": [
+          "und",
+          "ka"
+        ],
+        "initial": "{0}.",
+        "initialSequence": "{0} {1}",
+        "length": "medium",
+        "nativeSpaceReplacement": " ",
+        "personName": {
+          "givenFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{title} {given}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{given-monogram}{given2-monogram}{surname-monogram}",
+                "informal": "{given-informal-monogram}{surname-monogram}"
+              },
+              "referring": {
+                "formal": "{title} {given} {given2} {surname} {surname2} {credentials}",
+                "informal": "{given-informal} {surname}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{title} {given}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{given-monogram}{given2-monogram}{surname-monogram}",
+                "informal": "{given-monogram}{given2-monogram}{surname-monogram}"
+              },
+              "referring": {
+                "formal": "{given} {given2-initial} {surname} {generation}, {credentials}",
+                "informal": "{title} {given} {given2} {surname} {surname2} {credentials}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{title} {given}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{given-monogram}{given2-monogram}{surname-monogram}",
+                "informal": "{given-monogram}{given2-monogram}{surname-monogram}"
+              },
+              "referring": {
+                "formal": "{title} {given} {given2} {surname} {surname2} {credentials}",
+                "informal": "{title} {given} {given2} {surname} {surname2} {credentials}"
+              }
+            }
+          },
+          "sorting": {
+            "long": {
+              "referring": {
+                "formal": "{surname} {surname2}, {title} {given} {given2} {credentials}",
+                "informal": "{surname} {surname2}, {title} {given} {given2} {credentials}"
+              }
+            },
+            "medium": {
+              "referring": {
+                "formal": "{surname} {surname2}, {title} {given} {given2} {credentials}",
+                "informal": "{surname} {surname2}, {title} {given} {given2} {credentials}"
+              }
+            },
+            "short": {
+              "referring": {
+                "formal": "{surname} {surname2}, {title} {given} {given2} {credentials}",
+                "informal": "{surname} {surname2}, {title} {given} {given2} {credentials}"
+              }
+            }
+          },
+          "surnameFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{surname} {surname2} {title} {given} {given2} {credentials}",
+                "informal": "{surname} {surname2} {title} {given} {given2} {credentials}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}",
+                "informal": "{surname-monogram}{given-monogram}{given2-monogram}"
+              },
+              "referring": {
+                "formal": "{surname} {surname2} {title} {given} {given2} {credentials}",
+                "informal": "{surname} {surname2} {title} {given} {given2} {credentials}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{surname} {surname2} {title} {given} {given2} {credentials}",
+                "informal": "{surname} {surname2} {title} {given} {given2} {credentials}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram}{given-monogram}{given2-monogram}",
+                "informal": "{surname-monogram}{given-monogram}{given2-monogram}"
+              },
+              "referring": {
+                "formal": "{surname} {surname2} {title} {given} {given2} {credentials}",
+                "informal": "{surname} {surname2} {title} {given} {given2} {credentials}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{surname} {surname2} {title} {given} {given2} {credentials}",
+                "informal": "{surname} {surname2} {title} {given} {given2} {credentials}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram}{given-monogram}{given2-monogram}",
+                "informal": "{surname-monogram}{given-monogram}{given2-monogram}"
+              },
+              "referring": {
+                "formal": "{surname} {surname2} {title} {given} {given2} {credentials}",
+                "informal": "{surname} {surname2} {title} {given} {given2} {credentials}"
+              }
+            }
+          }
+        },
+        "sampleName": {
+          "foreignFull": {
+            "credentials": "მეცნ. დოქტ.",
+            "generation": "უმც.",
+            "given": "ადა კორნელია",
+            "given-informal": "ნილე",
+            "given2": "სეზარ მარტინ",
+            "surname-core": "ბრიული",
+            "surname-prefix": "ფონ",
+            "surname2": "გონსალეს დომინგო",
+            "title": "პროფ. დოქტ."
+          },
+          "foreignG": {
+            "given": "სინდბად"
+          },
+          "foreignGGS": {
+            "given": "ცეცილია",
+            "given2": "ჰეიმიშ",
+            "surname": "შტიობერი"
+          },
+          "foreignGS": {
+            "given": "მონიკა",
+            "surname": "ბელუჩი"
+          },
+          "nativeFull": {
+            "generation": "უმც.",
+            "given": "მარიამ",
+            "given-informal": "მარი",
+            "given2": "მართა",
+            "surname-core": "აბაშიძე"
+          },
+          "nativeG": {
+            "given": "ნინო"
+          },
+          "nativeGGS": {
+            "given": "თეკლა",
+            "given2": "მარიამ",
+            "surname": "ნაკაშიძე"
+          },
+          "nativeGS": {
+            "given": "გიორგი",
+            "surname": "თავაძე"
+          }
+        },
+        "surnameFirst": [
+          "ko",
+          "vi",
+          "yue",
+          "zh"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "fmt": "%N%n%O%n%A%n%Z %S %C",
+  "id": "data/RO",
+  "key": "RO",
+  "lang": "ro",
+  "languages": "ro",
+  "name": "ROMANIA",
+  "posturl": "http://www.posta-romana.ro/zip_codes",
+  "require": "ACZ",
+  "sub_isoids": "AB~AR~AG~BC~BH~BN~BT~BV~BR~B~BZ~CS~CL~CJ~CT~CV~DB~DJ~GL~GR~GJ~HR~HD~IL~IS~IF~MM~MH~MS~NT~OT~PH~SM~SJ~SB~SV~TR~TM~TL~VS~VL~VN",
+  "sub_keys": "Alba~Arad~Argeș~Bacău~Bihor~Bistrița-Năsăud~Botoșani~Brașov~Brăila~București~Buzău~Caraș-Severin~Călărași~Cluj~Constanța~Covasna~Dâmbovița~Dolj~Galați~Giurgiu~Gorj~Harghita~Hunedoara~Ialomița~Iași~Ilfov~Maramureș~Mehedinți~Mureș~Neamț~Olt~Prahova~Satu Mare~Sălaj~Sibiu~Suceava~Teleorman~Timiș~Tulcea~Vaslui~Vâlcea~Vrancea",
+  "upper": "AC",
+  "zip": "\\d{6}",
+  "zipex": "060274,061357,200716"
+}

@@ -1,0 +1,14 @@
+{
+  "fmt": "%O%n%N%n%A%n%Z, %C%n%S",
+  "id": "data/BY",
+  "key": "BY",
+  "lang": "be",
+  "languages": "be~ru",
+  "name": "BELARUS",
+  "posturl": "http://ex.belpost.by/addressbook/",
+  "sub_isoids": "BR~VI~HO~HM~HR~MA~MI",
+  "sub_keys": "Брэсцкая вобласць~Віцебская вобласць~Гомельская вобласць~горад Мінск~Гродзенская вобласць~Магілёўская вобласць~Мінская вобласць",
+  "sub_lnames": "Bresckaja voblasć~Viciebskaja voblasć~Homieĺskaja voblasć~Horad Minsk~Hrodzienskaja voblasć~Mahilioŭskaja voblasć~Minskaja voblasć",
+  "zip": "\\d{6}",
+  "zipex": "223016,225860,220050"
+}

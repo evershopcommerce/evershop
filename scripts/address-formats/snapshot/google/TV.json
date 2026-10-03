@@ -1,0 +1,12 @@
+{
+  "fmt": "%N%n%O%n%A%n%C%n%S",
+  "id": "data/TV",
+  "key": "TV",
+  "lang": "tyv",
+  "languages": "tyv",
+  "name": "TUVALU",
+  "state_name_type": "island",
+  "sub_isoids": "FUN~NMG~NMA~~NIT~NUI~NKF~NKL~VAI",
+  "sub_keys": "Funafuti~Nanumanga~Nanumea~Niulakita~Niutao~Nui~Nukufetau~Nukulaelae~Vaitupu",
+  "upper": "ACS"
+}

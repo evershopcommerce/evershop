@@ -1,0 +1,17 @@
+{
+  "fmt": "%N%n%O%n%A%n%Z %C %S",
+  "id": "data/IT",
+  "key": "IT",
+  "lang": "it",
+  "languages": "it",
+  "name": "ITALY",
+  "posturl": "https://www.poste.it/cerca/index.html#/risultati-cerca-cap/",
+  "require": "ACSZ",
+  "sub_isoids": "AG~AL~AN~AO~AR~AP~AT~AV~BA~BT~BL~BN~BG~BI~BO~BZ~BS~BR~CA~CL~CB~CE~CT~CZ~CH~CO~CS~CR~KR~CN~EN~FM~FE~FI~FG~FC~FR~GA~GE~GO~GR~IM~IS~AQ~SP~LT~LE~LC~LI~LO~LU~MC~MN~MS~MT~VS~ME~MI~MO~MB~NA~NO~NU~OG~OR~PD~PA~PR~PV~PG~PU~PE~PC~PI~PT~PN~PZ~PO~RG~RA~RC~RE~RI~RN~RM~RO~SA~SS~SV~SI~SR~SO~SU~SD~TA~TE~TR~TO~TP~TN~TV~TS~UD~VA~VE~VB~VC~VR~VV~VI~VT",
+  "sub_keys": "AG~AL~AN~AO~AR~AP~AT~AV~BA~BT~BL~BN~BG~BI~BO~BZ~BS~BR~CA~CL~CB~CE~CT~CZ~CH~CO~CS~CR~KR~CN~EN~FM~FE~FI~FG~FC~FR~GA~GE~GO~GR~IM~IS~AQ~SP~LT~LE~LC~LI~LO~LU~MC~MN~MS~MT~VS~ME~MI~MO~MB~NA~NO~NU~OG~OR~PD~PA~PR~PV~PG~PU~PE~PC~PI~PT~PN~PZ~PO~RG~RA~RC~RE~RI~RN~RM~RO~SA~SS~SV~SI~SR~SO~SU~SD~TA~TE~TR~TO~TP~TN~TV~TS~UD~VA~VE~VB~VC~VR~VV~VI~VT",
+  "sub_names": "Agrigento~Alessandria~Ancona~Aosta~Arezzo~Ascoli Piceno~Asti~Avellino~Bari~Barletta-Andria-Trani~Belluno~Benevento~Bergamo~Biella~Bologna~Bolzano~Brescia~Brindisi~Cagliari~Caltanissetta~Campobasso~Caserta~Catania~Catanzaro~Chieti~Como~Cosenza~Cremona~Crotone~Cuneo~Enna~Fermo~Ferrara~Firenze~Foggia~Forlì-Cesena~Frosinone~Gallura Nord-Est Sardegna~Genova~Gorizia~Grosseto~Imperia~Isernia~L'Aquila~La Spezia~Latina~Lecce~Lecco~Livorno~Lodi~Lucca~Macerata~Mantova~Massa-Carrara~Matera~Medio Campidano~Messina~Milano~Modena~Monza e Brianza~Napoli~Novara~Nuoro~Ogliastra~Oristano~Padova~Palermo~Parma~Pavia~Perugia~Pesaro e Urbino~Pescara~Piacenza~Pisa~Pistoia~Pordenone~Potenza~Prato~Ragusa~Ravenna~Reggio Calabria~Reggio Emilia~Rieti~Rimini~Roma~Rovigo~Salerno~Sassari~Savona~Siena~Siracusa~Sondrio~Sud Sardegna~Sulcis Iglesiente~Taranto~Teramo~Terni~Torino~Trapani~Trento~Treviso~Trieste~Udine~Varese~Venezia~Verbano-Cusio-Ossola~Vercelli~Verona~Vibo Valentia~Vicenza~Viterbo",
+  "sub_zips": "92~15~60~11~52~63~14~83~70~76[01]~32~82~24~13[89]~40~39~25~72~0803|090[1-6]|091[23]~93~860[1-4]|86100~81~95~88[01]~66~22~87~26[01]~88[89]~12|18025~94~638|63900~44~50~71~47[015]~03~070[235]|0802~16~34[01]7~58~18~860[7-9]|86170~67~19~04~73~23[89]~57~26[89]~55~62~46~54~75~090[234]~98~20~41~208|20900~80~28[01]~080[123]|0810~080[34]~080[13]|090[789]|0917~35~90~43~27~06~61~65~29~56~51~330[7-9]|33170~85~59~97~48~89[01]~42~02~47[89]~00~45~84~070|071~17|12071~53~96~23[01]~090[1-5][0-9]|0906[0-6]|080[1-4]~0901~74~64~05~10~91~38~31~3401|341[0-689]|34062~330[1-5]|33100~21~30~28[89]~13[01]~37~89[89]~36~01",
+  "upper": "CS",
+  "zip": "\\d{5}",
+  "zipex": "00144,47037,39049"
+}

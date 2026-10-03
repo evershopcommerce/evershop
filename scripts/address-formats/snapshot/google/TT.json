@@ -1,0 +1,8 @@
+{
+  "fmt": "%N%n%O%n%A%n%C%n%Z",
+  "id": "data/TT",
+  "key": "TT",
+  "name": "TRINIDAD AND TOBAGO",
+  "zip": "\\d{6}",
+  "zipex": "500234"
+}

@@ -1,0 +1,11 @@
+{
+  "fmt": "%O%n%N%n%A%nL-%Z %C",
+  "id": "data/LU",
+  "key": "LU",
+  "name": "LUXEMBOURG",
+  "postprefix": "L-",
+  "posturl": "https://www.post.lu/en/particuliers/colis-courrier/rechercher-un-code-postal",
+  "require": "ACZ",
+  "zip": "\\d{4}",
+  "zipex": "4750,2998"
+}
