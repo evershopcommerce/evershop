@@ -1,5 +1,3 @@
-import concat from 'concat-stream';
-
 function CustomMemoryStorage(opts) {
   this.getFilename = opts.filename;
   // Optional (file) => MB. When provided, the file is rejected AS IT STREAMS
@@ -21,34 +19,38 @@ CustomMemoryStorage.prototype._handleFile = function _handleFile(
     limitMb !== undefined ? Math.round(limitMb * 1024 * 1024) : undefined;
   let received = 0;
   let aborted = false;
+  let chunks = [];
 
-  const concatStream = concat({ encoding: 'buffer' }, (data) => {
+  file.stream.on('data', (chunk) => {
+    if (aborted) {
+      return;
+    }
+    received += chunk.length;
+    if (limitBytes !== undefined && received > limitBytes) {
+      aborted = true;
+      // Drop what was buffered so far — the upload is rejected
+      chunks = [];
+      // Same code as multer's own limit error so callers handle both alike
+      const error = new Error('File too large');
+      error.code = 'LIMIT_FILE_SIZE';
+      error.limitMb = limitMb;
+      error.mimetype = file.mimetype;
+      cb(error);
+      return;
+    }
+    chunks.push(chunk);
+  });
+
+  file.stream.on('end', () => {
     if (!aborted) {
+      const buffer = Buffer.concat(chunks);
       cb(null, {
-        buffer: data,
-        size: data.length,
+        buffer,
+        size: buffer.length,
         filename
       });
     }
   });
-
-  if (limitBytes !== undefined) {
-    file.stream.on('data', (chunk) => {
-      received += chunk.length;
-      if (received > limitBytes && !aborted) {
-        aborted = true;
-        file.stream.unpipe(concatStream);
-        // Same code as multer's own limit error so callers handle both alike
-        const error = new Error('File too large');
-        error.code = 'LIMIT_FILE_SIZE';
-        error.limitMb = limitMb;
-        error.mimetype = file.mimetype;
-        cb(error);
-      }
-    });
-  }
-
-  file.stream.pipe(concatStream);
 };
 
 CustomMemoryStorage.prototype._removeFile = function _removeFile(
