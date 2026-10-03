@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import sharp from 'sharp';
+import sharp, { type ResizeOptions } from 'sharp';
 import { CONSTANTS } from '../../../lib/helpers.js';
 import { debug } from '../../../lib/log/logger.js';
 import { getActiveTheme } from '../../../lib/util/getActiveTheme.js';
@@ -290,7 +290,7 @@ export const imageProcessor = async (
     let sharpInstance;
 
     // Set up resize options
-    const resizeOptions: sharp.ResizeOptions = {
+    const resizeOptions: ResizeOptions = {
       width: width,
       withoutEnlargement: !allowUpscale, // Don't upscale unless explicitly allowed
       background: { r: 0, g: 0, b: 0, alpha: 0 } // Transparent background for padding
