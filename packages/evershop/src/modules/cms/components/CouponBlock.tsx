@@ -1,4 +1,6 @@
 import { Editable } from '@components/common/page-builder/index.js';
+import { buttonVariants } from '@components/common/ui/Button.js';
+import { cn } from '@evershop/evershop/lib/util/cn';
 import React from 'react';
 
 /**
@@ -138,7 +140,7 @@ export default function CouponBlock({ couponBlockWidget }: CouponBlockProps) {
           <div
             id={codeBoxId}
             aria-label={`${codeUpper} — click Copy to copy`}
-            className="evershop-coupon-block__code-box rounded-md border border-foreground/30 bg-card px-3 py-2 font-mono text-sm font-semibold tracking-wider"
+            className="evershop-coupon-block__code-box inline-flex h-10 items-center rounded-md border border-foreground/30 bg-card px-3 font-mono text-sm font-semibold tracking-wider"
           >
             <span className="evershop-coupon-block__code">{codeUpper}</span>
           </div>
@@ -147,7 +149,12 @@ export default function CouponBlock({ couponBlockWidget }: CouponBlockProps) {
             data-evershop-coupon-copy={codeUpper}
             data-evershop-coupon-copy-target={codeBoxId}
             aria-live="polite"
-            className="evershop-coupon-block__copy-button rounded-md border border-foreground/30 bg-card px-3 py-2 text-sm font-medium hover:bg-muted/30"
+            // The code box beside it has the stronger edge; keep the pair matched.
+            className={cn(
+              'evershop-coupon-block__copy-button',
+              buttonVariants({ variant: 'outline', size: 'lg' }),
+              'border-foreground/30'
+            )}
           >
             <span data-evershop-coupon-copy-label>Copy</span>
           </button>
@@ -155,7 +162,10 @@ export default function CouponBlock({ couponBlockWidget }: CouponBlockProps) {
             href={ctaLink}
             target={ctaNewTab ? '_blank' : undefined}
             rel={ctaNewTab ? 'noopener noreferrer' : undefined}
-            className="evershop-coupon-block__cta rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            className={`evershop-coupon-block__cta ${buttonVariants({
+              variant: 'default',
+              size: 'lg'
+            })}`}
           >
             {ctaLabel || 'Shop now →'}
           </a>

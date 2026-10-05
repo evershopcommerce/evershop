@@ -35,7 +35,7 @@ export default function FeaturedBlogs({
       <WidgetEmptyState
         type="featured_blogs"
         title="Featured blogs"
-        hint="Pick posts to feature in the settings panel."
+        hint="No published posts yet. Publish one, or pick posts in the settings panel."
       />
     );
   }
@@ -47,21 +47,30 @@ export default function FeaturedBlogs({
     // the other widgets, and don't self-apply `page-width` — it double-pads /
     // re-centers when the widget is dropped inside a Section or Columns. Width
     // comes from the surrounding Area/Section like every other widget.
-    <div className="featured-blogs py-6 md:py-10">
+    //
+    // The `evershop-widget__*` hooks are what a theme restyles every widget's
+    // headline through; this widget carried none (theme-lab FINDINGS #59), so a
+    // theme could reach it only by structure. `featured-blogs` stays for the
+    // themes that already target it.
+    <div className="featured-blogs evershop-featured-blogs py-6 md:py-10">
       {widget.eyebrow && (
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-foreground/70">
+        <p className="evershop-featured-blogs__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest text-foreground/70">
           {widget.eyebrow}
         </p>
       )}
       {widget.heading && (
-        <h2 className="mt-1 text-2xl font-semibold tracking-tight md:text-3xl">
+        <h2 className="evershop-featured-blogs__heading evershop-widget__heading mt-1 text-2xl font-semibold tracking-tight md:text-3xl">
           {widget.heading}
         </h2>
       )}
       {widget.subText && (
-        <p className="mt-2 mb-6 text-muted-foreground">{widget.subText}</p>
+        <p className="evershop-featured-blogs__subtext evershop-widget__subtext mt-2 mb-6 text-muted-foreground">
+          {widget.subText}
+        </p>
       )}
-      <div className={`mt-6 grid ${gridClass} gap-8`}>
+      <div
+        className={`evershop-featured-blogs__grid mt-6 grid ${gridClass} gap-8`}
+      >
         {widget.posts.map((post) => (
           <PostListItem key={post.uuid} post={post} />
         ))}

@@ -5,11 +5,18 @@ import {
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
+import { scrimButtonClassName } from '@components/common/ui/scrimButton.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ImagePlus } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
+import {
+  resolveArrowsStyle,
+  resolveDotsStyle,
+  type ArrowsStyle,
+  type DotsStyle
+} from './slideshowControls.js';
 
 type ContentAnchor =
   | 'tl' | 'tc' | 'tr'
@@ -18,8 +25,6 @@ type ContentAnchor =
 
 type OverlayTint = 'none' | 'dark' | 'light' | 'gradient';
 type AspectRatio = 'auto' | '16:9' | '21:9' | '4:3' | '1:1';
-type ArrowsStyle = 'bottom-right' | 'sides' | 'hidden';
-type DotsStyle = 'dots' | 'bars' | 'numbers' | 'hidden';
 // Slide CTA appearance — maps 1:1 to the shadcn `Button` variants. Legacy
 // data may still carry the prior values `filled` / `outline` / `link` from
 // before the variant migration; `resolveButtonVariant` translates them.
@@ -175,10 +180,15 @@ function ButtonInline({
   // slide CTAs match every other button in the admin / storefront. No
   // per-slide hex color anymore — theming flows from the variant.
   const variant = resolveButtonVariant(style);
+  // A slide's text is always white, over its photograph, so its buttons always
+  // sit on a scrim (see scrimButton.ts: an outline button would be white on white).
   return (
     <a
       href={link}
-      className={`evershop-slideshow__cta ${buttonVariants({ variant, size: 'lg' })}`}
+      className={`evershop-slideshow__cta ${scrimButtonClassName(
+        variant,
+        buttonVariants({ variant, size: 'lg' })
+      )}`}
       onClick={(e) => {
         // Inline edit needs to capture clicks on the contenteditable child
         // before the anchor's navigation fires.
@@ -420,13 +430,14 @@ export default function Slideshow({
     defaultOverlayOpacity = 0.3
   }
 }: SlideshowProps) {
-  // Resolve effective arrow/dot styles. The legacy `arrows` / `dots`
-  // booleans still work; the new style fields, when present, take
-  // precedence and can carry "hidden" explicitly.
-  const effectiveArrowsStyle: ArrowsStyle =
-    arrowsStyle ?? (arrows ? 'bottom-right' : 'hidden');
-  const effectiveDotsStyle: DotsStyle =
-    dotsStyle ?? (dots ? 'dots' : 'hidden');
+  // Resolve effective arrow/dot styles. Either the legacy boolean or the style
+  // can switch a control off; the style only picks WHICH visible style
+  // (slideshowControls.ts; theme-lab FINDINGS #51).
+  const effectiveArrowsStyle: ArrowsStyle = resolveArrowsStyle(
+    arrows,
+    arrowsStyle
+  );
+  const effectiveDotsStyle: DotsStyle = resolveDotsStyle(dots, dotsStyle);
 
   // Hidden slides are filtered out of the visible list — keeps the index
   // contiguous so dot/arrow nav don't jump over invisible entries.

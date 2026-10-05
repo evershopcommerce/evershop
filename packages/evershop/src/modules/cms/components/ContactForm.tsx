@@ -131,6 +131,9 @@ export default function ContactForm({ contactFormWidget }: ContactFormProps) {
         action="/api/contact"
         method="POST"
         submitBtnText={submitLabel || _('Send message')}
+        // The widget's other buttons are call-to-action size (40px); the shared
+        // Button's default is 36px (theme-lab FINDINGS #60).
+        submitBtnSize="lg"
         onSubmit={inPageBuilder ? async () => undefined : undefined}
         onSuccess={() => {
           setStatus({

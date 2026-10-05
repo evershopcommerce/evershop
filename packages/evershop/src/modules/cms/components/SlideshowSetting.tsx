@@ -20,6 +20,12 @@ import {
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useFieldArray } from 'react-hook-form';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  resolveArrowsStyle,
+  resolveDotsStyle,
+  type ArrowsStyle,
+  type DotsStyle
+} from './slideshowControls.js';
 
 // ---------------------------------------------------------------------------
 // Compact form primitives (mirrors the design demo's vocabulary).
@@ -290,8 +296,6 @@ type ContentAnchor =
   | 'br';
 type OverlayTint = 'none' | 'dark' | 'light' | 'gradient';
 type AspectRatio = 'auto' | '16:9' | '21:9' | '4:3' | '1:1';
-type ArrowsStyle = 'bottom-right' | 'sides' | 'hidden';
-type DotsStyle = 'dots' | 'bars' | 'numbers' | 'hidden';
 // Mirrors the shadcn Button variants. `filled` is the legacy value kept in
 // the union so already-saved slides type-check before the user touches them.
 type ButtonStyle =
@@ -441,14 +445,16 @@ export default function SlideshowSetting({
   const currentPauseOnInteraction = Boolean(
     watch('settings.pauseOnInteraction', pauseOnInteraction)
   );
-  const currentArrowsStyle = (watch(
-    'settings.arrowsStyle',
-    arrowsStyle ?? (arrows ? 'bottom-right' : 'hidden')
-  ) ?? (arrows ? 'bottom-right' : 'hidden')) as ArrowsStyle;
-  const currentDotsStyle = (watch(
-    'settings.dotsStyle',
-    dotsStyle ?? (dots ? 'dots' : 'hidden')
-  ) ?? (dots ? 'dots' : 'hidden')) as DotsStyle;
+  // Resolved from BOTH fields, the way the storefront does (slideshowControls.ts), so what the
+  // form shows is what the page renders. Choosing a style below writes both, so they stay in step.
+  const currentArrowsStyle = resolveArrowsStyle(
+    watch('settings.arrows', arrows) as boolean | null | undefined,
+    watch('settings.arrowsStyle', arrowsStyle) as ArrowsStyle | null | undefined
+  );
+  const currentDotsStyle = resolveDotsStyle(
+    watch('settings.dots', dots) as boolean | null | undefined,
+    watch('settings.dotsStyle', dotsStyle) as DotsStyle | null | undefined
+  );
   const currentAspectRatio =
     (watch('settings.aspectRatio', aspectRatio) as AspectRatio) || 'auto';
   const currentDefaultPosition =
