@@ -163,6 +163,11 @@ export default function FeaturedBlogsSetting({
         <div className="text-[11px] font-semibold tracking-wide text-foreground/80">
           {_('Featured posts')}
         </div>
+        {selected.length === 0 && (
+          <p className="text-xs text-muted-foreground">
+            {_('Nothing picked: the latest posts are shown, up to Max posts.')}
+          </p>
+        )}
         {selected.length > 0 && (
           <ul className="space-y-1">
             {selected.map((uuid, i) => (
