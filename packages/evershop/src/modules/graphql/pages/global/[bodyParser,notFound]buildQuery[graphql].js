@@ -4,15 +4,31 @@ import JSON5 from 'json5';
 import uniqid from 'uniqid';
 import { getDevMiddleware } from '../../../../bin/lib/devEnvHelper.js';
 import { CONSTANTS } from '../../../../lib/helpers.js';
-import { error } from '../../../../lib/log/logger.js';
+import { error, warning } from '../../../../lib/log/logger.js';
 import { getRoutes } from '../../../../lib/router/Router.js';
 import { get } from '../../../../lib/util/get.js';
 import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
 import { getRouteBuildPath } from '../../../../lib/webpack/getRouteBuildPath.js';
+import { checkVariables } from '../../../../lib/widget/variableCheck.js';
 import { getEnabledWidgets } from '../../../../lib/widget/widgetManager.js';
+import { resolveSettingRef } from '../../../../lib/widget/widgetVariables.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getContextValue } from '../../services/contextHelper.js';
+import { getRequestSchema } from '../../services/getRequestSchema.js';
 import { parseContextValueArgs } from '../../services/parseContextValueArgs.js';
+
+// A page is rendered for every visitor, so say each thing about a widget once.
+const reported = new Set();
+function warnOnce(message) {
+  if (reported.has(message)) {
+    return;
+  }
+  if (reported.size >= 500) {
+    reported.clear();
+  }
+  reported.add(message);
+  warning(message);
+}
 
 export default async (request, response, next) => {
   try {
@@ -110,6 +126,14 @@ export default async (request, response, next) => {
       const { propsMap } = json;
       let queryStr = '';
       let variables;
+      // Widgets this request leaves out, and the schema that decides it. Only a
+      // storefront page runs queries built from saved widget settings; the admin
+      // widget editor must still be able to open a widget to fix it.
+      const skippedWidgets = [];
+      const schema =
+        currentRoute?.isAdmin === false && applicableWidgets.length > 0
+          ? await getRequestSchema(request)
+          : null;
       if (applicableWidgets.length > 0) {
         applicableWidgets.forEach((widget) => {
           const widgetKey = widget.componentKey;
@@ -168,33 +192,14 @@ export default async (request, response, next) => {
               (variable) => variable.origin === key
             );
             if (check) {
-              const variableRegex = /getWidgetSetting_([a-zA-Z0-9+/=]*)/g;
-              const v = widgetVariables.values[key];
-              if (typeof v === 'string') {
-                // A regext matching "getContextValue_'base64 encoded string'"
-                // Check if the value is a string and contains the getContextValue_ string
-                const variableMatch = v.match(variableRegex);
-                if (variableMatch) {
-                  // Replace the getContextValue_ string with the actual function
-                  const base64 = variableMatch[0].replace(
-                    variableRegex,
-                    (match, p1) => p1
-                  );
-                  const decoded = Buffer.from(base64, 'base64')
-                    .toString('ascii')
-                    .split(',')[0]
-                    .replace(/['"]+/g, '');
-
-                  let actualValue;
-                  if (!decoded.trim()) {
-                    actualValue = widget.settings;
-                  } else {
-                    actualValue = get(widget.settings, decoded);
-                  }
-                  acc[check.new] = actualValue;
-                }
-              } else {
-                acc[check.new] = v;
+              // The same resolution a save is checked with, so a setting cannot
+              // mean one thing when it is stored and another when it is rendered.
+              const resolved = resolveSettingRef(
+                widgetVariables.values[key],
+                widget.settings
+              );
+              if (resolved.found) {
+                acc[check.new] = resolved.value;
               }
             }
             return acc;
@@ -220,6 +225,37 @@ export default async (request, response, next) => {
             values: widgetVariablesValues,
             defs: widgetVariablesDefs
           };
+          // ONE variable that does not coerce fails the whole operation: no data,
+          // a blank page, and `HeadTags` throwing on `pageInfo.title`. So check
+          // this widget on its own, against the schema that will run the query.
+          // Keys the current input types do not define (a row saved under an
+          // older schema, a field since removed) are dropped and the widget still
+          // renders. A widget GraphQL would still reject is left out, here and in
+          // the response (`skippedWidgets`): the page loses that widget, not itself.
+          if (schema) {
+            const check = checkVariables(
+              schema,
+              widgetVariables.defs,
+              widgetVariables.values
+            );
+            if (check.problems.length > 0) {
+              warnOnce(
+                `Widget "${widget.type}" (${widget.uuid}) is left out of the page: ${check.problems
+                  .map((problem) => problem.message)
+                  .join('; ')}`
+              );
+              skippedWidgets.push(widget.uuid);
+              return;
+            }
+            if (check.unknownKeys.length > 0) {
+              warnOnce(
+                `Widget "${widget.type}" (${widget.uuid}) carries ${check.unknownKeys.length} setting(s) the current GraphQL schema does not define, ignored: ${check.unknownKeys
+                  .map((key) => key.path)
+                  .join(', ')}`
+              );
+              widgetVariables = { ...widgetVariables, values: check.values };
+            }
+          }
           const originPropsMap = propsMap[widgetKey]; // [{origin: 'real field name', alias: 'bbbb'}, {origin: 'real field name', alias: 'ccc'}]
           const widgetUUID = `e${widget.uuid.replace(/-/g, '')}`;
           propsMap[widgetUUID] = [];
@@ -233,8 +269,25 @@ export default async (request, response, next) => {
           });
           json.queries[widgetUUID] = widgetQuery;
           json.variables[widgetUUID] = widgetVariables;
-          // Now we merge the queries to the query as the string,
-          queryStr = Object.keys(json.queries).reduce((acc, key) => {
+        });
+        // Now we merge the queries to the query as the string. Once, after every
+        // widget is in: a page whose widgets were all left out still needs its own.
+        queryStr = Object.keys(json.queries).reduce((acc, key) => {
+          if (
+            !enabledWidgets.find(
+              (widget) =>
+                widget.componentKey === key ||
+                widget.settingComponentKey === key
+            )
+          ) {
+            acc += `\n${json.queries[key]} `;
+          }
+          return acc;
+        }, '');
+
+        // Now we merge the variables
+        variables = Object.keys(json.variables).reduce(
+          (acc, key) => {
             if (
               !enabledWidgets.find(
                 (widget) =>
@@ -242,29 +295,13 @@ export default async (request, response, next) => {
                   widget.settingComponentKey === key
               )
             ) {
-              acc += `\n${json.queries[key]} `;
+              acc.values = { ...acc.values, ...json.variables[key].values };
+              acc.defs = [...acc.defs, ...json.variables[key].defs];
             }
             return acc;
-          }, '');
-
-          // Now we merge the variables
-          variables = Object.keys(json.variables).reduce(
-            (acc, key) => {
-              if (
-                !enabledWidgets.find(
-                  (widget) =>
-                    widget.componentKey === key ||
-                    widget.settingComponentKey === key
-                )
-              ) {
-                acc.values = { ...acc.values, ...json.variables[key].values };
-                acc.defs = [...acc.defs, ...json.variables[key].defs];
-              }
-              return acc;
-            },
-            { values: {}, defs: [] }
-          );
-        });
+          },
+          { values: {}, defs: [] }
+        );
       } else {
         // Just delete resolvable queries and variables
         queryStr = Object.keys(json.queries).reduce((acc, key) => {
@@ -335,6 +372,10 @@ export default async (request, response, next) => {
       request.body.graphqlQuery = `${operation} { ${queryStr} } ${fragments}`;
       request.body.graphqlVariables = variables.values;
       request.body.propsMap = propsMap;
+      if (skippedWidgets.length > 0) {
+        response.locals = response.locals || {};
+        response.locals.skippedWidgets = skippedWidgets;
+      }
       next();
     }
   } catch (e) {

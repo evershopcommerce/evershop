@@ -16,6 +16,7 @@ import {
 import { getValue, getValueSync } from '../../../../lib/util/registry.js';
 import { getWidgetSchemaValidator } from '../../../../lib/widget/widgetManager.js';
 import { getAjv } from '../../../base/services/getAjv.js';
+import { assertWidgetSettingsMatchSchema } from './assertWidgetSettings.js';
 import { WidgetData } from './createWidget.js';
 import widgetDataSchema from './widgetDataSchema.json' with { type: 'json' };
 
@@ -179,6 +180,14 @@ async function updateWidget(
             );
           }
         }
+        // The JSON Schema above is loose by design. What the storefront will
+        // actually accept is the GraphQL input types, read as they are now.
+        // Only what this update introduces is refused (see the function).
+        await assertWidgetSettingsMatchSchema(
+          existing.type as string,
+          widgetData.settings as Record<string, unknown>,
+          (existing.settings ?? null) as Record<string, unknown> | null
+        );
       }
     }
 
