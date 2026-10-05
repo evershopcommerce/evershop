@@ -5,6 +5,7 @@ import {
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
+import { scrimButtonClassName } from '@components/common/ui/scrimButton.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { ImagePlus } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
@@ -179,10 +180,15 @@ function ButtonInline({
   // slide CTAs match every other button in the admin / storefront. No
   // per-slide hex color anymore — theming flows from the variant.
   const variant = resolveButtonVariant(style);
+  // A slide's text is always white, over its photograph, so its buttons always
+  // sit on a scrim (see scrimButton.ts: an outline button would be white on white).
   return (
     <a
       href={link}
-      className={`evershop-slideshow__cta ${buttonVariants({ variant, size: 'lg' })}`}
+      className={`evershop-slideshow__cta ${scrimButtonClassName(
+        variant,
+        buttonVariants({ variant, size: 'lg' })
+      )}`}
       onClick={(e) => {
         // Inline edit needs to capture clicks on the contenteditable child
         // before the anchor's navigation fires.
