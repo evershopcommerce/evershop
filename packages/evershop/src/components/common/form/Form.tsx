@@ -27,6 +27,12 @@ interface FormProps<T extends FieldValues = FieldValues>
   errorMessage?: string;
   submitBtn?: boolean;
   submitBtnText?: string;
+  /**
+   * Size of the submit button (the shared Button's sizes). A form that sits inside
+   * a widget passes `lg` so its button matches the 40px call-to-action buttons
+   * around it; admin forms keep the default.
+   */
+  submitBtnSize?: React.ComponentProps<typeof Button>['size'];
   loading?: boolean;
   children: React.ReactNode;
 }
@@ -43,6 +49,7 @@ export function Form<T extends FieldValues = FieldValues>({
   errorMessage = _('Something went wrong! Please try again.'),
   submitBtn = true,
   submitBtnText = _('Save'),
+  submitBtnSize,
   loading = false,
   children,
   className,
@@ -159,6 +166,7 @@ export function Form<T extends FieldValues = FieldValues>({
               // extra onClick calling handleSubmit here would fire the pipeline
               // a second time — two validate+POST passes per click.
               type="submit"
+              size={submitBtnSize}
               isLoading={isSubmitting || loading}
             >
               {submitBtnText}
