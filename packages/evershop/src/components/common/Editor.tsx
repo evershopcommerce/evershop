@@ -152,6 +152,7 @@ const PRODUCT_LIST_QUERY = `
         productId
         uuid
         sku
+        variantGroupId
         name
         url
         price { regular { value text } special { value text } }
@@ -203,6 +204,7 @@ const ProductListBlock: React.FC<{
       uuid: p.uuid ?? p.sku,
       name: p.name,
       sku: p.sku,
+      variantGroupId: p.variantGroupId ?? null,
       description: [],
       url: p.url,
       image: p.image?.url ? { url: p.image.url, alt: p.image.alt } : undefined,

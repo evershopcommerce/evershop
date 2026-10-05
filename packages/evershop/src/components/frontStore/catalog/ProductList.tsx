@@ -1,4 +1,5 @@
 import { useCatalogImageDimensions } from '@components/common/useCatalogImageDimensions.js';
+import { useOptionalCartState } from '@components/frontStore/cart/CartContext.js';
 import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
 import { ProductListEmptyRender } from '@components/frontStore/catalog/ProductListEmptyRender.js';
 import { ProductListItemRender } from '@components/frontStore/catalog/ProductListItemRender.js';
@@ -16,11 +17,28 @@ export interface ProductListProps {
   className?: string;
   layout?: 'grid' | 'list';
   gridColumns?: number;
+  /**
+   * Leave it out: `ProductList` decides (it offers "Add to Cart" by default), and no list in core
+   * passes it. It stays as an override for an extension that needs one list to differ.
+   */
   showAddToCart?: boolean;
   customAddToCartRenderer?: (product: ProductData) => ReactNode;
   renderItem?: (product: ProductData) => ReactNode;
 }
 
+/**
+ * A grid or list of product cards.
+ *
+ * This component, not its callers, decides whether the cards offer "Add to Cart", and it does
+ * by default. Every list in core (the category, search and listing pages, the collection, stack
+ * and recommendation widgets, a rich-text product block) leaves the prop out, so a theme that
+ * wants the button hidden everywhere (or shown only somewhere) overrides this one file through
+ * the `@components` alias and changes one line.
+ *
+ * The button only works inside the storefront's `CartProvider`, and `AddToCart` throws without
+ * one. A widget can be placed in an area above the provider, so the button is offered only
+ * where a cart exists, instead of taking the page down.
+ */
 export const ProductList: React.FC<ProductListProps> = ({
   products = [],
   imageWidth,
@@ -29,11 +47,12 @@ export const ProductList: React.FC<ProductListProps> = ({
   className = '',
   layout = 'grid',
   gridColumns = 4,
-  showAddToCart = false,
+  showAddToCart = true,
   customAddToCartRenderer,
   renderItem
 }) => {
   const catalogDimensions = useCatalogImageDimensions();
+  const hasCart = useOptionalCartState() !== undefined;
   if (isLoading) {
     return (
       <ProductListLoadingSkeleton
@@ -97,7 +116,7 @@ export const ProductList: React.FC<ProductListProps> = ({
               imageWidth={itemImageWidth}
               imageHeight={itemImageHeight}
               layout={layout}
-              showAddToCart={showAddToCart}
+              showAddToCart={showAddToCart && hasCart}
               customAddToCartRenderer={customAddToCartRenderer}
             />
           )}

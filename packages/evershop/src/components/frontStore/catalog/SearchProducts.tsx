@@ -15,7 +15,6 @@ export function SearchProducts() {
         products={products.items}
         layout="grid"
         gridColumns={4}
-        showAddToCart={true}
       />
       <Area id="searchProductsAfter" noOuter />
     </>

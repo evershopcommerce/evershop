@@ -136,7 +136,6 @@ export default function CollectionStack({
             products={row.products}
             gridColumns={countPerRow}
             layout="grid"
-            showAddToCart={false}
           />
           {divider && i < rows.length - 1 && (
             <hr className="evershop-collection-stack__divider mt-10 border-divider" />
@@ -183,6 +182,7 @@ export const fragments = `
     productId
     name
     sku
+    variantGroupId
     price {
       regular {
         value

@@ -1,9 +1,7 @@
 import { Image } from '@components/common/Image.js';
 import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
-import { Button } from '@components/common/ui/Button.js';
-import { toast } from '@components/common/ui/Sonner.js';
-import { AddToCart } from '@components/frontStore/cart/AddToCart.js';
 import { ProductData } from '@components/frontStore/catalog/ProductContext.js';
+import { ProductListAddToCart } from '@components/frontStore/catalog/ProductListAddToCart.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { ReactNode } from 'react';
 
@@ -101,27 +99,7 @@ export const ProductListItemRender = ({
               {customAddToCartRenderer ? (
                 customAddToCartRenderer(product)
               ) : (
-                <AddToCart
-                  product={{
-                    sku: product.sku,
-                    isInStock: product.inventory.isInStock
-                  }}
-                  qty={1}
-                  onError={(error) => toast.error(error)}
-                >
-                  {(state, actions) => (
-                    <Button
-                      disabled={!state.canAddToCart || state.isLoading}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        actions.addToCart();
-                      }}
-                    >
-                      {state.isLoading ? _('Adding...') : _('Add to Cart')}
-                    </Button>
-                  )}
-                </AddToCart>
+                <ProductListAddToCart product={product} />
               )}
             </div>
           )}
@@ -174,28 +152,7 @@ export const ProductListItemRender = ({
           {customAddToCartRenderer ? (
             customAddToCartRenderer(product)
           ) : (
-            <AddToCart
-              product={{
-                sku: product.sku,
-                isInStock: product.inventory.isInStock
-              }}
-              qty={1}
-              onError={(error) => toast.error(error)}
-            >
-              {(state, actions) => (
-                <Button
-                  className={'w-full'}
-                  disabled={!state.canAddToCart || state.isLoading}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    actions.addToCart();
-                  }}
-                >
-                  {state.isLoading ? _('Adding...') : _('Add to Cart')}
-                </Button>
-              )}
-            </AddToCart>
+            <ProductListAddToCart product={product} className="w-full" />
           )}
         </div>
       )}
