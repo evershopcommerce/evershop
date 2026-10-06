@@ -3,6 +3,7 @@ import cancelOrder from './cancelOrder.js';
 import createShipment from './createShipment.js';
 import markDelivered from './markDelivered.js';
 export * from './orderMetafield.js';
+export * from './orderAccess.js';
 export {
   voidShipmentLabel,
   hookBeforeVoidShipmentLabel,
