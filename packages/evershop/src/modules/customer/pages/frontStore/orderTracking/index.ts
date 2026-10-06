@@ -4,6 +4,7 @@ import { EvershopResponse } from '../../../../../types/response.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { verifyTrackingToken } from '../../../../oms/services/anonymousTrackingToken.js';
+import { grantOrderAccess } from '../../../../oms/services/orderAccess.js';
 
 /**
  * Public anonymous tracking page. The link in lifecycle emails carries a TTL'd
@@ -66,6 +67,9 @@ export default (
 
   setContextValue(request, 'trackingStatus', 'ok');
   setContextValue(request, 'orderUuid', result.orderUuid);
+  // The token is verified and its UUID matches the path: let the page's
+  // `order` query read this one order.
+  grantOrderAccess(request, result.orderUuid, 'tracking_token');
   setPageMetaInfo(request, {
     title: translate('Track your order'),
     description: translate('Track your order')

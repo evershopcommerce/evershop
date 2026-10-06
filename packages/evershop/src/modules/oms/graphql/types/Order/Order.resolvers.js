@@ -5,19 +5,26 @@ import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { toGraphqlAddress } from '../../../../base/services/address/graphqlAddress.js';
 import { getCarrier } from '../../../services/carrier/registry.js';
 import { getOrdersBaseQuery } from '../../../services/getOrdersBaseQuery.js';
+import { canAccessOrder } from '../../../services/orderAccess.js';
 import { getPhaseOf } from '../../../services/updateShipmentStatus.js';
 
 export default {
   Query: {
-    order: async (_, { uuid }, { pool }) => {
+    /**
+     * An order is returned only to the caller who may see it: an admin, the
+     * customer who owns it, or a page that proved access and left a marker in
+     * the context (`grantOrderAccess`). Everyone else gets `null`, the same
+     * answer as for an unknown UUID, so the endpoint is not an oracle for which
+     * UUIDs exist.
+     */
+    order: async (_, { uuid }, context) => {
       const query = getOrdersBaseQuery();
       query.where('uuid', '=', uuid);
-      const order = await query.load(pool);
-      if (!order) {
+      const order = await query.load(context.pool);
+      if (!order || !canAccessOrder(context, order)) {
         return null;
-      } else {
-        return camelCase(order);
       }
+      return camelCase(order);
     },
     /**
      * Anonymous tracking token verification status, populated by the
