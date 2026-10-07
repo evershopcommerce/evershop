@@ -132,8 +132,6 @@ describe('canAccessOrder', () => {
           { allow }
         )
       ).toBe(true);
-      // The guest success page proves access by session. Download links must
-      // not be shown there (see specifications/downloadable-products.md).
       expect(
         canAccessOrder(
           { verifiedOrder: { uuid: UUID, via: 'session' } },
