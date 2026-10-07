@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/webhook-deliveries/:id/retry",
+  "access": "private"
+}

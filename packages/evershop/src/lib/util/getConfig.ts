@@ -115,6 +115,17 @@ type ConfigStructure = {
       status?: number;
       [key: string]: unknown;
     };
+    // NOTE: declared non-optional (like `s3`) so ConfigPath can derive
+    // `system.webhook.*`; at runtime it is absent unless the operator sets it,
+    // so read individual keys, never the whole object.
+    webhook: {
+      /**
+       * Allow webhook URLs that resolve to private/loopback addresses and plain
+       * `http:`. Off by default (SSRF protection); turn on for a receiver on
+       * the same network or for local development.
+       */
+      allowPrivateNetworks?: boolean;
+    };
   };
   catalog: {
     collectionPageSize: number;

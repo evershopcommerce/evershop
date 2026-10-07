@@ -85,6 +85,11 @@ const coreModules = [
     name: 'pageBuilder',
     resolve: path.resolve(__dirname, '../../modules/pageBuilder'),
     path: path.resolve(__dirname, '../../modules/pageBuilder')
+  },
+  {
+    name: 'webhook',
+    resolve: path.resolve(__dirname, '../../modules/webhook'),
+    path: path.resolve(__dirname, '../../modules/webhook')
   }
 ];
 
