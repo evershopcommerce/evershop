@@ -1,0 +1,70 @@
+"""
+A webhook an admin configured. Admin schema only: it exposes the signing secret.
+"""
+type Webhook {
+  webhookId: Int!
+  uuid: String!
+  name: String!
+  url: String!
+  secret: String!
+  topics: [String!]!
+  enabled: Boolean!
+  pendingCount: Int!
+  failedCount: Int!
+  createdAt: DateTime
+  editUrl: String!
+  updateApi: String!
+  deleteApi: String!
+  testApi: String!
+}
+
+"""
+One attempt-tracked delivery of an event to a webhook (also the delivery log).
+"""
+type WebhookDelivery {
+  webhookDeliveryId: Int!
+  uuid: String!
+  topic: String!
+  topicLabel: String!
+  status: String!
+  attempts: Int!
+  nextAttemptAt: DateTime
+  completedAt: DateTime
+  createdAt: DateTime
+  lastStatusCode: Int
+  lastError: String
+  payload: JSON
+  retryApi: String!
+}
+
+type WebhookDeliveryCollection {
+  items: [WebhookDelivery]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+"""
+An event an admin can send to a webhook, with a readable name and description.
+"""
+type WebhookTopic {
+  name: String!
+  label: String!
+  description: String!
+  group: String!
+}
+
+extend type Query {
+  webhooks: [Webhook!]!
+  webhook(id: ID): Webhook
+  webhookDeliveries(
+    webhookId: ID!
+    filters: [FilterInput]
+  ): WebhookDeliveryCollection
+  webhookTopics: [WebhookTopic!]!
+  webhookLogLimit: Int!
+  """
+  The most webhooks an admin can create.
+  """
+  webhookMax: Int!
+}

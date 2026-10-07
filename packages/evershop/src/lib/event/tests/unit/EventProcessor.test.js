@@ -82,9 +82,11 @@ describe('createEventProcessor', () => {
 
       // callSubscribers is mocked — verify it was called once per event with the right args
       expect(callSubscribers).toHaveBeenCalledTimes(2);
-      expect(callSubscribers).toHaveBeenCalledWith([subscriber], {
-        orderId: 42
-      });
+      expect(callSubscribers).toHaveBeenCalledWith(
+        [subscriber],
+        { orderId: 42 },
+        { name: 'order_placed', uuid: 'uuid-1' }
+      );
     });
 
     it('only passes subscribers matching the event name to callSubscribers', async () => {
@@ -108,10 +110,82 @@ describe('createEventProcessor', () => {
       // Only the matching subscriber should be passed to callSubscribers
       expect(callSubscribers).toHaveBeenCalledWith(
         [orderSubscriber],
+        expect.anything(),
         expect.anything()
       );
       const calls = callSubscribers.mock.calls;
       expect(calls.every((c) => !c[0].includes(otherSubscriber))).toBe(true);
+    });
+
+    it("passes the event's name and uuid to callSubscribers as the third argument", async () => {
+      const subscriber = jest.fn();
+      storage.claimBatch.mockResolvedValue([
+        makeEvent('product_created', 'uuid-77')
+      ]);
+
+      const { loadAndProcess } = createEventProcessor({
+        storage,
+        subscribers: makeSubscribers('product_created', subscriber)
+      });
+
+      await loadAndProcess();
+      await new Promise((r) => setImmediate(r));
+
+      expect(callSubscribers.mock.calls[0][2]).toEqual({
+        name: 'product_created',
+        uuid: 'uuid-77'
+      });
+    });
+
+    describe('wildcard subscribers', () => {
+      it('passes a wildcard subscriber for every event name', async () => {
+        const wildcard = jest.fn();
+        storage.claimBatch.mockResolvedValue([
+          makeEvent('order_placed', 'uuid-1'),
+          makeEvent('product_created', 'uuid-2')
+        ]);
+
+        const { loadAndProcess } = createEventProcessor({
+          storage,
+          subscribers: [{ event: '*', subscriber: wildcard }]
+        });
+
+        await loadAndProcess();
+        await new Promise((r) => setImmediate(r));
+
+        expect(callSubscribers).toHaveBeenCalledTimes(2);
+        expect(callSubscribers.mock.calls.map((c) => c[0])).toEqual([
+          [wildcard],
+          [wildcard]
+        ]);
+      });
+
+      it('passes named and wildcard subscribers together, and not other events', async () => {
+        const named = jest.fn();
+        const wildcard = jest.fn();
+        const other = jest.fn();
+        storage.claimBatch.mockResolvedValue([
+          makeEvent('order_placed', 'uuid-1')
+        ]);
+
+        const { loadAndProcess } = createEventProcessor({
+          storage,
+          subscribers: [
+            { event: 'order_placed', subscriber: named },
+            { event: '*', subscriber: wildcard },
+            { event: 'product_created', subscriber: other }
+          ]
+        });
+
+        await loadAndProcess();
+        await new Promise((r) => setImmediate(r));
+
+        const passed = callSubscribers.mock.calls[0][0];
+        expect(passed).toHaveLength(2);
+        expect(passed).toContain(named);
+        expect(passed).toContain(wildcard);
+        expect(passed).not.toContain(other);
+      });
     });
 
     it('prevents concurrent execution via isProcessing guard', async () => {
