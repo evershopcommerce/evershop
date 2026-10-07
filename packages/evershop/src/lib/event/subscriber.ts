@@ -1,6 +1,30 @@
 import { EventDataRegistry, EventName } from '../../types/event.js';
 
 /**
+ * Event name a subscriber registers under to receive EVERY event. Created by
+ * placing the handler in a `subscribers/_all/` folder; named subscribers are
+ * unaffected.
+ */
+export const WILDCARD_EVENT = '*';
+
+/**
+ * Folder name under `subscribers/` that maps to `WILDCARD_EVENT`.
+ */
+export const WILDCARD_FOLDER = '_all';
+
+/**
+ * Second argument passed to every subscriber: which event triggered it. A
+ * named subscriber already knows its event, so this matters mainly to
+ * wildcard (`_all`) subscribers.
+ */
+export type EventMeta = {
+  /** The event name, e.g. `order_placed`. */
+  name: string;
+  /** The `event` row uuid. Stable for the life of the event. */
+  uuid: string;
+};
+
+/**
  * Type-safe event subscriber function.
  * Use this type to ensure your subscriber receives the correct event data type.
  *
