@@ -1,0 +1,18 @@
+{
+  "fmt": "%N%n%O%n%A%n%T%n%F%n%L%n%C %Z%n%S",
+  "id": "data/IN",
+  "key": "IN",
+  "lang": "en",
+  "languages": "en~hi",
+  "name": "INDIA",
+  "posturl": "https://dac.indiapost.gov.in/",
+  "require": "ACSZ",
+  "state_name_type": "state",
+  "sub_isoids": "AN~AP~AR~AS~BR~CH~CG~DH~DL~GA~GJ~HR~HP~JK~JH~KA~KL~LA~LD~MP~MH~MN~ML~MZ~NL~OD~PY~PB~RJ~SK~TN~TS~TR~UP~UK~WB",
+  "sub_keys": "Andaman and Nicobar Islands~Andhra Pradesh~Arunachal Pradesh~Assam~Bihar~Chandigarh~Chhattisgarh~Dadra and Nagar Haveli and Daman and Diu~Delhi~Goa~Gujarat~Haryana~Himachal Pradesh~Jammu and Kashmir~Jharkhand~Karnataka~Kerala~Ladakh~Lakshadweep~Madhya Pradesh~Maharashtra~Manipur~Meghalaya~Mizoram~Nagaland~Odisha~Puducherry~Punjab~Rajasthan~Sikkim~Tamil Nadu~Telangana~Tripura~Uttar Pradesh~Uttarakhand~West Bengal",
+  "sub_names": "Andaman & Nicobar~Andhra Pradesh~Arunachal Pradesh~Assam~Bihar~Chandigarh~Chhattisgarh~Dadra & Nagar Haveli & Daman & Diu~Delhi~Goa~Gujarat~Haryana~Himachal Pradesh~Jammu & Kashmir~Jharkhand~Karnataka~Kerala~Ladakh~Lakshadweep~Madhya Pradesh~Maharashtra~Manipur~Meghalaya~Mizoram~Nagaland~Odisha~Puducherry~Punjab~Rajasthan~Sikkim~Tamil Nadu~Telangana~Tripura~Uttar Pradesh~Uttarakhand~West Bengal",
+  "sub_zips": "744~50[2-7|9]|5[1-3]~79[0-2]~78~8[0-5]~16|1440[3-9]~49~396|362~11~403~3[6-9]~1[23]~17~1[89]~81[4-9]|82|83[0-5]~5[4-9]|53[7-9]~6[7-9]|6010|607008|777~194~682~4[5-8]|490~4[0-4]~79[56]~79[34]~796~79[78]~7[5-7]~60[579]|673310~1[456]~3[0-4]~737|750~6[0-6]|536~50|53[1|4]~799~2[0-35-8]|24[0-7]|26[12]~24[46-9]|254|26[23]~7[0-4]",
+  "zip": "\\d{6}",
+  "zip_name_type": "pin",
+  "zipex": "110034,110001"
+}

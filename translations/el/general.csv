@@ -1,7 +1,20 @@
 Discount ${discount} For All Orders Over ${price},Έκπτωση ${discount} Για Όλες τις Παραγγελίες Άνω των ${price}
 Please select,Παρακαλώ επιλέξτε
 The page you requested does not exist.,Η σελίδα που ζητήσατε δεν υπάρχει.
-Continue shopping,Συνέχιση αγορών
 404 Page Not Found,404 Σελίδα Δεν Βρέθηκε
 Home,Αρχική Σελίδα
 Not found,Δεν βρέθηκε
+Search options,Αναζήτηση επιλογών
+Show less,Εμφάνιση λιγότερων
+Sort by,Ταξινόμηση ανά
+Search products…,Αναζήτηση προϊόντων…
+Order Note,Σημείωση παραγγελίας
+Add a note to your order,Προσθέστε μια σημείωση στην παραγγελία σας
+My account,Ο λογαριασμός μου
+Log out,Αποσύνδεση
+Your profile has been updated,Το προφίλ σας ενημερώθηκε
+Update profile API not available,Το API ενημέρωσης προφίλ δεν είναι διαθέσιμο
+Failed to update profile,Η ενημέρωση του προφίλ απέτυχε
+Something went wrong. Please refresh the page.,Κάτι πήγε στραβά. Παρακαλώ ανανεώστε τη σελίδα.
+${count} result for “${keyword}”,${count} αποτέλεσμα για «${keyword}»
+${count} results for “${keyword}”,${count} αποτελέσματα για «${keyword}»

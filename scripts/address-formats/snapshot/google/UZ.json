@@ -1,0 +1,14 @@
+{
+  "fmt": "%N%n%O%n%A%n%Z %C%n%S",
+  "id": "data/UZ",
+  "key": "UZ",
+  "lang": "uz",
+  "languages": "uz~ru",
+  "name": "UZBEKISTAN",
+  "posturl": "https://uz.post/ru/mening-pochta-indeksim",
+  "sub_isoids": "AN~BU~FA~JI~NG~NW~QA~QR~SA~SI~SU~TK~TO~XO",
+  "sub_keys": "Andijon Viloyati~Buxoro Viloyati~Farg'ona Viloyati~Jizzax Viloyati~Namangan Viloyati~Navoiy Viloyati~Qashqadaryo Viloyati~Qoraqalpog’iston Respublikasi~Samarqand Viloyati~Sirdaryo Viloyati~Surxondaryo Viloyati~Toshkent~Toshkent Viloyati~Xorazm Viloyati",
+  "upper": "CS",
+  "zip": "\\d{6}",
+  "zipex": "702100,700000"
+}

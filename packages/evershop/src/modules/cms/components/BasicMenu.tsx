@@ -8,6 +8,7 @@ import {
 } from '@components/common/ui/NavigationMenu.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { cn } from '@evershop/evershop/lib/util/cn';
+import { shiftIntoView } from '@evershop/evershop/lib/util/shiftIntoView';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import React from 'react';
 
@@ -59,6 +60,7 @@ interface BasicMenuProps {
       type: string;
       uuid: string;
       children: ({
+        id: string;
         name: string;
         url: string;
         type: string;
@@ -119,7 +121,7 @@ function MobileItemList({
   return (
     <ul className="flex flex-col">
       {items.map((item) => (
-        <li key={item.uuid} className="evershop-basic-menu__mobile-group">
+        <li key={item.id} className="evershop-basic-menu__mobile-group">
           <MenuAnchor
             link={item}
             className={cn(
@@ -132,7 +134,7 @@ function MobileItemList({
           {item.children.length > 0 && (
             <ul className="evershop-basic-menu__mobile-subs mb-1 ml-3 flex flex-col border-l border-divider pl-2">
               {item.children.map((subItem) => (
-                <li key={subItem.uuid}>
+                <li key={subItem.id}>
                   <MenuAnchor
                     link={subItem}
                     className="evershop-basic-menu__mobile-sub-link block rounded-md px-3 py-1.5 text-sm text-foreground/70 transition-colors hover:bg-muted/50 hover:text-foreground"
@@ -153,7 +155,31 @@ export default function BasicMenu({
   basicMenuWidget: { menus, isMain, className }
 }: BasicMenuProps) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const mobilePanelRef = React.useRef<HTMLDivElement>(null);
   const [currentPath, setCurrentPath] = React.useState('');
+
+  // The panel hangs from the toggle's left edge (`left-0`). That is right for a toggle at the page's
+  // left and runs off the right of a phone for any other (a centred logo is the commonest header
+  // there is; theme-lab FINDINGS #53). So once it is open, measure where it landed and move it back
+  // inside the viewport. The `translate` property, not `transform`: a theme that positions the panel
+  // with its own `transform` keeps it, and a panel that already fits is left exactly where it was.
+  React.useLayoutEffect(() => {
+    const panel = mobilePanelRef.current;
+    if (!mobileOpen || !panel) {
+      return undefined;
+    }
+    const fit = () => {
+      panel.style.translate = '';
+      const { left, right } = panel.getBoundingClientRect();
+      const dx = shiftIntoView(left, right, document.documentElement.clientWidth);
+      if (dx !== 0) {
+        panel.style.translate = `${dx}px 0`;
+      }
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, [mobileOpen]);
 
   React.useEffect(() => {
     setCurrentPath(window.location.pathname);
@@ -179,7 +205,7 @@ export default function BasicMenu({
           <NavigationMenuList className="evershop-basic-menu__items items-center gap-1">
             {menuItems.map((item) => (
               <NavigationMenuItem
-                key={item.uuid}
+                key={item.id}
                 className="evershop-basic-menu__item"
               >
                 {item.children.length > 0 ? (
@@ -223,7 +249,7 @@ export default function BasicMenu({
                       <ul className="evershop-basic-menu__subs flex flex-col min-w-50 p-2">
                         {item.children.map((subItem) => (
                           <li
-                            key={subItem.uuid}
+                            key={subItem.id}
                             className="evershop-basic-menu__sub"
                           >
                             <NavigationMenuLink
@@ -280,7 +306,10 @@ export default function BasicMenu({
               )}
             </button>
             {mobileOpen && (
-              <div className="evershop-basic-menu__mobile-panel absolute left-0 top-full z-40 mt-2 w-64 max-w-[85vw] rounded-lg border border-divider bg-card p-1.5 shadow-lg">
+              <div
+                ref={mobilePanelRef}
+                className="evershop-basic-menu__mobile-panel absolute left-0 top-full z-40 mt-2 w-64 max-w-[85vw] rounded-lg border border-divider bg-card p-1.5 shadow-lg"
+              >
                 <MobileItemList items={menuItems} isActive={isActive} />
               </div>
             )}
@@ -308,6 +337,7 @@ export const query = `
         nofollow
         noReferrer
         children {
+          id
           name
           url
           type

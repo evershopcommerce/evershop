@@ -18,16 +18,58 @@ City,நகரம்
 Account Information,கணக்கு தகவல்
 Address,முகவரி
 Postcode,அஞ்சல் குறியீடு
-Postcode is required,அஞ்சல் குறியீடு தேவையானது
-Telephone is required,தொலைபேசி எண் தேவையானது
 Telephone,தொலைபேசி
-Full name is required,முழுப் பெயர் தேவையானது
-Country is required,நாடு தேவையானது
 Country,நாடு
-Province is required,மாநிலம் தேவையானது
 Province,மாநிலம்
 Billing Address,பில்லிங் முகவரி
 Shipping Address,அனுப்பும் முகவரி
 Create A New Account,புதிய கணக்கை உருவாக்கவும்
 Contact,தொடர்பு
 Customer information,வாடிக்கையாளர் தகவல்
+Address book,முகவரிப் புத்தகம்
+Account information,கணக்குத் தகவல்
+Recent orders,சமீபத்திய ஆர்டர்கள்
+View all,அனைத்தையும் காண்க
+Sign in,உள்நுழைக
+Welcome back — sign in to your account.,மீண்டும் வருக — உங்கள் கணக்கில் உள்நுழையவும்.
+New here?,இங்கு புதியவரா?
+Back to orders,ஆர்டர்களுக்குத் திரும்பு
+Create account,கணக்கை உருவாக்கு
+You must be logged in to manage your addresses,உங்கள் முகவரிகளை நிர்வகிக்க நீங்கள் உள்நுழைந்திருக்க வேண்டும்
+You must be logged in to update your profile,உங்கள் சுயவிவரத்தைப் புதுப்பிக்க நீங்கள் உள்நுழைந்திருக்க வேண்டும்
+There is nothing to update,புதுப்பிக்க எதுவும் இல்லை
+Email is already used,இந்த மின்னஞ்சல் ஏற்கனவே பயன்பாட்டில் உள்ளது
+Order #${orderNumber},ஆர்டர் #${orderNumber}
+Given name,பெயர்
+Family name,குடும்பப் பெயர்
+Company,நிறுவனம்
+Address line 3,முகவரி வரி 3
+State,மாநிலம்
+Prefecture,ப்ரிஃபெக்சர்
+County,கவுண்டி
+Emirate,எமிரேட்
+Department,துறை
+District,மாவட்டம்
+Do/Si,Do/Si
+Island,தீவு
+Oblast,ஒப்லாஸ்ட்
+Parish,பாரிஷ்
+Post town,அஞ்சல் நகரம்
+Suburb,புறநகர்
+Neighborhood,அக்கம்பக்கம்
+Village,கிராமம்
+Village/Township,கிராமம்/நகராட்சி
+Townland,Townland
+Ward,வார்டு
+ZIP code,ஜிப் குறியீடு
+PIN code,பின் குறியீடு
+Eircode,Eircode
+Sorting code,வரிசைப்படுத்தும் குறியீடு
+${field} is not valid,${field} செல்லுபடியாகாது
+${field} is not a valid region,${field} செல்லுபடியான பிராந்தியம் அல்ல
+${field} has the wrong type,${field} தவறான வகையைக் கொண்டுள்ளது
+${field} is not a known address field,${field} அறியப்பட்ட முகவரிப் புலம் அல்ல
+We do not sell to ${country},நாங்கள் ${country}க்கு விற்பனை செய்வதில்லை
+Select ${field},${field} தேர்ந்தெடுக்கவும்
+no longer available,இனி கிடைக்கவில்லை
+Please check the highlighted fields,தனிப்படுத்தப்பட்ட புலங்களைச் சரிபார்க்கவும்

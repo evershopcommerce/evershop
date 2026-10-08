@@ -1,0 +1,9 @@
+{
+  "fmt": "%N%n%O%n%A%n%C - %Z",
+  "id": "data/BD",
+  "key": "BD",
+  "name": "BANGLADESH",
+  "posturl": "https://ekdak.com/thikana/postcode/",
+  "zip": "\\d{4}",
+  "zipex": "1340,1000"
+}

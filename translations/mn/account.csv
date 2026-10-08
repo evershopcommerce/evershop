@@ -1,33 +1,75 @@
-Login, Нэвтрэх
-Logout, Гарах
-Email, И-мэйл
-Password, Нууц үг
-Forgot your password?, Нууц үгээ мартсан уу?
-Create an account, Бүртгэл үүсгээх
-Register, Бүртгүүлэх
-Full Name, Бүтэн нэр
-Full name, Бүтэн нэр
-Sign In, НЭВТРЭХ
-Order History, Захиалгын түүх
-Account Details, Бүртгэлийн дэлгэрэнгүй
-You have not placed any orders yet, Та одоогоор ямар ч захиалга өгөөгүй байна
-My Account, Миний бүртгэл
-Already have an account?, Өмнө нь бүртгэл үүсгэсэн үү?
-Contact information, Холбоо барих мэдээлэл
-City, Хот
-Account Information, Бүртгэлийн мэдээлэл
-Address, Хаяг
-Postcode, Шуудангийн код
-Postcode is required, Шуудангийн код шаардлагатай
-Telephone is required, Утасны дугаар шаардлагатай
-Telephone, Утас
-Full name is required, Бүтэн нэр шаардлагатай
-Country is required, Улс шаардлагатай
-Country, Улс
-Province is required, Муж/аймаг шаардлагатай
-Province, Муж/аймаг
-Billing Address, Төлбөрийн хаяг
-Shipping Address, Хүргэлтийн хаяг
-Create A New Account, Шинэ бүртгэл үүсгэх
-Contact, Холбоо
-Customer information, Хэрэглэгчийн мэдээлэл
+Login,Нэвтрэх
+Logout,Гарах
+Email,И-мэйл
+Password,Нууц үг
+Forgot your password?,Нууц үгээ мартсан уу?
+Create an account,Бүртгэл үүсгээх
+Register,Бүртгүүлэх
+Full Name,Бүтэн нэр
+Full name,Бүтэн нэр
+Sign In,НЭВТРЭХ
+Order History,Захиалгын түүх
+Account Details,Бүртгэлийн дэлгэрэнгүй
+You have not placed any orders yet,Та одоогоор ямар ч захиалга өгөөгүй байна
+My Account,Миний бүртгэл
+Already have an account?,Өмнө нь бүртгэл үүсгэсэн үү?
+Contact information,Холбоо барих мэдээлэл
+City,Хот
+Account Information,Бүртгэлийн мэдээлэл
+Address,Хаяг
+Postcode,Шуудангийн код
+Telephone,Утас
+Country,Улс
+Province,Муж/аймаг
+Billing Address,Төлбөрийн хаяг
+Shipping Address,Хүргэлтийн хаяг
+Create A New Account,Шинэ бүртгэл үүсгэх
+Contact,Холбоо
+Customer information,Хэрэглэгчийн мэдээлэл
+Address book,Хаягийн дэвтэр
+Account information,Бүртгэлийн мэдээлэл
+Recent orders,Сүүлийн захиалгууд
+View all,Бүгдийг харах
+Sign in,Нэвтрэх
+Welcome back — sign in to your account.,Тавтай морил — бүртгэлдээ нэвтэрнэ үү.
+New here?,Шинэ хэрэглэгч үү?
+Back to orders,Захиалга руу буцах
+Create account,Бүртгэл үүсгэх
+You must be logged in to manage your addresses,Хаягаа удирдахын тулд нэвтэрсэн байх шаардлагатай
+You must be logged in to update your profile,Профайлаа шинэчлэхийн тулд нэвтэрсэн байх шаардлагатай
+There is nothing to update,Шинэчлэх зүйл байхгүй байна
+Email is already used,Энэ и-мэйл аль хэдийн ашиглагдсан байна
+Order #${orderNumber},${orderNumber} дугаартай захиалга
+Given name,Нэр
+Family name,Овог
+Company,Компани
+Address line 3,Хаягийн 3-р мөр
+State,Муж
+Prefecture,Префектур
+County,Тойрог
+Emirate,Эмират
+Department,Департамент
+District,Дүүрэг
+Do/Si,Do/Si
+Island,Арал
+Oblast,Область
+Parish,Париш
+Post town,Шуудангийн хот
+Suburb,Хотын зах
+Neighborhood,Хороолол
+Village,Тосгон
+Village/Township,Тосгон/Сум
+Townland,Townland
+Ward,Хороо
+ZIP code,ZIP код
+PIN code,PIN код
+Eircode,Eircode
+Sorting code,Ангилах код
+${field} is not valid,${field} буруу байна
+${field} is not a valid region,${field} нь хүчинтэй бүс биш байна
+${field} has the wrong type,${field} буруу төрөлтэй байна
+${field} is not a known address field,${field} нь мэдэгдэж буй хаягийн талбар биш
+We do not sell to ${country},Бид ${country} руу зардаггүй
+Select ${field},${field} сонгоно уу
+no longer available,ашиглах боломжгүй болсон
+Please check the highlighted fields,Тэмдэглэсэн талбаруудыг шалгана уу

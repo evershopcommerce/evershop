@@ -1,0 +1,9 @@
+{
+  "fmt": "%N%n%O%n%A%n%C %Z",
+  "id": "data/BT",
+  "key": "BT",
+  "name": "BHUTAN",
+  "posturl": "https://bhutanpost.bt/postcode/",
+  "zip": "\\d{5}",
+  "zipex": "11001,31101,35003"
+}

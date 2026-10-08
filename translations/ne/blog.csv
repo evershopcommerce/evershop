@@ -50,6 +50,7 @@ No posts match,कुनै मिल्दो पोस्ट छैन
 No posts published yet.,अहिलेसम्म कुनै पोस्ट प्रकाशित गरिएको छैन।
 No posts with this tag yet.,यस ट्यागसहितको अहिलेसम्म कुनै पोस्ट छैन।
 No posts yet,अहिलेसम्म कुनै पोस्ट छैन
+"Nothing picked: the latest posts are shown, up to Max posts.",केही पनि चयन गरिएको छैन: नवीनतम पोस्टहरू “अधिकतम पोस्ट” सम्म देखाइन्छन्।
 Open page in a new tab,पृष्ठ नयाँ ट्याबमा खोल्नुहोस्
 Open — auto-approve,खुला — स्वतः स्वीकृति
 Organize,व्यवस्थित गर्नुहोस्
@@ -97,3 +98,4 @@ Unpublish ${count} posts,${count} पोस्ट अप्रकाशित �
 Untitled page,शीर्षकविहीन पृष्ठ
 Your comment,तपाईंको टिप्पणी
 min read,मिनेट पढाइ
+Back to blog,ब्लगमा फर्कनुहोस्

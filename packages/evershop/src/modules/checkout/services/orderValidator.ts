@@ -1,3 +1,6 @@
+import { getAddressRuntime } from '../../../lib/address/runtime.js';
+import { isCountryAllowed } from '../../../lib/address/settings.js';
+import type { AddressSurface } from '../../../lib/address/types.js';
 import { addProcessor, getValueSync } from '../../../lib/util/registry.js';
 import { Validator, ValidatorManager } from '../../../lib/util/validator.js';
 import { Cart } from './cart/Cart.js';
@@ -99,6 +102,43 @@ const initialValidators: Validator<Cart>[] = [
       return Boolean(cart.getData('billing_address_id'));
     },
     errorMessage: 'Billing address is required'
+  },
+  {
+    id: 'addressCountryAllowed',
+    /**
+     * Spec § 3.13 (D-12): re-check both cart addresses against the merchant's
+     * `sellToCountries` list at placement — `country_not_allowed` ONLY.
+     * `required` and `region_invalid` are deliberately not re-enforced here,
+     * so a cart created before a deploy still places, while a cart whose
+     * country the merchant has since excluded fails and the customer
+     * re-enters the address. Zone coverage is checked by the shipping method
+     * rule, not here.
+     * @param {Cart} cart
+     * @returns {boolean}
+     */
+    func: (cart: Cart) => {
+      const settings = getAddressRuntime().getSettings();
+      const allowed = (
+        address: { country?: string | null } | null | undefined,
+        surface: AddressSurface
+      ) =>
+        !address?.country ||
+        isCountryAllowed(String(address.country), settings, surface);
+      const shippingOk = cart.getData('no_shipping_required')
+        ? true
+        : allowed(
+            cart.getData('shipping_address') as { country?: string | null },
+            'shipping'
+          );
+      const billingOk = cart.getData('billing_address_id')
+        ? allowed(
+            cart.getData('billing_address') as { country?: string | null },
+            'billing'
+          )
+        : true;
+      return shippingOk && billingOk;
+    },
+    errorMessage: 'We do not sell to the address country'
   },
   {
     id: 'guestCheckout',

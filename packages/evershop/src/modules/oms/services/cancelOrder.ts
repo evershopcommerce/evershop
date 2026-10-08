@@ -7,11 +7,14 @@ import {
   select,
   startTransaction
 } from '@evershop/postgres-query-builder';
+import { emit } from '../../../lib/event/emitter.js';
 import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
+import { OrderRow, PaymentTransactionRow } from '../../../types/db/index.js';
 import { PaymentStatus } from '../../../types/order.js';
+import { getPaymentMethodFactory } from '../../checkout/services/getAvailablePaymentMethods.js';
 import addOrderActivityLog from './addOrderActivityLog.js';
 import { updatePaymentStatus } from './updatePaymentStatus.js';
 import { updateShipmentStatus } from './updateShipmentStatus.js';
@@ -125,6 +128,46 @@ async function reStockAfterCancel(orderID: number, connection: PoolClient) {
   );
 }
 
+/**
+ * Release an uncaptured authorization at the gateway when a voidable order is
+ * canceled. Two gates, both required: the method registered a `void` handler
+ * (capability) AND the current payment status is flagged `isVoidable` (state —
+ * authorized, not yet captured). Runs inside the cancel transaction so a failed
+ * void rolls the whole cancellation back — we never mark an order canceled while
+ * its money is still held at the gateway. This is the typed replacement for the
+ * per-gateway `hookAfter('changePaymentStatus')` void hooks Stripe and PayPal
+ * used to register.
+ */
+async function maybeVoidAuthorization(order: OrderRow, connection: PoolClient) {
+  if (!order.payment_method) {
+    return;
+  }
+  const statuses = getConfig('oms.order.paymentStatus', {}) as Record<
+    string,
+    PaymentStatus
+  >;
+  if (!statuses[order.payment_status]?.isVoidable) {
+    return;
+  }
+  const factory = await getPaymentMethodFactory(order.payment_method);
+  if (!factory?.void) {
+    return;
+  }
+  const txQuery = select()
+    .from('payment_transaction')
+    .orderBy('payment_transaction_id', 'DESC');
+  txQuery.where('payment_transaction_order_id', '=', order.order_id);
+  const txns = (await txQuery.execute(
+    connection,
+    false
+  )) as PaymentTransactionRow[];
+  const authorization = txns[0];
+  if (!authorization) {
+    return;
+  }
+  await factory.void({ order, transaction: authorization });
+}
+
 async function cancelOrder(uuid: string, reason: string | undefined) {
   const connection = await getConnection(pool);
   try {
@@ -146,6 +189,10 @@ async function cancelOrder(uuid: string, reason: string | undefined) {
       throw new Error('Order is not cancelable at this status');
     }
 
+    // Release an uncaptured authorization at the gateway before marking the
+    // order canceled (voidable/authorized orders only).
+    await maybeVoidAuthorization(order, connection);
+
     await hookable(updatePaymentStatusToCancel, { order })(
       order.order_id,
       connection
@@ -161,6 +208,14 @@ async function cancelOrder(uuid: string, reason: string | undefined) {
       connection
     );
     await hookable(reStockAfterCancel, { order })(order.order_id, connection);
+    // Dedicated cancellation event (carries the reason). Emitted on this
+    // connection so it commits atomically with the cancellation and reaches
+    // subscribers only after commit.
+    await emit(
+      'order_canceled',
+      { orderId: order.order_id, reason },
+      connection
+    );
     await commit(connection);
   } catch (err) {
     error(err);

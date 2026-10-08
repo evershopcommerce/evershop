@@ -1,0 +1,6 @@
+{
+  "methods": ["GET"],
+  "path": "/products",
+  "name": "All products page",
+  "editable": true
+}

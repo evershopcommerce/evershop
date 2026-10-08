@@ -1,5 +1,11 @@
 import { canonicallyEqual } from './canonicalize.js';
-import type { Manifest, PlacementRecord, WidgetRecord } from './manifest.js';
+import { LANDING_PAGE_MANIFEST_FIELDS, landingPageUrn } from './landingPages.js';
+import type {
+  LandingPageRecord,
+  Manifest,
+  PlacementRecord,
+  WidgetRecord
+} from './manifest.js';
 
 /**
  * Three-way diff engine (spec 04 § 7.2) — the core of the upgrade path.
@@ -22,10 +28,27 @@ export interface Conflict {
 }
 
 export interface PlanOp {
-  table: 'widget_instance' | 'widget_placement';
+  table: 'widget_instance' | 'widget_placement' | 'landing_page';
   op: 'INSERT' | 'UPDATE' | 'DELETE';
   uuid: string;
   payload?: Record<string, unknown>;
+}
+
+/**
+ * A placement as the diff sees it: the shared shape plus the entity scope a
+ * nested landing-page placement carries. `entity_urn` is STRUCTURAL — like
+ * `widget_instance_uuid` it is never merged, only set on INSERT.
+ */
+export type ScopedPlacement = PlacementRecord & { entity_urn?: string | null };
+
+/** Live landing-page row as the diff's `D` input (manifest-carried fields only). */
+export interface LandingPageLiveRow {
+  uuid: string;
+  name: string;
+  description: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  status: boolean;
 }
 
 export interface DiffResult {
@@ -38,12 +61,32 @@ export interface DiffResult {
     placements_added: number;
     placements_updated: number;
     placements_removed: number;
+    landing_pages_added: number;
+    landing_pages_updated: number;
+    /**
+     * Pages the manifest stopped shipping. The `landing_page` row is NEVER
+     * deleted (pages are not theme property) — only its theme-owned placements
+     * go. Counted so the CLI can report them.
+     */
+    landing_pages_released: number;
   };
+  /** Pages dropped from the manifest whose row was left in place, by uuid+name. */
+  releasedLandingPages: Array<{ uuid: string; name: string }>;
+  /**
+   * Rows already in the DB that this version of the manifest newly declares —
+   * present in M and D but not in S. The author's own store after
+   * `theme:export-content`: they built content in the page builder, exported
+   * it, and are now re-activating. Adopted (left exactly as they are) and
+   * recorded in the new snapshot, never re-inserted.
+   */
+  adopted: { widgets: number; placements: number; landingPages: number };
 }
 
 export interface LiveDbState {
   widgets: Map<string, WidgetRecord & { status?: boolean }>;
-  placements: Map<string, PlacementRecord>;
+  placements: Map<string, ScopedPlacement>;
+  /** Live rows for the landing pages this theme knows about (S ∪ M). */
+  landingPages?: Map<string, LandingPageLiveRow>;
 }
 
 function isPlainObject(v: unknown): v is Record<string, unknown> {
@@ -53,8 +96,66 @@ function isPlainObject(v: unknown): v is Record<string, unknown> {
 function toWidgetMap(m: Manifest): Map<string, WidgetRecord> {
   return new Map(m.widgets.map((w) => [w.uuid, w]));
 }
-function toPlacementMap(m: Manifest): Map<string, PlacementRecord> {
-  return new Map(m.placements.map((p) => [p.uuid, p]));
+function toPlacementMap(m: Manifest): Map<string, ScopedPlacement> {
+  return new Map(m.placements.map((p) => [p.uuid, { ...p, entity_urn: null }]));
+}
+function toLandingPageMap(m: Manifest): Map<string, LandingPageRecord> {
+  return new Map((m.landingPages ?? []).map((lp) => [lp.uuid, lp]));
+}
+
+/**
+ * Expand a manifest's nested landing-page placements into ordinary placements,
+ * stamped with the internal route and the page's entity URN. Pages whose uuid
+ * is not in `pageExists` are skipped: a page the merchant deleted is never
+ * re-created, so its body has nowhere to attach.
+ */
+function flattenLandingPlacements(
+  m: Manifest,
+  pageExists: (uuid: string) => boolean
+): Map<string, ScopedPlacement> {
+  const out = new Map<string, ScopedPlacement>();
+  for (const lp of m.landingPages ?? []) {
+    if (!pageExists(lp.uuid)) continue;
+    for (const p of lp.placements ?? []) {
+      out.set(p.uuid, {
+        uuid: p.uuid,
+        widget_instance_uuid: p.widget_instance_uuid,
+        route: 'landingPageView',
+        area: p.area,
+        sort_order: p.sort_order,
+        entity_urn: landingPageUrn(lp.uuid)
+      });
+    }
+  }
+  return out;
+}
+
+/** Merge the manifest-carried fields of a landing page (three-way, merchant wins). */
+function mergeSharedLandingPage(
+  s: LandingPageRecord,
+  m: LandingPageRecord,
+  d: LandingPageLiveRow
+): { changed: Record<string, unknown>; conflicts: Conflict[] } {
+  const changed: Record<string, unknown> = {};
+  const conflicts: Conflict[] = [];
+  for (const f of LANDING_PAGE_MANIFEST_FIELDS) {
+    // Absent in the manifest means "null"/"false" for the comparison, so an
+    // author dropping a field reads as a change to empty, not as "no opinion".
+    const sv = f === 'status' ? s.status === true : (s[f] ?? null);
+    const mv = f === 'status' ? m.status === true : (m[f] ?? null);
+    const dv = d[f] ?? (f === 'status' ? false : null);
+    const r = mergeScalar(sv, mv, dv);
+    if (r.conflict) {
+      conflicts.push({
+        widget_uuid: m.uuid,
+        field_path: `landingPages.${f}`,
+        manifest_value: mv,
+        user_value: dv
+      });
+    }
+    if (!canonicallyEqual(r.value, dv)) changed[f] = r.value;
+  }
+  return { changed, conflicts };
 }
 
 /**
@@ -270,14 +371,85 @@ export function diffManifest(
   const placementInserts: PlanOp[] = [];
   const widgetUpdates: PlanOp[] = [];
   const placementUpdates: PlanOp[] = [];
+  const adopted = { widgets: 0, placements: 0, landingPages: 0 };
+  const landingPageInserts: PlanOp[] = [];
+  const landingPageUpdates: PlanOp[] = [];
+  const releasedLandingPages: Array<{ uuid: string; name: string }> = [];
   const counts = {
     widgets_added: 0,
     widgets_updated: 0,
     widgets_removed: 0,
     placements_added: 0,
     placements_updated: 0,
-    placements_removed: 0
+    placements_removed: 0,
+    landing_pages_added: 0,
+    landing_pages_updated: 0,
+    landing_pages_released: 0
   };
+
+  // ---- Landing pages (theme-json-landing-pages spec § 5) ----
+  // Resolved BEFORE placements: which pages will exist decides which nested
+  // bodies are in play.
+  const sL = toLandingPageMap(snapshot);
+  const mL = toLandingPageMap(manifest);
+  const liveL = liveDb.landingPages ?? new Map<string, LandingPageLiveRow>();
+  const existingPages = new Set<string>();
+  for (const uuid of new Set([...sL.keys(), ...mL.keys()])) {
+    const inS = sL.has(uuid);
+    const inM = mL.has(uuid);
+    const inD = liveL.has(uuid);
+
+    if (inM && !inD) {
+      if (inS) {
+        // Merchant deleted a page the theme still ships — never re-created.
+        continue;
+      }
+      const m = mL.get(uuid)!;
+      landingPageInserts.push({
+        table: 'landing_page',
+        op: 'INSERT',
+        uuid,
+        payload: {
+          uuid,
+          name: m.name,
+          description: m.description ?? null,
+          meta_title: m.meta_title ?? null,
+          meta_description: m.meta_description ?? null,
+          status: m.status === true
+        }
+      });
+      counts.landing_pages_added++;
+      existingPages.add(uuid);
+    } else if (inM && inD) {
+      existingPages.add(uuid);
+      if (!inS) adopted.landingPages++;
+      if (inS) {
+        const { changed, conflicts: c } = mergeSharedLandingPage(
+          sL.get(uuid)!,
+          mL.get(uuid)!,
+          liveL.get(uuid)!
+        );
+        conflicts.push(...c);
+        if (Object.keys(changed).length > 0) {
+          landingPageUpdates.push({
+            table: 'landing_page',
+            op: 'UPDATE',
+            uuid,
+            payload: changed
+          });
+          counts.landing_pages_updated++;
+        }
+      }
+      // (!inS && inD) → adopted at install; fields left exactly as they are.
+    } else if (inS && !inM && inD) {
+      // Dropped from the manifest. The row STAYS (pages are not theme
+      // property); its theme-owned placements are released below because they
+      // are no longer in M.
+      releasedLandingPages.push({ uuid, name: liveL.get(uuid)!.name });
+      counts.landing_pages_released++;
+    }
+    // (inS && !inM && !inD) → already gone, no-op.
+  }
 
   // ---- Widgets (§ 7.2.2) ----
   const sW = toWidgetMap(snapshot);
@@ -298,11 +470,13 @@ export function diffManifest(
       });
       counts.widgets_added++;
     } else if (!inS && inM && inD) {
-      // collision — defense in depth (validation catches it earlier, § 5.5)
-      throw new Error(
-        `theme diff collision: widget '${uuid}' is in the manifest and the DB ` +
-          `but not the snapshot — it already exists outside this theme's install`
-      );
+      // Already in the DB under this theme, newly declared by the manifest:
+      // ADOPT it. This is the author's own store after
+      // `theme:export-content` — they built the widget in the page builder,
+      // exported it into the manifest, and are re-activating. The row is the
+      // source of truth; the new snapshot records it. (Validation has already
+      // refused any uuid owned by a DIFFERENT theme.)
+      adopted.widgets++;
     } else if (inS && !inM && inD) {
       // removed
       widgetDeletes.push({ table: 'widget_instance', op: 'DELETE', uuid });
@@ -331,8 +505,16 @@ export function diffManifest(
   }
 
   // ---- Placements (§ 7.2.6) ----
-  const sP = toPlacementMap(snapshot);
-  const mP = toPlacementMap(manifest);
+  // Nested landing-page bodies are flattened in: from here on they are
+  // ordinary placements that happen to carry an entity scope.
+  const sP = new Map([
+    ...toPlacementMap(snapshot),
+    ...flattenLandingPlacements(snapshot, () => true)
+  ]);
+  const mP = new Map([
+    ...toPlacementMap(manifest),
+    ...flattenLandingPlacements(manifest, (u) => existingPages.has(u))
+  ]);
   for (const uuid of new Set([...sP.keys(), ...mP.keys()])) {
     const inS = sP.has(uuid);
     const inM = mP.has(uuid);
@@ -349,15 +531,14 @@ export function diffManifest(
           widget_instance_uuid: m.widget_instance_uuid,
           route: m.route,
           area: m.area,
-          sort_order: m.sort_order
+          sort_order: m.sort_order,
+          entity_urn: m.entity_urn ?? null
         }
       });
       counts.placements_added++;
     } else if (!inS && inM && inD) {
-      throw new Error(
-        `theme diff collision: placement '${uuid}' is in the manifest and the ` +
-          `DB but not the snapshot`
-      );
+      // Adopted, same as widgets above.
+      adopted.placements++;
     } else if (inS && !inM && inD) {
       placementDeletes.push({ table: 'widget_placement', op: 'DELETE', uuid });
       counts.placements_removed++;
@@ -382,16 +563,19 @@ export function diffManifest(
     }
   }
 
-  // Order of operations (§ 7.4): remove placements, remove widgets, insert
-  // widgets, insert placements, update widgets, update placements.
+  // Order of operations (§ 7.4, extended): remove placements, remove widgets,
+  // insert widgets, insert landing pages (a body needs its page to exist),
+  // insert placements, then the updates.
   const ops = [
     ...placementDeletes,
     ...widgetDeletes,
     ...widgetInserts,
+    ...landingPageInserts,
     ...placementInserts,
     ...widgetUpdates,
+    ...landingPageUpdates,
     ...placementUpdates
   ];
 
-  return { ops, conflicts, counts };
+  return { ops, conflicts, counts, releasedLandingPages, adopted };
 }

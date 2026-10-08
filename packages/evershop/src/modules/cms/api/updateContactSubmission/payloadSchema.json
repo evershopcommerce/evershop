@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["unread", "read", "spam"]
+    }
+  },
+  "required": ["status"],
+  "additionalProperties": true
+}

@@ -6,9 +6,166 @@
   right: 0;
   bottom: 0;
   background: #fff;
-  z-index: 1000;
+  /* The modal layer, matching `Dialog` (z-[1200]).
+   *
+   * 1000 was enough only while this rendered inside whatever opened it. Now
+   * that it portals to <body> it is a SIBLING of the things it must cover, and
+   * both of them sit higher: the admin header is also 1000 (a tie, resolved by
+   * DOM order) and the page-builder editor shell is 1100 — so opening the
+   * browser from a widget's settings drawer put it behind the editor, present
+   * in the DOM, full size, and completely invisible.
+   *
+   * Keep this in step with `components/common/ui/Dialog.tsx`, which documents
+   * the same tier for the same reason. */
+  z-index: 1200;
   padding: 20px;
+  /* The shell itself never scrolls. Only the file grid does, so the folder
+   * list and the toolbar stay put while you page through images — the toolbar
+   * carries Insert and Delete, which act on the current selection, so
+   * scrolling it away means scrolling back to use it.
+   *
+   * Before this the whole overlay scrolled, and because a fixed box does not
+   * scroll WITH the document, anything past the fold was simply unreachable. */
+  /* The sidebar track, published so the floating panel can clear it without
+     restating the number. The media query below moves both together. */
+  --sidebar-width: 14rem;
+  --pane-gap: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  /* Normally nothing overflows here — the panes below size themselves to the
+   * space left over, so this never engages. It is the floor for a window too
+   * short to hold the toolbar and a usable grid at once: rather than clipping
+   * the grid to nothing, the shell scrolls. Reaching content must never
+   * depend on the window being tall enough. */
+  overflow-y: auto;
 }
+
+.file-browser .content,
+.file-browser__panes,
+.file-browser__row {
+  /* `min-height: 0` on every step of the chain is what actually makes the
+   * inner pane scroll. A flex item's default `min-height: auto` refuses to
+   * shrink below its content, so without this the grid simply pushes the
+   * shell taller and nothing scrolls anywhere. */
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-browser__row {
+  display: grid;
+  /* A fixed, readable sidebar rather than a fraction of the window. It was
+   * `col-span-1` of a 4-column grid — 25% of the screen for a list of folder
+   * names, which on a wide monitor is several hundred wasted pixels that the
+   * image grid could be using. `minmax(0, 1fr)` on the second track, not
+   * `1fr`: a grid item's default `min-width: auto` will not shrink below its
+   * content, so a wide thumbnail row would otherwise push the grid past the
+   * window instead of reflowing. */
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  gap: var(--pane-gap);
+  min-height: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .file-browser {
+    --sidebar-width: 11rem;
+    --pane-gap: 1rem;
+  }
+}
+
+/* Search grows, actions sit at the right end, and the row wraps rather than
+   overflowing when the window is too narrow to hold both. */
+/* The top band: search, actions and close on one line. */
+.file-browser__header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  margin-bottom: 0.75rem;
+}
+
+.file-browser__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.file-browser__close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.file-browser__search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  /* Grows, but may shrink to its basis before the action buttons give up any
+     width — the actions are fixed-size and must stay fully readable. */
+  flex: 1 1 18rem;
+  /* Capped: the field grows to use the space, but a search box a thousand
+     pixels wide reads as an accident rather than a decision. */
+  max-width: 34rem;
+  min-width: 0;
+}
+
+.file-browser__search input {
+  min-width: 0;
+}
+
+.file-browser__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* Long folder names should not widen the sidebar past its track. */
+.file-browser__folders li {
+  overflow-wrap: anywhere;
+}
+
+/* Left: breadcrumb at the top, folder list scrolling, new-folder field pinned
+   to the bottom so it is reachable however long the folder list is. */
+.file-browser__sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.file-browser__folders {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.file-browser__new-folder {
+  flex-shrink: 0;
+}
+
+/* Right: toolbar and search fixed, grid scrolling. */
+.file-browser__main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.file-browser__files {
+  flex: 1;
+  /* `min-height: 0` lets it shrink below its content, which is what makes it
+   * scroll instead of stretching the shell; the floor stops that shrinking at
+   * a height where the grid is still usable. */
+  min-height: 8rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
 .file-browser .loading {
   position: absolute;
   top: 50%;
@@ -25,13 +182,769 @@
   border: 1px solid #e1e1e1;
   position: relative;
 }
-.file-browser .image-item .inner .select {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  font-size: 20px;
+
+/* The thumbnail grid.
+ *
+ * `auto-fill` with a minimum rather than a fixed column count: `grid-cols-9`
+ * gave 175px cells on a wide monitor and cramped ones on a laptop, because the
+ * count was the same either way. Bounding the SIZE and letting the count
+ * follow keeps a cell about the same on every screen — and smaller, which is
+ * the point: more of the folder is visible at once. */
+.file-browser__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: 0.5rem;
+}
+
+/* A square well, so a 3:2 photo, a tall banner and a PDF badge all occupy the
+   same cell and the grid stays on its rows. */
+.file-browser .image-item .inner {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* The thumbnail is a button now, not a link: it opens a panel beside the grid
+   rather than navigating anywhere. Strip the control chrome the browser adds. */
+.file-browser .image-item__open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  appearance: none;
+}
+.file-browser .image-item__open:focus-visible {
+  outline: 2px solid var(--primary, #2563eb);
+  outline-offset: 2px;
+}
+
+/* The tile whose panel is open. A ring rather than a fill — the thumbnail is
+   the content, and tinting it would misreport the picture. */
+.file-browser .image-item.active .inner {
+  border-color: var(--primary, #2563eb);
+  box-shadow: 0 0 0 2px
+    color-mix(in oklab, var(--primary, #2563eb) 30%, transparent);
+}
+
+.file-browser .image-item img {
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Drawn instead of a thumbnail for anything that is not an image. An <img>
+   pointed at a PDF renders as a broken image, which is what the grid used to
+   show for every non-image in the folder. */
+.file-browser .image-item__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted-foreground, #666);
+  background: var(--muted, #f4f4f5);
+}
+
+/* A file the caller cannot INSERT: dimmed so the usable ones stand out. It is
+   still fully selectable — selection is also how a file is picked for
+   deletion, so an image picker must not make a stray PDF unremovable. The
+   dimming says "not what you came for", not "not available". */
+.file-browser .image-item.not-insertable .inner {
+  opacity: 0.38;
+  filter: saturate(0.4);
+}
+
+.file-browser .image-item.not-insertable .image-item__name {
+  opacity: 0.55;
+}
+
+.file-browser .image-item.not-insertable:hover .inner {
+  opacity: 0.6;
+}
+
+/* The filename, with its extension. Clamped to two lines: a long name must
+   not push one cell taller than its neighbours and break the grid rows. */
+.file-browser .image-item__name {
+  margin-top: 0.25rem;
+  font-size: 0.6875rem;
+  line-height: 1.3;
+  color: var(--foreground, #111);
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Hover card.
+ *
+ * Anchored to the BOTTOM behind a gradient rather than filling the cell with a
+ * flat slab: the top of the picture stays visible, so you can still see what
+ * you are reading about. Positioned inside the thumbnail, never outside it, or
+ * the scrolling grid would clip it.
+ *
+ * `pointer-events: none` — see below. The card covers the thumbnail, so if it
+ * took the mouse it would swallow the click that selects the file. */
+/* The type badge, used in the details panel. Light surface, because the panel
+   is light — it was white-on-dark when it lived inside the hover card. */
+.file-browser .image-item__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: var(--muted, #f4f4f5);
+  color: var(--muted-foreground, #52525b);
+}
+
+/* ===== Details panel =====================================================
+ *
+ * Replaces a card that was revealed on hover INSIDE the thumbnail. At the
+ * smaller cell size there was no room in a tile for a name, a type, a size, a
+ * pixel count and a full URL, so the card covered the picture it described and
+ * truncated anyway.
+ *
+ * It OVERLAYS the right edge rather than taking a column of its own: making
+ * room would re-flow the grid on every click, moving the thumbnail just
+ * clicked out from under the pointer.
+ *
+ * `fixed`, not `absolute`. The shell scrolls in a window too short to hold the
+ * toolbar and a usable grid, and an absolutely positioned panel would scroll
+ * away with it. Nothing above it establishes a containing block. */
+.file-browser__info {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(23rem, 100%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-left: 1px solid var(--border, #e4e4e7);
+  box-shadow: -14px 0 32px -20px rgba(9, 9, 11, 0.5);
+  animation: file-browser-info-in 0.18s ease-out;
+}
+
+@keyframes file-browser-info-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.file-browser__info-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--border, #e4e4e7);
+}
+
+.file-browser__info-title {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground, #71717a);
+}
+
+.file-browser__info-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+  color: var(--muted-foreground, #71717a);
+}
+.file-browser__info-close:hover {
+  background: var(--muted, #f4f4f5);
+  color: inherit;
+}
+.file-browser__info-close svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Only the body scrolls, so the title and the actions stay reachable for a
+   long file name or a long URL. */
+.file-browser__info-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+/* A checkerboard, so a transparent PNG reads as transparent rather than as
+   white — which matters when the point of the panel is to tell you what the
+   file actually is. */
+.file-browser__info-preview {
+  /* A FIXED height, not a square. At the panel's width a 1:1 well is ~23rem
+     tall, which pushed the URL — one of the two things people come here for —
+     below the fold on a laptop. Letterboxing a portrait image costs nothing,
+     since `contain` keeps it whole either way. */
+  height: 11rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px solid var(--border, #e4e4e7);
+  border-radius: 8px;
+  background-color: #fcfcfd;
+  background-image: linear-gradient(45deg, #f1f1f4 25%, transparent 25%),
+    linear-gradient(-45deg, #f1f1f4 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f1f1f4 75%),
+    linear-gradient(-45deg, transparent 75%, #f1f1f4 75%);
+  background-size: 14px 14px;
+  background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+}
+.file-browser__info-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.file-browser__info-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  /* A file name has no spaces to break on. */
+  overflow-wrap: anywhere;
+}
+
+.file-browser__info-meta {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+}
+.file-browser__info-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.file-browser__info-meta-row dt {
+  color: var(--muted-foreground, #71717a);
+}
+.file-browser__info-meta-row dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+  /* A value must not break inside itself — "1800 ×" / "1800 px". */
+  white-space: nowrap;
+}
+
+.file-browser__info-url-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted-foreground, #71717a);
+  margin-bottom: -0.45rem;
+}
+
+/* Not a field — plain text that wraps, with the copy control sitting inline
+   after the last character.
+   It used to be a bordered box of a fixed two-line height. That hid the END of
+   the URL, which on cloud storage is the only part that identifies the file:
+   everything before it is the same bucket and prefix on every row. A box also
+   has to decide how tall to be, and every answer was wrong for some URL. */
+.file-browser__info-url-row {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--muted-foreground, #52525b);
+  /* A URL is one unbroken token; without this it pushes the panel wider. */
+  overflow-wrap: anywhere;
+}
+
+/* Inline, so the copy control can follow the text instead of being parked in
+   a column of its own. */
+.file-browser__info-url {
+  display: inline;
+}
+
+.file-browser__info-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Rides with the text rather than the line box, so it sits beside the last
+     characters however the URL happens to wrap. */
+  vertical-align: text-bottom;
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-left: 0.25rem;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  color: var(--muted-foreground, #71717a);
+}
+.file-browser__info-copy:hover {
+  background: var(--muted, #f4f4f5);
+  color: inherit;
+}
+.file-browser__info-copy:focus-visible {
+  outline: 2px solid var(--primary, #2563eb);
+  outline-offset: 1px;
+}
+.file-browser__info-copy svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+/* Pinned below the scrolling body: the reason the panel was opened must not
+   be something you have to scroll to reach. */
+.file-browser__info-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  border-top: 1px solid var(--border, #e4e4e7);
+}
+.file-browser__info-actions > button {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .file-browser__info {
+    animation: none;
+  }
 }
 .image-tool__image-picture {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
+}
+
+.file-browser__empty {
+  padding: 1rem 0;
+}
+
+.file-browser__empty-hint {
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground, #71717a);
+}
+
+/* Just-uploaded files, as a panel pinned to the bottom-left.
+ *
+ * A panel rather than a jump to the file's page in the grid: pages are
+ * name-ordered and the cursor is an opaque provider token on the object
+ * stores, so "the page containing this name" is not a question that can be
+ * asked — a freshly uploaded file can be on any page, and the listing resets
+ * to the first one after an upload.
+ *
+ * Fixed, so it holds its corner while the grid scrolls, and out of the way of
+ * both the toolbar and the folder list. Dismissible, because it is about the
+ * last thing you did and not about the folder. */
+.file-browser__recent {
+  position: fixed;
+  /* Bottom-left of the FILE AREA, clear of the sidebar column.
+   *
+   * At a plain `left: 20px` the panel sat on top of the sidebar's "New folder"
+   * row and swallowed its clicks — measured: pressing where the input should
+   * be hit a thumbnail. Offsetting by the sidebar track keeps the panel in the
+   * bottom-left corner while leaving that control reachable. It overlaps the
+   * grid instead, which can afford it: the grid scrolls and holds many items,
+   * whereas the new-folder field is a single control with no alternative. */
+  left: calc(20px + var(--sidebar-width) + var(--pane-gap));
+  bottom: 20px;
+  z-index: 3;
+  width: 15rem;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--divider, #e4e4e7);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(9, 9, 11, 0.16);
+  overflow: hidden;
+}
+
+.file-browser__recent-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding: 0.5rem 0.4rem 0.5rem 0.7rem;
+  border-bottom: 1px solid var(--divider, #e4e4e7);
+  background: var(--muted, #f4f4f5);
+}
+
+.file-browser__recent-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground, #71717a);
+  white-space: nowrap;
+}
+
+.file-browser__recent-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0.2rem;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted-foreground, #71717a);
+  cursor: pointer;
+}
+
+.file-browser__recent-close:hover {
+  background: rgba(9, 9, 11, 0.08);
+  color: var(--foreground, #18181b);
+}
+
+.file-browser__recent-close:focus-visible {
+  outline: 2px solid var(--primary, #18181b);
+  outline-offset: 1px;
+}
+
+.file-browser__recent-close svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Scrolls if a big batch arrives, rather than growing past the panel. */
+.file-browser__recent-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem 0.4rem;
+  padding: 0.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* One entry: the picture uses the file, the name below renames it. */
+.file-browser__recent-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+/* The thumbnail is the control: at this size a separate "Select" per file
+   would crowd the panel, and clicking the picture is the obvious gesture. */
+.file-browser__recent-item {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--divider, #d4d4d8);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--muted, #f4f4f5);
+  cursor: pointer;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  color: var(--muted-foreground, #71717a);
+  transition: border-color 0.12s ease-out, transform 0.12s ease-out;
+}
+
+.file-browser__recent-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.file-browser__recent-item:hover:not(:disabled) {
+  border-color: var(--primary, #18181b);
+  transform: translateY(-1px);
+}
+
+.file-browser__recent-item:focus-visible {
+  outline: 2px solid var(--primary, #18181b);
+  outline-offset: 1px;
+}
+
+/* A type this picker cannot insert. Shown, not hidden — hiding it would look
+   as though the upload had failed. */
+.file-browser__recent-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .file-browser__recent-item {
+    transition: none;
+  }
+  .file-browser__recent-item:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* --- Renaming ------------------------------------------------------------ */
+
+/* The name is a button so it is reachable by keyboard and announces itself as
+   something you can act on, but it must still READ as a caption — a name
+   styled like a control in a grid of ninety files would be unbearable. */
+.file-browser__name-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: text;
+}
+
+.file-browser__name-button:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.file-browser__name-button:focus-visible {
+  outline: 2px solid var(--primary, #18181b);
+  outline-offset: 1px;
+}
+
+.file-browser__rename {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin-top: 0.25rem;
+}
+
+.file-browser__rename-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.15rem 0.3rem;
+  border: 1px solid var(--primary, #18181b);
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  line-height: 1.3;
+  background: #fff;
+  color: var(--foreground, #111);
+}
+
+/* The extension, shown beside the field rather than inside it. */
+.file-browser__rename-ext {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  color: var(--muted-foreground, #71717a);
+  white-space: nowrap;
+}
+
+.file-browser__rename-ok,
+.file-browser__rename-cancel {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0.15rem;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.file-browser__rename-ok {
+  color: #15803d;
+}
+
+.file-browser__rename-cancel {
+  color: var(--muted-foreground, #71717a);
+}
+
+.file-browser__rename-ok:hover,
+.file-browser__rename-cancel:hover {
+  background: rgba(9, 9, 11, 0.08);
+}
+
+.file-browser__rename-ok:focus-visible,
+.file-browser__rename-cancel:focus-visible {
+  outline: 2px solid var(--primary, #18181b);
+  outline-offset: 1px;
+}
+
+.file-browser__rename-ok svg,
+.file-browser__rename-cancel svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Inside the panel the row is narrower still, so the buttons stack under the
+   field rather than squeezing it to nothing. */
+.file-browser__recent-entry .file-browser__rename {
+  flex-wrap: wrap;
+  margin-top: 0;
+}
+
+.file-browser__recent-entry .file-browser__rename-input {
+  flex-basis: 100%;
+}
+
+/* An entry being renamed takes the whole row. In a 3-up grid of 70px cells the
+   field was 70px wide — enough to type into, not enough to read what you are
+   typing. Where `:has` is unavailable the entry simply stays in its cell,
+   which is the narrow-but-working state, not a broken one. */
+.file-browser__recent-items:has(.file-browser__rename) {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.file-browser__recent-entry:has(.file-browser__rename) {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.file-browser__recent-entry:has(.file-browser__rename)
+  .file-browser__recent-item {
+  width: 2.2rem;
+  flex-shrink: 0;
+}
+
+.file-browser__recent-entry:has(.file-browser__rename)
+  .file-browser__rename {
+  flex: 1;
+  flex-wrap: nowrap;
+  min-width: 0;
+}
+
+.file-browser__recent-entry:has(.file-browser__rename)
+  .file-browser__rename-input {
+  flex-basis: auto;
+}
+
+/* --- Loading ------------------------------------------------------------- */
+
+/* Placeholder tiles, not a spinner.
+ *
+ * They occupy the same cell as a real file, so the grid is already laid out
+ * correctly before the data arrives and nothing jumps when it does. A centred
+ * spinner says only that something is happening; this says what is coming and
+ * where. */
+.file-browser__skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.file-browser__skeleton-well {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background: var(--muted, #f4f4f5);
+}
+
+/* Two-thirds width, so a row of them reads as names rather than as blocks. */
+.file-browser__skeleton-name {
+  width: 66%;
+  height: 0.6875rem;
+  margin-top: 0.4rem;
+  border-radius: 3px;
+  background: var(--muted, #f4f4f5);
+}
+
+/* The shimmer travels across the row rather than pulsing each tile in unison:
+   tiles blinking together read as a fault, a sweep reads as progress. */
+.file-browser__skeleton-well,
+.file-browser__skeleton-name {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: file-browser-skeleton 1.2s ease-in-out infinite;
+}
+
+@keyframes file-browser-skeleton {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+
+/* Folder rows, matching the real ones: a 2rem icon square and a name beside
+   it. The widths vary per row (set inline) because a column of identical bars
+   reads as a pattern rather than as a list of names. */
+/* The ROW is pinned to 2rem because that is exactly how tall a real one is —
+   its folder icon, with no padding. Anything else and six rows drift enough to
+   shift the list when the real folders replace it. */
+.file-browser__folder-skeleton {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  gap: 0.5rem;
+}
+
+/* The square is SMALLER than its row. At the full 2rem the squares sit flush
+   against each other and read as one continuous bar rather than six rows; the
+   gap is what makes them countable. */
+.file-browser__folder-skeleton-icon {
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-left: 0.3rem;
+  border-radius: 4px;
+  background: var(--muted, #f4f4f5);
+}
+
+.file-browser__folder-skeleton-name {
+  height: 0.75rem;
+  border-radius: 3px;
+  background: var(--muted, #f4f4f5);
+}
+
+.file-browser__folder-skeleton-icon,
+.file-browser__folder-skeleton-name {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.65) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: file-browser-skeleton 1.2s ease-in-out infinite;
+}
+
+/* A moving gradient is exactly what this setting is for. The tiles stay, so
+   the message — "the grid is coming, here is its shape" — survives. */
+@media (prefers-reduced-motion: reduce) {
+  .file-browser__skeleton-well,
+  .file-browser__skeleton-name,
+  .file-browser__folder-skeleton-icon,
+  .file-browser__folder-skeleton-name {
+    animation: none;
+    background-image: none;
+  }
 }

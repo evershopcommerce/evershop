@@ -1,33 +1,75 @@
-Login, Login
-Logout, Logout
-Email, E-mail
-Password, Password
-Forgot your password?, Hai dimenticato la password？
-Create an account, Crea un account
-Register, Registrati
-Full Name, Nome e cognome
-Full name, Nome e cognome
-Sign In, login
-Order History, Cronologia ordini
-Account Details, Dettagli account
-You have not placed any orders yet, Non hai ancora effettuato un ordine
-My Account, Il mio account
-Already have an account?, Non hai ancora un account？
-Contact information, Informazioni di contatto
-City, Città
-Account Information, Informazioni account
-Address, Indirizzo
-Postcode, CAP
-Postcode is required, Il CAP è un campo obbligatorio
-Telephone is required, Il telefono è un campo obbligatorio
-Telephone, Telefono
-Full name is required, Nome e cognome è un campo obbligatorio
-Country is required, Paese è un campo obbligatorio
-Country, Paese
-Province is required, Provincia è un campo obbligatorio
-Province, Provincia
-Billing Address, Indirizzo di fatturazione
-Shipping Address, Indirizzo di spedizione
-Create A New Account, Crea un nuovo account
-Contact, Contatti
-Customer information, Informazioni cliente
+Login,Login
+Logout,Logout
+Email,E-mail
+Password,Password
+Forgot your password?,Hai dimenticato la password？
+Create an account,Crea un account
+Register,Registrati
+Full Name,Nome e cognome
+Full name,Nome e cognome
+Sign In,login
+Order History,Cronologia ordini
+Account Details,Dettagli account
+You have not placed any orders yet,Non hai ancora effettuato un ordine
+My Account,Il mio account
+Already have an account?,Non hai ancora un account？
+Contact information,Informazioni di contatto
+City,Città
+Account Information,Informazioni account
+Address,Indirizzo
+Postcode,CAP
+Telephone,Telefono
+Country,Paese
+Province,Provincia
+Billing Address,Indirizzo di fatturazione
+Shipping Address,Indirizzo di spedizione
+Create A New Account,Crea un nuovo account
+Contact,Contatti
+Customer information,Informazioni cliente
+Address book,Rubrica indirizzi
+Account information,Informazioni account
+Recent orders,Ordini recenti
+View all,Vedi tutti
+Sign in,Accedi
+Welcome back — sign in to your account.,Bentornato — accedi al tuo account.
+New here?,Sei nuovo?
+Back to orders,Torna agli ordini
+Create account,Crea un account
+You must be logged in to manage your addresses,Devi effettuare l'accesso per gestire i tuoi indirizzi
+You must be logged in to update your profile,Devi effettuare l'accesso per aggiornare il tuo profilo
+There is nothing to update,Non c’è nulla da aggiornare
+Email is already used,Questa email è già in uso
+Order #${orderNumber},Ordine n. ${orderNumber}
+Given name,Nome
+Family name,Cognome
+Company,Azienda
+Address line 3,Riga indirizzo 3
+State,Stato
+Prefecture,Prefettura
+County,Contea
+Emirate,Emirato
+Department,Dipartimento
+District,Distretto
+Do/Si,Do/Si
+Island,Isola
+Oblast,Oblast'
+Parish,Parrocchia
+Post town,Città postale
+Suburb,Sobborgo
+Neighborhood,Quartiere
+Village,Villaggio
+Village/Township,Villaggio/Comune
+Townland,Townland
+Ward,Circoscrizione
+ZIP code,CAP
+PIN code,Codice PIN
+Eircode,Eircode
+Sorting code,Codice di smistamento
+${field} is not valid,${field} non è valido
+${field} is not a valid region,${field} non è una regione valida
+${field} has the wrong type,${field} ha un tipo errato
+${field} is not a known address field,${field} non è un campo indirizzo conosciuto
+We do not sell to ${country},Non vendiamo in ${country}
+Select ${field},Seleziona ${field}
+no longer available,non più disponibile
+Please check the highlighted fields,Controlla i campi evidenziati

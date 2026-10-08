@@ -1,0 +1,10 @@
+{
+  "fmt": "%N%n%O%n%A%n%Z %C",
+  "id": "data/SM",
+  "key": "SM",
+  "name": "SAN MARINO",
+  "posturl": "https://www.poste.it/cerca/index.html#/risultati-cerca-cap/",
+  "require": "AZ",
+  "zip": "4789\\d",
+  "zipex": "47890,47891,47895,47899"
+}

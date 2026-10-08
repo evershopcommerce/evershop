@@ -54,6 +54,12 @@ export default async (request: EvershopRequest, response, next) => {
         } else {
           widgetInstances = await loadWidgetInstances(request);
         }
+        // A widget the page query left out (its settings did not match the
+        // schema) has no data this render, so it must not render either.
+        const skipped = new Set<string>(response.locals?.skippedWidgets ?? []);
+        widgetInstances = widgetInstances.filter(
+          (widget) => !skipped.has(widget.uuid)
+        );
         widgetInstances = widgetInstances.map((widget) => {
           const newWidget: Record<string, unknown> = {
             sortOrder: widget.sortOrder,

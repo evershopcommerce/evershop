@@ -18,26 +18,6 @@ export default async (connection) => {
 )`
   );
 
-  const color = await insert('attribute')
-    .given({
-      attribute_code: 'color',
-      attribute_name: 'Color',
-      type: 'select',
-      is_required: 0,
-      display_on_frontend: 1,
-      is_filterable: 1
-    })
-    .execute(connection);
-  const size = await insert('attribute')
-    .given({
-      attribute_code: 'size',
-      attribute_name: 'Size',
-      type: 'select',
-      is_required: 0,
-      display_on_frontend: 1,
-      is_filterable: 1
-    })
-    .execute(connection);
   await execute(
     connection,
     `CREATE TABLE "attribute_option" (
@@ -56,54 +36,6 @@ export default async (connection) => {
     `CREATE INDEX "FK_ATTRIBUTE_OPTION" ON "attribute_option" ("attribute_id")`
   );
 
-  await insert('attribute_option')
-    .given({
-      attribute_id: color.insertId,
-      attribute_code: 'color',
-      option_text: 'White'
-    })
-    .execute(connection);
-
-  await insert('attribute_option')
-    .given({
-      attribute_id: color.insertId,
-      attribute_code: 'color',
-      option_text: 'Black'
-    })
-    .execute(connection);
-
-  await insert('attribute_option')
-    .given({
-      attribute_id: color.insertId,
-      attribute_code: 'color',
-      option_text: 'Yellow'
-    })
-    .execute(connection);
-
-  await insert('attribute_option')
-    .given({
-      attribute_id: size.insertId,
-      attribute_code: 'size',
-      option_text: 'XXL'
-    })
-    .execute(connection);
-
-  await insert('attribute_option')
-    .given({
-      attribute_id: size.insertId,
-      attribute_code: 'size',
-      option_text: 'XL'
-    })
-    .execute(connection);
-
-  await insert('attribute_option')
-    .given({
-      attribute_id: size.insertId,
-      attribute_code: 'size',
-      option_text: 'SM'
-    })
-    .execute(connection);
-
   await execute(
     connection,
     `CREATE TABLE "attribute_group" (
@@ -116,7 +48,9 @@ export default async (connection) => {
 )`
   );
 
-  const defaultGroup = await insert('attribute_group')
+  // A store needs at least one attribute group; what goes in it is the
+  // merchant's business, so it ships empty.
+  await insert('attribute_group')
     .given({ group_name: 'Default' })
     .execute(connection);
 
@@ -141,18 +75,6 @@ export default async (connection) => {
     `CREATE INDEX "FK_ATTRIBUTE_LINK" ON "attribute_group_link" ("attribute_id")`
   );
 
-  await insert('attribute_group_link')
-    .given({
-      group_id: defaultGroup.insertId,
-      attribute_id: color.insertId
-    })
-    .execute(connection);
-  await insert('attribute_group_link')
-    .given({
-      group_id: defaultGroup.insertId,
-      attribute_id: size.insertId
-    })
-    .execute(connection);
 
   await execute(
     connection,
@@ -401,64 +323,6 @@ export default async (connection) => {
     connection,
     `CREATE INDEX "FK_CATEGORY_DESCRIPTION" ON "category_description" ("category_description_category_id")`
   );
-
-  // Create 3 default categories, Kids, Men, Women
-  const kids = await insert('category')
-    .given({
-      status: 1,
-      include_in_nav: 1
-    })
-    .execute(connection);
-
-  await insert('category_description')
-    .given({
-      category_description_category_id: kids.insertId,
-      name: 'Kids',
-      url_key: 'kids',
-      meta_title: 'Kids',
-      meta_description: 'Kids',
-      meta_keywords: 'Kids',
-      description: 'Kids'
-    })
-    .execute(connection);
-
-  const women = await insert('category')
-    .given({
-      status: 1,
-      include_in_nav: 1
-    })
-    .execute(connection);
-
-  await insert('category_description')
-    .given({
-      category_description_category_id: women.insertId,
-      name: 'Women',
-      url_key: 'women',
-      meta_title: 'Women',
-      meta_description: 'Women',
-      meta_keywords: 'Women',
-      description: 'Women'
-    })
-    .execute(connection);
-
-  const men = await insert('category')
-    .given({
-      status: 1,
-      include_in_nav: 1
-    })
-    .execute(connection);
-
-  await insert('category_description')
-    .given({
-      category_description_category_id: men.insertId,
-      name: 'Men',
-      url_key: 'men',
-      meta_title: 'Men',
-      meta_description: 'Men',
-      meta_keywords: 'Men',
-      description: 'Men'
-    })
-    .execute(connection);
 
   // COLLECTION
   await execute(

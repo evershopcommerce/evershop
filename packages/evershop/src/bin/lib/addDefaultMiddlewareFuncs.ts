@@ -29,6 +29,7 @@ import {
   getStoreLanguage
 } from '../../modules/setting/services/setting.js';
 import { getDevMiddleware, getHotMiddleware } from './devEnvHelper.js';
+import { routeNeedsSession } from './routeNeedsSession.js';
 
 export function addDefaultMiddlewareFuncs(app) {
   app.use((request, response, next) => {
@@ -220,8 +221,12 @@ export function addDefaultMiddlewareFuncs(app) {
   });
   const sessionMiddleware = (request, response, next) => {
     const { currentRoute } = request;
-    if (currentRoute?.isApi) {
-      // We don't need session for api routes. Restful api should be stateless
+    if (currentRoute?.isApi || !routeNeedsSession(currentRoute?.id)) {
+      // We don't need session for api routes. Restful api should be stateless.
+      // Asset-serving routes (the /images optimizer, static assets) are
+      // exempt too: a session per image request meant a Set-Cookie on every
+      // response - which makes CDNs refuse to cache the images - and a
+      // session INSERT per image request against the session store.
       next();
     } else if (currentRoute?.isAdmin) {
       adminSessionMiddleware(request, response, next);

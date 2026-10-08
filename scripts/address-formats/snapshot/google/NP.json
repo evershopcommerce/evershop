@@ -1,0 +1,9 @@
+{
+  "fmt": "%N%n%O%n%A%n%C %Z",
+  "id": "data/NP",
+  "key": "NP",
+  "name": "NEPAL",
+  "posturl": "https://gpo.gov.np/pages/postal-code-1259614658/",
+  "zip": "\\d{5}",
+  "zipex": "44601"
+}

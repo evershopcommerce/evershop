@@ -11,6 +11,8 @@ import {
 } from '@evershop/postgres-query-builder';
 import { error, info, success } from '../../lib/log/logger.js';
 import { getConnection } from '../../lib/postgres/connection.js';
+import { uploadThemeSeedImage } from './seedImages.js';
+import { reportSeedSource, resolveSeedData } from './themeSeedData.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -79,9 +81,11 @@ const emailFor = (name: string): string =>
  */
 export async function seedBlog(): Promise<void> {
   info('Seeding blog...');
-  const data: BlogSeedData = JSON.parse(
-    readFileSync(join(__dirname, 'data', 'blog.json'), 'utf-8')
+  const { data, source } = resolveSeedData<BlogSeedData>(
+    'blog',
+    join(__dirname, 'data')
   );
+  reportSeedSource('blog', source);
 
   const connection = await getConnection();
   await startTransaction(connection);
@@ -178,12 +182,17 @@ export async function seedBlog(): Promise<void> {
           : null;
       dayOffset += 2;
 
+      // A theme ships its post photos in its own `public/` folder and names
+      // them relatively; store the served URL, not the relative path.
+      const thumbnail =
+        (await uploadThemeSeedImage(p.thumbnail, 'blog')) ?? p.thumbnail;
+
       const post = await insert('blog_post')
         .given({
           status: p.status,
           category_id: p.category ? catId[p.category] ?? null : null,
           author_id: authorId,
-          thumbnail: p.thumbnail ?? null,
+          thumbnail: thumbnail ?? null,
           reading_time: estimateReadingTime(p.content),
           published_at: publishedAt
         })

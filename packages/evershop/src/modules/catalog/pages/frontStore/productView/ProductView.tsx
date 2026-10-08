@@ -1,14 +1,23 @@
 import Area from '@components/common/Area.js';
-import { Media } from '@components/frontStore/catalog/Media.js';
 import {
   ProductData,
   ProductProvider
 } from '@components/frontStore/catalog/ProductContext.js';
-import { ProductSingleDescription } from '@components/frontStore/catalog/ProductSingleDescription.js';
-import { ProductSingleForm } from '@components/frontStore/catalog/ProductSingleForm.js';
-import { ProductSingleName } from '@components/frontStore/catalog/ProductSingleName.js';
 import React from 'react';
 
+/**
+ * Product page shell. It owns the product query, the `ProductProvider` and the
+ * slots (Areas); the blocks are sibling page components that register into
+ * those slots, so a theme can re-position them from `layouts.json` without
+ * overriding this file:
+ *
+ *   productView/ProductMedia        → productPageMiddleLeft   0
+ *   productView/ProductName         → productPageMiddleRight 10
+ *   productView/ProductForm         → productPageMiddleRight 30  (buy box)
+ *   productView/ProductPrice        → productSinglePageForm   5  (inside the buy box)
+ *   productView/ProductAttributes   → productSinglePageForm   7  (inside the buy box)
+ *   productView/ProductDescription  → productSingleDescription 10
+ */
 export default function ProductView({ product }: ProductData) {
   return (
     <ProductProvider product={product}>
@@ -19,41 +28,13 @@ export default function ProductView({ product }: ProductData) {
             <Area
               id="productPageMiddleLeft"
               className="product__detail__left"
-              coreComponents={[
-                {
-                  component: { default: <Media /> },
-                  sortOrder: 0,
-                  id: 'media'
-                }
-              ]}
             />
             <Area
               id="productPageMiddleRight"
               className="product__detail__right"
-              coreComponents={[
-                {
-                  component: { default: <ProductSingleName /> },
-                  sortOrder: 10,
-                  id: 'name'
-                },
-                {
-                  component: { default: <ProductSingleForm /> },
-                  sortOrder: 30,
-                  id: 'productForm'
-                }
-              ]}
             />
           </div>
-          <Area
-            id="productSingleDescription"
-            coreComponents={[
-              {
-                component: { default: <ProductSingleDescription /> },
-                sortOrder: 10,
-                id: 'productSingleDescription'
-              }
-            ]}
-          />
+          <Area id="productSingleDescription" />
         </div>
         <Area id="productPageBottom" className="product__page__bottom" />
       </div>
@@ -78,6 +59,8 @@ query Query {
       }
       name
       description
+      metaTitle
+      metaDescription
       sku
       price {
         regular {

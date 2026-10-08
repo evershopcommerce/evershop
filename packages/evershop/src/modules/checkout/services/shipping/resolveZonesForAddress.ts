@@ -4,9 +4,10 @@ import type { ShippingZoneRow } from '../../../../types/db/index.js';
 
 export interface ZoneAddressFilter {
   country: string;
-  province?: string | null;
-  /** Reserved for postcode-aware zone matching; not used yet in v1. */
-  postcode?: string | null;
+  /** The stored `administrative_area` key (`US-CA`). */
+  administrativeArea?: string | null;
+  /** Reserved for postal-code-aware zone matching; not used yet in v1. */
+  postalCode?: string | null;
 }
 
 /**
@@ -14,9 +15,11 @@ export interface ZoneAddressFilter {
  *
  * A zone matches iff:
  *   (a) the destination country is in the zone's `shipping_zone_country` rows; AND
- *   (b) either (i) the zone has no `shipping_zone_province` rows for that country
- *       (the whole country is covered), or (ii) the destination province matches
- *       one of those rows.
+ *   (b) either (i) the zone has no `shipping_zone_region` rows at level
+ *       `administrative_area` for that country (the whole country is covered),
+ *       or (ii) the destination's administrative-area key matches one of those
+ *       rows. Keys are compared as stored; a retired key on a zone matches no
+ *       new address because the form no longer offers it (spec § 3.3).
  *
  * Multiple zones may match a single address — overlapping coverage is allowed.
  * The orchestrator iterates over every matching zone and fans out provider
@@ -50,30 +53,32 @@ export async function resolveZonesForAddress(
 
   if (candidates.length === 0) return [];
 
-  // Province restrictions for those candidates + the destination country.
+  // Region restrictions for those candidates + the destination country.
   const zoneIds = candidates.map((z) => z.shipping_zone_id);
-  const provinceRows = (await select('zone_id', 'province')
-    .from('shipping_zone_province')
+  const regionRows = (await select('zone_id', 'region_key')
+    .from('shipping_zone_region')
     .where('zone_id', 'IN', zoneIds)
     .and('country', '=', filter.country)
-    .execute(pool)) as Array<{ zone_id: number; province: string }>;
+    .and('level', '=', 'administrative_area')
+    .execute(pool)) as Array<{ zone_id: number; region_key: string }>;
 
-  // Group province codes by zone.
-  const provincesByZone = new Map<number, Set<string>>();
-  for (const row of provinceRows) {
-    let set = provincesByZone.get(row.zone_id);
+  // Group region keys by zone.
+  const regionsByZone = new Map<number, Set<string>>();
+  for (const row of regionRows) {
+    let set = regionsByZone.get(row.zone_id);
     if (!set) {
       set = new Set();
-      provincesByZone.set(row.zone_id, set);
+      regionsByZone.set(row.zone_id, set);
     }
-    set.add(row.province);
+    set.add(row.region_key);
   }
 
-  // Filter: a zone passes iff there are no province restrictions for this
-  // country, OR the destination province matches one of the restrictions.
+  // Filter: a zone passes iff there are no region restrictions for this
+  // country, OR the destination's administrative area matches one of them.
+  const area = filter.administrativeArea?.trim();
   return candidates.filter((zone) => {
-    const restrictions = provincesByZone.get(zone.shipping_zone_id);
+    const restrictions = regionsByZone.get(zone.shipping_zone_id);
     if (!restrictions || restrictions.size === 0) return true;
-    return Boolean(filter.province) && restrictions.has(filter.province!);
+    return Boolean(area) && restrictions.has(area!);
   });
 }

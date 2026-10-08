@@ -1,5 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { getPaymentMethodFactory } from '../../../../checkout/services/getAvailablePaymentMethods.js';
 import { getOrdersBaseQuery } from '../../../services/getOrdersBaseQuery.js';
 import { OrderCollection } from '../../../services/OrderCollection.js';
 
@@ -16,6 +18,38 @@ export default {
     editUrl: ({ uuid }) => buildUrl('orderEdit', { id: uuid }),
     createShipmentApi: ({ uuid }) => buildUrl('createShipment', { id: uuid }),
     cancelApi: ({ uuid }) => buildUrl('cancelOrder', { id: uuid }),
+    refundApi: ({ uuid }) => buildUrl('createOrderRefund', { id: uuid }),
+    // The admin refund button is shown automatically when this is true. Two
+    // gates, both required: capability (the method registered a `refund`
+    // handler) AND state (the payment status is flagged `isRefundable`). This
+    // mirrors exactly what `refundOrder` enforces server-side, so the button is
+    // never shown for an action the core route would reject.
+    canRefund: async (order) => {
+      if (!order.paymentMethod) {
+        return false;
+      }
+      const factory = await getPaymentMethodFactory(order.paymentMethod);
+      if (!factory?.refund) {
+        return false;
+      }
+      const statuses = getConfig('oms.order.paymentStatus', {});
+      return Boolean(statuses[order.paymentStatus]?.isRefundable);
+    },
+    captureApi: ({ uuid }) => buildUrl('captureOrder', { id: uuid }),
+    // Shown automatically when true: capability (a registered `capture` handler)
+    // AND state (the payment status is flagged `isCapturable`). Mirrors what
+    // `captureOrder` enforces server-side.
+    canCapture: async (order) => {
+      if (!order.paymentMethod) {
+        return false;
+      }
+      const factory = await getPaymentMethodFactory(order.paymentMethod);
+      if (!factory?.capture) {
+        return false;
+      }
+      const statuses = getConfig('oms.order.paymentStatus', {});
+      return Boolean(statuses[order.paymentStatus]?.isCapturable);
+    },
     metaData: (order) => order.metaData ?? {},
     updateMetafieldsApi: ({ uuid }) =>
       buildUrl('updateOrderMetafields', { id: uuid }),

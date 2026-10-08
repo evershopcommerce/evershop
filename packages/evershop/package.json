@@ -1,10 +1,11 @@
 {
   "name": "@evershop/evershop",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "type": "module",
   "description": "The React Ecommerce platform. Built with Typescript, React and Postgres. Open-source and free. Fast and customizable.",
   "files": [
     "dist",
+    "NOTICE",
     "src",
     ".swcrc"
   ],
@@ -46,6 +47,14 @@
     "./lib/locale/*": {
       "import": "./dist/lib/locale/*.js",
       "types": "./dist/lib/locale/*.d.ts"
+    },
+    "./lib/address": {
+      "import": "./dist/lib/address/index.js",
+      "types": "./dist/lib/address/index.d.ts"
+    },
+    "./lib/address/*": {
+      "import": "./dist/lib/address/*.js",
+      "types": "./dist/lib/address/*.d.ts"
     },
     "./lib/log": {
       "import": "./dist/lib/log/logger.js",
@@ -238,7 +247,6 @@
     "react-select": "^5.4.0",
     "react-slick": "^0.31.0",
     "recharts": "^2.0.9",
-    "sanitize-html": "^2.17.0",
     "sass": "^1.98.0",
     "sass-loader": "^13.0.2",
     "semver": "^7.6.3",
@@ -263,6 +271,7 @@
     "webpack-hot-middleware": "^2.26.1",
     "webpackbar": "^7.0.0",
     "winston": "^3.3.3",
+    "xss": "^1.0.15",
     "yargs": "^17.7.2",
     "zero-decimal-currencies": "^1.6.0"
   },
@@ -277,7 +286,6 @@
     "@types/pg": "^8.15.2",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.0.0",
-    "@types/sanitize-html": "^2.16.0",
     "copyfiles": "^2.4.1",
     "typescript": "^5.8.3"
   }

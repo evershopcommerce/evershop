@@ -50,6 +50,7 @@ No posts match,பொருந்தும் இடுகைகள் இல்
 No posts published yet.,இன்னும் இடுகைகள் வெளியிடப்படவில்லை.
 No posts with this tag yet.,இந்தக் குறிச்சொல்லுடன் இன்னும் இடுகைகள் இல்லை.
 No posts yet,இன்னும் இடுகைகள் இல்லை
+"Nothing picked: the latest posts are shown, up to Max posts.",எதுவும் தேர்ந்தெடுக்கப்படவில்லை: சமீபத்திய இடுகைகள் “அதிகபட்ச இடுகைகள்” வரை காட்டப்படும்.
 Open page in a new tab,பக்கத்தைப் புதிய தாவலில் திற
 Open — auto-approve,திறந்த — தானாக அங்கீகரி
 Organize,ஒழுங்கமை
@@ -97,3 +98,4 @@ Unpublish ${count} posts,${count} இடுகைகளின் வெளிய
 Untitled page,தலைப்பில்லாத பக்கம்
 Your comment,உங்கள் கருத்து
 min read,நிமிட வாசிப்பு
+Back to blog,வலைப்பதிவுக்குத் திரும்பு

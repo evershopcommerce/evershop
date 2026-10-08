@@ -1,0 +1,10 @@
+{
+  "fmt": "%N%n%O%n%A%n%C%n%Z",
+  "id": "data/SZ",
+  "key": "SZ",
+  "name": "SWAZILAND",
+  "posturl": "https://www.eswatinipost.co.sz/postcode.php",
+  "upper": "ACZ",
+  "zip": "[HLMS]\\d{3}",
+  "zipex": "H100"
+}

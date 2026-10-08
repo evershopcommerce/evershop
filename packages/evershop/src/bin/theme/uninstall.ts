@@ -31,6 +31,17 @@ async function main(): Promise<void> {
   console.log(
     `  ${preview.changesets} draft changeset(s), ${preview.rollouts} rollout plan(s)`
   );
+  if (preview.landingPageDetails.length > 0) {
+    console.log(
+      kleur.yellow(
+        `  Note: ${preview.landingPageDetails.length} landing page(s) this theme shipped are LEFT IN PLACE\n` +
+          `        (pages are not theme property) — they stay reachable but their bodies go with the widgets:`
+      )
+    );
+    for (const p of preview.landingPageDetails) {
+      console.log(kleur.dim(`    '${p.name}' at /${p.urlKey}`));
+    }
+  }
   if (preview.metafieldProvisions > 0) {
     console.log(
       kleur.yellow(
@@ -50,7 +61,8 @@ async function main(): Promise<void> {
     preview.widgets === 0 &&
     preview.placements === 0 &&
     preview.changesets === 0 &&
-    preview.rollouts === 0
+    preview.rollouts === 0 &&
+    preview.landingPageDetails.length === 0
   ) {
     console.log(kleur.green(`Nothing to uninstall for '${themeId}'.`));
     return;

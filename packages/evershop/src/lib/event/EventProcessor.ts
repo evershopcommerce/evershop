@@ -1,12 +1,13 @@
 import { debug, error } from '../log/logger.js';
 import { callSubscribers } from './callSubscibers.js';
 import type { EventRow, EventStorage } from './EventStorage.js';
+import { WILDCARD_EVENT, type EventMeta } from './subscriber.js';
 
 const BATCH_SIZE = 10;
 
 type Subscriber = {
   event: string;
-  subscriber: (data: unknown) => void | Promise<void>;
+  subscriber: (data: unknown, meta?: EventMeta) => void | Promise<void>;
 };
 
 type EventProcessorDeps = {
@@ -38,9 +39,12 @@ export function createEventProcessor({
   async function executeSubscribers(event: EventRow): Promise<void> {
     try {
       const matchingSubscribers = subscribers
-        .filter((s) => s.event === event.name)
+        .filter((s) => s.event === event.name || s.event === WILDCARD_EVENT)
         .map((s) => s.subscriber);
-      await callSubscribers(matchingSubscribers, event.data);
+      await callSubscribers(matchingSubscribers, event.data, {
+        name: event.name,
+        uuid: event.uuid
+      });
     } catch (e) {
       error(e);
     } finally {

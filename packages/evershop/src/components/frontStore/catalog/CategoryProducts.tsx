@@ -20,7 +20,6 @@ export function CategoryProducts() {
           products={products.items}
           layout="grid"
           gridColumns={3}
-          showAddToCart={true}
         />
         <span className="product-count mt-5 block text-sm text-muted-foreground">
           {_('${count} products', { count: products.total.toString() })}

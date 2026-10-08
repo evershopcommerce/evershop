@@ -50,6 +50,7 @@ No posts match,Ingen innlegg samsvarer
 No posts published yet.,Ingen innlegg publisert ennå.
 No posts with this tag yet.,Ingen innlegg med denne etiketten ennå.
 No posts yet,Ingen innlegg ennå
+"Nothing picked: the latest posts are shown, up to Max posts.","Ingenting valgt: de nyeste innleggene vises, opptil «Maks innlegg»."
 Open page in a new tab,Åpne siden i en ny fane
 Open — auto-approve,Åpen — automatisk godkjenning
 Organize,Organiser
@@ -97,3 +98,4 @@ Unpublish ${count} posts,Avpubliser ${count} innlegg
 Untitled page,Side uten tittel
 Your comment,Kommentaren din
 min read,min lesing
+Back to blog,Tilbake til bloggen

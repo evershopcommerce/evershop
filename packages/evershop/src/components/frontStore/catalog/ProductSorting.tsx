@@ -29,6 +29,12 @@ export interface SortState {
 interface ProductSortingProps {
   sortOptions?: SortOption[];
   defaultSortBy?: string;
+  /**
+   * Direction shown (and treated as "no `od` needed in the URL") when the URL
+   * carries none. Leave unset to derive it from the active column, which is what
+   * keeps the arrow honest — see `implicitSortOrder`. Pin it only if your theme
+   * also changes the server-side default ordering.
+   */
   defaultSortOrder?: 'asc' | 'desc';
   showSortDirection?: boolean;
   enableUrlUpdate?: boolean;
@@ -49,10 +55,67 @@ interface ProductSortingProps {
   count: number;
 }
 
+/**
+ * The direction the storefront applies when the URL carries no `od`, which
+ * depends on which column is active:
+ *
+ * - No `ob` — the `ob` filter never fires, so the collection keeps the order set
+ *   in `ProductCollection`'s constructor: `product.product_id DESC`.
+ * - Any `ob` — the registered sort enters through `SelectQuery.orderBy(field)`,
+ *   whose `direction` parameter defaults to `'ASC'`.
+ *
+ * Both the arrow we paint and the "is this the implicit direction?" test below
+ * have to agree with that, or the control lies about the rendered order.
+ */
+export function implicitSortOrder(sortByValue: string): 'asc' | 'desc' {
+  return sortByValue ? 'asc' : 'desc';
+}
+
+/**
+ * Rewrite a listing URL for a new sort state. Pure — no `window`, no fetch — so
+ * the part that actually broke (which params get written and which get dropped)
+ * is testable without a DOM.
+ *
+ * @param currentUrl absolute URL, e.g. `window.location.href`
+ */
+export function applySortToUrl(
+  currentUrl: string | URL,
+  sortState: SortState,
+  defaultSortBy = ''
+): URL {
+  const url = new URL(currentUrl);
+
+  if (sortState.sortBy === '' || sortState.sortBy === defaultSortBy) {
+    url.searchParams.delete('ob');
+  } else {
+    url.searchParams.set('ob', sortState.sortBy);
+  }
+
+  // Drop `od` only when it matches what the server would do anyway for the
+  // column we just wrote — NOT against a fixed default. Comparing against a
+  // constant `'asc'` meant `od=asc` was never emitted, so on the default sort
+  // (no `ob`) both toggle states resolved to `product_id DESC` and the arrow
+  // flipped without changing a single row.
+  if (
+    sortState.sortOrder === implicitSortOrder(url.searchParams.get('ob') || '')
+  ) {
+    url.searchParams.delete('od');
+  } else {
+    url.searchParams.set('od', sortState.sortOrder);
+  }
+
+  // Re-sorting reshuffles the whole result set, so the current offset points at
+  // unrelated products. Reset to page 1, exactly as the facet controls do
+  // (`ProductFilter.tsx` -> defaultUpdateFilter).
+  url.searchParams.delete('page');
+
+  return url;
+}
+
 export function ProductSorting({
   sortOptions,
   defaultSortBy = '',
-  defaultSortOrder = 'asc',
+  defaultSortOrder,
   showSortDirection = true,
   enableUrlUpdate = true,
   onSortChange,
@@ -81,40 +144,37 @@ export function ProductSorting({
   // different sort labels — a React 19 hydration mismatch on sorted deep-links
   // (e.g. ?ob=price). The URL is applied after hydration in the effect below.
   const [sortBy, setSortBy] = React.useState<string>(defaultSortBy);
-  const [sortOrder, setSortOrder] =
-    React.useState<'asc' | 'desc'>(defaultSortOrder);
+  const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>(
+    defaultSortOrder ?? implicitSortOrder(defaultSortBy)
+  );
 
   React.useEffect(() => {
     const params = new URL(window.location.href).searchParams;
-    setSortBy(params.get('ob') || defaultSortBy);
-    setSortOrder((params.get('od') as 'asc' | 'desc') || defaultSortOrder);
+    const ob = params.get('ob');
+    setSortBy(ob || defaultSortBy);
+    setSortOrder(
+      (params.get('od') as 'asc' | 'desc') ||
+        defaultSortOrder ||
+        implicitSortOrder(ob || '')
+    );
   }, [defaultSortBy, defaultSortOrder]);
 
   const defaultSortChangeHandler = useCallback(
     async (newSortState: SortState) => {
       if (!enableUrlUpdate) return;
 
-      const currentUrl = window.location.href;
-      const url = new URL(currentUrl, window.location.origin);
-
-      if (newSortState.sortBy === '' || newSortState.sortBy === defaultSortBy) {
-        url.searchParams.delete('ob');
-      } else {
-        url.searchParams.set('ob', newSortState.sortBy);
-      }
-
-      if (newSortState.sortOrder === defaultSortOrder) {
-        url.searchParams.delete('od');
-      } else {
-        url.searchParams.set('od', newSortState.sortOrder);
-      }
+      const url = applySortToUrl(
+        window.location.href,
+        newSortState,
+        defaultSortBy
+      );
 
       url.searchParams.append('ajax', 'true');
       await AppContextDispatch.fetchPageData(url);
       url.searchParams.delete('ajax');
       history.pushState(null, '', url);
     },
-    [AppContextDispatch, enableUrlUpdate, defaultSortBy, defaultSortOrder]
+    [AppContextDispatch, enableUrlUpdate, defaultSortBy]
   );
 
   const handleSortChange = onSortChange || defaultSortChangeHandler;

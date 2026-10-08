@@ -6,6 +6,7 @@ import {
   startTransaction,
   type PoolClient
 } from '@evershop/postgres-query-builder';
+import { toIntegrationAddressFromRow } from '../../../lib/address/integration.js';
 import { emit } from '../../../lib/event/emitter.js';
 import { error } from '../../../lib/log/logger.js';
 import { getConnection, pool } from '../../../lib/postgres/connection.js';
@@ -21,14 +22,10 @@ import {
   buildDefaultParcels,
   type PackingCandidate
 } from '../../checkout/services/cart/packing.js';
+import { getOriginAddress } from '../../checkout/services/shipping/getOriginAddress.js';
 import {
   getDimensionUnit,
-  getStoreAddress,
-  getStoreCity,
-  getStoreCountry,
   getStoreName,
-  getStorePostalCode,
-  getStoreProvince,
   getWeightUnit
 } from '../../setting/services/setting.js';
 import type {
@@ -42,6 +39,7 @@ import type {
 import addOrderActivityLog from './addOrderActivityLog.js';
 import { getCarrier } from './carrier/registry.js';
 import { recomputeOrderShipmentStatus } from './recomputeOrderShipmentStatus.js';
+import { isTerminalOrderStatus } from './updateOrderStatus.js';
 
 /**
  * Payload accepted by the new createShipment service. The API stays pure —
@@ -247,24 +245,34 @@ async function insertShipment(
 }
 
 /**
- * Map an `order_address` row into the carrier-input `CarrierAddress` shape.
- * Names diverge enough between the two that a plain camelCase isn't enough.
+ * Map an `order_address` row into the carrier-input `CarrierAddress` shape by
+ * token, through `toIntegrationAddress` (spec § 3.10): `company` is finally
+ * filled (from `organization`), the second and third address lines join into
+ * `address2`, `city` is the locality's display name, `province` the stored
+ * administrative-area key, and `dependentLocality` is carried for countries
+ * that have one. Exported for its unit test.
  */
-function toCarrierAddress(row: OrderAddressRow | null): CarrierAddress {
+export async function toCarrierAddress(
+  row: OrderAddressRow | null
+): Promise<CarrierAddress> {
   if (!row) {
     throw new Error(
       'Order shipping address is missing — cannot build carrier input'
     );
   }
+  const address = await toIntegrationAddressFromRow({ ...row });
   return {
-    fullName: row.full_name ?? '',
-    address1: row.address_1 ?? '',
-    address2: row.address_2 ?? undefined,
-    city: row.city ?? '',
-    province: row.province ?? undefined,
-    postcode: row.postcode ?? '',
-    country: row.country ?? '',
-    phone: row.telephone ?? undefined
+    fullName: address.recipient,
+    company: address.organization,
+    address1: address.lines[0] ?? '',
+    address2:
+      address.lines.length > 1 ? address.lines.slice(1).join(', ') : undefined,
+    dependentLocality: address.dependentLocality,
+    city: address.locality ?? '',
+    province: address.administrativeArea?.key,
+    postcode: address.postalCode ?? '',
+    country: address.country,
+    phone: address.telephone
   };
 }
 
@@ -309,22 +317,19 @@ async function buildCreateLabelInput(
     .from('order_address')
     .where('order_address_id', '=', order.shipping_address_id)
     .load(pool)) as OrderAddressRow | null;
-  const [storeName, country, province, city, address1, postcode] =
-    await Promise.all([
-      getStoreName(),
-      getStoreCountry(),
-      getStoreProvince(),
-      getStoreCity(),
-      getStoreAddress(),
-      getStorePostalCode()
-    ]);
+  // The origin is the store address from Settings → Store, composed once in
+  // `getOriginAddress` (the same origin shipping quotes use).
+  const [storeName, origin] = await Promise.all([
+    getStoreName(),
+    getOriginAddress()
+  ]);
   const shipFrom: CarrierAddress = {
     fullName: storeName ?? 'Store',
-    address1: address1 ?? '',
-    city: city ?? '',
-    province: province ?? undefined,
-    postcode: postcode ?? '',
-    country: country ?? ''
+    address1: (origin.address_line_1 as string | null) ?? '',
+    city: (origin.locality as string | null) ?? '',
+    province: (origin.administrative_area as string | null) ?? undefined,
+    postcode: (origin.postal_code as string | null) ?? '',
+    country: (origin.country as string | null) ?? ''
   };
   // Weight unit is store-wide (admin setting `weightUnit`); `order_item.product_weight`
   // is stored in that unit. Normalize to the `Weight.unit` vocabulary.
@@ -418,7 +423,7 @@ async function buildCreateLabelInput(
     orderNumber: order.order_number,
     orderId: order.order_id,
     shipFrom,
-    shipTo: toCarrierAddress(shippingAddress),
+    shipTo: await toCarrierAddress(shippingAddress),
     items,
     parcel,
     serviceCode: extractSnapshotServiceCode(order.shipping_method_data)
@@ -494,6 +499,16 @@ const createShipmentImpl = async function createShipment(
     .load(readConn)) as OrderRow | null;
   if (!order) {
     throw new Error(`Order not found: ${orderUuid}`);
+  }
+
+  // Fulfillment is over for a terminal order (`closed` after a full refund, or
+  // `canceled`) — block creating new shipments. Canceling EXISTING shipments
+  // stays allowed: a terminal order stays terminal (see resolveOrderStatus
+  // precedence), so cancellation no longer trips the order-status recompute.
+  if (isTerminalOrderStatus(order.status)) {
+    throw new Error(
+      `Cannot create a shipment for an order in status "${order.status}"`
+    );
   }
 
   // Items, qty, carrier, digital-rejection.

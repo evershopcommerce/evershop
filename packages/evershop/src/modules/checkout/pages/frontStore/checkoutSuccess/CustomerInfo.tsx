@@ -11,36 +11,15 @@ interface CustomerInfoProps {
     paymentMethodName: string;
     noShippingRequired: boolean;
     shippingAddress: {
-      fullName: string;
-      postcode: string;
+      recipient: string;
       telephone: string;
-      country: {
-        name: string;
-        code: string;
-      };
-      province: {
-        name: string;
-        code: string;
-      };
-      city: string;
-      address1: string;
-      address2: string;
+      /** Display lines for the address's country (spec § 3.6). */
+      formatted: string[];
     };
     billingAddress: {
-      fullName: string;
-      postcode: string;
+      recipient: string;
       telephone: string;
-      country: {
-        name: string;
-        code: string;
-      };
-      province: {
-        name: string;
-        code: string;
-      };
-      city: string;
-      address1: string;
-      address2: string;
+      formatted: string[];
     } | null; // zero-total orders don't collect a billing address
   };
 }
@@ -56,6 +35,15 @@ export default function CustomerInfo({
     billingAddress
   }
 }: CustomerInfoProps) {
+  // One key for the whole sentence: the order number sits mid-clause, so a translator
+  // must be able to move it (and localize the "#" prefix — № in ru, Nr. in de, n° in fr).
+  // `_()` leaves ${orderNumber} untouched (absent from the values), so we split on it to
+  // keep the number in its own emphasized <span>.
+  const confirmation = _(
+    'Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.',
+    { email: customerEmail }
+  );
+  const [confirmBefore, confirmAfter = ''] = confirmation.split('${orderNumber}');
   return (
     <div className="checkout-success-customer-info">
       <div className="text-center">
@@ -66,11 +54,9 @@ export default function CustomerInfo({
           {_('Thank you for your order!')}
         </h1>
         <p className="mt-2 text-muted-foreground">
-          {_('Order')}{' '}
-          <span className="font-medium text-foreground">#{orderNumber}</span>{' '}
-          {_('is confirmed. We’ve emailed a receipt to ${email}.', {
-            email: customerEmail
-          })}
+          {confirmBefore}
+          <span className="font-medium text-foreground">{orderNumber}</span>
+          {confirmAfter}
         </p>
       </div>
 
@@ -81,7 +67,7 @@ export default function CustomerInfo({
               {_('Contact information')}
             </h3>
             <div className="text-sm text-muted-foreground">
-              {customerFullName || billingAddress?.fullName}
+              {customerFullName || billingAddress?.recipient}
             </div>
             <div className="text-sm text-muted-foreground">{customerEmail}</div>
           </div>
@@ -136,36 +122,14 @@ export const query = `
       noShippingRequired
       shippingNote
       shippingAddress {
-        fullName
-        postcode
+        recipient
         telephone
-        country {
-          name
-          code
-        }
-        province {
-          name
-          code
-        }
-        city
-        address1
-        address2
+        formatted
       }
       billingAddress {
-        fullName
-        postcode
+        recipient
         telephone
-        country {
-          name
-          code
-        }
-        province {
-          name
-          code
-        }
-        city
-        address1
-        address2
+        formatted
       }
     }
   }

@@ -10,6 +10,7 @@ import {
   isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
+import { scrimButtonClassName } from '@components/common/ui/scrimButton.js';
 import { ImagePlus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
@@ -164,17 +165,25 @@ function OverlayScrim({
   );
 }
 
-function CtaButton({ value }: { value: CtaValue }) {
+function CtaButton({
+  value,
+  onScrim
+}: {
+  value: CtaValue;
+  /** The content sits on a dark scrim, so the wrapper's text is white (see scrimButton.ts). */
+  onScrim: boolean;
+}) {
   if (!value.label || !value.url) return null;
+  const variant = ctaButtonVariant(value.style);
+  const classes = buttonVariants({ variant, size: 'lg' });
   return (
     <a
       href={value.url}
       target={value.newTab ? '_blank' : undefined}
       rel={value.newTab ? 'noopener noreferrer' : undefined}
-      className={`evershop-banner__cta ${buttonVariants({
-        variant: ctaButtonVariant(value.style),
-        size: 'lg'
-      })}`}
+      className={`evershop-banner__cta ${
+        onScrim ? scrimButtonClassName(variant, classes) : classes
+      }`}
     >
       {value.label}
     </a>
@@ -298,8 +307,8 @@ export default function Banner({
   const op = Number.isFinite(overlayOpacity) ? (overlayOpacity as number) : 0.3;
   // Pick a default text color based on the tint — dark/gradient scrim
   // wants light text; light/none wants dark text.
-  const textColorClass =
-    tint === 'dark' || tint === 'gradient' ? 'text-white' : 'text-foreground';
+  const onScrim = tint === 'dark' || tint === 'gradient';
+  const textColorClass = onScrim ? 'text-white' : 'text-foreground';
 
   const overlay = (
     <div
@@ -312,7 +321,7 @@ export default function Banner({
           <Editable
             as="div"
             fieldPath="settings.eyebrow"
-            className="evershop-banner__eyebrow text-[11px] font-semibold uppercase tracking-widest opacity-90"
+            className="evershop-banner__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest opacity-90"
           >
             {eyebrow}
           </Editable>
@@ -321,7 +330,7 @@ export default function Banner({
           <Editable
             as="h2"
             fieldPath="settings.heading"
-            className="evershop-banner__heading text-2xl font-semibold tracking-tight md:text-4xl"
+            className="evershop-banner__heading evershop-widget__heading text-2xl font-semibold tracking-tight text-inherit md:text-3xl"
           >
             {heading}
           </Editable>
@@ -331,7 +340,7 @@ export default function Banner({
             as="p"
             fieldPath="settings.subText"
             multiline
-            className="evershop-banner__subtext text-sm opacity-90 md:text-base"
+            className="evershop-banner__subtext evershop-widget__subtext text-sm md:text-base opacity-90"
           >
             {subText}
           </Editable>
@@ -346,8 +355,8 @@ export default function Banner({
                 : 'justify-start'
             }`}
           >
-            {cta && <CtaButton value={cta} />}
-            {cta2 && <CtaButton value={cta2} />}
+            {cta && <CtaButton value={cta} onScrim={onScrim} />}
+            {cta2 && <CtaButton value={cta2} onScrim={onScrim} />}
           </div>
         )}
       </div>

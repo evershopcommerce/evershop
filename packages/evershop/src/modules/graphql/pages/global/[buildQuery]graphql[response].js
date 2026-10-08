@@ -8,27 +8,14 @@ import {
 import { debug } from '../../../../lib/log/logger.js';
 import { createDefinitionCache } from '../../../../lib/metafield/definitionCache.js';
 import { pool } from '../../../../lib/postgres/connection.js';
-import { isDevelopmentMode } from '../../../../lib/util/isDevelopmentMode.js';
 import { createLinkLoaders } from '../../../../lib/widget/linkResolver.js';
-import adminSchema, { rebuildSchema } from '../../services/buildSchema.js';
-import storeFrontSchema, {
-  rebuildStoreFrontSchema
-} from '../../services/buildStoreFrontSchema.js';
 import { getContext } from '../../services/contextHelper.js';
+import { getRequestSchema } from '../../services/getRequestSchema.js';
 import { graphqlErrorMessageFormat } from '../../services/graphqlErrorMessageFormat.js';
 
 export default async function graphql(request, response, next) {
-  const { currentRoute } = request;
-  let schema;
-  if (isDevelopmentMode()) {
-    schema =
-      currentRoute && currentRoute.isAdmin
-        ? await rebuildSchema()
-        : await rebuildStoreFrontSchema();
-  } else {
-    schema =
-      currentRoute && currentRoute.isAdmin ? adminSchema : storeFrontSchema;
-  }
+  // The same schema the page-query middleware checked each widget against.
+  const schema = await getRequestSchema(request);
   // TODO: Should we wait for previous async middlewares?
   try {
     const { body } = request;

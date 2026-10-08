@@ -1,0 +1,17 @@
+# The eight merchant address settings (Address Format Registry § 3.13), each a
+# flat `setting` row: addressNameFormat, addressTelephone, addressOrganization,
+# addressLine2, addressLine3, addressRequired (JSON object),
+# addressDefaultCountry, addressSellToCountries (JSON: "all" or a list of
+# country codes). Values come back normalized, with the code defaults applied,
+# exactly as the schema resolver reads them. (A `"""` description is not
+# allowed on `extend type`, hence the comment.)
+extend type Setting {
+  addressNameFormat: String!
+  addressTelephone: String!
+  addressOrganization: String!
+  addressLine2: String!
+  addressLine3: String!
+  addressRequired: JSON!
+  addressDefaultCountry: String!
+  addressSellToCountries: JSON!
+}

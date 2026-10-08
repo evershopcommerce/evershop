@@ -15,6 +15,9 @@ import type { Manifest } from './manifest.js';
 export function contentFingerprint(manifest: Manifest): string {
   return canonicalize({
     widgets: manifest.widgets,
-    placements: manifest.placements
+    placements: manifest.placements,
+    // Absent and empty must fingerprint the same, so a manifest that never had
+    // the section doesn't read as drift against one with `landingPages: []`.
+    landingPages: manifest.landingPages ?? []
   });
 }

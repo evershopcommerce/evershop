@@ -52,8 +52,10 @@ interface ShippingMethod {
 
 interface ShippingAddressParams {
   country: string;
-  province?: string;
-  postcode?: string;
+  administrativeArea?: string;
+  locality?: string;
+  dependentLocality?: string;
+  postalCode?: string;
 }
 
 interface CheckoutState {

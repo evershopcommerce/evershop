@@ -1,0 +1,5 @@
+{
+  "methods": ["POST"],
+  "path": "/landing-pages/:id/replace-homepage",
+  "access": "private"
+}

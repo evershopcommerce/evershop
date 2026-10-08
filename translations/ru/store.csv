@@ -82,7 +82,6 @@ Buy qty,Кол-во для покупки
 Buy qty is required,Кол-во для покупки обязательно
 Can not process payment. Please try again later.,"Не удалось обработать платёж. Пожалуйста, попробуйте позже."
 Can't be undone,Невозможно отменить
-Cancel,Отмена
 Cancel Order,Отменить заказ
 Cancel shipment,Отменить отправление
 Cancel this shipment?,Отменить это отправление?
@@ -351,7 +350,6 @@ Page ${currentPage} of ${totalPages},Страница ${currentPage} из ${tota
 Page not found,Страница не найдена
 Password is required,Пароль обязателен
 Password must be at least ${minLength} characters long,Пароль должен содержать не менее ${minLength} символов
-Paste a URL or a relative path starting with ,"Вставьте URL или относительный путь, начинающийся с "
 Pattern (regex),Шаблон (regex)
 Pay with PayPal,Оплатить через PayPal
 Pay with Stripe,Оплатить через Stripe
@@ -646,7 +644,6 @@ Clear filter,Очистить фильтр
 Clear filters,Очистить фильтры
 Client ID,Client ID
 Client Secret,Client Secret
-Close,Закрыть
 Close settings,Закрыть настройки
 Close — continue draft,Закрыть — продолжить черновик
 Cms Pages,Страницы CMS
@@ -1677,3 +1674,10 @@ A list of products from a collection,Список товаров из колле
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Сложенные ряды коллекций, каждый с заголовком, ссылкой «Смотреть все» и полосой товаров."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Избранная коллекция с обложкой, редакторским текстом и небольшой сеткой превью товаров."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Витрина одного товара — изображение, название, цена и ссылка на полную страницу товара."
+The page you're looking for doesn't exist or may have moved.,"Страница, которую вы ищете, не существует или была перемещена."
+Back to home,Вернуться на главную
+Main menu,Главное меню
+Close menu,Закрыть меню
+Open menu,Открыть меню
+Footer,Нижний колонтитул
+Go to slide ${n},Перейти к слайду ${n}

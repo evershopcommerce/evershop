@@ -56,17 +56,19 @@ export default {
         return null;
       }
     },
-    paypalWebhookSecret: (setting, _, { user }) => {
+    paypalWebhookId: (setting, _, { user }) => {
+      // A webhook id is an identifier, not a secret — show the config value
+      // as-is so the admin can see which webhook is wired.
       const paypalConfig = getConfig('system.paypal', {});
-      if (paypalConfig.webhookSecret) {
-        return '*******************************';
+      if (paypalConfig.webhookId) {
+        return paypalConfig.webhookId;
       }
       if (user) {
-        const paypalWebhookSecret = setting.find(
-          (s) => s.name === 'paypalWebhookSecret'
+        const paypalWebhookId = setting.find(
+          (s) => s.name === 'paypalWebhookId'
         );
-        if (paypalWebhookSecret) {
-          return paypalWebhookSecret.value;
+        if (paypalWebhookId) {
+          return paypalWebhookId.value;
         } else {
           return null;
         }

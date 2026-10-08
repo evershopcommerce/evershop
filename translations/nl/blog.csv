@@ -50,6 +50,7 @@ No posts match,Geen overeenkomende berichten
 No posts published yet.,Nog geen berichten gepubliceerd.
 No posts with this tag yet.,Nog geen berichten met deze tag.
 No posts yet,Nog geen berichten
+"Nothing picked: the latest posts are shown, up to Max posts.","Niets geselecteerd: de nieuwste berichten worden getoond, tot maximaal “Max. berichten”."
 Open page in a new tab,Pagina in een nieuw tabblad openen
 Open — auto-approve,Open — automatisch goedkeuren
 Organize,Organiseren
@@ -97,3 +98,4 @@ Unpublish ${count} posts,Publicatie van ${count} berichten ongedaan maken
 Untitled page,Naamloze pagina
 Your comment,Je reactie
 min read,min leestijd
+Back to blog,Terug naar blog

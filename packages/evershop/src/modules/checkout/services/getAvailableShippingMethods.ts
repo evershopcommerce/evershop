@@ -69,39 +69,46 @@ function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
  *   5. Concat results, dedupe by (provider_code, code) keeping the first
  *      occurrence, sort by cost ascending.
  *
- * `country` / `province` / `postcode` args optionally override the cart's
- * stored shipping address (useful for pre-checkout rate calculators before
- * the customer has saved an address).
+ * `destination` optionally overrides the cart's stored shipping address field
+ * by field (useful for pre-checkout rate calculators before the customer has
+ * saved an address). Keys follow the address vocabulary (spec § 3.10, D-16).
  *
  * See wiki/shipping-provider-design.md → "Data flow" / "Listing methods at checkout".
  */
+export interface ShippingDestination {
+  country?: string | null;
+  administrative_area?: string | null;
+  locality?: string | null;
+  dependent_locality?: string | null;
+  postal_code?: string | null;
+}
+
 export async function getAvailableShippingMethods(
   cartId: string,
-  country?: string,
-  province?: string,
-  postcode?: string
+  destination: ShippingDestination = {}
 ): Promise<AvailableShippingMethodResult[]> {
   const cart = await getCartByUUID(cartId);
   if (!cart) {
     throw new Error('Cart not found');
   }
 
-  // Resolve destination address — args override stored fields one-by-one.
-  const stored = (cart.getData('shipping_address') ?? {}) as {
-    country?: string | null;
-    province?: string | null;
-    postcode?: string | null;
-  };
-  const destinationCountry = country ?? stored.country ?? null;
-  const destinationProvince = province ?? stored.province ?? null;
-  const destinationPostcode = postcode ?? stored.postcode ?? null;
+  // Resolve destination address — defined overrides win field by field.
+  const stored = (cart.getData('shipping_address') ?? {}) as ShippingDestination &
+    Record<string, unknown>;
+  const effective: ShippingDestination & Record<string, unknown> = { ...stored };
+  for (const [key, value] of Object.entries(destination)) {
+    if (value !== undefined) {
+      effective[key] = value;
+    }
+  }
+  const destinationCountry = effective.country ?? null;
 
   if (!destinationCountry) return [];
 
   const zones = await resolveZonesForAddress({
     country: destinationCountry,
-    province: destinationProvince,
-    postcode: destinationPostcode
+    administrativeArea: effective.administrative_area,
+    postalCode: effective.postal_code
   });
   if (zones.length === 0) return [];
 
@@ -149,12 +156,7 @@ export async function getAvailableShippingMethods(
         provider,
         zone,
         attachment,
-        destinationOverride: {
-          ...stored,
-          country: destinationCountry,
-          province: destinationProvince,
-          postcode: destinationPostcode
-        }
+        destinationOverride: effective
       });
       const methods = await withTimeout(
         provider.getMethods(ctx),

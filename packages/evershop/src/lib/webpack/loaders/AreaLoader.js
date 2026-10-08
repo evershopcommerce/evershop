@@ -4,12 +4,14 @@ import { inspect } from 'util';
 import JSON5 from 'json5';
 import { getEnabledWidgets } from '../../../lib/widget/widgetManager.js';
 import { getAllRouteComponents } from '../../componee/getComponentsByRoute.js';
+import { applyThemeLayout, loadThemeLayouts } from '../../componee/themeLayouts.js';
 import { error } from '../../log/logger.js';
 import { getRoutes } from '../../router/Router.js';
 import { generateComponentKey } from '../../util/keyGenerator.js';
 
-function buildComponentsPerRoute(components, imports) {
+function buildComponentsPerRoute(components, imports, themeLayouts = {}) {
   const areas = {};
+  const layouts = [];
   components.forEach((module) => {
     if (!fs.existsSync(module)) {
       return;
@@ -25,29 +27,39 @@ function buildComponentsPerRoute(components, imports) {
         .replace(/^[^{]*/, '')
         .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
       try {
-        const layout = JSON5.parse(check);
-        const id = generateComponentKey(module);
-        const url = pathToFileURL(module).toString();
-        // Check if this import already exists by url
-        // Get all key of current imports
-        const keys = Array.from(imports.keys());
-        const exists = keys.find((key) => key.url === url);
-        if (!exists) {
-          imports.set({ id, url }, `import ${id} from '${url}';`);
-        }
-        areas[layout.areaId] = areas[layout.areaId] || {};
-        areas[layout.areaId][id] = {
-          id,
-          sortOrder: layout.sortOrder,
-          component: {
-            default: `---${id}---`
-          }
-        };
+        layouts.push({ module, layout: applyThemeLayout(module, JSON5.parse(check), themeLayouts) });
       } catch (e) {
         error(`Error parsing layout from ${module}`);
         error(e);
       }
     }
+  });
+  // Import in Area `sortOrder` (path as tie-break), not filesystem order.
+  // Import order is CSS cascade order — see the same note in
+  // bin/lib/buildEntry.js (the prod emitter must stay in step).
+  layouts.sort(
+    (a, b) =>
+      a.layout.sortOrder - b.layout.sortOrder ||
+      (a.module < b.module ? -1 : a.module > b.module ? 1 : 0)
+  );
+  layouts.forEach(({ module, layout }) => {
+    const id = generateComponentKey(module);
+    const url = pathToFileURL(module).toString();
+    // Check if this import already exists by url
+    // Get all key of current imports
+    const keys = Array.from(imports.keys());
+    const exists = keys.find((key) => key.url === url);
+    if (!exists) {
+      imports.set({ id, url }, `import ${id} from '${url}';`);
+    }
+    areas[layout.areaId] = areas[layout.areaId] || {};
+    areas[layout.areaId][id] = {
+      id,
+      sortOrder: layout.sortOrder,
+      component: {
+        default: `---${id}---`
+      }
+    };
   });
 
   return areas;
@@ -122,6 +134,8 @@ export default function AreaLoader(c) {
   const isAdmin = this.getOptions().isAdmin;
   this.cacheable(false);
   const components = getAllRouteComponents(isAdmin);
+  // themes/<id>/layouts.json may move storefront page components (never admin ones)
+  const themeLayouts = isAdmin ? {} : loadThemeLayouts();
   const routes = getRoutes().filter(
     (route) => route.isApi === false && route.isAdmin === isAdmin
   );
@@ -133,7 +147,8 @@ export default function AreaLoader(c) {
     Object.keys(components).forEach((routeId) => {
       allRootComponents[routeId] = buildComponentsPerRoute(
         components[routeId],
-        imports
+        imports,
+        themeLayouts
       );
       const route = routes.find((r) => r.id === routeId);
       const widgetComponents = buildWidgetComponentsPerRoute(

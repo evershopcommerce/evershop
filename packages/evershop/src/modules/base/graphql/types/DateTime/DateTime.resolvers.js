@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { getConfig } from '../../../../../lib/util/getConfig.js';
+import { getActiveLocale } from '../../../../../lib/locale/localeContext.js';
 import { getStoreTimezone } from '../../../../setting/services/setting.js';
 
 export default {
@@ -13,7 +13,11 @@ export default {
         return null;
       }
       const timeZone = getStoreTimezone();
-      const language = getConfig('shop.language', 'en');
+      // Request locale, falling back to the `storeLanguage` admin setting. Drives the
+      // month/weekday names Luxon substitutes for LLL/LLLL/ccc/cccc tokens; the DEFAULT
+      // `format` below is numeric ISO, so callers only see a difference once they pass a
+      // format that spells a name out.
+      const language = getActiveLocale();
       const date = DateTime.fromJSDate(value, { zone: timeZone })
         .setLocale(language)
         .setZone(timeZone)

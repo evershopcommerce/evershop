@@ -5,6 +5,7 @@ import { pathToFileURL } from 'url';
 import { inspect } from 'util';
 import JSON5 from 'json5';
 import { getComponentsByRoute } from '../../lib/componee/getComponentsByRoute.js';
+import { applyThemeLayout, loadThemeLayouts } from '../../lib/componee/themeLayouts.js';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { error } from '../../lib/log/logger.js';
 import { generateComponentKey } from '../../lib/util/keyGenerator.js';
@@ -21,11 +22,14 @@ export async function buildEntry(routes, clientOnly = false) {
       const imports = [];
       const subPath = getRouteBuildPath(route);
       const components = getComponentsByRoute(route);
+      // themes/<id>/layouts.json may move storefront page components (never admin ones)
+      const themeLayouts = route.isAdmin ? {} : loadThemeLayouts();
       if (!components) {
         return;
       }
       /** Build layout and query */
       const areas = {};
+      const layouts = [];
       components.forEach((module) => {
         if (!fs.existsSync(module)) {
           return;
@@ -41,21 +45,34 @@ export async function buildEntry(routes, clientOnly = false) {
             .replace(/^[^{]*/, '')
             .replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
           try {
-            const layout = JSON5.parse(check);
-            const id = generateComponentKey(module);
-            const url = pathToFileURL(module).toString();
-            imports.push(`import ${id} from '${url}';`);
-            areas[layout.areaId] = areas[layout.areaId] || {};
-            areas[layout.areaId][id] = {
-              id,
-              sortOrder: layout.sortOrder,
-              component: { default: `---${id}---` }
-            };
+            layouts.push({ module, layout: applyThemeLayout(module, JSON5.parse(check), themeLayouts) });
           } catch (e) {
             error(`Error parsing layout from ${module}`);
             error(e);
           }
         }
+      });
+      // Import in Area `sortOrder` (path as tie-break), not filesystem order.
+      // Import order is CSS cascade order: with alphabetical imports
+      // `GlobalCss.tsx` (sortOrder 5) landed before `TailwindCss.tsx`
+      // (sortOrder 1), so inside the shared `@layer base` Tailwind's preflight
+      // came last and reset every unclassed heading to `font-size: inherit;
+      // font-weight: inherit`, defeating global.scss's type ramp.
+      layouts.sort(
+        (a, b) =>
+          a.layout.sortOrder - b.layout.sortOrder ||
+          (a.module < b.module ? -1 : a.module > b.module ? 1 : 0)
+      );
+      layouts.forEach(({ module, layout }) => {
+        const id = generateComponentKey(module);
+        const url = pathToFileURL(module).toString();
+        imports.push(`import ${id} from '${url}';`);
+        areas[layout.areaId] = areas[layout.areaId] || {};
+        areas[layout.areaId][id] = {
+          id,
+          sortOrder: layout.sortOrder,
+          component: { default: `---${id}---` }
+        };
       });
 
       let contentClient = `

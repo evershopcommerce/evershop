@@ -24,7 +24,6 @@ ${count} items,${count} பொருட்கள்
 "Sorry, there is no available method for your address","மன்னிக்கவும், உங்கள் முகவரிக்கு கிடைக்கக்கூடிய முறை எதுவும் இல்லை"
 Thank you ${name}!,நன்றி ${name}!
 Contact Information,தொடர்பு தகவல்
-Order #${orderNumber},ஆர்டர் #${orderNumber}
 VIEW CART (${count}),கார்ட்டைப் பார்க்க (${count})
 Your Cart,உங்கள் கார்ட்
 Your cart is empty,உங்கள் கார்ட் காலியாக உள்ளது
@@ -91,7 +90,6 @@ Buy qty,வாங்கும் அளவு
 Buy qty is required,வாங்கும் அளவு தேவை
 Can not process payment. Please try again later.,கட்டணத்தைச் செயலாக்க முடியவில்லை. பின்னர் மீண்டும் முயற்சிக்கவும்.
 Can't be undone,செயல்தவிர்க்க முடியாது
-Cancel,ரத்து செய்
 Cancel Order,ஆர்டரை ரத்து செய்
 Cancel shipment,ஷிப்மென்ட்டை ரத்து செய்
 Cancel this shipment?,இந்த ஷிப்மென்ட்டை ரத்து செய்யவா?
@@ -361,7 +359,6 @@ Page ${currentPage} of ${totalPages},பக்கம் ${currentPage} / ${total
 Page not found,பக்கம் கிடைக்கவில்லை
 Password is required,கடவுச்சொல் தேவை
 Password must be at least ${minLength} characters long,கடவுச்சொல் குறைந்தபட்சம் ${minLength} எழுத்துகள் நீளமாக இருக்க வேண்டும்
-Paste a URL or a relative path starting with ,ஒரு URL அல்லது இதனுடன் தொடங்கும் தொடர்புப் பாதையை ஒட்டவும் 
 Pattern (regex),முறை (regex)
 Pay with PayPal,PayPal மூலம் செலுத்து
 Pay with Stripe,Stripe மூலம் செலுத்து
@@ -656,7 +653,6 @@ Clear filter,வடிப்பானை அழி
 Clear filters,வடிப்பான்களை அழி
 Client ID,கிளையன்ட் ID
 Client Secret,கிளையன்ட் சீக்ரெட்
-Close,மூடு
 Close settings,அமைப்புகளை மூடு
 Close — continue draft,மூடு — வரைவைத் தொடரவும்
 Cms Pages,CMS பக்கங்கள்
@@ -1687,3 +1683,10 @@ A list of products from a collection,ஒரு தொகுப்பிலிர
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","தொகுப்புகளின் அடுக்கப்பட்ட வரிசைகள், ஒவ்வொன்றும் ஒரு தலைப்பு, அனைத்தையும்-காண இணைப்பு மற்றும் தயாரிப்புகளின் பட்டையுடன்."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","அட்டை படம், தலையங்க உரை மற்றும் சிறிய தயாரிப்பு முன்னோட்ட கட்டத்துடன் கூடிய சிறப்பு தொகுப்பு."
 "A single-product spotlight — image, name, price, and a link to the full product page.","ஒற்றை-தயாரிப்பு சிறப்பு வெளிச்சம் — படம், பெயர், விலை மற்றும் முழு தயாரிப்பு பக்கத்திற்கான இணைப்பு."
+The page you're looking for doesn't exist or may have moved.,நீங்கள் தேடும் பக்கம் இல்லை அல்லது நகர்த்தப்பட்டிருக்கலாம்.
+Back to home,முகப்புக்குத் திரும்பு
+Main menu,முதன்மை மெனு
+Close menu,மெனுவை மூடு
+Open menu,மெனுவைத் திற
+Footer,அடிக்குறிப்பு
+Go to slide ${n},ஸ்லைடு ${n} க்குச் செல்

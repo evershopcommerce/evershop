@@ -113,22 +113,37 @@ export const query = `
       addAddressApi
       updateProfileApi
       addresses {
-        addressId
+        customerAddressId
         uuid
-        fullName
-        telephone 
-        address1
-        address2
-        city
-        province {
-          code
+        recipient
+        givenName
+        familyName
+        organization
+        addressLine1
+        addressLine2
+        addressLine3
+        dependentLocality {
+          key
           name
         }
+        locality {
+          key
+          name
+        }
+        administrativeArea {
+          key
+          name
+          isoCode
+        }
+        postalCode
+        sortingCode
         country {
           code
           name
         }
-        postcode
+        telephone
+        extra
+        formatted
         isDefault
         updateApi
         deleteApi
@@ -237,36 +252,66 @@ export const fragments = `
       text
     }
     billingAddress {
-      fullName
-      telephone
-      address1
-      address2
-      city
-      province {
+      recipient
+      givenName
+      familyName
+      organization
+      addressLine1
+      addressLine2
+      addressLine3
+      dependentLocality {
+        key
         name
-        code
       }
+      locality {
+        key
+        name
+      }
+      administrativeArea {
+        key
+        name
+        isoCode
+      }
+      postalCode
+      sortingCode
       country {
-        name
         code
+        name
       }
-      postcode
+      telephone
+      extra
+      formatted
     }
     shippingAddress {
-      fullName
-      telephone
-      address1
-      address2
-      city
-      province {
+      recipient
+      givenName
+      familyName
+      organization
+      addressLine1
+      addressLine2
+      addressLine3
+      dependentLocality {
+        key
         name
-        code
       }
+      locality {
+        key
+        name
+      }
+      administrativeArea {
+        key
+        name
+        isoCode
+      }
+      postalCode
+      sortingCode
       country {
-        name
         code
+        name
       }
-      postcode
+      telephone
+      extra
+      formatted
     }
     createdAt {
       value

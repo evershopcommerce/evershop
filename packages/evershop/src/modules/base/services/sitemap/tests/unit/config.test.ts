@@ -9,7 +9,9 @@ describe('SITEMAP_CONFIG_DEFAULTS', () => {
     expect(SITEMAP_CONFIG_DEFAULTS.maxUrlsPerFile).toBe(50000);
     expect(SITEMAP_CONFIG_DEFAULTS.maxAge).toBe(24 * 60 * 60 * 1000);
     expect(SITEMAP_CONFIG_DEFAULTS.hreflang).toBe(true);
-    expect(SITEMAP_CONFIG_DEFAULTS.staticPaths).toEqual(['/']);
+    // The homepage plus the all-products listing — a real route that no entity
+    // collector can find, since it belongs to no entity table.
+    expect(SITEMAP_CONFIG_DEFAULTS.staticPaths).toEqual(['/', '/products']);
   });
 
   it('has sensible per-type changefreq / priority', () => {

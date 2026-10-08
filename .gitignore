@@ -3,7 +3,7 @@ node_modules
 dist
 !packages/create-evershop-app/sample/extensions/sample/dist
 !packages/create-evershop-app/sample/themes/sample/dist
-/extensions/*
+extensions
 !extensions/agegate
 !extensions/azure_file_storage
 !extensions/google_login
@@ -50,3 +50,5 @@ PRODUCT.md
 stress-report-*
 jmeter.log
 stress_test.py
+theme-lab
+asset-library

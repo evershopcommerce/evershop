@@ -36,7 +36,7 @@ export const ProductListLoadingSkeleton = ({
                 flexShrink: 0,
                 width: '120px',
                 height: '120px',
-                backgroundColor: '#f0f0f0'
+                backgroundColor: 'var(--muted)'
               }}
             />
             <div className="skeleton-content" style={{ flex: 1 }}>
@@ -44,7 +44,7 @@ export const ProductListLoadingSkeleton = ({
                 className="skeleton-name"
                 style={{
                   height: '20px',
-                  backgroundColor: '#f0f0f0',
+                  backgroundColor: 'var(--muted)',
                   marginBottom: '10px',
                   width: '60%'
                 }}
@@ -53,7 +53,7 @@ export const ProductListLoadingSkeleton = ({
                 className="skeleton-sku"
                 style={{
                   height: '16px',
-                  backgroundColor: '#f0f0f0',
+                  backgroundColor: 'var(--muted)',
                   marginBottom: '10px',
                   width: '30%'
                 }}
@@ -62,7 +62,7 @@ export const ProductListLoadingSkeleton = ({
                 className="skeleton-price"
                 style={{
                   height: '20px',
-                  backgroundColor: '#f0f0f0',
+                  backgroundColor: 'var(--muted)',
                   marginBottom: '10px',
                   width: '25%'
                 }}
@@ -71,7 +71,7 @@ export const ProductListLoadingSkeleton = ({
                 className="skeleton-stock"
                 style={{
                   height: '16px',
-                  backgroundColor: '#f0f0f0',
+                  backgroundColor: 'var(--muted)',
                   width: '20%'
                 }}
               />
@@ -108,7 +108,7 @@ export const ProductListLoadingSkeleton = ({
             className="skeleton-image"
             style={{
               aspectRatio: '1/1',
-              backgroundColor: '#f0f0f0',
+              backgroundColor: 'var(--muted)',
               marginBottom: '10px'
             }}
           />
@@ -116,7 +116,7 @@ export const ProductListLoadingSkeleton = ({
             className="skeleton-name"
             style={{
               height: '20px',
-              backgroundColor: '#f0f0f0',
+              backgroundColor: 'var(--muted)',
               marginBottom: '10px',
               width: '80%'
             }}
@@ -125,7 +125,7 @@ export const ProductListLoadingSkeleton = ({
             className="skeleton-price"
             style={{
               height: '20px',
-              backgroundColor: '#f0f0f0',
+              backgroundColor: 'var(--muted)',
               width: '40%'
             }}
           />

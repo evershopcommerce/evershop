@@ -75,33 +75,27 @@ interface ShoppingCartItem {
 }
 
 """
-Address interface
-"""
-interface Address {
-  fullName: String
-  postcode: String
-  telephone: String
-  country: Country
-  province: Province
-  city: String
-  address1: String
-  address2: String
-}
-
-"""
 Represent a Cart Address
 """
 type CartAddress implements Address {
   cartAddressId: Int!
   uuid: String!
-  fullName: String
-  postcode: String
-  telephone: String
+  recipient: String
+  givenName: String
+  familyName: String
+  organization: String
+  addressLine1: String
+  addressLine2: String
+  addressLine3: String
+  dependentLocality: Region
+  locality: Region
+  administrativeArea: Region
+  postalCode: String
+  sortingCode: String
   country: Country
-  province: Province
-  city: String
-  address1: String
-  address2: String
+  telephone: String
+  extra: JSON
+  formatted: [String!]!
 }
 
 type VariantOption {

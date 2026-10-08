@@ -1,0 +1,21 @@
+{
+  "fmt": "%Z%n%S%C%n%A%n%O%n%N",
+  "id": "data/TW",
+  "key": "TW",
+  "lang": "zh-Hant",
+  "languages": "zh-Hant",
+  "lfmt": "%N%n%O%n%A%n%C, %S %Z",
+  "locality_name_type": "district",
+  "name": "TAIWAN",
+  "posturl": "http://www.post.gov.tw/post/internet/f_searchzone/index.jsp?ID=190102",
+  "require": "ACSZ",
+  "state_name_type": "county",
+  "sub_isoids": "TXG~TPE~TTT~TNN~ILA~HUA~~NAN~PIF~MIA~TAO~KHH~KEE~~YUN~NWT~HSZ~HSQ~CYI~CYQ~CHA~PEN",
+  "sub_keys": "台中市~台北市~台東縣~台南市~宜蘭縣~花蓮縣~金門縣~南投縣~屏東縣~苗栗縣~桃園市~高雄市~基隆市~連江縣~雲林縣~新北市~新竹市~新竹縣~嘉義市~嘉義縣~彰化縣~澎湖縣",
+  "sub_lnames": "Taichung City~Taipei City~Taitung County~Tainan City~Yilan County~Hualien County~Kinmen County~Nantou County~Pingtung County~Miaoli County~Taoyuan City~Kaohsiung City~Keelung City~Lienchiang County~Yunlin County~New Taipei City~Hsinchu City~Hsinchu County~Chiayi City~Chiayi County~Changhua County~Penghu County",
+  "sub_mores": "true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true",
+  "sub_zipexs": "400,408,411,439~100,119~950,966~700,745~260,272~970,983~890,896~540,558~900,947~350,369~320,338~800,815,817,852~200,206~209,212~630,655~207,208,220,253~~302,315~~602,625~500,530~880,885",
+  "sub_zips": "4[0-3]~1[01]~9[56]~7[0-4]~2[67]~9[78]~89~5[45]~9[0-4]~3[56]~3[23]~8[02-5]|81[1-579]~20[0-6]~209|21[012]~6[3-5]~20[78]|2[2345]~300~30[2-8]|31~600~60[1-9]|6[12]~5[0123]~88",
+  "zip": "\\d{3}(?:\\d{2,3})?",
+  "zipex": "104,106,10603,40867"
+}

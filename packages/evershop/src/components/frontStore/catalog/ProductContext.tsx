@@ -72,6 +72,11 @@ export interface ProductData {
   image?: ImageData;
   gallery?: ImageData[];
   attributes?: AttributeIndexItem[];
+  /**
+   * Set when the product belongs to a variant group (colour, size...). Cheap: a column of the
+   * product, unlike `variantGroup`, which runs queries per product. Lists select this one.
+   */
+  variantGroupId?: string | number | null;
   variantGroup?: VariantGroup;
   [extendedFields: string]: any;
 }

@@ -24,7 +24,6 @@ Discount(${coupon}),Remise (${coupon})
 ${count} items,${count} articles
 Thank you ${name}!,Merci ${name} !
 Contact Information,Coordonnées
-Order #${orderNumber},Commande n° ${orderNumber}
 VIEW CART (${count}),VOIR LE PANIER (${count})
 Your Cart,Votre panier
 Your cart is empty,Votre panier est vide
@@ -91,7 +90,6 @@ Buy qty,Qté achetée
 Buy qty is required,La qté achetée est obligatoire
 Can not process payment. Please try again later.,Impossible de traiter le paiement. Veuillez réessayer plus tard.
 Can't be undone,Irréversible
-Cancel,Annuler
 Cancel Order,Annuler la commande
 Cancel shipment,Annuler l'expédition
 Cancel this shipment?,Annuler cette expédition ?
@@ -361,7 +359,6 @@ Page ${currentPage} of ${totalPages},Page ${currentPage} sur ${totalPages}
 Page not found,Page introuvable
 Password is required,Le mot de passe est requis
 Password must be at least ${minLength} characters long,Le mot de passe doit comporter au moins ${minLength} caractères
-Paste a URL or a relative path starting with ,Collez une URL ou un chemin relatif commençant par 
 Pattern (regex),Motif (regex)
 Pay with PayPal,Payer avec PayPal
 Pay with Stripe,Payer avec Stripe
@@ -656,7 +653,6 @@ Clear filter,Effacer le filtre
 Clear filters,Effacer les filtres
 Client ID,Client ID
 Client Secret,Client Secret
-Close,Fermer
 Close settings,Fermer les paramètres
 Close — continue draft,Fermer — continuer le brouillon
 Cms Pages,Pages CMS
@@ -1687,3 +1683,10 @@ A list of products from a collection,Une liste de produits d'une collection
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Rangées empilées de collections, chacune avec un titre, un lien « Tout voir » et une bande de produits."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Une collection à la une avec image de couverture, texte éditorial et une petite grille d'aperçu de produits."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Une mise en avant d'un seul produit — image, nom, prix et lien vers la page produit complète."
+The page you're looking for doesn't exist or may have moved.,La page que vous recherchez n’existe pas ou a été déplacée.
+Back to home,Retour à l’accueil
+Main menu,Menu principal
+Close menu,Fermer le menu
+Open menu,Ouvrir le menu
+Footer,Pied de page
+Go to slide ${n},Aller à la diapositive ${n}

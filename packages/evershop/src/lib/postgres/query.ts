@@ -50,7 +50,7 @@ import type {
   ShipmentRow,
   ShipmentItemRow,
   ShippingZoneRow,
-  ShippingZoneProvinceRow,
+  ShippingZoneRegionRow,
   ShippingZoneCountryRow,
   ShippingZoneProviderRow,
   CoreShippingMethodRow,
@@ -58,6 +58,7 @@ import type {
   TaxClassRow,
   TaxRateRow,
   UrlRewriteRow,
+  LandingPageRow,
   VariantGroupRow,
   WidgetInstanceRow,
   WidgetPlacementRow,
@@ -87,6 +88,7 @@ export type TableName =
   | 'customer_address'
   | 'customer_group'
   | 'event'
+  | 'landing_page'
   | 'migration'
   | 'order'
   | 'order_activity'
@@ -108,7 +110,7 @@ export type TableName =
   | 'shipment'
   | 'shipment_item'
   | 'shipping_zone'
-  | 'shipping_zone_province'
+  | 'shipping_zone_region'
   | 'shipping_zone_country'
   | 'shipping_zone_provider'
   | 'core_shipping_method'
@@ -166,7 +168,7 @@ type TableColumnMap = {
   shipment: keyof ShipmentRow;
   shipment_item: keyof ShipmentItemRow;
   shipping_zone: keyof ShippingZoneRow;
-  shipping_zone_province: keyof ShippingZoneProvinceRow;
+  shipping_zone_region: keyof ShippingZoneRegionRow;
   shipping_zone_country: keyof ShippingZoneCountryRow;
   shipping_zone_provider: keyof ShippingZoneProviderRow;
   core_shipping_method: keyof CoreShippingMethodRow;
@@ -174,6 +176,7 @@ type TableColumnMap = {
   tax_class: keyof TaxClassRow;
   tax_rate: keyof TaxRateRow;
   url_rewrite: keyof UrlRewriteRow;
+  landing_page: keyof LandingPageRow;
   user_token_secret: never; // deprecated/removed table
   variant_group: keyof VariantGroupRow;
   widget_instance: keyof WidgetInstanceRow;
@@ -232,7 +235,7 @@ type TableRowMap = {
   shipment: ShipmentRow;
   shipment_item: ShipmentItemRow;
   shipping_zone: ShippingZoneRow;
-  shipping_zone_province: ShippingZoneProvinceRow;
+  shipping_zone_region: ShippingZoneRegionRow;
   shipping_zone_country: ShippingZoneCountryRow;
   shipping_zone_provider: ShippingZoneProviderRow;
   core_shipping_method: CoreShippingMethodRow;
@@ -240,6 +243,7 @@ type TableRowMap = {
   tax_class: TaxClassRow;
   tax_rate: TaxRateRow;
   url_rewrite: UrlRewriteRow;
+  landing_page: LandingPageRow;
   user_token_secret: Record<string, any>; // deprecated/removed table
   variant_group: VariantGroupRow;
   widget_instance: WidgetInstanceRow;

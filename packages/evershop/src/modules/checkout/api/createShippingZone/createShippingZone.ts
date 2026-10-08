@@ -2,7 +2,6 @@ import {
   commit,
   insert,
   rollback,
-  select,
   startTransaction
 } from '@evershop/postgres-query-builder';
 import { error } from '../../../../lib/log/logger.js';
@@ -13,114 +12,50 @@ import {
   OK
 } from '../../../../lib/util/httpStatus.js';
 import type { EvershopRequest } from '../../../../types/request.js';
-
-interface ProvinceEntry {
-  country: string;
-  province: string;
-}
-
-interface CreateShippingZoneBody {
-  name: string;
-  /** Legacy single-country field. New clients should send `countries`. */
-  country?: string;
-  countries?: string[];
-  /**
-   * Either a legacy array of province codes (paired with `country`), OR an
-   * array of `{ country, province }` pairs for multi-country zones.
-   */
-  provinces?: string[] | ProvinceEntry[];
-}
-
-interface NormalizedPayload {
-  countries: string[];
-  provinces: ProvinceEntry[];
-}
+import {
+  normalizeZonePayload,
+  ZonePayloadError
+} from '../../services/shipping/normalizeZonePayload.js';
 
 /**
- * Normalize the body's country/countries/provinces fields into:
- *   - countries: string[]  (1+ ISO country codes)
- *   - provinces: Array<{ country, province }>
- *
- * Accepts both legacy single-country payloads and the new multi-country
- * payload. Legacy provinces (`string[]`) are paired with the single country.
+ * Create a shipping zone: `{ name, countries, regions }` (spec § 3.3, D-22).
+ * Region keys are validated against the active regions of their country;
+ * countries outside the merchant's sell-to list are accepted and reported in
+ * `warnings` (§ 3.13, "intent wins, logistics is flagged").
  */
-function normalizeZonePayload(body: CreateShippingZoneBody): NormalizedPayload {
-  const countries = Array.isArray(body.countries)
-    ? body.countries.filter((c) => typeof c === 'string' && c.length > 0)
-    : typeof body.country === 'string' && body.country.length > 0
-    ? [body.country]
-    : [];
-
-  let provinces: ProvinceEntry[] = [];
-  if (Array.isArray(body.provinces)) {
-    if (
-      body.provinces.length > 0 &&
-      typeof body.provinces[0] === 'string'
-    ) {
-      // Legacy shape — string[] under a single country.
-      const country = countries[0];
-      if (country) {
-        provinces = (body.provinces as string[])
-          .filter((p) => typeof p === 'string' && p.length > 0)
-          .map((province) => ({ country, province }));
-      }
-    } else {
-      provinces = (body.provinces as ProvinceEntry[])
-        .filter(
-          (p) =>
-            p &&
-            typeof p === 'object' &&
-            typeof p.country === 'string' &&
-            typeof p.province === 'string' &&
-            p.country.length > 0 &&
-            p.province.length > 0
-        )
-        .map(({ country, province }) => ({ country, province }));
-    }
-  }
-
-  return { countries, provinces };
-}
-
 export default async (request: EvershopRequest, response, next) => {
+  let payload;
+  try {
+    payload = await normalizeZonePayload(request.body);
+  } catch (e) {
+    if (e instanceof ZonePayloadError) {
+      response.status(INVALID_PAYLOAD);
+      return response.json({
+        error: { status: INVALID_PAYLOAD, message: e.message }
+      });
+    }
+    throw e;
+  }
+  const { name, countries, regions, warnings } = payload;
+
   const connection = await getConnection();
   await startTransaction(connection);
-  const { name } = request.body as CreateShippingZoneBody;
-  const { countries, provinces } = normalizeZonePayload(
-    request.body as CreateShippingZoneBody
-  );
   try {
-    if (countries.length === 0) {
-      response.status(INVALID_PAYLOAD);
-      response.json({
-        error: {
-          status: INVALID_PAYLOAD,
-          message: 'At least one country is required'
-        }
-      });
-      await rollback(connection);
-      return;
-    }
     const zone = await insert('shipping_zone')
       .given({ name })
       .execute(connection);
     const zoneId = zone.insertId;
 
-    await Promise.all(
-      countries.map((country) =>
-        insert('shipping_zone_country')
-          .given({ zone_id: zoneId, country })
-          .execute(connection)
-      )
-    );
-
-    await Promise.all(
-      provinces.map(({ country, province }) =>
-        insert('shipping_zone_province')
-          .given({ zone_id: zoneId, country, province })
-          .execute(connection)
-      )
-    );
+    for (const country of countries) {
+      await insert('shipping_zone_country')
+        .given({ zone_id: zoneId, country })
+        .execute(connection);
+    }
+    for (const { country, level, key } of regions) {
+      await insert('shipping_zone_region')
+        .given({ zone_id: zoneId, country, level, region_key: key })
+        .execute(connection);
+    }
 
     // Auto-attach the built-in Core provider so the zone offers Core methods
     // (with admin-defined rates) out of the box. `'core'` is guaranteed to
@@ -138,12 +73,12 @@ export default async (request: EvershopRequest, response, next) => {
 
     await commit(connection);
     response.status(OK);
-    response.json({ data: zone });
+    return response.json({ data: zone, warnings });
   } catch (e) {
     error(e);
     await rollback(connection);
     response.status(INTERNAL_SERVER_ERROR);
-    response.json({
+    return response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,
         message: (e as Error).message

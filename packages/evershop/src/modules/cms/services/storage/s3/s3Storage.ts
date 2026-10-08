@@ -1,13 +1,24 @@
 import {
+  CopyObjectCommand,
   DeleteObjectCommand,
+  HeadObjectCommand,
   ListObjectsV2Command,
   PutObjectCommand
 } from '@aws-sdk/client-s3';
+import { warning } from '../../../../../lib/log/logger.js';
+import { mimeFor } from '../../../../../lib/util/mime.js';
 import type { FileBrowser } from '../../browFiles.js';
 import type { UploadedFile } from '../../uploadFile.js';
 import { buildKey, encodeKeyForUrl, trimTrailingSlash } from '../buildKey.js';
+import {
+  FOLDER_SCAN_PAGE_SIZE,
+  MAX_FOLDER_SCAN_REQUESTS
+} from '../folderScan.js';
 import type { S3StorageConfig } from '../storageConfig.js';
 import type {
+  FileRenamerProvider,
+  ListOptions,
+  ListResult,
   FileBrowserProvider,
   FileDeleterProvider,
   FileUploaderProvider,
@@ -43,7 +54,9 @@ export function buildObjectUrl(
         // Unparseable endpoint — fall through to path-style below
       }
     }
-    return `${trimTrailingSlash(config.endpoint)}/${config.bucket}/${encodedKey}`;
+    return `${trimTrailingSlash(config.endpoint)}/${
+      config.bucket
+    }/${encodedKey}`;
   }
   if (!region) {
     throw new Error(
@@ -89,9 +102,7 @@ export const s3FileUploader: FileUploaderProvider = {
 };
 
 export const s3FileBrowser: FileBrowserProvider = {
-  list: async (
-    path: string
-  ): Promise<{ files: FileBrowser[]; folders: string[] }> => {
+  list: async (path: string, options?: ListOptions): Promise<ListResult> => {
     const { client, config } = await getS3Client();
     const region = needsRegion(config)
       ? await resolveS3Region(client)
@@ -100,45 +111,92 @@ export const s3FileBrowser: FileBrowserProvider = {
     const prefix = key ? `${key}/` : '';
     const folders: string[] = [];
     const files: FileBrowser[] = [];
-    // ListObjectsV2 returns at most 1,000 entries per request (CommonPrefixes
-    // count toward the cap) — loop on the continuation token or big media
-    // folders silently truncate.
-    let continuationToken: string | undefined;
-    do {
-      const response = await client.send(
-        new ListObjectsV2Command({
-          Bucket: config.bucket,
-          Prefix: prefix,
-          Delimiter: '/',
-          ...(continuationToken
-            ? { ContinuationToken: continuationToken }
-            : {})
-        })
-      );
+    // One request per page. MaxKeys caps CommonPrefixes + Contents together,
+    // which is exactly the combined limit the contract promises, so the page
+    // boundary needs no adjusting here.
+    //
+    // Previously this drained every continuation token before returning, so a
+    // folder with 50,000 objects cost 50 round trips and one enormous payload.
+    const response = await client.send(
+      new ListObjectsV2Command({
+        Bucket: config.bucket,
+        // A name-prefix search rides on the same key prefix the folder listing
+        // already uses — free on S3, and the Delimiter keeps it one level.
+        Prefix: options?.prefix ? `${prefix}${options.prefix}` : prefix,
+        Delimiter: '/',
+        ...(options?.limit ? { MaxKeys: options.limit } : {}),
+        ...(options?.cursor ? { ContinuationToken: options.cursor } : {})
+      })
+    );
+    // Folders only travel with the FIRST page — see ListResult.folders. A
+    // later page would be re-sending what the caller already has, and on
+    // Azure the paged segment genuinely repeats prefixes it still overlaps.
+    if (!options?.cursor) {
       (response.CommonPrefixes || []).forEach((commonPrefix) => {
         const name = (commonPrefix.Prefix || '')
           .slice(prefix.length)
           .replace(/\/$/, '');
-        if (name) {
+        if (name && !folders.includes(name)) {
           folders.push(name);
         }
       });
-      (response.Contents || []).forEach((object) => {
-        // The zero-byte `{prefix}/` object is the folder marker, not a file.
-        // Filter it by key — not by size, which would hide genuine empty files.
-        if (!object.Key || object.Key === prefix) {
-          return;
-        }
-        files.push({
-          name: object.Key.split('/').pop() as string,
-          url: buildObjectUrl(config, object.Key, region)
-        });
+    }
+    (response.Contents || []).forEach((object) => {
+      // The zero-byte `{prefix}/` object is the folder marker, not a file.
+      // Filter it by key — not by size, which would hide genuine empty files.
+      if (!object.Key || object.Key === prefix) {
+        return;
+      }
+      const name = object.Key.split('/').pop() as string;
+      files.push({
+        name,
+        url: buildObjectUrl(config, object.Key, region),
+        // Already in the listing response — no extra request.
+        ...(typeof object.Size === 'number' ? { size: object.Size } : {}),
+        mimeType: mimeFor(name)
       });
-      continuationToken = response.IsTruncated
+    });
+    const nextCursor =
+      response.IsTruncated && response.NextContinuationToken
         ? response.NextContinuationToken
         : undefined;
-    } while (continuationToken);
-    return { files, folders };
+
+    // Folders must arrive complete with the first page, but S3 interleaves
+    // CommonPrefixes with Contents and has no folders-only listing. Keep
+    // scanning past the file page, collecting prefixes and discarding the
+    // objects. Bounded — see folderScan.ts.
+    if (!options?.cursor && nextCursor) {
+      let token: string | undefined = nextCursor;
+      let scans = 0;
+      while (token && scans < MAX_FOLDER_SCAN_REQUESTS) {
+        scans += 1;
+        const more = await client.send(
+          new ListObjectsV2Command({
+            Bucket: config.bucket,
+            Prefix: options?.prefix ? `${prefix}${options.prefix}` : prefix,
+            Delimiter: '/',
+            MaxKeys: FOLDER_SCAN_PAGE_SIZE,
+            ContinuationToken: token
+          })
+        );
+        (more.CommonPrefixes || []).forEach((commonPrefix) => {
+          const name = (commonPrefix.Prefix || '')
+            .slice(prefix.length)
+            .replace(/\/$/, '');
+          if (name && !folders.includes(name)) {
+            folders.push(name);
+          }
+        });
+        token = more.IsTruncated ? more.NextContinuationToken : undefined;
+      }
+      if (token) {
+        warning(
+          `File browser: stopped enumerating sub-folders of "${path}" after ${MAX_FOLDER_SCAN_REQUESTS} requests; some folders may not be listed.`
+        );
+      }
+    }
+
+    return { files, folders, ...(nextCursor ? { nextCursor } : {}) };
   }
 };
 
@@ -171,5 +229,54 @@ export const s3FolderCreator: FolderCreatorProvider = {
       new PutObjectCommand({ Bucket: config.bucket, Key: `${key}/`, Body: '' })
     );
     return key;
+  }
+};
+
+export const s3FileRenamer: FileRenamerProvider = {
+  rename: async (fromPath: string, toPath: string): Promise<void> => {
+    const { client, config } = await getS3Client();
+    const fromKey = buildKey(fromPath);
+    const toKey = buildKey(toPath);
+    if (!fromKey || !toKey) {
+      throw new Error('Requested path is empty');
+    }
+    if (fromKey === toKey) {
+      return;
+    }
+    // S3 has no rename. Copy, confirm, then delete — and refuse if the target
+    // key is taken, because CopyObject overwrites without complaint and a
+    // media folder is shared.
+    try {
+      await client.send(
+        new HeadObjectCommand({ Bucket: config.bucket, Key: toKey })
+      );
+      throw new Error('A file with that name already exists');
+    } catch (error) {
+      const status = (error as { $metadata?: { httpStatusCode?: number } })
+        ?.$metadata?.httpStatusCode;
+      // 404 is the answer we want: nothing is there. Anything else — including
+      // the 403 a bucket without s3:ListBucket returns for a missing key — is
+      // not proof the name is free, so do not proceed.
+      if (
+        (error as Error)?.message === 'A file with that name already exists'
+      ) {
+        throw error;
+      }
+      if (status !== 404) {
+        throw error;
+      }
+    }
+    await client.send(
+      new CopyObjectCommand({
+        Bucket: config.bucket,
+        CopySource: `${config.bucket}/${fromKey}`,
+        Key: toKey
+      })
+    );
+    // Only after the copy is acknowledged. An interruption before this point
+    // leaves the original untouched, which is the safe direction to fail.
+    await client.send(
+      new DeleteObjectCommand({ Bucket: config.bucket, Key: fromKey })
+    );
   }
 };

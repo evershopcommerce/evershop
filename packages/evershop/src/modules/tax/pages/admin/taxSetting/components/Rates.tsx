@@ -32,6 +32,7 @@ export function Rates({ getTaxClasses, rates, addRateApi }: RatesProps) {
           <TableRow>
             <TableHead className="border-none">{_('Name')}</TableHead>
             <TableHead className="border-none">{_('Country')}</TableHead>
+            <TableHead className="border-none">{_('Regions')}</TableHead>
             <TableHead className="border-none">{_('Rate')}</TableHead>
             <TableHead className="border-none">{_('Compound')}</TableHead>
             <TableHead className="border-none">{_('Priority')}</TableHead>

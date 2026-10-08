@@ -2,26 +2,31 @@ import Handlebars from 'handlebars';
 import {
   getSetting,
   getStoreCurrency,
-  getStoreLanguage
+  getStoreLanguage,
+  getStoreLanguageSync
 } from '../../modules/setting/services/setting.js';
-import { countries } from '../locale/countries.js';
-import { provinces } from '../locale/provinces.js';
+import { getCountryName } from '../address/countries.js';
+import { formatAddressRow } from '../address/display.js';
+import { resolveRegionName } from '../address/regions.js';
+import { translate } from '../locale/translate/translate.js';
 import { getBaseUrl } from '../util/getBaseUrl.js';
 import { getConfig } from '../util/getConfig.js';
 import { addProcessor, getValue, getValueSync } from '../util/registry.js';
+import { fitLogo } from './logoSizing.js';
+import { registerEmailTemplates } from './templates/index.js';
+import { DEFAULT_ACCENT } from './templates/tokens.js';
 
 /**
  * A locale string `Intl.*` will accept. Malformed tags — the underscore form (`en_US`),
  * a stray `translations/` folder name, a single char — make `Intl.NumberFormat`/
  * `DateTimeFormat` throw `RangeError`, which inside a Handlebars helper aborts the whole
- * email render and silently drops the message. Validate once; fall back to the config
- * language, then `'en'` (always valid). (P7b — the currency helper was throw-proof when
- * it hardcoded `'en-US'`; resolving the locale dynamically reintroduced the risk.)
+ * email render and silently drops the message. Validate once; fall back to the store's
+ * default language, then `'en'` (always valid). (P7b — the currency helper was throw-proof
+ * when it hardcoded `'en-US'`; resolving the locale dynamically reintroduced the risk.)
  */
 function safeLocale(candidate: unknown): string {
   const locale =
-    (typeof candidate === 'string' && candidate) ||
-    getConfig('shop.language', 'en');
+    (typeof candidate === 'string' && candidate) || getStoreLanguageSync();
   try {
     Intl.getCanonicalLocales(locale);
     return locale;
@@ -75,9 +80,22 @@ Handlebars.registerHelper('date', function (value, format = 'MMM DD, YYYY') {
   }).format(date);
 });
 
+// Register the shared email layout, the content partials, and the {{t}} copy
+// helper on the global Handlebars so every email body composes from them and its
+// static copy localizes through the store's translation dictionaries.
+registerEmailTemplates(Handlebars, { translate });
+
 export type SendEmailArguments = {
   from?: string;
   to: string;
+  /**
+   * Address replies should go to when it differs from `from` — e.g. the contact
+   * form, where the email is sent from the store's notification address but the
+   * merchant wants Reply to reach the visitor. Declared so it survives typing;
+   * honoring it is still up to the registered email service, so senders that
+   * depend on it should also put the address in the body.
+   */
+  replyTo?: string;
   subject: string;
   body?: string;
   template: string;
@@ -248,13 +266,22 @@ export interface EmailData {
     storeDescription: string;
     phone: string;
     homeUrl: string;
+    /**
+     * The store's own address. Keys are the store settings' own names (kept,
+     * D-29); `formatted` is the display, ready to print, added by the
+     * Address Format Registry.
+     */
     address: {
       country?: string;
       province?: string;
       city?: string;
       street?: string;
       postalCode?: string;
+      formatted?: string[];
     };
+  };
+  brand?: {
+    accentColor?: string;
   };
   [key: string]: unknown;
 }
@@ -274,7 +301,7 @@ export async function buildEmailBodyFromTemplate(
     // Pass the locale through Handlebars' private `data` frame so the currency/date
     // helpers can read it (`options.data.locale`) without polluting the template context.
     const body = Handlebars.compile(template)(preparedData, {
-      data: { locale: locale || getConfig('shop.language', 'en') }
+      data: { locale: locale || getStoreLanguageSync() }
     });
     return body;
   } catch (error) {
@@ -292,16 +319,42 @@ async function prepareData(data: EmailData): Promise<EmailData> {
   // sized PNG (WebP/AVIF are unreliable in Outlook and older mail clients). When
   // unset, `logo` stays undefined and each template's {{#if storeInfo.logo}} skips it.
   const logoSetting = await getSetting<string>('logo', '');
-  const logo = logoSetting
-    ? {
-        src: `${getBaseUrl()}/images?src=${encodeURIComponent(
-          logoSetting
-        )}&w=360&q=85&f=png`,
-        alt: await getSetting('storeName', 'Evershop'),
-        // Display width only (2× source for crisp retina); height stays auto.
-        width: '180'
-      }
-    : undefined;
+  let logo:
+    | { src: string; alt: string; width: string; height: string }
+    | undefined;
+  if (logoSetting) {
+    const alt = await getSetting('storeName', 'Evershop');
+    const enc = encodeURIComponent(logoSetting);
+    // The admin uploader stores the logo's real pixel size in `logoWidth`/
+    // `logoHeight`. When we have it, size by a target height with a proportional
+    // width (fitLogo) and serve a width-only, aspect-preserving image — the size
+    // is fixed in both the pixels and the width/height attributes, which is the
+    // only cap Outlook honors. This gives every logo shape a clean render with
+    // no distortion and no letterboxing.
+    const fitted = fitLogo(
+      parseInt(await getSetting('logoWidth', ''), 10),
+      parseInt(await getSetting('logoHeight', ''), 10)
+    );
+    if (fitted) {
+      logo = {
+        // 2× the display width for retina; the optimizer won't enlarge past the
+        // source, and width-only keeps the aspect ratio (no padding).
+        src: `${getBaseUrl()}/images?src=${enc}&w=${fitted.width * 2}&q=85&f=png`,
+        alt,
+        width: String(fitted.width),
+        height: String(fitted.height)
+      };
+    } else {
+      // Real dimensions unknown (e.g. logo set outside the uploader) — fall back
+      // to a safe fixed box: fit:contain (height param) so it can never overflow.
+      logo = {
+        src: `${getBaseUrl()}/images?src=${enc}&w=360&h=120&q=85&f=png`,
+        alt,
+        width: '180',
+        height: '60'
+      };
+    }
+  }
   const addressCountry = await getSetting('storeCountry', 'US');
   const addressProvince = await getSetting('storeProvince', '');
   const addressCity = await getSetting('storeCity', '');
@@ -315,14 +368,32 @@ async function prepareData(data: EmailData): Promise<EmailData> {
     phone: await getSetting('storePhoneNumber', ''),
     homeUrl: getBaseUrl(),
     address: {
-      country: countries.find((c) => c.code === addressCountry)?.name,
-      province: provinces.find((p) => p.code === addressProvince)?.name,
+      country: addressCountry ? getCountryName(addressCountry) : undefined,
+      province: addressProvince
+        ? await resolveRegionName(
+            addressCountry,
+            'administrative_area',
+            addressProvince
+          )
+        : undefined,
       city: addressCity,
       street: addressStreet,
-      postalCode: addressPostalCode
+      postalCode: addressPostalCode,
+      formatted: await formatAddressRow({
+        country: addressCountry || null,
+        administrative_area: addressProvince || null,
+        locality: addressCity || null,
+        address_line_1: addressStreet || null,
+        postal_code: addressPostalCode || null
+      })
     }
   };
   data.storeInfo = storeInformation;
+  // Brand tokens the layout/partials read (currently the button + link accent).
+  // A store can set `emailAccentColor` today; the admin UI for it is P2.
+  data.brand = {
+    accentColor: await getSetting('emailAccentColor', DEFAULT_ACCENT)
+  };
   const finalData = await getValue('emailTemplateData', data, {});
   return finalData;
 }

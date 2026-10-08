@@ -7,7 +7,10 @@ export const ZERO_COUNTS: DiffResult['counts'] = {
   widgets_removed: 0,
   placements_added: 0,
   placements_updated: 0,
-  placements_removed: 0
+  placements_removed: 0,
+  landing_pages_added: 0,
+  landing_pages_updated: 0,
+  landing_pages_released: 0
 };
 
 /**

@@ -57,7 +57,11 @@ function DialogContent({
           // z-[1200] keeps the popup above its overlay (z-[1199]) and above
           // the page-builder editor shell (z-[1100]). Was z-1001 which is
           // *below* the editor — dialogs rendered behind the canvas there.
-          'bg-background data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 ring-foreground/10 grid max-w-[calc(100%-2rem)] gap-6 rounded-xl p-6 text-sm ring-1 duration-100 sm:max-w-md fixed top-1/2 left-1/2 z-[1200] w-full -translate-x-1/2 -translate-y-1/2 outline-none',
+          // max-h + overflow-y-auto: a popup taller than the viewport scrolls
+          // inside itself. Without it the fixed, centred popup clipped at both
+          // ends and, with the page scroll locked, a long form (an address with
+          // wards, split names) hid its Save button with no way to reach it.
+          'bg-background data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 ring-foreground/10 grid max-w-[calc(100%-2rem)] max-h-[calc(100dvh-2rem)] overflow-y-auto gap-6 rounded-xl p-6 text-sm ring-1 duration-100 sm:max-w-md fixed top-1/2 left-1/2 z-[1200] w-full -translate-x-1/2 -translate-y-1/2 outline-none',
           className
         )}
         {...props}

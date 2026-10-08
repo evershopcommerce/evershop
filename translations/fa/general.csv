@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, تخفیف ${discount} برای تمام سفارش‌های بیش از ${price}
-Please select, لطفاً انتخاب کنید...
-The page you requested does not exist., صفحه‌ای که درخواست کرده‌اید وجود ندارد.
-Continue shopping, ادامه خرید
-404 Page Not Found, صفحه ۴۰۴ – یافت نشد
-Home, صفحه اصلی
-Not found, یافت نشد
+Discount ${discount} For All Orders Over ${price},تخفیف ${discount} برای تمام سفارش‌های بیش از ${price}
+Please select,لطفاً انتخاب کنید...
+The page you requested does not exist.,صفحه‌ای که درخواست کرده‌اید وجود ندارد.
+404 Page Not Found,صفحه ۴۰۴ – یافت نشد
+Home,صفحه اصلی
+Not found,یافت نشد
+Search options,جستجوی گزینه‌ها
+Show less,نمایش کمتر
+Sort by,مرتب‌سازی بر اساس
+Search products…,جستجوی محصولات…
+Order Note,یادداشت سفارش
+Add a note to your order,یادداشتی به سفارش خود اضافه کنید
+My account,حساب من
+Log out,خروج
+Your profile has been updated,پروفایل شما به‌روزرسانی شد
+Update profile API not available,رابط برنامه‌نویسی به‌روزرسانی پروفایل در دسترس نیست
+Failed to update profile,به‌روزرسانی پروفایل ناموفق بود
+Something went wrong. Please refresh the page.,مشکلی پیش آمد. لطفاً صفحه را بازخوانی کنید.
+${count} result for “${keyword}”,${count} نتیجه برای «${keyword}»
+${count} results for “${keyword}”,${count} نتیجه برای «${keyword}»

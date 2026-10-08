@@ -73,4 +73,12 @@ describe('setting bootstrap (cache warm-up)', () => {
 
     expect(error).toHaveBeenCalledTimes(1);
   });
+
+  it('skips the warm-up entirely during `evershop build` (no DB attached)', async () => {
+    await expect(bootstrap({ command: 'build' })).resolves.toBeUndefined();
+
+    expect(refreshSetting).not.toHaveBeenCalled();
+    expect(debug).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+  });
 });

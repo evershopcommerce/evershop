@@ -1,6 +1,5 @@
 import {
   commit,
-  del,
   insert,
   PoolClient,
   rollback,
@@ -17,6 +16,7 @@ import {
 import { getValue, getValueSync } from '../../../../lib/util/registry.js';
 import { getWidgetSchemaValidator } from '../../../../lib/widget/widgetManager.js';
 import { getAjv } from '../../../base/services/getAjv.js';
+import { assertWidgetSettingsMatchSchema } from './assertWidgetSettings.js';
 import { WidgetData } from './createWidget.js';
 import widgetDataSchema from './widgetDataSchema.json' with { type: 'json' };
 
@@ -114,10 +114,14 @@ async function updateWidgetPlacements(
     data.sort_order !== undefined;
   if (!touchesPlacement) return;
 
-  // Legacy shape: cross-product replace-all.
-  await del('widget_placement')
-    .where('widget_instance_id', '=', widget.widget_instance_id)
-    .execute(connection);
+  // Legacy shape: cross-product replace-all of the ROUTE-LEVEL placements.
+  // Entity-scoped rows (landing page bodies, homepage backups) belong to the
+  // page builder and are left untouched, exactly like the `placements` branch.
+  const legacyTheme = (widget as { theme?: string | null }).theme ?? null;
+  await connection.query(
+    'DELETE FROM widget_placement WHERE widget_instance_id = $1 AND entity_urn IS NULL',
+    [widget.widget_instance_id]
+  );
 
   const routes: string[] = Array.isArray(data.route) ? data.route : [];
   const areas: string[] = Array.isArray(data.area) ? data.area : [];
@@ -130,7 +134,8 @@ async function updateWidgetPlacements(
           widget_instance_id: widget.widget_instance_id,
           route,
           area,
-          sort_order: sortOrder
+          sort_order: sortOrder,
+          theme: legacyTheme
         })
         .execute(connection);
     }
@@ -175,6 +180,14 @@ async function updateWidget(
             );
           }
         }
+        // The JSON Schema above is loose by design. What the storefront will
+        // actually accept is the GraphQL input types, read as they are now.
+        // Only what this update introduces is refused (see the function).
+        await assertWidgetSettingsMatchSchema(
+          existing.type as string,
+          widgetData.settings as Record<string, unknown>,
+          (existing.settings ?? null) as Record<string, unknown> | null
+        );
       }
     }
 

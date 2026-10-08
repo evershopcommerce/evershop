@@ -1,0 +1,183 @@
+{
+  "main": {
+    "zh": {
+      "identity": {
+        "language": "zh"
+      },
+      "personNames": {
+        "foreignSpaceReplacement": "·",
+        "formality": "informal",
+        "givenFirst": [
+          "und",
+          "en"
+        ],
+        "initial": "{0}",
+        "initialSequence": "{0} {1}",
+        "length": "medium",
+        "nativeSpaceReplacement": "",
+        "personName": {
+          "givenFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{surname}{title}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{given-monogram-allCaps}{given2-monogram-allCaps}{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}{surname-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{generation}{given} {given2} {surname}{credentials}{title}",
+                "informal": "{given-informal} {surname}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{surname}{title}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{generation}{given} {given2-initial} {surname}{credentials}",
+                "informal": "{given-informal} {surname}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{surname}{title}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{given-initial} {given2-initial} {surname}",
+                "informal": "{given-informal} {surname-initial}"
+              }
+            }
+          },
+          "sorting": {
+            "long": {
+              "referring": {
+                "formal": "{surname-core} {given} {given2} {surname-prefix}",
+                "informal": "{surname} {given-informal}"
+              }
+            },
+            "medium": {
+              "referring": {
+                "formal": "{surname-core} {given} {given2-initial} {surname-prefix}",
+                "informal": "{surname} {given-informal}"
+              }
+            },
+            "short": {
+              "referring": {
+                "formal": "{surname-core} {given-initial} {given2-initial} {surname-prefix}",
+                "informal": "{surname} {given-informal}"
+              }
+            }
+          },
+          "surnameFirst": {
+            "long": {
+              "addressing": {
+                "formal": "{surname}{title}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}{given-monogram-allCaps}{given2-monogram-allCaps}",
+                "informal": "{surname-monogram-allCaps}{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{generation}{surname} {given} {given2} {credentials}{title}",
+                "informal": "{surname} {given-informal}"
+              }
+            },
+            "medium": {
+              "addressing": {
+                "formal": "{surname}{title}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{generation}{surname} {given} {given2-initial}{credentials}",
+                "informal": "{surname} {given-informal}"
+              }
+            },
+            "short": {
+              "addressing": {
+                "formal": "{surname}{title}",
+                "informal": "{given-informal}"
+              },
+              "monogram": {
+                "formal": "{surname-monogram-allCaps}",
+                "informal": "{given-informal-monogram-allCaps}"
+              },
+              "referring": {
+                "formal": "{surname} {given} {given2}",
+                "informal": "{surname} {given}"
+              }
+            }
+          }
+        },
+        "sampleName": {
+          "foreignFull": {
+            "credentials": "博士",
+            "generation": "小",
+            "given": "艾达·科妮莉亚",
+            "given-informal": "尼尔",
+            "given2": "塞萨尔·马丁",
+            "surname-core": "布鲁赫",
+            "surname-prefix": "冯",
+            "title": "教授"
+          },
+          "foreignG": {
+            "given": "辛巴达"
+          },
+          "foreignGGS": {
+            "given": "塞西莉亚",
+            "given2": "哈米什",
+            "surname": "施托贝尔"
+          },
+          "foreignGS": {
+            "given": "克特",
+            "surname": "米勒"
+          },
+          "nativeFull": {
+            "credentials": "议员",
+            "generation": "小",
+            "given": "德威",
+            "given-informal": "小德",
+            "given2": "东升",
+            "surname-core": "彭",
+            "title": "先生"
+          },
+          "nativeG": {
+            "given": "宇瀚"
+          },
+          "nativeGGS": {
+            "given": "俊年",
+            "given2": "杰思",
+            "surname": "陈"
+          },
+          "nativeGS": {
+            "given": "安怡",
+            "surname": "张"
+          }
+        },
+        "surnameFirst": [
+          "ja",
+          "ko",
+          "vi",
+          "yue",
+          "zh"
+        ]
+      }
+    }
+  }
+}

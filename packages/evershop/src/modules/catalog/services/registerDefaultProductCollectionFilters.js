@@ -2,6 +2,7 @@ import { value } from '@evershop/postgres-query-builder';
 import uniqid from 'uniqid';
 import { OPERATION_MAP } from '../../../lib/util/filterOperationMap.js';
 import { getValueSync } from '../../../lib/util/registry.js';
+import { resolveCategorySubtree } from './resolveCategorySubtree.js';
 
 export default async function registerDefaultProductCollectionFilters() {
   // List of default supported filters
@@ -154,12 +155,50 @@ export default async function registerDefaultProductCollectionFilters() {
     {
       key: 'cat',
       operation: ['eq', 'in', 'nin'],
-      callback: (query, operation, value, currentFilters) => {
-        query.andWhere(
-          'product.category_id',
-          OPERATION_MAP[operation],
-          ['in', 'nin'].includes(operation) ? value.split(',') : value
-        );
+      callback: async function catFilter(
+        query,
+        operation,
+        value,
+        currentFilters
+      ) {
+        // Match the whole SUBTREE, not just the selected row. A product carries
+        // exactly one category (`product_category` was dropped in migration
+        // Version-1.0.2) and normally sits on a leaf, so an exact match against
+        // a branch category returns nothing. That also made the category page
+        // contradict itself: its listing is subtree-aware
+        // (getProductsByCategoryBaseQuery(id, true)) while this facet was not,
+        // so ticking a child category made its grandchildren's products vanish
+        // from a list that had just shown them.
+        const ids = String(value)
+          .split(',')
+          .map((v) => parseInt(v, 10))
+          .filter((v) => Number.isInteger(v) && v > 0);
+        if (ids.length === 0) {
+          return;
+        }
+        // Resolved in Node, then passed as ONE array parameter. Inlining the
+        // recursive CTE as a subquery here costs the index: the planner cannot
+        // estimate a recursive CTE, drops PRODUCT_CATEGORY_ID_INDEX and
+        // seq-scans `product` — measured 32x slower on a narrow category at
+        // 300k products. See resolveCategorySubtree for the full note.
+        const subtree = await resolveCategorySubtree(ids, this?.pool);
+        if (subtree.length === 0) {
+          return;
+        }
+        const bindingKey = `cat_${uniqid()}`;
+        // `<> ALL` rather than `NOT IN` for the negative case: same
+        // three-valued logic (a NULL category_id is excluded either way,
+        // matching the previous NOT IN behavior), but it takes the array
+        // parameter instead of one binding per id.
+        const predicate =
+          operation === 'nin'
+            ? `product.category_id <> ALL(:${bindingKey}::int[])`
+            : `product.category_id = ANY(:${bindingKey}::int[])`;
+        query.getWhere().addRaw('AND', predicate, { [bindingKey]: subtree });
+        // Push the ORIGINAL ids, never the expansion. DefaultCategoryFilterRender
+        // reads this value for isCategorySelected() and getSelectedCount(), so
+        // an expanded list would tick every descendant's checkbox and inflate
+        // the "N selected" badge.
         currentFilters.push({
           key: 'cat',
           operation,

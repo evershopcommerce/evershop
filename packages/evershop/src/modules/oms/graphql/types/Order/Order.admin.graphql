@@ -3,6 +3,29 @@ extend type Order {
   editUrl: String!
   createShipmentApi: String!
   cancelApi: String!
+  """
+  Whether this order can be captured right now: the payment method registered a
+  `capture` handler AND the current payment status is flagged `isCapturable`
+  (authorized, not yet captured). The admin capture button renders only when
+  this is true.
+  """
+  canCapture: Boolean!
+  """
+  The one core capture endpoint — `POST /api/orders/:id/capture`. Present
+  regardless of `canCapture`; the admin button is gated on `canCapture`.
+  """
+  captureApi: String!
+  """
+  Whether this order can be refunded right now: the payment method registered a
+  `refund` handler AND the current payment status is flagged `isRefundable`. The
+  admin refund button renders only when this is true.
+  """
+  canRefund: Boolean!
+  """
+  The one core refund endpoint — `POST /api/orders/:id/refunds`. Present
+  regardless of `canRefund`; the admin button is gated on `canRefund`.
+  """
+  refundApi: String!
   shipment: Shipment
   """Items still to ship (shippable items with remaining qty > 0). Admin-only."""
   unshippedItems: [UnshippedOrderItem!]!

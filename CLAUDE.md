@@ -143,6 +143,7 @@ The pitfalls above are syntactic — caught by lint or first compile. The ones b
 ## Doing work in this repo
 
 - The published package is built from `src/` to `dist/` via SWC (`npm run compile`). Runtime loads `.js` from `dist/`. When editing, edit `.ts` in `src/`.
+- **While `npm run dev` is running, compile with `npm run compile:dev`, never `npm run compile`.** The latter starts with `rimraf ./packages/evershop/dist`, which replaces the directory the dev server is watching. The watcher keeps a handle on the deleted inode and rebuilds forever — identical bundle hash, every few hundred milliseconds — and only restarting the server clears it. `compile:dev` writes in place and leaves the inode untouched. Use the full `compile` when a source file has been DELETED (only the rimraf clears its stale output), and expect to restart the dev server afterwards.
 - Tests run with Jest: `npm test` from the repo root.
 - Lint with `npm run lint`.
 - Dev server: `npm run dev` (uses `webpack-dev-middleware` + HMR).

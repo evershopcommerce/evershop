@@ -1,5 +1,4 @@
 import { select } from '@evershop/postgres-query-builder';
-import sanitizeHtml from 'sanitize-html';
 import uniqid from 'uniqid';
 import { error } from '../../../../../lib/log/logger.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
@@ -17,6 +16,10 @@ import {
 } from '../../../../../lib/widget/widgetManager.js';
 import { applyOverlayToWidgets } from '../../../../pageBuilder/services/applyOverlayToWidgets.js';
 import { loadActiveOps } from '../../../../pageBuilder/services/loadActiveOps.js';
+import {
+  resolveArrowsStyle,
+  resolveDotsStyle
+} from '../../../components/slideshowControls.js';
 import { getWidgetsBaseQuery } from '../../../services/getWidgetsBaseQuery.js';
 import { WidgetCollection } from '../../../services/WidgetCollection.js';
 
@@ -525,6 +528,9 @@ export default {
       // Resolve slide CTAs (buttonLink / button2Link) and the
       // optional wholeSlideLink fallback. Both fields are plain strings
       // — URN or plain URL — so resolveLink handles each value.
+      // Either of the two fields can switch a control off (components/slideshowControls.ts).
+      const arrowsStyleResolved = resolveArrowsStyle(arrows, arrowsStyle);
+      const dotsStyleResolved = resolveDotsStyle(dots, dotsStyle);
       const rawSlides = Array.isArray(slides) ? slides : [];
       const resolvedSlides = await Promise.all(
         rawSlides.map(async (s) => {
@@ -546,8 +552,11 @@ export default {
         autoplaySpeed: Number.isFinite(Number(autoplaySpeed))
           ? Number(autoplaySpeed)
           : 3000,
-        arrows: arrows !== undefined ? Boolean(arrows) : true,
-        dots: dots !== undefined ? Boolean(dots) : true,
+        // The legacy booleans follow the effective style, so what is returned never contradicts
+        // itself (a hand-written `arrows: true` beside `arrowsStyle: 'hidden'` used to come back
+        // as both).
+        arrows: arrowsStyleResolved !== 'hidden',
+        dots: dotsStyleResolved !== 'hidden',
         transition: transition || 'slide',
         transitionSpeed: Number.isFinite(Number(transitionSpeed))
           ? Math.min(1500, Math.max(200, Number(transitionSpeed)))
@@ -555,9 +564,8 @@ export default {
         pauseOnHover:
           pauseOnHover !== undefined ? Boolean(pauseOnHover) : true,
         pauseOnInteraction: Boolean(pauseOnInteraction),
-        arrowsStyle:
-          arrowsStyle ?? (arrows === false ? 'hidden' : 'bottom-right'),
-        dotsStyle: dotsStyle ?? (dots === false ? 'hidden' : 'dots'),
+        arrowsStyle: arrowsStyleResolved,
+        dotsStyle: dotsStyleResolved,
         aspectRatio: aspectRatio || 'auto',
         defaultContentPosition: defaultContentPosition || 'mc',
         defaultOverlayTint: defaultOverlayTint || 'none',
@@ -951,6 +959,34 @@ export default {
           allowMultipleOpen !== undefined ? Boolean(allowMultipleOpen) : false
       };
     },
+    contactFormWidget(
+      _,
+      {
+        title,
+        subtitle,
+        submitLabel,
+        successMessage,
+        showPhone,
+        showSubject,
+        consentEnabled,
+        consentText
+      }
+    ) {
+      // Pure presentation normalization — no recipient is resolved here. The
+      // storefront falls back to translated defaults when a label is null, so
+      // an empty string collapses to null rather than rendering a blank button.
+      return {
+        title: title || null,
+        subtitle: subtitle || null,
+        submitLabel: submitLabel || null,
+        successMessage: successMessage || null,
+        showPhone: showPhone !== undefined ? Boolean(showPhone) : false,
+        showSubject: showSubject !== undefined ? Boolean(showSubject) : true,
+        consentEnabled:
+          consentEnabled !== undefined ? Boolean(consentEnabled) : false,
+        consentText: consentText || null
+      };
+    },
     trustStripWidget: async (
       _,
       { items, columns, showIcons, iconSize, alignment, divider },
@@ -1047,9 +1083,12 @@ export default {
 
       // Cast the link-attribute flags to booleans: legacy items predate them
       // (undefined → false) and JSON-stored values can be stringy.
+      // Keep the node's own id (the settings UI mints one per item) so React
+      // keys stay stable and unique even when two items link the same
+      // category. Only legacy items without an id get a synthesized one.
       const resolveItem = async (item) => ({
         ...item,
-        id: uniqid(),
+        id: item.id || uniqid(),
         url:
           (await resolveLink(linkValueOf(item), linkLoaders)) ??
           (item.type === 'custom' ? item.url : null),
@@ -1059,7 +1098,7 @@ export default {
         children: await Promise.all(
           toArray(item.children).map(async (child) => ({
             ...child,
-            id: uniqid(),
+            id: child.id || uniqid(),
             url:
               (await resolveLink(linkValueOf(child), linkLoaders)) ??
               (child.type === 'custom' ? child.url : null),

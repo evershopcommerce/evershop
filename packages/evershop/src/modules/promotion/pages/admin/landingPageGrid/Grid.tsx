@@ -25,6 +25,7 @@ import {
 } from '@components/common/ui/Table.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
+import { Copy, LayoutTemplate } from 'lucide-react';
 import React, { useState } from 'react';
 import { LandingPageName } from './rows/LandingPageName.js';
 
@@ -373,23 +374,30 @@ export default function LandingPageGrid({
                       component: {
                         default: () => (
                           <TableCell>
-                            <div className="flex items-center gap-3">
-                              <a
-                                className="hover:underline text-interactive"
-                                href={l.pageBuilderUrl}
-                              >
-                                {_('Build in page builder')}
-                              </a>
-                              <button
+                            <div className="flex items-center justify-end gap-2">
+                              <Button
                                 type="button"
-                                className="hover:underline text-interactive"
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  window.location.href = l.pageBuilderUrl;
+                                }}
+                              >
+                                <LayoutTemplate className="size-4" aria-hidden="true" />
+                                {_('Build in page builder')}
+                              </Button>
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
                                 onClick={async () => {
                                   await axios.post(l.duplicateApi);
                                   window.location.reload();
                                 }}
                               >
+                                <Copy className="size-4" aria-hidden="true" />
                                 {_('Duplicate')}
-                              </button>
+                              </Button>
                             </div>
                           </TableCell>
                         )

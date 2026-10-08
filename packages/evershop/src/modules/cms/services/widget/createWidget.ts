@@ -15,6 +15,7 @@ import {
 import { getValue, getValueSync } from '../../../../lib/util/registry.js';
 import { getWidgetSchemaValidator } from '../../../../lib/widget/widgetManager.js';
 import { getAjv } from '../../../base/services/getAjv.js';
+import { assertWidgetSettingsMatchSchema } from './assertWidgetSettings.js';
 import widgetDataSchema from './widgetDataSchema.json' with { type: 'json' };
 
 export type WidgetData = {
@@ -138,6 +139,12 @@ async function createWidget(data: WidgetData, context: Record<string, any>) {
           );
         }
       }
+      // The JSON Schema above is loose by design. What the storefront will
+      // actually accept is the GraphQL input types, read as they are now.
+      await assertWidgetSettingsMatchSchema(
+        widgetData.type as string,
+        (widgetData.settings ?? {}) as Record<string, unknown>
+      );
     }
 
     // Stamp the active theme so the new widget lands in the current theme's

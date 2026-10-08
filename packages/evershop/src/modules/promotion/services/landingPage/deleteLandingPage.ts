@@ -26,10 +26,30 @@ async function deleteLandingPageData(
   await deleteLandingPageUrlRewrite(connection, uuid);
   // The landing page's body is entity-scoped widget placements. widget_placement
   // has NO FK to landing_page (entity_urn is a plain varchar), so dropping the
-  // row won't cascade — delete the body explicitly by URN.
+  // row won't cascade — delete the body explicitly by URN, then delete the
+  // instances that were ONLY placed on this page (an instance still placed on
+  // another route or page survives). The candidate set is this page's own
+  // instances — never a global sweep, because placement-less instances are a
+  // designed state elsewhere. Raw SQL; cms widget hooks do not fire.
+  const owned = await connection.query(
+    'SELECT DISTINCT widget_instance_id FROM widget_placement WHERE entity_urn = $1',
+    [urn]
+  );
+  const ownedIds: number[] = owned.rows.map(
+    (r: { widget_instance_id: number }) => r.widget_instance_id
+  );
   await del('widget_placement')
     .where('entity_urn', '=', urn)
     .execute(connection);
+  if (ownedIds.length > 0) {
+    await connection.query(
+      `DELETE FROM widget_instance wi
+        WHERE wi.widget_instance_id = ANY($1::int[])
+          AND NOT EXISTS (SELECT 1 FROM widget_placement p
+                           WHERE p.widget_instance_id = wi.widget_instance_id)`,
+      [ownedIds]
+    );
+  }
   await del('landing_page').where('uuid', '=', uuid).execute(connection);
 }
 

@@ -583,6 +583,23 @@ type FaqBlockWidget {
   allowMultipleOpen: Boolean
 }
 
+"""
+Contact form widget. Only presentation settings are exposed — the recipient is
+never part of the widget's settings, because every widget's settings are
+serialized into the page HTML for every visitor. The form posts to
+`/api/contact`, which reads the store email setting server-side.
+"""
+type ContactFormWidget {
+  title: String
+  subtitle: String
+  submitLabel: String
+  successMessage: String
+  showPhone: Boolean
+  showSubject: Boolean
+  consentEnabled: Boolean
+  consentText: String
+}
+
 extend type Query {
   widget(id: Int): Widget
   """
@@ -675,6 +692,16 @@ extend type Query {
     maxWidth: String
     allowMultipleOpen: Boolean
   ): FaqBlockWidget
+  contactFormWidget(
+    title: String
+    subtitle: String
+    submitLabel: String
+    successMessage: String
+    showPhone: Boolean
+    showSubject: Boolean
+    consentEnabled: Boolean
+    consentText: String
+  ): ContactFormWidget
   couponBlockWidget(
     eyebrow: String
     heading: String

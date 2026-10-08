@@ -11,15 +11,58 @@ import { useForm } from 'react-hook-form';
 import { useQuery } from 'urql';
 import { TaxRate } from './Rate.js';
 
-const MethodsQuery = `
-  query Methods {
-    shippingMethods {
-      value: shippingMethodId
-      label: name
+// Region keys for the country typed into the form, for the helper list, and
+// the retired-key warnings of the rate being edited (spec § 3.3, D-23).
+const RegionsQuery = `
+  query TaxRateRegions($country: String!) {
+    regions(country: $country) {
+      key
+      name
     }
-    createShippingMethodApi: url(routeId: "createShippingMethod")
   }
 `;
+
+const WarningsQuery = `
+  query TaxRateWarnings {
+    addressConfigWarnings {
+      kind
+      source
+      sourceId
+      key
+      keyName
+      mergedInto {
+        key
+        name
+      }
+    }
+  }
+`;
+
+/** Collapsible "key — name" list of a country's regions, so the free-text field can be filled without guessing keys. */
+function RegionKeyHints({ country }: { country: string }) {
+  const valid = /^[A-Z]{2}$/.test(country);
+  const [{ data, fetching }] = useQuery({
+    query: RegionsQuery,
+    variables: { country },
+    pause: !valid
+  });
+  const regions: Array<{ key: string; name: string }> = data?.regions ?? [];
+  if (!valid || fetching || regions.length === 0) return null;
+  return (
+    <details className="text-xs text-muted-foreground mt-1">
+      <summary className="cursor-pointer">
+        {_('Show region keys for ${country}', { country })}
+      </summary>
+      <ul className="mt-1 max-h-40 overflow-y-auto columns-2 gap-4">
+        {regions.map((r) => (
+          <li key={r.key}>
+            <code>{r.key}</code> — {r.name}
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
+}
 
 interface MethodFormProps {
   saveRateApi: string;
@@ -38,11 +81,22 @@ function RateForm({
     shouldUnregister: true
   });
   const [saving, setSaving] = React.useState(false);
-  const [result] = useQuery({
-    query: MethodsQuery
-  });
+  const [warningsResult] = useQuery({ query: WarningsQuery, pause: !rate });
+  const retiredKeys: Array<{ key: string; keyName?: string | null }> = (
+    warningsResult.data?.addressConfigWarnings ?? []
+  ).filter(
+    (w: { kind: string; source: string; sourceId: string }) =>
+      w.kind === 'RETIRED_REGION' &&
+      w.source === 'tax_rate' &&
+      w.sourceId === rate?.uuid
+  );
+  const watchedCountry = String(
+    form.watch('country', rate?.country ?? '') ?? ''
+  )
+    .trim()
+    .toUpperCase();
 
-  if (result.fetching) {
+  if (warningsResult.fetching) {
     return (
       <div className="flex justify-center p-2">
         <Spinner width={25} height={25} />
@@ -112,27 +166,37 @@ function RateForm({
           </div>
           <div>
             <InputField
-              name="province"
-              label={_('Provinces')}
-              placeholder={_('Provinces')}
+              name="administrative_area"
+              label={_('Regions')}
+              placeholder="*"
               required
-              validation={{ required: _('Provinces is required') }}
-              defaultValue={rate?.province}
+              validation={{ required: _('Regions is required') }}
+              defaultValue={rate?.administrativeArea}
               helperText={_(
-                'Province code (e.g., "CA"). Use "*" for all provinces.'
+                'Region keys (e.g., "US-CA"), comma-separated. Use "*" for all regions.'
               )}
             />
+            <RegionKeyHints country={watchedCountry} />
+            {retiredKeys.length > 0 && (
+              <p className="text-xs text-destructive mt-1">
+                {_('Retired region keys on this rate: ${keys}', {
+                  keys: retiredKeys
+                    .map((w) => (w.keyName ? `${w.key} (${w.keyName})` : w.key))
+                    .join(', ')
+                })}
+              </p>
+            )}
           </div>
           <div>
             <InputField
-              name="postcode"
-              label={_('Postcode')}
-              placeholder={_('Postcode')}
+              name="postal_code"
+              label={_('Postal code')}
+              placeholder="*"
               required
-              validation={{ required: _('Postcode is required') }}
-              defaultValue={rate?.postcode}
+              validation={{ required: _('Postal code is required') }}
+              defaultValue={rate?.postalCode}
               helperText={_(
-                'Postcode (e.g., "90210"). Empty for all postcodes.'
+                'Postal codes (e.g., "90210"), comma-separated. Use "*" for all postal codes.'
               )}
             />
           </div>

@@ -146,6 +146,35 @@ export interface EventDataRegistry {
   };
 
   /**
+   * Fired once when an order is refunded, in full or in part, by core's refund
+   * recorder — whether the refund originated from the admin refund action or a
+   * gateway refund webhook. Emit-once is guaranteed by the idempotent
+   * refund-transaction insert (admin + webhook echo dedupe to one event).
+   */
+  order_refunded: {
+    orderId: number;
+    /** This refund's amount, in major currency units. */
+    amount: number;
+    currency: string;
+    /** True when the cumulative refunded total reaches the captured amount. */
+    isFullRefund: boolean;
+    /** The gateway's refund transaction id. */
+    transactionId: string;
+    paymentMethod: string;
+  };
+
+  /**
+   * Fired when an order is canceled via `cancelOrder` (any uncaptured
+   * authorization voided, inventory restocked). Carries the cancellation reason
+   * — `order_status_updated{after:'canceled'}` also fires on a cancel, but can't
+   * carry the reason.
+   */
+  order_canceled: {
+    orderId: number;
+    reason?: string;
+  };
+
+  /**
    * Fired after a shipment row has been inserted by `createShipment` and the
    * order rollup has been recomputed. The transaction is already committed.
    * Subscribers (lifecycle emails, webhook bridges) consume this.

@@ -87,7 +87,6 @@ Buy qty,Ποσότητα αγοράς
 Buy qty is required,Η ποσότητα αγοράς είναι υποχρεωτική
 Can not process payment. Please try again later.,Δεν είναι δυνατή η επεξεργασία της πληρωμής. Παρακαλούμε δοκιμάστε ξανά αργότερα.
 Can't be undone,Δεν μπορεί να αναιρεθεί
-Cancel,Ακύρωση
 Cancel Order,Ακύρωση παραγγελίας
 Cancel shipment,Ακύρωση αποστολής
 Cancel this shipment?,Ακύρωση αυτής της αποστολής;
@@ -357,7 +356,6 @@ Page ${currentPage} of ${totalPages},Σελίδα ${currentPage} από ${totalP
 Page not found,Η σελίδα δεν βρέθηκε
 Password is required,Ο κωδικός πρόσβασης είναι υποχρεωτικός
 Password must be at least ${minLength} characters long,Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον ${minLength} χαρακτήρες
-Paste a URL or a relative path starting with ,Επικολλήστε ένα URL ή μια σχετική διαδρομή που ξεκινά με 
 Pattern (regex),Μοτίβο (regex)
 Pay with PayPal,Πληρωμή με PayPal
 Pay with Stripe,Πληρωμή με Stripe
@@ -652,7 +650,6 @@ Clear filter,Καθαρισμός φίλτρου
 Clear filters,Καθαρισμός φίλτρων
 Client ID,Client ID
 Client Secret,Client Secret
-Close,Κλείσιμο
 Close settings,Κλείσιμο ρυθμίσεων
 Close — continue draft,Κλείσιμο — συνέχεια προσχεδίου
 Cms Pages,Σελίδες CMS
@@ -1683,3 +1680,10 @@ A list of products from a collection,Μια λίστα προϊόντων από
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Στοιβαγμένες σειρές συλλογών, καθεμία με επικεφαλίδα, σύνδεσμο προβολής όλων και μια λωρίδα προϊόντων."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Μια προβεβλημένη συλλογή με εικόνα εξωφύλλου, συντακτικό κείμενο και ένα μικρό πλέγμα προεπισκόπησης προϊόντων."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Προβολή ενός προϊόντος — εικόνα, όνομα, τιμή και σύνδεσμος προς την πλήρη σελίδα προϊόντος."
+The page you're looking for doesn't exist or may have moved.,Η σελίδα που αναζητάτε δεν υπάρχει ή μπορεί να έχει μετακινηθεί.
+Back to home,Επιστροφή στην αρχική
+Main menu,Κύριο μενού
+Close menu,Κλείσιμο μενού
+Open menu,Άνοιγμα μενού
+Footer,Υποσέλιδο
+Go to slide ${n},Μετάβαση στη διαφάνεια ${n}

@@ -1,4 +1,5 @@
 import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { Input } from '@components/common/ui/Input.js';
 import { Label } from '@components/common/ui/Label.js';
 import {
   CategoryFilter,
@@ -7,6 +8,13 @@ import {
 } from '@components/frontStore/catalog/ProductFilter.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useState } from 'react';
+
+/**
+ * Above this many categories the list gets a search box. `/products` offers the
+ * whole tree, which can run long; the category page offers one level of
+ * children — usually three or four — where a search field would be noise.
+ */
+const SEARCH_THRESHOLD = 8;
 
 export const DefaultCategoryFilterRender: React.FC<{
   categories: CategoryFilter[];
@@ -93,16 +101,36 @@ export const DefaultCategoryFilterRender: React.FC<{
       </div>
 
       <div className="filter__content">
+        {categories.length > SEARCH_THRESHOLD && (
+          <Input
+            type="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder={_('Search categories')}
+            aria-label={_('Search categories')}
+            className="mb-3 h-8 text-sm"
+          />
+        )}
         <div className="category__options space-y-2.5 max-h-48 overflow-y-auto">
           {filteredCategories.length > 0 ? (
             filteredCategories.map((category) => {
               const isSelected = isCategorySelected(
                 category.categoryId.toString()
               );
+              // The `/products` listing offers the whole tree flattened with a
+              // depth; the category page offers one level of children and sets
+              // none, which falls back to 0 and renders exactly as before.
+              // Indentation is the only thing that tells a shopper "Kids" sits
+              // under "Accessories" rather than beside it — the `cat` filter
+              // matches subtrees, so every level is a valid choice.
+              const depth = category.depth ?? 0;
               return (
                 <div
                   key={category.categoryId}
                   className="flex items-center gap-2.5 cursor-pointer"
+                  style={
+                    depth > 0 ? { paddingInlineStart: depth * 14 } : undefined
+                  }
                 >
                   <Checkbox
                     id={`category-${category.categoryId}`}

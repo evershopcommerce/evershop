@@ -1,7 +1,17 @@
 import { debug, error } from '../../lib/log/logger.js';
 import { refreshSetting } from './services/setting.js';
 
-export default async () => {
+export default async (context: { command?: string } = {}) => {
+  // `evershop build` compiles the app with the module bootstraps loaded but NO
+  // database attached, so warming the setting cache here can only fail with
+  // ECONNREFUSED — which is not the fresh-install 42P01 handled below, so it
+  // would take the loud error() path and make every build log look like a crash
+  // (seen in the IS-04 stack builds). The cache is a runtime concern; there is
+  // nothing to warm at build time.
+  if (context.command === 'build') {
+    return;
+  }
+
   // Warm the in-memory setting cache so the synchronous accessors (`getSettingSync` and the
   // `*Sync` getters) are reliable from the first request onward — the pricing formatter,
   // email Handlebars helpers and metafield schema builders all read settings synchronously.

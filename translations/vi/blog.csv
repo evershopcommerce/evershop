@@ -50,6 +50,7 @@ No posts match,Không có bài viết phù hợp
 No posts published yet.,Chưa có bài viết nào được xuất bản.
 No posts with this tag yet.,Chưa có bài viết nào với thẻ này.
 No posts yet,Chưa có bài viết
+"Nothing picked: the latest posts are shown, up to Max posts.","Chưa chọn bài viết nào: hiển thị các bài viết mới nhất, tối đa theo “Số bài tối đa”."
 Open page in a new tab,Mở trang trong tab mới
 Open — auto-approve,Mở — tự động duyệt
 Organize,Sắp xếp
@@ -97,3 +98,4 @@ Unpublish ${count} posts,Hủy xuất bản ${count} bài viết
 Untitled page,Trang không có tiêu đề
 Your comment,Bình luận của bạn
 min read,phút đọc
+Back to blog,Quay lại blog

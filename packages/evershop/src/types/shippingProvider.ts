@@ -12,7 +12,7 @@
  *     instance from the cart pipeline — only the curated DTO.
  */
 
-import type { Address } from './customerAddress.js';
+import type { Address } from './address.js';
 import type { ShippingZoneRow } from './db/index.js';
 
 /**

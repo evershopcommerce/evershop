@@ -4,11 +4,11 @@
  * ============================================================================
  *
  * This file contains TypeScript type definitions for all database tables.
- * These types are auto-generated from the PostgreSQL schema and should be
+ * These types are hand-maintained alongside the migrations and should be
  * used throughout the codebase for type safety.
  *
  * Usage:
- *   import type { OrderRow, ProductRow } from '@evershop/evershop/src/types/db';
+ *   import type { OrderRow, ProductRow } from '@evershop/evershop/types/db';
  *
  * Conventions:
  *   - `XxxRow`: Represents a full row from the table (SELECT *)
@@ -175,14 +175,22 @@ export type CartUpdate = Partial<Omit<CartRow, 'cart_id'>>;
 export interface CartAddressRow {
   cart_address_id: number;
   uuid: string;
-  full_name: string | null;
-  postcode: string | null;
+  recipient: string | null;
+  given_name: string | null;
+  family_name: string | null;
+  organization: string | null;
+  address_line_1: string | null;
+  address_line_2: string | null;
+  address_line_3: string | null;
+  dependent_locality: string | null;
+  locality: string | null;
+  administrative_area: string | null;
+  postal_code: string | null;
+  sorting_code: string | null;
   telephone: string | null;
+  /** Registered extra-field values (spec § 3.1); raw keys, JSONB. */
+  extra: Record<string, unknown> | null;
   country: string | null;
-  province: string | null;
-  city: string | null;
-  address_1: string | null;
-  address_2: string | null;
 }
 
 export type CartAddressInsert = Omit<
@@ -413,13 +421,21 @@ export interface CustomerAddressRow {
   customer_address_id: number;
   uuid: string;
   customer_id: number;
-  full_name: string | null;
+  recipient: string | null;
+  given_name: string | null;
+  family_name: string | null;
+  organization: string | null;
+  address_line_1: string | null;
+  address_line_2: string | null;
+  address_line_3: string | null;
+  dependent_locality: string | null;
+  locality: string | null;
+  administrative_area: string | null;
+  postal_code: string | null;
+  sorting_code: string | null;
   telephone: string | null;
-  address_1: string | null;
-  address_2: string | null;
-  postcode: string | null;
-  city: string | null;
-  province: string | null;
+  /** Registered extra-field values (spec § 3.1); raw keys, JSONB. */
+  extra: Record<string, unknown> | null;
   country: string;
   created_at: Date;
   updated_at: Date;
@@ -574,14 +590,22 @@ export type OrderActivityUpdate = Partial<
 export interface OrderAddressRow {
   order_address_id: number;
   uuid: string;
-  full_name: string | null;
-  postcode: string | null;
+  recipient: string | null;
+  given_name: string | null;
+  family_name: string | null;
+  organization: string | null;
+  address_line_1: string | null;
+  address_line_2: string | null;
+  address_line_3: string | null;
+  dependent_locality: string | null;
+  locality: string | null;
+  administrative_area: string | null;
+  postal_code: string | null;
+  sorting_code: string | null;
   telephone: string | null;
+  /** Registered extra-field values (spec § 3.1); raw keys, JSONB. */
+  extra: Record<string, unknown> | null;
   country: string | null;
-  province: string | null;
-  city: string | null;
-  address_1: string | null;
-  address_2: string | null;
 }
 
 export type OrderAddressInsert = Omit<
@@ -1023,37 +1047,25 @@ export type ShippingZoneUpdate = Partial<
 // SHIPPING ZONE PROVINCE
 // =============================================================================
 
-export interface ShippingZoneProvinceRow {
-  shipping_zone_province_id: number;
+export interface ShippingZoneRegionRow {
+  shipping_zone_region_id: number;
   uuid: string;
   zone_id: number;
-  /**
-   * ISO country code. Added in Version-1.0.8 so province codes disambiguate
-   * when a zone covers multiple countries (e.g., "CA" → California in US,
-   * Catalonia in ES). Backfilled from each row's parent zone.
-   */
+  /** ISO 3166-1 alpha-2 country the key belongs to (added in checkout 1.0.8). */
   country: string;
-  province: string;
+  /** Geographic level of `region_key`; `administrative_area` on every row today. */
+  level: string;
+  /** Region key as the address stores it (`US-CA`, `VN-SG`, Google sub-keys for the rest). */
+  region_key: string;
 }
 
-export type ShippingZoneProvinceInsert = Omit<
-  ShippingZoneProvinceRow,
-  'shipping_zone_province_id' | 'uuid'
+export type ShippingZoneRegionInsert = Omit<
+  ShippingZoneRegionRow,
+  'shipping_zone_region_id' | 'uuid'
 >;
-export type ShippingZoneProvinceUpdate = Partial<
-  Omit<ShippingZoneProvinceRow, 'shipping_zone_province_id'>
+export type ShippingZoneRegionUpdate = Partial<
+  Omit<ShippingZoneRegionRow, 'shipping_zone_region_id'>
 >;
-
-// =============================================================================
-// SHIPPING ZONE PROVIDER (platform-level — zone→registered-provider attachment)
-// =============================================================================
-//
-// There is no `shipping_provider` row type. Provider definitions live in the
-// in-memory registry (`services/shipping/registry.ts`), populated at bootstrap
-// by every provider extension's `registerShippingProvider(...)` call. The
-// attachment row references the registry by `provider_code` — a soft string
-// reference, not a FK. Orphan attachments to uninstalled providers are
-// filtered at checkout via `getShippingProvider(code)` returning undefined.
 
 export interface ShippingZoneProviderRow {
   shipping_zone_provider_id: number;
@@ -1182,8 +1194,10 @@ export interface TaxRateRow {
   name: string;
   tax_class_id: number | null;
   country: string;
-  province: string;
-  postcode: string;
+  /** Comma-separated region keys or `*` (spec § 3.10). */
+  administrative_area: string;
+  /** Comma-separated postal codes or `*`. */
+  postal_code: string;
   rate: string;
   is_compound: boolean;
   priority: number;
@@ -1206,6 +1220,31 @@ export interface UrlRewriteRow {
 
 export type UrlRewriteInsert = Omit<UrlRewriteRow, 'url_rewrite_id'>;
 export type UrlRewriteUpdate = Partial<Omit<UrlRewriteRow, 'url_rewrite_id'>>;
+
+// =============================================================================
+// LANDING PAGE (promotion migration 1.1.0)
+// =============================================================================
+
+export interface LandingPageRow {
+  landing_page_id: number;
+  uuid: string;
+  status: boolean;
+  name: string;
+  url_key: string;
+  description: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
+  publish_start: Date | null;
+  publish_end: Date | null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export type LandingPageInsert = Omit<
+  LandingPageRow,
+  'landing_page_id' | 'uuid' | 'created_at' | 'updated_at'
+>;
+export type LandingPageUpdate = Partial<Omit<LandingPageRow, 'landing_page_id'>>;
 
 // =============================================================================
 // VARIANT GROUP
@@ -1242,6 +1281,8 @@ export interface WidgetInstanceRow {
   type: string;
   settings: Record<string, unknown>;
   status: boolean | null;
+  // Theme bucket (pageBuilder migration 1.1.0). NULL = no custom theme.
+  theme: string | null;
   created_at: Date;
   updated_at: Date;
 }
@@ -1270,6 +1311,8 @@ export interface WidgetPlacementRow {
   // entity_urn: nullable. Set for entity-level placements (e.g. CMS page
   // overrides). Null for route-level placements.
   entity_urn: string | null;
+  // Denormalized theme bucket (pageBuilder migration 1.1.0).
+  theme: string | null;
   created_at: Date;
   updated_at: Date;
 }
@@ -1293,6 +1336,7 @@ export interface ChangesetRow {
   token: string;
   published_at: Date | null;
   created_by: number;
+  theme: string | null;
   created_at: Date;
   updated_at: Date;
 }
@@ -1333,6 +1377,7 @@ export interface RolloutPlanRow {
   route_cursors: Record<string, number>;
   start_time: Date;
   end_time: Date | null;
+  theme: string | null;
   created_at: Date;
   updated_at: Date;
 }

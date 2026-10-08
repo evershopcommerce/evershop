@@ -11,7 +11,11 @@ import { ProductNoThumbnail } from '@components/common/ProductNoThumbnail.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { deriveProductImageSize } from '@evershop/evershop/lib/util/deriveProductImageSize';
 
-const SliderComponent = Slider as any;
+// `react-slick` is CommonJS. Under webpack with `"type": "module"` the default
+// import is the whole `module.exports` (the component sits on `.default`);
+// bundlers that apply `__esModule` interop hand back the component itself.
+// Accept both so the gallery renders under either resolution.
+const SliderComponent = ((Slider as any).default ?? Slider) as any;
 
 type SliderType = any;
 
@@ -231,7 +235,7 @@ export const Media: React.FC<MediaProps> = ({
     <div className="product-media-container">
       <div className="main-image-container">
         {allImages.length > 0 && (
-          <SliderComponent.default
+          <SliderComponent
             ref={mainSliderRef}
             {...mainSliderSettings}
             className="product-slider"
@@ -256,7 +260,7 @@ export const Media: React.FC<MediaProps> = ({
                 />
               </div>
             ))}
-          </SliderComponent.default>
+          </SliderComponent>
         )}
         {allImages.length === 0 && (
           <div className="w-full h-full flex items-center justify-center py-24 bg-muted">
@@ -309,7 +313,7 @@ export const Media: React.FC<MediaProps> = ({
                   </svg>
                 </div>
               )}
-              <SliderComponent.default
+              <SliderComponent
                 ref={modalSliderRef}
                 {...modalSliderSettings}
               >
@@ -325,7 +329,7 @@ export const Media: React.FC<MediaProps> = ({
                     />
                   </div>
                 ))}
-              </SliderComponent.default>
+              </SliderComponent>
             </div>
           </div>
         </div>

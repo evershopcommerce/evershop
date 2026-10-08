@@ -48,18 +48,21 @@ export function LandingPagePicker({
 }: LandingPagePickerProps) {
   const [search, setSearch] = useState('');
   const [debounced, setDebounced] = useState('');
+  // Published pages only by default: drafts 404 on the storefront, and
+  // homepage backups (disabled landing pages, one per "Replace homepage")
+  // would otherwise crowd out real pages in this newest-first list.
+  const [includeUnpublished, setIncludeUnpublished] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setDebounced(search), 300);
     return () => clearTimeout(t);
   }, [search]);
 
-  const filters = debounced
-    ? [
-        { key: 'name', operation: 'like', value: debounced },
-        { key: 'limit', operation: 'eq', value: String(limit) }
-      ]
-    : [{ key: 'limit', operation: 'eq', value: String(limit) }];
+  const filters = [
+    ...(debounced ? [{ key: 'name', operation: 'like', value: debounced }] : []),
+    ...(includeUnpublished ? [] : [{ key: 'status', operation: 'eq', value: '1' }]),
+    { key: 'limit', operation: 'eq', value: String(limit) }
+  ];
 
   const [result] = useQuery({ query: SEARCH_QUERY, variables: { filters } });
   const items = (result.data?.landingPages?.items ?? []).map(
@@ -88,7 +91,16 @@ export function LandingPagePicker({
     : null;
 
   return (
-    <EntitySearchList
+    <div className="space-y-2">
+      <label className="flex items-center gap-2 text-xs text-muted-foreground">
+        <input
+          type="checkbox"
+          checked={includeUnpublished}
+          onChange={(e) => setIncludeUnpublished(e.target.checked)}
+        />
+        {_('Include unpublished pages')}
+      </label>
+      <EntitySearchList
       items={items}
       selectedId={selectedIdByUuid ?? selectedUrl ?? null}
       search={search}
@@ -107,6 +119,7 @@ export function LandingPagePicker({
           ? _('No landing pages match "${query}".', { query: debounced })
           : _('No landing pages yet.')
       }
-    />
+      />
+    </div>
   );
 }

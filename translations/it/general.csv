@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, Sconto del ${discount} per tutti gli ordini al di sopra di ${price}
-Please select, Seleziona un'opzione
-The page you requested does not exist., Pare che la pagina richiesta non esista.
-Continue shopping, Continua con gli acquisti
-404 Page Not Found, 404 Pagina non trovata
-Home, Home
-Not found, Nessun risultato
+Discount ${discount} For All Orders Over ${price},Sconto del ${discount} per tutti gli ordini al di sopra di ${price}
+Please select,Seleziona un'opzione
+The page you requested does not exist.,Pare che la pagina richiesta non esista.
+404 Page Not Found,404 Pagina non trovata
+Home,Home
+Not found,Nessun risultato
+Search options,Cerca opzioni
+Show less,Mostra meno
+Sort by,Ordina per
+Search products…,Cerca prodotti…
+Order Note,Nota ordine
+Add a note to your order,Aggiungi una nota al tuo ordine
+My account,Il mio account
+Log out,Esci
+Your profile has been updated,Il tuo profilo è stato aggiornato
+Update profile API not available,API di aggiornamento del profilo non disponibile
+Failed to update profile,Aggiornamento del profilo non riuscito
+Something went wrong. Please refresh the page.,Si è verificato un errore. Aggiorna la pagina.
+${count} result for “${keyword}”,${count} risultato per “${keyword}”
+${count} results for “${keyword}”,${count} risultati per “${keyword}”

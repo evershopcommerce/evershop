@@ -2,10 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
 import { error } from '../../lib/log/logger.js';
+import {
+  WILDCARD_EVENT,
+  WILDCARD_FOLDER,
+  type EventMeta
+} from './subscriber.js';
 
 type Subscriber = {
   event: string;
-  subscriber: (data: unknown) => void | Promise<void>;
+  subscriber: (data: unknown, meta?: EventMeta) => void | Promise<void>;
 };
 
 type Module = {
@@ -43,7 +48,8 @@ async function loadModuleSubscribers(
           const subscriberPath = path.join(eventSubscribersDir, file);
           const mod = await import(pathToFileURL(subscriberPath).toString());
           subscribers.push({
-            event: eventName,
+            // `subscribers/_all/` receives every event.
+            event: eventName === WILDCARD_FOLDER ? WILDCARD_EVENT : eventName,
             subscriber: mod.default
           });
         })

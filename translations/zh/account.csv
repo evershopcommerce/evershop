@@ -1,33 +1,75 @@
-Login, 登录
-Logout, 登出
-Email, 邮箱
-Password, 密码
-Forgot your password?, 忘记密码？
-Create an account, 创建账户
-Register, 注册
-Full Name, 全名
-Full name, 全名
-Sign In, 登录
-Order History, 订单历史
-Account Details, 账户详情
-You have not placed any orders yet, 您还没有下过订单
-My Account, 我的账户
-Already have an account?, 已经有账户了？
-Contact information, 联系信息
-City, 城市
-Account Information, 账户信息
-Address, 地址
-Postcode, 邮编
-Postcode is required, 邮编是必填项
-Telephone is required, 电话是必填项
-Telephone, 电话
-Full name is required, 全名是必填项
-Country is required, 国家是必填项
-Country, 国家
-Province is required, 省份是必填项
-Province, 省份
-Billing Address, 账单地址
-Shipping Address, 配送地址
-Create A New Account, 创建新账户
-Contact, 联系
-Customer information, 客户信息
+Login,登录
+Logout,登出
+Email,邮箱
+Password,密码
+Forgot your password?,忘记密码？
+Create an account,创建账户
+Register,注册
+Full Name,全名
+Full name,全名
+Sign In,登录
+Order History,订单历史
+Account Details,账户详情
+You have not placed any orders yet,您还没有下过订单
+My Account,我的账户
+Already have an account?,已经有账户了？
+Contact information,联系信息
+City,城市
+Account Information,账户信息
+Address,地址
+Postcode,邮编
+Telephone,电话
+Country,国家
+Province,省份
+Billing Address,账单地址
+Shipping Address,配送地址
+Create A New Account,创建新账户
+Contact,联系
+Customer information,客户信息
+Address book,地址簿
+Account information,账户信息
+Recent orders,最近订单
+View all,查看全部
+Sign in,登录
+Welcome back — sign in to your account.,欢迎回来 — 登录您的账户。
+New here?,第一次来?
+Back to orders,返回订单
+Create account,创建账户
+You must be logged in to manage your addresses,您必须登录后才能管理地址
+You must be logged in to update your profile,您必须登录后才能更新个人资料
+There is nothing to update,没有需要更新的内容
+Email is already used,该邮箱已被使用
+Order #${orderNumber},订单 #${orderNumber}
+Given name,名
+Family name,姓
+Company,公司
+Address line 3,地址第 3 行
+State,州
+Prefecture,都道府县
+County,县
+Emirate,酋长国
+Department,省
+District,区
+Do/Si,道/市
+Island,岛
+Oblast,州
+Parish,教区
+Post town,邮政城镇
+Suburb,郊区
+Neighborhood,街区
+Village,村
+Village/Township,村/乡镇
+Townland,镇区
+Ward,坊
+ZIP code,邮政编码
+PIN code,PIN 码
+Eircode,Eircode
+Sorting code,分拣代码
+${field} is not valid,${field}无效
+${field} is not a valid region,${field}不是有效的地区
+${field} has the wrong type,${field}的类型错误
+${field} is not a known address field,${field}不是已知的地址字段
+We do not sell to ${country},我们不向${country}销售
+Select ${field},选择${field}
+no longer available,已不可用
+Please check the highlighted fields,请检查标记的字段

@@ -50,6 +50,7 @@ No posts match,Keine passenden Beiträge
 No posts published yet.,Noch keine Beiträge veröffentlicht.
 No posts with this tag yet.,Noch keine Beiträge mit diesem Tag.
 No posts yet,Noch keine Beiträge
+"Nothing picked: the latest posts are shown, up to Max posts.","Nichts ausgewählt: Es werden die neuesten Beiträge angezeigt, bis zu „Max. Beiträge“."
 Open page in a new tab,Seite in neuem Tab öffnen
 Open — auto-approve,Offen — automatisch genehmigen
 Organize,Organisieren
@@ -97,3 +98,4 @@ Unpublish ${count} posts,Veröffentlichung von ${count} Beiträgen aufheben
 Untitled page,Unbenannte Seite
 Your comment,Ihr Kommentar
 min read,Min. Lesezeit
+Back to blog,Zurück zum Blog

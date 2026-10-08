@@ -7,6 +7,7 @@ import {
   RadioGroupItem
 } from '@components/common/ui/RadioGroup.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { listVirtualCollections } from '@evershop/evershop/lib/util/virtualCollection';
 import { Check, ChevronDown, Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
@@ -76,6 +77,10 @@ function Section({
 // ---------------------------------------------------------------------------
 // Data layer.
 // ---------------------------------------------------------------------------
+
+// Built-in collections have no row, so the `collections` query cannot return
+// them; the picker merges them in itself (see services/virtualCollection.ts).
+const VIRTUAL_COLLECTIONS = listVirtualCollections();
 
 const SearchQuery = `
   query Query ($filters: [FilterInput!]) {
@@ -179,12 +184,26 @@ function CollectionProductsSetting({
   // the natural fallback ("Defaults to Sneakers" rather than a generic
   // "Defaults to the collection name"). Falls back to the generic copy
   // until the collection list lands.
+  // The store's collections plus the built-in ones, filtered by the same search
+  // box. A built-in collection is selectable like any other: it is what a theme
+  // ships when it cannot know which collections a store has.
+  const needle = (inputValue || '').trim().toLowerCase();
+  const virtualMatches = VIRTUAL_COLLECTIONS.filter(
+    (c) => !needle || c.name.toLowerCase().includes(needle)
+  ).map((c) => ({ uuid: c.uuid, code: c.code, name: c.name, virtual: true }));
+  const collectionOptions = [
+    ...virtualMatches,
+    ...((data?.collections?.items ?? []) as {
+      uuid: string;
+      code: string;
+      name: string;
+    }[])
+  ];
+
   const pickedCollectionName: string | null = (() => {
     if (!selectedCollection) return null;
-    const found = (data?.collections?.items ?? []).find(
-      (c: { code: string; name: string }) => c.code === selectedCollection
-    );
-    return (found as { name: string } | undefined)?.name ?? null;
+    const found = collectionOptions.find((c) => c.code === selectedCollection);
+    return found?.name ?? null;
   })();
 
   if (error) {
@@ -220,7 +239,7 @@ function CollectionProductsSetting({
 
         {!fetching && data && (
           <>
-            {data.collections.items.length === 0 ? (
+            {collectionOptions.length === 0 ? (
               <div className="rounded-md border border-dashed border-divider px-3 py-4 text-center text-xs text-muted-foreground">
                 {inputValue ? (
                   <>{_('No collections match “${value}”.', { value: inputValue })}</>
@@ -239,8 +258,13 @@ function CollectionProductsSetting({
                 }}
               >
                 <ul className="space-y-1">
-                  {data.collections.items.map(
-                    (c: { uuid: string; code: string; name: string }) => {
+                  {collectionOptions.map(
+                    (c: {
+                      uuid: string;
+                      code: string;
+                      name: string;
+                      virtual?: boolean;
+                    }) => {
                       const active = selectedCollection === c.code;
                       return (
                         <li key={c.uuid}>
@@ -257,6 +281,11 @@ function CollectionProductsSetting({
                               }`}
                             >
                               {c.name}
+                              {c.virtual ? (
+                                <span className="ml-2 text-[10px] uppercase tracking-wide text-muted-foreground">
+                                  {_('built-in')}
+                                </span>
+                              ) : null}
                             </span>
                             <RadioGroupItem
                               value={c.code}

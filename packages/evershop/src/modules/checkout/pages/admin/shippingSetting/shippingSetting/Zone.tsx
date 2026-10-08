@@ -30,10 +30,24 @@ export interface Country {
   code: string;
 }
 
-export interface Province {
+/** A region restriction as `ShippingZone.regions` returns it (spec § 3.3). */
+export interface ZoneRegion {
+  country: string;
+  level: string;
+  key: string;
   name: string;
-  code: string;
-  countryCode: string;
+  retired: boolean;
+  mergedInto?: { key: string; name: string } | null;
+}
+
+/** One `addressConfigWarnings` row scoped to this zone (`sourceId` = zone uuid). */
+export interface ZoneWarning {
+  kind: string;
+  source: string;
+  sourceId: string;
+  country: string;
+  key?: string | null;
+  keyName?: string | null;
 }
 
 export interface ZoneProvider {
@@ -54,7 +68,7 @@ export interface ShippingZone {
   name: string;
   uuid: string;
   countries: Country[];
-  provinces: Province[];
+  regions: ZoneRegion[];
   providers: ZoneProvider[];
   updateApi: string;
   deleteApi: string;
@@ -63,9 +77,11 @@ export interface ShippingZone {
 interface ZoneProps {
   zone: ShippingZone;
   reload: () => void;
+  /** Stale-reference warnings for this zone (not-sold-to countries, retired keys). */
+  warnings?: ZoneWarning[];
 }
 
-export function Zone({ zone, reload }: ZoneProps) {
+export function Zone({ zone, reload, warnings = [] }: ZoneProps) {
   const [editOpen, setEditOpen] = React.useState(false);
   const [attachOpen, setAttachOpen] = React.useState(false);
   const [configuring, setConfiguring] = React.useState<ZoneProvider | null>(
@@ -98,13 +114,24 @@ export function Zone({ zone, reload }: ZoneProps) {
     }
   };
 
-  // Group provinces by country code for display.
-  const provincesByCountry = new Map<string, Province[]>();
-  for (const p of zone.provinces) {
-    const list = provincesByCountry.get(p.countryCode) ?? [];
-    list.push(p);
-    provincesByCountry.set(p.countryCode, list);
+  // Group region restrictions by country code for display.
+  const regionsByCountry = new Map<string, ZoneRegion[]>();
+  for (const r of zone.regions) {
+    const list = regionsByCountry.get(r.country) ?? [];
+    list.push(r);
+    regionsByCountry.set(r.country, list);
   }
+  const notSoldTo = new Set(
+    warnings
+      .filter((w) => w.kind === 'COUNTRY_NOT_SOLD_TO')
+      .map((w) => w.country)
+  );
+  const countryLabel = (country: Country) =>
+    notSoldTo.has(country.code)
+      ? `${country.name} (${_('not sold to')})`
+      : country.name;
+  const regionLabel = (region: ZoneRegion) =>
+    region.retired ? `${region.name} (${_('retired')})` : region.name;
 
   return (
     <CardContent className="space-y-3 pt-3 border-t border-border">
@@ -158,7 +185,7 @@ export function Zone({ zone, reload }: ZoneProps) {
                 {zone.countries.length === 0
                   ? _('Worldwide')
                   : zone.countries.length === 1
-                  ? zone.countries[0].name
+                  ? countryLabel(zone.countries[0])
                   : _('${count} countries', {
                       count: String(zone.countries.length)
                     })}
@@ -169,7 +196,7 @@ export function Zone({ zone, reload }: ZoneProps) {
                 <span>
                   {zone.countries
                     .slice(0, 5)
-                    .map((c) => c.name)
+                    .map((c) => countryLabel(c))
                     .join(', ')}
                   {zone.countries.length > 5 &&
                     _(', +${count} more', {
@@ -177,16 +204,16 @@ export function Zone({ zone, reload }: ZoneProps) {
                     })}
                 </span>
               )}
-              {zone.provinces.length > 0 && (
+              {zone.regions.length > 0 && (
                 <span>
                   {' '}
-                  · {_('Provinces:')}{' '}
-                  {Array.from(provincesByCountry.entries())
+                  · {_('Regions:')}{' '}
+                  {Array.from(regionsByCountry.entries())
                     .map(
                       ([cc, list]) =>
                         `${cc} (${list
                           .slice(0, 3)
-                          .map((p) => p.name)
+                          .map((r) => regionLabel(r))
                           .join(', ')}${list.length > 3 ? '…' : ''})`
                     )
                     .join('; ')}

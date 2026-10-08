@@ -7,6 +7,17 @@ import React from 'react';
 export function SearchInfo() {
   const { keyword, products } = useSearch();
   const count = products?.total ?? 0;
+  // One key per plural form, with both the count and the keyword interpolated, so a
+  // translator controls word order, the quote style (« » in fr, „“ in de) and where the
+  // number sits — ru/sr use a trailing "…: N" counter form that stays grammatical for
+  // every number, which a 2-form split alone cannot express. `_()` leaves ${keyword}
+  // untouched (it is absent from the values), so we split on it to keep the keyword in
+  // its own muted <span>.
+  const heading =
+    count === 1
+      ? _('${count} result for “${keyword}”', { count: String(count) })
+      : _('${count} results for “${keyword}”', { count: String(count) });
+  const [headingBefore, headingAfter = ''] = heading.split('${keyword}');
   return (
     <>
       <Area id="searchInfoBefore" noOuter />
@@ -30,8 +41,9 @@ export function SearchInfo() {
           already inside .page-width via Base, so no nested page-width here. */}
       <div className="mb-8">
         <h1 className="search-name text-2xl font-semibold tracking-tight">
-          {count} {count === 1 ? _('result') : _('results')} {_('for')}{' '}
-          <span className="text-muted-foreground">“{keyword}”</span>
+          {headingBefore}
+          <span className="text-muted-foreground">{keyword}</span>
+          {headingAfter}
         </h1>
       </div>
       <Area id="searchInfoAfter" noOuter />

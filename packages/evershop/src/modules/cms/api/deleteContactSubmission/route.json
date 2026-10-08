@@ -1,0 +1,5 @@
+{
+  "methods": ["DELETE"],
+  "path": "/contact-submissions/:id",
+  "access": "private"
+}

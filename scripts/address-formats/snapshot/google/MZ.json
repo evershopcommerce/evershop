@@ -1,0 +1,12 @@
+{
+  "fmt": "%N%n%O%n%A%n%Z %C%S",
+  "id": "data/MZ",
+  "key": "MZ",
+  "lang": "pt",
+  "languages": "pt",
+  "name": "MOZAMBIQUE",
+  "sub_isoids": "P~MPM~G~I~B~L~N~A~S~T~Q",
+  "sub_keys": "Cabo Delgado~Cidade de Maputo~Gaza~Inhambane~Manica~Maputo~Nampula~Niassa~Sofala~Tete~Zambezia",
+  "zip": "\\d{4}",
+  "zipex": "1102,1119,3212"
+}

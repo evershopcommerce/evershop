@@ -50,6 +50,7 @@ No posts match,Тохирох нийтлэл алга
 No posts published yet.,Одоогоор нийтлэгдсэн нийтлэл алга.
 No posts with this tag yet.,Энэ шошготой нийтлэл одоогоор алга.
 No posts yet,Одоогоор нийтлэл алга
+"Nothing picked: the latest posts are shown, up to Max posts.",Юу ч сонгоогүй: сүүлийн нийтлэлүүдийг «Хамгийн их нийтлэл» хүртэл харуулна.
 Open page in a new tab,Хуудсыг шинэ табд нээх
 Open — auto-approve,Нээлттэй — автоматаар зөвшөөрөх
 Organize,Зохион байгуулах
@@ -97,3 +98,4 @@ Unpublish ${count} posts,${count} нийтлэлийг нийтлэлээс ха
 Untitled page,Гарчиггүй хуудас
 Your comment,Таны сэтгэгдэл
 min read,мин унших
+Back to blog,Блог руу буцах

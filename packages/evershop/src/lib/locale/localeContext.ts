@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { getConfig } from '../util/getConfig.js';
+import { getStoreLanguageSync } from '../../modules/setting/services/setting.js';
 import { applyLocalePrefix } from './activeDictionary.js';
 
 /**
@@ -40,12 +40,22 @@ export function getLocaleContext(): LocaleContext | undefined {
 }
 
 /**
- * The active locale. Falls back to the configured store language off-request (e.g. a
- * cron job or a call before the locale middleware runs); the P4 setting helpers later
- * make this DB-aware, but config is the safe synchronous default here.
+ * The active locale: the locale this request resolved to (storefront URL prefix, the API
+ * `X-Locale` header, or `adminLanguage` for admin requests), falling back OFF-REQUEST — a cron
+ * job, an event subscriber, or any call before the locale middleware runs — to the store's
+ * default language.
+ *
+ * That fallback is `getStoreLanguageSync()`, i.e. the admin `storeLanguage` setting first and
+ * config `shop.language` only as its own fallback. Config alone is not good enough now that the
+ * default language is an admin setting: a store that switches language in the admin never
+ * touches `config.json`, so `shop.language` is stale for every store that has ever changed it.
+ * (This is the DB-aware resolution the P4 note here used to defer.)
+ *
+ * Synchronous throughout — cache-only, no DB round-trip — so it is safe inside the `Intl`
+ * formatters behind `Price.text`, `DateTime.text` and `toPrice`.
  */
 export function getActiveLocale(): string {
-  return store.getStore()?.locale ?? getConfig('shop.language', 'en');
+  return store.getStore()?.locale ?? getStoreLanguageSync();
 }
 
 /** The FULL request dictionary, read by `translate()`. Empty object outside any scope. */

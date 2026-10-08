@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, Korting van ${discount} voor alle bestellingen over ${price}
-Please select, Selecteren...
-The page you requested does not exist., De opgevraagde pagina bestaat niet.
-Continue shopping, Doorgaan met winkelen
-404 Page Not Found, 404 pagina niet gevonden
-Home, Home
-Not found, Niet gevonden
+Discount ${discount} For All Orders Over ${price},Korting van ${discount} voor alle bestellingen over ${price}
+Please select,Selecteren...
+The page you requested does not exist.,De opgevraagde pagina bestaat niet.
+404 Page Not Found,404 pagina niet gevonden
+Home,Home
+Not found,Niet gevonden
+Search options,Opties zoeken
+Show less,Minder tonen
+Sort by,Sorteren op
+Search products…,Producten zoeken…
+Order Note,Opmerking bij bestelling
+Add a note to your order,Voeg een opmerking toe aan je bestelling
+My account,Mijn account
+Log out,Uitloggen
+Your profile has been updated,Je profiel is bijgewerkt
+Update profile API not available,API voor het bijwerken van profiel is niet beschikbaar
+Failed to update profile,Bijwerken van profiel mislukt
+Something went wrong. Please refresh the page.,Er is iets misgegaan. Vernieuw de pagina.
+${count} result for “${keyword}”,${count} resultaat voor “${keyword}”
+${count} results for “${keyword}”,${count} resultaten voor “${keyword}”

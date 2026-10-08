@@ -1,13 +1,22 @@
 import { buildImageSrcSet, Image } from '@components/common/Image.js';
 import {
   Editable,
-  EditableImageOverlay
+  EditableImageOverlay,
+  isPageBuilderActive
 } from '@components/common/page-builder/index.js';
 import { buttonVariants } from '@components/common/ui/Button.js';
+import { scrimButtonClassName } from '@components/common/ui/scrimButton.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { ImagePlus } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
+import {
+  resolveArrowsStyle,
+  resolveDotsStyle,
+  type ArrowsStyle,
+  type DotsStyle
+} from './slideshowControls.js';
 
 type ContentAnchor =
   | 'tl' | 'tc' | 'tr'
@@ -16,8 +25,6 @@ type ContentAnchor =
 
 type OverlayTint = 'none' | 'dark' | 'light' | 'gradient';
 type AspectRatio = 'auto' | '16:9' | '21:9' | '4:3' | '1:1';
-type ArrowsStyle = 'bottom-right' | 'sides' | 'hidden';
-type DotsStyle = 'dots' | 'bars' | 'numbers' | 'hidden';
 // Slide CTA appearance — maps 1:1 to the shadcn `Button` variants. Legacy
 // data may still carry the prior values `filled` / `outline` / `link` from
 // before the variant migration; `resolveButtonVariant` translates them.
@@ -173,10 +180,15 @@ function ButtonInline({
   // slide CTAs match every other button in the admin / storefront. No
   // per-slide hex color anymore — theming flows from the variant.
   const variant = resolveButtonVariant(style);
+  // A slide's text is always white, over its photograph, so its buttons always
+  // sit on a scrim (see scrimButton.ts: an outline button would be white on white).
   return (
     <a
       href={link}
-      className={`evershop-slideshow__cta ${buttonVariants({ variant, size: 'lg' })}`}
+      className={`evershop-slideshow__cta ${scrimButtonClassName(
+        variant,
+        buttonVariants({ variant, size: 'lg' })
+      )}`}
       onClick={(e) => {
         // Inline edit needs to capture clicks on the contenteditable child
         // before the anchor's navigation fires.
@@ -418,13 +430,14 @@ export default function Slideshow({
     defaultOverlayOpacity = 0.3
   }
 }: SlideshowProps) {
-  // Resolve effective arrow/dot styles. The legacy `arrows` / `dots`
-  // booleans still work; the new style fields, when present, take
-  // precedence and can carry "hidden" explicitly.
-  const effectiveArrowsStyle: ArrowsStyle =
-    arrowsStyle ?? (arrows ? 'bottom-right' : 'hidden');
-  const effectiveDotsStyle: DotsStyle =
-    dotsStyle ?? (dots ? 'dots' : 'hidden');
+  // Resolve effective arrow/dot styles. Either the legacy boolean or the style
+  // can switch a control off; the style only picks WHICH visible style
+  // (slideshowControls.ts; theme-lab FINDINGS #51).
+  const effectiveArrowsStyle: ArrowsStyle = resolveArrowsStyle(
+    arrows,
+    arrowsStyle
+  );
+  const effectiveDotsStyle: DotsStyle = resolveDotsStyle(dots, dotsStyle);
 
   // Hidden slides are filtered out of the visible list — keeps the index
   // contiguous so dot/arrow nav don't jump over invisible entries.
@@ -465,6 +478,13 @@ export default function Slideshow({
     update();
     mq.addEventListener?.('change', update);
     return () => mq.removeEventListener?.('change', update);
+  }, []);
+
+  // Client-only: the page builder is detected after mount, so SSR and the
+  // first client render agree. Same idiom as ProductHero/SplitFeature.
+  const [inPageBuilder, setInPageBuilder] = useState(false);
+  useEffect(() => {
+    setInPageBuilder(isPageBuilderActive());
   }, []);
 
   // Slick custom dots: we map both `customPaging` (per-dot rendering) and
@@ -529,7 +549,22 @@ export default function Slideshow({
   };
 
   if (!visibleSlides || visibleSlides.length === 0) {
-    return null;
+    // On the storefront an unconfigured slideshow stays invisible. In the page
+    // builder it MUST render something: with no DOM there is nothing to select,
+    // so a slideshow added before its first slide was stranded on the canvas —
+    // impossible to edit, impossible to remove.
+    if (!inPageBuilder) {
+      return null;
+    }
+    return (
+      <div className="evershop-slideshow evershop-slideshow--empty w-full py-6 md:py-10">
+        <div className="flex aspect-[16/9] w-full flex-col items-center justify-center gap-2 border-2 border-dashed border-foreground/15 bg-muted/30 text-muted-foreground">
+          <ImagePlus className="h-8 w-8" aria-hidden="true" />
+          <span className="text-sm font-medium">{_('Slideshow')}</span>
+          <span className="text-xs">{_('Add a slide to get started.')}</span>
+        </div>
+      </div>
+    );
   }
 
   const containerClass = ['evershop-slideshow', 'slideshow-widget', 'relative', 'w-full'].join(' ');
@@ -664,7 +699,7 @@ export default function Slideshow({
                       <Editable
                         as="span"
                         fieldPath={`settings.slides.${idx}.eyebrow`}
-                        className="evershop-slideshow__eyebrow inline-block uppercase tracking-widest text-xs md:text-sm text-white/90 font-semibold mb-2 drop-shadow"
+                        className="evershop-slideshow__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest inline-block text-white/90 mb-2 drop-shadow"
                       >
                         {slide.eyebrow}
                       </Editable>
@@ -673,7 +708,7 @@ export default function Slideshow({
                       <Editable
                         as="h2"
                         fieldPath={`settings.slides.${idx}.headline`}
-                        className="evershop-slideshow__heading text-white text-2xl md:text-4xl lg:text-5xl font-bold mb-2 md:mb-4 drop-shadow-lg"
+                        className="evershop-slideshow__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl text-white mb-2 md:mb-4 drop-shadow-lg"
                       >
                         {slide.headline}
                       </Editable>
@@ -683,7 +718,7 @@ export default function Slideshow({
                         as="p"
                         fieldPath={`settings.slides.${idx}.subText`}
                         multiline
-                        className="evershop-slideshow__subtext text-white text-sm md:text-base lg:text-lg mb-4 md:mb-8 max-w-2xl drop-shadow-md"
+                        className="evershop-slideshow__subtext evershop-widget__subtext text-sm md:text-base text-white mb-4 md:mb-8 max-w-2xl drop-shadow-md"
                       >
                         {slide.subText}
                       </Editable>

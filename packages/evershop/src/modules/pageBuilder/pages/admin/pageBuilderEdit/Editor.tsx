@@ -477,6 +477,10 @@ export default function Editor({
       // confirm flow doesn't collapse the drawer state mid-confirm.
       if (target?.closest('[data-slot="alert-dialog-content"]')) return;
       if (target?.closest('[data-slot="dialog-content"]')) return;
+      // The file browser portals to <body>, so it is never inside the drawer.
+      // Without this the first click on a thumbnail closed the drawer that
+      // opened the browser, and the browser went with it.
+      if (target?.closest('[data-slot="file-browser"]')) return;
       setSelectedWidget(null);
     };
     window.addEventListener('mousedown', onDown);
@@ -494,6 +498,10 @@ export default function Editor({
       if (target?.tagName === 'IFRAME') return;
       if (target?.closest('[data-slot="alert-dialog-content"]')) return;
       if (target?.closest('[data-slot="dialog-content"]')) return;
+      // The file browser portals to <body>, so it is never inside the drawer.
+      // Without this the first click on a thumbnail closed the drawer that
+      // opened the browser, and the browser went with it.
+      if (target?.closest('[data-slot="file-browser"]')) return;
       setSelectedMetafield(null);
     };
     window.addEventListener('mousedown', onDown);
@@ -2138,7 +2146,8 @@ export default function Editor({
           // source is on the 'all' route, otherwise the active page scope.
           // (Increment 3 will read the source placement's own entity_urn once
           // the Layers query selects it, to preserve cross-scope copies.)
-          entity_urn: (myPlacement?.route ?? route.id) === 'all' ? null : scopeEntityUrn
+          entity_urn:
+            (myPlacement?.route ?? route.id) === 'all' ? null : scopeEntityUrn
         }
       });
       pushPreviewToIframe();
@@ -2273,9 +2282,7 @@ export default function Editor({
         );
       setConfirmState({
         title:
-          childCount > 0
-            ? _('Delete container widget?')
-            : _('Delete widget?'),
+          childCount > 0 ? _('Delete container widget?') : _('Delete widget?'),
         description,
         confirmLabel: _('Delete'),
         destructive: true,
@@ -2395,7 +2402,11 @@ export default function Editor({
         const targetSort = (msg as any).sortOrder;
         if (typeof targetSort === 'number' && !Number.isNaN(targetSort)) {
           // Iframe-computed target (layout-aware) — store it verbatim.
-          void moveWidgetTo((msg as any).widgetUid, (msg as any).area, targetSort);
+          void moveWidgetTo(
+            (msg as any).widgetUid,
+            (msg as any).area,
+            targetSort
+          );
         } else {
           // Older iframe bundle without move math — widget-neighbor swap.
           void moveWidget((msg as any).widgetUid, (msg as any).area, direction);
@@ -3058,7 +3069,9 @@ export default function Editor({
               <SettingsDrawer
                 key={selectedWidget.uid}
                 widget={selectedWidget}
-                widgetTypeName={widgetTypesByCode.get(selectedWidget.type)?.name}
+                widgetTypeName={
+                  widgetTypesByCode.get(selectedWidget.type)?.name
+                }
                 currentRouteId={route.id}
                 changesetToken={changeset.token}
                 containerRef={drawerRef}
@@ -3117,6 +3130,7 @@ export default function Editor({
         {imageEdit && (
           <div className="relative z-[1300]">
             <FileBrowser
+              accept={['image/*']}
               isMultiple={false}
               onInsert={handlePickImage}
               close={() => setImageEdit(null)}

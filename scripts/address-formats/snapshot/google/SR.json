@@ -1,0 +1,11 @@
+{
+  "fmt": "%N%n%O%n%A%n%C%n%S",
+  "id": "data/SR",
+  "key": "SR",
+  "lang": "nl",
+  "languages": "nl",
+  "name": "SURINAME",
+  "sub_isoids": "BR~CM~CR~MA~NI~PR~PM~SA~SI~WA",
+  "sub_keys": "Brokopondo~Commewijne~Coronie~Marowijne~Nickerie~Para~Paramaribo~Saramacca~Sipaliwini~Wanica",
+  "upper": "AS"
+}

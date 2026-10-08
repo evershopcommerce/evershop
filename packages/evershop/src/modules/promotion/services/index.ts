@@ -21,4 +21,19 @@ export {
   deleteLandingPageUrlRewrite
 } from './landingPage/syncLandingPageUrlRewrite.js';
 export { getLandingPagesBaseQuery } from './landingPage/getLandingPagesBaseQuery.js';
+export { cloneWidgetBody, rewriteArea } from './landingPage/cloneWidgetBody.js';
+export type { CloneWidgetBodyOptions, CloneWidgetBodyResult } from './landingPage/cloneWidgetBody.js';
+export { findFreeUrlKey } from './landingPage/findFreeUrlKey.js';
+export { buildBackupIdentity, HOMEPAGE_BACKUP_URL_KEY_PREFIX } from './landingPage/backupIdentity.js';
 export { LandingPageCollection } from './LandingPageCollection.js';
+export * from './landingPage/replaceHomepage.js';
+export {
+  touchesSql,
+  classifyPlan,
+  changesetKind,
+  findRolloutPlansTouching,
+  findChangesetsTouching,
+  discardOperationsTouching,
+  cancelPlans
+} from './landingPage/pageBuilderOps.js';
+export type { TargetSpec } from './landingPage/pageBuilderOps.js';

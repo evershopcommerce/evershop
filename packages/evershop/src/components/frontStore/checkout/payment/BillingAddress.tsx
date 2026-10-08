@@ -14,11 +14,9 @@ import {
   useCheckoutDispatch
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
+import { serverAddressErrors } from '@components/frontStore/customer/address/addressFormLogic.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import {
-  Address,
-  CustomerAddressGraphql
-} from '@evershop/evershop/types/customerAddress';
+import { Address, AddressGraphql } from '@evershop/evershop/types/address';
 import React, { useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
@@ -28,7 +26,7 @@ export function BillingAddress({
   addingBillingAddress,
   noShippingRequired
 }: {
-  billingAddress?: CustomerAddressGraphql;
+  billingAddress?: AddressGraphql;
   addBillingAddress?: (address: Address) => Promise<void>;
   addingBillingAddress?: boolean;
   noShippingRequired: boolean;
@@ -87,7 +85,15 @@ export function BillingAddress({
 
     if (isValid && addBillingAddress) {
       const billingAddressData = getValues('billingAddress');
-      await addBillingAddress(billingAddressData);
+      try {
+        await addBillingAddress(billingAddressData);
+      } catch (error) {
+        // Field-targeted errors from the server land on the inputs (spec § 3.8).
+        serverAddressErrors(error, 'billingAddress', (name, err) =>
+          form.setError(name, err)
+        );
+        throw error;
+      }
     }
   };
 
@@ -165,11 +171,10 @@ export function BillingAddress({
 
                     {!useSameAddress && (
                       <ItemDescription className="text-inherit mt-3 overflow-visible">
-                        <div className="text-inherit bg-white">
+                        <div className="text-inherit">
                           <CustomerAddressForm
-                            areaId="checkoutBillingAddressForm"
-                            fieldNamePrefix="billingAddress"
-                            countryScope="all"
+                            surface="billing"
+                            namePrefix="billingAddress"
                             address={undefined} // Always start empty for different address
                           />
                           {noShippingRequired && (
@@ -189,11 +194,10 @@ export function BillingAddress({
               </>
             ) : (
               <ItemDescription className="text-inherit mt-3 overflow-visible">
-                <div className="text-inherit bg-white">
+                <div className="text-inherit">
                   <CustomerAddressForm
-                    areaId="checkoutBillingAddressForm"
-                    fieldNamePrefix="billingAddress"
-                    countryScope="all"
+                    surface="billing"
+                    namePrefix="billingAddress"
                     address={undefined} // Always start empty for different address
                   />
                   {noShippingRequired && (

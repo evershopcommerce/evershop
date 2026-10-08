@@ -88,7 +88,6 @@ Buy qty,Vásárolt mennyiség
 Buy qty is required,A vásárolt mennyiség megadása kötelező
 Can not process payment. Please try again later.,"A fizetés nem dolgozható fel. Kérjük, próbálja újra később."
 Can't be undone,Nem vonható vissza
-Cancel,Mégse
 Cancel Order,Rendelés törlése
 Cancel shipment,Szállítmány törlése
 Cancel this shipment?,Törli ezt a szállítmányt?
@@ -358,7 +357,6 @@ Page ${currentPage} of ${totalPages},${currentPage}. oldal / ${totalPages}
 Page not found,Az oldal nem található
 Password is required,A jelszó megadása kötelező
 Password must be at least ${minLength} characters long,A jelszónak legalább ${minLength} karakter hosszúnak kell lennie
-Paste a URL or a relative path starting with ,"Illesszen be egy URL-t vagy egy relatív elérési utat, amely ezzel kezdődik: "
 Pattern (regex),Minta (regex)
 Pay with PayPal,Fizetés PayPallal
 Pay with Stripe,Fizetés Stripe-pal
@@ -653,7 +651,6 @@ Clear filter,Szűrő törlése
 Clear filters,Szűrők törlése
 Client ID,Client ID
 Client Secret,Client Secret
-Close,Bezárás
 Close settings,Beállítások bezárása
 Close — continue draft,Bezárás — piszkozat folytatása
 Cms Pages,CMS-oldalak
@@ -1684,3 +1681,10 @@ A list of products from a collection,Egy gyűjtemény termékeinek listája
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Egymásra rakott gyűjteménysorok, mindegyik egy címmel, „összes megtekintése” hivatkozással és egy termékcsíkkal."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Kiemelt gyűjtemény borítóképpel, szerkesztői szöveggel és egy kis termékelőnézeti ráccsal."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Egytermékes kiemelés — kép, név, ár és hivatkozás a teljes termékoldalra."
+The page you're looking for doesn't exist or may have moved.,"A keresett oldal nem létezik, vagy áthelyezésre került."
+Back to home,Vissza a kezdőlapra
+Main menu,Főmenü
+Close menu,Menü bezárása
+Open menu,Menü megnyitása
+Footer,Lábléc
+Go to slide ${n},Ugrás a(z) ${n}. diára

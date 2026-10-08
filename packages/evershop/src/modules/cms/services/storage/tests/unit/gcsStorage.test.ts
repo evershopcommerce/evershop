@@ -110,7 +110,9 @@ describe('gcsStorage', () => {
     expect(results[0].url).toBe('https://cdn.example.com/x/a%20b.png');
   });
 
-  it('lists one level with pagination: prefixes to folders, marker excluded', async () => {
+  it('returns ONE page and hands back the page token as a cursor', async () => {
+    // This used to loop every page token before returning, so rendering a
+    // folder meant listing the whole prefix. One request per page now.
     getFilesPages = [
       [
         [{ name: 'catalog/' }, { name: 'catalog/one.png' }],
@@ -119,20 +121,57 @@ describe('gcsStorage', () => {
       ],
       [[{ name: 'catalog/empty.txt' }], null, { prefixes: ['catalog/sub2/'] }]
     ];
-    const { files, folders } = await gcsFileBrowser.list('catalog');
+
+    const first = await gcsFileBrowser.list('catalog', { limit: 50 });
+    // Two calls: the file page, then one scan to finish the sub-folders.
     expect(getFilesCalls).toHaveLength(2);
     expect(getFilesCalls[0]).toMatchObject({
       prefix: 'catalog/',
       delimiter: '/',
-      autoPaginate: false
+      autoPaginate: false,
+      maxResults: 50
     });
     expect(getFilesCalls[0].pageToken).toBeUndefined();
-    expect(getFilesCalls[1].pageToken).toBe('token-1');
-    expect(folders).toEqual(['sub1', 'sub2']);
-    expect(files.map((f) => f.name)).toEqual(['one.png', 'empty.txt']);
-    expect(files[0].url).toBe(
+    // BOTH folders, though `sub2` only appears in the second response.
+    expect(first.folders).toEqual(['sub1', 'sub2']);
+    // Files are NOT taken from the scan — only the first page's.
+    expect(first.files.map((f) => f.name)).toEqual(['one.png']);
+    expect(first.files[0].url).toBe(
       'https://storage.googleapis.com/my-bucket/catalog/one.png'
     );
+    expect(first.nextCursor).toBe('token-1');
+    expect(getFilesCalls[1]).toMatchObject({
+      maxResults: 1000,
+      pageToken: 'token-1'
+    });
+
+    getFilesPages = [
+      [[{ name: 'catalog/empty.txt' }], null, { prefixes: ['catalog/sub2/'] }]
+    ];
+    const second = await gcsFileBrowser.list('catalog', {
+      limit: 50,
+      cursor: first.nextCursor as string
+    });
+    // One call only: a later page never re-scans for folders.
+    expect(getFilesCalls).toHaveLength(3);
+    expect(getFilesCalls[2].pageToken).toBe('token-1');
+    // A later page never re-sends the folders, even though this response
+    // still carries `sub2` in its prefixes.
+    expect(second.folders).toEqual([]);
+    expect(second.files.map((f) => f.name)).toEqual(['empty.txt']);
+    // A null nextQuery is the end of the listing, so no cursor.
+    expect(second.nextCursor).toBeUndefined();
+  });
+
+  it('pushes a name search down to the GCS object prefix', async () => {
+    getFilesPages = [[[{ name: 'catalog/apple.png' }], null, { prefixes: [] }]];
+    const { files } = await gcsFileBrowser.list('catalog', {
+      limit: 10,
+      prefix: 'app'
+    });
+    // Native prefix filter — the bucket is never scanned client-side.
+    expect(getFilesCalls[0].prefix).toBe('catalog/app');
+    expect(files.map((f) => f.name)).toEqual(['apple.png']);
   });
 
   it('deletes idempotently via ignoreNotFound', async () => {

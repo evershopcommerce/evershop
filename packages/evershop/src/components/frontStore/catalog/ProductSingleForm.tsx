@@ -9,15 +9,21 @@ import {
   AddToCartState
 } from '@components/frontStore/cart/AddToCart.js';
 import { useProduct } from '@components/frontStore/catalog/ProductContext.js';
-import { ProductSingleAttributes } from '@components/frontStore/catalog/ProductSingleAttributes.js';
 import { VariantSelector } from '@components/frontStore/catalog/VariantSelector.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
+/**
+ * The buy box. Only the pieces that need the form stay inline here (the
+ * variant selector and the add-to-cart controls register `qty` and the
+ * variant fields on this form). The price and the attribute list are page
+ * blocks (`productView/ProductPrice`, `productView/ProductAttributes`) that
+ * register into the `productSinglePageForm` Area below, so a theme can move
+ * them from `layouts.json`.
+ */
 export function ProductSingleForm() {
   const {
-    price,
     sku,
     inventory: { isInStock }
   } = useProduct();
@@ -28,40 +34,6 @@ export function ProductSingleForm() {
       <Area
         id="productSinglePageForm"
         coreComponents={[
-          {
-            component: {
-              default: (
-                <div className="product__single__price flex items-baseline gap-3">
-                  {price.special &&
-                  price.special.value < price.regular.value ? (
-                    <>
-                      <span className="text-2xl font-semibold">
-                        {price.special.text}
-                      </span>
-                      <span className="text-lg text-muted-foreground line-through">
-                        {price.regular.text}
-                      </span>
-                    </>
-                  ) : (
-                    <span className="text-2xl font-semibold">
-                      {price.regular.text}
-                    </span>
-                  )}
-                </div>
-              )
-            },
-            sortOrder: 5,
-            id: 'price'
-          },
-          {
-            // Re-skin (2026-07-10): spec list sits just below the price
-            // (reference order), was above it at the ProductView level.
-            component: {
-              default: <ProductSingleAttributes />
-            },
-            sortOrder: 7,
-            id: 'attributes'
-          },
           {
             component: {
               default: <VariantSelector />

@@ -1,11 +1,16 @@
-import { BlogPagination } from '@components/frontStore/blog/BlogPagination.js';
-import {
-  BlogPostCardData,
-  PostListItem
-} from '@components/frontStore/blog/PostListItem.js';
-import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import Area from '@components/common/Area.js';
+import { BlogListProvider } from '@components/frontStore/blog/BlogListContext.js';
+import { BlogPostCardData } from '@components/frontStore/blog/PostListItem.js';
 import React from 'react';
 
+/**
+ * Blog tag shell: same slots as the blog home (see `BlogHome.tsx`); the header
+ * is this route's own block, the list and pagination are shared:
+ *
+ *   blogTagView/BlogTagHeader                                 → blogListHeader  10
+ *   blogHome+blogCategoryView+blogTagView/BlogPosts           → blogListContent 10
+ *   blogHome+blogCategoryView+blogTagView/BlogListPagination  → blogListContent 20
+ */
 export default function BlogTagView({
   tag
 }: {
@@ -23,27 +28,22 @@ export default function BlogTagView({
   }
   const items = tag.posts?.items || [];
   return (
-    <div className="blog-tag py-8">
-      <p className="text-sm uppercase tracking-wide text-muted-foreground mb-1">
-        {_('Tag')}
-      </p>
-      <h1 className="text-3xl font-bold mb-6">#{tag.name}</h1>
-      {items.length === 0 ? (
-        <p className="text-muted-foreground">{_('No posts with this tag yet.')}</p>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {items.map((post) => (
-              <PostListItem key={post.uuid} post={post} />
-            ))}
-          </div>
-          <BlogPagination
-            total={tag.posts?.total || 0}
-            currentPage={tag.posts?.currentPage || 1}
-          />
-        </>
-      )}
-    </div>
+    <BlogListProvider
+      list={{
+        kind: 'tag',
+        name: tag.name,
+        items,
+        total: tag.posts?.total || 0,
+        currentPage: tag.posts?.currentPage || 1
+      }}
+    >
+      <div className="blog-tag py-8">
+        <Area id="blogListTop" noOuter />
+        <Area id="blogListHeader" noOuter />
+        <Area id="blogListContent" noOuter />
+        <Area id="blogListBottom" noOuter />
+      </div>
+    </BlogListProvider>
   );
 }
 

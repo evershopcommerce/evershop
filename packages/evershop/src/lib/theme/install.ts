@@ -8,6 +8,11 @@ import {
 } from '@evershop/postgres-query-builder';
 import type { Pool, PoolClient } from 'pg';
 import semver from 'semver';
+import {
+  resolveAssetTokens,
+  uploadThemeAssets,
+  type AssetUploader
+} from './assets.js';
 import { writeAuditLog } from './auditLog.js';
 import {
   Conflict,
@@ -16,17 +21,63 @@ import {
   LiveDbState,
   PlanOp
 } from './diff.js';
+import type { LandingPageLiveRow, ScopedPlacement } from './diff.js';
 import { contentFingerprint } from './fingerprint.js';
-import type { Manifest, PlacementRecord, WidgetRecord } from './manifest.js';
+import {
+  findLandingPagesByUuid,
+  insertLandingPage,
+  landingPageUrn,
+  loadUrlKeyGuard,
+  syncUrlRewrite,
+  updateLandingPageFields,
+  type UrlKeyGuard
+} from './landingPages.js';
+import type {
+  LandingPageRecord,
+  Manifest,
+  PlacementRecord,
+  WidgetRecord
+} from './manifest.js';
+import {
+  applyStoreRefs,
+  collectStoreRefs,
+  resolveStoreRefs,
+  type ResolvedStoreRef
+} from './storeRefs.js';
 
 export interface InstallOpts {
   themeId: string;
   manifest: Manifest;
   pool: Pool;
+  /**
+   * The theme's directory, needed to read the files `manifest.assets` declares.
+   * Omit to skip asset upload entirely (tests, and callers that only diff).
+   */
+  themeDir?: string;
+  /**
+   * Uploads a theme's assets through the store's configured storage provider.
+   * Injected so `lib/theme` stays free of a hard `modules/cms` import and so
+   * install can be tested without touching a filesystem or a bucket.
+   */
+  uploadAsset?: AssetUploader;
+}
+
+export interface StoreRefReport {
+  resolved: ResolvedStoreRef[];
+}
+
+export interface AssetUploadReport {
+  uploaded: { path: string; url: string }[];
+  /** Declared but absent from the theme folder; their tokens stay unresolved. */
+  missing: string[];
 }
 
 export interface InstallResult {
   command: 'install' | 'upgrade' | 'no-op' | 'rejected';
+  /** Present when the manifest declared `assets[]`. */
+  assets?: AssetUploadReport;
+  /** Present when the manifest referenced store data (`store-ref:` tokens). */
+  storeRefs?: StoreRefReport;
   counts: DiffResult['counts'];
   conflicts: Conflict[];
   /**
@@ -35,7 +86,9 @@ export interface InstallResult {
    * builds content in the page-builder, exports it, then runs `theme:active`
    * on the same DB.
    */
-  adopted?: { widgets: number; placements: number };
+  adopted?: { widgets: number; placements: number; landingPages: number };
+  /** Pages dropped from the manifest whose row was left in place (D5). */
+  releasedLandingPages?: Array<{ uuid: string; name: string }>;
   /** Set when `command === 'rejected'` (a refused downgrade). */
   rejectedReason?: string;
   /**
@@ -51,33 +104,74 @@ const ZERO_COUNTS: DiffResult['counts'] = {
   widgets_removed: 0,
   placements_added: 0,
   placements_updated: 0,
-  placements_removed: 0
+  placements_removed: 0,
+  landing_pages_added: 0,
+  landing_pages_updated: 0,
+  landing_pages_released: 0
 };
+
+/** Every landing-page uuid this theme knows about: snapshot ∪ manifest. */
+function knownPageUuids(...manifests: Array<Manifest | null>): string[] {
+  const out = new Set<string>();
+  for (const m of manifests) {
+    for (const lp of m?.landingPages ?? []) {
+      if (typeof lp?.uuid === 'string') out.add(lp.uuid);
+    }
+  }
+  return [...out];
+}
 
 /**
  * Load the live `widget_instance` / `widget_placement` state for a theme as
  * the diff engine's `D` input (spec 04 § 7.2.1). Exported so `theme:status`
- * can run a dry-run diff without an install.
+ * can run a dry-run diff without an install. Entity-scoped placements (and
+ * instances that live only inside landing page bodies) are excluded, mirroring
+ * `exportToManifest`, so the diff can never update or delete page content.
  */
 export async function loadLiveDbForTheme(
   client: Pool | PoolClient,
-  themeId: string
+  themeId: string,
+  /**
+   * Landing pages this theme knows about (snapshot ∪ manifest). Their
+   * entity-scoped placements ARE part of the theme's content and must be
+   * diffed; every other entity-scoped row (a merchant's own page, a homepage
+   * backup) stays invisible.
+   */
+  pageUuids: string[] = []
 ): Promise<LiveDbState> {
   const widgetRows = await client.query<
     WidgetRecord & { status?: boolean }
   >(
-    `SELECT uuid::text AS uuid, type, name, settings, status
-     FROM widget_instance WHERE theme = $1`,
+    `SELECT wi.uuid::text AS uuid, wi.type, wi.name, wi.settings, wi.status
+     FROM widget_instance wi
+     WHERE wi.theme = $1
+       AND NOT (
+         EXISTS (SELECT 1 FROM widget_placement p
+                  WHERE p.widget_instance_id = wi.widget_instance_id AND p.entity_urn IS NOT NULL)
+         AND NOT EXISTS (SELECT 1 FROM widget_placement p
+                          WHERE p.widget_instance_id = wi.widget_instance_id AND p.entity_urn IS NULL)
+       )`,
     [themeId]
   );
-  const placementRows = await client.query<PlacementRecord>(
+  const knownUrns = pageUuids.map((u) => landingPageUrn(u));
+  const placementRows = await client.query<ScopedPlacement>(
     `SELECT p.uuid::text AS uuid, wi.uuid::text AS widget_instance_uuid,
-            p.route, p.area, p.sort_order
+            p.route, p.area, p.sort_order, p.entity_urn
      FROM widget_placement p
      INNER JOIN widget_instance wi ON wi.widget_instance_id = p.widget_instance_id
-     WHERE p.theme = $1`,
-    [themeId]
+     WHERE p.theme = $1
+       AND (p.entity_urn IS NULL OR p.entity_urn = ANY($2::text[]))`,
+    [themeId, knownUrns]
   );
+  const landingPageRows =
+    pageUuids.length === 0
+      ? { rows: [] as LandingPageLiveRow[] }
+      : await client.query<LandingPageLiveRow>(
+          `SELECT uuid::text AS uuid, name, description, meta_title,
+                  meta_description, status
+             FROM landing_page WHERE uuid::text = ANY($1::text[])`,
+          [pageUuids]
+        );
   return {
     widgets: new Map(
       widgetRows.rows.map((w) => [
@@ -90,7 +184,8 @@ export async function loadLiveDbForTheme(
         p.uuid,
         { ...p, sort_order: Number(p.sort_order) }
       ])
-    )
+    ),
+    landingPages: new Map(landingPageRows.rows.map((lp) => [lp.uuid, lp]))
   };
 }
 
@@ -145,6 +240,7 @@ async function applyPlacementOp(
     delete payload.widget_instance_uuid;
     payload.widget_instance_id = await resolveWidgetInstanceId(conn, widgetUuid);
     payload.theme = themeId;
+    payload.entity_urn = payload.entity_urn ?? null;
     await insert('widget_placement').given(payload).execute(conn);
     return;
   }
@@ -159,17 +255,41 @@ async function applyPlacementOp(
 }
 
 /**
+ * Landing pages carry no theme tag (they are not theme property). INSERT
+ * generates the url_key from the name; UPDATE only ever touches the
+ * manifest-carried fields the diff resolved. DELETE never happens — a page
+ * dropped from the manifest keeps its row.
+ */
+async function applyLandingPageOp(
+  conn: PoolClient,
+  op: PlanOp,
+  guard: UrlKeyGuard
+): Promise<void> {
+  if (op.op === 'INSERT') {
+    await insertLandingPage(conn, op.payload as unknown as LandingPageRecord, guard);
+    return;
+  }
+  if (op.op === 'UPDATE') {
+    await updateLandingPageFields(conn, op.uuid, op.payload as Record<string, unknown>);
+  }
+}
+
+/**
  * Apply the diff ops in array order (which is already the § 7.4 sequence). The
- * theme tag is stamped on every INSERT here — the diff stays theme-agnostic.
+ * theme tag is stamped on every widget/placement INSERT here — the diff stays
+ * theme-agnostic.
  */
 async function applyOps(
   conn: PoolClient,
   themeId: string,
-  ops: PlanOp[]
+  ops: PlanOp[],
+  guard: UrlKeyGuard
 ): Promise<void> {
   for (const op of ops) {
     if (op.table === 'widget_instance') {
       await applyWidgetOp(conn, themeId, op);
+    } else if (op.table === 'landing_page') {
+      await applyLandingPageOp(conn, op, guard);
     } else {
       await applyPlacementOp(conn, themeId, op);
     }
@@ -177,6 +297,7 @@ async function applyOps(
 }
 
 function freshInstallOps(manifest: Manifest): PlanOp[] {
+  const landingPages = manifest.landingPages ?? [];
   return [
     ...manifest.widgets.map(
       (w): PlanOp => ({
@@ -184,6 +305,22 @@ function freshInstallOps(manifest: Manifest): PlanOp[] {
         op: 'INSERT',
         uuid: w.uuid,
         payload: { uuid: w.uuid, type: w.type, name: w.name, settings: w.settings }
+      })
+    ),
+    // Pages before their bodies.
+    ...landingPages.map(
+      (lp): PlanOp => ({
+        table: 'landing_page',
+        op: 'INSERT',
+        uuid: lp.uuid,
+        payload: {
+          uuid: lp.uuid,
+          name: lp.name,
+          description: lp.description ?? null,
+          meta_title: lp.meta_title ?? null,
+          meta_description: lp.meta_description ?? null,
+          status: lp.status === true
+        }
       })
     ),
     ...manifest.placements.map(
@@ -196,9 +333,27 @@ function freshInstallOps(manifest: Manifest): PlanOp[] {
           widget_instance_uuid: p.widget_instance_uuid,
           route: p.route,
           area: p.area,
-          sort_order: p.sort_order
+          sort_order: p.sort_order,
+          entity_urn: null
         }
       })
+    ),
+    ...landingPages.flatMap((lp) =>
+      (lp.placements ?? []).map(
+        (p): PlanOp => ({
+          table: 'widget_placement',
+          op: 'INSERT',
+          uuid: p.uuid,
+          payload: {
+            uuid: p.uuid,
+            widget_instance_uuid: p.widget_instance_uuid,
+            route: 'landingPageView',
+            area: p.area,
+            sort_order: p.sort_order,
+            entity_urn: landingPageUrn(lp.uuid)
+          }
+        })
+      )
     )
   ];
 }
@@ -216,6 +371,42 @@ function freshInstallOps(manifest: Manifest): PlanOp[] {
 export async function installOrUpgrade(
   opts: InstallOpts
 ): Promise<InstallResult> {
+  // Reserved slugs + enabled locales, read once: url_key generation consults
+  // them for every new landing page.
+  const guard = await loadUrlKeyGuard();
+  // Ship the theme's files into the store's storage BEFORE the transaction:
+  // it is network I/O (S3/Azure/GCS), and an upload is idempotent by key, so a
+  // later rollback leaves a harmless overwritten object rather than a torn
+  // transaction. `assetUrls` then resolves `theme-asset:` tokens on BOTH sides
+  // of the diff — the snapshot keeps the authored tokens (see the write below),
+  // so an upgrade compares like with like instead of reading every image as a
+  // change.
+  const declaredAssets = opts.manifest.assets ?? [];
+  let assets: AssetUploadReport | undefined;
+  let assetUrls = new Map<string, string>();
+  if (declaredAssets.length > 0 && opts.themeDir && opts.uploadAsset) {
+    const result = await uploadThemeAssets(
+      opts.themeDir,
+      opts.themeId,
+      declaredAssets,
+      opts.uploadAsset
+    );
+    assetUrls = result.urls;
+    assets = { uploaded: result.uploaded, missing: result.missing };
+  }
+  // Point the theme's widgets at THIS store's data. Read-only: activation
+  // installs a theme's content, never a store's catalogue, so a reference that
+  // matches nothing becomes an empty setting (the widget renders its own empty
+  // state) and is reported rather than invented.
+  const refs = collectStoreRefs(opts.manifest);
+  const resolvedRefs =
+    refs.length > 0 ? await resolveStoreRefs(opts.pool, refs) : [];
+  const storeRefs: StoreRefReport | undefined =
+    resolvedRefs.length > 0 ? { resolved: resolvedRefs } : undefined;
+  const manifest = applyStoreRefs(
+    resolveAssetTokens(opts.manifest, assetUrls),
+    resolvedRefs
+  );
   const conn = await opts.pool.connect();
   await startTransaction(conn);
   try {
@@ -233,15 +424,22 @@ export async function installOrUpgrade(
       // skip their INSERT (they're already the source of truth) and insert
       // only what's genuinely missing. This avoids colliding on the uuid
       // unique constraint while still recording the install baseline.
-      const liveDb = await loadLiveDbForTheme(conn, opts.themeId);
-      const toInsert = freshInstallOps(opts.manifest).filter((op) =>
-        op.table === 'widget_instance'
-          ? !liveDb.widgets.has(op.uuid)
-          : !liveDb.placements.has(op.uuid)
-      );
-      await applyOps(conn, opts.themeId, toInsert);
+      const pageUuids = knownPageUuids(manifest);
+      const liveDb = await loadLiveDbForTheme(conn, opts.themeId, pageUuids);
+      // A landing page uuid that already exists is ADOPTED, whatever theme (if
+      // any) built it: pages are not theme property, so there is no foreign
+      // owner to refuse. Its live fields and url_key are left untouched.
+      const existingPages = await findLandingPagesByUuid(conn, pageUuids);
+      const toInsert = freshInstallOps(manifest).filter((op) => {
+        if (op.table === 'widget_instance') return !liveDb.widgets.has(op.uuid);
+        if (op.table === 'landing_page') return !existingPages.has(op.uuid);
+        return !liveDb.placements.has(op.uuid);
+      });
+      await applyOps(conn, opts.themeId, toInsert, guard);
       await conn.query(
         `INSERT INTO theme_install_state (theme, snapshot) VALUES ($1, $2::jsonb)`,
+        // Authored form on purpose: tokens, not the URLs this store happens
+        // to have produced. Resolution is re-applied on every upgrade.
         [opts.themeId, JSON.stringify(opts.manifest)]
       );
       const widgetsAdded = toInsert.filter(
@@ -250,10 +448,14 @@ export async function installOrUpgrade(
       const placementsAdded = toInsert.filter(
         (o) => o.table === 'widget_placement'
       ).length;
+      const pagesAdded = toInsert.filter(
+        (o) => o.table === 'landing_page'
+      ).length;
       const counts: DiffResult['counts'] = {
         ...ZERO_COUNTS,
         widgets_added: widgetsAdded,
-        placements_added: placementsAdded
+        placements_added: placementsAdded,
+        landing_pages_added: pagesAdded
       };
       await writeAuditLog(conn, opts.themeId, 'install', counts, []);
       await commit(conn);
@@ -261,9 +463,18 @@ export async function installOrUpgrade(
         command: 'install',
         counts,
         conflicts: [],
+        ...(assets ? { assets } : {}),
+        ...(storeRefs ? { storeRefs } : {}),
         adopted: {
-          widgets: opts.manifest.widgets.length - widgetsAdded,
-          placements: opts.manifest.placements.length - placementsAdded
+          widgets: manifest.widgets.length - widgetsAdded,
+          placements:
+            manifest.placements.length +
+            (manifest.landingPages ?? []).reduce(
+              (n, lp) => n + (lp.placements?.length ?? 0),
+              0
+            ) -
+            placementsAdded,
+          landingPages: (manifest.landingPages ?? []).length - pagesAdded
         }
       };
     }
@@ -274,8 +485,12 @@ export async function installOrUpgrade(
     //   - equal to installed     → no-op (warn if content drifted)
     //   - higher than installed  → apply the content diff + record new version
     const snapshot = stateRow.rows[0].snapshot as Manifest;
+    const resolvedSnapshot = applyStoreRefs(
+      resolveAssetTokens(snapshot, assetUrls),
+      resolvedRefs
+    );
     const installedVersion = snapshot.version;
-    const newVersion = opts.manifest.version;
+    const newVersion = manifest.version;
     // A legacy / invalid recorded version (e.g. a pre-rename snapshot) can't be
     // compared — treat it as upgradeable rather than crashing the comparator.
     const cmp = semver.valid(installedVersion)
@@ -298,7 +513,7 @@ export async function installOrUpgrade(
       // Same version: no upgrade. Flag content drift so the CLI can nudge the
       // author to bump the version.
       const contentSame =
-        contentFingerprint(opts.manifest) === contentFingerprint(snapshot);
+        contentFingerprint(manifest) === contentFingerprint(resolvedSnapshot);
       await commit(conn);
       return {
         command: 'no-op',
@@ -310,9 +525,13 @@ export async function installOrUpgrade(
 
     // Higher version → upgrade. The content diff may be empty (a version-only
     // bump); either way the recorded version advances.
-    const liveDb = await loadLiveDbForTheme(conn, opts.themeId);
-    const diff = diffManifest(snapshot, opts.manifest, liveDb);
-    await applyOps(conn, opts.themeId, diff.ops);
+    const liveDb = await loadLiveDbForTheme(
+      conn,
+      opts.themeId,
+      knownPageUuids(resolvedSnapshot, manifest)
+    );
+    const diff = diffManifest(resolvedSnapshot, manifest, liveDb);
+    await applyOps(conn, opts.themeId, diff.ops, guard);
     await conn.query(
       `UPDATE theme_install_state SET snapshot = $2::jsonb, updated_at = NOW()
        WHERE theme = $1`,
@@ -328,8 +547,12 @@ export async function installOrUpgrade(
     await commit(conn);
     return {
       command: 'upgrade',
+      ...(assets ? { assets } : {}),
+      ...(storeRefs ? { storeRefs } : {}),
       counts: diff.counts,
-      conflicts: diff.conflicts
+      conflicts: diff.conflicts,
+      releasedLandingPages: diff.releasedLandingPages,
+      adopted: diff.adopted
     };
   } catch (e) {
     await rollback(conn);
@@ -351,6 +574,11 @@ export async function dryRunDiff(
     [themeId]
   );
   if (stateRow.rows.length === 0) return null;
-  const liveDb = await loadLiveDbForTheme(pool, themeId);
-  return diffManifest(stateRow.rows[0].snapshot, manifest, liveDb);
+  const snapshot = stateRow.rows[0].snapshot;
+  const liveDb = await loadLiveDbForTheme(
+    pool,
+    themeId,
+    knownPageUuids(snapshot, manifest)
+  );
+  return diffManifest(snapshot, manifest, liveDb);
 }

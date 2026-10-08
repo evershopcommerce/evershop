@@ -63,7 +63,6 @@ Adding...,Bezig met toevoegen...
 Address has been deleted successfully!,Adres is succesvol verwijderd!
 Address has been saved successfully!,Adres is succesvol opgeslagen!
 Address has been updated successfully!,Adres is succesvol bijgewerkt!
-Address is required,Adres is verplicht
 Adds target=_blank rel=noopener noreferrer.,Voegt target=_blank rel=noopener noreferrer toe.
 All items fulfilled,Alle items afgehandeld
 All orders,Alle bestellingen
@@ -86,7 +85,6 @@ Buy qty,Aantal kopen
 Buy qty is required,Aantal kopen is verplicht
 Can not process payment. Please try again later.,Kan betaling niet verwerken. Probeer het later opnieuw.
 Can't be undone,Kan niet ongedaan worden gemaakt
-Cancel,Annuleren
 Cancel Order,Bestelling annuleren
 Cancel shipment,Zending annuleren
 Cancel this shipment?,Deze zending annuleren?
@@ -111,7 +109,6 @@ Charcoal,Antraciet
 Checkout success,Afrekenen geslaagd
 Choose Product SKU,Kies product-SKU
 Choose SKU,Kies SKU
-City is required,Plaats is verplicht
 Clear All,Alles wissen
 Clear Filters,Filters wissen
 Clear all,Alles wissen
@@ -357,7 +354,6 @@ Page ${currentPage} of ${totalPages},Pagina ${currentPage} van ${totalPages}
 Page not found,Pagina niet gevonden
 Password is required,Wachtwoord is verplicht
 Password must be at least ${minLength} characters long,Wachtwoord moet minimaal ${minLength} tekens lang zijn
-Paste a URL or a relative path starting with ,Plak een URL of een relatief pad dat begint met 
 Pattern (regex),Patroon (regex)
 Pay with PayPal,Betalen met PayPal
 Pay with Stripe,Betalen met Stripe
@@ -652,7 +648,6 @@ Clear filter,Filter wissen
 Clear filters,Filters wissen
 Client ID,Client-ID
 Client Secret,Client Secret
-Close,Sluiten
 Close settings,Instellingen sluiten
 Close — continue draft,Sluiten — concept voortzetten
 Cms Pages,CMS-pagina's
@@ -1683,3 +1678,10 @@ A list of products from a collection,Een lijst met producten uit een collectie
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Gestapelde rijen collecties, elk met een kop, een 'alles bekijken'-link en een strip met producten."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Een uitgelichte collectie met omslagafbeelding, redactionele tekst en een klein voorbeeldraster met producten."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Eén product in de schijnwerpers — afbeelding, naam, prijs en een link naar de volledige productpagina."
+The page you're looking for doesn't exist or may have moved.,De pagina die je zoekt bestaat niet of is mogelijk verplaatst.
+Back to home,Terug naar home
+Main menu,Hoofdmenu
+Close menu,Menu sluiten
+Open menu,Menu openen
+Footer,Voettekst
+Go to slide ${n},Ga naar dia ${n}

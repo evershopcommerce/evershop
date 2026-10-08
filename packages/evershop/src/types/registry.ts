@@ -15,6 +15,7 @@ import type {
 import type { WidgetData } from '../modules/cms/services/widget/createWidget.js';
 import type { CustomerData } from '../modules/customer/services/customer/createCustomer.js';
 import type { CouponData } from '../modules/promotion/services/coupon/createCoupon.js';
+import type { Address, ResolvedAddressSchema } from './address.js';
 import type { ShippingProvider } from './shippingProvider.js';
 
 /**
@@ -85,6 +86,22 @@ export interface ValueRegistry {
 
   /** Customer input data before the update transaction runs */
   customerDataBeforeUpdate: CustomerData;
+
+  // ── Customer: Address ─────────────────────────────────────────────────────
+
+  /** Customer address input data before the create transaction runs */
+  customerAddressDataBeforeCreate: Address;
+  /** Customer address input data before the update transaction runs (D2: was mistyped as `customerDataBeforeUpdate`) */
+  customerAddressDataBeforeUpdate: Partial<Address>;
+  /** Cart shipping/billing address data before it is validated and saved (D4). Context carries `cart` and `type: 'shipping' | 'billing'` */
+  cartAddressDataBeforeSave: Address;
+  /**
+   * The resolved address schema for one `(country, locale, surface)`, after the
+   * record, the extras and the merchant settings (spec § 3.4). Processors may
+   * hide, relabel or re-require fields. Context: `{ country, locale, surface }`.
+   * The derived schema is passed as the init VALUE, never a factory (D3).
+   */
+  addressSchema: ResolvedAddressSchema;
   /** AJV JSON schema used to validate customer data on create */
   createCustomerDataJsonSchema: AnySchemaObject;
   /** AJV JSON schema used to validate customer data on update */

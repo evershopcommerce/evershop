@@ -85,7 +85,6 @@ Buy qty,Qtd. de compra
 Buy qty is required,A qtd. de compra é obrigatória
 Can not process payment. Please try again later.,Não é possível processar o pagamento. Tente novamente mais tarde.
 Can't be undone,Não pode ser desfeito
-Cancel,Cancelar
 Cancel Order,Cancelar pedido
 Cancel shipment,Cancelar envio
 Cancel this shipment?,Cancelar este envio?
@@ -355,7 +354,6 @@ Page ${currentPage} of ${totalPages},Página ${currentPage} de ${totalPages}
 Page not found,Página não encontrada
 Password is required,A palavra-passe é obrigatória
 Password must be at least ${minLength} characters long,A palavra-passe deve ter pelo menos ${minLength} caracteres
-Paste a URL or a relative path starting with ,Cole um URL ou um caminho relativo começando com 
 Pattern (regex),Padrão (regex)
 Pay with PayPal,Pagar com PayPal
 Pay with Stripe,Pagar com Stripe
@@ -650,7 +648,6 @@ Clear filter,Limpar filtro
 Clear filters,Limpar filtros
 Client ID,ID do cliente
 Client Secret,Segredo do cliente
-Close,Fechar
 Close settings,Fechar configurações
 Close — continue draft,Fechar — continuar rascunho
 Cms Pages,Páginas CMS
@@ -1681,3 +1678,10 @@ A list of products from a collection,Uma lista de produtos de uma coleção
 "Stacked rows of collections, each with a heading, view-all link, and a strip of products.","Linhas empilhadas de coleções, cada uma com um título, link ""ver tudo"" e uma faixa de produtos."
 "A featured collection with cover image, editorial copy, and a small product preview grid.","Uma coleção em destaque com imagem de capa, texto editorial e uma pequena grade de prévia de produtos."
 "A single-product spotlight — image, name, price, and a link to the full product page.","Um destaque de produto único — imagem, nome, preço e um link para a página completa do produto."
+The page you're looking for doesn't exist or may have moved.,A página que você procura não existe ou pode ter sido movida.
+Back to home,Voltar ao início
+Main menu,Menu principal
+Close menu,Fechar menu
+Open menu,Abrir menu
+Footer,Rodapé
+Go to slide ${n},Ir para o slide ${n}

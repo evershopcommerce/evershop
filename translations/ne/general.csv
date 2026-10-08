@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, ${price} मा भन्दा बढी सबै अर्डरको लागि ${discount} छुट
-Please select, कृपया चयन गर्नुहोस्...
-The page you requested does not exist., तपाईंले अनुरोध गरेको पृष्ठ मौजूद छैन।
-Continue shopping, किनमेल जारी राख्नुहोस्
-404 Page Not Found, 404 पृष्ठ फेला परेन
-Home, गृहपृष्ठ
-Not found, फेला परेन
+Discount ${discount} For All Orders Over ${price},${price} मा भन्दा बढी सबै अर्डरको लागि ${discount} छुट
+Please select,कृपया चयन गर्नुहोस्...
+The page you requested does not exist.,तपाईंले अनुरोध गरेको पृष्ठ मौजूद छैन।
+404 Page Not Found,404 पृष्ठ फेला परेन
+Home,गृहपृष्ठ
+Not found,फेला परेन
+Search options,विकल्पहरू खोज्नुहोस्
+Show less,कम देखाउनुहोस्
+Sort by,यसअनुसार क्रमबद्ध
+Search products…,उत्पादनहरू खोज्नुहोस्…
+Order Note,अर्डर टिप्पणी
+Add a note to your order,आफ्नो अर्डरमा टिप्पणी थप्नुहोस्
+My account,मेरो खाता
+Log out,लग आउट
+Your profile has been updated,तपाईंको प्रोफाइल अद्यावधिक गरियो
+Update profile API not available,प्रोफाइल अद्यावधिक API उपलब्ध छैन
+Failed to update profile,प्रोफाइल अद्यावधिक गर्न असफल
+Something went wrong. Please refresh the page.,केही गडबड भयो। कृपया पृष्ठ पुनः लोड गर्नुहोस्।
+${count} result for “${keyword}”,“${keyword}” का लागि ${count} परिणाम
+${count} results for “${keyword}”,“${keyword}” का लागि ${count} परिणामहरू

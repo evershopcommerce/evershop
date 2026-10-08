@@ -50,6 +50,7 @@ No posts match,Nincs találat
 No posts published yet.,Még nincsenek közzétett bejegyzések.
 No posts with this tag yet.,Még nincsenek bejegyzések ezzel a címkével.
 No posts yet,Még nincsenek bejegyzések
+"Nothing picked: the latest posts are shown, up to Max posts.","Nincs semmi kiválasztva: a legfrissebb bejegyzések jelennek meg, legfeljebb a „Max. bejegyzések” értékéig."
 Open page in a new tab,Oldal megnyitása új lapon
 Open — auto-approve,Nyitott — automatikus jóváhagyás
 Organize,Rendezés
@@ -97,3 +98,4 @@ Unpublish ${count} posts,${count} bejegyzés közzétételének visszavonása
 Untitled page,Névtelen oldal
 Your comment,Az Ön hozzászólása
 min read,perc olvasás
+Back to blog,Vissza a bloghoz

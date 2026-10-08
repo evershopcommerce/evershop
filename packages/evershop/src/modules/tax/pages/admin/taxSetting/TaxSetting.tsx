@@ -25,19 +25,6 @@ import { useQuery } from 'urql';
 import { TaxClasses } from './components/TaxClasses.js';
 import { TaxClassForm } from './components/TaxClassForm.js';
 
-const CountriesQuery = `
-  query Country($countries: [String]) {
-    countries (countries: $countries) {
-      value: code
-      label: name
-      provinces {
-        value: code
-        label: name
-      }
-    }
-  }
-`;
-
 const TaxClassesQuery = `
   query TaxClasses {
     taxClasses {
@@ -52,8 +39,8 @@ const TaxClassesQuery = `
           rate
           isCompound
           country
-          province
-          postcode
+          administrativeArea
+          postalCode
           priority
           updateApi
           deleteApi
@@ -85,10 +72,6 @@ export default function TaxSetting({
   setting
 }: TaxSettingProps) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [countriesQueryData] = useQuery({
-    query: CountriesQuery
-  });
-
   const [taxClassesQueryData, reexecuteQuery] = useQuery({
     query: TaxClassesQuery
   });
@@ -104,7 +87,7 @@ export default function TaxSetting({
     { value: 'unit', label: _('Per unit') }
   ];
 
-  if (countriesQueryData.fetching || taxClassesQueryData.fetching) {
+  if (taxClassesQueryData.fetching) {
     return (
       <div className="main-content-inner">
         <div className="grid grid-cols-6 gap-x-5 grid-flow-row ">

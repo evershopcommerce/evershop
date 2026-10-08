@@ -1,49 +1,91 @@
-Login, Đăng Nhập
-Logout, Đăng Xuất
-Welcome Back!, Chào mừng trở lại!
-Please sign in to your account , Vui lòng đăng nhập
-Join us for exclusive offers and order tracking, Tham gia cùng chúng tôi để nhận ưu đãi và theo dõi đơn hàng
-Sign In, Đăng Nhập
-Sign Up, Đăng Ký
-Signing Up..., Đang đăng ký...
-Signing In..., Đang đăng nhập...
-Recent Orders, Đơn hàng gần đây
-Address Book, Sổ địa chỉ
-You have no addresses saved, Bạn chưa lưu địa chỉ nào
-Add new address, Thêm địa chỉ mới
-Address 2, Địa chỉ 2
-Set as default, Đặt làm mặc định
-Save, Lưu
-Edit, Chỉnh sửa
-Delete, Xóa
-Edit Address, Chỉnh sửa địa chỉ
-Email, Email
-Password, Mật khẩu
-Forgot your password?, Quên mật khẩu?
-Create an account, Tạo tài khoản
-Register, Đăng ký
-Full Name, Họ và tên
-Full name, Họ và tên
-Order History, Lịch sử đơn hàng
-Account Details, Chi tiết tài khoản
-You have not placed any orders yet, Bạn chưa đặt đơn hàng nào
-My Account, Tài khoản của tôi
-Already have an account?, Bạn đã có tài khoản?
-Contact information, Thông tin liên hệ
-City, Thành phố
-Account Information, Thông tin tài khoản
-Address, Địa chỉ
-Postcode, Mã bưu điện
-Postcode is required, Mã bưu điện là bắt buộc
-Telephone is required, Số điện thoại là bắt buộc
-Telephone, Số điện thoại
-Full name is required, Họ và tên là bắt buộc
-Country is required, Quốc gia là bắt buộc
-Country, Quốc gia
-Province is required, Tỉnh/Thành phố là bắt buộc
-Province, Tỉnh/Thành phố
-Billing Address, Địa chỉ thanh toán
-Shipping Address, Địa chỉ giao hàng
-Create A New Account, Tạo tài khoản mới
-Contact, Liên hệ
-Customer information, Thông tin khách hàng
+Login,Đăng Nhập
+Logout,Đăng Xuất
+Welcome Back!,Chào mừng trở lại!
+Please sign in to your account ,Vui lòng đăng nhập
+Join us for exclusive offers and order tracking,Tham gia cùng chúng tôi để nhận ưu đãi và theo dõi đơn hàng
+Sign In,Đăng Nhập
+Sign Up,Đăng Ký
+Signing Up...,Đang đăng ký...
+Signing In...,Đang đăng nhập...
+Recent Orders,Đơn hàng gần đây
+Address Book,Sổ địa chỉ
+You have no addresses saved,Bạn chưa lưu địa chỉ nào
+Add new address,Thêm địa chỉ mới
+Address 2,Địa chỉ 2
+Set as default,Đặt làm mặc định
+Save,Lưu
+Edit,Chỉnh sửa
+Delete,Xóa
+Edit Address,Chỉnh sửa địa chỉ
+Email,Email
+Password,Mật khẩu
+Forgot your password?,Quên mật khẩu?
+Create an account,Tạo tài khoản
+Register,Đăng ký
+Full Name,Họ và tên
+Full name,Họ và tên
+Order History,Lịch sử đơn hàng
+Account Details,Chi tiết tài khoản
+You have not placed any orders yet,Bạn chưa đặt đơn hàng nào
+My Account,Tài khoản của tôi
+Already have an account?,Bạn đã có tài khoản?
+Contact information,Thông tin liên hệ
+City,Thành phố
+Account Information,Thông tin tài khoản
+Address,Địa chỉ
+Postcode,Mã bưu điện
+Telephone,Số điện thoại
+Country,Quốc gia
+Province,Tỉnh/Thành phố
+Billing Address,Địa chỉ thanh toán
+Shipping Address,Địa chỉ giao hàng
+Create A New Account,Tạo tài khoản mới
+Contact,Liên hệ
+Customer information,Thông tin khách hàng
+Address book,Sổ địa chỉ
+Account information,Thông tin tài khoản
+Recent orders,Đơn hàng gần đây
+View all,Xem tất cả
+Sign in,Đăng nhập
+Welcome back — sign in to your account.,Chào mừng trở lại — đăng nhập vào tài khoản của bạn.
+New here?,Bạn mới đến?
+Back to orders,Quay lại đơn hàng
+Create account,Tạo tài khoản
+You must be logged in to manage your addresses,Bạn phải đăng nhập để quản lý địa chỉ của mình
+You must be logged in to update your profile,Bạn phải đăng nhập để cập nhật hồ sơ của mình
+There is nothing to update,Không có gì để cập nhật
+Email is already used,Email đã được sử dụng
+Order #${orderNumber},Đơn hàng #${orderNumber}
+Given name,Tên
+Family name,Họ
+Company,Công ty
+Address line 3,Địa chỉ dòng 3
+State,Bang
+Prefecture,Tỉnh
+County,Hạt
+Emirate,Tiểu vương quốc
+Department,Tỉnh
+District,Quận/Huyện
+Do/Si,Do/Si
+Island,Đảo
+Oblast,Oblast
+Parish,Giáo xứ
+Post town,Thị trấn bưu điện
+Suburb,Ngoại ô
+Neighborhood,Khu phố
+Village,Làng
+Village/Township,Làng/Thị trấn
+Townland,Townland
+Ward,Phường/Xã
+ZIP code,Mã ZIP
+PIN code,Mã PIN
+Eircode,Eircode
+Sorting code,Mã phân loại
+${field} is not valid,${field} không hợp lệ
+${field} is not a valid region,${field} không phải là khu vực hợp lệ
+${field} has the wrong type,${field} có kiểu dữ liệu không đúng
+${field} is not a known address field,${field} không phải là trường địa chỉ hợp lệ
+We do not sell to ${country},Chúng tôi không bán hàng đến ${country}
+Select ${field},Chọn ${field}
+no longer available,không còn khả dụng
+Please check the highlighted fields,Vui lòng kiểm tra các trường được đánh dấu

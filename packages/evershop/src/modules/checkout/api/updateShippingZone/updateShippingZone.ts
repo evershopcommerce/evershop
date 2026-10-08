@@ -16,92 +16,47 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import type { ShippingZoneRow } from '../../../../types/db/index.js';
 import type { EvershopRequest } from '../../../../types/request.js';
-
-interface ProvinceEntry {
-  country: string;
-  province: string;
-}
-
-interface UpdateShippingZoneBody {
-  name: string;
-  country?: string;
-  countries?: string[];
-  provinces?: string[] | ProvinceEntry[];
-}
-
-interface NormalizedPayload {
-  countries: string[];
-  provinces: ProvinceEntry[];
-}
+import {
+  normalizeZonePayload,
+  ZonePayloadError
+} from '../../services/shipping/normalizeZonePayload.js';
 
 /**
- * Same normalization as createShippingZone — see that file for details.
+ * Update a shipping zone: same payload and rules as createShippingZone
+ * (spec § 3.3, D-22). Countries and regions are replaced wholesale — simpler
+ * than diffing for an admin-managed table with low cardinality per zone. A
+ * country outside the sell-to list that is already on the zone stays
+ * removable; the warning is returned either way.
  */
-function normalizeZonePayload(body: UpdateShippingZoneBody): NormalizedPayload {
-  const countries = Array.isArray(body.countries)
-    ? body.countries.filter((c) => typeof c === 'string' && c.length > 0)
-    : typeof body.country === 'string' && body.country.length > 0
-    ? [body.country]
-    : [];
-
-  let provinces: ProvinceEntry[] = [];
-  if (Array.isArray(body.provinces)) {
-    if (body.provinces.length > 0 && typeof body.provinces[0] === 'string') {
-      const country = countries[0];
-      if (country) {
-        provinces = (body.provinces as string[])
-          .filter((p) => typeof p === 'string' && p.length > 0)
-          .map((province) => ({ country, province }));
-      }
-    } else {
-      provinces = (body.provinces as ProvinceEntry[])
-        .filter(
-          (p) =>
-            p &&
-            typeof p === 'object' &&
-            typeof p.country === 'string' &&
-            typeof p.province === 'string' &&
-            p.country.length > 0 &&
-            p.province.length > 0
-        )
-        .map(({ country, province }) => ({ country, province }));
-    }
-  }
-
-  return { countries, provinces };
-}
-
 export default async (request: EvershopRequest, response, next) => {
   const { id } = request.params;
+  let payload;
+  try {
+    payload = await normalizeZonePayload(request.body);
+  } catch (e) {
+    if (e instanceof ZonePayloadError) {
+      response.status(INVALID_PAYLOAD);
+      return response.json({
+        error: { status: INVALID_PAYLOAD, message: e.message }
+      });
+    }
+    throw e;
+  }
+  const { name, countries, regions, warnings } = payload;
+
   const connection = await getConnection();
   await startTransaction(connection);
-  const { name } = request.body as UpdateShippingZoneBody;
-  const { countries, provinces } = normalizeZonePayload(
-    request.body as UpdateShippingZoneBody
-  );
   try {
     const existingZone = (await select()
       .from('shipping_zone')
       .where('uuid', '=', id)
       .load(connection)) as ShippingZoneRow | undefined;
     if (!existingZone) {
+      await rollback(connection);
       response.status(INVALID_PAYLOAD);
-      response.json({
+      return response.json({
         error: { status: INVALID_PAYLOAD, message: 'Invalid zone id' }
       });
-      await rollback(connection);
-      return;
-    }
-    if (countries.length === 0) {
-      response.status(INVALID_PAYLOAD);
-      response.json({
-        error: {
-          status: INVALID_PAYLOAD,
-          message: 'At least one country is required'
-        }
-      });
-      await rollback(connection);
-      return;
     }
 
     await update('shipping_zone')
@@ -111,39 +66,32 @@ export default async (request: EvershopRequest, response, next) => {
 
     const zoneId = existingZone.shipping_zone_id;
 
-    // Replace shipping_zone_country rows entirely — simpler than diffing for
-    // an admin-managed table with low cardinality per zone.
     await del('shipping_zone_country')
       .where('zone_id', '=', zoneId)
       .execute(connection);
-    await Promise.all(
-      countries.map((country) =>
-        insert('shipping_zone_country')
-          .given({ zone_id: zoneId, country })
-          .execute(connection)
-      )
-    );
+    for (const country of countries) {
+      await insert('shipping_zone_country')
+        .given({ zone_id: zoneId, country })
+        .execute(connection);
+    }
 
-    // Same for shipping_zone_province.
-    await del('shipping_zone_province')
+    await del('shipping_zone_region')
       .where('zone_id', '=', zoneId)
       .execute(connection);
-    await Promise.all(
-      provinces.map(({ country, province }) =>
-        insert('shipping_zone_province')
-          .given({ zone_id: zoneId, country, province })
-          .execute(connection)
-      )
-    );
+    for (const { country, level, key } of regions) {
+      await insert('shipping_zone_region')
+        .given({ zone_id: zoneId, country, level, region_key: key })
+        .execute(connection);
+    }
 
     await commit(connection);
     response.status(OK);
-    response.json({ data: { uuid: id } });
+    return response.json({ data: { uuid: id }, warnings });
   } catch (e) {
     error(e);
     await rollback(connection);
     response.status(INTERNAL_SERVER_ERROR);
-    response.json({
+    return response.json({
       error: {
         status: INTERNAL_SERVER_ERROR,
         message: (e as Error).message

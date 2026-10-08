@@ -1,33 +1,75 @@
-Login, Logg inn
-Logout, Logg ut
-Email, E-post
-Password, Passord
-Forgot your password?, Glemt passordet ditt?
-Create an account, Opprett en konto
-Register, Registrer
-Full Name, Fullt navn
-Full name, Fullt navn
-Sign In, Logg inn
-Order History, Bestillingshistorikk
-Account Details, Kontodetaljer
-You have not placed any orders yet, Du har ikke lagt inn noen bestillinger ennå
-My Account, Min konto
-Already have an account?, Har du allerede en konto?
-Contact information, Kontaktinformasjon
-City, By
-Account Information, Kontoopplysninger
-Address, Adresse
-Postcode, Postnummer
-Postcode is required, Postnummer er påkrevd
-Telephone is required, Telefonnummer er påkrevd
-Telephone, Telefon
-Full name is required, Fullt navn er påkrevd
-Country is required, Land er påkrevd
-Country, Land
-Province is required, Provins er påkrevd
-Province, Provins
-Billing Address, Fakturaadresse
-Shipping Address, Leveringsadresse
-Create A New Account, Opprett en ny konto
-Contact, Kontakt
-Customer information, Kundeinformasjon
+Login,Logg inn
+Logout,Logg ut
+Email,E-post
+Password,Passord
+Forgot your password?,Glemt passordet ditt?
+Create an account,Opprett en konto
+Register,Registrer
+Full Name,Fullt navn
+Full name,Fullt navn
+Sign In,Logg inn
+Order History,Bestillingshistorikk
+Account Details,Kontodetaljer
+You have not placed any orders yet,Du har ikke lagt inn noen bestillinger ennå
+My Account,Min konto
+Already have an account?,Har du allerede en konto?
+Contact information,Kontaktinformasjon
+City,By
+Account Information,Kontoopplysninger
+Address,Adresse
+Postcode,Postnummer
+Telephone,Telefon
+Country,Land
+Province,Provins
+Billing Address,Fakturaadresse
+Shipping Address,Leveringsadresse
+Create A New Account,Opprett en ny konto
+Contact,Kontakt
+Customer information,Kundeinformasjon
+Address book,Adressebok
+Account information,Kontoopplysninger
+Recent orders,Nylige bestillinger
+View all,Vis alle
+Sign in,Logg inn
+Welcome back — sign in to your account.,Velkommen tilbake — logg inn på kontoen din.
+New here?,Ny her?
+Back to orders,Tilbake til bestillinger
+Create account,Opprett konto
+You must be logged in to manage your addresses,Du må være logget inn for å administrere adressene dine
+You must be logged in to update your profile,Du må være logget inn for å oppdatere profilen din
+There is nothing to update,Det er ingenting å oppdatere
+Email is already used,E-postadressen er allerede i bruk
+Order #${orderNumber},Bestilling nr. ${orderNumber}
+Given name,Fornavn
+Family name,Etternavn
+Company,Firma
+Address line 3,Adresselinje 3
+State,Delstat
+Prefecture,Prefektur
+County,Fylke
+Emirate,Emirat
+Department,Departement
+District,Distrikt
+Do/Si,Do/Si
+Island,Øy
+Oblast,Oblast
+Parish,Sogn
+Post town,Poststed
+Suburb,Forstad
+Neighborhood,Nabolag
+Village,Landsby
+Village/Township,Landsby/Kommune
+Townland,Townland
+Ward,Bydel
+ZIP code,Postnummer
+PIN code,PIN-kode
+Eircode,Eircode
+Sorting code,Sorteringskode
+${field} is not valid,${field} er ugyldig
+${field} is not a valid region,${field} er ikke en gyldig region
+${field} has the wrong type,${field} har feil type
+${field} is not a known address field,${field} er ikke et kjent adressefelt
+We do not sell to ${country},Vi selger ikke til ${country}
+Select ${field},Velg ${field}
+no longer available,ikke lenger tilgjengelig
+Please check the highlighted fields,Kontroller de markerte feltene

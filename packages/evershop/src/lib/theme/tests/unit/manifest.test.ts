@@ -168,35 +168,25 @@ describe('validateManifest', () => {
     ).toBe(true);
   });
 
-  test('synthetic-area parent of the wrong type', async () => {
-    const m = validManifest();
-    // Parent exists but is a text_block, not columns.
-    m.widgets.push({ uuid: COLS, type: 'text_block', name: 'NotCols', settings: {} });
-    m.placements.push({
-      uuid: P2,
-      widget_instance_uuid: W1,
-      route: 'all',
-      area: `columnsContainer_${COLS}_col_0`,
-      sort_order: 2
-    });
-    const errs = await validateManifest(m, ctx());
-    expect(
-      errs.some((e) => e.scope === 'placement' && /'columns'/.test(e.message))
-    ).toBe(true);
-  });
-
-  test('synthetic-area parent of type columns is accepted', async () => {
-    const m = validManifest();
-    m.widgets.push({ uuid: COLS, type: 'columns', name: 'Cols', settings: {} });
-    m.placements.push({
-      uuid: P2,
-      widget_instance_uuid: W1,
-      route: 'all',
-      area: `columnsContainer_${COLS}_col_0`,
-      sort_order: 2
-    });
-    expect(await validateManifest(m, ctx())).toEqual([]);
-  });
+  // The parent's TYPE is deliberately not checked: `columns` emits one child
+  // area per column and `section` emits one at index 0, so pinning the type
+  // would reject valid manifests (and did — it blocked every section-based
+  // theme). See specifications/theme-json-landing-pages.md D7.
+  test.each([['columns'], ['section'], ['text_block']])(
+    'synthetic-area parent of type %s is accepted when it exists',
+    async (type) => {
+      const m = validManifest();
+      m.widgets.push({ uuid: COLS, type, name: 'Parent', settings: {} });
+      m.placements.push({
+        uuid: P2,
+        widget_instance_uuid: W1,
+        route: 'all',
+        area: `columnsContainer_${COLS}_col_0`,
+        sort_order: 2
+      });
+      expect(await validateManifest(m, ctx())).toEqual([]);
+    }
+  );
 
   test('DB collision: widget exists under a different theme', async () => {
     const errs = await validateManifest(

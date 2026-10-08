@@ -1,33 +1,75 @@
-Login, लग इन
-Logout, लग आउट
-Email, इमेल
-Password, पासवर्ड
-Forgot your password?, तपाईंले आफ्नो पासवर्ड बिर्सनुभयो?
-Create an account, खाता बनाउनुहोस्
-Register, दर्ता गर्नुहोस्
-Full Name, पुरा नाम
-Full name, पुरा नाम
-Sign In, साइन इन गर्नुहोस्
-Order History, अर्डर इतिहास
-Account Details, खाता विवरण
-You have not placed any orders yet, तपाईंले अहिलेसम्म कुनै अर्डर गर्नुभएको छैन
-My Account, मेरो खाता
-Already have an account?, पहिले नै खाता छ?
-Contact information, सम्पर्क जानकारी
-City, शहर
-Account Information, खाता जानकारी
-Address, ठेगाना
-Postcode, पिन कोड
-Postcode is required, पिन कोड आवश्यक छ
-Telephone is required, टेलिफोन आवश्यक छ
-Telephone, टेलिफोन
-Full name is required, पुरा नाम आवश्यक छ
-Country is required, देश आवश्यक छ
-Country, देश
-Province is required, प्रदेश आवश्यक छ
-Province, प्रदेश
-Billing Address, बिल पठाउने ठेगाना
-Shipping Address, ढुवानी ठेगाना
-Create A New Account, नयाँ खाता बनाउनुहोस्
-Contact, सम्पर्क
-Customer information, ग्राहक जानकारी
+Login,लग इन
+Logout,लग आउट
+Email,इमेल
+Password,पासवर्ड
+Forgot your password?,तपाईंले आफ्नो पासवर्ड बिर्सनुभयो?
+Create an account,खाता बनाउनुहोस्
+Register,दर्ता गर्नुहोस्
+Full Name,पुरा नाम
+Full name,पुरा नाम
+Sign In,साइन इन गर्नुहोस्
+Order History,अर्डर इतिहास
+Account Details,खाता विवरण
+You have not placed any orders yet,तपाईंले अहिलेसम्म कुनै अर्डर गर्नुभएको छैन
+My Account,मेरो खाता
+Already have an account?,पहिले नै खाता छ?
+Contact information,सम्पर्क जानकारी
+City,शहर
+Account Information,खाता जानकारी
+Address,ठेगाना
+Postcode,पिन कोड
+Telephone,टेलिफोन
+Country,देश
+Province,प्रदेश
+Billing Address,बिल पठाउने ठेगाना
+Shipping Address,ढुवानी ठेगाना
+Create A New Account,नयाँ खाता बनाउनुहोस्
+Contact,सम्पर्क
+Customer information,ग्राहक जानकारी
+Address book,ठेगाना पुस्तिका
+Account information,खाता जानकारी
+Recent orders,भर्खरका अर्डरहरू
+View all,सबै हेर्नुहोस्
+Sign in,साइन इन गर्नुहोस्
+Welcome back — sign in to your account.,फेरि स्वागत छ — आफ्नो खातामा साइन इन गर्नुहोस्।
+New here?,नयाँ हुनुहुन्छ?
+Back to orders,अर्डरहरूमा फर्कनुहोस्
+Create account,खाता बनाउनुहोस्
+You must be logged in to manage your addresses,आफ्ना ठेगानाहरू व्यवस्थापन गर्न तपाईं लग इन हुनुपर्छ
+You must be logged in to update your profile,आफ्नो प्रोफाइल अद्यावधिक गर्न तपाईं लग इन हुनुपर्छ
+There is nothing to update,अद्यावधिक गर्न केही छैन
+Email is already used,यो इमेल पहिले नै प्रयोग भइसकेको छ
+Order #${orderNumber},अर्डर #${orderNumber}
+Given name,नाम
+Family name,थर
+Company,कम्पनी
+Address line 3,ठेगाना लाइन ३
+State,राज्य
+Prefecture,प्रिफेक्चर
+County,काउन्टी
+Emirate,अमिरात
+Department,विभाग
+District,जिल्ला
+Do/Si,Do/Si
+Island,टापु
+Oblast,ओब्लास्ट
+Parish,पारिश
+Post town,हुलाक सहर
+Suburb,उपनगर
+Neighborhood,टोल
+Village,गाउँ
+Village/Township,गाउँ/नगरपालिका
+Townland,Townland
+Ward,वडा
+ZIP code,जिप कोड
+PIN code,पिन कोड
+Eircode,Eircode
+Sorting code,छँटाइ कोड
+${field} is not valid,${field} मान्य छैन
+${field} is not a valid region,${field} मान्य क्षेत्र होइन
+${field} has the wrong type,${field} को प्रकार गलत छ
+${field} is not a known address field,${field} ज्ञात ठेगाना फिल्ड होइन
+We do not sell to ${country},हामी ${country} मा बिक्री गर्दैनौं
+Select ${field},${field} छान्नुहोस्
+no longer available,अब उपलब्ध छैन
+Please check the highlighted fields,कृपया हाइलाइट गरिएका फिल्डहरू जाँच गर्नुहोस्

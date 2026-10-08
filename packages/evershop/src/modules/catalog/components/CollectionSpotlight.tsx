@@ -82,7 +82,7 @@ export default function CollectionSpotlight({
                 </div>
               </div>
               <div className="evershop-collection-spotlight__copy-panel flex flex-col gap-4 pt-5 lg:col-span-1 lg:p-8">
-                <div className="evershop-collection-spotlight__eyebrow flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                <div className="evershop-collection-spotlight__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2 text-muted-foreground">
                   <Sparkles className="h-3 w-3" />
                   Collection
                 </div>
@@ -106,7 +106,7 @@ export default function CollectionSpotlight({
           ) : (
             <>
               <div className="evershop-collection-spotlight__copy-panel order-2 flex flex-col gap-4 pt-5 lg:order-1 lg:col-span-1 lg:p-8">
-                <div className="evershop-collection-spotlight__eyebrow flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
+                <div className="evershop-collection-spotlight__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest flex items-center gap-2 text-muted-foreground">
                   <Sparkles className="h-3 w-3" />
                   Collection
                 </div>
@@ -208,7 +208,7 @@ export default function CollectionSpotlight({
         <Editable
           as="div"
           fieldPath="settings.eyebrow"
-          className="evershop-collection-spotlight__eyebrow text-[11px] font-semibold uppercase tracking-widest text-foreground/70"
+          className="evershop-collection-spotlight__eyebrow evershop-widget__eyebrow text-[11px] font-semibold uppercase tracking-widest text-muted-foreground"
         >
           {eyebrow}
         </Editable>
@@ -216,7 +216,7 @@ export default function CollectionSpotlight({
       <Editable
         as="h2"
         fieldPath="settings.heading"
-        className="evershop-collection-spotlight__heading text-2xl font-semibold tracking-tight md:text-3xl"
+        className="evershop-collection-spotlight__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl"
       >
         {heading || collectionName || ''}
       </Editable>
@@ -224,7 +224,7 @@ export default function CollectionSpotlight({
         <EditableMarkdown
           as="p"
           fieldPath="settings.body"
-          className="evershop-collection-spotlight__body text-sm text-foreground/80 md:text-base"
+          className="evershop-collection-spotlight__body evershop-widget__subtext text-sm md:text-base text-muted-foreground"
         >
           {body}
         </EditableMarkdown>
@@ -319,6 +319,7 @@ export const fragments = `
     productId
     name
     sku
+    variantGroupId
     price {
       regular {
         value

@@ -1,5 +1,6 @@
 import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { getShopMetaData } from '../../../../base/services/shopMetafield.js';
+import { getSetting } from '../../../../setting/services/setting.js';
 
 export default {
   Query: {
@@ -19,6 +20,17 @@ export default {
         }
       } catch {
         // Non-fatal — keep the config default.
+      }
+      // Nothing set anywhere (no metafield, no theme value): render a live
+      // default from the store's own name and the CURRENT year, so a fresh
+      // store never ships "© 2022 Evershop" in its footer.
+      if (typeof copyRight !== 'string' || copyRight.trim() === '') {
+        try {
+          const storeName = await getSetting('storeName', 'EverShop');
+          copyRight = `© ${new Date().getFullYear()} ${storeName}. All Rights Reserved.`;
+        } catch {
+          copyRight = `© ${new Date().getFullYear()} EverShop. All Rights Reserved.`;
+        }
       }
       return { ...themeConfig, copyRight };
     }

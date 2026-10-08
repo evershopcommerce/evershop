@@ -1,0 +1,31 @@
+"""
+A category as offered by the `/products` category facet: the whole enabled tree
+flattened depth-first, with the nesting level kept so the UI can indent it.
+"""
+type ListingCategory {
+  categoryId: Int!
+  uuid: String!
+  name: String!
+  """0 for a root category, 1 for its children, and so on."""
+  depth: Int!
+}
+
+"""
+The store-wide product listing served at `/products`. Everything a category page
+offers, minus the category.
+"""
+type ProductListing {
+  products(filters: [FilterInput]): ProductCollection
+  """
+  Every filterable attribute that at least one product actually carries a value
+  for, across the whole catalog regardless of attribute group. Ordered by
+  `attribute.sort_order`, which merchants control.
+  """
+  availableAttributes: [FilterAttribute]
+  priceRange: PriceRange
+  categories: [ListingCategory]
+}
+
+extend type Query {
+  productListing: ProductListing
+}

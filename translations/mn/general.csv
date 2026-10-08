@@ -1,7 +1,20 @@
-Discount ${discount} For All Orders Over ${price}, ${price}-с дээш бүх захиалгад ${discount} хөнгөлөлт
-Please select, Сонгоно уу
-The page you requested does not exist., Та хүссэн хуудсандаа хүрж чадахгүй байна.
-Continue shopping, Худалдан авалтаа үргэлжлүүлэх
-404 Page Not Found, 404 Хуудас олдсонгүй
-Home, Нүүр хуудас
-Not found, Олдсонгүй
+Discount ${discount} For All Orders Over ${price},${price}-с дээш бүх захиалгад ${discount} хөнгөлөлт
+Please select,Сонгоно уу
+The page you requested does not exist.,Та хүссэн хуудсандаа хүрж чадахгүй байна.
+404 Page Not Found,404 Хуудас олдсонгүй
+Home,Нүүр хуудас
+Not found,Олдсонгүй
+Search options,Сонголт хайх
+Show less,Бага харуулах
+Sort by,Эрэмбэлэх
+Search products…,Бүтээгдэхүүн хайх…
+Order Note,Захиалгын тэмдэглэл
+Add a note to your order,Захиалгадаа тэмдэглэл нэмэх
+My account,Миний бүртгэл
+Log out,Гарах
+Your profile has been updated,Таны профайл шинэчлэгдлээ
+Update profile API not available,Профайл шинэчлэх API боломжгүй байна
+Failed to update profile,Профайлыг шинэчлэх амжилтгүй боллоо
+Something went wrong. Please refresh the page.,Алдаа гарлаа. Хуудсыг дахин ачаална уу.
+${count} result for “${keyword}”,«${keyword}» хайлтад ${count} илэрц
+${count} results for “${keyword}”,«${keyword}» хайлтад ${count} илэрц

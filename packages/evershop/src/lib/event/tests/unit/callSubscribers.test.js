@@ -24,6 +24,24 @@ describe('callSubscribers', () => {
     expect(sub2).toHaveBeenCalledWith(data);
   });
 
+  it('passes the event meta as a second argument when provided', async () => {
+    const sub = jest.fn().mockResolvedValue(undefined);
+    const data = { orderId: 1 };
+    const meta = { name: 'order_placed', uuid: 'u-1' };
+
+    await callSubscribers([sub], data, meta);
+
+    expect(sub).toHaveBeenCalledWith(data, meta);
+  });
+
+  it('does not pass a second argument when no meta is provided', async () => {
+    const sub = jest.fn().mockResolvedValue(undefined);
+
+    await callSubscribers([sub], { orderId: 1 });
+
+    expect(sub.mock.calls[0]).toHaveLength(1);
+  });
+
   it('does nothing when subscribers list is empty', async () => {
     await expect(callSubscribers([], { orderId: 1 })).resolves.toBeUndefined();
   });

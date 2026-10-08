@@ -25,6 +25,8 @@ import {
   type ValidationError
 } from '../../lib/theme/manifest.js';
 import { assertValidThemeId } from '../../lib/theme/themeId.js';
+import { uploadFile } from '../../modules/cms/services/uploadFile.js';
+import { ensureRoutesLoaded } from '../lib/ensureRoutesLoaded.js';
 
 const { prompt } = enquirer;
 const argv = yargs(hideBin(process.argv))
@@ -136,13 +138,18 @@ async function confirmBuild() {
   return response.runBuild;
 }
 
+function describe(e: ValidationError): string {
+  const where = e.index !== undefined ? `${e.scope}[${e.index}]` : e.scope;
+  return `  - ${where}: ${e.message}`;
+}
+
 function printValidationErrors(errors: ValidationError[]): void {
   console.error(kleur.red(`theme.json failed validation (${errors.length}):`));
-  for (const e of errors) {
-    const where =
-      e.index !== undefined ? `${e.scope}[${e.index}]` : e.scope;
-    console.error(kleur.red(`  - ${where}: ${e.message}`));
-  }
+  for (const e of errors) console.error(kleur.red(describe(e)));
+}
+
+function printValidationWarnings(warnings: ValidationError[]): void {
+  for (const w of warnings) console.warn(kleur.yellow(describe(w)));
 }
 
 function printCounts(counts: {
@@ -152,12 +159,18 @@ function printCounts(counts: {
   placements_added: number;
   placements_updated: number;
   placements_removed: number;
+  landing_pages_added?: number;
+  landing_pages_updated?: number;
 }): void {
+  const pagesAdded = counts.landing_pages_added ?? 0;
+  const pagesUpdated = counts.landing_pages_updated ?? 0;
   console.log(
-    `  Added:    ${counts.widgets_added} widgets, ${counts.placements_added} placements`
+    `  Added:    ${counts.widgets_added} widgets, ${counts.placements_added} placements` +
+      (pagesAdded > 0 ? `, ${pagesAdded} landing pages` : '')
   );
   console.log(
-    `  Updated:  ${counts.widgets_updated} widgets, ${counts.placements_updated} placements`
+    `  Updated:  ${counts.widgets_updated} widgets, ${counts.placements_updated} placements` +
+      (pagesUpdated > 0 ? `, ${pagesUpdated} landing pages` : '')
   );
   console.log(
     `  Removed:  ${counts.widgets_removed} widgets, ${counts.placements_removed} placements`
@@ -213,7 +226,9 @@ async function runInstallPipeline(
   themeId: string,
   manifest: Manifest
 ): Promise<boolean> {
-  const errors = await validateManifest(manifest, { themeId, pool });
+  const found = await validateManifest(manifest, { themeId, pool });
+  const errors = found.filter((e) => e.severity !== 'warning');
+  printValidationWarnings(found.filter((e) => e.severity === 'warning'));
   if (errors.length > 0) {
     printValidationErrors(errors);
     return false;
@@ -234,13 +249,24 @@ async function runInstallPipeline(
         kleur.bold(
           `Dry run — '${themeId}' is not yet installed; activation would do a ` +
             `fresh install of ${manifest.widgets.length} widgets, ` +
-            `${manifest.placements.length} placements.`
+            `${manifest.placements.length} placements` +
+            (manifest.landingPages?.length
+              ? `, ${manifest.landingPages.length} landing pages`
+              : '') +
+            `.`
         )
       );
     } else {
       console.log(kleur.bold(`Dry run — pending changes for '${themeId}':`));
       printCounts(diff.counts);
       console.log(`  Conflicts: ${diff.conflicts.length}`);
+      for (const p of diff.releasedLandingPages ?? []) {
+        console.log(
+          kleur.dim(
+            `    landing page '${p.name}' would be released (row kept, theme widgets removed)`
+          )
+        );
+      }
     }
     const declared = manifest.metafieldDefinitions?.length ?? 0;
     if (declared > 0) {
@@ -252,7 +278,72 @@ async function runInstallPipeline(
     return false; // dry run never proceeds to config write
   }
 
-  const result = await installOrUpgrade({ themeId, manifest, pool });
+  // Uploading a theme's assets goes through the store's storage provider, and
+  // the LOCAL provider builds its public URL from the `staticAsset` route
+  // (`/assets/*`). A CLI has no app, so the route registry is empty and
+  // `buildUrl` throws. Load the routes the same way `evershop build` does —
+  // module metadata only, no database, no bootstrap.
+  ensureRoutesLoaded();
+  const result = await installOrUpgrade({
+    themeId,
+    manifest,
+    pool,
+    themeDir: themeDir(themeId),
+    // The store's configured provider, not the local disk: `uploadFile` reads
+    // the `fileStorage` setting (config fallback), so a theme's images land in
+    // the same bucket as everything the merchant uploads.
+    uploadAsset: (files, destination) =>
+      uploadFile(files as unknown as Express.Multer.File[], destination)
+  });
+  if (result.storeRefs) {
+    const rows = result.storeRefs.resolved;
+    const exact = rows.filter((r) => r.match === 'exact').length;
+    const byName = rows.filter((r) => r.match === 'name');
+    const unresolved = rows.filter((r) => r.match === 'unresolved');
+    console.log(
+      `  Store references: ${rows.length} (${exact} matched exactly` +
+        `${byName.length > 0 ? `, ${byName.length} by name` : ''}` +
+        `${unresolved.length > 0 ? `, ${unresolved.length} unmatched` : ''})`
+    );
+    for (const r of byName) {
+      console.log(
+        kleur.yellow(
+          `    matched by name: ${r.entity} '${r.key}' → ${r.value}`
+        )
+      );
+    }
+    if (unresolved.length > 0) {
+      console.warn(
+        kleur.yellow(
+          `    These widgets have nothing to show until the data exists — ` +
+            `activation never creates it. Pick a replacement in the page builder, ` +
+            `or add the ${unresolved.length === 1 ? 'record' : 'records'} and re-activate:`
+        )
+      );
+      for (const r of unresolved) {
+        console.warn(kleur.yellow(`      ${r.entity} ${r.by}='${r.key}' not found`));
+      }
+    }
+  }
+  if (result.assets) {
+    const { uploaded, missing } = result.assets;
+    if (uploaded.length > 0) {
+      console.log(
+        kleur.green(
+          `  Uploaded ${uploaded.length} theme asset${uploaded.length === 1 ? '' : 's'} to file storage.`
+        )
+      );
+    }
+    if (missing.length > 0) {
+      console.warn(
+        kleur.yellow(
+          `  ${missing.length} declared asset${missing.length === 1 ? ' is' : 's are'} missing from ` +
+            `themes/${themeId}/public/ and ${missing.length === 1 ? 'was' : 'were'} not uploaded:`
+        )
+      );
+      for (const m of missing) console.warn(kleur.yellow(`    ${m}`));
+    }
+  }
   if (result.command === 'rejected') {
     console.error(
       kleur.red(`Refusing to activate '${themeId}': ${result.rejectedReason}`)
@@ -280,14 +371,30 @@ async function runInstallPipeline(
     printCounts(result.counts);
     if (
       result.adopted &&
-      (result.adopted.widgets > 0 || result.adopted.placements > 0)
+      (result.adopted.widgets > 0 ||
+        result.adopted.placements > 0 ||
+        result.adopted.landingPages > 0)
     ) {
       console.log(
         kleur.dim(
-          `  Adopted:  ${result.adopted.widgets} widgets, ${result.adopted.placements} placements ` +
-            `already in the DB (left unchanged — recorded as the install baseline).`
+          `  Adopted:  ${result.adopted.widgets} widgets, ${result.adopted.placements} placements` +
+            (result.adopted.landingPages > 0
+              ? `, ${result.adopted.landingPages} landing pages`
+              : '') +
+            ` already in the DB (left unchanged — recorded as the install baseline).`
         )
       );
+    }
+    if (result.releasedLandingPages?.length) {
+      console.log(
+        kleur.yellow(
+          `  Landing pages no longer shipped by this theme (${result.releasedLandingPages.length}) — ` +
+            `their rows were LEFT IN PLACE and are now empty:`
+        )
+      );
+      for (const p of result.releasedLandingPages) {
+        console.log(kleur.yellow(`    '${p.name}' (${p.uuid})`));
+      }
     }
     if (result.conflicts.length > 0) {
       console.log(

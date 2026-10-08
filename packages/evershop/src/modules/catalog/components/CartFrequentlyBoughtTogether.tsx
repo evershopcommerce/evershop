@@ -30,6 +30,7 @@ const REFRESH_QUERY = `
         productId
         name
         sku
+        variantGroupId
         price {
           regular { value text }
           special { value text }
@@ -127,6 +128,7 @@ export const fragments = `
     productId
     name
     sku
+    variantGroupId
     price {
       regular {
         value

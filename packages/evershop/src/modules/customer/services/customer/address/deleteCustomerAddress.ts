@@ -12,7 +12,7 @@ import {
   hookBefore,
   hookAfter
 } from '../../../../../lib/util/hookable.js';
-import { Address } from '../../../../../types/customerAddress.js';
+import type { Address } from '../../../../../types/address.js';
 
 async function deleteCustomerAddressData(
   uuid: string,

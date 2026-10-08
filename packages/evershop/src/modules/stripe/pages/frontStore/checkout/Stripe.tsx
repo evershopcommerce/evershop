@@ -39,11 +39,11 @@ const TestCards: React.FC<{
             <div>
               <b>{_('Test success:')}</b>
             </div>
-            <div className="text-xs text-gray-600">
+            <div className="text-xs text-muted-foreground">
               Test card number: 4242 4242 4242 4242
             </div>
-            <div className="text-xs text-gray-600">Test card expiry: 04/99</div>
-            <div className="text-xs text-gray-600">Test card CVC: 242</div>
+            <div className="text-xs text-muted-foreground">Test card expiry: 04/99</div>
+            <div className="text-xs text-muted-foreground">Test card CVC: 242</div>
           </div>
         )}
         {showTestCard === 'failure' && (
@@ -51,11 +51,11 @@ const TestCards: React.FC<{
             <div>
               <b>{_('Test failure:')}</b>
             </div>
-            <div className="text-xs text-gray-600">
+            <div className="text-xs text-muted-foreground">
               Test card number: 4000 0000 0000 9995
             </div>
-            <div className="text-xs text-gray-600">Test card expiry: 04/99</div>
-            <div className="text-xs text-gray-600">Test card CVC: 242</div>
+            <div className="text-xs text-muted-foreground">Test card expiry: 04/99</div>
+            <div className="text-xs text-muted-foreground">Test card CVC: 242</div>
           </div>
         )}
       </div>
@@ -196,30 +196,19 @@ export function CheckoutForm({
         elements: elements as any,
         confirmParams: {
           payment_method_data: {
+            // Spec § 3.10: mapped in the browser from the typed GraphQL
+            // fields. `state` is the ISO suffix (`CA` for `US-CA`) when the
+            // area has one, else its key — parity with the PayPal mapping.
             billing_details: {
               name:
-                billingAddress?.fullName ||
-                shippingAddress?.fullName ||
+                billingAddress?.recipient ||
+                shippingAddress?.recipient ||
                 customerFullName ||
                 '',
               email: customerEmail,
               phone:
                 billingAddress?.telephone || shippingAddress?.telephone || '',
-              address: {
-                line1:
-                  billingAddress?.address1 || shippingAddress?.address1 || '',
-                country:
-                  billingAddress?.country?.code ||
-                  shippingAddress?.country?.code ||
-                  '',
-                state:
-                  billingAddress?.province?.code ||
-                  shippingAddress?.province?.code ||
-                  '',
-                postal_code:
-                  billingAddress?.postcode || shippingAddress?.postcode || '',
-                city: billingAddress?.city || shippingAddress?.city || ''
-              }
+              address: stripeAddress(billingAddress ?? shippingAddress)
             }
           },
           return_url: `${returnUrl}?order_id=${orderId}`
@@ -294,6 +283,43 @@ interface StripeAppProps {
 interface CardsProps {
   width?: number;
   height?: number;
+}
+
+interface StripeAddressSource {
+  addressLine1?: string | null;
+  addressLine2?: string | null;
+  addressLine3?: string | null;
+  dependentLocality?: { key: string; name: string } | null;
+  locality?: { key: string; name: string } | null;
+  administrativeArea?: {
+    key: string;
+    name: string;
+    isoCode?: string | null;
+  } | null;
+  postalCode?: string | null;
+  country?: { code: string } | null;
+}
+
+function stripeAddress(address: StripeAddressSource | null | undefined) {
+  const area = address?.administrativeArea;
+  const isoSuffix = area?.isoCode?.includes('-')
+    ? area.isoCode.split('-').pop()
+    : undefined;
+  const line2 = [
+    address?.addressLine2,
+    address?.addressLine3,
+    address?.dependentLocality?.name
+  ]
+    .filter(Boolean)
+    .join(', ');
+  return {
+    line1: address?.addressLine1 || '',
+    line2: line2 || undefined,
+    country: address?.country?.code || '',
+    state: isoSuffix || area?.key || '',
+    postal_code: address?.postalCode || '',
+    city: address?.locality?.name || ''
+  };
 }
 
 function Cards({ width = 24, height = 24 }: CardsProps) {

@@ -109,7 +109,7 @@ export default function FaqBlock({ faqBlockWidget }: FaqBlockProps) {
         <Editable
           as="h2"
           fieldPath="settings.heading"
-          className="evershop-faq-block__heading mb-4 text-2xl font-semibold tracking-tight"
+          className="evershop-faq-block__heading evershop-widget__heading text-2xl font-semibold tracking-tight md:text-3xl mb-4"
         >
           {heading}
         </Editable>

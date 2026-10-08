@@ -30,9 +30,14 @@ export default async (request, response, next) => {
 
       if (category.image) {
         const baseUrl = getBaseUrl();
+        // Encode `category.image` as the `/images` src: it's a relative path for
+        // local storage but an ABSOLUTE URL for cloud storage (S3), and only the
+        // outer `/images` URL should be absolute. Mirrors PageInfo.ogInfo.
         setPageMetaInfo(request, {
           ogInfo: {
-            image: `${baseUrl}/images?src=${category.image}&w=1200&q=80&h=675&f=png`
+            image: `${baseUrl}/images?src=${encodeURIComponent(
+              category.image
+            )}&w=1200&q=80&h=675&f=png`
           }
         });
       }

@@ -1,0 +1,104 @@
+scalar JSON
+
+"""
+A geographic level below country. `key` is what is stored; `name` resolves
+through the region provider in the request locale and falls back to `key`.
+"""
+type Region {
+  key: String!
+  name: String!
+  isoCode: String
+}
+
+"""
+An address in the Address Format Registry vocabulary. Implemented by
+`CartAddress`, `CustomerAddress` and `OrderAddress`. Every level below country
+is a `Region`; `extra` carries registered extra fields with their raw keys;
+`formatted` is the display, ready to print.
+"""
+interface Address {
+  recipient: String
+  givenName: String
+  familyName: String
+  organization: String
+  addressLine1: String
+  addressLine2: String
+  addressLine3: String
+  dependentLocality: Region
+  locality: Region
+  administrativeArea: Region
+  postalCode: String
+  sortingCode: String
+  country: Country
+  telephone: String
+  extra: JSON
+  """
+  Display lines for the address's country and the request locale.
+  """
+  formatted: [String!]!
+}
+
+type AddressPattern {
+  regex: String!
+  messageKey: String!
+}
+
+"""
+One field of a resolved address schema, in display order. `row` groups fields
+on one line; `optionSource: "regions"` means the options come from
+`regions(country, parentPath)` and `dependsOn` names the outer level.
+"""
+type AddressField {
+  id: String!
+  token: String
+  type: String!
+  labelType: String!
+  label: String
+  required: Boolean!
+  pattern: AddressPattern
+  placeholder: String
+  optionSource: String
+  dependsOn: String
+  row: Int!
+}
+
+type AddressSchema {
+  country: String!
+  locale: String!
+  script: String!
+  format: String!
+  nameOrder: String!
+  upper: [String!]!
+  fields: [AddressField!]!
+}
+
+"""
+ALL: every country (the store's own address). SELL_TO: the merchant's list,
+used by the address book and billing. SHIPPING: SELL_TO ∩ zone countries, used
+by the shipping address.
+"""
+enum CountryScope {
+  ALL
+  SELL_TO
+  SHIPPING
+}
+
+extend type Query {
+  """
+  The address form for a country. `country` is optional: when absent the server
+  resolves the store's default-country setting and `AddressSchema.country` tells
+  the client what it got. `locale` defaults to the request locale. `surface`
+  (`account` | `shipping` | `billing`) scopes the registered extra fields.
+  """
+  addressSchema(country: String, locale: String, surface: String): AddressSchema!
+  """
+  Active regions at the level below `parentPath` (the top level for an empty
+  path). Names come back in `locale` (default: the request locale) when the
+  provider has them.
+  """
+  regions(country: String!, parentPath: [String!], locale: String): [Region!]!
+}
+
+extend type Country {
+  regions(parentPath: [String!], locale: String): [Region!]!
+}

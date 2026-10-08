@@ -266,7 +266,8 @@ export default () => {
         paid: {
           name: 'Paid',
           badge: 'success',
-          isCancelable: false
+          isCancelable: false,
+          isRefundable: true
         },
         canceled: {
           name: 'Canceled',
@@ -302,6 +303,16 @@ export default () => {
           next: []
         }
       },
+      // Payment × Shipment → Order status. Resolution precedence (see
+      // resolveOrderStatus): exact `payment:shipment` → `payment:*` →
+      // `*:shipment` → `*:*`, first hit wins. Payment-wildcard beats
+      // shipment-wildcard, so a terminal payment (refunded/canceled) dominates
+      // its shipment rollup. Keys MERGE across modules — stripe/paypal/cod each
+      // add their own `<method>_*` entries — and an exact `payment:shipment` key
+      // is the escape hatch to override any wildcard. (A priority-ordered rule
+      // list was considered and rejected: arrays don't config-merge across
+      // modules and would need a cross-module ordering contract this gets for
+      // free. See wiki/multi-shipment-design.md → "Order-status derivation".)
       psoMapping: {
         'pending:pending': 'new',
         'pending:*': 'processing',
@@ -310,17 +321,14 @@ export default () => {
         'paid:shipped': 'processing',
         'paid:partially_delivered': 'processing',
         'paid:delivered': 'completed',
-        // Shipment-side cancellation no longer cancels the ORDER: canceling
-        // every shipment leaves the order in `processing` so the merchant can
-        // re-ship or cancel deliberately. PAYMENT-side cancellation
-        // (`canceled:*`, driven by cancelOrder) is what actually cancels the
-        // order. `canceled:canceled` is explicit because resolveOrderStatus
-        // checks exact keys before `*:ship` — without it, `*:canceled` →
-        // processing would shadow `canceled:*` when cancelOrder cancels the
-        // shipments after the payment, and the no-revert guard would throw.
+        // Shipment-side cancellation does NOT cancel the ORDER: canceling every
+        // shipment leaves the order in `processing` so the merchant can re-ship
+        // or cancel deliberately. PAYMENT-side cancellation (`canceled:*`,
+        // driven by cancelOrder) is what cancels the order; per the precedence
+        // noted above, `canceled:*` out-ranks these `*:canceled` rules on its
+        // own (no explicit `canceled:canceled` entry needed).
         '*:partially_canceled': 'processing',
         '*:canceled': 'processing',
-        'canceled:canceled': 'canceled',
         'canceled:*': 'canceled'
       },
       // Predicate → rollup output. The resolver walks these in priority order
@@ -377,16 +385,19 @@ export default () => {
     2
   );
 
+  // Order status is derived: whenever payment or shipment status changes, we
+  // re-project (payment, shipment) -> order status and let `changeOrderStatus`
+  // clamp the result against where the order already is. The clamp holds a
+  // terminal order terminal and never reverts, so these hooks no longer throw
+  // when the projection "can't move" — a shipment cancel on a refunded (closed)
+  // order commits, and the order simply stays closed. Do NOT re-add
+  // terminal-sticky throw-guards here: they coupled a harmless projection result
+  // to a rollback of the merchant's actual action. See
+  // wiki/multi-shipment-design.md → "Order-status derivation".
   hookAfter(
     'changePaymentStatus',
     async (order, orderId, status, connection) => {
       const newOrderStatus = resolveOrderStatus(status, order.shipment_status);
-      if (order.status === 'canceled' && newOrderStatus !== 'canceled') {
-        throw new Error('Order is already canceled');
-      }
-      if (order.status === 'closed' && newOrderStatus !== 'closed') {
-        throw new Error('Order is already closed');
-      }
       await changeOrderStatus(orderId, newOrderStatus, connection);
     }
   );
@@ -395,13 +406,6 @@ export default () => {
     'changeShipmentStatus',
     async (order, orderId, status, connection) => {
       const newOrderStatus = resolveOrderStatus(order.payment_status, status);
-      if (order.status === 'canceled' && newOrderStatus !== 'canceled') {
-        throw new Error('Order is already canceled');
-      }
-      if (order.status === 'closed' && newOrderStatus !== 'closed') {
-        throw new Error('Order is already closed');
-      }
-
       await changeOrderStatus(orderId, newOrderStatus, connection);
     }
   );

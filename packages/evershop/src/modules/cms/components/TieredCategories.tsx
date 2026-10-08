@@ -129,10 +129,12 @@ export default function TieredCategories({
               </div>
             </ParentTag>
             <div className="evershop-tiered-categories__content">
+              {/* The name of an item: it carries the item hook, never the widget's headline hook (themes give
+                  that one section-headline type). theme-lab FINDINGS #37. */}
               <Editable
                 as="div"
                 fieldPath={`settings.groups.${originalIndex}.parent.label`}
-                className="evershop-tiered-categories__subheading text-base font-semibold"
+                className="evershop-tiered-categories__subheading evershop-widget__item-heading text-base font-semibold"
               >
                 {group.parent.label}
               </Editable>

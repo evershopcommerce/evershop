@@ -3,6 +3,7 @@ import watcher from '@parcel/watcher';
 import touch from 'touch';
 import type { Compiler, WebpackPluginInstance } from 'webpack';
 import { getEnabledExtensions } from '../../../bin/extension/index.js';
+import { THEME_LAYOUTS_FILE } from '../../componee/themeLayouts.js';
 import { CONSTANTS } from '../../helpers.js';
 import { debug } from '../../log/logger.js';
 import { getEnabledTheme } from '../../util/getEnabledTheme.js';
@@ -18,6 +19,7 @@ declare module 'webpack' {
 }
 
 let globalWatcher: AsyncWebpackSubscription | null = null;
+let globalLayoutsWatcher: AsyncWebpackSubscription | null = null;
 const watcherSubscribers = new Set<Compiler>();
 
 export class ThemeWatcherPlugin implements WebpackPluginInstance {
@@ -138,6 +140,8 @@ export class ThemeWatcherPlugin implements WebpackPluginInstance {
     const theme = getEnabledTheme();
     if (!theme) return;
 
+    this.initializeLayoutsWatcher(theme.path);
+
     const watchPath = path.join(theme.path, 'dist', 'components');
 
     watcher
@@ -173,10 +177,63 @@ export class ThemeWatcherPlugin implements WebpackPluginInstance {
       });
   }
 
+  /**
+   * `themes/<id>/layouts.json` (the theme layouts map) is read by AreaLoader,
+   * which webpack re-runs on every recompile (`cacheable(false)`), and
+   * `loadThemeLayouts` caches it by mtime. So a save only needs the compiler
+   * invalidated: the storefront bundle recompiles with the new placement and
+   * the hot-middleware client reloads the page. Watches the theme root
+   * (non-recursively, in effect: src/dist/public/node_modules are ignored).
+   */
+  private initializeLayoutsWatcher(themePath: string): void {
+    const layoutsFile = path.join(themePath, THEME_LAYOUTS_FILE);
+    watcher
+      .subscribe(
+        themePath,
+        (err: Error | null, events: any[]) => {
+          if (err) {
+            debug(err);
+            return;
+          }
+          if (!events.some((event) => event.path === layoutsFile)) {
+            return;
+          }
+          debug(`${THEME_LAYOUTS_FILE} changed — recompiling the storefront`);
+          watcherSubscribers.forEach((compiler: Compiler) => {
+            if (
+              !compiler.options.plugins?.find(
+                (p: any) => p instanceof ThemeWatcherPlugin
+              )
+            ) {
+              return;
+            }
+            if (compiler.watching) {
+              compiler.watching.invalidate();
+            }
+          });
+        },
+        {
+          ignore: ['src', 'dist', 'public', 'node_modules'].map((dir) =>
+            path.join(themePath, dir)
+          )
+        }
+      )
+      .then((subscription: AsyncWebpackSubscription) => {
+        globalLayoutsWatcher = subscription;
+      })
+      .catch((error: Error) => {
+        debug(error);
+      });
+  }
+
   private cleanupGlobalWatcher(): void {
     if (globalWatcher) {
       globalWatcher.unsubscribe();
       globalWatcher = null;
+    }
+    if (globalLayoutsWatcher) {
+      globalLayoutsWatcher.unsubscribe();
+      globalLayoutsWatcher = null;
     }
   }
 }

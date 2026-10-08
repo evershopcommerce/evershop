@@ -3,6 +3,14 @@ import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 
 export default async (request, response, next) => {
+  // Asset-serving routes (adminStaticAsset) are exempt from session (see
+  // bin/lib/routeNeedsSession.ts), so request.session is undefined there. No
+  // session means no logged-in user to resolve — bail out cleanly instead of
+  // destructuring undefined.
+  if (!request.session) {
+    next();
+    return;
+  }
   const { userID } = request.session;
   // Load the user from the database
   const user = await select()

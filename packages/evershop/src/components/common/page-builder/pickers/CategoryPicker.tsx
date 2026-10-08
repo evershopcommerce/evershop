@@ -1,4 +1,7 @@
-import { EntitySearchList } from '@components/common/page-builder/pickers/EntitySearchList.js';
+import {
+  EntitySearchList,
+  SearchListItem
+} from '@components/common/page-builder/pickers/EntitySearchList.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'urql';
@@ -38,13 +41,24 @@ export interface CategoryPickerProps {
   selectedUuid?: string | null;
   onPick: (next: { url: string; name: string; uuid: string }) => void;
   limit?: number;
+  /**
+   * Rows pinned above the search results — e.g. the "All Products" shortcut for
+   * the `/products` listing, which is a fixed route with no entity id and so
+   * cannot be a URN like a real category. Hidden while a search is active so
+   * results stay clean and the empty-state hint still shows. Selecting one calls
+   * `onPinnedSelect` with its id instead of the normal `onPick`.
+   */
+  pinnedItems?: SearchListItem[];
+  onPinnedSelect?: (id: string) => void;
 }
 
 export function CategoryPicker({
   selectedUrl,
   selectedUuid,
   onPick,
-  limit = 10
+  limit = 10,
+  pinnedItems,
+  onPinnedSelect
 }: CategoryPickerProps) {
   const [search, setSearch] = useState('');
   const [debounced, setDebounced] = useState('');
@@ -62,7 +76,7 @@ export function CategoryPicker({
     : [{ key: 'limit', operation: 'eq', value: String(limit) }];
 
   const [result] = useQuery({ query: SEARCH_QUERY, variables: { filters } });
-  const items = (result.data?.categories?.items ?? []).map(
+  const fetched = (result.data?.categories?.items ?? []).map(
     (c: {
       uuid: string;
       name: string;
@@ -78,9 +92,17 @@ export function CategoryPicker({
     })
   );
 
+  const pinnedIds = new Set((pinnedItems ?? []).map((pin) => pin.id));
+  // Pinned shortcuts only show when no search is active, so a real search
+  // returns a clean list and the empty-state hint still works.
+  const items =
+    !debounced && pinnedItems && pinnedItems.length > 0
+      ? [...pinnedItems, ...fetched]
+      : fetched;
+
   const selectedIdByUuid =
     selectedUuid
-      ? items.find(
+      ? fetched.find(
           (it) => (it as unknown as { _uuid: string })._uuid === selectedUuid
         )?.id ?? null
       : null;
@@ -93,11 +115,13 @@ export function CategoryPicker({
       onSearchChange={setSearch}
       loading={result.fetching}
       onSelect={(id, item) =>
-        onPick({
-          url: id,
-          name: item.primary,
-          uuid: (item as unknown as { _uuid: string })._uuid
-        })
+        pinnedIds.has(id)
+          ? onPinnedSelect?.(id)
+          : onPick({
+              url: id,
+              name: item.primary,
+              uuid: (item as unknown as { _uuid: string })._uuid
+            })
       }
       caption={_('Pick a category to link to.')}
       emptyHint={

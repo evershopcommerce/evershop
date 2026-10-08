@@ -158,9 +158,16 @@ export default async (request, response, next) => {
         .load(pool);
       if (productImage) {
         const baseUrl = getBaseUrl();
+        // `origin_image` is a relative path for local storage but an ABSOLUTE
+        // URL for cloud storage (S3, etc.). Pass it straight to the `/images`
+        // processor as an encoded `src` — do NOT prepend baseUrl, or an S3 URL
+        // becomes `<baseUrl><s3Url>` (a doubled domain). Only the outer `/images`
+        // URL is absolute, as social crawlers require. Mirrors PageInfo.ogInfo.
         setPageMetaInfo(request, {
           ogInfo: {
-            image: `${baseUrl}/images?src=${baseUrl}${productImage.origin_image}&w=1200&q=80&h=675&f=png`
+            image: `${baseUrl}/images?src=${encodeURIComponent(
+              productImage.origin_image
+            )}&w=1200&q=80&h=675&f=png`
           }
         });
       }
