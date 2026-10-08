@@ -8,9 +8,13 @@ import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 /**
  * Customer-only `/account/orders/:uuid` page. Gated on customer session. The
  * GraphQL `order(uuid: ...)` resolver enforces that the order belongs to the
- * current customer (storefront contract), so we don't need to re-check here —
- * an unauthed user is redirected, and a logged-in customer querying someone
- * else's order gets a `null` from GraphQL and renders an empty state.
+ * current customer (`canAccessOrder`, which compares `context.customer` with
+ * the order's `customer_id`), so we don't need to re-check here — an unauthed
+ * user is redirected, and a logged-in customer querying someone else's order
+ * gets a `null` from GraphQL and renders an empty state.
+ *
+ * This page must NOT call `grantOrderAccess`: a login proves who the visitor
+ * is, not that the UUID in the URL is theirs. The resolver does that check.
  *
  * Stores the URL param as `orderUuid` context value so the page-component
  * query export can read it via `getContextValue("orderUuid")`.

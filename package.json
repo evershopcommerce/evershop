@@ -1,6 +1,6 @@
 {
   "name": "evershop",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "A shopping cart platform with Express, React and Postgres",
   "workspaces": [
@@ -44,7 +44,6 @@
     "@typescript-eslint/eslint-plugin": "^8.32.0",
     "@typescript-eslint/parser": "^8.32.0",
     "copyfiles": "^2.4.1",
-    "cypress": "^13.15.1",
     "eslint": "^9.24.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",

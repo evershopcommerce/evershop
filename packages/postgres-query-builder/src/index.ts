@@ -2,11 +2,13 @@ import { PoolClient as PgPoolClient, Pool, QueryResult } from 'pg';
 import uniqid from 'uniqid';
 import { fieldResolve } from './fieldResolve.js';
 import { isValueASQL } from './isValueASQL.js';
+import { RAW_SQL, isRawSql } from './rawSqlMarker.js';
 import { toString } from './toString.js';
 
 interface SQLValue {
   value: any;
   isSQL: boolean;
+  [RAW_SQL]?: true;
 }
 
 type Binding = Record<string, any>;
@@ -25,7 +27,7 @@ class Select {
     // Resolve field name
     let f = '';
     if (isValueASQL(field) || field === '*') {
-      if (typeof field === 'object' && field.isSQL === true) {
+      if (typeof field === 'object' && isRawSql(field)) {
         f = field.value;
       } else {
         f = field as string;
@@ -106,7 +108,10 @@ class Leaf {
     value: any,
     node?: Node
   ) {
-    if (value.isSQL === true) {
+    // Raw, unbound SQL only for a value carrying the internal marker (e.g.
+    // `sql(...)` or a JOIN `on` column). A plain `{ isSQL: true }` object from
+    // request data falls through to the bound-parameter path below.
+    if (isRawSql(value)) {
       this._value = value.value;
     } else {
       value = value.value;
@@ -195,15 +200,14 @@ class Node {
     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
       this._tree.push(new Leaf(link, field, operator, value, this));
     } else {
-      this._tree.push(
-        new Leaf(
-          link,
-          field,
-          operator,
-          { value: value, isSQL: this._defaultValueTreatment === 'sql' },
-          this
-        )
-      );
+      // A Node created with the `'sql'` treatment (e.g. a JOIN `on` node)
+      // renders its values as raw SQL, so tag them with the marker. Everything
+      // else is a bound parameter.
+      const rawSqlValue: SQLValue =
+        this._defaultValueTreatment === 'sql'
+          ? { value, isSQL: true, [RAW_SQL]: true }
+          : { value, isSQL: false };
+      this._tree.push(new Leaf(link, field, operator, rawSqlValue, this));
     }
     return this;
   }
@@ -1153,7 +1157,8 @@ async function execute(
 function sql(value: any): SQLValue {
   return {
     value: value,
-    isSQL: true
+    isSQL: true,
+    [RAW_SQL]: true
   };
 }
 

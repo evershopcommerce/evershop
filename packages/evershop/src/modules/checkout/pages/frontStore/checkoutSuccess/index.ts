@@ -5,6 +5,7 @@ import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
+import { grantOrderAccess } from '../../../../oms/services/orderAccess.js';
 
 export default async (request: EvershopRequest, response, next) => {
   const { orderId } = request.params;
@@ -22,6 +23,9 @@ export default async (request: EvershopRequest, response, next) => {
       description: translate('Checkout success')
     });
     setContextValue(request, 'orderId', order.uuid);
+    // The query above matched the order to this browser session (`sid`). Tell
+    // the GraphQL `order` resolver, which cannot see the session itself.
+    grantOrderAccess(request, order.uuid, 'session');
     next();
   }
 };
