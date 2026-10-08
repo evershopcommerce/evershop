@@ -1,3 +1,34 @@
+# v2.2.2 (2026-10-08)
+
+A patch for v2.2.1 that fixes a start-up failure on fresh installs and several security vulnerabilities. There are no database migrations and no new features. Upgrading promptly is recommended.
+
+**Fresh installs of v2.2.1 fail to start.** The upload storage imported `concat-stream`, which was never declared and only arrived through `multer` 2.3.0 or older. `multer` 2.4.0 dropped it, and the `^2.2.0` range now resolves to 2.4.0, so the admin GraphQL schema fails to load at bootstrap. Stores that already have a lockfile with the older `multer` were not affected. On v2.2.1, `npm install concat-stream` is a workaround.
+
+## Security
+
+* **Order data exposure through the public GraphQL API** (CVE-2025-12919, CWE-639, #881): `Query.order(uuid)` returned name, email, phone, addresses, items and shipment tracking to anyone who knew an order UUID.
+* **Authorization bypass** (CWE-306 / CWE-863): an API route middleware that declared its own `after` list (for example `[bodyParser]saveGroup.js`) could run before authentication.
+* **SQL injection** (CWE-89) through the query builder's raw-SQL escape hatch: a request body passed as a `.where()` value could set `{ isSQL: true }` to inline unbound SQL. Fixed in `@evershop/postgres-query-builder` 2.1.1.
+* **Server-side code evaluation** (CWE-95): the GraphQL query builder evaluated the decoded arguments of `getContextValue(...)` tokens as JavaScript.
+* **Dependencies**: 53 of the 55 open high and critical alerts, including a `multer` denial of service and `sharp` / libvips / libheif fixes.
+
+## Bug Fixes
+
+* Fixed the fresh-install start-up failure described above. The upload storage now joins the chunks with `Buffer.concat`, as `multer`'s own memory storage does, and still enforces the per-type size limit while the file streams.
+
+## Dependencies
+
+* Upgraded: `multer` ^2.4.0, `sharp` 0.33 → 0.35 (**requires Node.js 20.9 or newer**), `axios` ^1.20.0, `undici` ^7.30.0, `@evershop/postgres-query-builder` ^2.1.1.
+* Removed: `cypress` (dev; the end-to-end tests use Playwright).
+
+## Upgrade Notes
+
+1. Update `@evershop/evershop`, reinstall dependencies and run `npm run build`. Use Node.js 20.9 or newer.
+2. **Raw SQL in the query builder needs `sql()`.** A hand-written `{ isSQL: true, value: '...' }` object is now treated as an ordinary bound value. Replace such objects in extensions with `sql('...')`.
+3. **`getContextValue(...)` in a route's GraphQL `query` or `variables` takes data literals only** (strings, numbers, booleans, `null`, arrays and objects). An expression now throws instead of running.
+4. **`Query.order(uuid)` returns `null` unless access is proven.** An order is returned only to an admin, to the customer who owns it, or to a page that called `grantOrderAccess(request, uuid, via)` (exported from `@evershop/evershop/oms/services`). Core's checkout success page and the order tracking page already do. A custom page, theme or extension that reads `order(uuid)` on its own must call it after checking access.
+5. **Authentication is now enforced on API route middleware that declares its own `after` list.** If a route middleware is ordered ahead of a pre-auth one, you now get an explicit error message instead of an opaque cycle error.
+
 # v2.2.1 (2026-08-11)
 
 The largest EverShop release since 2.0. It consolidates the previously drafted-but-unpublished 2.1.3 work (React 19) with four months of development on top of v2.1.2: a visual page builder, a blog module, entity custom fields (metafields), a multi-language storefront with a translated admin, a rebuilt shipping and fulfillment stack, built-in cloud file storage, product recommendations, and a substantial security and performance pass.
