@@ -17,6 +17,8 @@ import JSON5 from 'json5';
  * turns `"key", 5` into the array `["key", 5]`. A non-literal payload throws a
  * SyntaxError instead of running.
  */
-export function parseContextValueArgs(decoded: string): unknown[] {
+export function parseContextValueArgs(
+  decoded: string
+): [key: string, defaultValue?: unknown, toString?: boolean] {
   return JSON5.parse(`[${decoded}]`);
 }
