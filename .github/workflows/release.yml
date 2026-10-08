@@ -261,19 +261,36 @@ jobs:
       # On a dry run there is no published package to install, so the build
       # falls back to the last released version purely to exercise the
       # Dockerfile itself.
+      # npm made 2.2.2 and 2.3.0 installable about 5 to 6 minutes after
+      # `npm publish` had returned, and the old 75-second wait gave up and then
+      # carried on, so the build ran against a version that was not there yet
+      # (ETARGET). Now the step waits (up to 20 minutes) for the very command the
+      # Dockerfile runs to work, and fails loudly if it never does. The two
+      # limits are variables only so the logic can be tested with small values.
       - name: Resolve the version to install
         id: ver
+        env:
+          WAIT_TOTAL_SECONDS: '1200'
+          WAIT_INTERVAL_SECONDS: '15'
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
             V=$(npm view @evershop/evershop version)
             echo "dry run — building against currently published $V"
           else
             V="${{ inputs.version }}"
-            # npm can take a moment to make a fresh version installable.
-            for i in 1 2 3 4 5; do
-              if npm view "@evershop/evershop@$V" version >/dev/null 2>&1; then break; fi
-              echo "waiting for @evershop/evershop@$V to appear on npm ($i/5)"; sleep 15
+            PROBE=$(mktemp -d)
+            echo '{"name":"probe","version":"1.0.0","private":true}' > "$PROBE/package.json"
+            deadline=$((SECONDS + WAIT_TOTAL_SECONDS))
+            ready=0
+            while :; do
+              if (cd "$PROBE" && npm install --package-lock-only --ignore-scripts --prefer-online --no-audit --no-fund "@evershop/evershop@$V" >/dev/null 2>&1); then ready=1; break; fi
+              [ "$SECONDS" -lt "$deadline" ] || break
+              echo "waiting for @evershop/evershop@$V to become installable ($((deadline - SECONDS)) s left)"; sleep "$WAIT_INTERVAL_SECONDS"
             done
+            if [ "$ready" != 1 ]; then
+              echo "::error::@evershop/evershop@$V is still not installable after $((WAIT_TOTAL_SECONDS / 60)) minutes, so the image cannot be built"; exit 1
+            fi
+            echo "@evershop/evershop@$V is installable"
           fi
           echo "version=$V" >> "$GITHUB_OUTPUT"
 
