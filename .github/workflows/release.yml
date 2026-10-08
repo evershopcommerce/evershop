@@ -21,9 +21,16 @@ name: Release
 #   would be decorative.
 #
 # Requires repository secrets:
-#   NPM_TOKEN          — npm automation token with publish rights on @evershop
 #   DOCKERHUB_USERNAME — Docker Hub account with push rights on evershop/evershop
 #   DOCKERHUB_TOKEN    — Docker Hub access token for that account
+#
+# npm needs NO secret: publishing and promotion go through npm trusted
+# publishing (OIDC). On npmjs.com, @evershop/evershop -> Settings -> Trusted
+# publishing must list evershopcommerce/evershop, workflow `release.yml`, with
+# "npm publish" and "npm dist-tag" allowed. If an environment name is ever added
+# there, add the same `environment:` to the publish and promote jobs. A token
+# that bypasses 2FA is not an option any more: npm is retiring them, and the
+# 2.2.2 publish failed with EOTP because of it.
 #
 # Optional but recommended: configure an environment named `npm-publish` with
 # required reviewers, so publishing needs an approval click.
@@ -126,14 +133,20 @@ jobs:
           ref: refs/tags/v${{ inputs.version }}
           fetch-depth: 0
 
+      # Trusted publishing (OIDC) needs Node >= 22.14 and npm >= 11.5.1, so this
+      # job no longer runs the minimum supported Node 20; the tarball is the same
+      # either way (tsc output does not depend on the Node version, and the
+      # verify job tests on Node 20). npm is pinned to the 11 line: `latest` is
+      # npm 12, which needs Node >= 22.22.
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
-      # No `npm install -g npm@latest` here: `latest` is now npm 12, which
-      # requires Node >= 22.22, and this job deliberately runs the minimum
-      # supported Node 20. The npm 10.8.2 that ships with Node 20 already
-      # supports --provenance (added in 9.5), so the bundled one is enough.
+      - name: Use npm 11
+        run: |
+          npm install -g npm@11
+          echo "node $(node -v), npm $(npm -v)"
+          [ "$(npm -v | cut -d. -f1)" = "11" ]
       - run: npm ci || npm install
 
       - name: Refuse to overwrite an existing version
@@ -157,12 +170,13 @@ jobs:
             if (!decls) { console.error("::error::tarball has no .d.ts files"); process.exit(1); }
           '
 
+      # No token: npm signs in with this job's GitHub OIDC identity (trusted
+      # publishing, `id-token: write` above). A dry run skips this step, so it
+      # does not exercise the npm side of the setup.
       - name: Publish
         if: ${{ !inputs.dry_run }}
         working-directory: packages/evershop
         run: npm publish --tag ${{ inputs.dist_tag }} --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Extract this version's changelog section
         if: ${{ !inputs.dry_run }}
@@ -302,15 +316,23 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # flip the GitHub Release off pre-release
+      id-token: write # npm trusted publishing (dist-tag)
     steps:
       - uses: actions/checkout@v4
         with:
           ref: refs/tags/v${{ inputs.version }}
 
+      # `npm dist-tag` through OIDC needs npm >= 11.21 and the "npm dist-tag"
+      # permission on the trusted publisher (see the header).
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
+      - name: Use npm 11
+        run: |
+          npm install -g npm@11
+          echo "node $(node -v), npm $(npm -v)"
+          [ "$(npm -v | cut -d. -f1)" = "11" ]
 
       # Promotion must never be the first time a version is seen. Both
       # registries have to already carry it, or we would be pointing `latest`
@@ -327,9 +349,10 @@ jobs:
 
       - name: npm — point latest at this version
         if: ${{ !inputs.dry_run }}
+        # If this step ever fails to authenticate, the manual equivalent takes ten
+        # seconds from a maintainer's machine (it asks for the 2FA code):
+        #   npm dist-tag add @evershop/evershop@<version> latest
         run: npm dist-tag add "@evershop/evershop@${{ inputs.version }}" latest
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Log in to Docker Hub
         if: ${{ !inputs.dry_run }}
