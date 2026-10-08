@@ -159,10 +159,12 @@ function TileContent({
             {tile.eyebrow}
           </Editable>
         )}
+        {/* The name of an item: it carries the item hook, never the widget's headline hook (themes give that
+            one section-headline type). theme-lab FINDINGS #37. */}
         <Editable
           as="div"
           fieldPath={`${base}.heading`}
-          className={`evershop-bento-grid__heading font-semibold ${
+          className={`evershop-bento-grid__heading evershop-widget__item-heading font-semibold ${
             isHero ? 'text-xl md:text-2xl' : 'text-base'
           }`}
         >

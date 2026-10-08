@@ -134,10 +134,12 @@ export default function TrustStrip({ trustStripWidget }: TrustStripProps) {
                 }}
               />
             )}
+            {/* The name of an item: it carries the item hook, never the widget's headline hook (themes give
+                that one section-headline type). theme-lab FINDINGS #37. */}
             <Editable
               as="div"
               fieldPath={`${itemBase}.title`}
-              className="evershop-trust-strip__heading text-sm font-semibold"
+              className="evershop-trust-strip__heading evershop-widget__item-heading text-sm font-semibold"
             >
               {item.title}
             </Editable>

@@ -239,10 +239,12 @@ export default function CategoryMosaic({
                       className="evershop-category-mosaic__overlay-tint pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
                     />
                     <div className="evershop-category-mosaic__label evershop-category-mosaic__label--overlay absolute bottom-0 left-0 right-0 flex items-center justify-between p-4 text-white">
+                      {/* The name of an item: it carries the item hook, never the widget's headline hook (themes
+                          give that one section-headline type). theme-lab FINDINGS #37. */}
                       <Editable
                         as="span"
                         fieldPath={labelFieldPath}
-                        className="text-base font-semibold"
+                        className="evershop-widget__item-heading text-base font-semibold"
                       >
                         {tile.label}
                       </Editable>
@@ -263,10 +265,12 @@ export default function CategoryMosaic({
               </div>
               {labelPosition === 'below' && (
                 <div className="evershop-category-mosaic__label evershop-category-mosaic__label--below mt-2 flex items-center justify-between text-foreground">
+                  {/* The name of an item: it carries the item hook, never the widget's headline hook (themes
+                      give that one section-headline type). theme-lab FINDINGS #37. */}
                   <Editable
                     as="span"
                     fieldPath={labelFieldPath}
-                    className="text-sm font-semibold"
+                    className="evershop-widget__item-heading text-sm font-semibold"
                   >
                     {tile.label}
                   </Editable>
