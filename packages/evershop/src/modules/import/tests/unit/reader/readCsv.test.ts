@@ -74,15 +74,14 @@ describe('readCsv: rows', () => {
   });
 
   it('reads empty cells, including a last one after a comma', async () => {
-    const result = await readAll('a,b,c\n,,\n1,,3\n1,2,\n,2,3\n"",\n');
-    expect(cellsOf(result.rows.slice(0, 4))).toEqual([
-      ['', '', ''],
+    const result = await readAll('a,b,c\n1,,3\n1,2,\n,2,3\n"",x\n');
+    expect(cellsOf(result.rows.slice(0, 3))).toEqual([
       ['1', '', '3'],
       ['1', '2', ''],
       ['', '2', '3']
     ]);
-    // `"",` is two cells, not three.
-    expect(result.rows[4].cells).toEqual(['', '']);
+    // `"",x` is two cells, not three.
+    expect(result.rows[3].cells).toEqual(['', 'x']);
     expect(result.issues.map((issue) => issue.code)).toEqual(['ROW_WIDTH']);
   });
 
@@ -206,9 +205,39 @@ describe('readCsv: blank lines', () => {
     ]);
   });
 
-  it('keeps a row that has only empty cells: it is not a blank line', async () => {
-    const result = await readAll('a,b\n,\n');
-    expect(cellsOf(result.rows)).toEqual([['', '']]);
+  it('treats a row of only empty cells as a blank line: skipped, but counted', async () => {
+    // Excel leaves rows like `,,` at the end of a sheet.
+    const result = await readAll('a,b\n,\n1,2\n"", \n  ,\t\n3,4\n,\n');
+    expect(result.rows.map((row) => row.rowNumber)).toEqual([3, 6]);
+    expect(result.dataRows).toBe(2);
+    expect(result.issues).toEqual([]);
+  });
+
+  it('skips a row of empty cells whatever its width: no ROW_WIDTH for it', async () => {
+    const result = await readAll('a,b\n,,,,\n1,2\n,\n');
+    expect(cellsOf(result.rows)).toEqual([['1', '2']]);
+    expect(result.issues).toEqual([]);
+  });
+
+  it('skips a quoted empty cell in a single-column file', async () => {
+    const result = await readAll('email\n""\na@x.com\n');
+    expect(result.rows).toEqual([
+      { rowNumber: 3, cells: ['a@x.com'], hasError: false }
+    ]);
+  });
+
+  it('does not take a row of empty cells for the header', async () => {
+    const result = await readAll(',,\na,b\n1,2\n');
+    expect(result.headerRow).toBe(2);
+    expect(result.columns).toEqual(['a', 'b']);
+  });
+
+  it('keeps a row that has something in at least one cell', async () => {
+    const result = await readAll('a,b\n,x\n"a b",\n');
+    expect(cellsOf(result.rows)).toEqual([
+      ['', 'x'],
+      ['a b', '']
+    ]);
   });
 });
 
@@ -375,6 +404,7 @@ describe('readCsv: an empty file (ALL-02)', () => {
     ['only line breaks', '\n\r\n\n', 'no_header'],
     ['a header and nothing else', 'sku,name\n', 'no_rows'],
     ['a header and blank lines', 'sku,name\n\n\n', 'no_rows'],
+    ['a header and rows of empty cells', 'sku,name\n,\n,\n', 'no_rows'],
     ['a header without a line break', 'sku,name', 'no_rows']
   ])('reports %s', async (_name, input, reason) => {
     const result = await readAll(input);

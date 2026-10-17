@@ -166,6 +166,24 @@ describe('createIssue', () => {
     expect(issue.value).toBe(`${'👕'.repeat(100)}…`);
   });
 
+  it('cuts a long message to 1000 characters: it holds a column name, and every row repeats it', () => {
+    const column = 'c'.repeat(60_000);
+    const issue = createIssue({
+      code: 'INVALID_VALUE',
+      message: `The value in column "${column}" must be 1, 0, true or false.`
+    });
+    expect(issue.message).toBe(
+      `${`The value in column "${column}"`.slice(0, 1000)}…`
+    );
+    const short = 'The value in column "price" must be a number.';
+    expect(createIssue({ code: 'INVALID_VALUE', message: short }).message).toBe(
+      short
+    );
+    expect(
+      createIssue({ code: 'INVALID_VALUE', message: 'm'.repeat(1000) }).message
+    ).toBe('m'.repeat(1000));
+  });
+
   it('cuts a very long value without reading all of it', () => {
     const issue = createIssue({
       code: 'INVALID_VALUE',
