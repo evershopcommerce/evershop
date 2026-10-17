@@ -62,6 +62,9 @@ const SECRET_COLUMNS: ReadonlySet<string> = new Set([
 
 const MAX_COLUMN_LENGTH = 200;
 const MAX_VALUE_LENGTH = 100;
+// A message holds the name of a column, and that name can be as long as a cell.
+// A row-level message is repeated for every row of the file, so it is capped.
+const MAX_MESSAGE_LENGTH = 1000;
 
 export function defaultSeverity(code: ImportIssueCode): ImportSeverity {
   return WARNING_CODES.has(code) ? 'warning' : 'error';
@@ -97,14 +100,15 @@ export interface IssueInput {
 
 /**
  * The one way to make an issue. It makes the issue safe to store and to show:
- * no U+0000, a cell is truncated, and the cell of a password column is dropped.
+ * no U+0000, a cell, a column name and a message are truncated, and the cell of
+ * a password column is dropped.
  */
 export function createIssue(input: IssueInput): ImportIssue {
   const issue: ImportIssue = {
     code: input.code,
     severity: input.severity ?? defaultSeverity(input.code),
     params: input.params ?? {},
-    message: withoutNul(input.message)
+    message: truncate(withoutNul(input.message), MAX_MESSAGE_LENGTH)
   };
   if (input.rowNumber !== undefined) {
     issue.rowNumber = input.rowNumber;

@@ -6,7 +6,7 @@ import type { ImportIssue } from '../types.js';
 import { CsvFileError, CsvFileGuard } from './csvFileGuard.js';
 
 export interface CsvLimits {
-  /** Data rows (not the header, not blank lines). More is `FILE_TOO_LARGE`. */
+  /** Data rows (not the header, not blank rows). More is `FILE_TOO_LARGE`. */
   maxRows: number;
   /** Characters in one cell (ALL-12). */
   maxCellLength: number;
@@ -209,8 +209,10 @@ export async function* readCsv(
     >) {
       rowNumber += 1;
       const cells = Object.values(record);
-      if (cells.length === 0) {
-        // A blank line. It counts as a row, as in a spreadsheet.
+      if (cells.every((cell) => cell.trim() === '')) {
+        // A blank line, or a row of empty cells (Excel leaves rows like `,,,`
+        // at the end of a sheet). It counts as a row, as in a spreadsheet, and
+        // it is never a data row, whatever its width.
         continue;
       }
       if (header === null) {
