@@ -9,7 +9,7 @@ interface Module {
 export type BootstrapContext = {
   command?: string;
   env?: 'production' | 'development' | 'test';
-  process?: 'main' | 'cronjob' | 'event';
+  process?: 'main' | 'cronjob' | 'event' | 'import';
 };
 
 type BootstrapModule = {
