@@ -33,6 +33,11 @@ export const MAX_POSITION = 32_767;
 /** `decimal(12,4)` holds less than this; `price` and `weight` stay below it. */
 export const DECIMAL_BELOW = 100_000_000;
 
+/** The sentence of an issue about a cell: `The value in column "x" …`. */
+export function cellMessage(column: string, failure: CellFailure): string {
+  return `The value in column "${column}" ${failure.problem}`;
+}
+
 export function cellIssue(
   failure: CellFailure,
   where: { rowNumber: number; column: string; value?: string }
@@ -42,7 +47,7 @@ export function cellIssue(
     rowNumber: where.rowNumber,
     column: where.column,
     params: failure.params,
-    message: `The value in column "${where.column}" ${failure.problem}`,
+    message: cellMessage(where.column, failure),
     value: where.value
   });
 }
