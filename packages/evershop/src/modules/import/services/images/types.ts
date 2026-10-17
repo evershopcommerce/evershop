@@ -1,4 +1,4 @@
-import { createIssue } from '../issues.js';
+import { IMP_03 } from '../rules/importPhaseRules.js';
 import type { ImportIssue } from '../types.js';
 
 /**
@@ -109,8 +109,7 @@ export function imageIssue(
   error: ImageError,
   where: { rowNumber: number; column: string; value: string }
 ): ImportIssue {
-  return createIssue({
-    code: 'IMAGE_UNREADABLE',
+  return IMP_03.issue({
     rowNumber: where.rowNumber,
     column: where.column,
     params: { reason: error.reason, ...error.params },

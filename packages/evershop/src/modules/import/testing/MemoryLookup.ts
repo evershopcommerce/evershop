@@ -13,7 +13,11 @@ export class MemoryLookup implements Lookup {
   /** Every call of `categories`, with the keys it was given. */
   readonly categoryCalls: string[][] = [];
 
-  private readonly stored = new Map<string, StoredCategory>();
+  /**
+   * The categories of the store by `url_key`. `MemoryServices` writes here, so a
+   * category it creates is found by the next question.
+   */
+  readonly stored = new Map<string, StoredCategory>();
 
   private readonly reserved: ReadonlySet<string>;
 
@@ -25,6 +29,7 @@ export class MemoryLookup implements Lookup {
     (fixture.categories ?? []).forEach((category, index) => {
       this.stored.set(category.urlKey, {
         id: category.id ?? index + 1,
+        uuid: category.uuid ?? `uuid-${category.urlKey}`,
         urlKey: category.urlKey,
         parentUrlKey: category.parentUrlKey ?? null,
         name: category.name ?? category.urlKey,
@@ -48,7 +53,8 @@ export class MemoryLookup implements Lookup {
     for (const key of urlKeys) {
       const category = this.stored.get(key);
       if (category) {
-        found.set(key, category);
+        // A copy: the caller must not change the store by holding the answer.
+        found.set(key, { ...category });
       }
     }
     return found;

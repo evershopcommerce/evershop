@@ -2,7 +2,10 @@ import type { ImportEntity } from '../types.js';
 
 /** A category as the store has it now (the merged state for an update). */
 export interface StoredCategory {
+  /** `category_id`: what a child gives as its `parent_id`. */
   id: number;
+  /** What `updateCategory` takes to name the category. */
+  uuid: string;
   urlKey: string;
   /** The `url_key` of its parent, or null at the top level. */
   parentUrlKey: string | null;

@@ -78,66 +78,18 @@ export async function validateFile(
   };
 
   const state = validator.createState();
-  let header: HeaderInfo | null = null;
-  // Names that have no name: a cell with something in it is not read (once).
-  const blankWarned = new Set<number>();
-
-  // Pass 1: header, cells, and what the rows have to do with each other.
-  for await (const event of readCsv(open(), args.limits)) {
-    if (signal?.aborted) {
-      summary.canceled = true;
-      return summary;
-    }
-    if (event.type === 'issue') {
-      await emit(event.issue, null);
-    } else if (event.type === 'header') {
-      header = headerInfo(event.columns);
-      const checked = await validator.checkHeader(header, context);
-      for (const issue of checked.issues) {
-        await emit(issue, null);
-      }
-      if (checked.fatal) {
-        summary.stopped = true;
-        break;
-      }
-    } else if (event.type === 'row' && header) {
-      const row = validator.convert(event.row, header, context);
-      for (const issue of row.issues) {
-        await emit(issue, row.key);
-      }
-      if (row.example) {
-        summary.exampleRows += 1;
-      } else if (!row.broken) {
-        for (const issue of validator.index(state, row)) {
-          await emit(issue, row.key);
-        }
-      }
-      for (let at = 0; at < header.columns.length; at += 1) {
-        if (
-          header.columns[at] === '' &&
-          !blankWarned.has(at) &&
-          (event.row.cells[at] ?? '').trim() !== ''
-        ) {
-          blankWarned.add(at);
-          await emit(
-            createIssue({
-              code: 'UNKNOWN_COLUMN',
-              rowNumber: event.row.rowNumber,
-              params: { position: at + 1 },
-              message: `Column ${
-                at + 1
-              } has no name, so its values are not read.`
-            }),
-            row.key
-          );
-        }
-      }
-    } else if (event.type === 'end') {
-      summary.totalRows = event.dataRows;
-      summary.stopped = summary.stopped || event.stopped;
-    }
-  }
-  if (summary.stopped || header === null) {
+  const first = await firstPass({
+    validator,
+    context,
+    open,
+    limits: args.limits,
+    signal,
+    state,
+    emit,
+    summary
+  });
+  const { header } = first;
+  if (summary.canceled || summary.stopped || header === null) {
     return summary;
   }
 
@@ -188,4 +140,127 @@ function headerInfo(columns: string[]): HeaderInfo {
     }
   });
   return { columns, position };
+}
+
+interface FirstPassArgs {
+  validator: EntityValidator;
+  context: ValidationContext;
+  open: () => Readable;
+  limits?: Partial<CsvLimits>;
+  signal?: AbortSignal;
+  state: unknown;
+  emit: (issue: ImportIssue, key: string | null) => Promise<void>;
+  summary: ValidationSummary;
+}
+
+// Pass 1: header, cells, and what the rows have to do with each other.
+async function firstPass(
+  args: FirstPassArgs
+): Promise<{ header: HeaderInfo | null }> {
+  const { validator, context, signal, state, emit, summary } = args;
+  let header: HeaderInfo | null = null;
+  // Columns that have no name: a cell with something in it is not read (once).
+  const blankWarned = new Set<number>();
+  for await (const event of readCsv(args.open(), args.limits)) {
+    if (signal?.aborted) {
+      summary.canceled = true;
+      return { header };
+    }
+    if (event.type === 'issue') {
+      await emit(event.issue, null);
+    } else if (event.type === 'header') {
+      header = headerInfo(event.columns);
+      const checked = await validator.checkHeader(header, context);
+      for (const issue of checked.issues) {
+        await emit(issue, null);
+      }
+      if (checked.fatal) {
+        summary.stopped = true;
+        break;
+      }
+    } else if (event.type === 'row' && header) {
+      const row = validator.convert(event.row, header, context);
+      for (const issue of row.issues) {
+        await emit(issue, row.key);
+      }
+      if (row.example) {
+        summary.exampleRows += 1;
+      } else if (!row.broken) {
+        for (const issue of validator.index(state, row)) {
+          await emit(issue, row.key);
+        }
+      }
+      for (let at = 0; at < header.columns.length; at += 1) {
+        if (
+          header.columns[at] === '' &&
+          !blankWarned.has(at) &&
+          (event.row.cells[at] ?? '').trim() !== ''
+        ) {
+          blankWarned.add(at);
+          await emit(
+            createIssue({
+              code: 'UNKNOWN_COLUMN',
+              rowNumber: event.row.rowNumber,
+              params: { position: at + 1 },
+              message: `Column ${
+                at + 1
+              } has no name, so its values are not read.`
+            }),
+            row.key
+          );
+        }
+      }
+    } else if (event.type === 'end') {
+      summary.totalRows = event.dataRows;
+      summary.stopped = summary.stopped || event.stopped;
+    }
+  }
+  return { header };
+}
+
+export interface IndexedFile<State = unknown> {
+  header: HeaderInfo | null;
+  /** What the rows have to do with each other: the keys, the links. */
+  state: State;
+  stopped: boolean;
+  canceled: boolean;
+}
+
+/**
+ * The first pass alone: reads the file and returns what the rows have to do with
+ * each other, without a word about what is wrong. The plan of an import is built
+ * from it, and so is a resumed one, which does not validate again.
+ */
+export async function indexFile<State = unknown>(args: {
+  validator: EntityValidator<unknown, State>;
+  context: ValidationContext;
+  open: () => Readable;
+  limits?: Partial<CsvLimits>;
+  signal?: AbortSignal;
+}): Promise<IndexedFile<State>> {
+  const state = args.validator.createState();
+  const summary: ValidationSummary = {
+    totalRows: 0,
+    createRows: 0,
+    updateRows: 0,
+    exampleRows: 0,
+    errors: 0,
+    warnings: 0,
+    byCode: {},
+    stopped: false,
+    canceled: false
+  };
+  const { header } = await firstPass({
+    ...args,
+    validator: args.validator as EntityValidator,
+    state,
+    emit: async () => undefined,
+    summary
+  });
+  return {
+    header,
+    state,
+    stopped: summary.stopped,
+    canceled: summary.canceled
+  };
 }
