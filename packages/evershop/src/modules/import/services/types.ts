@@ -30,6 +30,13 @@ export interface ImportRecord<T = Record<string, unknown>> {
   data: T;
 }
 
+/**
+ * What a job does with a record that exists or does not (ALL-16): `upsert`
+ * creates or updates, `create` refuses a record that exists, `update` refuses
+ * one that does not.
+ */
+export type ImportMode = 'upsert' | 'create' | 'update';
+
 /** `error` fails the row, `warning` lets it through and shows in the report. */
 export type ImportSeverity = 'error' | 'warning';
 
