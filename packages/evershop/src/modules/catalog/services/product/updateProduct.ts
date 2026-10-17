@@ -32,7 +32,10 @@ import type { ProductAttributeData, ProductData, ProductInventoryData } from './
 import { productDataSchema } from './productDataSchema.js';
 
 function validateProductDataBeforeUpdate(data: ProductData): ProductData {
-  const ajv = getAjv();
+  // No schema defaults: Ajv writes them into `data` in place, and an update may
+  // carry only the fields to change. With defaults a price-only payload would
+  // also write description [], tax_class null and category_id null.
+  const ajv = getAjv({ useDefaults: false });
   (productDataSchema as JSONSchemaType<any>).required = [];
   const jsonSchema = getValueSync(
     'updateProductDataJsonSchema',
