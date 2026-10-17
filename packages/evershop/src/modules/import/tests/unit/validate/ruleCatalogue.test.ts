@@ -2,6 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { IMPORT_ISSUE_CODES } from '../../../services/issues.js';
 import { ALL_RULES } from '../../../services/rules/allRules.js';
 import { CATEGORY_RULES } from '../../../services/rules/categoryRules.js';
+import { IMPORT_PHASE_RULES } from '../../../services/rules/importPhaseRules.js';
 import { defineRule } from '../../../services/rules/rule.js';
 import type { Rule } from '../../../services/rules/rule.js';
 
@@ -36,12 +37,18 @@ const EXPECTED_IDS = [
   'CAT-04',
   'CAT-05',
   'CAT-06',
+  'CAT-07',
   'CAT-08',
   'CAT-09',
-  'IMG-01'
+  'IMG-01',
+  'IMP-01',
+  'IMP-02',
+  'IMP-03',
+  'IMP-06',
+  'IMP-07'
 ];
 
-const RULES: Rule[] = [...ALL_RULES, ...CATEGORY_RULES];
+const RULES: Rule[] = [...ALL_RULES, ...CATEGORY_RULES, ...IMPORT_PHASE_RULES];
 
 describe('the rule catalogue', () => {
   it('has exactly the rules that are built, each once', () => {
