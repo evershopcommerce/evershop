@@ -1,9 +1,13 @@
-import { hostname } from 'os';
+import { hostname, setPriority } from 'os';
 import { headlessBoot } from '../../../bin/lib/bootstrap/headlessBoot.js';
 import { error as logError } from '../../../lib/log/logger.js';
+import { pool } from '../../../lib/postgres/connection.js';
+import { PgJobAdmin } from '../adapters/PgJobAdmin.js';
+import { PgJobRepository } from '../adapters/PgJobRepository.js';
 import { composeWorker } from './compose.js';
 import { createCorePorts } from './corePorts.js';
-import { runWorker } from './runWorker.js';
+import { failUnstarted } from './failUnstarted.js';
+import { runWorkerProcess } from './runProcess.js';
 
 /**
  * The worker process (§ 8.4, Who runs it, and the spawn contract): started with
@@ -13,43 +17,55 @@ import { runWorker } from './runWorker.js';
  * belongs to the job's status, and ends with an explicit `process.exit`: 0 for
  * every end of a run, 1 when the job could not run. SIGTERM is a request to
  * stop: the run finishes its row, ends the job `interrupted` and exits.
+ * `runProcess.ts` has the logic; this file is the process around it.
  */
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-async function main(): Promise<number> {
-  const jobUuid = process.argv[2];
-  if (!jobUuid || !UUID.test(jobUuid)) {
-    logError(new Error('The import worker needs the uuid of a job.'));
-    return 1;
-  }
-  await headlessBoot({
-    context: {
-      process: 'import',
-      command: 'import-worker',
-      env: process.env.NODE_ENV === 'production' ? 'production' : 'development'
-    },
-    refreshSettings: true,
-    loadRoutes: true
-  });
-  const { deps, admin, close } = composeWorker(createCorePorts());
-  const controller = new AbortController();
-  const stop = () => controller.abort();
-  process.on('SIGTERM', stop);
-  process.on('SIGINT', stop);
-  try {
-    const result = await runWorker(jobUuid, {
-      deps,
-      admin,
-      workerId: `${hostname()}:${process.pid}`,
-      signal: controller.signal
-    });
-    return result.exitCode;
-  } finally {
-    await close();
-  }
+// The process may outlive the terminal or the pipe it writes to; a failed
+// write to a log is not a reason to stop an import.
+for (const stream of [process.stdout, process.stderr]) {
+  stream.on('error', () => undefined);
 }
 
-main().then(
+// Best effort: the import should not take the CPU of the store from its shoppers.
+try {
+  setPriority(10);
+} catch {
+  // Not allowed here; the worker runs at the priority it was started with.
+}
+
+const workerId = `${hostname()}:${process.pid}`;
+const controller = new AbortController();
+
+runWorkerProcess(process.argv[2], {
+  async boot() {
+    await headlessBoot({
+      context: {
+        command: 'import-worker',
+        env:
+          process.env.NODE_ENV === 'production' ? 'production' : 'development',
+        // What the event process was started with, when it started this worker.
+        ...JSON.parse(process.env.bootstrapContext || '{}'),
+        process: 'import'
+      },
+      refreshSettings: true,
+      loadRoutes: true
+    });
+    // As the event process does after its own boot.
+    process.env.ALLOW_CONFIG_MUTATIONS = 'false';
+    process.on('SIGTERM', () => controller.abort());
+    process.on('SIGINT', () => controller.abort());
+  },
+  compose: () => composeWorker(createCorePorts()),
+  failUnstarted: (jobUuid, reason) =>
+    failUnstarted(jobUuid, reason, {
+      admin: new PgJobAdmin(pool),
+      jobs: new PgJobRepository(pool),
+      workerId
+    }),
+  workerId,
+  signal: controller.signal,
+  logError: (e) => logError(e as Error)
+}).then(
   (code) => process.exit(code),
   (e) => {
     logError(e);

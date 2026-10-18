@@ -1,5 +1,6 @@
-import { error as logError, info, warning } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
+import { CoreJobRequests } from '../adapters/CoreJobRequests.js';
+import { coreLogger } from '../adapters/coreLogger.js';
 import {
   fileLimits,
   maxFileBytes,
@@ -25,7 +26,8 @@ export function importWeb(): ImportWeb {
     service: new ImportService({
       jobs: new PgJobAdmin(pool, { retentionMs: retentionMs() }),
       sha256: nodeSha256,
-      maxFileBytes: maxFileBytes()
+      maxFileBytes: maxFileBytes(),
+      requests: new CoreJobRequests(pool, coreLogger)
     }),
     files: new PgFileStore(pool),
     issuesInRowOrder: (jobId, phase) =>
@@ -43,12 +45,7 @@ export function importWeb(): ImportWeb {
       maxRows: fileLimits().maxRows,
       maxCellLength: fileLimits().maxCellLength
     },
-    logger: {
-      info: (message) => info(message),
-      warn: (message) => warning(message),
-      error: (message, meta) =>
-        logError(new Error(`${message} ${JSON.stringify(meta ?? {})}`))
-    }
+    logger: coreLogger
   };
   return cached;
 }

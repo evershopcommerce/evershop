@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import dotenv from 'dotenv';
-import { Pool } from 'pg';
+import { Client, Pool } from 'pg';
 import migrate from '../../../migration/Version-1.0.0.js';
 
 /**
@@ -21,6 +21,14 @@ import migrate from '../../../migration/Version-1.0.0.js';
  * - The host, port, user and password come from `DB_HOST`, `DB_PORT`, `DB_USER`
  *   and `DB_PASSWORD`, and when `DB_USER` is not set, from the `.env` file in
  *   the directory the tests run from (only those four keys).
+ *
+ * - The tests that write through core's real services write to the shared
+ *   tables of `public` in the second database (`category`, `event`, ...) and
+ *   clean up after themselves, so two of them must not run at the same time:
+ *   `openScratchDb({ core: true })` holds a PostgreSQL advisory lock until
+ *   `close()`, and a second suite (in another Jest worker, or in another run of
+ *   the tests) waits for it. The lock belongs to the connection, so it goes away
+ *   with a process that dies.
  *
  * Without a reachable database the suites skip, as the other database suites of
  * the repository do. With `IMPORT_DB_REQUIRED` set they fail instead, so that a
@@ -72,6 +80,10 @@ function databaseRequired(): boolean {
   return flag !== undefined && flag !== '' && flag !== '0' && flag !== 'false';
 }
 
+/** The advisory lock the tests of the second database take turns with. */
+const CORE_LOCK = 'import_core_scratch_test';
+const LOCK_WAIT_SECONDS = 180;
+
 /** The tables the tests copy from the store, without triggers or foreign keys. */
 const COPIED = ['category', 'category_description', 'metafield_definition'];
 
@@ -105,24 +117,15 @@ export async function openScratchDb(
     connectionTimeoutMillis: 3000
   };
   const admin = new Pool({ ...config, max: 1 });
-  try {
-    const where = await admin.query(
-      `SELECT current_database() AS name, to_regclass('public.category') AS category,
-              to_regclass('public.admin_user') AS admin_user`
-    );
-    const row = where.rows[0];
-    if (row.name !== database || !row.category || !row.admin_user) {
-      throw new Error(`"${database}" does not hold the core schema`);
-    }
-    await admin.query(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`);
-    await admin.query(`CREATE SCHEMA "${schema}"`);
-    for (const table of options.core ? [] : COPIED) {
-      await admin.query(
-        `CREATE TABLE "${schema}"."${table}" (LIKE public."${table}" INCLUDING ALL)`
-      );
-    }
-  } catch (e) {
+  let lock: Client | null = null;
+  /** The suite will not run: it must not keep the others waiting. */
+  const release = async () => {
     await admin.end().catch(() => {});
+    await lock?.end().catch(() => {});
+  };
+  /** Without a usable database the suites skip, unless one is required. */
+  const unusable = async (e: unknown): Promise<null> => {
+    await release();
     if (databaseRequired()) {
       throw e;
     }
@@ -133,22 +136,66 @@ export async function openScratchDb(
       `import tests: no usable scratch database "${database}" (${why}): the database suites are skipped`
     );
     return null;
+  };
+  try {
+    const where = await admin.query(
+      `SELECT current_database() AS name, to_regclass('public.category') AS category,
+              to_regclass('public.admin_user') AS admin_user`
+    );
+    const row = where.rows[0];
+    if (row.name !== database || !row.category || !row.admin_user) {
+      throw new Error(`"${database}" does not hold the core schema`);
+    }
+  } catch (e) {
+    return unusable(e);
+  }
+  if (options.core) {
+    // Taken before anything is created, and held on a connection of its own, so
+    // that it lasts as long as the suite.
+    try {
+      lock = new Client(config);
+      await lock.connect();
+      // A suite that holds the lock and never lets go fails the next one; it
+      // does not hang it.
+      await lock.query(`SET lock_timeout = '${LOCK_WAIT_SECONDS}s'`);
+      await lock.query('SELECT pg_advisory_lock(hashtext($1))', [CORE_LOCK]);
+    } catch (e) {
+      await release();
+      throw e;
+    }
+  }
+  try {
+    await admin.query(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`);
+    await admin.query(`CREATE SCHEMA "${schema}"`);
+    for (const table of options.core ? [] : COPIED) {
+      await admin.query(
+        `CREATE TABLE "${schema}"."${table}" (LIKE public."${table}" INCLUDING ALL)`
+      );
+    }
+  } catch (e) {
+    return unusable(e);
   }
   const pool = new Pool({
     ...config,
     max: 8,
     options: `-c search_path=${schema},public`
   });
-  const client = await pool.connect();
   try {
-    await client.query('BEGIN');
-    await migrate(client);
-    await client.query('COMMIT');
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      await migrate(client);
+      await client.query('COMMIT');
+    } catch (e) {
+      await client.query('ROLLBACK').catch(() => {});
+      throw e;
+    } finally {
+      client.release();
+    }
   } catch (e) {
-    await client.query('ROLLBACK').catch(() => {});
+    await pool.end().catch(() => {});
+    await release();
     throw e;
-  } finally {
-    client.release();
   }
   return {
     pool,
@@ -164,6 +211,8 @@ export async function openScratchDb(
       await pool.end();
       await admin.query(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`);
       await admin.end();
+      // Ending the connection releases the lock.
+      await lock?.end();
     }
   };
 }

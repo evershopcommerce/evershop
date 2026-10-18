@@ -24,6 +24,14 @@ const run = (
   });
 
 describe('runWorker: the step that belongs to the status of the job', () => {
+  it('finds the job whatever the case of its uuid', async () => {
+    const h = harness();
+    // The uuids the doubles make are all digits, so upper-casing them proves nothing.
+    const job = h.stage(GOOD, { uuid: 'abcdef01-2345-4678-89ab-cdef01234567' });
+    const result = await run(h, job.uuid.toUpperCase());
+    expect(result).toEqual({ outcome: 'validated', exitCode: 0 });
+  });
+
   it('checks an uploaded job, and ends 0', async () => {
     const h = harness();
     const job = h.stage(GOOD);

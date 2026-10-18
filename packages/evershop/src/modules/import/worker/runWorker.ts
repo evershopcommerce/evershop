@@ -35,7 +35,7 @@ export async function runWorker(
   run: WorkerRun
 ): Promise<WorkerResult> {
   const { deps, admin, workerId, signal } = run;
-  const job = await admin.getByUuid(jobUuid);
+  const job = await admin.getByUuid(jobUuid.toLowerCase());
   if (!job) {
     deps.logger.info('The import job is not there', { jobUuid });
     return { outcome: 'not_found', exitCode: 0 };

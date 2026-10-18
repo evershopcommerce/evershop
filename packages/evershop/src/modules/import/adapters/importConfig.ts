@@ -35,3 +35,13 @@ export function fileLimits() {
     maxIssues: importSetting('maxIssues', 100_000)
   };
 }
+
+/** The most workers one instance runs at a time: `maxWorkersPerInstance`, 2 by default. */
+export function maxWorkersPerInstance(): number {
+  return Math.floor(importSetting('maxWorkersPerInstance', 2));
+}
+
+/** The memory ceiling of a worker, in MB: `workerMemoryMb`, 1,024 by default. */
+export function workerMemoryMb(): number {
+  return Math.floor(importSetting('workerMemoryMb', 1024));
+}

@@ -1,6 +1,8 @@
 import type { ImportJob, IssuePhase, StoredIssue } from '../job/types.js';
+import { isJobUuid } from '../job/uuid.js';
 import type { Sha256 } from '../ports/hasher.js';
 import type { JobAdmin } from '../ports/jobAdmin.js';
+import type { JobRequests } from '../ports/jobRequests.js';
 import type { RenderMessage } from '../report/errorsCell.js';
 import { IMPORT_ENTITIES } from '../types.js';
 import type { ImportEntity, ImportMode } from '../types.js';
@@ -11,7 +13,6 @@ import { limitBytes, rechunk } from './rechunk.js';
 export const CHUNK_BYTES = 1_048_576;
 
 const MODES: readonly ImportMode[] = ['upsert', 'create', 'update'];
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const MAX_FILE_NAME = 200;
 const DEFAULT_PAGE_SIZE = 50;
 const MAX_PAGE_SIZE = 200;
@@ -25,6 +26,11 @@ export interface ImportServiceDeps {
   render?: RenderMessage;
   /** For a test that wants small chunks. */
   chunkBytes?: number;
+  /**
+   * Asked for a worker whenever a job starts waiting for one (`uploaded` or
+   * `queued`). Without it nothing starts a worker: the dispatch cron does.
+   */
+  requests?: JobRequests;
 }
 
 export interface UploadArgs {
@@ -208,6 +214,7 @@ export class ImportService {
               'The upload was removed before it finished.'
             );
       }
+      await this.requestWorker(done.job);
       return { job: done.job, replaced: done.replaced };
     } catch (e) {
       // A job that is not `uploading` any more is left alone.
@@ -224,7 +231,7 @@ export class ImportService {
 
   /** The job by the uuid the API gives it; a text that is not a uuid is a job that is not there. */
   async byUuid(uuid: unknown): Promise<ImportJob> {
-    if (typeof uuid !== 'string' || !UUID.test(uuid)) throw noSuchJob();
+    if (!isJobUuid(uuid)) throw noSuchJob();
     const job = await this.deps.jobs.getByUuid(uuid.toLowerCase());
     if (!job) throw noSuchJob();
     return job;
@@ -275,7 +282,10 @@ export class ImportService {
 
   async start(jobId: number): Promise<ImportJob> {
     const result = await this.deps.jobs.start(jobId);
-    if (result.ok) return result.job;
+    if (result.ok) {
+      await this.requestWorker(result.job);
+      return result.job;
+    }
     switch (result.reason) {
       case 'file_has_errors':
         throw new ImportApiError(
@@ -299,7 +309,10 @@ export class ImportService {
 
   async resume(jobId: number): Promise<ImportJob> {
     const result = await this.deps.jobs.resume(jobId);
-    if (result.ok) return result.job;
+    if (result.ok) {
+      await this.requestWorker(result.job);
+      return result.job;
+    }
     switch (result.reason) {
       case 'open_job_exists':
         throw new ImportApiError(
@@ -315,7 +328,10 @@ export class ImportService {
 
   async recheck(jobId: number): Promise<ImportJob> {
     const result = await this.deps.jobs.recheck(jobId);
-    if (result.ok) return result.job;
+    if (result.ok) {
+      await this.requestWorker(result.job);
+      return result.job;
+    }
     throw this.refusal(result);
   }
 
@@ -328,6 +344,19 @@ export class ImportService {
 
   listOpen(): Promise<ImportJob[]> {
     return this.deps.jobs.listOpen();
+  }
+
+  /**
+   * The job waits for a worker now. The action has been done, so a request that
+   * cannot be made is not the admin's problem: the dispatch cron asks again for
+   * a job that keeps waiting.
+   */
+  private async requestWorker(job: ImportJob): Promise<void> {
+    try {
+      await this.deps.requests?.request(job.uuid);
+    } catch {
+      // See above.
+    }
   }
 
   private parsePhase(value: unknown, job: ImportJob): IssuePhase {
