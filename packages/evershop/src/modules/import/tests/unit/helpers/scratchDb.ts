@@ -23,8 +23,10 @@ import migrate from '../../../migration/Version-1.0.0.js';
  *   the directory the tests run from (only those four keys).
  *
  * Without a reachable database the suites skip, as the other database suites of
- * the repository do; with `CI` set they fail, so that a missing database is
- * never mistaken for a pass.
+ * the repository do. With `IMPORT_DB_REQUIRED` set they fail instead, so that a
+ * missing database is never mistaken for a pass: the workflow sets it where it
+ * provides a database. (It is not tied to `CI`: a workflow that has no database
+ * yet would fail on every pull request.)
  */
 export const SCRATCH_DB = 'evershop_import_scratch_test';
 
@@ -45,6 +47,12 @@ function credentials(): Record<string, string | undefined> {
     }
   }
   return env;
+}
+
+/** Set where a database is provided: a database that cannot be reached is then a failure. */
+function databaseRequired(): boolean {
+  const flag = process.env.IMPORT_DB_REQUIRED;
+  return flag !== undefined && flag !== '' && flag !== '0' && flag !== 'false';
 }
 
 /** The tables the tests copy from the store, without triggers or foreign keys. */
@@ -86,7 +94,7 @@ export async function openScratchDb(): Promise<ScratchDb | null> {
     }
   } catch (e) {
     await admin.end().catch(() => {});
-    if (process.env.CI) {
+    if (databaseRequired()) {
       throw e;
     }
     const why =
