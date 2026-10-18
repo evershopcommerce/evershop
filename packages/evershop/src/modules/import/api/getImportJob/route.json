@@ -1,0 +1,7 @@
+{
+  "methods": [
+    "GET"
+  ],
+  "path": "/import-jobs/:id",
+  "access": "private"
+}

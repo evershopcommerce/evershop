@@ -71,6 +71,14 @@ export class PgJobAdmin implements JobAdmin {
     return result.rows.length === 0 ? null : toJob(result.rows[0]);
   }
 
+  async getByUuid(uuid: string): Promise<ImportJob | null> {
+    const result = await this.pool.query(
+      `SELECT ${COLUMNS} FROM import_job WHERE uuid = $1`,
+      [uuid]
+    );
+    return result.rows.length === 0 ? null : toJob(result.rows[0]);
+  }
+
   async entityBusy(entity: ImportEntity): Promise<boolean> {
     const result = await this.pool.query(
       `SELECT 1 FROM import_job

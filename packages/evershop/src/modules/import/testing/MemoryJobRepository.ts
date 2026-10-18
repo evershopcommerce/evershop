@@ -52,7 +52,7 @@ export class MemoryJobRepository implements JobRepository {
     this.nextId = Math.max(this.nextId, id) + 1;
     const job: ImportJob = {
       id,
-      uuid: `job-${id}`,
+      uuid: `00000000-0000-4000-8000-${String(id).padStart(12, '0')}`,
       entity: 'category',
       mode: 'upsert',
       status: 'uploaded',

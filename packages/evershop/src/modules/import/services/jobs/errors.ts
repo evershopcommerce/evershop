@@ -7,6 +7,7 @@ export type ImportApiCode =
   | 'IMPORT_ALREADY_RUNNING'
   | 'OPEN_JOB_EXISTS'
   | 'FILE_HAS_ERRORS'
+  | 'FILE_UNAVAILABLE'
   | 'FILE_TOO_LARGE';
 
 /** The HTTP status of each code. */
@@ -18,6 +19,7 @@ export const API_STATUS: Readonly<Record<ImportApiCode, number>> = {
   IMPORT_ALREADY_RUNNING: 409,
   OPEN_JOB_EXISTS: 409,
   FILE_HAS_ERRORS: 409,
+  FILE_UNAVAILABLE: 409,
   FILE_TOO_LARGE: 413
 };
 

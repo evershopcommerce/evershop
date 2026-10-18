@@ -71,6 +71,17 @@ export function jobAdminContract(
         createdBy: null
       });
 
+    describe('getByUuid', () => {
+      it('gives the job that has the uuid, and null for any other', async () => {
+        const job = await h.insert({ status: 'validated' });
+        await h.insert({ entity: 'product', status: 'validated' });
+        expect((await admin.getByUuid(job.uuid))?.id).toBe(job.id);
+        expect(
+          await admin.getByUuid('11111111-2222-4333-8444-555555555555')
+        ).toBeNull();
+      });
+    });
+
     describe('beginUpload and addChunk', () => {
       it('inserts a job that is uploading, with what the page sent', async () => {
         const before = h.now();

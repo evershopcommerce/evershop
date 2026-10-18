@@ -11,6 +11,7 @@ import { limitBytes, rechunk } from './rechunk.js';
 export const CHUNK_BYTES = 1_048_576;
 
 const MODES: readonly ImportMode[] = ['upsert', 'create', 'update'];
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const MAX_FILE_NAME = 200;
 const DEFAULT_PAGE_SIZE = 50;
 const MAX_PAGE_SIZE = 200;
@@ -217,6 +218,14 @@ export class ImportService {
 
   async get(jobId: number): Promise<ImportJob> {
     const job = await this.deps.jobs.get(jobId);
+    if (!job) throw noSuchJob();
+    return job;
+  }
+
+  /** The job by the uuid the API gives it; a text that is not a uuid is a job that is not there. */
+  async byUuid(uuid: unknown): Promise<ImportJob> {
+    if (typeof uuid !== 'string' || !UUID.test(uuid)) throw noSuchJob();
+    const job = await this.deps.jobs.getByUuid(uuid.toLowerCase());
     if (!job) throw noSuchJob();
     return job;
   }
