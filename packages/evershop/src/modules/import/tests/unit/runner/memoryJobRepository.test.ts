@@ -296,3 +296,51 @@ describe('MemoryJobRepository: the end of a run', () => {
     expect(repo.snapshot(2).expiresAt).not.toBeNull();
   });
 });
+
+describe('MemoryJobRepository: issuesInRowOrder', () => {
+  const stored = (
+    phase: 'validate' | 'import',
+    rowNumber: number | null,
+    message: string
+  ) => ({
+    phase,
+    rowNumber,
+    entityKey: null,
+    column: null,
+    code: 'INVALID_VALUE',
+    severity: 'error' as const,
+    params: {},
+    message,
+    value: null
+  });
+
+  it('lists the problems of a phase with no row first, then by row, and in the order found inside a row', async () => {
+    const jobs = new MemoryJobRepository(new FakeClock());
+    jobs.insert({ id: 1 });
+    jobs.insert({ id: 2 });
+    jobs.seedIssues(1, [
+      stored('validate', 9, 'nine'),
+      stored('validate', 3, 'three-a'),
+      stored('import', 1, 'import row'),
+      stored('validate', null, 'file'),
+      stored('validate', 3, 'three-b'),
+      stored('validate', 2, 'two')
+    ]);
+    jobs.seedIssues(2, [stored('validate', 1, 'another job')]);
+    const got: string[] = [];
+    for await (const one of jobs.issuesInRowOrder(1, 'validate')) {
+      got.push(one.message);
+    }
+    expect(got).toEqual(['file', 'two', 'three-a', 'three-b', 'nine']);
+  });
+
+  it('lists nothing for a job without problems', async () => {
+    const jobs = new MemoryJobRepository(new FakeClock());
+    jobs.insert({ id: 1 });
+    const got: unknown[] = [];
+    for await (const one of jobs.issuesInRowOrder(1, 'import')) {
+      got.push(one);
+    }
+    expect(got).toEqual([]);
+  });
+});

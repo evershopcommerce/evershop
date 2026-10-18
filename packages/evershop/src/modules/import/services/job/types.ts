@@ -45,6 +45,13 @@ export interface JobCounts {
   /** The totals per code, also above the cap on stored problems. */
   byCode: Record<IssuePhase, Record<string, number>>;
   issuesTruncated: Record<IssuePhase, boolean>;
+  /**
+   * When the problems of a phase were cut at the cap: the lowest row number of
+   * a problem that was not stored. From this row on, a row may have problems
+   * that are not listed (the file with errors says so). Null when nothing was
+   * cut, or when only problems of the file as a whole were.
+   */
+  firstUnlistedRow: Record<IssuePhase, number | null>;
 }
 
 export function emptyCounts(): JobCounts {
@@ -61,7 +68,8 @@ export function emptyCounts(): JobCounts {
     skipped: 0,
     lastUnit: 0,
     byCode: { validate: {}, import: {} },
-    issuesTruncated: { validate: false, import: false }
+    issuesTruncated: { validate: false, import: false },
+    firstUnlistedRow: { validate: null, import: null }
   };
 }
 
@@ -72,7 +80,8 @@ export function cloneCounts(counts: JobCounts): JobCounts {
       validate: { ...counts.byCode.validate },
       import: { ...counts.byCode.import }
     },
-    issuesTruncated: { ...counts.issuesTruncated }
+    issuesTruncated: { ...counts.issuesTruncated },
+    firstUnlistedRow: { ...counts.firstUnlistedRow }
   };
 }
 

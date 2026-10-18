@@ -149,6 +149,8 @@ describe('runValidation: a file with problems', () => {
       validate: true,
       import: false
     });
+    // The file has its header on row 1: the stored problems are rows 2 to 4.
+    expect(job.counts.firstUnlistedRow).toEqual({ validate: 5, import: null });
   });
 
   it('begins from row 1 again: the problems and totals of an earlier check are gone', async () => {
@@ -159,7 +161,8 @@ describe('runValidation: a file with problems', () => {
         errors: 7,
         created: 4,
         byCode: { validate: { OLD: 7 }, import: { WRITE_FAILED: 2 } },
-        issuesTruncated: { validate: true, import: false }
+        issuesTruncated: { validate: true, import: false },
+        firstUnlistedRow: { validate: 7, import: 20 }
       }
     });
     h.jobs.seedIssues(1, [
@@ -180,6 +183,7 @@ describe('runValidation: a file with problems', () => {
     expect(job.counts.errors).toBe(1);
     expect(job.counts.byCode.validate).toEqual({ INVALID_VALUE: 1 });
     expect(job.counts.issuesTruncated.validate).toBe(false);
+    expect(job.counts.firstUnlistedRow).toEqual({ validate: null, import: 20 });
     expect(h.jobs.issues(1).map((i) => i.code)).toEqual(['INVALID_VALUE']);
     // What belongs to the import is not touched by a check.
     expect(job.counts.created).toBe(4);

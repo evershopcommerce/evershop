@@ -243,6 +243,8 @@ describe('runImport: a row that fails (§ 8.6)', () => {
     expect(h.jobs.issues(1, 'import')).toHaveLength(2);
     expect(job.counts.byCode.import).toEqual({ WRITE_FAILED: 6 });
     expect(job.counts.issuesTruncated.import).toBe(true);
+    // Rows 2 and 3 are listed; the first row whose problem is not is row 4.
+    expect(job.counts.firstUnlistedRow).toEqual({ validate: null, import: 4 });
   });
 });
 
@@ -635,13 +637,18 @@ describe('runImport: more about the check at the start and about resuming', () =
       startedAt: 1,
       counts: {
         ...emptyCounts(),
-        issuesTruncated: { validate: true, import: false }
+        issuesTruncated: { validate: true, import: false },
+        firstUnlistedRow: { validate: 8, import: null }
       }
     });
     await runImport(1, h.deps);
     expect(h.jobs.snapshot(1).counts.issuesTruncated).toEqual({
       validate: true,
       import: false
+    });
+    expect(h.jobs.snapshot(1).counts.firstUnlistedRow).toEqual({
+      validate: 8,
+      import: null
     });
   });
 });

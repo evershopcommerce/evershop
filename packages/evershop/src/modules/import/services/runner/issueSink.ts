@@ -3,11 +3,14 @@ import type { ImportIssue } from '../types.js';
 
 /**
  * Collects the problems between two heartbeats. It keeps at most `max` for a
- * phase (§ 8.4, Issues): the rest are not kept, and `truncated` says so; the
- * totals per code are counted elsewhere, so they are right above the cap.
+ * phase (§ 8.4, Issues): the rest are not kept, and `truncated` says so, with
+ * `firstUnlistedRow`, the lowest row number among them; the totals per code are
+ * counted elsewhere, so they are right above the cap.
  */
 export class IssueSink {
   truncated = false;
+
+  firstUnlistedRow: number | null = null;
 
   private pending: StoredIssue[] = [];
 
@@ -21,6 +24,13 @@ export class IssueSink {
   add(issue: ImportIssue, key: string | null): void {
     if (this.stored >= this.max) {
       this.truncated = true;
+      const row = issue.rowNumber;
+      if (
+        row !== undefined &&
+        (this.firstUnlistedRow === null || row < this.firstUnlistedRow)
+      ) {
+        this.firstUnlistedRow = row;
+      }
       return;
     }
     this.stored += 1;
