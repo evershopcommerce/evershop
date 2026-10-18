@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
 import { PgFileStore } from '../../../adapters/PgFileStore.js';
+import { PgJobAdmin } from '../../../adapters/PgJobAdmin.js';
 import { PgJobRepository } from '../../../adapters/PgJobRepository.js';
 import { PgLookup } from '../../../adapters/PgLookup.js';
 import { RETENTION_MS } from '../../../services/job/transitions.js';
@@ -7,6 +8,7 @@ import type { ImportJob, StoredIssue } from '../../../services/job/types.js';
 import type { StoreFixture } from '../../../services/ports/lookup.js';
 import type { ImportEntity } from '../../../services/types.js';
 import type { FileStoreHarness } from './fileStoreContract.js';
+import type { JobAdminHarness } from './jobAdminContract.js';
 import type { JobRepoHarness } from './jobRepositoryContract.js';
 import type { LookupHarness } from './lookupContract.js';
 import type { ScratchDb } from './scratchDb.js';
@@ -137,6 +139,37 @@ export async function pgJobHarness(
         setTimeout(resolve, Math.min(ms, 20));
       }),
     retentionMs: RETENTION_MS
+  };
+}
+
+/** `PgJobAdmin` (and `PgJobRepository`) on the scratch database, as a harness for the contracts. */
+export async function pgAdminHarness(
+  db: ScratchDb,
+  admin = new PgJobAdmin(db.pool)
+): Promise<JobAdminHarness> {
+  const base = await pgJobHarness(db);
+  const { pool } = db;
+  return {
+    ...base,
+    admin,
+    async chunksOf(jobId) {
+      const result = await pool.query(
+        `SELECT data FROM "${db.schema}".import_job_file
+          WHERE import_job_id = $1 ORDER BY seq`,
+        [jobId]
+      );
+      return result.rows.map((row) => row.data as Buffer);
+    },
+    async seedChunks(jobId, chunks) {
+      for (const [seq, data] of chunks.entries()) {
+        // eslint-disable-next-line no-await-in-loop
+        await pool.query(
+          `INSERT INTO "${db.schema}".import_job_file (import_job_id, seq, data)
+           VALUES ($1, $2, $3)`,
+          [jobId, seq, data]
+        );
+      }
+    }
   };
 }
 

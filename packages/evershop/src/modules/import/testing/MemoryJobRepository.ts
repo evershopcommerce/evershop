@@ -28,11 +28,11 @@ import type {
  * against `PgJobRepository`.
  */
 export class MemoryJobRepository implements JobRepository {
-  private readonly jobs = new Map<number, ImportJob>();
+  protected readonly jobs = new Map<number, ImportJob>();
 
-  private rows: Array<StoredIssue & { jobId: number }> = [];
+  protected rows: Array<StoredIssue & { jobId: number }> = [];
 
-  private nextId = 1;
+  protected nextId = 1;
 
   /** How many checkpoints were written, and the failures a test asks for. */
   checkpoints = 0;
@@ -40,8 +40,8 @@ export class MemoryJobRepository implements JobRepository {
   private failures = 0;
 
   constructor(
-    private readonly clock: Clock,
-    private readonly retentionMs = RETENTION_MS
+    protected readonly clock: Clock,
+    protected readonly retentionMs = RETENTION_MS
   ) {}
 
   // ---- for a test to set up and look at --------------------------------
@@ -71,6 +71,11 @@ export class MemoryJobRepository implements JobRepository {
       finishedAt: null,
       heartbeatAt: null,
       expiresAt: null,
+      createdAt: this.clock.now(),
+      statusChangedAt: this.clock.now(),
+      validatedAt: null,
+      waitingSince: null,
+      createdBy: null,
       ...fields
     };
     this.jobs.set(id, job);
@@ -131,7 +136,7 @@ export class MemoryJobRepository implements JobRepository {
     this.failures = n;
   }
 
-  private mustHave(jobId: number): ImportJob {
+  protected mustHave(jobId: number): ImportJob {
     const job = this.jobs.get(jobId);
     if (!job) throw new Error(`No job ${jobId}`);
     return job;
@@ -158,6 +163,7 @@ export class MemoryJobRepository implements JobRepository {
       return null;
     }
     job.status = to;
+    job.statusChangedAt = this.clock.now();
     job.attempt += 1;
     job.worker = worker;
     job.heartbeatAt = this.clock.now();
@@ -267,6 +273,8 @@ export class MemoryJobRepository implements JobRepository {
       );
     }
     job.status = to;
+    job.statusChangedAt = this.clock.now();
+    if (to === 'validated') job.validatedAt = this.clock.now();
     if (patch.errorMessage !== undefined) job.errorMessage = patch.errorMessage;
     if (patch.counts) job.counts = cloneCounts(patch.counts);
     job.stage = null;
