@@ -10,6 +10,18 @@ interface Staged {
   sha256: string;
 }
 
+/** The ways `damage` spoils a staged file. `drop-chunk` is `drop-first-chunk`. */
+export type FileDamage =
+  | 'drop-chunk'
+  | 'drop-first-chunk'
+  | 'drop-middle-chunk'
+  | 'drop-last-chunk'
+  | 'extra-chunk'
+  | 'flip-byte'
+  | 'wrong-size'
+  | 'wrong-sha256'
+  | 'wrong-count';
+
 /**
  * TEST-ONLY. The staged files of the jobs in memory, in chunks of 1 MiB at most
  * like the real ones. `open` checks the chunks against what was recorded at the
@@ -27,12 +39,13 @@ export class MemoryFileStore implements FileStore {
   /** Stages a file for a job, with the size, the count and the hash it records. */
   put(
     jobId: number,
-    content: string | Buffer
+    content: string | Buffer,
+    chunkSize = this.chunkSize
   ): { size: number; chunkCount: number; sha256: string } {
     const bytes = typeof content === 'string' ? Buffer.from(content) : content;
     const chunks: Buffer[] = [];
-    for (let at = 0; at < bytes.length; at += this.chunkSize) {
-      chunks.push(bytes.subarray(at, at + this.chunkSize));
+    for (let at = 0; at < bytes.length; at += chunkSize) {
+      chunks.push(bytes.subarray(at, at + chunkSize));
     }
     const staged: Staged = {
       chunks,
@@ -48,16 +61,39 @@ export class MemoryFileStore implements FileStore {
     };
   }
 
-  /** Damages the file the way a bad copy would: drops a chunk, or flips a byte. */
-  damage(jobId: number, how: 'drop-chunk' | 'flip-byte'): void {
+  /** Damages the file the way a bad copy would. */
+  damage(jobId: number, how: FileDamage): void {
     const staged = this.files.get(jobId);
     if (!staged) throw new Error(`No file for job ${jobId}`);
-    if (how === 'drop-chunk') {
-      staged.chunks.splice(0, 1);
-    } else {
-      const copy = Buffer.from(staged.chunks[0]);
-      copy[0] ^= 0xff;
-      staged.chunks[0] = copy;
+    switch (how) {
+      case 'drop-chunk':
+      case 'drop-first-chunk':
+        staged.chunks.splice(0, 1);
+        break;
+      case 'drop-middle-chunk':
+        staged.chunks.splice(Math.floor(staged.chunks.length / 2), 1);
+        break;
+      case 'drop-last-chunk':
+        staged.chunks.pop();
+        break;
+      case 'extra-chunk':
+        staged.chunks.push(Buffer.from('x'));
+        break;
+      case 'wrong-size':
+        staged.size += 1;
+        break;
+      case 'wrong-sha256':
+        staged.sha256 =
+          (staged.sha256[0] === '0' ? '1' : '0') + staged.sha256.slice(1);
+        break;
+      case 'wrong-count':
+        staged.chunkCount += 1;
+        break;
+      default: {
+        const copy = Buffer.from(staged.chunks[0]);
+        copy[0] ^= 0xff;
+        staged.chunks[0] = copy;
+      }
     }
   }
 
