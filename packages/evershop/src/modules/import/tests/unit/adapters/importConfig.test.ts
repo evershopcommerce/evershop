@@ -7,8 +7,15 @@ import { afterEach, beforeAll, describe, expect, it } from '@jest/globals';
  */
 process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
-const { fileLimits, importFlag, importSetting, maxFileBytes, retentionMs } =
-  await import('../../../adapters/importConfig.js');
+const {
+  fileLimits,
+  importFlag,
+  importSetting,
+  maxFileBytes,
+  maxWorkersPerInstance,
+  retentionMs,
+  workerMemoryMb
+} = await import('../../../adapters/importConfig.js');
 
 const set = (values: Record<string, unknown>) => {
   (config as unknown as { util: { extendDeep: Function } }).util.extendDeep(
@@ -29,7 +36,9 @@ afterEach(() => {
     maxCellLength: undefined,
     maxIssues: undefined,
     allowPrivateNetworks: undefined,
-    imageTimeoutSeconds: undefined
+    imageTimeoutSeconds: undefined,
+    maxWorkersPerInstance: undefined,
+    workerMemoryMb: undefined
   });
 });
 
@@ -78,6 +87,8 @@ describe('the settings of § 8.7', () => {
       maxCellLength: 65_536,
       maxIssues: 100_000
     });
+    expect(maxWorkersPerInstance()).toBe(2);
+    expect(workerMemoryMb()).toBe(1024);
   });
 
   it('follows the configuration', () => {
@@ -86,8 +97,12 @@ describe('the settings of § 8.7', () => {
       retentionDays: 2,
       maxRows: 10,
       maxCellLength: 20,
-      maxIssues: 30
+      maxIssues: 30,
+      maxWorkersPerInstance: 4,
+      workerMemoryMb: 2048
     });
+    expect(maxWorkersPerInstance()).toBe(4);
+    expect(workerMemoryMb()).toBe(2048);
     expect(maxFileBytes()).toBe(5 * 1_048_576);
     expect(retentionMs()).toBe(2 * 86_400_000);
     expect(fileLimits()).toEqual({
@@ -95,6 +110,12 @@ describe('the settings of § 8.7', () => {
       maxCellLength: 20,
       maxIssues: 30
     });
+  });
+
+  it('gives whole numbers of workers and megabytes', () => {
+    set({ maxWorkersPerInstance: 2.9, workerMemoryMb: 511.5 });
+    expect(maxWorkersPerInstance()).toBe(2);
+    expect(workerMemoryMb()).toBe(511);
   });
 
   it('rounds the size down to whole bytes', () => {

@@ -1,4 +1,3 @@
-import { error as logError, info, warning } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../lib/router/buildUrl.js';
 import { getRoutes } from '../../../lib/router/Router.js';
@@ -12,6 +11,7 @@ import { getFileStorageImageHosts } from '../../cms/services/storage/storageConf
 import { uploadFile } from '../../cms/services/uploadFile.js';
 import { getEnabledLanguages } from '../../setting/services/setting.js';
 import { createCoreEntityServices } from '../adapters/CoreEntityServices.js';
+import { coreLogger } from '../adapters/coreLogger.js';
 import {
   fileLimits,
   importFlag,
@@ -71,14 +71,7 @@ export function createCorePorts(): CorePorts {
     maxImageBytesForType: (contentType) =>
       Math.round(getMaxUploadFileSizeMbForType(contentType) * 1_048_576),
     sanitizeFileName: generateFileName,
-    logger: {
-      info: (message, meta) =>
-        info(meta ? `${message} ${JSON.stringify(meta)}` : message),
-      warn: (message, meta) =>
-        warning(meta ? `${message} ${JSON.stringify(meta)}` : message),
-      error: (message, meta) =>
-        logError(new Error(`${message} ${JSON.stringify(meta ?? {})}`))
-    },
+    logger: coreLogger,
     limits: fileLimits(),
     imageTimeoutMs: importSetting('imageTimeoutSeconds', 30) * 1000,
     allowPrivateNetworks: () => importFlag('allowPrivateNetworks'),

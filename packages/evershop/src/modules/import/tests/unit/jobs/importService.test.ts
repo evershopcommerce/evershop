@@ -11,6 +11,7 @@ import { emptyCounts } from '../../../services/job/types.js';
 import type { StoredIssue } from '../../../services/job/types.js';
 import type { JobAdmin } from '../../../services/ports/jobAdmin.js';
 import { FakeClock } from '../../../testing/FakeClock.js';
+import { MemoryJobRequests } from '../../../testing/MemoryJobRequests.js';
 import { MemoryJobStore } from '../../../testing/MemoryJobStore.js';
 
 const sha = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
@@ -551,5 +552,128 @@ describe('ImportService.issues: the problems table', () => {
     expect(await refusal(service.issues(99))).toMatchObject({
       code: 'NOT_FOUND'
     });
+  });
+});
+
+describe('ImportService: the worker is asked for when a job starts waiting for one', () => {
+  function asking() {
+    const requests = new MemoryJobRequests();
+    return { ...setup({ requests }), requests };
+  }
+
+  it('asks when an upload ends, with the uuid of the job, after the job is uploaded', async () => {
+    const store = new MemoryJobStore(new FakeClock());
+    const seen: string[] = [];
+    const service = new ImportService({
+      jobs: store,
+      sha256: nodeSha256,
+      maxFileBytes: 1_000_000,
+      chunkBytes: 8,
+      requests: {
+        async request(uuid) {
+          seen.push(`${uuid}:${(await store.getByUuid(uuid))?.status}`);
+        }
+      }
+    });
+    const { job } = await upload(service, FILE);
+    expect(seen).toEqual([`${job.uuid}:uploaded`]);
+  });
+
+  it('asks when Start queues a job, after the job is queued', async () => {
+    const store = new MemoryJobStore(new FakeClock());
+    const seen: string[] = [];
+    const service = new ImportService({
+      jobs: store,
+      sha256: nodeSha256,
+      maxFileBytes: 1_000_000,
+      requests: {
+        async request(uuid) {
+          seen.push((await store.getByUuid(uuid))?.status ?? 'gone');
+        }
+      }
+    });
+    const job = store.insert({ status: 'validated' });
+    await service.start(job.id);
+    expect(seen).toEqual(['queued']);
+  });
+
+  it('asks when Check again returns a job to uploaded', async () => {
+    const { store, service, requests } = asking();
+    const job = store.insert({ status: 'validated' });
+    await service.recheck(job.id);
+    expect(requests.requested).toEqual([job.uuid]);
+  });
+
+  it.each<[string, number | null, 'queued' | 'uploaded']>([
+    ['a job that wrote something', 5, 'queued'],
+    ['a job that never wrote', null, 'uploaded']
+  ])(
+    'asks when Resume takes %s back to waiting',
+    async (_, startedAt, status) => {
+      const { store, service, requests } = asking();
+      const job = store.insert({ status: 'interrupted', startedAt });
+      expect((await service.resume(job.id)).status).toBe(status);
+      expect(requests.requested).toEqual([job.uuid]);
+    }
+  );
+
+  it('does not ask for what needs no worker', async () => {
+    const { store, service, requests } = asking();
+    const queued = store.insert({ status: 'queued' });
+    await service.cancel(queued.id);
+    const running = store.insert({ entity: 'product', status: 'running' });
+    await service.cancel(running.id);
+    const done = store.insert({ entity: 'customer', status: 'completed' });
+    await service.remove(done.id);
+    await service.issues(queued.id);
+    expect(requests.requested).toEqual([]);
+  });
+
+  it('does not ask when the action is refused', async () => {
+    const { store, service, requests } = asking();
+    const withErrors = store.insert({ status: 'validated' });
+    store.live(withErrors.id).counts.errors = 2;
+    await refusal(service.start(withErrors.id));
+    const running = store.insert({ entity: 'product', status: 'running' });
+    await refusal(service.recheck(running.id));
+    await refusal(service.resume(running.id));
+    await refusal(service.start(999));
+    expect(requests.requested).toEqual([]);
+  });
+
+  it('does not ask for an upload that fails or is refused', async () => {
+    const { store, service, requests } = asking();
+    store.insert({ status: 'running', entity: 'category' });
+    await refusal(upload(service, FILE));
+    const other = asking();
+    await expect(
+      upload(other.service, FILE, {
+        file: (async function* () {
+          yield Buffer.from('a,b\n');
+          throw new Error('the browser went away');
+        })()
+      })
+    ).rejects.toThrow('the browser went away');
+    expect(requests.requested).toEqual([]);
+    expect(other.requests.requested).toEqual([]);
+  });
+
+  it('does not fail the action when the request cannot be made', async () => {
+    const { store, service, requests } = asking();
+    const job = store.insert({ status: 'validated' });
+    requests.failNext();
+    expect((await service.start(job.id)).status).toBe('queued');
+    expect(store.snapshot(job.id).status).toBe('queued');
+    const { job: uploaded } = await (async () => {
+      requests.failNext();
+      return upload(service, FILE, { entity: 'product' });
+    })();
+    expect(uploaded.status).toBe('uploaded');
+  });
+
+  it('needs no requests: without them the jobs are only changed', async () => {
+    const { store, service } = setup();
+    const job = store.insert({ status: 'validated' });
+    expect((await service.start(job.id)).status).toBe('queued');
   });
 });
