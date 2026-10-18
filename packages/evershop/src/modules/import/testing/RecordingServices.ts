@@ -44,6 +44,11 @@ export class RecordingServices implements EntityServices {
     return this;
   }
 
+  /** Forgets every failure that was asked for: the cause was fixed. */
+  clearFailures(): void {
+    this.failures.length = 0;
+  }
+
   private check(call: RecordedCall): void {
     this.calls.push(call);
     for (const failure of this.failures) {
