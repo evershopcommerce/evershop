@@ -6,7 +6,7 @@ import { CollectingLogger } from '../../../testing/CollectingLogger.js';
 import { FakeClock } from '../../../testing/FakeClock.js';
 import { FakeImageFetcher } from '../../../testing/FakeImageFetcher.js';
 import { MemoryFileStore } from '../../../testing/MemoryFileStore.js';
-import { MemoryJobRepository } from '../../../testing/MemoryJobRepository.js';
+import { MemoryJobStore } from '../../../testing/MemoryJobStore.js';
 import { MemoryLookup } from '../../../testing/MemoryLookup.js';
 import { MemoryServices } from '../../../testing/MemoryServices.js';
 import { RecordingServices } from '../../../testing/RecordingServices.js';
@@ -14,7 +14,7 @@ import { keyDeps } from './runImport.js';
 
 export interface Harness {
   deps: ImportDeps;
-  jobs: MemoryJobRepository;
+  jobs: MemoryJobStore;
   files: MemoryFileStore;
   clock: FakeClock;
   lookup: MemoryLookup;
@@ -32,7 +32,7 @@ export function harness(
 ): Harness {
   const clock = new FakeClock();
   const files = new MemoryFileStore();
-  const jobs = new MemoryJobRepository(clock);
+  const jobs = new MemoryJobStore(clock);
   const lookup = new MemoryLookup(options.store);
   const memory = new MemoryServices(lookup);
   const services = new RecordingServices(memory);

@@ -1,27 +1,16 @@
 import { error as logError, info, warning } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
-import { getConfig } from '../../../lib/util/getConfig.js';
+import {
+  fileLimits,
+  maxFileBytes,
+  retentionMs
+} from '../adapters/importConfig.js';
 import { nodeSha256 } from '../adapters/nodeSha256.js';
 import { PgFileStore } from '../adapters/PgFileStore.js';
 import { PgJobAdmin } from '../adapters/PgJobAdmin.js';
 import { PgJobRepository } from '../adapters/PgJobRepository.js';
 import { ImportService } from '../services/jobs/ImportService.js';
 import type { ImportWeb } from './ImportWeb.js';
-
-/**
- * `system.import.<key>` (§ 8.7). The typed keys are declared in `getConfig.ts`
- * when the module is registered; until then the key is read as a plain path.
- */
-function setting(key: string, fallback: number): number {
-  const read = getConfig as unknown as (path: string, d?: unknown) => unknown;
-  const value = Number(read(`system.import.${key}`, fallback));
-  return Number.isFinite(value) && value > 0 ? value : fallback;
-}
-
-/** The most bytes an upload may have: `maxFileSizeMb`, 100 by default. */
-function maxFileBytes(): number {
-  return Math.floor(setting('maxFileSizeMb', 100) * 1_048_576);
-}
 
 let cached: ImportWeb | null = null;
 
@@ -31,11 +20,10 @@ let cached: ImportWeb | null = null;
  */
 export function importWeb(): ImportWeb {
   if (cached) return cached;
-  const retentionMs = setting('retentionDays', 7) * 86_400_000;
-  const repository = new PgJobRepository(pool, { retentionMs });
+  const repository = new PgJobRepository(pool, { retentionMs: retentionMs() });
   cached = {
     service: new ImportService({
-      jobs: new PgJobAdmin(pool, { retentionMs }),
+      jobs: new PgJobAdmin(pool, { retentionMs: retentionMs() }),
       sha256: nodeSha256,
       maxFileBytes: maxFileBytes()
     }),
@@ -52,8 +40,8 @@ export function importWeb(): ImportWeb {
       );
     },
     limits: {
-      maxRows: setting('maxRows', 200_000),
-      maxCellLength: setting('maxCellLength', 65_536)
+      maxRows: fileLimits().maxRows,
+      maxCellLength: fileLimits().maxCellLength
     },
     logger: {
       info: (message) => info(message),

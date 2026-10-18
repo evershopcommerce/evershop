@@ -30,10 +30,27 @@ import migrate from '../../../migration/Version-1.0.0.js';
  */
 export const SCRATCH_DB = 'evershop_import_scratch_test';
 
+/**
+ * The second scratch database, a schema-only copy of the first with no store
+ * running on it. The tests that write through core's real services (and so fire
+ * the triggers of the real tables) use this one, so that no event process reacts
+ * to them. `IMPORT_TEST_CORE_DB` can name another; it too must end in
+ * `_scratch_test`.
+ */
+export const CORE_SCRATCH_DB = 'evershop_import_core_scratch_test';
+
 export interface ScratchDb {
   /** A pool whose `search_path` starts with the test schema. */
   pool: Pool;
   schema: string;
+  database: string;
+  /** How the database was reached, to point core's own pool at it (`pointCoreAt`). */
+  connection: {
+    host: string;
+    port: number;
+    user?: string;
+    password?: string;
+  };
   close(): Promise<void>;
 }
 
@@ -58,8 +75,20 @@ function databaseRequired(): boolean {
 /** The tables the tests copy from the store, without triggers or foreign keys. */
 const COPIED = ['category', 'category_description', 'metafield_definition'];
 
-export async function openScratchDb(): Promise<ScratchDb | null> {
-  const database = process.env.IMPORT_TEST_DB ?? SCRATCH_DB;
+export interface OpenOptions {
+  /**
+   * Open the database for the real services: the tables of the store are not
+   * copied into the test schema, because the services write to `public`.
+   */
+  core?: boolean;
+}
+
+export async function openScratchDb(
+  options: OpenOptions = {}
+): Promise<ScratchDb | null> {
+  const database = options.core
+    ? process.env.IMPORT_TEST_CORE_DB ?? CORE_SCRATCH_DB
+    : process.env.IMPORT_TEST_DB ?? SCRATCH_DB;
   if (!database.endsWith('_scratch_test')) {
     throw new Error(
       `The import tests only run in a database whose name ends in "_scratch_test", not in "${database}".`
@@ -87,7 +116,7 @@ export async function openScratchDb(): Promise<ScratchDb | null> {
     }
     await admin.query(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`);
     await admin.query(`CREATE SCHEMA "${schema}"`);
-    for (const table of COPIED) {
+    for (const table of options.core ? [] : COPIED) {
       await admin.query(
         `CREATE TABLE "${schema}"."${table}" (LIKE public."${table}" INCLUDING ALL)`
       );
@@ -124,10 +153,36 @@ export async function openScratchDb(): Promise<ScratchDb | null> {
   return {
     pool,
     schema,
+    database,
+    connection: {
+      host: config.host,
+      port: config.port,
+      user: config.user,
+      password: config.password
+    },
     async close() {
       await pool.end();
       await admin.query(`DROP SCHEMA IF EXISTS "${schema}" CASCADE`);
       await admin.end();
     }
   };
+}
+
+/**
+ * Points core's own pool (`lib/postgres/connection`) at the scratch database.
+ * That pool is built from the environment when it is first imported, so this
+ * must run **before** the first import of anything that reaches it: a test
+ * imports the real services afterwards, with `await import(...)`. The name is
+ * checked again here, because this is what lets core's services write.
+ */
+export function pointCoreAt(db: ScratchDb): void {
+  if (!db.database.endsWith('_scratch_test')) {
+    throw new Error(`Core's pool is never pointed at "${db.database}".`);
+  }
+  process.env.DB_HOST = db.connection.host;
+  process.env.DB_PORT = String(db.connection.port);
+  process.env.DB_NAME = db.database;
+  if (db.connection.user) process.env.DB_USER = db.connection.user;
+  if (db.connection.password) process.env.DB_PASSWORD = db.connection.password;
+  process.env.DB_SSLMODE = 'disable';
 }

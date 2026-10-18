@@ -37,6 +37,13 @@ export class MemoryServices implements EntityServices {
   ): Promise<{ id: number; uuid: string }> {
     if (!input.name) throw new Error('Category name is required');
     if (!input.url_key) throw new Error('URL key is required');
+    if (input.status === undefined) {
+      // The column is NOT NULL with no default, as in the real table.
+      throw Object.assign(
+        new Error('null value in column "status" violates not-null constraint'),
+        { code: '23502' }
+      );
+    }
     if (this.store.stored.has(input.url_key)) {
       throw uniqueViolation('CATEGORY_URL_KEY_UNIQUE', input.url_key);
     }
@@ -48,14 +55,15 @@ export class MemoryServices implements EntityServices {
     }
     const id =
       Math.max(0, ...[...this.store.stored.values()].map((c) => c.id)) + 1;
-    const uuid = `uuid-${id}`;
+    // The shape of a real uuid, as the database gives.
+    const uuid = `00000000-0000-4000-8000-${String(id).padStart(12, '0')}`;
     this.store.stored.set(input.url_key, {
       id,
       uuid,
       urlKey: input.url_key,
       parentUrlKey,
       name: input.name,
-      status: input.status ?? 1
+      status: input.status
     });
     this.written.set(uuid, { ...input });
     return { id, uuid };
