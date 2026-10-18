@@ -9,4 +9,13 @@
  */
 export interface JobRequests {
   request(jobUuid: string): Promise<void>;
+
+  /**
+   * Which of these jobs already have a request that has not been answered: an
+   * event that is `pending`, or `processing` for less than 5 minutes (an older
+   * one is a leftover of an event process that died and will not be answered).
+   * The dispatch cron does not ask again for these, so a long queue of events
+   * does not fill up with copies of the same request.
+   */
+  inFlight(jobUuids: readonly string[]): Promise<Set<string>>;
 }

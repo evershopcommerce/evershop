@@ -27,6 +27,7 @@ jest.setTimeout(180_000);
 // The worker processes, like this one, find no config directory in a checkout.
 process.env.SUPPRESS_NO_CONFIG_WARNING = '1';
 process.env.SUPPRESS_STRICTNESS_CHECK = '1';
+process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
 const db = await openScratchDb({ core: true });
 if (db) {
@@ -41,6 +42,12 @@ const core = db
       pool: (await import('../../../../../lib/postgres/connection.js')).pool,
       ...(await import('../../../adapters/CoreJobRequests.js')),
       ...(await import('../../../dispatch/runtime.js')),
+      importDispatch: (await import('../../../jobs/importDispatch.js')).default,
+      importRecover: (await import('../../../jobs/importRecover.js')).default,
+      importCleanup: (await import('../../../jobs/importCleanup.js')).default,
+      config: (await import('config')).default as unknown as {
+        util: { extendDeep: (...args: unknown[]) => void };
+      },
       subscriber: (
         await import(
           '../../../subscribers/import_job_requested/startImportWorker.js'
@@ -48,6 +55,12 @@ const core = db
       ).default
     }
   : null;
+
+// The cron jobs are built once, so the retention they are to follow is set
+// before the first of them runs: 2 days, not the 7 of the default.
+core?.config.util.extendDeep(core.config, {
+  system: { import: { retentionDays: 2 } }
+});
 
 afterAll(async () => {
   // The workers are over before the schema they use is dropped.
@@ -352,6 +365,250 @@ describeDb('the subscriber starts a real worker process', () => {
       expect(none.rows[0].n).toBe(0);
     } finally {
       delete process.env.bootstrapContext;
+      await cleanUp();
+    }
+  });
+});
+
+describeDb('the cron jobs, on real jobs and real workers', () => {
+  const pause = (ms: number) =>
+    new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+
+  /** The event table has one request for each of these jobs, or none. */
+  const pendingRequests = async () =>
+    (
+      await db!.pool.query(
+        `SELECT data->>'jobUuid' AS job_uuid FROM event
+          WHERE name = 'import_job_requested' ORDER BY event_id`
+      )
+    ).rows.map((row) => row.job_uuid as string);
+
+  const backdate = (id: number, column: string, interval: string) =>
+    db!.pool.query(
+      `UPDATE import_job SET ${column} = now() - interval '${interval}' WHERE import_job_id = $1`,
+      [id]
+    );
+
+  it('importDispatch asks again for a job whose event was lost, once, and the worker then checks it', async () => {
+    await cleanUp();
+    await remember();
+    try {
+      const s = service();
+      const { job } = await upload(s, categoryFile(row('lost')));
+      // The event is lost before anyone answers it.
+      expect(await takeRequests()).toHaveLength(1);
+
+      // Not yet: it has waited a moment only.
+      await core!.importDispatch();
+      expect(await pendingRequests()).toEqual([]);
+
+      await backdate(job.id, 'status_changed_at', '1 minute');
+      await core!.importDispatch();
+      expect(await pendingRequests()).toEqual([job.uuid]);
+      // The request is on its way: the next minutes add no copy of it.
+      await core!.importDispatch();
+      await core!.importDispatch();
+      expect(await pendingRequests()).toEqual([job.uuid]);
+
+      await core!.subscriber((await takeRequests())[0]);
+      await until(async () => (await statusOf(job.id))?.status === 'validated');
+      // The job is no longer waiting, so nothing is asked.
+      await backdate(job.id, 'status_changed_at', '1 minute');
+      await core!.importDispatch();
+      expect(await pendingRequests()).toEqual([]);
+      await until(() => core!.dispatchDeps().workers.running() === 0, 30_000);
+    } finally {
+      await cleanUp();
+    }
+  });
+
+  it('importDispatch does not count an event that an event process left half done', async () => {
+    await cleanUp();
+    await remember();
+    try {
+      const s = service();
+      const { job } = await upload(s, categoryFile(row('stuck')));
+      await backdate(job.id, 'status_changed_at', '1 minute');
+      // The event process claimed the request and died: processing for 10 minutes.
+      await db!.pool.query(
+        `UPDATE event SET status = 'processing', started_at = now() - interval '10 minutes'
+          WHERE name = 'import_job_requested'`
+      );
+      await core!.importDispatch();
+      expect(await pendingRequests()).toHaveLength(2);
+    } finally {
+      await cleanUp();
+    }
+  });
+
+  it('importRecover interrupts the job of a worker killed with SIGKILL, and Resume finishes it with no duplicate', async () => {
+    await cleanUp();
+    await remember();
+    try {
+      const s = service();
+      const keys = Array.from(
+        { length: 600 },
+        (_, n) => `kill-${String(n).padStart(3, '0')}`
+      );
+      const { job } = await upload(s, categoryFile(...keys.map((k) => row(k))));
+      await core!.subscriber((await takeRequests())[0]);
+      await until(async () => (await statusOf(job.id))?.status === 'validated');
+      await s.start(job.id);
+      await core!.subscriber((await takeRequests())[0]);
+      await until(
+        async () => ((await statusOf(job.id))?.counts.lastUnit ?? 0) > 0,
+        60_000
+      );
+      const running = (await statusOf(job.id))!;
+      process.kill(Number(running.worker!.split(':').pop()), 'SIGKILL');
+      await until(() => core!.dispatchDeps().workers.running() === 0, 30_000);
+
+      // The worker is dead but its last heartbeat is recent: not yet.
+      await core!.importRecover();
+      expect((await statusOf(job.id))!.status).toBe('running');
+
+      await backdate(job.id, 'heartbeat_at', '3 minutes');
+      await core!.importRecover();
+      const stopped = (await statusOf(job.id))!;
+      expect(stopped.status).toBe('interrupted');
+      expect(stopped.errorMessage).toMatch(/did not report for 120 seconds/);
+      expect(stopped.startedAt).not.toBeNull();
+      // The retention follows the configuration: 2 days, not the default 7.
+      expect(stopped.expiresAt! - Date.now()).toBeGreaterThan(
+        2 * 86_400_000 - 120_000
+      );
+      expect(stopped.expiresAt! - Date.now()).toBeLessThan(
+        2 * 86_400_000 + 120_000
+      );
+      expect(stopped.counts.created).toBeLessThan(600);
+
+      // The slot of the one import at a time is free, and Resume works.
+      await s.resume(job.id);
+      await core!.subscriber((await takeRequests())[0]);
+      await until(async () => (await statusOf(job.id))?.status === 'completed');
+      const done = (await statusOf(job.id))!;
+      expect(done.counts).toMatchObject({ failed: 0, skipped: 0 });
+      // What the dead worker wrote after its last save is written again as updates.
+      expect(done.counts.created + done.counts.updated).toBe(600);
+      expect(done.attempt).toBe(3);
+      const made = await db!.pool.query(
+        `SELECT count(*)::int AS n, count(DISTINCT cd.url_key)::int AS keys
+           FROM category c
+           JOIN category_description cd ON cd.category_description_category_id = c.category_id
+          WHERE c.category_id > $1`,
+        [baseline.category]
+      );
+      expect(made.rows[0]).toEqual({ n: 600, keys: 600 });
+      await until(() => core!.dispatchDeps().workers.running() === 0, 30_000);
+
+      // importCleanup: the job ended clean, so its file goes and the job stays.
+      const chunks = () =>
+        db!.pool.query(
+          'SELECT count(*)::int AS n FROM import_job_file WHERE import_job_id = $1',
+          [job.id]
+        );
+      expect((await chunks()).rows[0].n).toBeGreaterThan(0);
+      await core!.importCleanup();
+      expect((await chunks()).rows[0].n).toBe(0);
+      expect((await statusOf(job.id))!.status).toBe('completed');
+    } finally {
+      await cleanUp();
+    }
+  });
+
+  it('importCleanup deletes an abandoned upload and an expired job, and leaves a live upload', async () => {
+    await cleanUp();
+    await remember();
+    try {
+      const made = async (
+        status: string,
+        heartbeat: string | null,
+        expires: string | null
+      ) =>
+        (
+          await db!.pool.query(
+            `INSERT INTO import_job (entity, status, file_name, heartbeat_at, expires_at)
+             VALUES ('category', $1, 'f.csv',
+                     CASE WHEN $2::text IS NULL THEN NULL ELSE now() - $2::interval END,
+                     CASE WHEN $3::text IS NULL THEN NULL ELSE now() + $3::interval END)
+             RETURNING import_job_id AS id`,
+            [status, heartbeat, expires]
+          )
+        ).rows[0].id as number;
+      const idle = await made('uploading', '11 minutes', null);
+      const live = await made('uploading', '1 minute', null);
+      const expired = await made('validated', null, '-1 minute');
+      await core!.importCleanup();
+      expect(await statusOf(idle)).toBeNull();
+      expect(await statusOf(expired)).toBeNull();
+      expect(await statusOf(live)).not.toBeNull();
+    } finally {
+      await cleanUp();
+    }
+  });
+});
+
+describeDb('CoreJobRequests.inFlight: the requests on their way', () => {
+  const A = '11111111-2222-4333-8444-555555555555';
+  const B = '66666666-7777-4888-8999-aaaaaaaaaaaa';
+  const C = 'bbbbbbbb-cccc-4ddd-8eee-ffffffffffff';
+
+  const event = (
+    name: string,
+    jobUuid: string,
+    status: string,
+    startedAgo: string | null
+  ) =>
+    db!.pool.query(
+      `INSERT INTO event (name, data, status, started_at)
+       VALUES ($1, $2::json, $3,
+               CASE WHEN $4::text IS NULL THEN NULL ELSE now() - $4::interval END)`,
+      [name, JSON.stringify({ jobUuid }), status, startedAgo]
+    );
+
+  it('counts an event that is pending or recently processing, and no other', async () => {
+    await cleanUp();
+    await remember();
+    try {
+      const requests = new core!.CoreJobRequests(
+        core!.pool,
+        new CollectingLogger()
+      );
+      await event('import_job_requested', A, 'pending', null);
+      await event('import_job_requested', B, 'processing', '1 minute');
+      await event('import_job_requested', C, 'processing', '10 minutes');
+      expect(await requests.inFlight([A, B, C])).toEqual(new Set([A, B]));
+
+      await cleanUp();
+      await remember();
+      await event('import_job_requested', A, 'failed', '1 minute');
+      await event('some_other_event', B, 'pending', null);
+      expect(await requests.inFlight([A, B, C])).toEqual(new Set());
+    } finally {
+      await cleanUp();
+    }
+  });
+
+  it('answers for the jobs it is asked about only, in any case, and for none without asking the database', async () => {
+    await cleanUp();
+    await remember();
+    try {
+      const requests = new core!.CoreJobRequests(
+        core!.pool,
+        new CollectingLogger()
+      );
+      await event('import_job_requested', A, 'pending', null);
+      await event('import_job_requested', B, 'pending', null);
+      expect(await requests.inFlight([A])).toEqual(new Set([A]));
+      // The uuid of A is all digits; B has letters, which have a case.
+      expect(await requests.inFlight([B.toUpperCase()])).toEqual(new Set([B]));
+      expect(await requests.inFlight([])).toEqual(new Set());
+      // Two requests for one job are one job.
+      await event('import_job_requested', A, 'pending', null);
+      expect(await requests.inFlight([A, B])).toEqual(new Set([A, B]));
+    } finally {
       await cleanUp();
     }
   });
