@@ -61,6 +61,11 @@ export class MemoryJobStore extends MemoryJobRepository implements JobAdmin {
 
   // ---- the port --------------------------------------------------------
 
+  async getByUuid(uuid: string): Promise<ImportJob | null> {
+    const job = [...this.jobs.values()].find((one) => one.uuid === uuid);
+    return job ? this.snapshot(job.id) : null;
+  }
+
   async entityBusy(entity: ImportEntity): Promise<boolean> {
     return [...this.jobs.values()].some(
       (job) => job.entity === entity && isBusy(job)

@@ -1,4 +1,6 @@
 import { createHash } from 'crypto';
+import http from 'http';
+import type { AddressInfo } from 'net';
 import { afterAll, describe, expect, it, jest } from '@jest/globals';
 import { PgFileStore } from '../../../adapters/PgFileStore.js';
 import { PgJobAdmin } from '../../../adapters/PgJobAdmin.js';
@@ -8,6 +10,16 @@ import { FileDamagedError } from '../../../services/job/errors.js';
 import { ImportService } from '../../../services/jobs/ImportService.js';
 import { emptyCounts } from '../../../services/job/types.js';
 import type { StoredIssue } from '../../../services/job/types.js';
+import {
+  cancelJob,
+  deleteJob,
+  downloadFileWithErrors,
+  getIssues,
+  getJob,
+  startJob
+} from '../../../web/handlers.js';
+import type { ImportWeb } from '../../../web/ImportWeb.js';
+import { uploadJob } from '../../../web/upload.js';
 import { fileStoreContract } from '../helpers/fileStoreContract.js';
 import { jobAdminContract } from '../helpers/jobAdminContract.js';
 import { jobRepositoryContract } from '../helpers/jobRepositoryContract.js';
@@ -18,7 +30,9 @@ import {
   pgJobHarness,
   pgLookupHarness
 } from '../helpers/pgHarnesses.js';
+import { multipart, postTo } from '../helpers/multipartClient.js';
 import { openScratchDb } from '../helpers/scratchDb.js';
+import { bodyOf, textOf } from '../helpers/webHarness.js';
 
 /**
  * The PostgreSQL adapters of the import, on a scratch database (see
@@ -467,6 +481,107 @@ describeDb('PgJobAdmin', () => {
       expect(job.expiresAt).toBeGreaterThanOrEqual(before + 60_000);
       expect(job.expiresAt).toBeLessThan(before + 70_000);
     });
+  });
+});
+
+describeDb('the web layer on PostgreSQL', () => {
+  const build = async () => {
+    const h = await pgAdminHarness(db!);
+    const repository = new PgJobRepository(db!.pool);
+    const web: ImportWeb = {
+      service: new ImportService({
+        jobs: h.admin,
+        sha256: nodeSha256,
+        maxFileBytes: 50 * 1_048_576
+      }),
+      files: new PgFileStore(db!.pool),
+      issuesInRowOrder: (jobId, phase) =>
+        repository.issuesInRowOrder(jobId, phase),
+      adminNames: async () => new Map([[7, 'Jane Doe']]),
+      limits: { maxRows: 200_000, maxCellLength: 65_536 },
+      logger: { info: () => {}, warn: () => {}, error: () => {} }
+    };
+    return { h, web };
+  };
+
+  it('takes an upload over HTTP, shows the job, and gives the file back with its problems', async () => {
+    const { h, web } = await build();
+    const server = http.createServer((request, response) => {
+      uploadJob(web, request, response, null).then((result) => {
+        response.statusCode = result.status;
+        response.end(JSON.stringify((result as { body: unknown }).body));
+      });
+    });
+    await new Promise<void>((resolve) => {
+      server.listen(0, '127.0.0.1', resolve);
+    });
+    const { port } = server.address() as AddressInfo;
+    const content = Buffer.from('url_key,name\nwomen,Women\nmen,Men\n');
+    try {
+      const answer = await postTo(
+        port,
+        multipart([
+          { name: 'entity', value: 'category' },
+          { name: 'mode', value: 'create' },
+          { name: 'file', filename: 'sản phẩm.csv', content }
+        ])
+      );
+      expect(answer.status).toBe(200);
+      expect(answer.body.data).toMatchObject({
+        status: 'uploaded',
+        fileName: 'sản phẩm.csv',
+        fileSize: content.length,
+        replaced: false
+      });
+      const { uuid } = answer.body.data;
+
+      // The job, by its uuid.
+      expect(bodyOf(await getJob(web, uuid)).data.uuid).toBe(uuid);
+      expect(await getJob(web, 'open')).toMatchObject({ status: 404 });
+
+      // The problems, then the file with them.
+      const job = (await h.admin.getByUuid(uuid))!;
+      await h.seedIssues(job.id, [
+        {
+          phase: 'validate',
+          rowNumber: 3,
+          entityKey: 'men',
+          column: 'name',
+          code: 'INVALID_VALUE',
+          severity: 'error',
+          params: {},
+          message: 'The name is wrong.',
+          value: 'Men'
+        }
+      ]);
+      const page = bodyOf(await getIssues(web, uuid, {})).data;
+      expect(page.total).toBe(1);
+      expect(page.items[0]).toMatchObject({
+        row: 3,
+        key: 'men',
+        code: 'INVALID_VALUE'
+      });
+      const download = await downloadFileWithErrors(web, uuid, {});
+      expect(await textOf(download)).toBe(
+        '\uFEFFurl_key,name,_errors\r\nwomen,Women,\r\nmen,Men,name: The name is wrong.\r\n'
+      );
+
+      // The actions.
+      expect(bodyOf(await startJob(web, uuid)).error.code).toBe('WRONG_STATUS');
+      await h.setStatus(job.id, 'validated');
+      expect(bodyOf(await startJob(web, uuid)).data.status).toBe('queued');
+      expect(bodyOf(await cancelJob(web, uuid)).data).toMatchObject({
+        status: 'canceled',
+        cancel: 'canceled'
+      });
+      expect(bodyOf(await deleteJob(web, uuid)).data.uuid).toBe(uuid);
+      expect(await h.chunksOf(job.id)).toEqual([]);
+      expect(await getJob(web, uuid)).toMatchObject({ status: 404 });
+    } finally {
+      await new Promise((resolve) => {
+        server.close(resolve);
+      });
+    }
   });
 });
 

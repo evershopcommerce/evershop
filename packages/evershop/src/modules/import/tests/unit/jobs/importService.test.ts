@@ -378,6 +378,28 @@ describe('ImportService: the actions', () => {
     expect(await refusal(service.get(99))).toMatchObject({ code: 'NOT_FOUND' });
   });
 
+  it('finds a job by the uuid the API gives it, in any case, and by nothing else', async () => {
+    const { store, service } = setup();
+    const job = store.insert({ status: 'validated' });
+    expect((await service.byUuid(job.uuid)).id).toBe(job.id);
+    expect((await service.byUuid(job.uuid.toUpperCase())).id).toBe(job.id);
+    for (const bad of [
+      '11111111-2222-4333-8444-555555555555',
+      'open',
+      '1',
+      '',
+      undefined,
+      42,
+      `${job.uuid}x`,
+      `x${job.uuid}`
+    ]) {
+      // eslint-disable-next-line no-await-in-loop
+      expect(await refusal(service.byUuid(bad))).toMatchObject({
+        code: 'NOT_FOUND'
+      });
+    }
+  });
+
   it('has an HTTP status for every code', () => {
     expect(API_STATUS).toEqual({
       INVALID_REQUEST: 400,
@@ -387,6 +409,7 @@ describe('ImportService: the actions', () => {
       IMPORT_ALREADY_RUNNING: 409,
       OPEN_JOB_EXISTS: 409,
       FILE_HAS_ERRORS: 409,
+      FILE_UNAVAILABLE: 409,
       FILE_TOO_LARGE: 413
     });
   });

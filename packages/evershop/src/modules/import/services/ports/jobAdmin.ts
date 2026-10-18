@@ -91,6 +91,9 @@ export interface IssuePage {
 export interface JobAdmin {
   get(jobId: number): Promise<ImportJob | null>;
 
+  /** The job by the uuid the API gives it; null when there is none. */
+  getByUuid(uuid: string): Promise<ImportJob | null>;
+
   /** True when the entity's import is busy: running, or queued after it wrote something. */
   entityBusy(entity: ImportEntity): Promise<boolean>;
 
