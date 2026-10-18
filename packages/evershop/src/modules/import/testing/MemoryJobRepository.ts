@@ -1,3 +1,10 @@
+import {
+  CLAIMS,
+  FINAL,
+  FINISH_FROM,
+  RETENTION_MS,
+  WORKER_STATUSES
+} from '../services/job/transitions.js';
 import { cloneCounts, emptyCounts } from '../services/job/types.js';
 import type {
   ImportJob,
@@ -12,33 +19,6 @@ import type {
   FinishPatch,
   JobRepository
 } from '../services/ports/jobRepository.js';
-
-// What a worker may leave `validating` and `running` for (§ 8.4, transitions).
-const FINISH_FROM: Record<string, JobStatus[]> = {
-  validating: ['validated', 'failed', 'canceled', 'interrupted'],
-  running: [
-    'completed',
-    'stopped',
-    'interrupted',
-    'failed',
-    'canceled',
-    // The check at the start found errors and nothing has been written.
-    'validated'
-  ]
-};
-
-const CLAIMS: Array<[JobStatus, JobStatus]> = [
-  ['uploaded', 'validating'],
-  ['queued', 'running']
-];
-
-const FINAL: ReadonlySet<JobStatus> = new Set([
-  'completed',
-  'failed',
-  'canceled'
-]);
-
-const DAY_MS = 86_400_000;
 
 /**
  * TEST-ONLY. A `JobRepository` with the status machine of § 8.4: the claim is a
@@ -61,7 +41,7 @@ export class MemoryJobRepository implements JobRepository {
 
   constructor(
     private readonly clock: Clock,
-    private readonly retentionMs = 7 * DAY_MS
+    private readonly retentionMs = RETENTION_MS
   ) {}
 
   // ---- for a test to set up and look at --------------------------------
@@ -191,7 +171,7 @@ export class MemoryJobRepository implements JobRepository {
     if (
       !job ||
       job.attempt !== attempt ||
-      (job.status !== 'validating' && job.status !== 'running')
+      !(WORKER_STATUSES as readonly string[]).includes(job.status)
     ) {
       return null;
     }
