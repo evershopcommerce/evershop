@@ -13,3 +13,7 @@ export const nodeSha256: Sha256 = () => {
     }
   };
 };
+
+/** SHA-256 of a text as 64 hexadecimal digits: the `sha256Hex` of `ImportDeps`. */
+export const nodeSha256Hex = (text: string): string =>
+  createHash('sha256').update(text).digest('hex');

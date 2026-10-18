@@ -3,6 +3,8 @@ import { FakeClock } from '../../../testing/FakeClock.js';
 import { MemoryFileStore } from '../../../testing/MemoryFileStore.js';
 import { MemoryJobStore } from '../../../testing/MemoryJobStore.js';
 import { MemoryLookup } from '../../../testing/MemoryLookup.js';
+import { MemoryServices } from '../../../testing/MemoryServices.js';
+import type { ServicesHarness } from './entityServicesContract.js';
 import type { FileStoreHarness } from './fileStoreContract.js';
 import type { JobAdminHarness } from './jobAdminContract.js';
 import type { LookupHarness } from './lookupContract.js';
@@ -90,6 +92,30 @@ export function memoryLookupHarness(): LookupHarness {
     },
     async set(fixture) {
       current = new MemoryLookup(fixture);
+    }
+  };
+}
+
+/** `MemoryServices` over a `MemoryLookup`, as a harness for the contract of EntityServices. */
+export function memoryServicesHarness(): ServicesHarness {
+  const lookup = new MemoryLookup();
+  const services = new MemoryServices(lookup);
+  return {
+    services,
+    async find(urlKey) {
+      const found = lookup.stored.get(urlKey);
+      return found
+        ? {
+            id: found.id,
+            uuid: found.uuid,
+            name: found.name,
+            status: found.status,
+            parentUrlKey: found.parentUrlKey
+          }
+        : null;
+    },
+    async count() {
+      return lookup.stored.size;
     }
   };
 }
