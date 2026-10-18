@@ -1,13 +1,19 @@
+import { createHash } from 'crypto';
 import { afterAll, describe, expect, it, jest } from '@jest/globals';
 import { PgFileStore } from '../../../adapters/PgFileStore.js';
+import { PgJobAdmin } from '../../../adapters/PgJobAdmin.js';
+import { nodeSha256 } from '../../../adapters/nodeSha256.js';
 import { PgJobRepository } from '../../../adapters/PgJobRepository.js';
 import { FileDamagedError } from '../../../services/job/errors.js';
+import { ImportService } from '../../../services/jobs/ImportService.js';
 import { emptyCounts } from '../../../services/job/types.js';
 import type { StoredIssue } from '../../../services/job/types.js';
 import { fileStoreContract } from '../helpers/fileStoreContract.js';
+import { jobAdminContract } from '../helpers/jobAdminContract.js';
 import { jobRepositoryContract } from '../helpers/jobRepositoryContract.js';
 import { lookupContract } from '../helpers/lookupContract.js';
 import {
+  pgAdminHarness,
   pgFileHarness,
   pgJobHarness,
   pgLookupHarness
@@ -300,6 +306,166 @@ describeDb('PgJobRepository', () => {
       expect(done.status_changed_at.getTime()).toBeGreaterThan(
         claimedAt.status_changed_at.getTime()
       );
+    });
+  });
+});
+
+describeDb('PgJobAdmin', () => {
+  jobAdminContract('PgJobAdmin', () => pgAdminHarness(db!));
+
+  describe('the import service on PostgreSQL', () => {
+    const sha = (bytes: Buffer) =>
+      createHash('sha256').update(bytes).digest('hex');
+    const setup = async (options: { retentionMs?: number } = {}) => {
+      const h = await pgAdminHarness(db!, new PgJobAdmin(db!.pool, options));
+      const service = new ImportService({
+        jobs: h.admin,
+        sha256: nodeSha256,
+        maxFileBytes: 50 * 1_048_576
+      });
+      return { h, service };
+    };
+    async function* pieces(bytes: Buffer, size: number) {
+      for (let at = 0; at < bytes.length; at += size) {
+        yield bytes.subarray(at, at + size);
+      }
+    }
+    const upload = (
+      service: ImportService,
+      file: AsyncIterable<Buffer>,
+      entity = 'category'
+    ) => service.upload({ entity, fileName: 'f.csv', createdBy: null, file });
+
+    it('uploads a file of several real chunks, and the file store reads it back whole', async () => {
+      const { service } = await setup();
+      const bytes = Buffer.alloc(2_621_440 + 123);
+      for (let at = 0; at < bytes.length; at += 1) bytes[at] = (at * 7) % 253;
+      // The pieces of the stream are not the size of a chunk.
+      const { job } = await upload(service, pieces(bytes, 100_003));
+      expect(job).toMatchObject({
+        status: 'uploaded',
+        fileSize: bytes.length,
+        chunkCount: 3,
+        fileSha256: sha(bytes)
+      });
+      const read: Buffer[] = [];
+      // The check of the file store (count, size, SHA-256) passes on what the upload recorded.
+      for await (const chunk of new PgFileStore(db!.pool).open(job.id)) {
+        read.push(Buffer.from(chunk));
+      }
+      expect(read.map((c) => c.length)).toEqual([
+        1_048_576,
+        1_048_576,
+        524_288 + 123
+      ]);
+      expect(Buffer.concat(read).equals(bytes)).toBe(true);
+    });
+
+    it('leaves nothing behind when the stream breaks after the first chunk', async () => {
+      const { h, service } = await setup();
+      async function* dropped() {
+        yield Buffer.alloc(1_500_000, 1);
+        throw new Error('socket hang up');
+      }
+      await expect(upload(service, dropped())).rejects.toThrow(
+        'socket hang up'
+      );
+      const left = await db!.pool.query(
+        `SELECT (SELECT count(*) FROM import_job)::int AS jobs,
+                (SELECT count(*) FROM import_job_file)::int AS chunks`
+      );
+      expect(left.rows[0]).toEqual({ jobs: 0, chunks: 0 });
+      expect(await h.admin.listOpen()).toEqual([]);
+    });
+
+    it('stops a file that is too large, and leaves nothing behind', async () => {
+      const { h } = await setup();
+      const small = new ImportService({
+        jobs: h.admin,
+        sha256: nodeSha256,
+        maxFileBytes: 1_500_000
+      });
+      await expect(
+        upload(small, pieces(Buffer.alloc(3_000_000, 2), 65_536))
+      ).rejects.toMatchObject({ code: 'FILE_TOO_LARGE' });
+      const left = await db!.pool.query(
+        `SELECT (SELECT count(*) FROM import_job)::int AS jobs,
+                (SELECT count(*) FROM import_job_file)::int AS chunks`
+      );
+      expect(left.rows[0]).toEqual({ jobs: 0, chunks: 0 });
+    });
+
+    it('is refused, and costs nothing, when the import became busy while the file arrived', async () => {
+      const { h, service } = await setup();
+      const old = await h.insert({ entity: 'category', status: 'validated' });
+      // The index of one open job per entity refuses a running job beside the
+      // validated one, so the busy import is set up by moving that one.
+      async function* moveOldToRunning() {
+        yield Buffer.from('a,b\n1,2\n');
+        await h.setStatus(old.id, 'running');
+      }
+      await expect(upload(service, moveOldToRunning())).rejects.toMatchObject({
+        code: 'IMPORT_RUNNING'
+      });
+      expect((await h.admin.get(old.id))?.status).toBe('running');
+      const jobs = await db!.pool.query('SELECT status FROM import_job');
+      expect(jobs.rows).toEqual([{ status: 'running' }]);
+    });
+
+    it('swaps whole or not at all: a failure at the last step brings the old job back', async () => {
+      const { h, service } = await setup();
+      const old = await h.insert({ entity: 'category', status: 'validated' });
+      await h.seedChunks(old.id, [Buffer.from('old file')]);
+      await h.seedIssues(old.id, [
+        {
+          phase: 'validate',
+          rowNumber: 2,
+          entityKey: null,
+          column: null,
+          code: 'X',
+          severity: 'error',
+          params: {},
+          message: 'm',
+          value: null
+        }
+      ]);
+      const schema = `"${db!.schema}"`;
+      // The last step of the swap makes the new job uploaded: make that fail.
+      await db!.pool.query(`
+        CREATE FUNCTION ${schema}.refuse_uploaded() RETURNS trigger AS $$
+        BEGIN
+          IF NEW.status = 'uploaded' AND OLD.status = 'uploading' THEN
+            RAISE EXCEPTION 'the last step failed';
+          END IF;
+          RETURN NEW;
+        END; $$ LANGUAGE plpgsql`);
+      await db!.pool.query(`
+        CREATE TRIGGER refuse_uploaded BEFORE UPDATE ON ${schema}.import_job
+        FOR EACH ROW EXECUTE FUNCTION ${schema}.refuse_uploaded()`);
+      try {
+        await expect(
+          upload(service, pieces(Buffer.from('new,file\n'), 4))
+        ).rejects.toThrow('the last step failed');
+      } finally {
+        await db!.pool.query(
+          `DROP TRIGGER refuse_uploaded ON ${schema}.import_job`
+        );
+        await db!.pool.query(`DROP FUNCTION ${schema}.refuse_uploaded()`);
+      }
+      // The old job, its file and its problems are all still there; the new one is gone.
+      expect((await h.admin.get(old.id))?.status).toBe('validated');
+      expect(await h.chunksOf(old.id)).toHaveLength(1);
+      expect(await h.issues(old.id)).toHaveLength(1);
+      const jobs = await db!.pool.query('SELECT import_job_id FROM import_job');
+      expect(jobs.rows).toEqual([{ import_job_id: old.id }]);
+    });
+
+    it('keeps a job for the time it is told to', async () => {
+      const { service } = await setup({ retentionMs: 60_000 });
+      const before = Date.now();
+      const { job } = await upload(service, pieces(Buffer.from('a\n1\n'), 2));
+      expect(job.expiresAt).toBeGreaterThanOrEqual(before + 60_000);
+      expect(job.expiresAt).toBeLessThan(before + 70_000);
     });
   });
 });

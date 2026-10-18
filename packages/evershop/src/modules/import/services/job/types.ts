@@ -111,7 +111,39 @@ export interface ImportJob {
   finishedAt: number | null;
   heartbeatAt: number | null;
   expiresAt: number | null;
+  createdAt: number;
+  /** The last time `status` changed. */
+  statusChangedAt: number;
+  /** The last time a run ended in `validated`. */
+  validatedAt: number | null;
+  /** Set while the worker waits for the event queue to drain (§ 8.5). */
+  waitingSince: number | null;
+  /** The admin user who uploaded the file. */
+  createdBy: number | null;
 }
+
+/** The statuses in which a job is open: the one-open-job-per-entity index (§ 8.4). */
+export const OPEN_STATUSES: readonly JobStatus[] = [
+  'uploaded',
+  'validating',
+  'validated',
+  'queued',
+  'running'
+];
+
+/** The statuses in which a worker or an upload is at work: Delete is refused. */
+export const ACTIVE_STATUSES: readonly JobStatus[] = [
+  'uploading',
+  'validating',
+  'queued',
+  'running'
+];
+
+/** Resume is allowed from these. */
+export const RESUMABLE_STATUSES: readonly JobStatus[] = [
+  'stopped',
+  'interrupted'
+];
 
 /** A problem as it is stored (the table `import_job_issue`). */
 export interface StoredIssue {

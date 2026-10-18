@@ -1,22 +1,32 @@
 import { RETENTION_MS } from '../../../services/job/transitions.js';
 import { FakeClock } from '../../../testing/FakeClock.js';
 import { MemoryFileStore } from '../../../testing/MemoryFileStore.js';
-import { MemoryJobRepository } from '../../../testing/MemoryJobRepository.js';
+import { MemoryJobStore } from '../../../testing/MemoryJobStore.js';
 import { MemoryLookup } from '../../../testing/MemoryLookup.js';
 import type { FileStoreHarness } from './fileStoreContract.js';
-import type { JobRepoHarness } from './jobRepositoryContract.js';
+import type { JobAdminHarness } from './jobAdminContract.js';
 import type { LookupHarness } from './lookupContract.js';
 
-/** The in-memory repository, with a fake clock, as a harness for the contract. */
-export function memoryJobHarness(): JobRepoHarness & {
-  repo: MemoryJobRepository;
+/**
+ * The in-memory jobs, with a fake clock, as a harness for the contracts of the
+ * worker's side (`JobRepository`) and of the API's (`JobAdmin`).
+ */
+export function memoryJobHarness(): JobAdminHarness & {
+  repo: MemoryJobStore;
   clock: FakeClock;
 } {
   const clock = new FakeClock();
-  const repo = new MemoryJobRepository(clock);
+  const repo = new MemoryJobStore(clock);
   return {
     repo,
+    admin: repo,
     clock,
+    async chunksOf(jobId) {
+      return repo.chunksOf(jobId);
+    },
+    async seedChunks(jobId, chunks) {
+      repo.seedChunks(jobId, chunks);
+    },
     async insert(fields) {
       return repo.snapshot(repo.insert(fields).id);
     },
