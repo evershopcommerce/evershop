@@ -1,6 +1,7 @@
 import { createHash } from 'crypto';
 import { PgFileStore } from '../../../adapters/PgFileStore.js';
 import { PgJobAdmin } from '../../../adapters/PgJobAdmin.js';
+import { PgJobMaintenance } from '../../../adapters/PgJobMaintenance.js';
 import { PgJobRepository } from '../../../adapters/PgJobRepository.js';
 import { PgLookup } from '../../../adapters/PgLookup.js';
 import { RETENTION_MS } from '../../../services/job/transitions.js';
@@ -9,6 +10,7 @@ import type { StoreFixture } from '../../../services/ports/lookup.js';
 import type { ImportEntity } from '../../../services/types.js';
 import type { FileStoreHarness } from './fileStoreContract.js';
 import type { JobAdminHarness } from './jobAdminContract.js';
+import type { JobMaintenanceHarness } from './jobMaintenanceContract.js';
 import type { JobRepoHarness } from './jobRepositoryContract.js';
 import type { LookupHarness } from './lookupContract.js';
 import type { ScratchDb } from './scratchDb.js';
@@ -37,9 +39,11 @@ export async function pgJobHarness(
         `INSERT INTO "${db.schema}".import_job
            (entity, mode, status, stage, control, file_name, file_size,
             chunk_count, file_sha256, options, counts, error_message, attempt,
-            worker, started_at, finished_at, heartbeat_at, expires_at)
+            worker, started_at, finished_at, heartbeat_at, expires_at,
+            created_at, status_changed_at, waiting_since)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::jsonb,
-                 COALESCE($11::jsonb, '{}'::jsonb), $12, $13, $14, $15, $16, $17, $18)
+                 COALESCE($11::jsonb, '{}'::jsonb), $12, $13, $14, $15, $16, $17, $18,
+                 COALESCE($19, now()), COALESCE($20, now()), $21)
          RETURNING import_job_id`,
         [
           fields.entity ?? 'category',
@@ -59,7 +63,10 @@ export async function pgJobHarness(
           date(fields.startedAt),
           date(fields.finishedAt),
           date(fields.heartbeatAt),
-          date(fields.expiresAt)
+          date(fields.expiresAt),
+          date(fields.createdAt),
+          date(fields.statusChangedAt),
+          date(fields.waitingSince)
         ]
       );
       return (await repo.get(result.rows[0].import_job_id)) as ImportJob;
@@ -171,6 +178,14 @@ export async function pgAdminHarness(
       }
     }
   };
+}
+
+/** `PgJobMaintenance` (with the admin and the repository) on the scratch database. */
+export async function pgMaintenanceHarness(
+  db: ScratchDb,
+  maintenance = new PgJobMaintenance(db.pool)
+): Promise<JobMaintenanceHarness> {
+  return { ...(await pgAdminHarness(db)), maintenance };
 }
 
 /** `PgFileStore` on the scratch database, as a harness for the contract. */

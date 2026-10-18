@@ -10,9 +10,13 @@ import type { SpawnFn } from '../../../adapters/NodeWorkerPool.js';
  */
 process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
-const { WORKER_SCRIPT, createDispatchDeps, dispatchDeps } = await import(
-  '../../../dispatch/runtime.js'
-);
+const {
+  WORKER_SCRIPT,
+  createDispatchDeps,
+  createMaintenanceDeps,
+  dispatchDeps,
+  maintenanceDeps
+} = await import('../../../dispatch/runtime.js');
 
 const set = (values: Record<string, unknown>) => {
   (config as unknown as { util: { extendDeep: Function } }).util.extendDeep(
@@ -63,6 +67,17 @@ describe('createDispatchDeps', () => {
     expect(deps.maxWorkers).toBe(3);
     deps.workers.start('11111111-2222-4333-8444-555555555555');
     expect(calls[0].args[0]).toBe('--max-old-space-size=256');
+  });
+
+  it('gives the cron jobs one wiring: the maintenance, the requests and a logger', () => {
+    const deps = createMaintenanceDeps();
+    expect(typeof deps.maintenance.recoverDead).toBe('function');
+    expect(typeof deps.maintenance.waitingForWorker).toBe('function');
+    expect(typeof deps.maintenance.cleanUp).toBe('function');
+    expect(typeof deps.requests.request).toBe('function');
+    expect(typeof deps.requests.inFlight).toBe('function');
+    expect(typeof deps.logger.info).toBe('function');
+    expect(maintenanceDeps()).toBe(maintenanceDeps());
   });
 
   it('counts the workers of the instance in one place: the same object every time', () => {

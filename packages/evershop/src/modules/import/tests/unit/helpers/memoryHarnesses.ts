@@ -7,13 +7,14 @@ import { MemoryServices } from '../../../testing/MemoryServices.js';
 import type { ServicesHarness } from './entityServicesContract.js';
 import type { FileStoreHarness } from './fileStoreContract.js';
 import type { JobAdminHarness } from './jobAdminContract.js';
+import type { JobMaintenanceHarness } from './jobMaintenanceContract.js';
 import type { LookupHarness } from './lookupContract.js';
 
 /**
  * The in-memory jobs, with a fake clock, as a harness for the contracts of the
  * worker's side (`JobRepository`) and of the API's (`JobAdmin`).
  */
-export function memoryJobHarness(): JobAdminHarness & {
+export function memoryJobHarness(): JobMaintenanceHarness & {
   repo: MemoryJobStore;
   clock: FakeClock;
 } {
@@ -22,6 +23,7 @@ export function memoryJobHarness(): JobAdminHarness & {
   return {
     repo,
     admin: repo,
+    maintenance: repo,
     clock,
     async chunksOf(jobId) {
       return repo.chunksOf(jobId);

@@ -16,6 +16,11 @@ import type {
   UploadedFile,
   UploadResult
 } from '../services/ports/jobAdmin.js';
+import type {
+  CleanupResult,
+  JobMaintenance,
+  RecoveredJob
+} from '../services/ports/jobMaintenance.js';
 import type { ImportEntity } from '../services/types.js';
 import { MemoryJobRepository } from './MemoryJobRepository.js';
 
@@ -32,9 +37,13 @@ const isRunningSlot = (job: ImportJob): boolean =>
  * TEST-ONLY. The jobs as the API sees them, on top of the worker's side
  * (`MemoryJobRepository`), with the two unique indexes of the table: at most one
  * open job per entity, and at most one import queued or running. The same
- * contract suite runs against `PgJobAdmin`.
+ * contract suite runs against `PgJobAdmin`. It is also the `JobMaintenance` of
+ * the cron jobs, whose contract suite runs against `PgJobMaintenance`.
  */
-export class MemoryJobStore extends MemoryJobRepository implements JobAdmin {
+export class MemoryJobStore
+  extends MemoryJobRepository
+  implements JobAdmin, JobMaintenance
+{
   /** The chunks of each job's file, by `seq`. */
   protected readonly chunks = new Map<number, Buffer[]>();
 
@@ -286,6 +295,81 @@ export class MemoryJobStore extends MemoryJobRepository implements JobAdmin {
     return {
       total: matching.length,
       items: matching.slice(query.offset, query.offset + query.limit)
+    };
+  }
+
+  // ---- the cron jobs ---------------------------------------------------
+
+  async recoverDead(
+    deadAfterMs: number,
+    message: string
+  ): Promise<RecoveredJob[]> {
+    const now = this.clock.now();
+    const recovered: RecoveredJob[] = [];
+    for (const job of [...this.jobs.values()].sort((a, b) => a.id - b.id)) {
+      if (job.status !== 'validating' && job.status !== 'running') continue;
+      if ((job.heartbeatAt ?? job.statusChangedAt) >= now - deadAfterMs) {
+        continue;
+      }
+      recovered.push({ uuid: job.uuid, entity: job.entity, was: job.status });
+      job.status = 'interrupted';
+      job.statusChangedAt = now;
+      job.stage = null;
+      job.control = null;
+      job.waitingSince = null;
+      job.errorMessage = message;
+      job.expiresAt = now + this.retentionMs;
+    }
+    return recovered;
+  }
+
+  async waitingForWorker(quietMs: number): Promise<string[]> {
+    const before = this.clock.now() - quietMs;
+    return [...this.jobs.values()]
+      .filter(
+        (job) =>
+          (job.status === 'uploaded' || job.status === 'queued') &&
+          job.statusChangedAt < before
+      )
+      .sort((a, b) => a.statusChangedAt - b.statusChangedAt || a.id - b.id)
+      .map((job) => job.uuid);
+  }
+
+  async cleanUp(uploadIdleMs: number): Promise<CleanupResult> {
+    const now = this.clock.now();
+    const jobs = [...this.jobs.values()];
+    const abandoned = jobs.filter(
+      (job) =>
+        job.status === 'uploading' &&
+        (job.heartbeatAt ?? job.createdAt) < now - uploadIdleMs
+    );
+    for (const job of abandoned) this.delete(job.id);
+    const expired = jobs.filter(
+      (job) =>
+        !abandoned.includes(job) &&
+        job.expiresAt !== null &&
+        job.expiresAt < now &&
+        !ACTIVE_STATUSES.includes(job.status)
+    );
+    for (const job of expired) this.delete(job.id);
+    let filesDropped = 0;
+    for (const job of this.jobs.values()) {
+      if (
+        (job.status === 'completed' ||
+          job.status === 'failed' ||
+          job.status === 'canceled') &&
+        job.counts.failed === 0 &&
+        job.counts.skipped === 0 &&
+        (this.chunks.get(job.id)?.length ?? 0) > 0
+      ) {
+        this.chunks.delete(job.id);
+        filesDropped += 1;
+      }
+    }
+    return {
+      abandonedUploads: abandoned.length,
+      expiredJobs: expired.length,
+      filesDropped
     };
   }
 }

@@ -37,3 +37,12 @@ export const WORKER_STATUSES = ['validating', 'running'] as const;
 
 /** The default time a finished job is kept (§ 8.4, Cleanup). */
 export const RETENTION_MS = 7 * 86_400_000;
+
+/** A worker that has not reported for this long is dead (§ 8.4, Heartbeat and recovery). */
+export const DEAD_AFTER_MS = 120_000;
+
+/** An upload with no chunk for this long is abandoned (§ 8.4, Cleanup). */
+export const UPLOAD_IDLE_MS = 600_000;
+
+/** A job waits this long for its worker before the dispatch cron asks again (§ 8.4). */
+export const DISPATCH_AFTER_MS = 30_000;

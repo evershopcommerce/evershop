@@ -22,13 +22,15 @@ import type { ImportWeb } from '../../../web/ImportWeb.js';
 import { uploadJob } from '../../../web/upload.js';
 import { fileStoreContract } from '../helpers/fileStoreContract.js';
 import { jobAdminContract } from '../helpers/jobAdminContract.js';
+import { jobMaintenanceContract } from '../helpers/jobMaintenanceContract.js';
 import { jobRepositoryContract } from '../helpers/jobRepositoryContract.js';
 import { lookupContract } from '../helpers/lookupContract.js';
 import {
   pgAdminHarness,
   pgFileHarness,
   pgJobHarness,
-  pgLookupHarness
+  pgLookupHarness,
+  pgMaintenanceHarness
 } from '../helpers/pgHarnesses.js';
 import { multipart, postTo } from '../helpers/multipartClient.js';
 import { openScratchDb } from '../helpers/scratchDb.js';
@@ -321,6 +323,72 @@ describeDb('PgJobRepository', () => {
         claimedAt.status_changed_at.getTime()
       );
     });
+  });
+});
+
+describeDb('PgJobMaintenance', () => {
+  jobMaintenanceContract('PgJobMaintenance', () => pgMaintenanceHarness(db!));
+
+  it('leaves a job that a live worker is writing at that moment for the next round, and does not wait for it', async () => {
+    const h = await pgMaintenanceHarness(db!);
+    const stale = Date.now() - 3 * 60_000;
+    const held = await h.insert({
+      entity: 'category',
+      status: 'running',
+      heartbeatAt: stale,
+      startedAt: stale
+    });
+    const free = await h.insert({
+      entity: 'product',
+      status: 'validating',
+      heartbeatAt: stale
+    });
+    // A worker is in the middle of a checkpoint: its transaction holds the row.
+    const client = await db!.pool.connect();
+    try {
+      await client.query('BEGIN');
+      await client.query(
+        'SELECT 1 FROM import_job WHERE import_job_id = $1 FOR UPDATE',
+        [held.id]
+      );
+      const started = Date.now();
+      const recovered = await h.maintenance.recoverDead(120_000, 'it died');
+      expect(Date.now() - started).toBeLessThan(5000);
+      // Only the free one was taken; the other is not touched, and not waited for.
+      expect(recovered.map((job) => job.uuid)).toEqual([free.uuid]);
+      expect((await h.snapshot(held.id)).status).toBe('running');
+      await client.query('ROLLBACK');
+    } finally {
+      client.release();
+    }
+    // The next round takes it.
+    expect(
+      (await h.maintenance.recoverDead(120_000, 'it died')).map(
+        (job) => job.uuid
+      )
+    ).toEqual([held.uuid]);
+  });
+
+  it('lets two rounds on two instances share the dead jobs without taking one twice', async () => {
+    const h = await pgMaintenanceHarness(db!);
+    const stale = Date.now() - 3 * 60_000;
+    const entities = [
+      'category',
+      'product',
+      'customer',
+      'customerAddress'
+    ] as const;
+    for (const entity of entities) {
+      // eslint-disable-next-line no-await-in-loop
+      await h.insert({ entity, status: 'validating', heartbeatAt: stale });
+    }
+    const [first, second] = await Promise.all([
+      h.maintenance.recoverDead(120_000, 'it died'),
+      h.maintenance.recoverDead(120_000, 'it died')
+    ]);
+    const all = [...first, ...second].map((job) => job.uuid);
+    expect(all).toHaveLength(4);
+    expect(new Set(all).size).toBe(4);
   });
 });
 

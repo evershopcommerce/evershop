@@ -30,7 +30,7 @@ export interface ImportServiceDeps {
    * Asked for a worker whenever a job starts waiting for one (`uploaded` or
    * `queued`). Without it nothing starts a worker: the dispatch cron does.
    */
-  requests?: JobRequests;
+  requests?: Pick<JobRequests, 'request'>;
 }
 
 export interface UploadArgs {
