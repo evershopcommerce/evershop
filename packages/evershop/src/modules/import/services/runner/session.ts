@@ -212,12 +212,13 @@ export class Session {
     }
   }
 
-  /** The counts as they are now, with whether the problems were cut at the cap. */
+  /** The counts as they are now, with whether (and from where) the problems were cut at the cap. */
   private currentCounts(): JobCounts {
     const counts = cloneCounts(this.counts);
     for (const phase of ['validate', 'import'] as const) {
       if (this.owned[phase]) {
         counts.issuesTruncated[phase] = this.sinks[phase].truncated;
+        counts.firstUnlistedRow[phase] = this.sinks[phase].firstUnlistedRow;
       }
     }
     return counts;

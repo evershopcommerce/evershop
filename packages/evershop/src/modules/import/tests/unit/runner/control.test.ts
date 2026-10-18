@@ -340,6 +340,7 @@ describe('the heartbeat, in more detail', () => {
       counts: {
         ...emptyCounts(),
         issuesTruncated: { validate: true, import: true },
+        firstUnlistedRow: { validate: 3, import: 40 },
         byCode: { validate: {}, import: { WRITE_FAILED: 500 } }
       }
     });
@@ -347,6 +348,10 @@ describe('the heartbeat, in more detail', () => {
     expect(h.jobs.snapshot(1).counts.issuesTruncated).toEqual({
       validate: false,
       import: true
+    });
+    expect(h.jobs.snapshot(1).counts.firstUnlistedRow).toEqual({
+      validate: null,
+      import: 40
     });
     expect(h.jobs.snapshot(1).counts.byCode.import).toEqual({
       WRITE_FAILED: 500

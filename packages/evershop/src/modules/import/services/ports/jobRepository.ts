@@ -77,6 +77,16 @@ export interface JobRepository {
   errorRows(jobId: number, phase: IssuePhase): Promise<Set<number>>;
 
   /**
+   * The problems of a phase for the file with errors (§ 7.3): those without a
+   * row first, then by row number, and inside a row in the order they were
+   * found. It streams, so a job with 100,000 problems is not held in memory.
+   */
+  issuesInRowOrder(
+    jobId: number,
+    phase: IssuePhase
+  ): AsyncIterable<StoredIssue>;
+
+  /**
    * The final write of a run: `to` is one of the statuses a worker may leave
    * `validating` or `running` for (§ 8.4, transitions). False when stale.
    */

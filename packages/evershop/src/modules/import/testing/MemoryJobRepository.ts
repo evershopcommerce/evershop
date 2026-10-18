@@ -252,6 +252,20 @@ export class MemoryJobRepository implements JobRepository {
     );
   }
 
+  async *issuesInRowOrder(
+    jobId: number,
+    phase: IssuePhase
+  ): AsyncGenerator<StoredIssue, void, undefined> {
+    // The sort is stable: inside a row the problems stay in the order found.
+    const found = this.rows
+      .filter((row) => row.jobId === jobId && row.phase === phase)
+      .sort((a, b) => (a.rowNumber ?? 0) - (b.rowNumber ?? 0));
+    for (const row of found) {
+      const { jobId: _job, ...issue } = row;
+      yield issue;
+    }
+  }
+
   async finish(
     jobId: number,
     attempt: number,
