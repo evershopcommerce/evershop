@@ -1,6 +1,7 @@
 import { createHash } from 'crypto';
 import { categoryValidator } from '../../../services/entities/category/categoryValidator.js';
 import { customerValidator } from '../../../services/entities/customer/customerValidator.js';
+import { customerAddressValidator } from '../../../services/entities/customerAddress/customerAddressValidator.js';
 import { productValidator } from '../../../services/entities/product/productValidator.js';
 import type { ImportIssue, ImportMode } from '../../../services/types.js';
 import type { StoreFixture } from '../../../services/ports/lookup.js';
@@ -50,6 +51,14 @@ export function validateProducts(
   return validateEntity('product', file, options);
 }
 
+/** Validates a customer addresses file against a store described as data. */
+export function validateAddresses(
+  file: string | Uint8Array,
+  options: RunOptions = {}
+): Promise<Validated> {
+  return validateEntity('customerAddress', file, options);
+}
+
 /** Validates a customers file against a store described as data. */
 export function validateCustomers(
   file: string | Uint8Array,
@@ -61,7 +70,8 @@ export function validateCustomers(
 const VALIDATORS = {
   category: categoryValidator,
   product: productValidator,
-  customer: customerValidator
+  customer: customerValidator,
+  customerAddress: customerAddressValidator
 } as const;
 
 export async function validateEntity(

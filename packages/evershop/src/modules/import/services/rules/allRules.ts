@@ -1,4 +1,5 @@
 import { Buffer } from 'buffer';
+import { ADDRESS_STORE, addressFile, addressRow } from './addressFiles.js';
 import {
   categoryFile,
   categoryRow,
@@ -232,6 +233,12 @@ export const ALL_07 = defineRule({
         name: 'no email in a customers file',
         entity: 'customer',
         file: 'full_name,status\nJane,1\n',
+        expect: [{ code: 'MISSING_COLUMN', column: 'email' }]
+      },
+      {
+        name: 'no email in a customer addresses file',
+        entity: 'customerAddress',
+        file: 'recipient,country\nJane,US\n',
         expect: [{ code: 'MISSING_COLUMN', column: 'email' }]
       }
     ]
@@ -490,6 +497,13 @@ export const ALL_13 = defineRule({
         store: CUSTOMER_STORE,
         file: customerFile(customerRow({ email: '' })),
         expect: [{ code: 'MISSING_REQUIRED', rowNumber: 2, column: 'email' }]
+      },
+      {
+        name: 'an address with no email',
+        entity: 'customerAddress',
+        store: ADDRESS_STORE,
+        file: addressFile(addressRow({ email: '' })),
+        expect: [{ code: 'MISSING_REQUIRED', rowNumber: 2, column: 'email' }]
       }
     ]
   }
@@ -510,6 +524,16 @@ export const ALL_14 = defineRule({
       {
         name: 'two different keys',
         file: categoryFile(categoryRow(), categoryRow({ url_key: 'men' })),
+        expect: []
+      },
+      {
+        name: 'a customer has many addresses: the e-mail repeats (D-18)',
+        entity: 'customerAddress',
+        store: ADDRESS_STORE,
+        file: addressFile(
+          addressRow({ is_default: '0' }),
+          addressRow({ is_default: '0', address_line_1: '500 Howard Street' })
+        ),
         expect: []
       }
     ],
@@ -576,6 +600,22 @@ export const ALL_16 = defineRule({
         store: STORE_WITH_WOMEN,
         file: VALID,
         expect: []
+      },
+      {
+        name: 'an address is always added: the modes do not apply (D-18)',
+        entity: 'customerAddress',
+        mode: 'create',
+        store: ADDRESS_STORE,
+        file: addressFile(addressRow()),
+        expect: []
+      },
+      {
+        name: 'an address is added in mode update too',
+        entity: 'customerAddress',
+        mode: 'update',
+        store: ADDRESS_STORE,
+        file: addressFile(addressRow()),
+        expect: []
       }
     ],
     fail: [
@@ -632,6 +672,17 @@ export const ALL_18 = defineRule({
         ),
         expect: [
           { code: 'TEMPLATE_EXAMPLE_ROW', rowNumber: 2, column: 'url_key' }
+        ]
+      },
+      {
+        name: 'the example address of the template (any letter case)',
+        entity: 'customerAddress',
+        store: ADDRESS_STORE,
+        file: addressFile(
+          addressRow({ email: 'Example.Customer@example.com', recipient: '' })
+        ),
+        expect: [
+          { code: 'TEMPLATE_EXAMPLE_ROW', rowNumber: 2, column: 'email' }
         ]
       },
       {
@@ -805,6 +856,18 @@ export const ALL_21 = defineRule({
         expect: [
           { code: 'REFERENCE_AMBIGUOUS', rowNumber: 2, column: 'attr:color' }
         ]
+      },
+      {
+        entity: 'customerAddress',
+        name: 'an address for an e-mail that two customers share (differing in case)',
+        store: {
+          customers: [
+            { email: 'jane.doe@example.com' },
+            { email: 'Jane.Doe@example.com' }
+          ]
+        },
+        file: addressFile(addressRow()),
+        expect: [{ code: 'REFERENCE_AMBIGUOUS', rowNumber: 2, column: 'email' }]
       },
       {
         entity: 'customer',

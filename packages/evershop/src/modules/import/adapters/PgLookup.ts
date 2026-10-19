@@ -1,11 +1,15 @@
 import type { Pool } from 'pg';
+import { ADDRESS_COLUMNS } from '../../../lib/address/tokens.js';
 import type { MetafieldDefinition } from '../../../lib/metafield/types.js';
 import { verifyPassword } from '../../../lib/util/passwordHelper.js';
+import { getValue } from '../../../lib/util/registry.js';
 import type {
   AttributeType,
   Lookup,
+  AddressRules,
   NamedRecord,
   PasswordCheck,
+  StoredAddress,
   StoredAttribute,
   StoredCategory,
   StoredCustomer,
@@ -15,6 +19,7 @@ import type {
   StoredVariantGroup
 } from '../services/ports/lookup.js';
 import type { ImportEntity } from '../services/types.js';
+import { createAddressRules } from './addressRules.js';
 import { toStoredMetafield } from './metafieldCheck.js';
 
 /**
@@ -204,6 +209,45 @@ export class PgLookup implements Lookup {
       const list = found.get(key) ?? [];
       list.push({ id: row.customer_group_id, name: row.group_name });
       found.set(key, list);
+    }
+    return found;
+  }
+
+  // The seam is the processors of `customerAddressDataBeforeCreate`, which the
+  // customer module registers and extensions may add to; the rest is core's library.
+  async addressRules(): Promise<AddressRules> {
+    return createAddressRules({
+      normalize: (address) =>
+        getValue('customerAddressDataBeforeCreate', address, {})
+    });
+  }
+
+  async customerAddresses(
+    customerIds: readonly number[]
+  ): Promise<Map<number, StoredAddress[]>> {
+    const found = new Map<number, StoredAddress[]>();
+    if (customerIds.length === 0) {
+      return found;
+    }
+    const result = await this.pool.query(
+      `SELECT * FROM customer_address WHERE customer_id = ANY($1::int[])
+        ORDER BY customer_address_id`,
+      [customerIds]
+    );
+    for (const row of result.rows) {
+      const fields: Record<string, string> = {};
+      for (const column of ADDRESS_COLUMNS) {
+        const value = row[column];
+        fields[column] =
+          value === null || value === undefined ? '' : String(value);
+      }
+      const list = found.get(row.customer_id) ?? [];
+      list.push({
+        id: row.customer_address_id,
+        fields,
+        extra: row.extra ?? null
+      });
+      found.set(row.customer_id, list);
     }
     return found;
   }

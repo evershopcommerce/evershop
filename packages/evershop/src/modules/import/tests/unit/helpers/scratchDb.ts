@@ -106,6 +106,7 @@ const COPIED = [
   'variant_group',
   'customer',
   'customer_group',
+  'customer_address',
   'url_redirect',
   'url_rewrite'
 ];

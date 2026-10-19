@@ -476,11 +476,12 @@ describe('runImport: cancel, SIGTERM and a job that is no longer ours', () => {
 describe('runImport: when it cannot run', () => {
   it('fails the job for an entity it cannot import yet', async () => {
     const h = harness();
-    h.stage('email\na@b.com\n', { ...queued, entity: 'customerAddress' });
+    // Every entity has a pipeline now; a job of any other kind is refused.
+    h.stage('email\na@b.com\n', { ...queued, entity: 'coupon' as never });
     const result = await runImport(1, h.deps);
     expect(result.outcome).toBe('failed');
     expect(h.jobs.snapshot(1).errorMessage).toBe(
-      'A customerAddress file cannot be imported yet.'
+      'A coupon file cannot be imported yet.'
     );
   });
 

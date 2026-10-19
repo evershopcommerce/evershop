@@ -45,6 +45,8 @@ function eventfulStore(h: Harness, rowMs = 400) {
     addVariantItem: (group, product) => inner.addVariantItem(group, product),
     recordRedirects: (uuid, paths) => inner.recordRedirects(uuid, paths),
     createCustomer: (input) => inner.createCustomer(input),
+    createCustomerAddress: (uuid, input) =>
+      inner.createCustomerAddress(uuid, input),
     updateCustomer: (uuid, input) => inner.updateCustomer(uuid, input),
     setCustomerMetafields: (id, values) =>
       inner.setCustomerMetafields(id, values),

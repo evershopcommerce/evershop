@@ -1,5 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { afterAll, describe, jest } from '@jest/globals';
+import { addProcessor } from '../../../../../lib/util/registry.js';
+import { normalizeAddressInput } from '../../../../customer/services/customer/address/normalizeAddressInput.js';
 import { MemoryLookup } from '../../../testing/MemoryLookup.js';
 import { MemoryServices } from '../../../testing/MemoryServices.js';
 import { customerServicesContract } from '../helpers/customerServicesContract.js';
@@ -55,6 +57,17 @@ function memoryHarness(): CustomerServicesHarness {
       if (stored.kind === 'hash')
         return bcrypt.compareSync(password, stored.value);
       return false;
+    },
+    async addresses(email) {
+      const found = byEmail(email);
+      return lookup.addresses_
+        .filter((a) => found && a.customerId === found.id)
+        .map((a) => ({
+          uuid: a.uuid,
+          fields: { ...a.fields },
+          extra: a.extra,
+          isDefault: a.isDefault
+        }));
     },
     async welcomeEvents() {
       return 0;
@@ -175,6 +188,36 @@ async function realHarness(): Promise<CustomerServicesHarness> {
       const row = await find(email);
       return row ? bcrypt.compareSync(password, row.password) : false;
     },
+    async addresses(email) {
+      const rows = await q(
+        `SELECT a.* FROM customer_address a JOIN customer c ON c.customer_id = a.customer_id
+          WHERE c.email = $1 ORDER BY a.customer_address_id`,
+        [email]
+      );
+      return rows.map((row) => ({
+        uuid: row.uuid,
+        fields: Object.fromEntries(
+          [
+            'recipient',
+            'given_name',
+            'family_name',
+            'organization',
+            'address_line_1',
+            'address_line_2',
+            'address_line_3',
+            'dependent_locality',
+            'locality',
+            'administrative_area',
+            'postal_code',
+            'sorting_code',
+            'country',
+            'telephone'
+          ].map((column) => [column, row[column] ?? ''])
+        ),
+        extra: row.extra ?? null,
+        isDefault: Boolean(row.is_default)
+      }));
+    },
     async welcomeEvents() {
       return Number(
         (
@@ -197,6 +240,9 @@ async function realHarness(): Promise<CustomerServicesHarness> {
     }
   };
 }
+
+// The customer module registers its normalizer on the seam when it boots.
+addProcessor('customerAddressDataBeforeCreate', normalizeAddressInput, 0);
 
 describeDb('the real customer services of core', () => {
   customerServicesContract('CoreEntityServices', realHarness);

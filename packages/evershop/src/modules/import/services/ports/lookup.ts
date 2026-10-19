@@ -76,6 +76,38 @@ export type PasswordCheck = (
   password: string
 ) => { ok: true } | { ok: false; message: string };
 
+/** One problem core's address validation found: the field, the code, the translated message. */
+export interface AddressProblem {
+  field?: string;
+  code: string;
+  message: string;
+}
+
+/**
+ * What the store decides about an address (§ 5.5): the normalization seam
+ * (`customerAddressDataBeforeCreate`, which trims, upper-cases the country,
+ * makes the telephone E.164 and composes the names), `validateAddress` for the
+ * account surface, the countries the registry knows, and the extra fields
+ * registered for a country. The engine keeps no list of its own.
+ */
+export interface AddressRules {
+  isKnownCountry(code: string): boolean;
+  /** The ids of the extra fields registered for the country (ADR-10). */
+  extraIds(country: string): readonly string[];
+  /** The seam: what core does to an address before it validates it. */
+  normalize(address: Record<string, unknown>): Promise<Record<string, unknown>>;
+  /** `validateAddress` on an address that was normalized; no problem means valid. */
+  check(address: Record<string, unknown>): Promise<AddressProblem[]>;
+}
+
+/** An address of a customer as stored: the columns as text, and the extras. */
+export interface StoredAddress {
+  id: number;
+  /** The 14 shared columns; `''` where the column is empty. */
+  fields: Record<string, string>;
+  extra: Record<string, unknown> | null;
+}
+
 /** The types of attribute a product can have a value for (`attribute.type`). */
 export type AttributeType =
   | 'select'
@@ -181,6 +213,15 @@ export interface Lookup {
   customerGroups(names: readonly string[]): Promise<Map<string, NamedRecord[]>>;
   /** The password rules of the store (CUS-05). */
   passwordCheck(): Promise<PasswordCheck>;
+  /** The address rules of the store (§ 5.5). */
+  addressRules(): Promise<AddressRules>;
+  /**
+   * The addresses stored for these customers (ids), to find out whether a row
+   * written by a worker that died is already there (a resumed job).
+   */
+  customerAddresses(
+    customerIds: readonly number[]
+  ): Promise<Map<number, StoredAddress[]>>;
 
   /** The stored products for these SKUs (matched exactly). */
   products(skus: readonly string[]): Promise<Map<string, StoredProduct>>;
@@ -274,6 +315,16 @@ export interface StoreFixture {
     metaData?: Record<string, Record<string, unknown>>;
   }>;
   customerGroups?: Array<{ name: string; id?: number }>;
+  /** The addresses a customer (by e-mail) already has. */
+  customerAddresses?: Array<{
+    customer: string;
+    fields: Record<string, string>;
+    extra?: Record<string, unknown> | null;
+  }>;
+  /** The extra address fields registered for a country: their ids. */
+  addressExtras?: Record<string, string[]>;
+  /** The countries the store sells to ('all' by default; the sell-to setting). */
+  addressSellTo?: string[];
   /** The shortest password the store accepts (core's default is 6). */
   passwordMinLength?: number;
 

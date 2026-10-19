@@ -389,6 +389,161 @@ export function lookupContract(
       });
     });
 
+    describe('the addresses of customers', () => {
+      const STORE: StoreFixture = {
+        customers: [
+          { email: 'jane.doe@example.com' },
+          { email: 'john@example.com' },
+          { email: 'nobody-has-an-address@example.com' }
+        ],
+        customerAddresses: [
+          {
+            customer: 'jane.doe@example.com',
+            fields: {
+              recipient: 'Jane Doe',
+              address_line_1: '1 Market Street',
+              locality: 'San Francisco',
+              administrative_area: 'US-CA',
+              postal_code: '94105',
+              country: 'US',
+              telephone: '+14155550100'
+            },
+            extra: { gift_note: 'Door' }
+          },
+          {
+            customer: 'jane.doe@example.com',
+            fields: {
+              recipient: 'Jane D.',
+              address_line_1: '2 Main',
+              country: 'US'
+            }
+          },
+          {
+            customer: 'john@example.com',
+            fields: {
+              recipient: 'John',
+              address_line_1: '3 Elm',
+              country: 'GB'
+            }
+          }
+        ]
+      };
+      const idOf = async (email: string) =>
+        (await h.lookup.customers([email])).get(email)![0].id;
+
+      it('gives the addresses of a customer in the order they were added, the 14 columns as text and the extras', async () => {
+        await h.set(STORE);
+        const found = await h.lookup.customerAddresses([
+          await idOf('jane.doe@example.com')
+        ]);
+        const list = [...found.values()][0];
+        expect(list).toHaveLength(2);
+        expect(list[0].fields).toEqual({
+          recipient: 'Jane Doe',
+          given_name: '',
+          family_name: '',
+          organization: '',
+          address_line_1: '1 Market Street',
+          address_line_2: '',
+          address_line_3: '',
+          dependent_locality: '',
+          locality: 'San Francisco',
+          administrative_area: 'US-CA',
+          postal_code: '94105',
+          sorting_code: '',
+          country: 'US',
+          telephone: '+14155550100'
+        });
+        expect(list[0].extra).toEqual({ gift_note: 'Door' });
+        expect(list[1].fields.address_line_1).toBe('2 Main');
+        expect(list[1].extra).toBeNull();
+        expect(list[0].id).toBeLessThan(list[1].id);
+      });
+
+      it('gives each customer its own addresses, nothing for one who has none, and nothing for nobody', async () => {
+        await h.set(STORE);
+        const jane = await idOf('jane.doe@example.com');
+        const john = await idOf('john@example.com');
+        const none = await idOf('nobody-has-an-address@example.com');
+        const found = await h.lookup.customerAddresses([jane, john, none]);
+        expect(found.get(jane)).toHaveLength(2);
+        expect(found.get(john)!.map((a) => a.fields.address_line_1)).toEqual([
+          '3 Elm'
+        ]);
+        expect(found.has(none)).toBe(false);
+        expect((await h.lookup.customerAddresses([])).size).toBe(0);
+      });
+    });
+
+    describe('the address rules', () => {
+      it('knows the countries of the registry, in any letter case', async () => {
+        await h.set({});
+        const rules = await h.lookup.addressRules();
+        for (const code of ['US', 'us', 'DE', 'VN']) {
+          expect([code, rules.isKnownCountry(code)]).toEqual([code, true]);
+        }
+        for (const code of ['ZZ', '', 'United States', 'USA']) {
+          expect([code, rules.isKnownCountry(code)]).toEqual([code, false]);
+        }
+      });
+
+      it('applies the seam: trims, upper-cases the country, makes the telephone E.164', async () => {
+        await h.set({});
+        const rules = await h.lookup.addressRules();
+        const normalized = await rules.normalize({
+          recipient: '  Jane Doe ',
+          country: 'us',
+          telephone: '(415) 555-0100',
+          postal_code: ' 94105 '
+        });
+        expect(normalized).toMatchObject({
+          recipient: 'Jane Doe',
+          country: 'US',
+          telephone: '+14155550100',
+          postal_code: '94105'
+        });
+      });
+
+      const US = {
+        recipient: 'Jane Doe',
+        address_line_1: '1 Market Street',
+        locality: 'San Francisco',
+        administrative_area: 'US-CA',
+        postal_code: '94105',
+        country: 'US',
+        telephone: '+14155550100'
+      };
+
+      it('finds no problem with a good address, and every problem of a bad one with its field and code', async () => {
+        await h.set({});
+        const rules = await h.lookup.addressRules();
+        expect(await rules.check(US)).toEqual([]);
+        const problems = await rules.check({
+          ...US,
+          postal_code: 'ABC',
+          administrative_area: 'California',
+          telephone: ''
+        });
+        expect(problems.map((p) => `${p.field}:${p.code}`).sort()).toEqual([
+          'administrative_area:region_invalid',
+          'postal_code:pattern',
+          'telephone:required'
+        ]);
+        for (const problem of problems) {
+          expect(problem.message.length).toBeGreaterThan(5);
+        }
+      });
+
+      it('does not accept a field it does not know (the old names)', async () => {
+        await h.set({});
+        const rules = await h.lookup.addressRules();
+        const problems = await rules.check({ ...US, province: 'CA' });
+        expect(problems.map((p) => `${p.field}:${p.code}`)).toEqual([
+          'province:unknown_field'
+        ]);
+      });
+    });
+
     describe('the references of a product', () => {
       const ids = async (
         pick: () => Promise<Map<string, Array<{ id: number }>>>,

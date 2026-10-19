@@ -236,11 +236,12 @@ describe('runValidation: when it cannot run', () => {
 
   it('fails the job for an entity it cannot check yet', async () => {
     const h = harness();
-    h.stage(GOOD, { entity: 'customerAddress' });
+    // Every entity has a pipeline now; a job of any other kind is refused.
+    h.stage(GOOD, { entity: 'coupon' as never });
     const result = await runValidation(1, h.deps);
     expect(result.outcome).toBe('failed');
     expect(h.jobs.snapshot(1).errorMessage).toBe(
-      'A customerAddress file cannot be checked yet.'
+      'A coupon file cannot be checked yet.'
     );
   });
 

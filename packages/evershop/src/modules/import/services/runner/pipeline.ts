@@ -1,6 +1,7 @@
 import type { Readable } from 'stream';
 import { categoryValidator } from '../entities/category/categoryValidator.js';
 import { customerValidator } from '../entities/customer/customerValidator.js';
+import { customerAddressValidator } from '../entities/customerAddress/customerAddressValidator.js';
 import type {
   EntityValidator,
   HeaderInfo,
@@ -9,6 +10,7 @@ import type {
 import { productValidator } from '../entities/product/productValidator.js';
 import type { ImageFetcher } from '../images/types.js';
 import { planCategories } from '../plan/categoryPlan.js';
+import { planAddresses } from '../plan/customerAddressPlan.js';
 import { planCustomers } from '../plan/customerPlan.js';
 import { planProducts } from '../plan/productPlan.js';
 import type { Clock } from '../ports/clock.js';
@@ -17,6 +19,7 @@ import type { CsvLimits } from '../reader/readCsv.js';
 import type { ImportEntity } from '../types.js';
 import { writeCategories } from '../write/categoryWriter.js';
 import type { WriteOutcome } from '../write/categoryWriter.js';
+import { writeCustomerAddresses } from '../write/customerAddressWriter.js';
 import { writeCustomers } from '../write/customerWriter.js';
 import { writeProducts } from '../write/productWriter.js';
 
@@ -84,10 +87,23 @@ const customerPipeline: EntityPipeline = {
     })
 };
 
+const customerAddressPipeline: EntityPipeline = {
+  entity: 'customerAddress',
+  validator: customerAddressValidator,
+  plan: () => planAddresses(),
+  write: (args) =>
+    writeCustomerAddresses({
+      ...args,
+      state: args.state as never,
+      plan: args.plan as never
+    })
+};
+
 const PIPELINES: Partial<Record<ImportEntity, EntityPipeline>> = {
   category: categoryPipeline,
   product: productPipeline,
-  customer: customerPipeline
+  customer: customerPipeline,
+  customerAddress: customerAddressPipeline
 };
 
 /** The pipeline of an entity, or null when it cannot be imported yet. */
