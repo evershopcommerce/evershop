@@ -10,6 +10,7 @@ import {
   missingRequired,
   readMetafields
 } from '../entities/metafields.js';
+import { ImagePrefetcher } from '../images/prefetch.js';
 import { imageIssue, ImageError } from '../images/types.js';
 import type { ImageFetcher } from '../images/types.js';
 import { categoryRowsAtLevel } from '../plan/categoryPlan.js';
@@ -60,6 +61,8 @@ export interface CategoryWriterArgs {
   context: ValidationContext;
   services: EntityServices;
   images: ImageFetcher;
+  /** Images fetched ahead of their rows, at the same time (default 1: one at a time). */
+  imageConcurrency?: number;
   clock: Pick<Clock, 'sleep'>;
   /**
    * The job is a resumed one (IMP-07): a record that exists is updated even in
@@ -155,6 +158,13 @@ export async function* writeCategories(
   args: CategoryWriterArgs
 ): AsyncGenerator<WriteOutcome, void, undefined> {
   const { plan, context, services, images, clock, signal } = args;
+  // The images of the rows of a batch are fetched a few at a time while the rows
+  // before them are written (§ 8.5).
+  const prefetcher = new ImagePrefetcher(
+    images,
+    Math.max(1, Math.floor(args.imageConcurrency ?? 1)),
+    signal
+  );
   const batchSize = args.batchSize ?? DEFAULT_BATCH_SIZE;
   // The custom-field definitions of categories, asked at the first row.
   let definitions: ReadonlyMap<string, StoredMetafield> | null = null;
@@ -179,19 +189,37 @@ export async function* writeCategories(
         ...(row.data.parent ? [row.data.parent] : [])
       ]);
       const stored = await context.lookup.categories(keys);
-      for (const row of batch) {
-        unit += 1;
-        const key = row.key as string;
-        if (
-          args.include &&
-          !args.include({ unit, rowNumber: row.rowNumber, key })
-        ) {
-          continue;
+      prefetcher.schedule(
+        batch.flatMap((row, at) =>
+          row.data.image !== undefined &&
+          (!args.include ||
+            args.include({
+              unit: unit + at + 1,
+              rowNumber: row.rowNumber,
+              key: row.key as string
+            }))
+            ? [row.data.image]
+            : []
+        )
+      );
+      try {
+        for (const row of batch) {
+          unit += 1;
+          const key = row.key as string;
+          if (
+            args.include &&
+            !args.include({ unit, rowNumber: row.rowNumber, key })
+          ) {
+            continue;
+          }
+          if (signal?.aborted) {
+            return;
+          }
+          yield await writeOne(row, unit, stored);
         }
-        if (signal?.aborted) {
-          return;
-        }
-        yield await writeOne(row, unit, stored);
+      } finally {
+        // What was fetched ahead for rows that were not written is forgotten.
+        prefetcher.clear();
       }
       batch = [];
     };
@@ -319,7 +347,7 @@ export async function* writeCategories(
       const source = data.image;
       try {
         image = (
-          await withRetries(() => images.fetchAndStore(source), {
+          await withRetries(() => prefetcher.fetch(source), {
             isTransient: isTransientImageError,
             sleep: clock.sleep,
             onRetry: countRetry,

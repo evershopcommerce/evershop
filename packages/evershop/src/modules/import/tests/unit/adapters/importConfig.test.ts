@@ -10,6 +10,7 @@ process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 const {
   backlogLimits,
   fileLimits,
+  imageConcurrency,
   importFlag,
   importSetting,
   maxFileBytes,
@@ -38,11 +39,29 @@ afterEach(() => {
     maxIssues: undefined,
     allowPrivateNetworks: undefined,
     imageTimeoutSeconds: undefined,
+    imageConcurrency: undefined,
     maxWorkersPerInstance: undefined,
     workerMemoryMb: undefined,
     eventBacklogHigh: undefined,
     eventBacklogLow: undefined,
     eventBacklogMaxWaitMinutes: undefined
+  });
+});
+
+describe('imageConcurrency', () => {
+  it('is 4 by default, as many as are set, and never less than one', () => {
+    expect(imageConcurrency()).toBe(4);
+    set({ imageConcurrency: 8 });
+    expect(imageConcurrency()).toBe(8);
+    set({ imageConcurrency: 2.9 });
+    expect(imageConcurrency()).toBe(2);
+    // A value under one is the default or one: never none at all.
+    set({ imageConcurrency: 0.5 });
+    expect(imageConcurrency()).toBe(1);
+    set({ imageConcurrency: 0 });
+    expect(imageConcurrency()).toBe(4);
+    set({ imageConcurrency: -3 });
+    expect(imageConcurrency()).toBe(4);
   });
 });
 

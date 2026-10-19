@@ -65,6 +65,7 @@ export function harness(
       eventBacklogHigh: 500,
       eventBacklogLow: 100,
       eventBacklogMaxWaitMs: 30 * 60_000,
+      imageConcurrency: 4,
       ...options.config
     },
     sha256Hex: (text) => createHash('sha256').update(text).digest('hex')

@@ -32,6 +32,8 @@ export interface PipelineWriteArgs {
   context: ValidationContext;
   services: EntityServices;
   images: ImageFetcher;
+  /** Images fetched ahead of their rows, at the same time. */
+  imageConcurrency?: number;
   clock: Pick<Clock, 'sleep'>;
   resumed: boolean;
   include?: (unit: { unit: number; rowNumber: number; key: string }) => boolean;
