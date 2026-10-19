@@ -75,6 +75,8 @@ const EXPECTED_IDS = [
   'IMP-01',
   'IMP-02',
   'IMP-03',
+  'IMP-04',
+  'IMP-05',
   'IMP-06',
   'IMP-07'
 ];

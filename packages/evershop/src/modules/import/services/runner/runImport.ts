@@ -184,7 +184,7 @@ export async function runImport(
       signal: control.signal
     });
     for await (const outcome of writing) {
-      record(session, outcome);
+      recordOutcome(session, outcome);
       if (outcome.result === 'failed') {
         failedThisRun += 1;
         if (failedThisRun >= MAX_FAILED_ROWS) {
@@ -208,7 +208,7 @@ export async function runImport(
 }
 
 // What one row did to the counts and the problems.
-function record(session: Session, outcome: WriteOutcome): void {
+export function recordOutcome(session: Session, outcome: WriteOutcome): void {
   const { counts } = session;
   if (outcome.result === 'created') counts.created += 1;
   else if (outcome.result === 'updated') counts.updated += 1;
@@ -219,7 +219,10 @@ function record(session: Session, outcome: WriteOutcome): void {
     counts.byCode.import[issue.code] =
       (counts.byCode.import[issue.code] ?? 0) + 1;
   }
-  if (outcome.unit > counts.lastUnit) {
-    counts.lastUnit = outcome.unit;
+  // The place is saved after a unit that is done; one that stopped in the
+  // middle is written again from its first row when the job is resumed.
+  const reached = outcome.unitDone === false ? outcome.unit - 1 : outcome.unit;
+  if (reached > counts.lastUnit) {
+    counts.lastUnit = reached;
   }
 }

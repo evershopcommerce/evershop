@@ -1,9 +1,25 @@
+import {
+  commit,
+  rollback,
+  select,
+  startTransaction
+} from '@evershop/postgres-query-builder';
 import type { Pool } from 'pg';
+import { getConnection } from '../../../lib/postgres/connection.js';
+import { CatalogUrn } from '../../../lib/urn/index.js';
+import { recordRedirect } from '../../base/services/recordRedirect.js';
 import createCategory from '../../catalog/services/category/createCategory.js';
 import updateCategory from '../../catalog/services/category/updateCategory.js';
+import createProduct from '../../catalog/services/product/createProduct.js';
+import updateProduct from '../../catalog/services/product/updateProduct.js';
+import { buildEntityPath } from '../../catalog/services/redirect/pathRemap.js';
+import { resolveCategoryUrlPath } from '../../catalog/services/redirect/resolveCategoryUrlPath.js';
+import addVariantItem from '../../catalog/services/variant/addVariantItem.js';
+import createVariantGroup from '../../catalog/services/variant/createVariantGroup.js';
 import type {
   CategoryWrite,
-  EntityServices
+  EntityServices,
+  ProductWrite
 } from '../services/ports/services.js';
 
 /**
@@ -18,7 +34,7 @@ import type {
  * extensions and core modules register are there.
  */
 export function createCoreEntityServices(pool: Pool): EntityServices {
-  const data = (input: CategoryWrite) => ({ ...input });
+  const data = (input: CategoryWrite | ProductWrite) => ({ ...input });
   return {
     async createCategory(input) {
       const row = await createCategory(data(input) as never, {});
@@ -40,6 +56,75 @@ export function createCoreEntityServices(pool: Pool): EntityServices {
         }
       }
       await updateCategory(uuid, data(input) as never, {});
+    },
+
+    async createProduct(input) {
+      const row = await createProduct(data(input) as never, {});
+      return { id: Number(row.product_id), uuid: String(row.uuid) };
+    },
+
+    async updateProduct(uuid, input) {
+      await updateProduct(uuid, data(input) as never, {});
+    },
+
+    async createVariantGroup({ attributeGroupId, axisCodes }) {
+      const { group } = await createVariantGroup({
+        attribute_group_id: attributeGroupId,
+        attribute_codes: axisCodes
+      });
+      return { id: Number(group.variant_group_id), uuid: String(group.uuid) };
+    },
+
+    async addVariantItem(groupUuid, productUuid) {
+      await addVariantItem(groupUuid, productUuid);
+    },
+
+    // The old addresses go to the product's own path as 301 redirects (G4). The
+    // path is built here, at write time: the product's `url_rewrite` row does
+    // not exist yet, because the subscriber builds it after the commit. It is
+    // the same path the product's url_rewrite will have (category path + key).
+    async recordRedirects(productUuid, fromPaths) {
+      if (fromPaths.length === 0) {
+        return;
+      }
+      const connection = await getConnection();
+      await startTransaction(connection);
+      try {
+        const query = select().from('product');
+        query
+          .leftJoin('product_description')
+          .on(
+            'product_description.product_description_product_id',
+            '=',
+            'product.product_id'
+          );
+        const product = (await query
+          .where('uuid', '=', productUuid)
+          .load(connection, false)) as {
+          category_id: number | null;
+          url_key: string;
+        } | null;
+        if (!product) {
+          throw new Error('Requested product not found');
+        }
+        const toPath = buildEntityPath(
+          await resolveCategoryUrlPath(connection, product.category_id),
+          product.url_key
+        );
+        for (const fromPath of fromPaths) {
+          await recordRedirect(connection, {
+            fromPath,
+            toPath,
+            entityUrn: CatalogUrn.product(productUuid),
+            statusCode: 301,
+            source: 'import'
+          });
+        }
+        await commit(connection);
+      } catch (error) {
+        await rollback(connection);
+        throw error;
+      }
     }
   };
 }

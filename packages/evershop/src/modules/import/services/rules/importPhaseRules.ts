@@ -59,6 +59,34 @@ export const IMP_03 = defineRule({
     'An image that cannot be fetched fails the row before anything is written.'
 });
 
+const PRODUCT_WRITER_TEST = 'tests/unit/write/productWriter.test.ts';
+
+export const IMP_04 = defineRule({
+  id: 'IMP-04',
+  entity: 'all',
+  layer: 'I',
+  source: 'engine',
+  op: 'B',
+  code: 'DEPENDENCY_FAILED',
+  testedBy: 'runner',
+  test: PRODUCT_WRITER_TEST,
+  summary:
+    'A row whose dependency failed is skipped: the members of a new variant group when its first member or the group itself failed.'
+});
+
+export const IMP_05 = defineRule({
+  id: 'IMP-05',
+  entity: 'all',
+  layer: 'I',
+  source: 'engine',
+  op: 'B',
+  code: 'WRITE_FAILED',
+  testedBy: 'runner',
+  test: PRODUCT_WRITER_TEST,
+  summary:
+    'A row that can end half done (a product saved without its redirects, a member saved but not in its group) is reported failed, and a re-run completes it.'
+});
+
 export const IMP_06 = defineRule({
   id: 'IMP-06',
   entity: 'all',
@@ -91,6 +119,8 @@ export const IMPORT_PHASE_RULES = [
   IMP_01,
   IMP_02,
   IMP_03,
+  IMP_04,
+  IMP_05,
   IMP_06,
   IMP_07
 ];

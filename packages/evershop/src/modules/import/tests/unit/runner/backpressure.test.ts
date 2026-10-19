@@ -39,6 +39,11 @@ const LIMITS = {
 function eventfulStore(h: Harness, rowMs = 400) {
   const inner = h.deps.services;
   h.deps.services = {
+    createProduct: (input) => inner.createProduct(input),
+    updateProduct: (uuid, input) => inner.updateProduct(uuid, input),
+    createVariantGroup: (input) => inner.createVariantGroup(input),
+    addVariantItem: (group, product) => inner.addVariantItem(group, product),
+    recordRedirects: (uuid, paths) => inner.recordRedirects(uuid, paths),
     async createCategory(input) {
       await h.clock.advance(rowMs);
       return inner.createCategory(input);
