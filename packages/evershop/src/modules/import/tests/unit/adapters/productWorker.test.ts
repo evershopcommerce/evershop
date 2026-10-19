@@ -331,7 +331,7 @@ describeDb('a products file through a worker on the real services', () => {
          JOIN product_description pd ON pd.product_description_product_id = p.product_id
          LEFT JOIN product_inventory i ON i.product_inventory_product_id = p.product_id
          LEFT JOIN category_description c ON c.category_description_category_id = p.category_id
-        WHERE p.sku ~ '^WK-' ORDER BY p.sku`
+        WHERE p.sku ~ '^WK-' ORDER BY p.sku COLLATE "C"`
     );
 
   it('checks, imports, and imports again as updates: variant group, redirect, image, custom fields', async () => {
@@ -485,7 +485,7 @@ describeDb('a products file through a worker on the real services', () => {
         (
           await q(
             `SELECT request_path FROM url_rewrite WHERE entity_uuid IN
-               (SELECT uuid FROM product WHERE sku LIKE 'WK-MUG-%') ORDER BY request_path`
+               (SELECT uuid FROM product WHERE sku LIKE 'WK-MUG-%') ORDER BY request_path COLLATE "C"`
           )
         ).map((r) => r.request_path)
       ).toEqual(['/worker-cat/wk-mug-1', '/worker-cat/wk-mug-2']);
@@ -517,7 +517,7 @@ describeDb('a products file through a worker on the real services', () => {
       const stored = await q(
         `SELECT p.sku, count(i.*)::int AS n FROM product p
            JOIN product_image i ON i.product_image_product_id = p.product_id
-          WHERE p.sku LIKE 'WK-IMG-%' GROUP BY p.sku ORDER BY p.sku`
+          WHERE p.sku LIKE 'WK-IMG-%' GROUP BY p.sku ORDER BY p.sku COLLATE "C"`
       );
       expect(stored.map((r) => r.n)).toEqual(Array(8).fill(2));
     } finally {

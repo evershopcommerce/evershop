@@ -184,7 +184,7 @@ describeDb('a customers file through a worker on the real services', () => {
     q(
       `SELECT c.email, c.full_name, c.status, g.group_name, c.password, c.meta_data
          FROM customer c LEFT JOIN customer_group g ON g.customer_group_id = c.group_id
-        WHERE c.email ILIKE 'wk-%@example.com' ORDER BY c.email`
+        WHERE c.email ILIKE 'wk-%@example.com' ORDER BY c.email COLLATE "C"`
     );
 
   it('checks, imports, and imports again as updates: passwords, groups, custom fields, no welcome e-mail', async () => {

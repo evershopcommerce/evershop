@@ -281,7 +281,7 @@ describeDb('the subscriber starts a real worker process', () => {
            FROM category c
            JOIN category_description cd ON cd.category_description_category_id = c.category_id
            LEFT JOIN category_description parent ON parent.category_description_category_id = c.parent_id
-          WHERE c.category_id > $1 ORDER BY cd.url_key`,
+          WHERE c.category_id > $1 ORDER BY cd.url_key COLLATE "C"`,
         [baseline.category]
       );
       expect(made.rows).toEqual([
