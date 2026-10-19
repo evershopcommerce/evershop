@@ -49,6 +49,9 @@ jobs:
       BASE_URL: http://localhost:3000
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/evershop_e2e
       PLAYWRIGHT_WORKERS: '1'
+      # The images spec serves its pictures from a server on 127.0.0.1, which the
+      # store refuses unless it is started with the switch below.
+      IMPORT_E2E_PRIVATE_NETWORKS: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -68,6 +71,7 @@ jobs:
       - name: Start the store
         env:
           NODE_ENV: production
+          NODE_CONFIG: '{"system":{"import":{"allowPrivateNetworks":true}}}'
         run: |
           nohup node packages/evershop/dist/bin/start/index.js > store.log 2>&1 &
           for i in $(seq 1 60); do
