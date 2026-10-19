@@ -924,6 +924,611 @@ export const PRD_28 = defineProductRule({
   }
 });
 
+// ---- Variant groups (§ 5.3, PRD-13 to PRD-19, PRD-24) ----------------------
+
+/** A member of the group `tee`: its axes are color and size. */
+const member = (
+  sku: string,
+  color: string,
+  size: string,
+  extra: Parameters<typeof productRow>[0] = {}
+) =>
+  productRow({
+    sku,
+    url_key: sku.toLowerCase(),
+    variant_group: 'tee',
+    variant_axes: 'color|size',
+    'attr:color': color,
+    'attr:size': size,
+    ...extra
+  });
+
+const members = (...rows: string[]) => productFile(...rows);
+
+const issueAt = (
+  rowNumber: number,
+  column: string,
+  code: string
+): { code: never; rowNumber: number; column: string } => ({
+  code: code as never,
+  rowNumber,
+  column
+});
+
+/** The store with two packages and two attribute groups, for the rules that compare members. */
+const TWO_OF_EACH = {
+  ...PRODUCT_STORE,
+  packages: [{ name: 'Standard Box', isDefault: true }, { name: 'Pallet' }],
+  taxClasses: [{ name: 'Taxable Goods' }, { name: 'Exempt' }],
+  categories: [
+    { urlKey: 't-shirts', name: 'T-shirts', status: 1 as const },
+    { urlKey: 'hoodies', name: 'Hoodies', status: 1 as const }
+  ],
+  attributeGroups: [
+    { name: 'Default', attributes: ['color', 'size'] },
+    { name: 'Other', attributes: ['color', 'size'] }
+  ]
+};
+
+export const PRD_13 = defineProductRule({
+  id: 'PRD-13',
+  entity: 'product',
+  layer: 'X',
+  source: 'engine',
+  op: 'B',
+  code: 'VARIANT_INCONSISTENT',
+  testedBy: 'example',
+  summary:
+    'Rows with a variant_group label have variant_axes: 1 to 5 attribute codes, no code twice, the same set on every row of the label (the stored order is the database order, not the order of the file).',
+  examples: {
+    pass: [
+      {
+        name: 'two members, the axes in another order on the second',
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'M', { variant_axes: 'size|color' })
+        ),
+        expect: []
+      },
+      {
+        name: 'axes written in capitals',
+        file: members(
+          member('TSH-1', 'Black', 'S', { variant_axes: 'Color|SIZE' })
+        ),
+        expect: []
+      }
+    ],
+    fail: [
+      {
+        name: 'a group with no axes',
+        file: members(member('TSH-1', 'Black', 'S', { variant_axes: '' })),
+        expect: [issueAt(2, 'variant_axes', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'axes without a group',
+        file: members(member('TSH-1', 'Black', 'S', { variant_group: '' })),
+        expect: [issueAt(2, 'variant_axes', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'six axes',
+        file: members(
+          member('TSH-1', 'Black', 'S', { variant_axes: 'a|b|c|d|e|f' })
+        ),
+        expect: [issueAt(2, 'variant_axes', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'an axis twice',
+        file: members(
+          member('TSH-1', 'Black', 'S', { variant_axes: 'color|color' })
+        ),
+        expect: [issueAt(2, 'variant_axes', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'a second member with other axes',
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'M', { variant_axes: 'color' })
+        ),
+        expect: [issueAt(3, 'variant_axes', 'VARIANT_INCONSISTENT')]
+      }
+    ]
+  }
+});
+
+export const PRD_14 = defineProductRule({
+  id: 'PRD-14',
+  entity: 'product',
+  layer: 'R',
+  source: 'core+engine',
+  op: 'B',
+  code: 'VARIANT_INCONSISTENT',
+  testedBy: 'example',
+  summary:
+    'Each axis attribute exists, has type select and is linked to the attribute group (the rule of saveGroup).',
+  examples: {
+    pass: [
+      {
+        name: 'a group of one member with two select axes',
+        file: members(member('TSH-1', 'Black', 'S')),
+        expect: []
+      }
+    ],
+    fail: [
+      {
+        name: 'an axis that is not an attribute of the store',
+        file: members(
+          member('TSH-1', 'Black', 'S', { variant_axes: 'color|weave' })
+        ),
+        expect: [issueAt(2, 'variant_axes', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'an axis that is a text attribute',
+        store: {
+          ...PRODUCT_STORE,
+          attributes: [
+            { code: 'color', type: 'select' as const, options: ['Black'] },
+            { code: 'size', type: 'text' as const }
+          ]
+        },
+        file: members(member('TSH-1', 'Black', 'S')),
+        expect: [issueAt(2, 'variant_axes', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'an axis that is not linked to the attribute group',
+        store: {
+          ...PRODUCT_STORE,
+          attributeGroups: [{ name: 'Default', attributes: ['color'] }]
+        },
+        file: members(member('TSH-1', 'Black', 'S')),
+        expect: [
+          issueAt(2, 'attr:size', 'ATTRIBUTE_NOT_IN_GROUP'),
+          issueAt(2, 'variant_axes', 'VARIANT_INCONSISTENT')
+        ]
+      }
+    ]
+  }
+});
+
+export const PRD_15 = defineProductRule({
+  id: 'PRD-15',
+  entity: 'product',
+  layer: 'X',
+  source: 'engine',
+  op: 'B',
+  code: 'VARIANT_INCONSISTENT',
+  testedBy: 'example',
+  summary: 'Every member has a value for every axis.',
+  examples: {
+    pass: [
+      {
+        name: 'an update keeps the stored value of an axis',
+        store: PRODUCT_STORE_WITH_TEE,
+        file: members(
+          member('TSH-1', '', '', {
+            ...KEY_ONLY,
+            variant_group: 'tee',
+            variant_axes: 'color|size'
+          })
+        ),
+        expect: []
+      }
+    ],
+    fail: [
+      {
+        name: 'a member without a size',
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', '')
+        ),
+        expect: [issueAt(3, 'attr:size', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'two members without a size are not also called equal',
+        file: members(
+          member('TSH-1', 'Black', ''),
+          member('TSH-2', 'Black', '')
+        ),
+        expect: [
+          issueAt(2, 'attr:size', 'VARIANT_INCONSISTENT'),
+          issueAt(3, 'attr:size', 'VARIANT_INCONSISTENT')
+        ]
+      }
+    ]
+  }
+});
+
+export const PRD_16 = defineProductRule({
+  id: 'PRD-16',
+  entity: 'product',
+  layer: 'X',
+  source: 'core+engine',
+  op: 'B',
+  code: 'VARIANT_INCONSISTENT',
+  testedBy: 'example',
+  summary:
+    'All members share one attribute group and one package (a joining product silently adopts the package of the group). A blank package counts as the default package (D-25).',
+  examples: {
+    pass: [
+      {
+        name: 'a blank package and the default package are the same',
+        store: TWO_OF_EACH,
+        file: members(
+          member('TSH-1', 'Black', 'S', { package: 'Standard Box' }),
+          member('TSH-2', 'White', 'M', { package: '' })
+        ),
+        expect: []
+      }
+    ],
+    fail: [
+      {
+        name: 'two packages',
+        store: TWO_OF_EACH,
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'M', { package: 'Pallet' })
+        ),
+        expect: [issueAt(3, 'package', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'two attribute groups',
+        store: TWO_OF_EACH,
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'M', { attribute_group: 'Other' })
+        ),
+        expect: [issueAt(3, 'attribute_group', 'VARIANT_INCONSISTENT')]
+      }
+    ]
+  }
+});
+
+export const PRD_17 = defineProductRule({
+  id: 'PRD-17',
+  entity: 'product',
+  layer: 'X',
+  source: 'engine',
+  op: 'B',
+  code: 'VARIANT_NOT_ADJACENT',
+  testedBy: 'example',
+  summary:
+    'The rows of one group are next to each other in the file, so that a group can be written while the file streams.',
+  examples: {
+    pass: [
+      {
+        name: 'two groups, each together',
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'S'),
+          member('HOD-1', 'Black', 'S', { variant_group: 'hoodie' }),
+          member('HOD-2', 'White', 'S', { variant_group: 'hoodie' })
+        ),
+        expect: []
+      }
+    ],
+    fail: [
+      {
+        name: 'a product of another group between two members',
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('HOD-1', 'Black', 'S', { variant_group: 'hoodie' }),
+          member('TSH-2', 'White', 'S')
+        ),
+        expect: [issueAt(4, 'variant_group', 'VARIANT_NOT_ADJACENT')]
+      },
+      {
+        name: 'a product without a group between two members',
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          productRow({ sku: 'MUG-1', url_key: 'mug-1' }),
+          member('TSH-2', 'White', 'S')
+        ),
+        expect: [issueAt(4, 'variant_group', 'VARIANT_NOT_ADJACENT')]
+      }
+    ]
+  }
+});
+
+const STORED_TEES = (extra: {
+  groups?: Array<{
+    label: string;
+    attributeGroup: string;
+    axes: string[];
+  }>;
+  products?: Array<{
+    sku: string;
+    variantGroup: string | null;
+    package?: string;
+    values?: Record<string, string>;
+  }>;
+}) => ({
+  ...TWO_OF_EACH,
+  variantGroups: extra.groups ?? [
+    { label: 'g1', attributeGroup: 'Default', axes: ['color', 'size'] },
+    { label: 'g2', attributeGroup: 'Default', axes: ['color', 'size'] }
+  ],
+  products: (
+    extra.products ?? [
+      { sku: 'TSH-1', variantGroup: 'g1' },
+      { sku: 'TSH-2', variantGroup: 'g2' }
+    ]
+  ).map((product) => ({
+    attributeGroup: 'Default',
+    package: 'Standard Box',
+    values: { color: 'Black', size: 'S' },
+    ...product,
+    urlKey: product.sku.toLowerCase()
+  }))
+});
+
+export const PRD_18 = defineProductRule({
+  id: 'PRD-18',
+  entity: 'product',
+  layer: 'R',
+  source: 'engine',
+  op: 'B',
+  code: 'VARIANT_CONFLICT',
+  alsoCodes: ['VARIANT_INCONSISTENT'],
+  testedBy: 'example',
+  summary:
+    'Existing members that sit in different groups, or two labels of the file that map to the same stored group, are refused. The axes (as a set), the attribute group or the package of the file must equal those of the stored group. The import never moves a product between groups.',
+  examples: {
+    pass: [
+      {
+        name: 'members of one stored group, with the same axes, group and package',
+        store: STORED_TEES({
+          products: [
+            {
+              sku: 'TSH-1',
+              variantGroup: 'g1',
+              values: { color: 'Black', size: 'S' }
+            },
+            {
+              sku: 'TSH-2',
+              variantGroup: 'g1',
+              values: { color: 'White', size: 'S' }
+            }
+          ]
+        }),
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'S')
+        ),
+        expect: []
+      },
+      {
+        name: 'a new member joins a stored group',
+        store: STORED_TEES({
+          products: [
+            {
+              sku: 'TSH-1',
+              variantGroup: 'g1',
+              values: { color: 'Black', size: 'S' }
+            }
+          ]
+        }),
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-9', 'White', 'M')
+        ),
+        expect: []
+      }
+    ],
+    fail: [
+      {
+        name: 'two members that are in different stored groups',
+        store: STORED_TEES({}),
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'M')
+        ),
+        expect: [issueAt(3, 'variant_group', 'VARIANT_CONFLICT')]
+      },
+      {
+        name: 'two labels of the file that are one stored group',
+        store: STORED_TEES({
+          products: [
+            { sku: 'TSH-1', variantGroup: 'g1' },
+            {
+              sku: 'TSH-2',
+              variantGroup: 'g1',
+              values: { color: 'White', size: 'S' }
+            }
+          ]
+        }),
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'S', { variant_group: 'other' })
+        ),
+        expect: [issueAt(3, 'variant_group', 'VARIANT_CONFLICT')]
+      },
+      {
+        name: 'axes that are not those of the stored group',
+        store: STORED_TEES({
+          groups: [{ label: 'g1', attributeGroup: 'Default', axes: ['color'] }],
+          products: [{ sku: 'TSH-1', variantGroup: 'g1' }]
+        }),
+        file: members(member('TSH-1', 'Black', 'S')),
+        expect: [issueAt(2, 'variant_axes', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'an attribute group that is not that of the stored group',
+        store: STORED_TEES({
+          groups: [
+            { label: 'g1', attributeGroup: 'Other', axes: ['color', 'size'] }
+          ],
+          products: [{ sku: 'TSH-1', variantGroup: 'g1' }]
+        }),
+        file: members(member('TSH-1', 'Black', 'S')),
+        expect: [issueAt(2, 'attribute_group', 'VARIANT_INCONSISTENT')]
+      },
+      {
+        name: 'a package that is not that of the stored group',
+        store: STORED_TEES({
+          products: [{ sku: 'TSH-1', variantGroup: 'g1', package: 'Pallet' }]
+        }),
+        file: members(member('TSH-1', 'Black', 'S')),
+        expect: [issueAt(2, 'package', 'VARIANT_INCONSISTENT')]
+      }
+    ]
+  }
+});
+
+export const PRD_19 = defineProductRule({
+  id: 'PRD-19',
+  entity: 'product',
+  layer: 'X',
+  source: 'engine',
+  op: 'B',
+  code: 'VARIANT_DUPLICATE_COMBINATION',
+  testedBy: 'example',
+  summary:
+    'Two members of one group have the same axis combination (the group counted as it will be after the import: the members of the file plus the stored members of a reused group). An error: a storefront would show two identical choices.',
+  examples: {
+    pass: [
+      {
+        name: 'every combination different',
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'Black', 'M'),
+          member('TSH-3', 'White', 'S')
+        ),
+        expect: []
+      },
+      {
+        name: 'a stored member listed again with new values takes the place of its old ones',
+        store: STORED_TEES({
+          products: [
+            {
+              sku: 'TSH-1',
+              variantGroup: 'g1',
+              values: { color: 'Black', size: 'S' }
+            },
+            {
+              sku: 'TSH-2',
+              variantGroup: 'g1',
+              values: { color: 'White', size: 'S' }
+            }
+          ]
+        }),
+        file: members(
+          member('TSH-2', 'Black', 'M'),
+          member('TSH-1', 'White', 'S')
+        ),
+        expect: []
+      }
+    ],
+    fail: [
+      {
+        name: 'two members with the same values',
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'S'),
+          member('TSH-3', 'Black', 'S')
+        ),
+        expect: [issueAt(4, 'variant_group', 'VARIANT_DUPLICATE_COMBINATION')]
+      },
+      {
+        name: 'a new member with the values of a stored member that is not in the file',
+        store: STORED_TEES({
+          products: [
+            {
+              sku: 'TSH-1',
+              variantGroup: 'g1',
+              values: { color: 'Black', size: 'S' }
+            },
+            {
+              sku: 'TSH-9',
+              variantGroup: 'g1',
+              values: { color: 'White', size: 'L' }
+            }
+          ]
+        }),
+        file: members(
+          member('TSH-1', 'Black', 'M'),
+          member('TSH-8', 'White', 'L')
+        ),
+        expect: [issueAt(3, 'variant_group', 'VARIANT_DUPLICATE_COMBINATION')]
+      }
+    ]
+  }
+});
+
+export const PRD_24 = defineProductRule({
+  id: 'PRD-24',
+  entity: 'product',
+  layer: 'X',
+  source: 'engine',
+  op: 'B',
+  code: 'VARIANT_INCONSISTENT',
+  testedBy: 'example',
+  summary:
+    'The members of one group carry identical category, tax_class, no_shipping_required, weight and identical values for every non-axis attr: column, because an update of one member copies these to all the others.',
+  examples: {
+    pass: [
+      {
+        name: 'the same cells on every member',
+        store: TWO_OF_EACH,
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'M')
+        ),
+        expect: []
+      },
+      {
+        name: 'the same tax class in another letter case',
+        store: TWO_OF_EACH,
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'M', { tax_class: 'taxable goods' })
+        ),
+        expect: []
+      }
+    ],
+    fail: [
+      ...(
+        [
+          ['category', 'hoodies'],
+          ['tax_class', 'Exempt'],
+          ['weight', '0.5']
+        ] as const
+      ).map(([column, value]) => ({
+        name: `a different ${column}`,
+        store: TWO_OF_EACH,
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'M', { [column]: value })
+        ),
+        expect: [issueAt(3, column, 'VARIANT_INCONSISTENT')]
+      })),
+      {
+        name: 'a different no_shipping_required (and the weight it drops)',
+        store: TWO_OF_EACH,
+        file: members(
+          member('TSH-1', 'Black', 'S'),
+          member('TSH-2', 'White', 'M', {
+            no_shipping_required: '1',
+            package: '',
+            weight: ''
+          })
+        ),
+        expect: [
+          issueAt(3, 'no_shipping_required', 'VARIANT_INCONSISTENT'),
+          issueAt(3, 'weight', 'VARIANT_INCONSISTENT')
+        ]
+      },
+      {
+        name: 'a different value of an attribute that is not an axis',
+        store: TWO_OF_EACH,
+        file: members(
+          member('TSH-1', 'Black', 'S', { variant_axes: 'color' }),
+          member('TSH-2', 'White', 'M', { variant_axes: 'color' })
+        ),
+        expect: [issueAt(3, 'attr:size', 'VARIANT_INCONSISTENT')]
+      }
+    ]
+  }
+});
+
 export const IMG_02 = defineProductRule({
   id: 'IMG-02',
   entity: 'all',
@@ -972,10 +1577,18 @@ export const PRODUCT_RULES = [
   PRD_10,
   PRD_11,
   PRD_12,
+  PRD_13,
+  PRD_14,
+  PRD_15,
+  PRD_16,
+  PRD_17,
+  PRD_18,
+  PRD_19,
   PRD_20,
   PRD_21,
   PRD_22,
   PRD_23,
+  PRD_24,
   PRD_25,
   PRD_26,
   PRD_27,

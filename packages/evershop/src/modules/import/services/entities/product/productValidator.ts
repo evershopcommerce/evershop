@@ -63,6 +63,13 @@ import type {
   HeaderInfo,
   ValidationContext
 } from '../definition.js';
+import {
+  checkVariantRow,
+  closeRun,
+  createVariantState,
+  indexVariants
+} from './variantChecks.js';
+import type { VariantState } from './variantChecks.js';
 
 /** What a product row says, typed. A blank cell is left out: "not provided". */
 export interface ProductData {
@@ -169,6 +176,8 @@ export interface ProductState {
   reserved: ReadonlySet<string> | null;
   /** The questions about references, asked once for each distinct value. */
   refs: ReferenceCache;
+  /** The variant groups of the file (§ 5.3). */
+  variants: VariantState;
 }
 
 /**
@@ -563,7 +572,8 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
     redirectFirst: new Map(),
     stored: new Map(),
     reserved: null,
-    refs: new ReferenceCache()
+    refs: new ReferenceCache(),
+    variants: createVariantState()
   }),
 
   convert,
@@ -620,6 +630,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
         state.redirectFirst.set(path, row.rowNumber);
       }
     }
+    issues.push(...indexVariants(state.variants, row));
     return issues;
   },
 
@@ -672,7 +683,10 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
     }
     await fill(
       refs.attributes,
-      own.flatMap((row) => (row.data.attributes ?? []).map((a) => a.code)),
+      own.flatMap((row) => [
+        ...(row.data.attributes ?? []).map((a) => a.code),
+        ...(row.data.variant_axes ?? [])
+      ]),
       (codes) => lookup.attributes(codes)
     );
     if (refs.defaultPackage === undefined) {
@@ -825,7 +839,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
         'tax_class',
         'tax class'
       );
-      reference(
+      const pack = reference(
         issues,
         refs.packages,
         data.package,
@@ -898,6 +912,35 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
         });
       }
 
+      // The variant group the row belongs to (PRD-14 to PRD-19, PRD-24).
+      const packageId =
+        virtual === 1
+          ? null
+          : pack
+          ? pack.id
+          : data.package === undefined
+          ? stored?.packageId ?? refs.defaultPackage?.id ?? null
+          : null;
+      issues.push(
+        ...(await checkVariantRow(state.variants, {
+          row,
+          stored,
+          lookup,
+          groupId,
+          packageId,
+          attribute: (code) => refs.attributes.get(code),
+          linked: (id) =>
+            refs.links.get(groupId as number)?.linked.has(id) ?? true,
+          optionId: (code) => {
+            const cell = data.attributes?.find((c) => c.code === code);
+            const attribute = refs.attributes.get(code);
+            if (!cell || !attribute) return null;
+            const ids = refs.options.get(attribute.id)?.get(lower(cell.text));
+            return ids && ids.length === 1 ? ids[0] : null;
+          }
+        }))
+      );
+
       // PRD-27: the old paths.
       const ownUrn = stored ? productUrn(stored.uuid) : null;
       for (const path of data.redirect_from ?? []) {
@@ -931,6 +974,14 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
       }
     }
     return { issues, createRows, updateRows };
+  },
+
+  async finish(state): Promise<BatchResult> {
+    return {
+      issues: closeRun(state.variants),
+      createRows: 0,
+      updateRows: 0
+    };
   }
 };
 

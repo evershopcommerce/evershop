@@ -441,3 +441,56 @@ describe('the products example file of the specification', () => {
     expect(missing).toContain('13:attr:size');
   });
 });
+
+describe('variant groups across batches', () => {
+  const tee = (sku: string, color: string, size: string) =>
+    productRow({
+      sku,
+      url_key: sku.toLowerCase(),
+      variant_group: 'tee',
+      variant_axes: 'color|size',
+      'attr:color': color,
+      'attr:size': size
+    });
+
+  it.each([1, 2, 3, 1000])(
+    'finds the same problems whether the batches hold %i rows',
+    async (batchSize) => {
+      const result = await validateProducts(
+        productFile(
+          tee('A', 'Black', 'S'),
+          tee('B', 'White', 'S'),
+          tee('C', 'Black', 'M'),
+          tee('D', 'Black', 'S'),
+          productRow({ sku: 'E', url_key: 'e' }),
+          tee('F', 'White', 'L'),
+          tee('G', 'White', 'L')
+        ),
+        { store: PRODUCT_STORE, batchSize }
+      );
+      expect(result.issues.map((i) => [i.code, i.rowNumber, i.column])).toEqual(
+        [
+          // D repeats A, and the last group (F, G) is closed at the end of the file
+          ['VARIANT_NOT_ADJACENT', 7, 'variant_group'],
+          ['VARIANT_DUPLICATE_COMBINATION', 5, 'variant_group'],
+          ['VARIANT_DUPLICATE_COMBINATION', 8, 'variant_group']
+        ]
+      );
+    }
+  );
+
+  it('says nothing about a clean group, however it is cut', async () => {
+    for (const batchSize of [1, 2, 3]) {
+      // eslint-disable-next-line no-await-in-loop
+      const result = await validateProducts(
+        productFile(
+          tee('A', 'Black', 'S'),
+          tee('B', 'White', 'S'),
+          tee('C', 'Black', 'M')
+        ),
+        { store: PRODUCT_STORE, batchSize }
+      );
+      expect(result.issues).toEqual([]);
+    }
+  });
+});

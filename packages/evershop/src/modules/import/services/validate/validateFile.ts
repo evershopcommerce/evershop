@@ -129,6 +129,14 @@ export async function validateFile(
     }
   }
   await flush();
+  if (validator.finish) {
+    const last = await validator.finish(state, context);
+    summary.createRows += last.createRows;
+    summary.updateRows += last.updateRows;
+    for (const issue of last.issues) {
+      await emit(issue, null);
+    }
+  }
   return summary;
 }
 
