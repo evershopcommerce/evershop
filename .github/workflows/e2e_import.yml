@@ -40,7 +40,6 @@ jobs:
       DB_PASSWORD: postgres
       DB_NAME: evershop_e2e
       DB_SSLMODE: disable
-      NODE_ENV: production
       PORT: '3000'
       SUPPRESS_NO_CONFIG_WARNING: '1'
       JWT_ADMIN_SECRET: e2e-admin-secret-0123456789abcdef
@@ -63,8 +62,12 @@ jobs:
           PGPASSWORD=postgres psql -h localhost -U postgres -v ON_ERROR_STOP=1 -c 'CREATE DATABASE evershop_e2e'
           node scripts/ci/migrateCoreSchema.mjs
       - name: Build the store
+        env:
+          NODE_ENV: production
         run: node packages/evershop/dist/bin/build/index.js
       - name: Start the store
+        env:
+          NODE_ENV: production
         run: |
           nohup node packages/evershop/dist/bin/start/index.js > store.log 2>&1 &
           for i in $(seq 1 60); do
