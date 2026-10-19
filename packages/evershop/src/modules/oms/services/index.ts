@@ -29,11 +29,19 @@ export type { RefundOrderResult } from './refundOrder.js';
 export { captureOrder } from './captureOrder.js';
 export type { CaptureOrderResult } from './captureOrder.js';
 export {
-  cancelOrder,
-  addOrderActivityLog,
-  createShipment,
-  markDelivered
-};
+  importOrder,
+  priceHistoricalOrder,
+  hookBeforeImportOrder,
+  hookAfterImportOrder
+} from './importOrder.js';
+export type {
+  HistoricalOrderInput,
+  HistoricalOrderItem,
+  HistoricalPaymentTransaction,
+  ImportOrderOptions,
+  ImportedOrder
+} from './importOrder.js';
+export { cancelOrder, addOrderActivityLog, createShipment, markDelivered };
 
 // Multi-shipment refactor — new public surface.
 // See wiki/multi-shipment-design.md → "Public exports for extensions".
