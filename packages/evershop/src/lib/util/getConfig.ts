@@ -126,6 +126,32 @@ type ConfigStructure = {
        */
       allowPrivateNetworks?: boolean;
     };
+    // NOTE: declared non-optional for the same reason as `webhook`; every key
+    // is optional and has a default in `modules/import/adapters/importConfig.ts`.
+    import: {
+      /** The largest upload, in MB. Default 100. */
+      maxFileSizeMb?: number;
+      /** The most rows a file may have. Default 200,000. */
+      maxRows?: number;
+      /** The longest cell, in characters. Default 65,536. */
+      maxCellLength?: number;
+      /** The most problems kept for one job and phase. Default 100,000. */
+      maxIssues?: number;
+      /** How long a finished job is kept, in days. Default 7. */
+      retentionDays?: number;
+      /** How long one image download may take, in seconds. Default 30. */
+      imageTimeoutSeconds?: number;
+      /** The most import workers one instance runs at a time. Default 2. */
+      maxWorkersPerInstance?: number;
+      /** The memory ceiling of one worker (`--max-old-space-size`), in MB. Default 1024. */
+      workerMemoryMb?: number;
+      /**
+       * Download images from private/loopback addresses and plain `http:`. Off
+       * by default (SSRF protection); for the end-to-end tests and a source on
+       * the same network.
+       */
+      allowPrivateNetworks?: boolean;
+    };
   };
   catalog: {
     collectionPageSize: number;

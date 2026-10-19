@@ -24,7 +24,7 @@ export class CoreJobRequests implements JobRequests {
 
   async request(jobUuid: string): Promise<void> {
     try {
-      await emit(JOB_REQUESTED, { jobUuid }, this.pool);
+      await emit<typeof JOB_REQUESTED>(JOB_REQUESTED, { jobUuid }, this.pool);
     } catch (e) {
       this.logger.error('A worker could not be requested for an import job', {
         jobUuid,
