@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
 import { categoryValidator } from '../../../services/entities/category/categoryValidator.js';
+import { productValidator } from '../../../services/entities/product/productValidator.js';
 import type { ImportIssue, ImportMode } from '../../../services/types.js';
 import type { StoreFixture } from '../../../services/ports/lookup.js';
 import type { CsvLimits } from '../../../services/reader/readCsv.js';
@@ -33,7 +34,28 @@ export interface RunOptions {
 }
 
 /** Validates a category file against a store described as data. */
-export async function validateCategories(
+export function validateCategories(
+  file: string | Uint8Array,
+  options: RunOptions = {}
+): Promise<Validated> {
+  return validateEntity('category', file, options);
+}
+
+/** Validates a product file against a store described as data. */
+export function validateProducts(
+  file: string | Uint8Array,
+  options: RunOptions = {}
+): Promise<Validated> {
+  return validateEntity('product', file, options);
+}
+
+const VALIDATORS = {
+  category: categoryValidator,
+  product: productValidator
+} as const;
+
+export async function validateEntity(
+  entity: keyof typeof VALIDATORS,
   file: string | Uint8Array,
   options: RunOptions = {}
 ): Promise<Validated> {
@@ -46,7 +68,7 @@ export async function validateCategories(
     opened: 0
   };
   const args: ValidateFileArgs = {
-    validator: categoryValidator as never,
+    validator: VALIDATORS[entity] as never,
     context: {
       lookup,
       mode: options.mode ?? 'upsert',

@@ -93,7 +93,19 @@ const COPIED = [
   'category',
   'category_description',
   'metafield_definition',
-  'event'
+  'event',
+  'product',
+  'product_description',
+  'product_attribute_value_index',
+  'attribute',
+  'attribute_option',
+  'attribute_group',
+  'attribute_group_link',
+  'package',
+  'tax_class',
+  'variant_group',
+  'url_redirect',
+  'url_rewrite'
 ];
 
 export interface OpenOptions {

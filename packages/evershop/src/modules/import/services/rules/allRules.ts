@@ -4,6 +4,7 @@ import {
   categoryRow,
   STORE_WITH_WOMEN
 } from './categoryFiles.js';
+import { PRODUCT_STORE, productFile, productRow } from './productFiles.js';
 import { defineRule } from './rule.js';
 
 /**
@@ -567,6 +568,19 @@ export const ALL_20 = defineRule({
         name: 'the largest position',
         file: categoryFile(categoryRow({ position: '32767' })),
         expect: []
+      },
+      {
+        entity: 'product',
+        store: PRODUCT_STORE,
+        name: 'the largest price, weight and quantity',
+        file: productFile(
+          productRow({
+            price: '99999999.99',
+            weight: '99999999',
+            qty: '2147483647'
+          })
+        ),
+        expect: []
       }
     ],
     fail: [
@@ -574,6 +588,104 @@ export const ALL_20 = defineRule({
         name: 'one over',
         file: categoryFile(categoryRow({ position: '32768' })),
         expect: [{ code: 'INVALID_VALUE', rowNumber: 2, column: 'position' }]
+      },
+      {
+        entity: 'product',
+        store: PRODUCT_STORE,
+        name: 'a price of 100,000,000 (decimal(12,4) holds less)',
+        file: productFile(productRow({ price: '100000000' })),
+        expect: [{ code: 'INVALID_VALUE', rowNumber: 2, column: 'price' }]
+      },
+      {
+        entity: 'product',
+        store: PRODUCT_STORE,
+        name: 'a weight of 100,000,000',
+        file: productFile(productRow({ weight: '100000000' })),
+        expect: [{ code: 'INVALID_VALUE', rowNumber: 2, column: 'weight' }]
+      },
+      {
+        entity: 'product',
+        store: PRODUCT_STORE,
+        name: 'a quantity one over the integer column',
+        file: productFile(productRow({ qty: '2147483648' })),
+        expect: [{ code: 'INVALID_VALUE', rowNumber: 2, column: 'qty' }]
+      }
+    ]
+  }
+});
+
+const TWO_GROUPS = {
+  ...PRODUCT_STORE,
+  attributeGroups: [
+    { name: 'Default', attributes: ['color', 'size'] },
+    { name: 'default', attributes: ['color'] }
+  ]
+};
+
+export const ALL_21 = defineRule({
+  id: 'ALL-21',
+  entity: 'all',
+  layer: 'R',
+  source: 'engine',
+  op: 'B',
+  code: 'REFERENCE_AMBIGUOUS',
+  testedBy: 'example',
+  summary:
+    'A reference by name matches exactly one record (exact match after trimming, ignoring letter case). Attribute group, tax class and attribute option names are not unique in the database, so a name that matches more than one is refused and never guessed.',
+  examples: {
+    pass: [
+      {
+        entity: 'product',
+        store: PRODUCT_STORE,
+        name: 'one attribute group of that name',
+        file: productFile(productRow()),
+        expect: []
+      }
+    ],
+    fail: [
+      {
+        entity: 'product',
+        name: 'two attribute groups that differ only in letter case',
+        store: TWO_GROUPS,
+        file: productFile(productRow()),
+        expect: [
+          {
+            code: 'REFERENCE_AMBIGUOUS',
+            rowNumber: 2,
+            column: 'attribute_group'
+          }
+        ]
+      },
+      {
+        entity: 'product',
+        name: 'two options of the attribute with the same text',
+        store: {
+          ...PRODUCT_STORE,
+          attributes: [
+            {
+              code: 'color',
+              type: 'select' as const,
+              options: ['Black', 'black', 'White']
+            },
+            { code: 'size', type: 'select' as const, options: ['S'] }
+          ]
+        },
+        file: productFile(productRow({ 'attr:color': 'BLACK' })),
+        expect: [
+          { code: 'REFERENCE_AMBIGUOUS', rowNumber: 2, column: 'attr:color' }
+        ]
+      },
+      {
+        entity: 'product',
+        name: 'two tax classes of the same name',
+        store: {
+          ...PRODUCT_STORE,
+          taxClasses: [{ name: 'Taxable Goods' }, { name: 'taxable goods' }]
+        },
+        file: productFile(productRow()),
+        expect: [
+          { code: 'REFERENCE_AMBIGUOUS', rowNumber: 2, column: 'tax_class' }
+        ]
       }
     ]
   }
@@ -648,6 +760,7 @@ export const ALL_RULES = [
   ALL_18,
   ALL_19,
   ALL_20,
+  ALL_21,
   ALL_22,
   ALL_23
 ];

@@ -317,7 +317,14 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
     async set(fixture: StoreFixture) {
       await pool.query(
         `TRUNCATE ${schema}.category, ${schema}.category_description,
-                  ${schema}.metafield_definition RESTART IDENTITY`
+                  ${schema}.metafield_definition, ${schema}.product,
+                  ${schema}.product_description,
+                  ${schema}.product_attribute_value_index,
+                  ${schema}.attribute, ${schema}.attribute_option,
+                  ${schema}.attribute_group, ${schema}.attribute_group_link,
+                  ${schema}.package, ${schema}.tax_class,
+                  ${schema}.variant_group, ${schema}.url_redirect,
+                  ${schema}.url_rewrite RESTART IDENTITY`
       );
       // Parents first, as the foreign key of a real store needs.
       const ids = new Map<string, number>();
@@ -359,6 +366,7 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
           );
         }
       }
+      await setProductStore(pool, schema, fixture, ids);
       // Half of the reserved keys are routes, half are language codes.
       const reserved = fixture.reservedUrlKeys ?? [];
       sources.routes = reserved
@@ -368,6 +376,158 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
     }
   };
   return harness;
+}
+
+// Puts the products, the attributes and what they refer to into the test schema
+// (the tables are copies without triggers, so nothing else happens).
+async function setProductStore(
+  pool: ScratchDb['pool'],
+  schema: string,
+  fixture: StoreFixture,
+  categoryIds: Map<string, number>
+): Promise<void> {
+  const q = async (sql: string, params: unknown[] = []) =>
+    (await pool.query(sql, params)).rows;
+  const groupIds = new Map<string, number>();
+  for (const group of fixture.attributeGroups ?? []) {
+    // eslint-disable-next-line no-await-in-loop
+    const [row] = await q(
+      `INSERT INTO ${schema}.attribute_group (group_name) VALUES ($1) RETURNING attribute_group_id`,
+      [group.name]
+    );
+    groupIds.set(group.name, row.attribute_group_id);
+  }
+  const attributeIds = new Map<string, number>();
+  const optionIds = new Map<string, number>();
+  const types = new Map<string, string>();
+  for (const attribute of fixture.attributes ?? []) {
+    const type = attribute.type ?? 'select';
+    // eslint-disable-next-line no-await-in-loop
+    const [row] = await q(
+      `INSERT INTO ${schema}.attribute (attribute_code, attribute_name, type, is_required)
+       VALUES ($1, $1, $2, $3) RETURNING attribute_id`,
+      [attribute.code, type, attribute.required ?? false]
+    );
+    attributeIds.set(attribute.code.toLowerCase(), row.attribute_id);
+    types.set(attribute.code.toLowerCase(), type);
+    for (const text of attribute.options ?? []) {
+      // eslint-disable-next-line no-await-in-loop
+      const [option] = await q(
+        `INSERT INTO ${schema}.attribute_option (attribute_id, attribute_code, option_text)
+         VALUES ($1, $2, $3) RETURNING attribute_option_id`,
+        [row.attribute_id, attribute.code, text]
+      );
+      if (
+        !optionIds.has(`${attribute.code.toLowerCase()}|${text.toLowerCase()}`)
+      ) {
+        optionIds.set(
+          `${attribute.code.toLowerCase()}|${text.toLowerCase()}`,
+          option.attribute_option_id
+        );
+      }
+    }
+  }
+  for (const group of fixture.attributeGroups ?? []) {
+    for (const code of group.attributes ?? []) {
+      // eslint-disable-next-line no-await-in-loop
+      await q(
+        `INSERT INTO ${schema}.attribute_group_link (attribute_id, group_id) VALUES ($1, $2)`,
+        [attributeIds.get(code.toLowerCase()), groupIds.get(group.name)]
+      );
+    }
+  }
+  const packageIds = new Map<string, number>();
+  for (const pack of fixture.packages ?? []) {
+    // eslint-disable-next-line no-await-in-loop
+    const [row] = await q(
+      `INSERT INTO ${schema}.package (name, length, width, height, is_default)
+       VALUES ($1, 1, 1, 1, $2) RETURNING package_id`,
+      [pack.name, pack.isDefault ?? false]
+    );
+    packageIds.set(pack.name.toLowerCase(), row.package_id);
+  }
+  for (const taxClass of fixture.taxClasses ?? []) {
+    // eslint-disable-next-line no-await-in-loop
+    await q(`INSERT INTO ${schema}.tax_class (name) VALUES ($1)`, [
+      taxClass.name
+    ]);
+  }
+  const variantIds = new Map<string, number>();
+  for (const group of fixture.variantGroups ?? []) {
+    const axes = group.axes.map((code) => attributeIds.get(code.toLowerCase()));
+    // eslint-disable-next-line no-await-in-loop
+    const [row] = await q(
+      `INSERT INTO ${schema}.variant_group
+         (attribute_group_id, attribute_one, attribute_two, attribute_three,
+          attribute_four, attribute_five)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING variant_group_id`,
+      [
+        groupIds.get(group.attributeGroup),
+        axes[0] ?? null,
+        axes[1] ?? null,
+        axes[2] ?? null,
+        axes[3] ?? null,
+        axes[4] ?? null
+      ]
+    );
+    variantIds.set(group.label, row.variant_group_id);
+  }
+  for (const product of fixture.products ?? []) {
+    const packageName = product.package;
+    // eslint-disable-next-line no-await-in-loop
+    const [row] = await q(
+      `INSERT INTO ${schema}.product
+         (sku, price, status, visibility, group_id, package_id,
+          no_shipping_required, variant_group_id, category_id, meta_data)
+       VALUES ($1, 10, $2, true, $3, $4, $5, $6, $7, $8::jsonb)
+       RETURNING product_id`,
+      [
+        product.sku,
+        (product.status ?? 1) === 1,
+        groupIds.get(product.attributeGroup ?? 'Default') ?? null,
+        packageName ? packageIds.get(packageName.toLowerCase()) ?? null : null,
+        product.noShippingRequired ?? false,
+        product.variantGroup
+          ? variantIds.get(product.variantGroup) ?? null
+          : null,
+        product.category ? categoryIds.get(product.category) ?? null : null,
+        JSON.stringify(product.metaData ?? {})
+      ]
+    );
+    // eslint-disable-next-line no-await-in-loop
+    await q(
+      `INSERT INTO ${schema}.product_description
+         (product_description_product_id, name, url_key)
+       VALUES ($1, $2, $3)`,
+      [row.product_id, product.sku, product.urlKey ?? product.sku.toLowerCase()]
+    );
+    for (const [code, text] of Object.entries(product.values ?? {})) {
+      const key = code.toLowerCase();
+      const optionId = optionIds.get(`${key}|${text.toLowerCase()}`) ?? null;
+      // eslint-disable-next-line no-await-in-loop
+      await q(
+        `INSERT INTO ${schema}.product_attribute_value_index
+           (product_id, attribute_id, option_id, option_text)
+         VALUES ($1, $2, $3, $4)`,
+        [row.product_id, attributeIds.get(key), optionId, text]
+      );
+    }
+  }
+  for (const redirect of fixture.redirects ?? []) {
+    // eslint-disable-next-line no-await-in-loop
+    await q(
+      `INSERT INTO ${schema}.url_redirect (from_path, to_path, entity_urn) VALUES ($1, '/x', $2)`,
+      [redirect.from, redirect.entityUrn ?? null]
+    );
+  }
+  for (const path of fixture.rewritePaths ?? []) {
+    // eslint-disable-next-line no-await-in-loop
+    await q(
+      `INSERT INTO ${schema}.url_rewrite (request_path, target_path, entity_uuid, entity_type)
+       VALUES ($1, '/x', gen_random_uuid(), 'product')`,
+      [path]
+    );
+  }
 }
 
 /** `PgEventBacklog` on the copy of the `event` table in the test schema. */
