@@ -15,7 +15,7 @@ export function formatDateTime(iso: string | null): string {
   }).format(date);
 }
 
-/** 12.4 MB, 830 KB: the size of a file as people say it. */
+/** 12.4 MB, 830 KB, 5 MB: the size of a file as people say it. */
 export function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   const units = ['KB', 'MB', 'GB'];
@@ -25,5 +25,7 @@ export function formatBytes(bytes: number): string {
     value /= 1024;
     unit += 1;
   }
-  return `${value.toFixed(value < 10 ? 1 : 0)} ${units[unit]}`;
+  // One decimal below 100, none above; a whole number has no decimal at all.
+  const rounded = value < 100 ? Math.round(value * 10) / 10 : Math.round(value);
+  return `${rounded} ${units[unit]}`;
 }

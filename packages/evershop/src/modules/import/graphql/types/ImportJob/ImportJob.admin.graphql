@@ -42,7 +42,20 @@ type ImportJobCollection {
   currentFilters: [Filter]
 }
 
+"""
+What the upload page needs to know before a file is sent: the largest file the
+store accepts, so that a file that is too big is refused before it is sent.
+"""
+type ImportLimits {
+  maxFileBytes: Float!
+}
+
 extend type Query {
+  """
+  The limits of an upload.
+  """
+  importLimits: ImportLimits
+
   """
   The past and present imports, newest first. Filters: status, entity, file (part
   of the file name), ob (created_at, entity, status, file_name, file_size), od.

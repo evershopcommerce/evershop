@@ -1,6 +1,7 @@
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import type { JobStatus } from '../services/job/types.js';
 import type { ImportEntity, ImportMode } from '../services/types.js';
+import { formatBytes } from './format.js';
 
 /** What an import is of, in the words of the admin. Every string is a literal for the translation tools. */
 export function entityLabel(entity: ImportEntity): string {
@@ -132,6 +133,31 @@ export function refusalMessage(failure: {
     default:
       return failure.status === 0
         ? _('The page could not reach the server. Try again.')
+        : failure.message;
+  }
+}
+
+/** What the API said when an upload did not go through, in the admin's language. */
+export function uploadFailureMessage(failure: {
+  status: number;
+  code: string | null;
+  message: string;
+  details?: Record<string, unknown>;
+}): string {
+  switch (failure.code) {
+    case 'IMPORT_RUNNING':
+      return _(
+        'An import of this type is running. Upload a new file when it finishes, or cancel it.'
+      );
+    case 'FILE_TOO_LARGE':
+      return typeof failure.details?.maxFileBytes === 'number'
+        ? _('The file is larger than ${max}.', {
+            max: formatBytes(failure.details.maxFileBytes)
+          })
+        : failure.message;
+    default:
+      return failure.status === 0
+        ? _('The upload did not finish. Check your connection and try again.')
         : failure.message;
   }
 }

@@ -5,7 +5,8 @@ import {
   modeLabel,
   refusalMessage,
   statusLabel,
-  statusTone
+  statusTone,
+  uploadFailureMessage
 } from '../../../components/labels.js';
 import type { JobStatus } from '../../../services/job/types.js';
 import { IMPORT_ENTITIES } from '../../../services/types.js';
@@ -90,6 +91,46 @@ describe('the words of the import pages', () => {
 
     it('shows the server’s text for a code it does not know', () => {
       expect(refuse('SOMETHING_NEW')).toBe('English from the server');
+    });
+  });
+
+  describe('what the API said when an upload did not go through', () => {
+    const fail = (
+      code: string | null,
+      status = 409,
+      details?: Record<string, unknown>
+    ) =>
+      uploadFailureMessage({
+        status,
+        code,
+        message: 'English from the server',
+        details
+      });
+
+    it('says an import of the type is running', () => {
+      expect(fail('IMPORT_RUNNING')).toContain(
+        'An import of this type is running.'
+      );
+    });
+
+    it('says how large a file may be', () => {
+      expect(
+        fail('FILE_TOO_LARGE', 413, { maxFileBytes: 100 * 1_048_576 })
+      ).toBe('The file is larger than 100 MB.');
+    });
+
+    it('uses the server’s text when it does not say how large', () => {
+      expect(fail('FILE_TOO_LARGE', 413)).toBe('English from the server');
+    });
+
+    it('says the upload did not finish when there was no answer', () => {
+      expect(fail(null, 0)).toBe(
+        'The upload did not finish. Check your connection and try again.'
+      );
+    });
+
+    it('shows the server’s text for anything else', () => {
+      expect(fail('INVALID_REQUEST', 400)).toBe('English from the server');
     });
   });
 });

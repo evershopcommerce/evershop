@@ -10,6 +10,9 @@ export interface HttpRequest {
   url: string;
   headers?: Record<string, string>;
   params?: Record<string, string | number>;
+  body?: FormData;
+  /** Bytes sent so far and in all, for the bar of an upload. */
+  onUploadProgress?: (sent: number, total: number) => void;
   signal?: AbortSignal;
 }
 
@@ -58,6 +61,19 @@ export interface IssuesQuery {
   column?: string;
   page?: number;
   limit?: number;
+}
+
+export interface UploadArgs {
+  entity: string;
+  mode: string;
+  checkImages: boolean;
+  file: Blob & { name?: string };
+}
+
+export interface UploadOutcome {
+  job: JobView;
+  /** An earlier unfinished import of the type was replaced (D-11). */
+  replaced: boolean;
 }
 
 const asRecord = (value: unknown): Record<string, unknown> =>
@@ -173,7 +189,34 @@ export function createImportApi(http: Http, clock: () => number) {
     recheck: (url: string) =>
       call<JobView>(changing('POST', url), (d) => d as JobView),
     remove: (url: string) =>
-      call<JobView>(changing('DELETE', url), (d) => d as JobView)
+      call<JobView>(changing('DELETE', url), (d) => d as JobView),
+
+    /**
+     * The upload. The fields come **before** the file, because the server reads
+     * them while the file streams in (§ 8.3); `FormData` keeps the order.
+     */
+    upload: (
+      url: string,
+      args: UploadArgs,
+      progress?: (sent: number, total: number) => void,
+      signal?: AbortSignal
+    ) => {
+      const body = new FormData();
+      body.append('entity', args.entity);
+      body.append('mode', args.mode);
+      body.append('checkImages', args.checkImages ? 'true' : 'false');
+      body.append('file', args.file, args.file.name);
+      return call<UploadOutcome>(
+        { ...changing('POST', url), body, onUploadProgress: progress, signal },
+        (d) => {
+          const { replaced, ...job } = asRecord(d);
+          return {
+            job: job as unknown as JobView,
+            replaced: replaced === true
+          };
+        }
+      );
+    }
   };
 }
 

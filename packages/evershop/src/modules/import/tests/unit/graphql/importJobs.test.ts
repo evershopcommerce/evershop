@@ -1,4 +1,5 @@
-import { afterAll, describe, expect, it, jest } from '@jest/globals';
+import { afterAll, afterEach, describe, expect, it, jest } from '@jest/globals';
+import config from 'config';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { graphql } from 'graphql';
 import { GraphQLJSON } from 'graphql-type-json';
@@ -372,5 +373,34 @@ describeDb('importJobs in the admin schema', () => {
     } finally {
       await cleanUp();
     }
+  });
+});
+
+describeDb('importLimits in the admin schema', () => {
+  const limits = async (user: unknown) => {
+    const result = await graphql({
+      schema: schema!,
+      source: `{ importLimits { maxFileBytes } }`,
+      contextValue: { user, pool: corePool, isAdmin: true }
+    });
+    expect(result.errors).toBeUndefined();
+    return result.data!.importLimits as { maxFileBytes: number } | null;
+  };
+  const setLimit = (megabytes: number | undefined) =>
+    (config as unknown as { util: { extendDeep: Function } }).util.extendDeep(
+      config,
+      { system: { import: { maxFileSizeMb: megabytes } } }
+    );
+
+  afterEach(() => setLimit(undefined));
+
+  it('gives the largest file the store accepts, 100 MB unless it is set', async () => {
+    expect(await limits({ id: 1 })).toEqual({ maxFileBytes: 100 * 1_048_576 });
+    setLimit(5);
+    expect(await limits({ id: 1 })).toEqual({ maxFileBytes: 5 * 1_048_576 });
+  });
+
+  it('is for the admin only', async () => {
+    expect(await limits(null)).toBeNull();
   });
 });
