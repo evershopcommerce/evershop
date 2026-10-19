@@ -1,0 +1,94 @@
+name: Import end-to-end
+
+# The end-to-end specs of the CSV import (tests/e2e/admin/specs/import): build the store,
+# start it on a database of its own, and drive the admin with a real browser. Separate from
+# the unit tests (build_test.yml): it takes several minutes.
+on:
+  pull_request:
+    paths:
+      - 'packages/evershop/src/modules/import/**'
+      - 'packages/evershop/src/bin/**'
+      - 'packages/evershop/src/lib/event/**'
+      - 'tests/e2e/admin/specs/import/**'
+      - 'tests/e2e/shared/import*.ts'
+      - 'translations/**/import.csv'
+      - 'scripts/ci/**'
+      - '.github/workflows/e2e_import.yml'
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DB_HOST: localhost
+      DB_PORT: '5432'
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: evershop_e2e
+      DB_SSLMODE: disable
+      NODE_ENV: production
+      PORT: '3000'
+      SUPPRESS_NO_CONFIG_WARNING: '1'
+      JWT_ADMIN_SECRET: e2e-admin-secret-0123456789abcdef
+      JWT_ADMIN_REFRESH_SECRET: e2e-admin-refresh-0123456789abcdef
+      JWT_CUSTOMER_SECRET: e2e-customer-secret-0123456789abcdef
+      JWT_CUSTOMER_REFRESH_SECRET: e2e-customer-refresh-0123456789abcdef
+      BASE_URL: http://localhost:3000
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/evershop_e2e
+      PLAYWRIGHT_WORKERS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install -g npm@9
+      - run: npm install
+      - run: npm run compile
+      - name: Create the database of the store, with the schema of a store
+        run: |
+          PGPASSWORD=postgres psql -h localhost -U postgres -v ON_ERROR_STOP=1 -c 'CREATE DATABASE evershop_e2e'
+          node scripts/ci/migrateCoreSchema.mjs
+      - name: Build the store
+        run: node packages/evershop/dist/bin/build/index.js
+      - name: Start the store
+        run: |
+          nohup node packages/evershop/dist/bin/start/index.js > store.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fs -o /dev/null http://localhost:3000/; then echo "store is up"; exit 0; fi
+            sleep 2
+          done
+          echo "the store did not start"; tail -50 store.log; exit 1
+      - name: Install the browser and the specs' dependencies
+        working-directory: tests/e2e
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+      - name: Run the import specs
+        working-directory: tests/e2e
+        run: npx playwright test admin/specs/import --reporter=list
+      - name: The log of the store
+        if: always()
+        run: tail -200 store.log || true
+      - name: Keep the report of a failed run
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: import-e2e-report
+          path: |
+            tests/e2e/playwright-report
+            tests/e2e/test-results
+          retention-days: 7

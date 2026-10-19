@@ -10,6 +10,30 @@ jobs:
         node: [ '20', '22']
     name: Node ${{ matrix.node }}
 
+    # A PostgreSQL server for the suites that need one. They skip when there is none, and
+    # the import suites fail instead (IMPORT_DB_REQUIRED), so a missing database is never
+    # mistaken for a pass.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: '5432'
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_SSLMODE: disable
+
     steps:
       - uses: actions/checkout@v2
       - name: Setup node js
@@ -20,4 +44,20 @@ jobs:
       - run: npm install
       - run: npm run compile
       - run: npm run compile:db
+      # The two scratch databases of the import tests: the schema of a store and nothing
+      # else (the import creates its own tables in a schema of its own).
+      - name: Create the scratch databases
+        run: |
+          export PGPASSWORD=postgres
+          psql -h localhost -U postgres -v ON_ERROR_STOP=1 \
+            -c 'CREATE DATABASE evershop_import_scratch_test' \
+            -c 'CREATE DATABASE evershop_import_core_scratch_test'
+          for name in evershop_import_scratch_test evershop_import_core_scratch_test; do
+            DB_NAME=$name SKIP_MODULES=import node scripts/ci/migrateCoreSchema.mjs
+            tables=$(psql -h localhost -U postgres -d $name -tAc "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public'")
+            echo "$name: $tables tables"
+            test "$tables" -ge 50
+          done
       - run: npm run test
+        env:
+          IMPORT_DB_REQUIRED: '1'
