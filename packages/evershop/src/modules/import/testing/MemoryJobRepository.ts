@@ -19,6 +19,7 @@ import type {
   FinishPatch,
   JobRepository
 } from '../services/ports/jobRepository.js';
+import type { ImportEntity } from '../services/types.js';
 
 /**
  * TEST-ONLY. A `JobRepository` with the status machine of § 8.4: the claim is a
@@ -223,6 +224,13 @@ export class MemoryJobRepository implements JobRepository {
     if (!job) return false;
     job.startedAt ??= this.clock.now();
     return true;
+  }
+
+  async busyImport(): Promise<ImportEntity | null> {
+    const busy = [...this.jobs.values()]
+      .filter((job) => job.status === 'queued' || job.status === 'running')
+      .sort((a, b) => a.id - b.id)[0];
+    return busy?.entity ?? null;
   }
 
   async setWaiting(

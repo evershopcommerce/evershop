@@ -6,6 +6,7 @@ import type {
   JobStatus,
   StoredIssue
 } from '../job/types.js';
+import type { ImportEntity } from '../types.js';
 
 /** What a checkpoint writes: the counts, the new problems and the stage, together. */
 export interface Checkpoint {
@@ -66,6 +67,13 @@ export interface JobRepository {
     attempt: number,
     checkpoint: Checkpoint
   ): Promise<CheckpointResult>;
+
+  /**
+   * The entity of an import that is queued or running, whichever it is, or null
+   * (§ 8.4, `overlappedImport`). A check that ran beside one may show errors that
+   * are not real, and says so.
+   */
+  busyImport(): Promise<ImportEntity | null>;
 
   /** Sets `started_at` the first time a worker begins to write. */
   markStarted(jobId: number, attempt: number): Promise<boolean>;

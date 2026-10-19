@@ -44,6 +44,12 @@ export interface JobCounts {
   lastUnit: number;
   /** The page addresses rebuilt after the last unit (IMP-08). */
   pagesRebuilt: number;
+  /**
+   * The entity of an import that was queued or running when the check began or
+   * ended (§ 8.4): a check of products before their categories exist shows
+   * errors that are not real, and the page says so. Null when there was none.
+   */
+  overlappedImport: ImportEntity | null;
   /** The totals per code, also above the cap on stored problems. */
   byCode: Record<IssuePhase, Record<string, number>>;
   issuesTruncated: Record<IssuePhase, boolean>;
@@ -70,6 +76,7 @@ export function emptyCounts(): JobCounts {
     skipped: 0,
     lastUnit: 0,
     pagesRebuilt: 0,
+    overlappedImport: null,
     byCode: { validate: {}, import: {} },
     issuesTruncated: { validate: false, import: false },
     firstUnlistedRow: { validate: null, import: null }

@@ -1,4 +1,5 @@
 import type { ImportDeps } from '../deps.js';
+import type { ImportEntity } from '../types.js';
 import { checkFile } from './checkFile.js';
 import { pipelineFor } from './pipeline.js';
 import { failureMessage, Session } from './session.js';
@@ -36,6 +37,10 @@ export async function runValidation(
     if (!(await deps.jobs.clearIssues(jobId, attempt, 'validate'))) {
       return await session.abandon();
     }
+    // An import that is queued or running while the file is checked can make the
+    // check wrong (a products file checked before its categories exist): the
+    // job says which, when one was there at the start or at the end.
+    const importAtStart = await busyImport(deps, jobId);
     session.stage = 'reading';
     const pipeline = pipelineFor(job.entity);
     if (!pipeline) {
@@ -45,6 +50,8 @@ export async function runValidation(
       );
     }
     await checkFile(session, job, pipeline);
+    session.counts.overlappedImport =
+      importAtStart ?? (await busyImport(deps, jobId));
     return await session.finish('validated');
   } catch (error) {
     deps.logger.error('The check failed', {
@@ -52,5 +59,22 @@ export async function runValidation(
       error: String((error as Error)?.message ?? error)
     });
     return session.finish('failed', failureMessage(error));
+  }
+}
+
+// The question is a hint for the page: when the store cannot answer it, the
+// check goes on without the hint.
+async function busyImport(
+  deps: ImportDeps,
+  jobId: number
+): Promise<ImportEntity | null> {
+  try {
+    return await deps.jobs.busyImport();
+  } catch (error) {
+    deps.logger.warn('The running imports could not be looked up', {
+      job: jobId,
+      error: String((error as Error)?.message ?? error)
+    });
+    return null;
   }
 }

@@ -1,4 +1,5 @@
-import type { ImportJob } from '../job/types.js';
+import type { ImportJob, JobStage } from '../job/types.js';
+import { countBytes } from '../reader/countBytes.js';
 import { validateFile } from '../validate/validateFile.js';
 import type { ValidationSummary } from '../validate/validateFile.js';
 import type { EntityPipeline } from './pipeline.js';
@@ -13,16 +14,28 @@ import { Session, validationContext, validationLimits } from './session.js';
 export async function checkFile(
   session: Session,
   job: ImportJob,
-  pipeline: EntityPipeline
+  pipeline: EntityPipeline,
+  /** What the job shows during the first and the second pass over the file. */
+  stages: readonly [JobStage, JobStage] = ['reading', 'lookups']
 ): Promise<ValidationSummary> {
   const { deps, counts } = session;
   // A check begins from row 1: the totals of an earlier check are gone.
   session.beginPhase('validate');
 
+  // The file is read twice: first for what the rows say, then against the store.
+  // The progress of each pass is the bytes read against the size of the file.
+  let passes = 0;
   const summary = await validateFile({
     validator: pipeline.validator,
     context: validationContext(deps, job),
-    open: () => deps.files.open(job.id),
+    open: () => {
+      passes += 1;
+      session.stage = passes === 1 ? stages[0] : stages[1];
+      counts.bytesRead = 0;
+      return countBytes(deps.files.open(job.id), (total) => {
+        counts.bytesRead = total;
+      });
+    },
     limits: validationLimits(deps),
     signal: session.control.signal,
     onIssue: (issue, key) => {
