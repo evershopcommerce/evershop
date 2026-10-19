@@ -90,7 +90,19 @@ export function memoryLookupHarness(): LookupHarness {
     lookup: {
       categories: (keys) => current.categories(keys),
       reservedUrlKeys: () => current.reservedUrlKeys(),
-      metafieldKeys: (entity) => current.metafieldKeys(entity)
+      metafieldKeys: (entity) => current.metafieldKeys(entity),
+      products: (skus) => current.products(skus),
+      productUrlKeyOwners: (keys) => current.productUrlKeyOwners(keys),
+      attributeGroups: (names) => current.attributeGroups(names),
+      packages: (names) => current.packages(names),
+      taxClasses: (names) => current.taxClasses(names),
+      defaultPackage: () => current.defaultPackage(),
+      attributes: (codes) => current.attributes(codes),
+      attributeGroupLinks: (id) => current.attributeGroupLinks(id),
+      attributeOptions: (id, texts) => current.attributeOptions(id, texts),
+      variantGroups: (ids) => current.variantGroups(ids),
+      redirects: (paths) => current.redirects(paths),
+      rewritePaths: (paths) => current.rewritePaths(paths)
     },
     async set(fixture) {
       current = new MemoryLookup(fixture);

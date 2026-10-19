@@ -125,6 +125,329 @@ export function lookupContract(
       });
     });
 
+    describe('the references of a product', () => {
+      const ids = async (
+        pick: () => Promise<Map<string, Array<{ id: number }>>>,
+        key: string
+      ) => (await pick()).get(key)?.map((r) => r.id) ?? [];
+
+      it.each<['attributeGroups' | 'packages' | 'taxClasses', string]>([
+        ['attributeGroups', 'Default'],
+        ['packages', 'Standard Box'],
+        ['taxClasses', 'Taxable Goods']
+      ])(
+        'finds a record of %s by name, ignoring letter case and spaces, under the lower-case name',
+        async (method, name) => {
+          await h.set({
+            attributeGroups: [{ name: 'Default' }, { name: 'Other' }],
+            packages: [{ name: 'Standard Box' }, { name: 'Pallet' }],
+            taxClasses: [{ name: 'Taxable Goods' }, { name: 'Exempt' }]
+          });
+          const found = await h.lookup[method]([` ${name.toUpperCase()} `]);
+          expect([...found.keys()]).toEqual([name.toLowerCase()]);
+          const [record] = found.get(name.toLowerCase()) ?? [];
+          expect(record.name).toBe(name);
+          expect(typeof record.id).toBe('number');
+        }
+      );
+
+      it('leaves out a name that does not exist, and answers an empty question', async () => {
+        await h.set({ attributeGroups: [{ name: 'Default' }] });
+        expect((await h.lookup.attributeGroups(['nope', 'default'])).size).toBe(
+          1
+        );
+        expect((await h.lookup.attributeGroups([])).size).toBe(0);
+        expect((await h.lookup.packages([])).size).toBe(0);
+        expect((await h.lookup.taxClasses([])).size).toBe(0);
+      });
+
+      it('answers with every record that has the name (they are not unique)', async () => {
+        await h.set({
+          attributeGroups: [{ name: 'Default' }, { name: 'default' }],
+          taxClasses: [{ name: 'Tax' }, { name: 'TAX' }, { name: 'Other' }]
+        });
+        expect(
+          await ids(() => h.lookup.attributeGroups(['DEFAULT']), 'default')
+        ).toHaveLength(2);
+        expect(
+          await ids(() => h.lookup.taxClasses(['tax']), 'tax')
+        ).toHaveLength(2);
+      });
+
+      it('matches a stored name that has spaces around it', async () => {
+        await h.set({
+          attributeGroups: [{ name: '  Padded  ' }],
+          packages: [{ name: ' Box ' }],
+          taxClasses: [{ name: ' Reduced' }]
+        });
+        for (const [method, key] of [
+          ['attributeGroups', 'padded'],
+          ['packages', 'box'],
+          ['taxClasses', 'reduced']
+        ] as const) {
+          // eslint-disable-next-line no-await-in-loop
+          expect([...(await h.lookup[method]([key])).keys()]).toEqual([key]);
+        }
+      });
+
+      it('gives the default package, or none', async () => {
+        await h.set({ packages: [{ name: 'A' }, { name: 'B' }] });
+        expect(await h.lookup.defaultPackage()).toBeNull();
+        await h.set({
+          packages: [{ name: 'A' }, { name: 'B', isDefault: true }]
+        });
+        expect(await h.lookup.defaultPackage()).toMatchObject({ name: 'B' });
+      });
+    });
+
+    describe('attributes and their options', () => {
+      const STORE: StoreFixture = {
+        attributeGroups: [
+          { name: 'Default', attributes: ['color', 'size'] },
+          { name: 'Other', attributes: ['color'] }
+        ],
+        attributes: [
+          {
+            code: 'color',
+            type: 'select' as const,
+            required: true,
+            options: ['Black', 'White', 'black']
+          },
+          { code: 'size', type: 'multiselect' as const, options: ['S', 'M'] },
+          { code: 'note', type: 'text' as const },
+          { code: 'FitStyle', type: 'text' as const }
+        ]
+      };
+
+      it('finds an attribute by code, ignoring letter case, under the lower-case code', async () => {
+        await h.set(STORE);
+        const found = await h.lookup.attributes(['COLOR', ' size', 'nope']);
+        expect([...found.keys()].sort()).toEqual(['color', 'size']);
+        expect(found.get('color')).toMatchObject({
+          code: 'color',
+          type: 'select',
+          required: true
+        });
+        expect(found.get('size')).toMatchObject({
+          type: 'multiselect',
+          required: false
+        });
+        expect((await h.lookup.attributes([])).size).toBe(0);
+        // A code stored in mixed case is found by its lower-case form.
+        const mixed = await h.lookup.attributes(['fitstyle']);
+        expect(mixed.get('fitstyle')?.code).toBe('FitStyle');
+      });
+
+      it('gives the attributes linked to an attribute group and the required ones', async () => {
+        await h.set(STORE);
+        const groups = await h.lookup.attributeGroups(['Default', 'Other']);
+        const attributes = await h.lookup.attributes(['color', 'size', 'note']);
+        const idOf = (code: string) => attributes.get(code)?.id;
+        const def = await h.lookup.attributeGroupLinks(
+          groups.get('default')![0].id
+        );
+        expect([...def.linked].sort()).toEqual(
+          [idOf('color'), idOf('size')].sort()
+        );
+        expect(def.required.map((a) => a.code)).toEqual(['color']);
+        const other = await h.lookup.attributeGroupLinks(
+          groups.get('other')![0].id
+        );
+        expect([...other.linked]).toEqual([idOf('color')]);
+        expect((await h.lookup.attributeGroupLinks(999_999)).linked.size).toBe(
+          0
+        );
+      });
+
+      it('gives the option ids of an attribute for texts, ignoring letter case', async () => {
+        await h.set(STORE);
+        const attributes = await h.lookup.attributes(['color', 'size']);
+        const color = attributes.get('color')!.id;
+        const found = await h.lookup.attributeOptions(color, [
+          'WHITE',
+          ' black ',
+          'pink'
+        ]);
+        expect([...found.keys()].sort()).toEqual(['black', 'white']);
+        // 'Black' and 'black' are two options with one text (ALL-21)
+        expect(found.get('black')).toHaveLength(2);
+        expect(found.get('white')).toHaveLength(1);
+        // Another attribute's options are not mixed in.
+        const size = attributes.get('size')!.id;
+        expect((await h.lookup.attributeOptions(size, ['black'])).size).toBe(0);
+        expect((await h.lookup.attributeOptions(size, [])).size).toBe(0);
+      });
+    });
+
+    describe('products', () => {
+      const STORE: StoreFixture = {
+        categories: [{ urlKey: 't-shirts' }],
+        attributeGroups: [{ name: 'Default', attributes: ['color', 'size'] }],
+        packages: [{ name: 'Standard Box', isDefault: true }],
+        attributes: [
+          {
+            code: 'color',
+            type: 'select' as const,
+            options: ['Black', 'White']
+          },
+          { code: 'size', type: 'select' as const, options: ['S', 'M'] },
+          { code: 'note', type: 'text' as const }
+        ],
+        variantGroups: [
+          { label: 'tee', attributeGroup: 'Default', axes: ['color', 'size'] }
+        ],
+        products: [
+          {
+            sku: 'TSH-1',
+            urlKey: 'classic-tee',
+            attributeGroup: 'Default',
+            package: 'Standard Box',
+            category: 't-shirts',
+            variantGroup: 'tee',
+            values: { color: 'Black', size: 'S', note: 'Hand wash' },
+            metaData: { custom: { material: 'Cotton' } }
+          },
+          {
+            sku: 'TSH-2',
+            urlKey: 'classic-tee-2',
+            attributeGroup: 'Default',
+            status: 0 as const,
+            noShippingRequired: true,
+            variantGroup: 'tee',
+            values: { color: 'White' }
+          },
+          { sku: 'LONELY', urlKey: 'lonely', attributeGroup: 'Default' }
+        ]
+      };
+
+      it('gives a stored product with what the rules need', async () => {
+        await h.set(STORE);
+        const found = await h.lookup.products(['TSH-1', 'TSH-2', 'LONELY']);
+        expect([...found.keys()].sort()).toEqual(['LONELY', 'TSH-1', 'TSH-2']);
+        const groupId = (await h.lookup.attributeGroups(['default'])).get(
+          'default'
+        )![0].id;
+        const packageId = (await h.lookup.packages(['standard box'])).get(
+          'standard box'
+        )![0].id;
+        const tee = found.get('TSH-1')!;
+        expect(tee).toMatchObject({
+          sku: 'TSH-1',
+          urlKey: 'classic-tee',
+          status: 1,
+          attributeGroupId: groupId,
+          packageId,
+          noShippingRequired: false,
+          categoryUrlKey: 't-shirts',
+          metaData: { custom: { material: 'Cotton' } }
+        });
+        expect(typeof tee.id).toBe('number');
+        expect(typeof tee.uuid).toBe('string');
+        expect(tee.variantGroupId).not.toBeNull();
+        expect(
+          [...tee.attributeCodes].map((c) => c.toLowerCase()).sort()
+        ).toEqual(['color', 'note', 'size']);
+        const virtual = found.get('TSH-2')!;
+        expect(virtual).toMatchObject({
+          status: 0,
+          noShippingRequired: true,
+          packageId: null,
+          categoryUrlKey: null,
+          variantGroupId: tee.variantGroupId
+        });
+        const lonely = found.get('LONELY')!;
+        expect(lonely).toMatchObject({
+          variantGroupId: null,
+          attributeCodes: [],
+          metaData: {}
+        });
+      });
+
+      it('matches a sku exactly, and answers an empty question', async () => {
+        await h.set(STORE);
+        expect((await h.lookup.products(['tsh-1'])).size).toBe(0);
+        expect((await h.lookup.products([])).size).toBe(0);
+      });
+
+      it('tells who has a url_key', async () => {
+        await h.set(STORE);
+        const owners = await h.lookup.productUrlKeyOwners([
+          'classic-tee',
+          'lonely',
+          'nobody'
+        ]);
+        expect([...owners.entries()].sort()).toEqual([
+          ['classic-tee', 'TSH-1'],
+          ['lonely', 'LONELY']
+        ]);
+        expect((await h.lookup.productUrlKeyOwners([])).size).toBe(0);
+      });
+
+      it('gives a variant group with its axes, in the stored order, and its members', async () => {
+        await h.set(STORE);
+        const tee = (await h.lookup.products(['TSH-1'])).get('TSH-1')!;
+        const groups = await h.lookup.variantGroups([
+          tee.variantGroupId!,
+          999_999
+        ]);
+        expect([...groups.keys()]).toEqual([tee.variantGroupId]);
+        const group = groups.get(tee.variantGroupId!)!;
+        expect(group.axisCodes.map((c) => c.toLowerCase())).toEqual([
+          'color',
+          'size'
+        ]);
+        expect(typeof group.uuid).toBe('string');
+        expect(group.members.map((m) => m.sku).sort()).toEqual([
+          'TSH-1',
+          'TSH-2'
+        ]);
+        const attributes = await h.lookup.attributes(['color']);
+        const black = (
+          await h.lookup.attributeOptions(attributes.get('color')!.id, [
+            'black'
+          ])
+        ).get('black')![0];
+        const m1 = group.members.find((m) => m.sku === 'TSH-1')!;
+        expect(m1.options[group.axisCodes[0]]).toBe(black);
+        // TSH-2 has no size: null for that axis
+        const m2 = group.members.find((m) => m.sku === 'TSH-2')!;
+        expect(m2.options[group.axisCodes[1]]).toBeNull();
+        expect((await h.lookup.variantGroups([])).size).toBe(0);
+      });
+    });
+
+    describe('redirects and rewrites', () => {
+      it('says who owns a redirect on a path', async () => {
+        await h.set({
+          redirects: [
+            { from: '/old', entityUrn: 'urn:evershop:cms:page:x' },
+            { from: '/loose' }
+          ]
+        });
+        const found = await h.lookup.redirects(['/old', '/loose', '/none']);
+        expect([...found.keys()].sort()).toEqual(['/loose', '/old']);
+        expect(found.get('/old')).toEqual({
+          fromPath: '/old',
+          entityUrn: 'urn:evershop:cms:page:x'
+        });
+        expect(found.get('/loose')?.entityUrn).toBeNull();
+        expect((await h.lookup.redirects([])).size).toBe(0);
+      });
+
+      it('matches a path exactly, a trailing slash included', async () => {
+        await h.set({
+          redirects: [{ from: '/old/' }],
+          rewritePaths: ['/live']
+        });
+        expect((await h.lookup.redirects(['/old'])).size).toBe(0);
+        expect((await h.lookup.redirects(['/old/'])).size).toBe(1);
+        expect([
+          ...(await h.lookup.rewritePaths(['/live', '/live/', '/x']))
+        ]).toEqual(['/live']);
+        expect((await h.lookup.rewritePaths([])).size).toBe(0);
+      });
+    });
+
     describe('metafieldKeys', () => {
       it('gives namespace.key of the definitions of one entity', async () => {
         await h.set({

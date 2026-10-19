@@ -38,6 +38,11 @@ export interface ExpectedIssue {
 export interface RuleExample {
   /** What the case shows. */
   name: string;
+  /**
+   * The kind of file. By default the entity of the rule; a rule of `all` entities
+   * is shown on a category file unless the case says otherwise.
+   */
+  entity?: ImportEntity;
   mode?: ImportMode;
   store?: StoreFixture;
   /** Limits for a case about a limit (the row cap, the length of a cell). */
