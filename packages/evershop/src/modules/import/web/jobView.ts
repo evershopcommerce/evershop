@@ -48,3 +48,9 @@ export function issueView(issue: StoredIssue) {
     value: issue.value
   };
 }
+
+/** What `GET /import-jobs/:id` answers (the data, as the page reads it: dates are ISO text). */
+export type JobView = ReturnType<typeof jobView>;
+
+/** One problem of `GET /import-jobs/:id/issues`. */
+export type IssueView = ReturnType<typeof issueView>;
