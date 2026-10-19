@@ -102,8 +102,9 @@ describe('runImport: an event process that keeps up', () => {
     expect(result.outcome).toBe('completed');
     expect(h.jobs.snapshot(1).counts.created).toBe(12);
     expect(h.clock.sleeps).toEqual([]);
-    // 12 rows of 0.4 s: a look before the first row, then every 1.2 s.
-    expect(h.backlog.looks).toBe(5);
+    // 12 rows of 0.4 s: a look before the first row, then every 1.2 s, and one
+    // after the last row, before the page addresses are checked (IMP-08).
+    expect(h.backlog.looks).toBe(6);
     expect(h.jobs.snapshot(1).waitingSince).toBeNull();
   });
 });

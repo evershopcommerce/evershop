@@ -202,8 +202,25 @@ const group = (sku: string, color: string, size: string) => ({
 describeDb('a products file through a worker on the real services', () => {
   const logger = new CollectingLogger();
 
-  const setup = async () => {
+  const setup = async (options: { loseEvents?: boolean } = {}) => {
     await seed();
+    const real = createCoreEntityServices!(db!.pool);
+    // The event process was restarted while it worked: core counts the events it
+    // was handling as lost, and the products never get their page address.
+    const services = options.loseEvents
+      ? {
+          ...real,
+          async createProduct(input: Parameters<typeof real.createProduct>[0]) {
+            const made = await real.createProduct(input);
+            await q(
+              `DELETE FROM event WHERE name = 'product_created'
+                AND (data->>'product_id')::int = $1`,
+              [made.id]
+            );
+            return made;
+          }
+        }
+      : real;
     const server = http.createServer((_request, response) => {
       response.setHeader('Content-Type', 'image/png');
       response.setHeader('Content-Length', String(PNG.length));
@@ -217,7 +234,7 @@ describeDb('a products file through a worker on the real services', () => {
     }/mug.png`;
     const ports: CorePorts = {
       pool: db!.pool,
-      services: createCoreEntityServices!(db!.pool),
+      services,
       routePaths: () => ['/cart'],
       enabledLanguages: async () => ['en'],
       async storeImage(file) {
@@ -229,9 +246,10 @@ describeDb('a products file through a worker on the real services', () => {
       sanitizeFileName: (name) => name,
       logger,
       limits: { maxRows: 1000, maxCellLength: 65_536, maxIssues: 1000 },
+      // No event process runs on this database: the worker never waits for the queue.
       backlog: {
         eventBacklogHigh: 1_000_000,
-        eventBacklogLow: 100,
+        eventBacklogLow: 999_999,
         eventBacklogMaxWaitMs: 30 * 60_000
       },
       imageTimeoutMs: 5000,
@@ -323,7 +341,15 @@ describeDb('a products file through a worker on the real services', () => {
       expect(done).toEqual({ outcome: 'completed', exitCode: 0 });
       expect(await t.composed.admin.get(job.id)).toMatchObject({
         status: 'completed',
-        counts: { created: 4, updated: 0, failed: 0, total: 4, lastUnit: 2 }
+        counts: {
+          created: 4,
+          updated: 0,
+          failed: 0,
+          total: 4,
+          lastUnit: 2,
+          // The events of the products are waiting for the event process: not lost.
+          pagesRebuilt: 0
+        }
       });
 
       let found = await products();
@@ -404,6 +430,50 @@ describeDb('a products file through a worker on the real services', () => {
       expect(found.find((p) => p.sku === 'WK-TEE-2').meta_data).toEqual({
         custom: { material: 'Cotton', years: 3 }
       });
+    } finally {
+      await t.close();
+    }
+  });
+
+  it('writes the creation event again for the products whose event was lost, and the real subscriber gives them their page address (IMP-08)', async () => {
+    const t = await setup({ loseEvents: true });
+    try {
+      const { job, done } = await t.run(
+        fileOf(
+          row('WK-MUG-1', {}, ['Ceramic', '1', '']),
+          row('WK-MUG-2', {}, ['Glass', '2', ''])
+        )
+      );
+      expect(done).toEqual({ outcome: 'completed', exitCode: 0 });
+      expect(await t.composed.admin.get(job.id)).toMatchObject({
+        status: 'completed',
+        counts: { created: 2, failed: 0, pagesRebuilt: 2 }
+      });
+      const pending = await q(
+        `SELECT e.data FROM event e
+          WHERE e.name = 'product_created' AND e.status = 'pending' AND e.event_id > $1
+          ORDER BY e.event_id`,
+        [eventBaseline]
+      );
+      expect(pending.map((e) => e.data.sku)).toEqual(['WK-MUG-1', 'WK-MUG-2']);
+      // What the event process does with them.
+      const build = (
+        await import(
+          '../../../../catalog/subscribers/product_created/buildUrlRewrite.js'
+        )
+      ).default;
+      for (const event of pending) {
+        // eslint-disable-next-line no-await-in-loop
+        await build(event.data);
+      }
+      expect(
+        (
+          await q(
+            `SELECT request_path FROM url_rewrite WHERE entity_uuid IN
+               (SELECT uuid FROM product WHERE sku LIKE 'WK-MUG-%') ORDER BY request_path`
+          )
+        ).map((r) => r.request_path)
+      ).toEqual(['/worker-cat/wk-mug-1', '/worker-cat/wk-mug-2']);
     } finally {
       await t.close();
     }

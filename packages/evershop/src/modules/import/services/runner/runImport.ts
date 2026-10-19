@@ -1,5 +1,7 @@
 import { MAX_FAILED_ROWS } from '../deps.js';
 import type { ImportDeps } from '../deps.js';
+import type { PageEntity } from '../ports/pageAddresses.js';
+import type { ImportEntity } from '../types.js';
 import { indexFile } from '../validate/validateFile.js';
 import type { WriteOutcome } from '../write/categoryWriter.js';
 import { BacklogGate } from './backlogGate.js';
@@ -15,6 +17,12 @@ import type { RunOptions, RunResult } from './session.js';
 
 const RECHECK_MESSAGE =
   'The file has problems that were not there when it was checked, so nothing was written. See the problems, then check again.';
+
+// The records whose page address a creation event makes (IMP-08).
+const PAGE_ENTITY: Partial<Record<ImportEntity, PageEntity>> = {
+  category: 'category',
+  product: 'product'
+};
 
 /** J5: the text of the job when the event queue did not drain in time. */
 export function notDrainingMessage(config: ImportDeps['config']): string {
@@ -127,18 +135,61 @@ export async function runImport(
       gaveUp = answer === 'gave_up';
       return answer === 'go';
     };
+    /**
+     * After the last unit (IMP-08): the events of the import are handled, and the
+     * records whose event was lost get it again. A run that has to stop does not
+     * wait for it, and a repair that fails does not fail the import.
+     */
+    const rebuildPageAddresses = async (): Promise<void> => {
+      const entity = PAGE_ENTITY[job.entity];
+      if (entity === undefined) {
+        return;
+      }
+      try {
+        // A run that has to stop is not waited for: `settle` says `stopped`.
+        const settled = await gate.settle();
+        if (settled === 'stopped') {
+          return;
+        }
+        // The first attempt's start, as the database has it: what a resumed job
+        // created earlier counts too, and a first attempt began after the read
+        // of `job` above.
+        const since = (await deps.jobs.get(jobId))?.startedAt ?? null;
+        if (since === null) {
+          return;
+        }
+        const rebuilt = await deps.pages.reemitMissing(entity, since);
+        counts.pagesRebuilt += rebuilt;
+        if (rebuilt > 0) {
+          deps.logger.warn('Page addresses were rebuilt after the import', {
+            job: jobId,
+            entity,
+            rebuilt
+          });
+        }
+      } catch (error) {
+        deps.logger.warn('The page addresses could not be checked', {
+          job: jobId,
+          error: String((error as Error)?.message ?? error)
+        });
+      }
+    };
     /** The end of a run that writes no more, by the reason it stopped. */
-    const conclude = (): Promise<RunResult> => {
+    const conclude = async (): Promise<RunResult> => {
       if (gaveUp && !control.reason) {
-        return session.finish('interrupted', notDrainingMessage(deps.config));
+        return await session.finish(
+          'interrupted',
+          notDrainingMessage(deps.config)
+        );
       }
       if (tooManyFailures && !control.reason) {
-        return session.finish(
+        return await session.finish(
           'stopped',
           `Stopped after ${MAX_FAILED_ROWS} failed rows.`
         );
       }
-      return session.finish('completed');
+      await rebuildPageAddresses();
+      return await session.finish('completed');
     };
 
     // The first look at the queue is before the run changes anything about the

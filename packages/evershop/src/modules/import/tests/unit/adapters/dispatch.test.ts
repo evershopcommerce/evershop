@@ -31,10 +31,14 @@ process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
 // No event process runs on this database, so the events that the imported
 // categories write are never taken, and a worker that waited for them would wait
-// for ever. The workers of these tests do not wait for the event queue (the
-// test of the wait itself sets its own marks, and puts this back).
+// for ever, neither before a row nor after the last one (the page addresses are
+// checked once the queue is below the low mark, IMP-08). The workers of these
+// tests do not wait for the event queue (the test of the wait itself sets its own
+// marks, and puts this back).
 const NO_BACKPRESSURE = JSON.stringify({
-  system: { import: { eventBacklogHigh: 1_000_000 } }
+  system: {
+    import: { eventBacklogHigh: 1_000_000, eventBacklogLow: 999_999 }
+  }
 });
 process.env.NODE_CONFIG = NO_BACKPRESSURE;
 

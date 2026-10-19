@@ -8,6 +8,7 @@ import { PgFileStore } from '../adapters/PgFileStore.js';
 import { PgJobAdmin } from '../adapters/PgJobAdmin.js';
 import { PgJobRepository } from '../adapters/PgJobRepository.js';
 import { PgLookup } from '../adapters/PgLookup.js';
+import { PgPageAddresses } from '../adapters/PgPageAddresses.js';
 import { systemClock } from '../adapters/systemClock.js';
 import type { ImportConfig, ImportDeps } from '../services/deps.js';
 import type { JobAdmin } from '../services/ports/jobAdmin.js';
@@ -85,6 +86,7 @@ export function composeWorker(core: CorePorts): Composed {
       services: core.services,
       images,
       backlog: new PgEventBacklog(core.pool),
+      pages: new PgPageAddresses(core.pool),
       clock: systemClock,
       config: { ...core.limits, ...core.backlog },
       logger: core.logger,
