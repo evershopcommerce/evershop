@@ -26,6 +26,7 @@ const ROUTES: Array<
     '/import-jobs/:id/file-with-errors.csv',
     false
   ],
+  ['downloadImportTemplate', 'GET', '/import-templates/:entity', false],
   ['startImportJob', 'POST', '/import-jobs/:id/start', true],
   ['cancelImportJob', 'POST', '/import-jobs/:id/cancel', true],
   ['resumeImportJob', 'POST', '/import-jobs/:id/resume', true],

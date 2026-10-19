@@ -72,7 +72,8 @@ export const CATEGORY_EXAMPLE_KEYS: readonly string[] = [
   'example-subcategory'
 ];
 
-const KNOWN_COLUMNS: ReadonlySet<string> = new Set([
+/** The columns of a categories file, in the order of the template. */
+export const CATEGORY_COLUMNS: readonly string[] = [
   'url_key',
   'name',
   'parent',
@@ -82,7 +83,9 @@ const KNOWN_COLUMNS: ReadonlySet<string> = new Set([
   'meta_title',
   'meta_description',
   'image'
-]);
+];
+
+const KNOWN_COLUMNS: ReadonlySet<string> = new Set(CATEGORY_COLUMNS);
 
 const METAFIELD_PREFIX = 'metafield:';
 const KEY_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

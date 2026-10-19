@@ -1,5 +1,6 @@
 import { isKnownCountry } from '../../../lib/address/countries.js';
 import { getAddressExtras } from '../../../lib/address/extras.js';
+import { getAddressRuntime } from '../../../lib/address/runtime.js';
 import { ADDRESS_SETTINGS_DEFAULTS } from '../../../lib/address/settings.js';
 import type { AddressRow } from '../../../lib/address/types.js';
 import { validateAddress } from '../../../lib/address/validate.js';
@@ -20,6 +21,8 @@ export function createAddressRules(options: {
   extraIds?: (country: string) => readonly string[];
   /** For a double: the countries the store sells to (the real store has its setting). */
   sellToCountries?: 'all' | string[];
+  /** For a double: the name format (the real store has its setting). */
+  nameFormat?: () => 'single' | 'split';
 }): AddressRules {
   const settings =
     options.sellToCountries === undefined
@@ -29,6 +32,9 @@ export function createAddressRules(options: {
           sellToCountries: options.sellToCountries
         };
   return {
+    nameFormat:
+      options.nameFormat ??
+      (() => getAddressRuntime().getSettings().nameFormat),
     isKnownCountry: (code) => isKnownCountry(code),
     extraIds:
       options.extraIds ??

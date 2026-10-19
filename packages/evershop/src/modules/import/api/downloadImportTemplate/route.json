@@ -1,0 +1,5 @@
+{
+  "methods": ["GET"],
+  "path": "/import-templates/:entity",
+  "access": "private"
+}

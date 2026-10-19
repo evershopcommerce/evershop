@@ -116,7 +116,8 @@ export const PRODUCT_EXAMPLE_KEYS: readonly string[] = [
   'EXAMPLE-SKU-2'
 ];
 
-const KNOWN_COLUMNS: ReadonlySet<string> = new Set([
+/** The columns of a products file (not the `attr:` and `metafield:` ones), in the order of the template. */
+export const PRODUCT_COLUMNS: readonly string[] = [
   'sku',
   'name',
   'url_key',
@@ -140,7 +141,9 @@ const KNOWN_COLUMNS: ReadonlySet<string> = new Set([
   'variant_group',
   'variant_axes',
   'redirect_from'
-]);
+];
+
+const KNOWN_COLUMNS: ReadonlySet<string> = new Set(PRODUCT_COLUMNS);
 
 const ATTR_PREFIX = 'attr:';
 const METAFIELD_PREFIX = 'metafield:';

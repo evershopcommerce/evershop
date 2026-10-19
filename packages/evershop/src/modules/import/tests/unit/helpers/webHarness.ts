@@ -6,6 +6,7 @@ import { CollectingLogger } from '../../../testing/CollectingLogger.js';
 import { FakeClock } from '../../../testing/FakeClock.js';
 import { MemoryFileStore } from '../../../testing/MemoryFileStore.js';
 import { MemoryJobStore } from '../../../testing/MemoryJobStore.js';
+import { buildTemplate } from '../../../services/templates/importTemplate.js';
 import type { HttpResult, ImportWeb } from '../../../web/ImportWeb.js';
 
 export interface WebHarness {
@@ -44,6 +45,12 @@ export function makeWeb(
           names.has(id) ? [[id, names.get(id)!] as const] : []
         )
       ),
+    template: async (entity) =>
+      buildTemplate(entity, {
+        attributeCodes: ['color', 'size'],
+        metafieldKeys: ['custom.material'],
+        nameFormat: 'single'
+      }),
     limits: limits ?? { maxRows: 200_000, maxCellLength: 65_536 },
     render: serviceOptions.render,
     logger

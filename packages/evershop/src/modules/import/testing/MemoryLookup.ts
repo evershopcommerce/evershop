@@ -117,6 +117,8 @@ export class MemoryLookup implements Lookup {
 
   private readonly addressSellTo: 'all' | string[] = 'all';
 
+  private readonly addressNameFormat: 'single' | 'split' = 'single';
+
   /** The ids of the extra address fields, by country (those a store registered). */
   readonly addressExtras_: Record<string, string[]> = {};
 
@@ -161,6 +163,7 @@ export class MemoryLookup implements Lookup {
     });
     this.addressExtras_ = { ...fixture.addressExtras };
     this.addressSellTo = fixture.addressSellTo ?? 'all';
+    this.addressNameFormat = fixture.addressNameFormat ?? 'single';
     (fixture.customers ?? []).forEach((customer, index) => {
       const id = customer.id ?? index + 1;
       const group = customer.group
@@ -386,7 +389,8 @@ export class MemoryLookup implements Lookup {
       normalize: async (address) =>
         normalizeAddressInput.call({}, address as never) as never,
       extraIds: (country) => this.addressExtras_[country.toUpperCase()] ?? [],
-      sellToCountries: this.addressSellTo
+      sellToCountries: this.addressSellTo,
+      nameFormat: () => this.addressNameFormat
     });
   }
 
@@ -495,6 +499,11 @@ export class MemoryLookup implements Lookup {
   async defaultPackage(): Promise<NamedRecord | null> {
     const pack = this.packages_.find((p) => p.isDefault);
     return pack ? { id: pack.id, name: pack.name } : null;
+  }
+
+  async attributeCodes(): Promise<string[]> {
+    this.count('attributeCodes');
+    return this.attributes_.map((attribute) => attribute.code);
   }
 
   async attributes(

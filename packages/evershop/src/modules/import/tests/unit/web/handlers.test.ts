@@ -6,6 +6,7 @@ import {
   contentDisposition,
   deleteJob,
   downloadFileWithErrors,
+  downloadImportTemplate,
   getIssues,
   getJob,
   listOpenJobs,
@@ -682,5 +683,72 @@ describe('contentDisposition', () => {
     expect(contentDisposition("it's (a) *file*.csv")).toContain(
       "filename*=UTF-8''it%27s%20%28a%29%20%2Afile%2A-with-errors.csv"
     );
+  });
+});
+
+describe('downloadImportTemplate', () => {
+  it.each([
+    ['categories', 'categories.csv', 'url_key,name,parent'],
+    ['products', 'products.csv', 'sku,name,url_key'],
+    ['customers', 'customers.csv', 'email,full_name,status'],
+    ['customer-addresses', 'customer-addresses.csv', 'email,recipient,']
+  ])(
+    'gives the template of %s as a CSV file named %s',
+    async (which, fileName, start) => {
+      const { web } = makeWeb();
+      const result = await downloadImportTemplate(web, which);
+      expect(result.kind).toBe('stream');
+      if (result.kind !== 'stream') return;
+      expect(result.status).toBe(200);
+      expect(result.headers['Content-Type']).toBe('text/csv; charset=utf-8');
+      expect(result.headers['Content-Disposition']).toBe(
+        `attachment; filename="${fileName}"; filename*=UTF-8''${fileName}`
+      );
+      expect(result.headers['Cache-Control']).toBe('no-store');
+      const text = await textOf(result);
+      expect(text.startsWith(`${BOM}${start}`)).toBe(true);
+      // A header, then two example rows.
+      expect(text.trimEnd().split(/\r?\n/)).toHaveLength(3);
+    }
+  );
+
+  it('is made for this store: its attributes and custom fields become columns', async () => {
+    const { web } = makeWeb();
+    const header = (
+      await textOf((await downloadImportTemplate(web, 'products')) as never)
+    ).split(/\r?\n/)[0];
+    expect(header).toContain(',attr:color,attr:size,metafield:custom.material');
+  });
+
+  it.each([['coupons'], ['product'], [''], [undefined], [42], ['../products']])(
+    'refuses %j: 400 INVALID_REQUEST, with the names it knows',
+    async (which) => {
+      const { web } = makeWeb();
+      const result = await downloadImportTemplate(web, which);
+      expect(result.kind).toBe('json');
+      expect(result.status).toBe(400);
+      const error = bodyOf(result).error;
+      expect(error.code).toBe('INVALID_REQUEST');
+      expect(error.message).toContain(
+        'categories, products, customers, customer-addresses'
+      );
+    }
+  );
+
+  it('does not put what it was asked for into the answer beyond sixty characters', async () => {
+    const { web } = makeWeb();
+    const result = await downloadImportTemplate(web, 'x'.repeat(5000));
+    expect(bodyOf(result).error.message.length).toBeLessThan(300);
+  });
+
+  it('answers a failure of the store as any handler does: 500, no detail, logged', async () => {
+    const { web, logger } = makeWeb();
+    web.template = async () => {
+      throw new Error('relation "attribute" does not exist');
+    };
+    const result = await downloadImportTemplate(web, 'products');
+    expect(result.status).toBe(500);
+    expect(JSON.stringify(result)).not.toContain('relation');
+    expect(logger.of('error')).toHaveLength(1);
   });
 });

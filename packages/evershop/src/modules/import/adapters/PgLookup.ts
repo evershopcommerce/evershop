@@ -380,6 +380,13 @@ export class PgLookup implements Lookup {
       : null;
   }
 
+  async attributeCodes(): Promise<string[]> {
+    const result = await this.pool.query(
+      'SELECT attribute_code FROM attribute ORDER BY attribute_id'
+    );
+    return result.rows.map((row) => String(row.attribute_code));
+  }
+
   async attributes(
     codes: readonly string[]
   ): Promise<Map<string, StoredAttribute>> {
