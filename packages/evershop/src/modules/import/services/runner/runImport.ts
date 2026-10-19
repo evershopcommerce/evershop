@@ -2,6 +2,7 @@ import { MAX_FAILED_ROWS } from '../deps.js';
 import type { ImportDeps } from '../deps.js';
 import { indexFile } from '../validate/validateFile.js';
 import type { WriteOutcome } from '../write/categoryWriter.js';
+import { BacklogGate } from './backlogGate.js';
 import { checkFile } from './checkFile.js';
 import { pipelineFor } from './pipeline.js';
 import {
@@ -14,6 +15,12 @@ import type { RunOptions, RunResult } from './session.js';
 
 const RECHECK_MESSAGE =
   'The file has problems that were not there when it was checked, so nothing was written. See the problems, then check again.';
+
+/** J5: the text of the job when the event queue did not drain in time. */
+export function notDrainingMessage(config: ImportDeps['config']): string {
+  const minutes = Math.round((config.eventBacklogMaxWaitMs / 60_000) * 10) / 10;
+  return `The event process is not draining: more than ${config.eventBacklogHigh} events were waiting for ${minutes} minutes. Find out why events are not processed, then resume the import.`;
+}
 
 /**
  * Imports the file of a `queued` job (§ 4.5, point 4; § 8.4).
@@ -28,6 +35,11 @@ const RECHECK_MESSAGE =
  * the tenth does (D-14, `stopped`). A job that has written something is a resumed
  * one: it does not check again, it writes again the rows that failed or were
  * skipped, and then the units after the last one it saved.
+ *
+ * Before each row it asks the event queue whether it may go on (§ 8.5): writing
+ * a row writes events, and a long queue delays every other event of the store.
+ * A queue that does not drain within the time allowed ends the run `interrupted`
+ * (J5), and the job can be resumed.
  */
 export async function runImport(
   jobId: number,
@@ -72,9 +84,6 @@ export async function runImport(
       if (summary.errors > 0) {
         return await session.finish('validated', RECHECK_MESSAGE);
       }
-      if (!(await deps.jobs.markStarted(jobId, attempt))) {
-        return await session.abandon();
-      }
     }
 
     session.stage = 'writing';
@@ -96,6 +105,54 @@ export async function runImport(
     }
     const plan = pipeline.plan(indexed.state);
 
+    let failedThisRun = 0;
+    let tooManyFailures = false;
+    let gaveUp = false;
+    const gate = new BacklogGate({
+      backlog: deps.backlog,
+      clock: deps.clock,
+      logger: deps.logger,
+      limits: {
+        high: deps.config.eventBacklogHigh,
+        low: deps.config.eventBacklogLow,
+        maxWaitMs: deps.config.eventBacklogMaxWaitMs
+      },
+      signal: control.signal,
+      jobId,
+      setWaiting: (waiting) => session.setWaiting(waiting)
+    });
+    /** True when the next row may be written. */
+    const mayWrite = async (): Promise<boolean> => {
+      const answer = await gate.pass();
+      gaveUp = answer === 'gave_up';
+      return answer === 'go';
+    };
+    /** The end of a run that writes no more, by the reason it stopped. */
+    const conclude = (): Promise<RunResult> => {
+      if (gaveUp && !control.reason) {
+        return session.finish('interrupted', notDrainingMessage(deps.config));
+      }
+      if (tooManyFailures && !control.reason) {
+        return session.finish(
+          'stopped',
+          `Stopped after ${MAX_FAILED_ROWS} failed rows.`
+        );
+      }
+      return session.finish('completed');
+    };
+
+    // The first look at the queue is before the run changes anything about the
+    // job. A run that waits here and gives up (or is stopped) leaves the job as
+    // it was: one that never wrote has no `started_at`, so it is checked again
+    // when it is resumed (D-33), and a resumed one keeps its problems, which
+    // tell the next run which rows to write again.
+    if (!(await mayWrite())) {
+      return await conclude();
+    }
+    if (!resumed && !(await deps.jobs.markStarted(jobId, attempt))) {
+      return await session.abandon();
+    }
+
     // A resumed run writes again the rows that failed or were skipped, and
     // then the units after the last one that was saved. The old problems of
     // the import go; the ones of this run replace them.
@@ -109,8 +166,6 @@ export async function runImport(
     }
     session.beginPhase('import');
 
-    let failedThisRun = 0;
-    let tooManyFailures = false;
     const writing = pipeline.write({
       open,
       limits,
@@ -137,15 +192,12 @@ export async function runImport(
           break;
         }
       }
+      // Writing a row wrote events: look at the queue before the next one.
+      if (!(await mayWrite())) {
+        break;
+      }
     }
-
-    if (tooManyFailures && !control.reason) {
-      return await session.finish(
-        'stopped',
-        `Stopped after ${MAX_FAILED_ROWS} failed rows.`
-      );
-    }
-    return await session.finish('completed');
+    return await conclude();
   } catch (error) {
     deps.logger.error('The import failed', {
       job: jobId,

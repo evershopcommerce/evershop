@@ -13,6 +13,7 @@ import { getEnabledLanguages } from '../../setting/services/setting.js';
 import { createCoreEntityServices } from '../adapters/CoreEntityServices.js';
 import { coreLogger } from '../adapters/coreLogger.js';
 import {
+  backlogLimits,
   fileLimits,
   importFlag,
   importSetting,
@@ -73,6 +74,7 @@ export function createCorePorts(): CorePorts {
     sanitizeFileName: generateFileName,
     logger: coreLogger,
     limits: fileLimits(),
+    backlog: backlogLimits(),
     imageTimeoutMs: importSetting('imageTimeoutSeconds', 30) * 1000,
     allowPrivateNetworks: () => importFlag('allowPrivateNetworks'),
     retentionMs: retentionMs()

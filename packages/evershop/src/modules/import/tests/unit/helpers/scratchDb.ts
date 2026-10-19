@@ -84,8 +84,17 @@ function databaseRequired(): boolean {
 const CORE_LOCK = 'import_core_scratch_test';
 const LOCK_WAIT_SECONDS = 180;
 
-/** The tables the tests copy from the store, without triggers or foreign keys. */
-const COPIED = ['category', 'category_description', 'metafield_definition'];
+/**
+ * The tables the tests copy from the store, without triggers or foreign keys.
+ * The copy of `event` has no `notify_new_event` trigger either, so a test that
+ * fills the queue wakes no event process.
+ */
+const COPIED = [
+  'category',
+  'category_description',
+  'metafield_definition',
+  'event'
+];
 
 export interface OpenOptions {
   /**
@@ -93,6 +102,12 @@ export interface OpenOptions {
    * copied into the test schema, because the services write to `public`.
    */
   core?: boolean;
+  /**
+   * The name of the lock a `core` suite takes, for the test of the lock itself:
+   * it takes turns with its own copies and not with the suites that write to the
+   * tables, so its timing does not depend on how long those take.
+   */
+  lock?: string;
 }
 
 export async function openScratchDb(
@@ -158,7 +173,9 @@ export async function openScratchDb(
       // A suite that holds the lock and never lets go fails the next one; it
       // does not hang it.
       await lock.query(`SET lock_timeout = '${LOCK_WAIT_SECONDS}s'`);
-      await lock.query('SELECT pg_advisory_lock(hashtext($1))', [CORE_LOCK]);
+      await lock.query('SELECT pg_advisory_lock(hashtext($1))', [
+        options.lock ?? CORE_LOCK
+      ]);
     } catch (e) {
       await release();
       throw e;

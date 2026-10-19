@@ -79,7 +79,7 @@ export class PgJobRepository implements JobRepository {
       `UPDATE import_job
           SET status = $3, attempt = attempt + 1, worker = $4,
               heartbeat_at = now(), status_changed_at = now(),
-              expires_at = NULL, error_message = NULL
+              expires_at = NULL, error_message = NULL, waiting_since = NULL
         WHERE import_job_id = $1 AND status = $2
         RETURNING attempt`,
       [jobId, from, to, noNul(worker)]
@@ -174,6 +174,20 @@ export class PgJobRepository implements JobRepository {
     return result.rowCount === 1;
   }
 
+  async setWaiting(
+    jobId: number,
+    attempt: number,
+    waiting: boolean
+  ): Promise<boolean> {
+    const result = await this.pool.query(
+      `UPDATE import_job
+          SET waiting_since = CASE WHEN $3 THEN COALESCE(waiting_since, now()) END
+        WHERE ${FENCE}`,
+      [jobId, attempt, waiting]
+    );
+    return result.rowCount === 1;
+  }
+
   async errorRows(jobId: number, phase: IssuePhase): Promise<Set<number>> {
     const result = await this.pool.query(
       `SELECT DISTINCT row_number FROM import_job_issue
@@ -243,6 +257,7 @@ export class PgJobRepository implements JobRepository {
       'control = NULL',
       'heartbeat_at = now()',
       'status_changed_at = now()',
+      'waiting_since = NULL',
       `expires_at = now() + ($4 * interval '1 millisecond')`
     ];
     if (patch.errorMessage !== undefined) {

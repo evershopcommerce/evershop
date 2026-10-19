@@ -1,5 +1,6 @@
 import type { ImageFetcher } from './images/types.js';
 import type { Clock } from './ports/clock.js';
+import type { EventBacklog } from './ports/eventBacklog.js';
 import type { FileStore } from './ports/fileStore.js';
 import type { JobRepository } from './ports/jobRepository.js';
 import type { Logger } from './ports/logger.js';
@@ -14,6 +15,12 @@ export interface ImportConfig {
   maxCellLength: number;
   /** Problems stored for a job and a phase; more are counted, not kept. */
   maxIssues: number;
+  /** The import pauses when more events than this are waiting (§ 8.5). */
+  eventBacklogHigh: number;
+  /** ...and goes on when fewer than this are. */
+  eventBacklogLow: number;
+  /** ...and gives up when a pause lasts this long (J5). */
+  eventBacklogMaxWaitMs: number;
 }
 
 /**
@@ -27,6 +34,8 @@ export interface ImportDeps {
   lookup: Lookup;
   services: EntityServices;
   images: ImageFetcher;
+  /** The event queue the writes feed; the import slows down when it is long (§ 8.5). */
+  backlog: EventBacklog;
   clock: Clock;
   config: ImportConfig;
   logger: Logger;

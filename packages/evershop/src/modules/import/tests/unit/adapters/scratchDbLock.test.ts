@@ -9,7 +9,11 @@ import { openScratchDb } from '../helpers/scratchDb.js';
  */
 jest.setTimeout(60_000);
 
-const first = await openScratchDb({ core: true });
+// The test takes turns with its own copies, under a name of its own: the real
+// suites of this database hold the lock for as long as they run (a minute and
+// more), and what is tested here is the mechanism, not their pace.
+const LOCK = 'import_core_scratch_test_lock_test';
+const first = await openScratchDb({ core: true, lock: LOCK });
 const describeDb = first ? describe : describe.skip;
 let firstOpen = true;
 
@@ -33,7 +37,7 @@ describeDb(
 
     it('makes a second suite wait until the first has closed, then lets it in', async () => {
       let opened = false;
-      const second = openScratchDb({ core: true }).then((db) => {
+      const second = openScratchDb({ core: true, lock: LOCK }).then((db) => {
         opened = true;
         return db;
       });
