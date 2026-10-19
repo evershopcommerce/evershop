@@ -1,6 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { ALL_RULES } from '../../../services/rules/allRules.js';
 import { CATEGORY_RULES } from '../../../services/rules/categoryRules.js';
+import { METAFIELD_RULES } from '../../../services/rules/metafieldRules.js';
 import { PRODUCT_RULES } from '../../../services/rules/productRules.js';
 import type { ExpectedIssue, Rule } from '../../../services/rules/rule.js';
 import { validateEntity } from '../helpers/runValidation.js';
@@ -11,7 +12,12 @@ import { validateEntity } from '../helpers/runValidation.js';
  * exactly the issues it lists. Each case is also read in chunks of 3 bytes: where
  * the stream is cut must change nothing.
  */
-const RULES: Rule[] = [...ALL_RULES, ...CATEGORY_RULES, ...PRODUCT_RULES];
+const RULES: Rule[] = [
+  ...ALL_RULES,
+  ...CATEGORY_RULES,
+  ...PRODUCT_RULES,
+  ...METAFIELD_RULES
+];
 
 const shape = (issue: ExpectedIssue) => ({
   code: issue.code,

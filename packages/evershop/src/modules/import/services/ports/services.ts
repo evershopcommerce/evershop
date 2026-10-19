@@ -18,6 +18,11 @@ export interface CategoryWrite {
   image?: string;
   /** The `category_id` of the parent, as a string of digits. */
   parent_id?: string;
+  /**
+   * The whole set of custom fields (§ 5.9): core REPLACES the stored set on a
+   * save, so an update sends the stored values with the cells laid over them.
+   */
+  metafields?: Record<string, Record<string, unknown>>;
 }
 
 /**
@@ -54,6 +59,8 @@ export interface ProductWrite {
    * select, the ids of the options of a multiselect (as strings of digits).
    */
   attributes?: Array<{ attribute_code: string; value: string | string[] }>;
+  /** The whole set of custom fields, as for a category. */
+  metafields?: Record<string, Record<string, unknown>>;
 }
 
 /**

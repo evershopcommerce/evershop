@@ -1,6 +1,13 @@
 import type {
+  FieldDescriptor,
+  MetafieldDefinition
+} from '../../../lib/metafield/types.js';
+import { toStoredMetafield } from '../adapters/metafieldCheck.js';
+import type {
   Lookup,
+  MetafieldFieldFixture,
   NamedRecord,
+  StoredMetafield,
   StoredAttribute,
   StoredCategory,
   StoredProduct,
@@ -81,6 +88,10 @@ export class MemoryLookup implements Lookup {
     Record<ImportEntity, ReadonlySet<string>>
   >;
 
+  private readonly fields: Partial<
+    Record<ImportEntity, Map<string, StoredMetafield>>
+  > = {};
+
   private nextOptionId = 1;
 
   constructor(fixture: StoreFixture = {}) {
@@ -91,16 +102,37 @@ export class MemoryLookup implements Lookup {
         urlKey: category.urlKey,
         parentUrlKey: category.parentUrlKey ?? null,
         name: category.name ?? category.urlKey,
-        status: category.status ?? 1
+        status: category.status ?? 1,
+        metaData: category.metaData ?? {}
       });
     });
     this.reserved = new Set(fixture.reservedUrlKeys ?? []);
-    this.definitions = Object.fromEntries(
-      Object.entries(fixture.metafields ?? {}).map(([entity, keys]) => [
-        entity,
-        new Set(keys)
-      ])
-    );
+
+    // The definitions: plain text fields from `metafields`, the others from
+    // `metafieldDefinitions`; the keys of both are the keys the header may name.
+    const keys: Partial<Record<ImportEntity, Set<string>>> = {};
+    const entities = new Set<ImportEntity>([
+      ...(Object.keys(fixture.metafields ?? {}) as ImportEntity[]),
+      ...(Object.keys(fixture.metafieldDefinitions ?? {}) as ImportEntity[])
+    ]);
+    for (const entity of entities) {
+      const map = new Map<string, StoredMetafield>();
+      for (const full of fixture.metafields?.[entity] ?? []) {
+        const [namespace, key] = full.split('.');
+        map.set(full, toStoredMetafield(definitionOf(entity, namespace, key)));
+      }
+      for (const field of fixture.metafieldDefinitions?.[entity] ?? []) {
+        map.set(
+          `${field.namespace}.${field.key}`,
+          toStoredMetafield(
+            definitionOf(entity, field.namespace, field.key, field)
+          )
+        );
+      }
+      this.fields[entity] = map;
+      keys[entity] = new Set(map.keys());
+    }
+    this.definitions = keys;
 
     (fixture.attributeGroups ?? []).forEach((group, index) => {
       this.attributeGroups_.push({
@@ -218,6 +250,13 @@ export class MemoryLookup implements Lookup {
 
   async metafieldKeys(entity: ImportEntity): Promise<ReadonlySet<string>> {
     return this.definitions[entity] ?? new Set();
+  }
+
+  async metafields(
+    entity: ImportEntity
+  ): Promise<ReadonlyMap<string, StoredMetafield>> {
+    this.count('metafields');
+    return this.fields[entity] ?? new Map();
   }
 
   async products(skus: readonly string[]): Promise<Map<string, StoredProduct>> {
@@ -435,4 +474,47 @@ export class MemoryLookup implements Lookup {
     this.count('rewritePaths');
     return new Set(paths.filter((path) => this.rewrites_.has(path)));
   }
+}
+
+type FixtureField = {
+  type?: MetafieldFieldFixture['type'];
+  isList?: boolean;
+  required?: boolean;
+  validations?: MetafieldFieldFixture['validations'];
+  subFields?: MetafieldFieldFixture[];
+};
+
+function subFieldOf(field: MetafieldFieldFixture): FieldDescriptor {
+  return {
+    key: field.key,
+    name: field.key,
+    type: field.type,
+    isList: field.isList,
+    required: field.required,
+    validations: field.validations,
+    subFields: field.subFields?.map(subFieldOf)
+  };
+}
+
+// The definition of the store that a fixture entry describes.
+function definitionOf(
+  entity: ImportEntity,
+  namespace: string,
+  key: string,
+  field: FixtureField = {}
+): MetafieldDefinition {
+  return {
+    uuid: `uuid-${namespace}-${key}`,
+    ownerType: entity,
+    namespace,
+    key,
+    name: key,
+    type: field.type ?? 'short_text',
+    isList: field.isList ?? false,
+    required: field.required ?? false,
+    validations: field.validations ?? [],
+    subFields: (field.subFields ?? []).map(subFieldOf),
+    visibleToCustomer: false,
+    position: 0
+  };
 }

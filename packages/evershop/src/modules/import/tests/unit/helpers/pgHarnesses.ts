@@ -337,11 +337,12 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
         const [category] = pending.splice(at, 1);
         // eslint-disable-next-line no-await-in-loop
         const inserted = await pool.query(
-          `INSERT INTO ${schema}.category (status, parent_id)
-           VALUES ($1, $2) RETURNING category_id`,
+          `INSERT INTO ${schema}.category (status, parent_id, meta_data)
+           VALUES ($1, $2, $3::jsonb) RETURNING category_id`,
           [
             (category.status ?? 1) === 1,
-            category.parentUrlKey ? ids.get(category.parentUrlKey) : null
+            category.parentUrlKey ? ids.get(category.parentUrlKey) : null,
+            JSON.stringify(category.metaData ?? {})
           ]
         );
         const id = inserted.rows[0].category_id as number;
@@ -363,6 +364,52 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
                (owner_type, namespace, field_key, name, field_type)
              VALUES ($1, $2, $3, $4, 'short_text')`,
             [OWNER_TYPE[entity as ImportEntity], namespace, key, full]
+          );
+        }
+      }
+      for (const [entity, definitions] of Object.entries(
+        fixture.metafieldDefinitions ?? {}
+      )) {
+        for (const definition of definitions ?? []) {
+          // eslint-disable-next-line no-await-in-loop
+          await pool.query(
+            `INSERT INTO ${schema}.metafield_definition
+               (owner_type, namespace, field_key, name, field_type, is_list,
+                required, validations, sub_fields)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8::jsonb, $9::jsonb)`,
+            [
+              OWNER_TYPE[entity as ImportEntity],
+              definition.namespace,
+              definition.key,
+              definition.key,
+              definition.type ?? 'short_text',
+              definition.isList ?? false,
+              definition.required ?? false,
+              JSON.stringify(definition.validations ?? []),
+              JSON.stringify(
+                (definition.subFields ?? []).map(function toSub(
+                  sub: never
+                ): unknown {
+                  const field = sub as {
+                    key: string;
+                    type: string;
+                    isList?: boolean;
+                    required?: boolean;
+                    validations?: unknown[];
+                    subFields?: never[];
+                  };
+                  return {
+                    key: field.key,
+                    name: field.key,
+                    type: field.type,
+                    isList: field.isList ?? false,
+                    required: field.required ?? false,
+                    validations: field.validations ?? [],
+                    subFields: (field.subFields ?? []).map(toSub)
+                  };
+                })
+              )
+            ]
           );
         }
       }

@@ -4,6 +4,7 @@ import {
   categoryRow,
   STORE_WITH_WOMEN
 } from './categoryFiles.js';
+import { METAFIELD_STORE, metafieldFile } from './metafieldFiles.js';
 import { PRODUCT_STORE, productFile, productRow } from './productFiles.js';
 import { defineRule } from './rule.js';
 
@@ -336,6 +337,57 @@ export const ALL_10 = defineRule({
         name: 'yes',
         file: categoryFile(categoryRow({ status: 'yes' })),
         expect: [{ code: 'INVALID_VALUE', rowNumber: 2, column: 'status' }]
+      }
+    ]
+  }
+});
+
+export const ALL_11 = defineRule({
+  id: 'ALL-11',
+  entity: 'all',
+  layer: 'C',
+  source: 'engine',
+  op: 'B',
+  code: 'INVALID_JSON',
+  testedBy: 'example',
+  summary:
+    'A JSON cell parses (a group, a list of groups, a list of rich texts).',
+  examples: {
+    pass: [
+      {
+        entity: 'product',
+        store: METAFIELD_STORE,
+        name: 'a group as JSON',
+        file: metafieldFile({ 'custom.specs': '{"fit":"Relaxed"}' }),
+        expect: []
+      }
+    ],
+    fail: [
+      {
+        entity: 'product',
+        store: METAFIELD_STORE,
+        name: 'a group that is not JSON',
+        file: metafieldFile({ 'custom.specs': '{fit: Relaxed}' }),
+        expect: [
+          {
+            code: 'INVALID_JSON',
+            rowNumber: 2,
+            column: 'metafield:custom.specs'
+          }
+        ]
+      },
+      {
+        entity: 'product',
+        store: METAFIELD_STORE,
+        name: 'a list of groups cut short',
+        file: metafieldFile({ 'custom.parts': '[{"fit":"a"}' }),
+        expect: [
+          {
+            code: 'INVALID_JSON',
+            rowNumber: 2,
+            column: 'metafield:custom.parts'
+          }
+        ]
       }
     ]
   }
@@ -753,6 +805,7 @@ export const ALL_RULES = [
   ALL_08,
   ALL_09,
   ALL_10,
+  ALL_11,
   ALL_12,
   ALL_13,
   ALL_14,

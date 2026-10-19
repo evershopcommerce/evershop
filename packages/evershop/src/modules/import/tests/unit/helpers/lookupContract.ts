@@ -86,6 +86,23 @@ export function lookupContract(
         ]);
       });
 
+      it('gives the custom fields stored with a category, and none for one without', async () => {
+        await h.set({
+          categories: [
+            {
+              urlKey: 'women',
+              metaData: { custom: { banner: '#112233', n: 2 } }
+            },
+            { urlKey: 'men' }
+          ]
+        });
+        const found = await h.lookup.categories(['women', 'men']);
+        expect(found.get('women')?.metaData).toEqual({
+          custom: { banner: '#112233', n: 2 }
+        });
+        expect(found.get('men')?.metaData).toEqual({});
+      });
+
       it('gives the parent of a category that is itself a child', async () => {
         await h.set({
           categories: [
@@ -122,6 +139,141 @@ export function lookupContract(
       it('gives none when there are none', async () => {
         await h.set({});
         expect((await h.lookup.reservedUrlKeys()).size).toBe(0);
+      });
+    });
+
+    describe('metafields', () => {
+      const FIELDS: StoreFixture = {
+        metafields: { product: ['custom.material'] },
+        metafieldDefinitions: {
+          product: [
+            {
+              namespace: 'custom',
+              key: 'years',
+              type: 'integer',
+              required: true
+            },
+            {
+              namespace: 'custom',
+              key: 'care',
+              type: 'short_text',
+              isList: true,
+              validations: [{ type: 'choices', values: ['wash', 'dry'] }]
+            },
+            {
+              namespace: 'custom',
+              key: 'warranty',
+              type: 'integer',
+              validations: [{ type: 'range', min: 0, max: 10 }]
+            },
+            {
+              namespace: 'custom',
+              key: 'specs',
+              type: 'group',
+              subFields: [
+                { key: 'fit', type: 'short_text', required: true },
+                { key: 'gsm', type: 'integer' }
+              ]
+            }
+          ],
+          category: [{ namespace: 'seo', key: 'banner', type: 'color' }]
+        }
+      };
+
+      it('gives the definitions of an entity by namespace.key, with type, list flag, required and sub-fields', async () => {
+        await h.set(FIELDS);
+        const found = await h.lookup.metafields('product');
+        expect([...found.keys()].sort()).toEqual([
+          'custom.care',
+          'custom.material',
+          'custom.specs',
+          'custom.warranty',
+          'custom.years'
+        ]);
+        expect(found.get('custom.years')).toMatchObject({
+          namespace: 'custom',
+          key: 'years',
+          type: 'integer',
+          isList: false,
+          required: true,
+          subFields: []
+        });
+        expect(found.get('custom.material')).toMatchObject({
+          type: 'short_text',
+          required: false
+        });
+        expect(found.get('custom.care')).toMatchObject({ isList: true });
+        expect(
+          found
+            .get('custom.specs')
+            ?.subFields.map((f) => [f.key, f.type, f.required])
+        ).toEqual([
+          ['fit', 'short_text', true],
+          ['gsm', 'integer', false]
+        ]);
+        expect([...(await h.lookup.metafields('category')).keys()]).toEqual([
+          'seo.banner'
+        ]);
+        expect((await h.lookup.metafields('customer')).size).toBe(0);
+        expect((await h.lookup.metafields('customerAddress')).size).toBe(0);
+      });
+
+      it('keeps metafieldKeys and metafields in step', async () => {
+        await h.set(FIELDS);
+        expect([...(await h.lookup.metafieldKeys('product'))].sort()).toEqual(
+          [...(await h.lookup.metafields('product')).keys()].sort()
+        );
+      });
+
+      // The check is core's own: the same answers from either implementation.
+      it.each([
+        ['custom.years', 3, true],
+        ['custom.years', 3.5, false],
+        ['custom.years', '', false], // required and blank
+        ['custom.material', '', true], // not required, blank: not provided
+        ['custom.warranty', 10, true],
+        ['custom.warranty', 11, false],
+        ['custom.care', ['wash', 'dry'], true],
+        ['custom.care', ['wash', 'iron'], false],
+        ['custom.care', [], true],
+        ['custom.specs', { fit: 'Relaxed', gsm: 180 }, true],
+        ['custom.specs', { gsm: 180 }, false],
+        ['custom.specs', { fit: 'Relaxed', gsm: 'heavy' }, false]
+      ] as Array<[string, unknown, boolean]>)(
+        'checks %s = %j: %s',
+        async (key, value, ok) => {
+          await h.set(FIELDS);
+          const definition = (await h.lookup.metafields('product')).get(key)!;
+          const checked = definition.check(value);
+          expect(checked.ok).toBe(ok);
+          if (!checked.ok) {
+            expect(checked.message).toContain(key);
+          }
+        }
+      );
+
+      it('answers a blank value as not provided, and a value with the cleaned form', async () => {
+        await h.set(FIELDS);
+        const found = await h.lookup.metafields('product');
+        expect(found.get('custom.material')!.check('')).toEqual({
+          ok: true,
+          value: undefined
+        });
+        expect(found.get('custom.care')!.check([])).toEqual({
+          ok: true,
+          value: undefined
+        });
+        expect(found.get('custom.years')!.check(7)).toEqual({
+          ok: true,
+          value: 7
+        });
+      });
+
+      it('sees the definitions as they are now', async () => {
+        await h.set(FIELDS);
+        expect((await h.lookup.metafields('product')).size).toBe(5);
+        await h.set({});
+        expect((await h.lookup.metafields('product')).size).toBe(0);
       });
     });
 

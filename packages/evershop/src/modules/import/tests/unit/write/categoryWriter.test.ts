@@ -385,7 +385,8 @@ describe('writeCategories: a row that fails (§ 8.6)', () => {
             urlKey: 'taken',
             parentUrlKey: null,
             name: 'Taken',
-            status: 1
+            status: 1,
+            metaData: {}
           });
           return false;
         }, new Error('never'))
@@ -408,15 +409,57 @@ describe('writeCategories: a row that fails (§ 8.6)', () => {
     );
   });
 
-  it('says it when it cannot write custom fields yet, and writes nothing', async () => {
-    const run = await importCategories(
-      'url_key,name,status,metafield:custom.banner_color\nwomen,Women,1,#1F2937\nmen,Men,1,\n'
-    );
-    expect(results(run)).toEqual(['women:failed', 'men:created']);
-    expect(run.outcomes[0].issues[0]).toMatchObject({
-      code: 'WRITE_FAILED',
-      params: { reason: 'custom_fields_not_supported' }
+  it('a create sends the set also when it is empty, and none when the store has no custom fields for categories', async () => {
+    const withFields = await importCategories(categoryFile(named('a')), {
+      store: {
+        metafieldDefinitions: {
+          category: [{ namespace: 'custom', key: 'note', type: 'short_text' }]
+        }
+      }
     });
+    expect(withFields.services.calls[0].input.metafields).toEqual({});
+    const without = await importCategories(categoryFile(named('a')));
+    expect('metafields' in without.services.calls[0].input).toBe(false);
+  });
+
+  it('sends the custom fields, laid over the stored set, and refuses a value the store would refuse', async () => {
+    const store = {
+      categories: [
+        {
+          urlKey: 'men',
+          name: 'Men',
+          status: 1 as const,
+          metaData: { custom: { banner_color: '#000000', note: 'kept' } }
+        }
+      ],
+      metafieldDefinitions: {
+        category: [
+          { namespace: 'custom', key: 'banner_color', type: 'color' as const },
+          { namespace: 'custom', key: 'note', type: 'short_text' as const }
+        ]
+      }
+    };
+    const run = await importCategories(
+      'url_key,name,status,metafield:custom.banner_color\nwomen,Women,1,#1F2937\nmen,Men,1,#FFFFFF\nkids,Kids,1,red\n',
+      { store }
+    );
+    expect(results(run)).toEqual([
+      'women:created',
+      'men:updated',
+      'kids:failed'
+    ]);
+    expect(run.services.calls[0].input.metafields).toEqual({
+      custom: { banner_color: '#1F2937' }
+    });
+    // an update keeps the other fields of the stored set
+    expect(run.services.calls[1].input.metafields).toEqual({
+      custom: { banner_color: '#FFFFFF', note: 'kept' }
+    });
+    expect(run.outcomes[2].issues[0]).toMatchObject({
+      code: 'METAFIELD_INVALID',
+      column: 'metafield:custom.banner_color'
+    });
+    expect(run.services.calls).toHaveLength(2);
   });
 });
 

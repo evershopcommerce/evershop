@@ -6,7 +6,13 @@ import {
   productFile,
   productRow
 } from '../../../services/rules/productFiles.js';
+import { csvLine } from '../../../services/report/csvWrite.js';
 import { importProducts } from '../helpers/runImport.js';
+import {
+  METAFIELD_DEFINITIONS,
+  METAFIELD_STORE,
+  METAFIELD_STORE_NEW
+} from '../../../services/rules/metafieldFiles.js';
 
 /**
  * The products writer: what it asks of the services, in what order, and what
@@ -467,24 +473,6 @@ describe('writeProducts: failures', () => {
       'OPTION_NOT_FOUND',
       'REFERENCE_NOT_FOUND'
     ]);
-    expect(run.services.calls).toEqual([]);
-  });
-
-  it('refuses custom fields until they can be written', async () => {
-    const run = await importProducts(
-      'sku,metafield:custom.material\nTSH-1,Cotton\n',
-      {
-        store: {
-          ...PRODUCT_STORE_WITH_TEE,
-          metafields: { product: ['custom.material'] }
-        }
-      }
-    );
-    expect(results(run)).toEqual(['TSH-1:failed']);
-    expect(run.outcomes[0].issues[0]).toMatchObject({
-      code: 'WRITE_FAILED',
-      column: 'metafield'
-    });
     expect(run.services.calls).toEqual([]);
   });
 });
@@ -962,5 +950,140 @@ describe('writeProducts: more of the same', () => {
     );
     expect(results(run)).toEqual(['TSH-1:failed']);
     expect(run.outcomes[0].issues[0].code).toBe('OPTION_NOT_FOUND');
+  });
+});
+
+describe('writeProducts: the custom fields (§ 5.9)', () => {
+  const cells = (more: Record<string, string>) => {
+    const keys = Object.keys(more);
+    return (
+      csvLine(['sku', ...keys.map((key) => `metafield:${key}`)]) +
+      csvLine(['TSH-1', ...keys.map((key) => more[key])])
+    );
+  };
+
+  it('sends each cell as a value of its type, in {namespace: {key: value}}', async () => {
+    const run = await importProducts(
+      cells({
+        'custom.material': 'Organic cotton',
+        'custom.years': '3',
+        'custom.rate': '2.5',
+        'custom.eco': 'TRUE',
+        'custom.launch': '2026-03-01',
+        'custom.care': 'wash|dry',
+        'custom.specs': '{"fit":"Relaxed","gsm":180}'
+      }),
+      { store: METAFIELD_STORE }
+    );
+    expect(results(run)).toEqual(['TSH-1:updated']);
+    expect(run.services.calls[0].method).toBe('updateProduct');
+    expect(run.services.calls[0].input.metafields).toEqual({
+      custom: {
+        material: 'Organic cotton',
+        years: 3,
+        rate: 2.5,
+        eco: true,
+        launch: '2026-03-01',
+        care: ['wash', 'dry'],
+        specs: { fit: 'Relaxed', gsm: 180 }
+      }
+    });
+    expect(run.lookup.products_.get('TSH-1')?.metaData).toEqual(
+      run.services.calls[0].input.metafields
+    );
+  });
+
+  it('lays the cells over the stored set, key by key: the rest is kept, because core replaces the whole set', async () => {
+    const store = {
+      ...METAFIELD_STORE,
+      products: [
+        {
+          ...METAFIELD_STORE.products![0],
+          metaData: {
+            custom: { material: 'Wool', years: 5 },
+            other: { note: 'kept' }
+          }
+        }
+      ]
+    };
+    const run = await importProducts(cells({ 'custom.material': 'Cotton' }), {
+      store
+    });
+    expect(run.services.calls[0].input.metafields).toEqual({
+      custom: { material: 'Cotton', years: 5 },
+      other: { note: 'kept' }
+    });
+  });
+
+  it('sends nothing about custom fields for an update that has no cell for them', async () => {
+    const run = await importProducts('sku,price\nTSH-1,30\n', {
+      store: METAFIELD_STORE
+    });
+    expect('metafields' in run.services.calls[0].input).toBe(false);
+  });
+
+  it('a create sends the set, also when it is empty, so that core checks the required ones', async () => {
+    const withFields = await importProducts(productFile(productRow()), {
+      store: METAFIELD_STORE_NEW()
+    });
+    expect(withFields.services.calls[0].input.metafields).toEqual({});
+    const without = await importProducts(productFile(productRow()), {
+      store: STORE
+    });
+    expect('metafields' in without.services.calls[0].input).toBe(false);
+  });
+
+  it('fails the row that has a value the store would refuse, or lacks a required one, and writes nothing', async () => {
+    const bad = await importProducts(cells({ 'custom.warranty': '99' }), {
+      store: METAFIELD_STORE
+    });
+    expect(results(bad)).toEqual(['TSH-1:failed']);
+    expect(bad.outcomes[0].issues[0]).toMatchObject({
+      code: 'METAFIELD_INVALID',
+      column: 'metafield:custom.warranty'
+    });
+    expect(bad.services.calls).toEqual([]);
+
+    const missing = await importProducts(productFile(productRow()), {
+      store: METAFIELD_STORE_NEW(['custom.material'])
+    });
+    expect(results(missing)).toEqual(['TSH-1:failed']);
+    expect(missing.outcomes[0].issues[0]).toMatchObject({
+      code: 'MISSING_REQUIRED',
+      column: 'metafield:custom.material'
+    });
+    expect(missing.services.calls).toEqual([]);
+  });
+
+  it('an update of a product that has a value for a required field does not ask for it again', async () => {
+    const run = await importProducts('sku,price\nTSH-1,30\n', {
+      store: {
+        ...METAFIELD_STORE,
+        metafieldDefinitions: METAFIELD_STORE_NEW(['custom.material'])
+          .metafieldDefinitions,
+        products: [
+          {
+            ...METAFIELD_STORE.products![0],
+            metaData: { custom: { material: 'Cotton' } }
+          }
+        ]
+      }
+    });
+    expect(results(run)).toEqual(['TSH-1:updated']);
+  });
+
+  it('reads a definition once for the whole run', async () => {
+    const rows = Array.from({ length: 30 }, (_, i) =>
+      productRow({ sku: `P-${i}`, url_key: `p-${i}` })
+    );
+    const run = await importProducts(productFile(...rows), {
+      store: METAFIELD_STORE_NEW(),
+      batchSize: 10
+    });
+    expect(run.lookup.calls.metafields).toBe(1);
+  });
+
+  it('knows the definitions of the example store', () => {
+    expect(METAFIELD_DEFINITIONS.length).toBeGreaterThan(10);
   });
 });

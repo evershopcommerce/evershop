@@ -79,7 +79,8 @@ export class MemoryServices implements EntityServices {
       urlKey: input.url_key,
       parentUrlKey,
       name: input.name,
-      status: input.status
+      status: input.status,
+      metaData: input.metafields ? structuredClone(input.metafields) : {}
     });
     this.written.set(uuid, { ...input });
     return { id, uuid };
@@ -97,6 +98,10 @@ export class MemoryServices implements EntityServices {
     }
     if (input.name !== undefined) category.name = input.name;
     if (input.status !== undefined) category.status = input.status;
+    // Core replaces the whole set of custom fields on a save.
+    if (input.metafields !== undefined) {
+      category.metaData = structuredClone(input.metafields);
+    }
     this.written.set(uuid, { ...this.written.get(uuid), ...input });
   }
 
@@ -165,7 +170,7 @@ export class MemoryServices implements EntityServices {
       categoryUrlKey: category?.urlKey ?? null,
       variantGroupId: null,
       values: {},
-      metaData: {}
+      metaData: input.metafields ? structuredClone(input.metafields) : {}
     };
     this.applyAttributes(product, input);
     this.store.products_.set(sku, product);
@@ -233,6 +238,10 @@ export class MemoryServices implements EntityServices {
       product.categoryUrlKey = category?.urlKey ?? null;
     }
     this.applyAttributes(product, input);
+    // Core replaces the whole set of custom fields on a save.
+    if (input.metafields !== undefined) {
+      product.metaData = structuredClone(input.metafields);
+    }
     this.writtenProducts.set(uuid, {
       ...this.writtenProducts.get(uuid),
       ...input
