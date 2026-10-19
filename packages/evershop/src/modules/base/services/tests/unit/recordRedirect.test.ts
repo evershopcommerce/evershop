@@ -82,10 +82,36 @@ describe('recordRedirect', () => {
           from_path: '/old',
           to_path: '/new',
           entity_urn: 'urn:evershop:cms:page:abc',
+          status_code: 302,
           source: 'auto'
         }
       }
     ]);
+  });
+
+  it('writes the status code and the source it is given (an import writes 301)', async () => {
+    await recordRedirect(conn, {
+      fromPath: '/old-shop/shoes',
+      toPath: '/men/shoes',
+      entityUrn: 'urn:evershop:catalog:product:abc',
+      statusCode: 301,
+      source: 'import'
+    });
+    const upsert = ops.find((o) => o.kind === 'insertOnUpdate');
+    expect(upsert?.given).toEqual({
+      from_path: '/old-shop/shoes',
+      to_path: '/men/shoes',
+      entity_urn: 'urn:evershop:catalog:product:abc',
+      status_code: 301,
+      source: 'import'
+    });
+  });
+
+  it('keeps 302 and auto for a caller that says nothing (the existing callers)', async () => {
+    await recordRedirect(conn, { fromPath: '/a', toPath: '/b' });
+    const upsert = ops.find((o) => o.kind === 'insertOnUpdate');
+    expect((upsert?.given as any).status_code).toBe(302);
+    expect((upsert?.given as any).source).toBe('auto');
   });
 
   it('is a no-op when from == to (self-redirect guard)', async () => {
@@ -145,6 +171,16 @@ describe('recordRedirectsBatch', () => {
       ['/new-a', '/new-b'],
       ['urn:a', 'urn:b']
     ]);
+  });
+
+  it('writes every hop as a 302 from auto, and an existing row on the path takes both', async () => {
+    const { c, calls } = makeConn();
+    await recordRedirectsBatch(c, [{ fromPath: '/a', toPath: '/b' }]);
+    const upsert = calls[2].sql;
+    expect(upsert).toMatch(/status_code/);
+    expect(upsert).toMatch(/, 302, 'auto'/);
+    expect(upsert).toMatch(/status_code = EXCLUDED\.status_code/);
+    expect(upsert).toMatch(/source = EXCLUDED\.source/);
   });
 
   it('drops self-redirects and empty paths, defaulting a missing urn to null', async () => {

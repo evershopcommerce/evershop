@@ -69,6 +69,32 @@ describe('redirect middleware', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
+  it('answers 302 when the row has no status code, or a code it does not know', async () => {
+    for (const status_code of [undefined, null, 302, 303, 308, '301']) {
+      redirectRow = { from_path: '/old', to_path: '/new', status_code };
+      // eslint-disable-next-line no-await-in-loop
+      const { res } = await run({
+        currentRoute: { id: 'notFound' },
+        method: 'GET',
+        localePath: '/old',
+        originalUrl: '/old'
+      });
+      expect(res.redirect).toHaveBeenCalledWith(302, '/new');
+    }
+  });
+
+  it('answers 301 for a redirect an import stored, and keeps the query string', async () => {
+    redirectRow = { from_path: '/old', to_path: '/new', status_code: 301 };
+    const { res, next } = await run({
+      currentRoute: { id: 'notFound' },
+      method: 'GET',
+      localePath: '/old',
+      originalUrl: '/old?utm=x'
+    });
+    expect(res.redirect).toHaveBeenCalledWith(301, '/new?utm=x');
+    expect(next).not.toHaveBeenCalled();
+  });
+
   it('never 3xx a non-GET/HEAD request', async () => {
     redirectRow = { from_path: '/old', to_path: '/new' };
     const { res, next } = await run({
