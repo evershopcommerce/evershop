@@ -117,6 +117,43 @@ function validateError(message: string): Error {
   return Object.assign(new Error(message), { status: 400 });
 }
 
+export type FieldCheck =
+  | { ok: true; value: unknown }
+  | { ok: false; message: string };
+
+/**
+ * The check of one definition, compiled once and applied to any number of
+ * values: blank is "not provided" (an error only when the definition is
+ * `required`), the value is normalized, stripped of the editor's `_id`s and
+ * validated against the schema of the definition. The message names the field
+ * (`"namespace.key": …`). `validateMetafields` and `validateMetafield` are made of
+ * this; a caller with many values for one definition (a bulk import) makes the
+ * check once, because compiling the schema costs far more than applying it.
+ */
+export function createFieldValidator(
+  def: MetafieldDefinition
+): (value: unknown) => FieldCheck {
+  const descriptor = descriptorOf(def);
+  const name = `${def.namespace}.${def.key}`;
+  // Compiled at the first value: a definition nobody has a value for costs nothing.
+  let validate: ReturnType<ReturnType<typeof getAjv>['compile']> | undefined;
+  return (value) => {
+    const normalized = normalize(descriptor, value);
+    if (normalized === undefined) {
+      return def.required
+        ? { ok: false, message: `"${name}" is required` }
+        : { ok: true, value: undefined };
+    }
+    const cleaned = stripUiKeys(normalized);
+    validate ??= getAjv().compile(compileField(descriptor));
+    if (!validate(cleaned)) {
+      const msg = validate.errors?.[0]?.message ?? 'invalid value';
+      return { ok: false, message: `"${name}": ${msg}` };
+    }
+    return { ok: true, value: cleaned };
+  };
+}
+
 /**
  * Validate a full values object against an owner type's definitions and return
  * the object to persist into the entity's `meta_data` column (defaults applied,
@@ -128,28 +165,18 @@ export async function validateMetafields(
   input: MetaData = {}
 ): Promise<MetaData> {
   const definitions = await listMetafieldDefinitions(ownerType);
-  const ajv = getAjv();
   const result: MetaData = {};
 
   for (const def of definitions) {
-    const descriptor = descriptorOf(def);
-    const value = normalize(descriptor, input?.[def.namespace]?.[def.key]);
-
-    if (value === undefined) {
-      if (def.required) {
-        throw validateError(`"${def.namespace}.${def.key}" is required`);
-      }
-      continue;
+    const checked = createFieldValidator(def)(
+      input?.[def.namespace]?.[def.key]
+    );
+    if (!checked.ok) {
+      throw validateError(checked.message);
     }
-
-    const cleaned = stripUiKeys(value);
-    const validate = ajv.compile(compileField(descriptor));
-    if (!validate(cleaned)) {
-      const msg = validate.errors?.[0]?.message ?? 'invalid value';
-      throw validateError(`"${def.namespace}.${def.key}": ${msg}`);
+    if (checked.value !== undefined) {
+      (result[def.namespace] ??= {})[def.key] = checked.value;
     }
-
-    (result[def.namespace] ??= {})[def.key] = cleaned;
   }
 
   return result;
@@ -172,20 +199,9 @@ export async function validateMetafield(
   if (!def) {
     throw validateError(`No metafield "${namespace}.${key}" on "${ownerType}"`);
   }
-  const descriptor = descriptorOf(def);
-  const normalized = normalize(descriptor, value);
-  if (normalized === undefined) {
-    if (def.required) {
-      throw validateError(`"${namespace}.${key}" is required`);
-    }
-    return undefined;
+  const checked = createFieldValidator(def)(value);
+  if (!checked.ok) {
+    throw validateError(checked.message);
   }
-  const cleaned = stripUiKeys(normalized);
-  const ajv = getAjv();
-  const validate = ajv.compile(compileField(descriptor));
-  if (!validate(cleaned)) {
-    const msg = validate.errors?.[0]?.message ?? 'invalid value';
-    throw validateError(`"${namespace}.${key}": ${msg}`);
-  }
-  return cleaned;
+  return checked.value;
 }
