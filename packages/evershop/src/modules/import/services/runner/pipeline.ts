@@ -5,14 +5,17 @@ import type {
   HeaderInfo,
   ValidationContext
 } from '../entities/definition.js';
+import { productValidator } from '../entities/product/productValidator.js';
 import type { ImageFetcher } from '../images/types.js';
 import { planCategories } from '../plan/categoryPlan.js';
+import { planProducts } from '../plan/productPlan.js';
 import type { Clock } from '../ports/clock.js';
 import type { EntityServices } from '../ports/services.js';
 import type { CsvLimits } from '../reader/readCsv.js';
 import type { ImportEntity } from '../types.js';
 import { writeCategories } from '../write/categoryWriter.js';
 import type { WriteOutcome } from '../write/categoryWriter.js';
+import { writeProducts } from '../write/productWriter.js';
 
 export interface PipelineWriteArgs {
   open: () => Readable;
@@ -54,8 +57,21 @@ const categoryPipeline: EntityPipeline = {
     })
 };
 
+const productPipeline: EntityPipeline = {
+  entity: 'product',
+  validator: productValidator,
+  plan: (state) => planProducts(state as never),
+  write: (args) =>
+    writeProducts({
+      ...args,
+      state: args.state as never,
+      plan: args.plan as never
+    })
+};
+
 const PIPELINES: Partial<Record<ImportEntity, EntityPipeline>> = {
-  category: categoryPipeline
+  category: categoryPipeline,
+  product: productPipeline
 };
 
 /** The pipeline of an entity, or null when it cannot be imported yet. */
