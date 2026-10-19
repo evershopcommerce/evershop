@@ -43,6 +43,13 @@ export {
 export { default as deleteAttribute } from './attribute/deleteProductAttribute.js';
 export * from './attribute/deleteProductAttribute.js';
 
+// Variant groups
+export { default as createVariantGroup } from './variant/createVariantGroup.js';
+export * from './variant/createVariantGroup.js';
+export { default as addVariantItem } from './variant/addVariantItem.js';
+export * from './variant/addVariantItem.js';
+export * from './variant/VariantGroupError.js';
+
 // Query helpers
 export * from './getCategoriesBaseQuery.js';
 export * from './getCollectionsBaseQuery.js';
