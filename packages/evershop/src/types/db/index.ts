@@ -1389,6 +1389,93 @@ export type RolloutPlanInsert = Omit<
 export type RolloutPlanUpdate = Partial<Omit<RolloutPlanRow, 'rollout_plan_id'>>;
 
 // =============================================================================
+// IMPORT (the CSV import engine, modules/import/migration/Version-1.0.0.ts)
+// =============================================================================
+
+export interface ImportJobRow {
+  import_job_id: number;
+  uuid: string;
+  entity: 'category' | 'product' | 'customer' | 'customerAddress';
+  mode: 'upsert' | 'create' | 'update';
+  status:
+    | 'uploading'
+    | 'uploaded'
+    | 'validating'
+    | 'validated'
+    | 'queued'
+    | 'running'
+    | 'completed'
+    | 'failed'
+    | 'stopped'
+    | 'canceled'
+    | 'interrupted';
+  stage: 'reading' | 'rechecking' | 'lookups' | 'images' | 'writing' | null;
+  control: 'cancel' | null;
+  file_name: string;
+  // bigint: node-postgres returns it as text.
+  file_size: string;
+  chunk_count: number | null;
+  file_sha256: string | null;
+  options: Record<string, unknown>;
+  counts: Record<string, unknown>;
+  error_message: string | null;
+  created_by: number | null;
+  worker: string | null;
+  // The fencing token: raised each time a worker claims the job.
+  attempt: number;
+  created_at: Date;
+  status_changed_at: Date;
+  validated_at: Date | null;
+  started_at: Date | null;
+  finished_at: Date | null;
+  heartbeat_at: Date | null;
+  waiting_since: Date | null;
+  expires_at: Date | null;
+}
+
+export type ImportJobInsert = Partial<
+  Omit<ImportJobRow, 'import_job_id' | 'uuid'>
+> &
+  Pick<ImportJobRow, 'entity' | 'file_name'>;
+export type ImportJobUpdate = Partial<Omit<ImportJobRow, 'import_job_id'>>;
+
+export interface ImportJobFileRow {
+  import_job_file_id: number;
+  import_job_id: number;
+  seq: number;
+  // At most 1 MiB; the uploaded file is staged in chunks.
+  data: Buffer;
+}
+
+export type ImportJobFileInsert = Omit<ImportJobFileRow, 'import_job_file_id'>;
+export type ImportJobFileUpdate = Partial<
+  Omit<ImportJobFileRow, 'import_job_file_id'>
+>;
+
+export interface ImportJobIssueRow {
+  import_job_issue_id: number;
+  import_job_id: number;
+  phase: 'validate' | 'import';
+  row_number: number | null;
+  entity_key: string | null;
+  column_name: string | null;
+  code: string;
+  params: Record<string, unknown>;
+  severity: 'error' | 'warning';
+  message: string;
+  // At most 200 characters of the cell.
+  value: string | null;
+}
+
+export type ImportJobIssueInsert = Omit<
+  ImportJobIssueRow,
+  'import_job_issue_id'
+>;
+export type ImportJobIssueUpdate = Partial<
+  Omit<ImportJobIssueRow, 'import_job_issue_id'>
+>;
+
+// =============================================================================
 // SITE (Cloud specific - may not exist in all installations)
 // =============================================================================
 

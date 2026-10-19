@@ -247,6 +247,17 @@ export interface EventDataRegistry {
   metafield_definition_updated: Record<string, any>;
 
   /**
+   * Asks for a worker for an import job. Written when a job is ready to be
+   * checked or run (Start, Resume, Check again, a finished upload) and by the
+   * `importDispatch` cron job for a job that keeps waiting. The event process
+   * that claims it starts the worker on its own machine; a request that finds
+   * the machine full is dropped and the cron job asks again.
+   */
+  import_job_requested: {
+    jobUuid: string;
+  };
+
+  /**
    * Fired when a metafield definition is deleted. Drives per-entity prune
    * subscribers that strip the key from each owner table's `meta_data`.
    */

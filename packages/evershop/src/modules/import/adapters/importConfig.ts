@@ -1,20 +1,31 @@
 import { getConfig } from '../../../lib/util/getConfig.js';
 
+/** The keys of `system.import.*` that are numbers (typed in `getConfig.ts`). */
+export type ImportNumberKey =
+  | 'maxFileSizeMb'
+  | 'maxRows'
+  | 'maxCellLength'
+  | 'maxIssues'
+  | 'retentionDays'
+  | 'imageTimeoutSeconds'
+  | 'maxWorkersPerInstance'
+  | 'workerMemoryMb';
+
+/** The keys of `system.import.*` that are yes or no. */
+export type ImportFlagKey = 'allowPrivateNetworks';
+
 /**
- * `system.import.<key>` (§ 8.7), read as a plain path with a default. The typed
- * keys are declared in `getConfig.ts` when the module is registered. A value
- * that is not a positive number is the default.
+ * `system.import.<key>` (§ 8.7) with a default. A value that is not a positive
+ * number is the default.
  */
-export function importSetting(key: string, fallback: number): number {
-  const read = getConfig as unknown as (path: string, d?: unknown) => unknown;
-  const value = Number(read(`system.import.${key}`, fallback));
+export function importSetting(key: ImportNumberKey, fallback: number): number {
+  const value = Number(getConfig(`system.import.${key}`, fallback));
   return Number.isFinite(value) && value > 0 ? value : fallback;
 }
 
 /** A yes or no key, `false` unless it is set. */
-export function importFlag(key: string): boolean {
-  const read = getConfig as unknown as (path: string, d?: unknown) => unknown;
-  return read(`system.import.${key}`, false) === true;
+export function importFlag(key: ImportFlagKey): boolean {
+  return getConfig(`system.import.${key}`, false) === true;
 }
 
 /** How long a finished job is kept: `retentionDays`, 7 by default. */

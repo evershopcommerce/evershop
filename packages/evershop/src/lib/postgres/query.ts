@@ -29,6 +29,9 @@ import type {
   CustomerAddressRow,
   CustomerGroupRow,
   EventRow,
+  ImportJobRow,
+  ImportJobFileRow,
+  ImportJobIssueRow,
   MigrationRow,
   OrderRow,
   OrderActivityRow,
@@ -88,6 +91,9 @@ export type TableName =
   | 'customer_address'
   | 'customer_group'
   | 'event'
+  | 'import_job'
+  | 'import_job_file'
+  | 'import_job_issue'
   | 'landing_page'
   | 'migration'
   | 'order'
@@ -147,6 +153,9 @@ type TableColumnMap = {
   customer_address: keyof CustomerAddressRow;
   customer_group: keyof CustomerGroupRow;
   event: keyof EventRow;
+  import_job: keyof ImportJobRow;
+  import_job_file: keyof ImportJobFileRow;
+  import_job_issue: keyof ImportJobIssueRow;
   migration: keyof MigrationRow;
   order: keyof OrderRow;
   order_activity: keyof OrderActivityRow;
@@ -214,6 +223,9 @@ type TableRowMap = {
   customer_address: CustomerAddressRow;
   customer_group: CustomerGroupRow;
   event: EventRow;
+  import_job: ImportJobRow;
+  import_job_file: ImportJobFileRow;
+  import_job_issue: ImportJobIssueRow;
   migration: MigrationRow;
   order: OrderRow;
   order_activity: OrderActivityRow;

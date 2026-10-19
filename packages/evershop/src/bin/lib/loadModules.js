@@ -90,6 +90,11 @@ const coreModules = [
     name: 'webhook',
     resolve: path.resolve(__dirname, '../../modules/webhook'),
     path: path.resolve(__dirname, '../../modules/webhook')
+  },
+  {
+    name: 'import',
+    resolve: path.resolve(__dirname, '../../modules/import'),
+    path: path.resolve(__dirname, '../../modules/import')
   }
 ];
 
