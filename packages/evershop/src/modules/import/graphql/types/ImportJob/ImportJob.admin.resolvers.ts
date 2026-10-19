@@ -1,10 +1,18 @@
 import { select } from '@evershop/postgres-query-builder';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { maxFileBytes } from '../../../adapters/importConfig.js';
 import { ImportJobCollection } from '../../../adapters/ImportJobCollection.js';
 import { ACTIVE_STATUSES } from '../../../services/job/types.js';
 
 export default {
   Query: {
+    importLimits: (
+      _root: unknown,
+      _args: unknown,
+      { user }: { user?: unknown }
+    ) =>
+      // This field is for the admin only.
+      user ? { maxFileBytes: maxFileBytes() } : null,
     importJobs: async (
       _root: unknown,
       { filters = [] }: { filters?: Array<Record<string, unknown>> },

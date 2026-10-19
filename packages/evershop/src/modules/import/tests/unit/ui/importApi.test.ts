@@ -182,4 +182,137 @@ describe('the import API client', () => {
     });
     expect(seen[0].params).toEqual({ column: 'price', page: 2, limit: 50 });
   });
+
+  describe('the upload', () => {
+    const file = Object.assign(
+      new Blob(['sku,name\nA,B\n'], { type: 'text/csv' }),
+      {
+        name: 'products.csv'
+      }
+    );
+
+    it('sends the fields before the file, because the server reads them while the file streams in', async () => {
+      const { http, seen } = fakeHttp(ok({ uuid: 'u1', replaced: false }));
+      await createImportApi(http, () => 0).upload('/api/import-jobs', {
+        entity: 'product',
+        mode: 'create',
+        checkImages: true,
+        file
+      });
+      const body = seen[0].body!;
+      expect([...body.keys()]).toEqual([
+        'entity',
+        'mode',
+        'checkImages',
+        'file'
+      ]);
+      expect(body.get('entity')).toBe('product');
+      expect(body.get('mode')).toBe('create');
+      expect(body.get('checkImages')).toBe('true');
+      expect((body.get('file') as File).name).toBe('products.csv');
+    });
+
+    it('says false for a box that is not ticked', async () => {
+      const { http, seen } = fakeHttp(ok({ uuid: 'u1' }));
+      await createImportApi(http, () => 0).upload('/api/import-jobs', {
+        entity: 'category',
+        mode: 'upsert',
+        checkImages: false,
+        file
+      });
+      expect(seen[0].body!.get('checkImages')).toBe('false');
+    });
+
+    it('is a POST with the header that a form on another site cannot send', async () => {
+      const { http, seen } = fakeHttp(ok({ uuid: 'u1' }));
+      await createImportApi(http, () => 0).upload('/api/import-jobs', {
+        entity: 'product',
+        mode: 'upsert',
+        checkImages: false,
+        file
+      });
+      expect(seen[0]).toMatchObject({
+        method: 'POST',
+        url: '/api/import-jobs',
+        headers: { [IMPORT_REQUEST_HEADER]: '1' }
+      });
+    });
+
+    it('hands the progress and the signal to the network', async () => {
+      const { http, seen } = fakeHttp(ok({ uuid: 'u1' }));
+      const progress = () => undefined;
+      const controller = new AbortController();
+      await createImportApi(http, () => 0).upload(
+        '/api/import-jobs',
+        { entity: 'product', mode: 'upsert', checkImages: false, file },
+        progress,
+        controller.signal
+      );
+      expect(seen[0].onUploadProgress).toBe(progress);
+      expect(seen[0].signal).toBe(controller.signal);
+    });
+
+    it('gives the job and whether it replaced another', async () => {
+      const { http } = fakeHttp(
+        ok({ uuid: 'u1', status: 'uploaded', replaced: true })
+      );
+      const api = createImportApi(http, () => 0);
+      const result = await api.upload('/api/import-jobs', {
+        entity: 'product',
+        mode: 'upsert',
+        checkImages: false,
+        file
+      });
+      expect(result).toEqual({
+        ok: true,
+        data: { job: { uuid: 'u1', status: 'uploaded' }, replaced: true }
+      });
+    });
+
+    it('says not replaced when the answer does not say so', async () => {
+      const { http } = fakeHttp(ok({ uuid: 'u1' }));
+      const result = await createImportApi(http, () => 0).upload(
+        '/api/import-jobs',
+        {
+          entity: 'product',
+          mode: 'upsert',
+          checkImages: false,
+          file
+        }
+      );
+      expect(result).toMatchObject({ ok: true, data: { replaced: false } });
+    });
+
+    it('reads the refusal of a file that is too large, with the limit', async () => {
+      const { http } = fakeHttp({
+        status: 413,
+        headers: {},
+        data: {
+          error: {
+            status: 413,
+            code: 'FILE_TOO_LARGE',
+            message: 'The file is larger than 100 MB.',
+            details: { maxFileBytes: 104857600 }
+          }
+        }
+      });
+      const result = await createImportApi(http, () => 0).upload(
+        '/api/import-jobs',
+        {
+          entity: 'product',
+          mode: 'upsert',
+          checkImages: false,
+          file
+        }
+      );
+      expect(result).toMatchObject({
+        ok: false,
+        error: {
+          status: 413,
+          code: 'FILE_TOO_LARGE',
+          details: { maxFileBytes: 104857600 }
+        }
+      });
+    });
+  });
 });

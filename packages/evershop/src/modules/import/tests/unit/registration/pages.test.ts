@@ -6,6 +6,8 @@ import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 import express from 'express';
 import { parseRoute } from '../../../../../lib/router/scanForRoutes.js';
 import { sortRoutes } from '../../../../../lib/router/sortRoutes.js';
+import { IMPORT_ENTITIES } from '../../../services/types.js';
+import { PLACEHOLDER_ID } from '../../../ui/uploadChoice.js';
 
 /**
  * The admin pages of the import (§ 8.1): three routes, the files in their
@@ -157,6 +159,31 @@ describe('the addresses that the pages ask for', () => {
         const wants = [...path.matchAll(/:(\w+)/g)].map((m) => m[1]);
         expect(key ? [key] : []).toEqual(wants);
       });
+    });
+  });
+
+  describe('the page New import', () => {
+    const source = readFileSync(`${PAGES}importNew/ImportNewForm.js`, 'utf8');
+
+    it.each(Object.entries(IMPORT_ENTITIES))(
+      'asks the template of %s by the value that the template route expects',
+      (entity, { routeValue }) => {
+        const key = `template${entity[0].toUpperCase()}${entity.slice(1)}Url`;
+        expect(source).toContain(
+          `${key}: url(routeId: "downloadImportTemplate", params: [{key: "entity", value: "${routeValue}"}])`
+        );
+      }
+    );
+
+    it('asks the address of the page of a job with the id that stands for it', () => {
+      expect(source).toContain(
+        `viewUrl: url(routeId: "importView", params: [{key: "id", value: "${PLACEHOLDER_ID}"}])`
+      );
+    });
+
+    it('asks who the admin is and how large a file may be', () => {
+      expect(source).toMatch(/currentAdminUser\s*\{\s*adminUserId\s*\}/);
+      expect(source).toMatch(/importLimits\s*\{\s*maxFileBytes\s*\}/);
     });
   });
 });
