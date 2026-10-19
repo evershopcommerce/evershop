@@ -1,18 +1,6 @@
+import { LISTED_STATUSES } from '../services/job/types.js';
 import type { JobStatus } from '../services/job/types.js';
 import { IMPORT_ENTITIES } from '../services/types.js';
-
-const STATUSES: readonly JobStatus[] = [
-  'uploaded',
-  'validating',
-  'validated',
-  'queued',
-  'running',
-  'completed',
-  'failed',
-  'stopped',
-  'canceled',
-  'interrupted'
-];
 
 // What the list can be ordered by: the key in the URL and the column.
 const SORT_COLUMNS: Record<string, string> = {
@@ -22,6 +10,9 @@ const SORT_COLUMNS: Record<string, string> = {
   file_name: 'import_job.file_name',
   file_size: 'import_job.file_size'
 };
+
+/** The keys of `ob` that the list accepts: the grid's sortable headers are named from these. */
+export const SORT_KEYS: readonly string[] = Object.keys(SORT_COLUMNS);
 
 const escapeLike = (text: string) => text.replace(/[\\%_]/g, (c) => `\\${c}`);
 
@@ -41,7 +32,7 @@ export function registerDefaultImportJobFilters() {
         value: unknown,
         currentFilters: unknown[]
       ) => {
-        if (STATUSES.includes(value as JobStatus)) {
+        if (LISTED_STATUSES.includes(value as JobStatus)) {
           query.andWhere('import_job.status', '=', value);
           currentFilters.push({ key: 'status', operation, value });
         }

@@ -108,3 +108,8 @@
 "Upload and validate","Uploaden en controleren"
 "Tip: import in this order - categories, products, customers, addresses.","Tip: importeer in deze volgorde - categorieën, producten, klanten, adressen."
 "New import","Nieuwe import"
+"Rows","Rijen"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","Nog geen import. Upload een CSV-bestand om producten, categorieën, klanten of klantadressen te importeren."
+"${count} imports could not be deleted. They may have started.","${count} imports konden niet worden verwijderd. Ze zijn mogelijk gestart."
+"Delete the selected imports?","De geselecteerde imports verwijderen?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","Hun bestanden en lijsten met problemen worden verwijderd. Rijen die al zijn geïmporteerd, blijven in de winkel."

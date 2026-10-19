@@ -30,6 +30,8 @@ export interface JobScreenViewProps {
   /** The last ask failed: what is shown may be a few seconds old. */
   stale: boolean;
   urls: JobScreenUrls;
+  /** The time zone of the store: the times on the page are in it. */
+  timeZone?: string | null;
   onAction(action: ScreenAction): void;
   /** The table of problems, when the screen has one. */
   problems?: React.ReactNode;
@@ -37,7 +39,7 @@ export interface JobScreenViewProps {
 
 const n = (value: number) => formatNumber(value);
 
-function Header({ job }: { job: JobView }) {
+function Header({ job, timeZone }: { job: JobView; timeZone?: string | null }) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
       <h2 className="text-lg font-semibold break-all">{job.fileName}</h2>
@@ -47,7 +49,7 @@ function Header({ job }: { job: JobView }) {
         {job.entity === 'customerAddress'
           ? ''
           : ` - ${modeLabel(job.entity, job.mode)}`}
-        {` - ${formatDateTime(job.createdAt)}`}
+        {` - ${formatDateTime(job.createdAt, timeZone)}`}
         {job.createdBy?.name
           ? ` - ${_('by ${name}', { name: job.createdBy.name })}`
           : ''}
@@ -371,7 +373,7 @@ export function JobScreenView(props: JobScreenViewProps) {
   return (
     <Card>
       <CardContent className="grid gap-4">
-        <Header job={job} />
+        <Header job={job} timeZone={props.timeZone} />
         <div className="grid gap-2" data-state={screen.state}>
           <Lines job={job} screen={screen} />
           <ProgressBar screen={screen} />

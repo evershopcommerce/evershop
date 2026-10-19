@@ -108,3 +108,8 @@
 "Upload and validate","Last opp og kontroller"
 "Tip: import in this order - categories, products, customers, addresses.","Tips: importer i denne rekkefølgen - kategorier, produkter, kunder, adresser."
 "New import","Ny import"
+"Rows","Rader"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","Ingen import ennå. Last opp en CSV-fil for å importere produkter, kategorier, kunder eller kundeadresser."
+"${count} imports could not be deleted. They may have started.","${count} importer kunne ikke slettes. De kan ha startet."
+"Delete the selected imports?","Slette de valgte importene?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","Filene og problemlistene deres slettes. Rader som allerede er importert, blir værende i butikken."

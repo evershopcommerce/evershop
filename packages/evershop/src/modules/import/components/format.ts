@@ -5,14 +5,32 @@
 export const formatNumber = (value: number): string =>
   new Intl.NumberFormat().format(value);
 
-export function formatDateTime(iso: string | null): string {
+/**
+ * A date and a time, in the time zone of the store (like the other admin pages,
+ * which show the store's time) when it is known and valid, else the browser's.
+ */
+export function formatDateTime(
+  iso: string | null,
+  timeZone?: string | null
+): string {
   if (iso === null) return '--';
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return '--';
-  return new Intl.DateTimeFormat(undefined, {
+  const options: Intl.DateTimeFormatOptions = {
     dateStyle: 'medium',
     timeStyle: 'short'
-  }).format(date);
+  };
+  if (timeZone) {
+    try {
+      return new Intl.DateTimeFormat(undefined, {
+        ...options,
+        timeZone
+      }).format(date);
+    } catch {
+      // An unknown time zone name: fall through to the browser's.
+    }
+  }
+  return new Intl.DateTimeFormat(undefined, options).format(date);
 }
 
 /** 12.4 MB, 830 KB, 5 MB: the size of a file as people say it. */

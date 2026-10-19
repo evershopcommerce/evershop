@@ -5,7 +5,7 @@ import { rowProgress } from './jobScreen.js';
 
 /**
  * What the upload page tells the admin about the type they chose, from the jobs
- * of `GET /import-jobs/open` (§ 8.2, D-32). The page writes the words; this says
+ * of `GET /import-open-jobs` (§ 8.2, D-32). The page writes the words; this says
  * which notices apply, which of them need a yes first, and whether the file can
  * be sent.
  */

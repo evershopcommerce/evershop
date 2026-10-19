@@ -111,7 +111,7 @@ const ask = async (filters: unknown[] = [], user: unknown = { id: 1 }) => {
         items {
           importJobId uuid entity mode status stage fileName fileSize counts
           errorMessage createdByName createdAt { value } startedAt { value }
-          finishedAt { value } active deleteApi
+          finishedAt { value } active viewUrl deleteApi
         }
       }
     }`,
@@ -173,6 +173,7 @@ describeDb('importJobs in the admin schema', () => {
         counts: { total: 10, created: 8, updated: 1, failed: 1 },
         createdByName: 'Jane Admin',
         active: false,
+        viewUrl: `/admin/import/view/${made.uuid}`,
         deleteApi: `/api/import-jobs/${made.uuid}`
       });
       expect(item.createdAt.value).toEqual(expect.any(String));
@@ -273,6 +274,22 @@ describeDb('importJobs in the admin schema', () => {
       expect(list!.total).toBe(2);
       expect(list!.currentFilters.map((f) => f.key)).not.toContain('status');
       expect(list!.currentFilters.map((f) => f.key)).not.toContain('entity');
+    } finally {
+      await cleanUp();
+    }
+  });
+
+  it('does not filter by `uploading`: a file that has not arrived is not in the list at all', async () => {
+    await cleanUp();
+    try {
+      await job({ fileName: 'a.csv' });
+      await job({ fileName: 'arriving.csv', status: 'uploading' });
+      const list = await ask([
+        { key: 'status', operation: 'eq', value: 'uploading' }
+      ]);
+      expect(list!.total).toBe(2 - 1);
+      expect(names(list)).toEqual(['a.csv']);
+      expect(list!.currentFilters.map((f) => f.key)).not.toContain('status');
     } finally {
       await cleanUp();
     }

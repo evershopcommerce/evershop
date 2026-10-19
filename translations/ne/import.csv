@@ -108,3 +108,8 @@
 "Upload and validate","अपलोड गरेर जाँच गर्नुहोस्"
 "Tip: import in this order - categories, products, customers, addresses.","सुझाव: यही क्रममा आयात गर्नुहोस् - वर्ग, उत्पादन, ग्राहक, ठेगाना।"
 "New import","नयाँ आयात"
+"Rows","पङ्क्तिहरू"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","अहिलेसम्म कुनै आयात छैन। उत्पादन, वर्ग, ग्राहक वा ग्राहकका ठेगाना आयात गर्न CSV फाइल अपलोड गर्नुहोस्।"
+"${count} imports could not be deleted. They may have started.","${count} आयात मेटाउन सकिएन। तिनीहरू सुरु भइसकेका हुन सक्छन्।"
+"Delete the selected imports?","चयन गरिएका आयातहरू मेटाउने हो?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","तिनका फाइल र समस्याहरूको सूची मेटिन्छन्। पहिले नै आयात गरिएका पङ्क्तिहरू पसलमै रहन्छन्।"

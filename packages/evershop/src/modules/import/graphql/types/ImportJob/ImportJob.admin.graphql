@@ -32,6 +32,10 @@ type ImportJob {
   True while a worker may be writing: the job cannot be deleted.
   """
   active: Boolean!
+  """
+  The address of the page of the import.
+  """
+  viewUrl: String!
   deleteApi: String!
 }
 

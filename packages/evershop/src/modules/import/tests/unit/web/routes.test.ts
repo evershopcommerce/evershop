@@ -5,6 +5,8 @@ import { fileURLToPath } from 'url';
 import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 import express from 'express';
 import { parseRoute } from '../../../../../lib/router/scanForRoutes.js';
+import { getRouteFromPath } from '../../../../../lib/middleware/getRouteFromPath.js';
+import { scanForMiddlewareFunctions } from '../../../../../lib/middleware/scanForMiddlewareFunctions.js';
 import { sortRoutes } from '../../../../../lib/router/sortRoutes.js';
 
 /**
@@ -31,13 +33,9 @@ const ROUTES: Array<
   ['cancelImportJob', 'POST', '/import-jobs/:id/cancel', true],
   ['resumeImportJob', 'POST', '/import-jobs/:id/resume', true],
   ['recheckImportJob', 'POST', '/import-jobs/:id/recheck', true],
-  ['listOpenImportJobs', 'GET', '/import-jobs/open', false],
+  ['listOpenImportJobs', 'GET', '/import-open-jobs', false],
   ['deleteImportJob', 'DELETE', '/import-jobs/:id', true]
 ];
-
-const GUARD_FOLDER = ROUTES.filter(([, , , writes]) => writes)
-  .map(([id]) => id)
-  .join('+');
 
 describe('the routes of the import API', () => {
   it('are exactly the routes of § 8.3, and nothing else is a route', () => {
@@ -80,7 +78,7 @@ describe('the routes of the import API', () => {
     }
   );
 
-  it('are found by the path, with /import-jobs/open before /import-jobs/:id', async () => {
+  it('are found by the path, each by one route', async () => {
     const routes = sortRoutes(
       ROUTES.map(([id, method, path]) => ({ id, method, path: `/api${path}` }))
     );
@@ -113,7 +111,7 @@ describe('the routes of the import API', () => {
       });
     try {
       const uuid = '11111111-2222-4333-8444-555555555555';
-      expect((await call('GET', '/api/import-jobs/open')).id).toBe(
+      expect((await call('GET', '/api/import-open-jobs')).id).toBe(
         'listOpenImportJobs'
       );
       expect(await call('GET', `/api/import-jobs/${uuid}`)).toEqual({
@@ -156,21 +154,48 @@ describe('the routes of the import API', () => {
 });
 
 describe('the header that guards the routes that change an import', () => {
-  it('is in a folder shared by exactly those routes, with no route.json of its own', () => {
-    expect(existsSync(`${API}${GUARD_FOLDER}`)).toBe(true);
-    expect(existsSync(`${API}${GUARD_FOLDER}/route.json`)).toBe(false);
-    expect(readdirSync(`${API}${GUARD_FOLDER}`)).toEqual([
-      '[context]importRequestHeader[auth].ts'.replace('.ts', '.js')
-    ]);
+  const WRITES = ROUTES.filter(([, , , writes]) => writes).map(([id]) => id);
+  const GUARD = '[context]importRequestHeader[auth].js';
+
+  it('has no folder shared by several routes: core reads an API folder as one route', () => {
+    // A folder named `a+b` is a page's way to share a file; for an API it names a
+    // route that does not exist, and the guard in it never ran (found on a live store).
+    expect(readdirSync(API).filter((name) => name.includes('+'))).toEqual([]);
   });
 
-  const guard = async () =>
-    (
-      await import(
-        `../../../api/${GUARD_FOLDER}/[context]importRequestHeader[auth].js`
-      )
-    ).default;
-  const call = async (header: string | undefined) => {
+  it.each(ROUTES)(
+    '%s: the guard is in its folder if it changes an import, and not if it only reads',
+    (id, _method, _path, writes) => {
+      expect(existsSync(`${API}${id}/${GUARD}`)).toBe(writes);
+    }
+  );
+
+  it('is found by core’s own loader for each of those routes, under that route and no other', () => {
+    const found: Array<[string, string | null]> = [];
+    for (const [id] of ROUTES) {
+      const folder = `${API}${id}`;
+      for (const middleware of scanForMiddlewareFunctions(folder)) {
+        if (middleware.id !== 'importRequestHeader') continue;
+        const route = getRouteFromPath(middleware.path);
+        expect(route.region).toBe('api');
+        found.push([id, route.routeId]);
+      }
+    }
+    // the route that core gives the guard is the route of its folder
+    expect(found.sort()).toEqual(WRITES.map((id) => [id, id]).sort());
+  });
+
+  it('runs before the authentication, like the body parser', async () => {
+    const [middleware] = scanForMiddlewareFunctions(
+      `${API}startImportJob`
+    ).filter((m: { id: string }) => m.id === 'importRequestHeader');
+    expect(middleware.after).toEqual(['context']);
+    expect(middleware.before).toEqual(['auth']);
+  });
+
+  const guard = async (route = 'startImportJob') =>
+    (await import(`../../../api/${route}/${GUARD}`)).default;
+  const call = async (header: string | undefined, route?: string) => {
     const sent: Array<{ status?: number; body?: any }> = [{}];
     let nexted = 0;
     const response: any = {
@@ -182,7 +207,7 @@ describe('the header that guards the routes that change an import', () => {
         sent[0].body = body;
       }
     };
-    (await guard())(
+    (await guard(route))(
       {
         get: (name: string) =>
           name === 'X-Import-Request' ? header : undefined
@@ -212,10 +237,12 @@ describe('the header that guards the routes that change an import', () => {
     }
   );
 
-  it('is a middleware that runs before the authentication, like the body parser', async () => {
-    expect(readdirSync(`${API}${GUARD_FOLDER}`)[0]).toMatch(
-      /^\[context\].*\[auth\]\./
-    );
+  it.each(WRITES)('%s hands over to the same guard', async (route) => {
+    expect((await call(undefined, route)).sent.status).toBe(400);
+    expect((await call('1', route)).nexted).toBe(1);
+  });
+
+  it('is a function of three arguments, so that core waits for next() (it never answers a request twice)', async () => {
     expect((await guard()).length).toBe(3);
   });
 });

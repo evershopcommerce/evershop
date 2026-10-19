@@ -10,6 +10,7 @@ import {
 import type { HttpReply, HttpRequest } from '../../../ui/importApi.js';
 import { FakeTab, settle } from '../helpers/fakeTab.js';
 import { aJob } from '../helpers/jobViews.js';
+import { STORE_ZONE, browserTime, storeTime } from '../helpers/timeZones.js';
 
 /**
  * The page of one import, whole: it reads the job, asks again while the job is
@@ -68,9 +69,10 @@ const URLS = {
   recheckUrl: '/api/import-jobs/j1/recheck',
   deleteUrl: '/api/import-jobs/j1',
   fileWithErrorsUrl: '/api/import-jobs/j1/file-with-errors.csv',
-  openUrl: '/api/import-jobs/open',
+  openUrl: '/api/import-open-jobs',
   gridUrl: '/admin/import',
-  newUrl: '/admin/import/new'
+  newUrl: '/admin/import/new',
+  setting: { storeTimeZone: STORE_ZONE }
 };
 
 const json = (data: unknown, status = 200, headers = {}): HttpReply => ({
@@ -171,6 +173,19 @@ describe('the page of one import (jsdom)', () => {
   afterEach(async () => {
     await act(async () => root.unmount());
     container.remove();
+  });
+
+  it('shows the time of the upload in the time zone of the store, like the list', async () => {
+    server(
+      aJob({
+        uuid: 'j1',
+        status: 'validated',
+        createdAt: '2026-10-19T09:00:00.000Z'
+      })
+    );
+    await mount();
+    expect(text()).toContain(storeTime);
+    expect(text()).not.toContain(browserTime);
   });
 
   describe('a job at work', () => {

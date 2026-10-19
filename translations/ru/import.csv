@@ -108,3 +108,8 @@
 "Upload and validate","Загрузить и проверить"
 "Tip: import in this order - categories, products, customers, addresses.","Совет: импортируйте в таком порядке - категории, товары, клиенты, адреса."
 "New import","Новый импорт"
+"Rows","Строки"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","Импортов пока нет. Загрузите CSV-файл, чтобы импортировать товары, категории, клиентов или адреса клиентов."
+"${count} imports could not be deleted. They may have started.","Не удалось удалить импортов: ${count}. Возможно, они уже запущены."
+"Delete the selected imports?","Удалить выбранные импорты?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","Их файлы и списки проблем будут удалены. Уже импортированные строки останутся в магазине."

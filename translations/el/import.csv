@@ -108,3 +108,8 @@
 "Upload and validate","Μεταφόρτωση και επικύρωση"
 "Tip: import in this order - categories, products, customers, addresses.","Συμβουλή: εισαγάγετε με αυτή τη σειρά - κατηγορίες, προϊόντα, πελάτες, διευθύνσεις."
 "New import","Νέα εισαγωγή"
+"Rows","Γραμμές"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","Δεν υπάρχει εισαγωγή ακόμη. Μεταφορτώστε ένα αρχείο CSV για να εισαγάγετε προϊόντα, κατηγορίες, πελάτες ή διευθύνσεις πελατών."
+"${count} imports could not be deleted. They may have started.","Δεν ήταν δυνατή η διαγραφή ${count} εισαγωγών. Ίσως έχουν ξεκινήσει."
+"Delete the selected imports?","Διαγραφή των επιλεγμένων εισαγωγών;"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","Τα αρχεία και οι λίστες προβλημάτων τους διαγράφονται. Οι γραμμές που έχουν ήδη εισαχθεί παραμένουν στο κατάστημα."

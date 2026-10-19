@@ -108,3 +108,8 @@
 "Upload and validate","Téléverser et valider"
 "Tip: import in this order - categories, products, customers, addresses.","Astuce : importez dans cet ordre - catégories, produits, clients, adresses."
 "New import","Nouvelle importation"
+"Rows","Lignes"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","Aucune importation pour le moment. Téléversez un fichier CSV pour importer des produits, des catégories, des clients ou des adresses de clients."
+"${count} imports could not be deleted. They may have started.","${count} importations n'ont pas pu être supprimées. Elles ont peut-être démarré."
+"Delete the selected imports?","Supprimer les importations sélectionnées ?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","Leurs fichiers et leurs listes de problèmes sont supprimés. Les lignes déjà importées restent dans la boutique."

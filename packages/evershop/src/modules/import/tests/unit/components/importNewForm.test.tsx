@@ -10,6 +10,7 @@ import {
 import type { HttpReply, HttpRequest } from '../../../ui/importApi.js';
 import { FakeTab, settle } from '../helpers/fakeTab.js';
 import { aJob } from '../helpers/jobViews.js';
+import { STORE_ZONE, browserTime, storeTime } from '../helpers/timeZones.js';
 
 /**
  * The page "New import", whole: it looks at the jobs of the chosen type, asks
@@ -62,14 +63,15 @@ const { default: ImportNewForm } = await import(
 const PLACEHOLDER = '00000000-0000-0000-0000-000000000000';
 const PROPS = {
   createUrl: '/api/import-jobs',
-  openUrl: '/api/import-jobs/open',
+  openUrl: '/api/import-open-jobs',
   viewUrl: `/admin/import/${PLACEHOLDER}`,
   templateProductUrl: '/api/import-templates/products',
   templateCategoryUrl: '/api/import-templates/categories',
   templateCustomerUrl: '/api/import-templates/customers',
   templateCustomerAddressUrl: '/api/import-templates/customer-addresses',
   currentAdminUser: { adminUserId: 1 },
-  importLimits: { maxFileBytes: 100 * 1_048_576 }
+  importLimits: { maxFileBytes: 100 * 1_048_576 },
+  setting: { storeTimeZone: STORE_ZONE }
 };
 
 const json = (data: unknown, status = 200): HttpReply => ({
@@ -317,6 +319,41 @@ describe('the page New import (jsdom)', () => {
       expect(text()).toContain(
         'The page must stay open until the upload ends.'
       );
+    });
+
+    it('does not ask the admin to stay when the page itself goes to the page of the new job', async () => {
+      const state = server();
+      // The answer comes after the page has shown the bar and set its warning, as it does
+      // when a real file takes time to send.
+      let finish: (r: HttpReply) => void = () => undefined;
+      state.upload = () =>
+        new Promise<HttpReply>((resolve) => {
+          finish = resolve;
+        });
+      // The navigation is where the browser would ask; the test asks it the same way.
+      let asked: boolean | null = null;
+      goTo.mockImplementationOnce(() => {
+        const event = new window.Event('beforeunload', { cancelable: true });
+        window.dispatchEvent(event);
+        asked = event.defaultPrevented;
+      });
+      await mount();
+      await chooseFile();
+      await submit();
+      const during = new window.Event('beforeunload', { cancelable: true });
+      window.dispatchEvent(during);
+      expect(during.defaultPrevented).toBe(true);
+      await act(async () => {
+        finish(
+          json({
+            ...aJob({ uuid: 'abc-123', status: 'uploaded' }),
+            replaced: false
+          })
+        );
+        await settle();
+      });
+      expect(goTo).toHaveBeenCalledTimes(1);
+      expect(asked).toBe(false);
     });
 
     it('sends the mode that was chosen, and the image check when it is ticked', async () => {
@@ -608,6 +645,9 @@ describe('the page New import (jsdom)', () => {
       expect(text()).toContain(
         'There is an unfinished products import (old.csv'
       );
+      // The time in the notice is the store's, like the one in the list.
+      expect(text()).toContain(`uploaded by Jane at ${storeTime}`);
+      expect(text()).not.toContain(browserTime);
       await submit();
       expect(openAlert).not.toHaveBeenCalled();
       expect(uploads()).toHaveLength(1);
@@ -632,6 +672,9 @@ describe('the page New import (jsdom)', () => {
       expect(openAlert.mock.calls[0][0].content).toMatch(
         /^Omar uploaded omar\.csv at .+ Continue\?$/
       );
+      // The time is the store's, as in the list.
+      expect(openAlert.mock.calls[0][0].content).toContain(storeTime);
+      expect(openAlert.mock.calls[0][0].content).not.toContain(browserTime);
       expect(uploads()).toHaveLength(0);
       await confirmWith(0, 'primaryAction');
       expect(closeAlert).toHaveBeenCalledTimes(1);
