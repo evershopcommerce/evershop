@@ -37,7 +37,17 @@ export function definedEntries(given: Row): Row {
   );
 }
 
-export function createRecordingBuilder(options: { allow?: Writer[] } = {}) {
+export function createRecordingBuilder(
+  options: {
+    allow?: Writer[];
+    /**
+     * The columns of the tables. The real builder writes only the columns a table
+     * has, so a payload with none of them is "No data was provided"; with this the
+     * stand-in does the same. A table that is not listed takes any key.
+     */
+    columns?: Record<string, string[]>;
+  } = {}
+) {
   const allow = new Set<Writer>(options.allow ?? []);
   // A table holds one row (an object) or several (an array).
   let rows: Record<string, Row | Row[]> = {};
@@ -118,7 +128,14 @@ export function createRecordingBuilder(options: { allow?: Writer[] } = {}) {
       },
       async execute() {
         writes.push({ table, given });
-        const written = definedEntries(given);
+        const known = options.columns?.[table];
+        const written = definedEntries(
+          known
+            ? Object.fromEntries(
+                Object.entries(given).filter(([key]) => known.includes(key))
+              )
+            : given
+        );
         // The real builder throws this when nothing is left to write; the
         // services catch it on purpose.
         if (Object.keys(written).length === 0) {
