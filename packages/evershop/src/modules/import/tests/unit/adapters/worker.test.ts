@@ -203,7 +203,7 @@ describeDb('the worker on the real services', () => {
     const rows = async (keys: string[]) =>
       (
         await db!.pool.query(
-          `${FIND} WHERE cd.url_key = ANY($1) ORDER BY cd.url_key`,
+          `${FIND} WHERE cd.url_key = ANY($1) ORDER BY cd.url_key COLLATE "C"`,
           [keys]
         )
       ).rows;
