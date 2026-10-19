@@ -64,6 +64,22 @@ export interface ProductWrite {
 }
 
 /**
+ * What the customer services take (§ 5.4). Only the fields that are given are
+ * present. The password is read at create only (CUS-09): a plain one, a bcrypt
+ * hash that is stored as given, or `noPassword` for an account that nobody can
+ * log in to until the customer resets the password (D-27).
+ */
+export interface CustomerWrite {
+  email?: string;
+  full_name?: string;
+  status?: 0 | 1;
+  group_id?: number;
+  password?: string;
+  passwordHash?: string;
+  noPassword?: boolean;
+}
+
+/**
  * The writes: the existing core services behind one object (§ 4.5, point 2), so
  * that a test replaces all of them. An error they throw is a failed row, and the
  * run goes on. The real one is made from `createCategory` and `updateCategory`;
@@ -87,6 +103,20 @@ export interface EntityServices {
   }): Promise<{ id: number; uuid: string }>;
   /** Puts a product in a variant group (G1); the package converges. */
   addVariantItem(groupUuid: string, productUuid: string): Promise<void>;
+  /**
+   * A customer, with no welcome e-mail and the password as `CustomerWrite` says
+   * (G3). The custom fields are a separate call: core has no create-time path.
+   */
+  createCustomer(input: CustomerWrite): Promise<{ id: number; uuid: string }>;
+  updateCustomer(uuid: string, input: CustomerWrite): Promise<void>;
+  /**
+   * The whole set of custom fields of a customer (it replaces the stored set), as
+   * core's `setCustomerMetafields` checks and writes it.
+   */
+  setCustomerMetafields(
+    customerId: number,
+    values: Record<string, Record<string, unknown>>
+  ): Promise<void>;
   /**
    * The old addresses of a product, written as 301 redirects to its own path
    * (G4, `source = 'import'`). A path that is already a redirect of the product

@@ -7,6 +7,8 @@ import type {
   Lookup,
   MetafieldFieldFixture,
   NamedRecord,
+  PasswordCheck,
+  StoredCustomer,
   StoredMetafield,
   StoredAttribute,
   StoredCategory,
@@ -31,6 +33,17 @@ export interface MemoryProduct {
   variantGroupId: number | null;
   /** Attribute code → the option texts (a list for a multiselect) or the text. */
   values: Record<string, string>;
+  metaData: Record<string, Record<string, unknown>>;
+}
+
+/** A customer in the memory store: what `StoredCustomer` is built from. */
+export interface MemoryCustomer {
+  id: number;
+  uuid: string;
+  email: string;
+  name: string;
+  status: 0 | 1;
+  groupId: number | null;
   metaData: Record<string, Record<string, unknown>>;
 }
 
@@ -78,6 +91,14 @@ export class MemoryLookup implements Lookup {
     { id: number; uuid: string; attributeGroupId: number; axes: string[] }
   >();
 
+  /** The customers by id. `MemoryServices` writes here. */
+  readonly customers_ = new Map<number, MemoryCustomer>();
+
+  readonly customerGroups_: NamedRecord[] = [];
+
+  /** The shortest password the store accepts. */
+  passwordMinLength = 6;
+
   readonly redirects_ = new Map<string, StoredRedirect>();
 
   readonly rewrites_ = new Set<string>();
@@ -107,6 +128,30 @@ export class MemoryLookup implements Lookup {
       });
     });
     this.reserved = new Set(fixture.reservedUrlKeys ?? []);
+    this.passwordMinLength = fixture.passwordMinLength ?? 6;
+    (fixture.customerGroups ?? []).forEach((group, index) => {
+      this.customerGroups_.push({
+        id: group.id ?? index + 1,
+        name: group.name
+      });
+    });
+    (fixture.customers ?? []).forEach((customer, index) => {
+      const id = customer.id ?? index + 1;
+      const group = customer.group
+        ? this.customerGroups_.find(
+            (g) => lower(g.name) === lower(customer.group as string)
+          )
+        : undefined;
+      this.customers_.set(id, {
+        id,
+        uuid: customer.uuid ?? `customer-uuid-${id}`,
+        email: customer.email,
+        name: customer.name ?? customer.email,
+        status: customer.status ?? 1,
+        groupId: group?.id ?? null,
+        metaData: customer.metaData ?? {}
+      });
+    });
 
     // The definitions: plain text fields from `metafields`, the others from
     // `metafieldDefinitions`; the keys of both are the keys the header may name.
@@ -257,6 +302,42 @@ export class MemoryLookup implements Lookup {
   ): Promise<ReadonlyMap<string, StoredMetafield>> {
     this.count('metafields');
     return this.fields[entity] ?? new Map();
+  }
+
+  async customers(
+    emails: readonly string[]
+  ): Promise<Map<string, StoredCustomer[]>> {
+    this.count('customers');
+    const found = new Map<string, StoredCustomer[]>();
+    for (const email of emails) {
+      const key = lower(email);
+      const hits = [...this.customers_.values()].filter(
+        (customer) => lower(customer.email) === key
+      );
+      if (hits.length > 0) {
+        found.set(
+          key,
+          hits.map((hit) => ({
+            ...hit,
+            metaData: JSON.parse(JSON.stringify(hit.metaData))
+          }))
+        );
+      }
+    }
+    return found;
+  }
+
+  async customerGroups(names: readonly string[]) {
+    this.count('customerGroups');
+    return this.named(this.customerGroups_, names);
+  }
+
+  async passwordCheck(): Promise<PasswordCheck> {
+    const min = this.passwordMinLength;
+    return (password) =>
+      password.length >= min
+        ? { ok: true }
+        : { ok: false, message: `Password must be at least ${min} characters` };
   }
 
   async products(skus: readonly string[]): Promise<Map<string, StoredProduct>> {

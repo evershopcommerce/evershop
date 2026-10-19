@@ -277,6 +277,118 @@ export function lookupContract(
       });
     });
 
+    describe('customers', () => {
+      const STORE: StoreFixture = {
+        customerGroups: [{ name: 'Default' }, { name: 'Wholesale' }],
+        customers: [
+          {
+            email: 'Jane.Doe@Example.com',
+            name: 'Jane Doe',
+            group: 'Wholesale',
+            metaData: { custom: { optin: true } }
+          },
+          { email: 'blocked@example.com', name: 'Blocked', status: 0 },
+          // Three that differ only in letter case, whose order by e-mail is
+          // not their order by id in any collation.
+          { email: 'Twin@example.com', name: 'Twin one' },
+          { email: 'TWIN@example.com', name: 'Twin two' },
+          { email: 'twin@example.com', name: 'Twin three' }
+        ]
+      };
+
+      it('finds a customer by e-mail ignoring letter case, and gives the e-mail as it is stored', async () => {
+        await h.set(STORE);
+        const groups = await h.lookup.customerGroups(['wholesale']);
+        const found = await h.lookup.customers(['jane.doe@example.com']);
+        expect([...found.keys()]).toEqual(['jane.doe@example.com']);
+        const [jane] = found.get('jane.doe@example.com')!;
+        expect(jane).toMatchObject({
+          email: 'Jane.Doe@Example.com',
+          name: 'Jane Doe',
+          status: 1,
+          groupId: groups.get('wholesale')![0].id,
+          metaData: { custom: { optin: true } }
+        });
+        expect(typeof jane.id).toBe('number');
+        expect(jane.uuid.length).toBeGreaterThan(5);
+      });
+
+      it('gives every customer whose e-mail differs only in letter case (the unique index does not tell them apart)', async () => {
+        await h.set(STORE);
+        const found = await h.lookup.customers(['twin@example.com']);
+        expect(found.get('twin@example.com')!.map((c) => c.name)).toEqual([
+          'Twin one',
+          'Twin two',
+          'Twin three'
+        ]);
+      });
+
+      it('knows a blocked customer, leaves out e-mails it does not have, and answers nothing to nothing', async () => {
+        await h.set(STORE);
+        const found = await h.lookup.customers([
+          'blocked@example.com',
+          'nobody@example.com'
+        ]);
+        expect([...found.keys()]).toEqual(['blocked@example.com']);
+        expect(found.get('blocked@example.com')![0]).toMatchObject({
+          status: 0,
+          groupId: null,
+          metaData: {}
+        });
+        expect((await h.lookup.customers([])).size).toBe(0);
+      });
+
+      it('sees the customers as they are now', async () => {
+        await h.set(STORE);
+        expect((await h.lookup.customers(['blocked@example.com'])).size).toBe(
+          1
+        );
+        await h.set({});
+        expect((await h.lookup.customers(['blocked@example.com'])).size).toBe(
+          0
+        );
+      });
+    });
+
+    describe('customer groups', () => {
+      it('finds a group by name, ignoring letter case and surrounding spaces, and lists every group of that name', async () => {
+        await h.set({
+          customerGroups: [
+            { name: 'Default' },
+            { name: 'Wholesale' },
+            { name: 'wholesale' }
+          ]
+        });
+        const found = await h.lookup.customerGroups([
+          ' WHOLESALE ',
+          'default',
+          'vip'
+        ]);
+        expect([...found.keys()].sort()).toEqual(['default', 'wholesale']);
+        expect(found.get('wholesale')!.map((g) => g.name)).toEqual([
+          'Wholesale',
+          'wholesale'
+        ]);
+        expect(found.get('default')).toHaveLength(1);
+        expect((await h.lookup.customerGroups([])).size).toBe(0);
+      });
+    });
+
+    describe('the password rules', () => {
+      it('accepts six characters and refuses five, with the message of the rule', async () => {
+        await h.set({});
+        const check = await h.lookup.passwordCheck();
+        expect(check('abc123')).toEqual({ ok: true });
+        expect(check(' abc12')).toEqual({ ok: true });
+        const refused = check('abc12');
+        expect(refused.ok).toBe(false);
+        expect((refused as { message: string }).message).toContain(
+          'at least 6 characters'
+        );
+        expect(check('').ok).toBe(false);
+      });
+    });
+
     describe('the references of a product', () => {
       const ids = async (
         pick: () => Promise<Map<string, Array<{ id: number }>>>,

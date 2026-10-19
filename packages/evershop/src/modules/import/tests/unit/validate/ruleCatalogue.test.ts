@@ -2,6 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { IMPORT_ISSUE_CODES } from '../../../services/issues.js';
 import { ALL_RULES } from '../../../services/rules/allRules.js';
 import { CATEGORY_RULES } from '../../../services/rules/categoryRules.js';
+import { CUSTOMER_RULES } from '../../../services/rules/customerRules.js';
 import { METAFIELD_RULES } from '../../../services/rules/metafieldRules.js';
 import { PRODUCT_RULES } from '../../../services/rules/productRules.js';
 import { IMPORT_PHASE_RULES } from '../../../services/rules/importPhaseRules.js';
@@ -44,6 +45,17 @@ const EXPECTED_IDS = [
   'CAT-07',
   'CAT-08',
   'CAT-09',
+  'CUS-01',
+  'CUS-02',
+  'CUS-03',
+  'CUS-04',
+  'CUS-05',
+  'CUS-06',
+  'CUS-07',
+  'CUS-08',
+  'CUS-09',
+  'CUS-10',
+  'CUS-11',
   'IMG-01',
   'IMG-02',
   'MET-01',
@@ -93,6 +105,7 @@ const RULES: Rule[] = [
   ...ALL_RULES,
   ...CATEGORY_RULES,
   ...PRODUCT_RULES,
+  ...CUSTOMER_RULES,
   ...METAFIELD_RULES,
   ...IMPORT_PHASE_RULES
 ];

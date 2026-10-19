@@ -53,6 +53,29 @@ export interface StoredCategory {
   metaData: Record<string, Record<string, unknown>>;
 }
 
+/** A customer as the store has it now (matched by e-mail, ignoring letter case). */
+export interface StoredCustomer {
+  id: number;
+  /** What `updateCustomer` takes to name the customer. */
+  uuid: string;
+  /** As stored (its letter case may differ from the file's). */
+  email: string;
+  name: string;
+  status: 0 | 1;
+  groupId: number | null;
+  /** Custom fields: `{namespace: {key: value}}`, the whole stored set (§ 5.9). */
+  metaData: Record<string, Record<string, unknown>>;
+}
+
+/**
+ * The password rules of the store, as core applies them (`verifyPassword`: the
+ * minimum length and any rule an extension added). `ok: false` carries the
+ * message of the first rule that refuses.
+ */
+export type PasswordCheck = (
+  password: string
+) => { ok: true } | { ok: false; message: string };
+
 /** The types of attribute a product can have a value for (`attribute.type`). */
 export type AttributeType =
   | 'select'
@@ -148,6 +171,17 @@ export interface Lookup {
     entity: ImportEntity
   ): Promise<ReadonlyMap<string, StoredMetafield>>;
 
+  /**
+   * The stored customers for these e-mails (given in lower case). The e-mails
+   * match ignoring letter case, and the unique index of the table does not, so
+   * an e-mail can have more than one customer (§ 5.1): the caller decides.
+   */
+  customers(emails: readonly string[]): Promise<Map<string, StoredCustomer[]>>;
+  /** Customer groups by name (the name has no unique index, ALL-21). */
+  customerGroups(names: readonly string[]): Promise<Map<string, NamedRecord[]>>;
+  /** The password rules of the store (CUS-05). */
+  passwordCheck(): Promise<PasswordCheck>;
+
   /** The stored products for these SKUs (matched exactly). */
   products(skus: readonly string[]): Promise<Map<string, StoredProduct>>;
   /**
@@ -228,6 +262,20 @@ export interface StoreFixture {
       }>
     >
   >;
+
+  customers?: Array<{
+    email: string;
+    id?: number;
+    uuid?: string;
+    name?: string;
+    status?: 0 | 1;
+    /** The name of its group. */
+    group?: string | null;
+    metaData?: Record<string, Record<string, unknown>>;
+  }>;
+  customerGroups?: Array<{ name: string; id?: number }>;
+  /** The shortest password the store accepts (core's default is 6). */
+  passwordMinLength?: number;
 
   attributeGroups?: Array<{
     name: string;

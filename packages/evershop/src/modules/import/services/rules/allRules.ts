@@ -4,6 +4,12 @@ import {
   categoryRow,
   STORE_WITH_WOMEN
 } from './categoryFiles.js';
+import {
+  CUSTOMER_STORE,
+  CUSTOMER_STORE_WITH_JANE,
+  customerFile,
+  customerRow
+} from './customerFiles.js';
 import { METAFIELD_STORE, metafieldFile } from './metafieldFiles.js';
 import { PRODUCT_STORE, productFile, productRow } from './productFiles.js';
 import { defineRule } from './rule.js';
@@ -206,12 +212,27 @@ export const ALL_07 = defineRule({
   testedBy: 'example',
   summary: 'The header contains the natural-key column.',
   examples: {
-    pass: [{ name: 'url_key is there', ...UPDATE, file: VALID, expect: [] }],
+    pass: [
+      { name: 'url_key is there', ...UPDATE, file: VALID, expect: [] },
+      {
+        name: 'email is there',
+        entity: 'customer',
+        store: CUSTOMER_STORE_WITH_JANE,
+        file: customerFile(customerRow()),
+        expect: []
+      }
+    ],
     fail: [
       {
         name: 'no url_key',
         file: 'name,status\nWomen,1\n',
         expect: [{ code: 'MISSING_COLUMN', column: 'url_key' }]
+      },
+      {
+        name: 'no email in a customers file',
+        entity: 'customer',
+        file: 'full_name,status\nJane,1\n',
+        expect: [{ code: 'MISSING_COLUMN', column: 'email' }]
       }
     ]
   }
@@ -296,6 +317,14 @@ export const ALL_09 = defineRule({
         ...UPDATE,
         file: 'url_key,attr:color\nwomen,red\n',
         expect: [{ code: 'UNKNOWN_COLUMN', column: 'attr:color' }]
+      },
+      {
+        name: 'a column that is not in the customers file',
+        entity: 'customer',
+        mode: 'update',
+        store: CUSTOMER_STORE_WITH_JANE,
+        file: 'email,colour\njane.doe@example.com,red\n',
+        expect: [{ code: 'UNKNOWN_COLUMN', column: 'colour' }]
       },
       {
         name: 'a column with no name that holds something (said once)',
@@ -454,6 +483,13 @@ export const ALL_13 = defineRule({
         name: 'no url_key and no name',
         file: categoryFile(categoryRow({ url_key: '', name: '' })),
         expect: [{ code: 'MISSING_REQUIRED', rowNumber: 2, column: 'url_key' }]
+      },
+      {
+        name: 'a customer with no email',
+        entity: 'customer',
+        store: CUSTOMER_STORE,
+        file: customerFile(customerRow({ email: '' })),
+        expect: [{ code: 'MISSING_REQUIRED', rowNumber: 2, column: 'email' }]
       }
     ]
   }
@@ -490,6 +526,18 @@ export const ALL_14 = defineRule({
         file: categoryFile(categoryRow(), '', categoryRow()),
         expect: [
           { code: 'DUPLICATE_KEY_IN_FILE', rowNumber: 4, column: 'url_key' }
+        ]
+      },
+      {
+        name: 'the same e-mail in another letter case',
+        entity: 'customer',
+        store: CUSTOMER_STORE,
+        file: customerFile(
+          customerRow(),
+          customerRow({ email: 'JANE.DOE@Example.com' })
+        ),
+        expect: [
+          { code: 'DUPLICATE_KEY_IN_FILE', rowNumber: 3, column: 'email' }
         ]
       }
     ]
@@ -543,6 +591,22 @@ export const ALL_16 = defineRule({
         mode: 'update',
         file: VALID,
         expect: [{ code: 'NOT_FOUND', rowNumber: 2, column: 'url_key' }]
+      },
+      {
+        name: 'create, and the customer exists under another letter case',
+        entity: 'customer',
+        mode: 'create',
+        store: CUSTOMER_STORE_WITH_JANE,
+        file: customerFile(customerRow({ email: 'Jane.Doe@example.com' })),
+        expect: [{ code: 'ALREADY_EXISTS', rowNumber: 2, column: 'email' }]
+      },
+      {
+        name: 'update, and the customer does not exist',
+        entity: 'customer',
+        mode: 'update',
+        store: CUSTOMER_STORE,
+        file: customerFile(customerRow()),
+        expect: [{ code: 'NOT_FOUND', rowNumber: 2, column: 'email' }]
       }
     ]
   }
@@ -568,6 +632,21 @@ export const ALL_18 = defineRule({
         ),
         expect: [
           { code: 'TEMPLATE_EXAMPLE_ROW', rowNumber: 2, column: 'url_key' }
+        ]
+      },
+      {
+        name: 'the example customer of the template (any letter case)',
+        entity: 'customer',
+        store: CUSTOMER_STORE,
+        file: customerFile(
+          customerRow({
+            email: 'Example.Customer@example.com',
+            full_name: '',
+            group: 'Model group'
+          })
+        ),
+        expect: [
+          { code: 'TEMPLATE_EXAMPLE_ROW', rowNumber: 2, column: 'email' }
         ]
       }
     ]
@@ -726,6 +805,28 @@ export const ALL_21 = defineRule({
         expect: [
           { code: 'REFERENCE_AMBIGUOUS', rowNumber: 2, column: 'attr:color' }
         ]
+      },
+      {
+        entity: 'customer',
+        name: 'two customer groups that differ only in letter case',
+        store: {
+          customerGroups: [{ name: 'Wholesale' }, { name: 'wholesale' }]
+        },
+        file: customerFile(customerRow({ group: 'Wholesale' })),
+        expect: [{ code: 'REFERENCE_AMBIGUOUS', rowNumber: 2, column: 'group' }]
+      },
+      {
+        entity: 'customer',
+        name: 'two customers that differ only in the letter case of the e-mail',
+        store: {
+          ...CUSTOMER_STORE,
+          customers: [
+            { email: 'jane.doe@example.com' },
+            { email: 'Jane.Doe@example.com' }
+          ]
+        },
+        file: customerFile(customerRow()),
+        expect: [{ code: 'REFERENCE_AMBIGUOUS', rowNumber: 2, column: 'email' }]
       },
       {
         entity: 'product',

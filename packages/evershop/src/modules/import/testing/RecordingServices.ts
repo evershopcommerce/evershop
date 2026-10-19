@@ -1,5 +1,6 @@
 import type {
   CategoryWrite,
+  CustomerWrite,
   EntityServices,
   ProductWrite
 } from '../services/ports/services.js';
@@ -12,7 +13,10 @@ export interface RecordedCall {
     | 'updateProduct'
     | 'createVariantGroup'
     | 'addVariantItem'
-    | 'recordRedirects';
+    | 'recordRedirects'
+    | 'createCustomer'
+    | 'updateCustomer'
+    | 'setCustomerMetafields';
   /** The uuid of an update, or of the product of a join or of redirects. */
   uuid?: string;
   /** What the call was given (the fields of whichever write it is). */
@@ -103,6 +107,27 @@ export class RecordingServices implements EntityServices {
       input: { groupUuid }
     });
     return this.inner.addVariantItem(groupUuid, productUuid);
+  }
+
+  async createCustomer(input: CustomerWrite) {
+    this.check({ method: 'createCustomer', input: { ...input } });
+    return this.inner.createCustomer(input);
+  }
+
+  async updateCustomer(uuid: string, input: CustomerWrite) {
+    this.check({ method: 'updateCustomer', uuid, input: { ...input } });
+    return this.inner.updateCustomer(uuid, input);
+  }
+
+  async setCustomerMetafields(
+    customerId: number,
+    values: Record<string, Record<string, unknown>>
+  ) {
+    this.check({
+      method: 'setCustomerMetafields',
+      input: { customerId, values }
+    });
+    return this.inner.setCustomerMetafields(customerId, values);
   }
 
   async recordRedirects(productUuid: string, fromPaths: string[]) {
