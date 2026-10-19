@@ -36,6 +36,13 @@ export interface WriteOutcome {
   issues: ImportIssue[];
   /** How many times a transient failure was waited out. */
   retries: number;
+  /**
+   * This outcome ends the unit it belongs to, as far as this run goes. A unit of
+   * one row (a category) is always done; a unit of several rows (a variant
+   * group) is done at its last row, so a run that stops in the middle does not
+   * save the place after the unit (default: true).
+   */
+  unitDone?: boolean;
 }
 
 export interface CategoryWriterArgs {

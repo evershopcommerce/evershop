@@ -1,5 +1,8 @@
 import { describe, it, expect } from '@jest/globals';
 import { cloneCounts, emptyCounts } from '../../../services/job/types.js';
+import { recordOutcome } from '../../../services/runner/runImport.js';
+import { Session } from '../../../services/runner/session.js';
+import { harness } from '../helpers/harness.js';
 
 describe('emptyCounts', () => {
   it('starts at zero, with nothing cut at the cap', () => {
@@ -48,5 +51,51 @@ describe('cloneCounts', () => {
     });
     expect(original.issuesTruncated.validate).toBe(true);
     expect(original.firstUnlistedRow).toEqual({ validate: 9, import: null });
+  });
+});
+
+describe('recordOutcome: the place that is saved (a unit of several rows)', () => {
+  const outcome = (unit: number, unitDone?: boolean) => ({
+    unit,
+    rowNumber: unit + 1,
+    key: `K${unit}`,
+    result: 'created' as const,
+    issues: [],
+    retries: 0,
+    unitDone
+  });
+
+  const sessionOf = async () => {
+    const h = harness();
+    const job = h.stage('url_key,name\nx,X\n');
+    return new Session(h.deps, job, 1, job.counts);
+  };
+
+  it('moves to the unit after a row that ends its unit, and the default is that it does', async () => {
+    const session = await sessionOf();
+    recordOutcome(session, outcome(1));
+    recordOutcome(session, outcome(2, true));
+    expect(session.counts.lastUnit).toBe(2);
+    expect(session.counts.created).toBe(2);
+  });
+
+  it('stays before a unit that is not done: a run that stops in the middle of a group starts the group again', async () => {
+    const session = await sessionOf();
+    recordOutcome(session, outcome(1, true));
+    recordOutcome(session, outcome(2, false));
+    expect(session.counts.lastUnit).toBe(1);
+    recordOutcome(session, outcome(2, false));
+    expect(session.counts.lastUnit).toBe(1);
+    recordOutcome(session, outcome(2, true));
+    expect(session.counts.lastUnit).toBe(2);
+    // the rows that were written still count
+    expect(session.counts.created).toBe(4);
+  });
+
+  it('never moves the place back', async () => {
+    const session = await sessionOf();
+    recordOutcome(session, outcome(5, true));
+    recordOutcome(session, outcome(3, false));
+    expect(session.counts.lastUnit).toBe(5);
   });
 });

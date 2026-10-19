@@ -366,6 +366,15 @@ export class MemoryLookup implements Lookup {
     return found;
   }
 
+  /** The text of an option by its id (the memory services write ids). */
+  optionText(id: number): string | null {
+    for (const attribute of this.attributes_) {
+      const text = attribute.options.get(id);
+      if (text !== undefined) return text;
+    }
+    return null;
+  }
+
   /** The id of an option of an attribute by its text, for a test or a service. */
   optionId(code: string, text: string): number | null {
     const attribute = this.attributes_.find(

@@ -1,13 +1,22 @@
 import type {
   CategoryWrite,
-  EntityServices
+  EntityServices,
+  ProductWrite
 } from '../services/ports/services.js';
 
 export interface RecordedCall {
-  method: 'createCategory' | 'updateCategory';
-  /** The uuid of an update. */
+  method:
+    | 'createCategory'
+    | 'updateCategory'
+    | 'createProduct'
+    | 'updateProduct'
+    | 'createVariantGroup'
+    | 'addVariantItem'
+    | 'recordRedirects';
+  /** The uuid of an update, or of the product of a join or of redirects. */
   uuid?: string;
-  input: CategoryWrite;
+  /** What the call was given (the fields of whichever write it is). */
+  input: Record<string, unknown>;
 }
 
 interface Failure {
@@ -60,12 +69,48 @@ export class RecordingServices implements EntityServices {
   }
 
   async createCategory(input: CategoryWrite) {
-    this.check({ method: 'createCategory', input });
+    this.check({ method: 'createCategory', input: { ...input } });
     return this.inner.createCategory(input);
   }
 
   async updateCategory(uuid: string, input: CategoryWrite) {
-    this.check({ method: 'updateCategory', uuid, input });
+    this.check({ method: 'updateCategory', uuid, input: { ...input } });
     return this.inner.updateCategory(uuid, input);
+  }
+
+  async createProduct(input: ProductWrite) {
+    this.check({ method: 'createProduct', input: { ...input } });
+    return this.inner.createProduct(input);
+  }
+
+  async updateProduct(uuid: string, input: ProductWrite) {
+    this.check({ method: 'updateProduct', uuid, input: { ...input } });
+    return this.inner.updateProduct(uuid, input);
+  }
+
+  async createVariantGroup(input: {
+    attributeGroupId: number;
+    axisCodes: string[];
+  }) {
+    this.check({ method: 'createVariantGroup', input: { ...input } });
+    return this.inner.createVariantGroup(input);
+  }
+
+  async addVariantItem(groupUuid: string, productUuid: string) {
+    this.check({
+      method: 'addVariantItem',
+      uuid: productUuid,
+      input: { groupUuid }
+    });
+    return this.inner.addVariantItem(groupUuid, productUuid);
+  }
+
+  async recordRedirects(productUuid: string, fromPaths: string[]) {
+    this.check({
+      method: 'recordRedirects',
+      uuid: productUuid,
+      input: { fromPaths }
+    });
+    return this.inner.recordRedirects(productUuid, fromPaths);
   }
 }
