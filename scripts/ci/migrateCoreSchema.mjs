@@ -31,5 +31,6 @@ const { rows } = await pool.query(
   `SELECT count(*)::int AS tables FROM information_schema.tables WHERE table_schema = 'public'`
 );
 console.log(`${rows[0].tables} tables in ${process.env.DB_NAME}`);
-await pool.end();
+// `migrate` keeps one connection for itself and never gives it back, so `pool.end()` would
+// wait for it for ever: leave by process.exit.
 process.exit(rows[0].tables >= 50 ? 0 : 1);
