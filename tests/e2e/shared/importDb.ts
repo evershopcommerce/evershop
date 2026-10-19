@@ -17,6 +17,8 @@ export const E2E_EMAIL_DOMAIN = 'e2e-import.invalid';
 
 export async function sweepImportWorld(): Promise<void> {
   const db = getDb();
+  // A failure a spec installed must never outlive it.
+  await allowCategoryWrites();
   // The chunks and the problems of a job follow it (foreign keys).
   await db.query(`DELETE FROM import_job WHERE file_name LIKE 'e2e-%'`);
   // The addresses of a customer follow it.
@@ -195,4 +197,58 @@ export async function createOtherAdmin(): Promise<TestAdmin> {
 
 export async function deleteOtherAdmin(admin: TestAdmin): Promise<void> {
   await deleteTestAdmin(admin.adminUserId);
+}
+
+/** The keys that `refuseCategoryWrites` makes the database refuse. */
+export const FAIL_KEY_PREFIX = 'e2e-imp-fail-';
+
+/**
+ * Makes the database refuse to write a category whose `url_key` starts with
+ * `e2e-imp-fail-`: a failure that only the write can show (the check cannot see a
+ * trigger), as a full disk or a conflict with another admin would be. Only keys
+ * with that prefix are touched. `allowCategoryWrites` takes it away, and so does
+ * the sweep.
+ */
+export async function refuseCategoryWrites(): Promise<void> {
+  const db = getDb();
+  await db.query(
+    `CREATE OR REPLACE FUNCTION e2e_import_refuse() RETURNS trigger LANGUAGE plpgsql AS $$
+     BEGIN
+       IF NEW.url_key LIKE '${FAIL_KEY_PREFIX}%' THEN
+         RAISE EXCEPTION 'e2e: the database refuses this category';
+       END IF;
+       RETURN NEW;
+     END $$`
+  );
+  await db.query(`DROP TRIGGER IF EXISTS e2e_import_refuse ON category_description`);
+  await db.query(
+    `CREATE TRIGGER e2e_import_refuse BEFORE INSERT OR UPDATE ON category_description
+       FOR EACH ROW EXECUTE FUNCTION e2e_import_refuse()`
+  );
+}
+
+export async function allowCategoryWrites(): Promise<void> {
+  const db = getDb();
+  await db.query(`DROP TRIGGER IF EXISTS e2e_import_refuse ON category_description`);
+  await db.query(`DROP FUNCTION IF EXISTS e2e_import_refuse()`);
+}
+
+/** The categories with this prefix, by key, for a comparison of lists. */
+export async function categoryKeys(prefix = 'e2e-imp-%'): Promise<string[]> {
+  const { rows } = await getDb().query<{ url_key: string }>(
+    `SELECT url_key FROM category_description WHERE url_key LIKE $1 ORDER BY url_key COLLATE "C"`,
+    [prefix]
+  );
+  return rows.map((r) => r.url_key);
+}
+
+/** The images of a product, the main one first, as the store keeps them (a path in its file storage). */
+export async function productImages(sku: string): Promise<string[]> {
+  const { rows } = await getDb().query<{ origin_image: string }>(
+    `SELECT i.origin_image FROM product_image i
+       JOIN product p ON p.product_id = i.product_image_product_id
+      WHERE p.sku = $1 ORDER BY i.is_main DESC, i.product_image_id`,
+    [sku]
+  );
+  return rows.map((r) => r.origin_image);
 }
