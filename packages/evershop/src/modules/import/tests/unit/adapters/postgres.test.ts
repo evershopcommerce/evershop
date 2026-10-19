@@ -20,7 +20,10 @@ import {
 } from '../../../web/handlers.js';
 import type { ImportWeb } from '../../../web/ImportWeb.js';
 import { uploadJob } from '../../../web/upload.js';
+import { registerAddressField } from '../../../../../lib/address/extras.js';
 import { EventStorage } from '../../../../../lib/event/EventStorage.js';
+import { addProcessor } from '../../../../../lib/util/registry.js';
+import { normalizeAddressInput } from '../../../../customer/services/customer/address/normalizeAddressInput.js';
 import { eventBacklogContract } from '../helpers/eventBacklogContract.js';
 import { fileStoreContract } from '../helpers/fileStoreContract.js';
 import { jobAdminContract } from '../helpers/jobAdminContract.js';
@@ -718,7 +721,43 @@ describeDb('PgFileStore', () => {
 });
 
 describeDb('PgLookup', () => {
+  // The customer module registers its normalizer on the seam when it boots.
+  addProcessor('customerAddressDataBeforeCreate', normalizeAddressInput, 0);
   lookupContract('PgLookup', () => pgLookupHarness(db!));
+
+  it('runs the processors of the seam, whatever module registered them (an extension’s too)', async () => {
+    addProcessor(
+      'customerAddressDataBeforeCreate',
+      (address: Record<string, unknown>) => ({
+        ...address,
+        organization: 'Added by an extension'
+      }),
+      10
+    );
+    const harness = await pgLookupHarness(db!);
+    const rules = await harness.lookup.addressRules();
+    expect(
+      await rules.normalize({ recipient: ' Jane ', country: 'us' })
+    ).toMatchObject({
+      recipient: 'Jane',
+      country: 'US',
+      organization: 'Added by an extension'
+    });
+  });
+
+  it('gives the extra fields that are registered for a country, and only for it', async () => {
+    registerAddressField({
+      id: 'gift_note',
+      type: 'text',
+      label: 'Gift note',
+      countries: ['US']
+    });
+    const harness = await pgLookupHarness(db!);
+    const rules = await harness.lookup.addressRules();
+    expect(rules.extraIds('US')).toContain('gift_note');
+    expect(rules.extraIds('us')).toContain('gift_note');
+    expect(rules.extraIds('DE')).not.toContain('gift_note');
+  });
 
   it('reserves the routes of one segment of letters, digits and hyphens, and the languages', async () => {
     const { PgLookup } = await import('../../../adapters/PgLookup.js');

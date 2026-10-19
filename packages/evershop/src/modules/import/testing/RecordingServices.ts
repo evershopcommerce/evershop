@@ -1,4 +1,5 @@
 import type {
+  AddressWrite,
   CategoryWrite,
   CustomerWrite,
   EntityServices,
@@ -16,7 +17,8 @@ export interface RecordedCall {
     | 'recordRedirects'
     | 'createCustomer'
     | 'updateCustomer'
-    | 'setCustomerMetafields';
+    | 'setCustomerMetafields'
+    | 'createCustomerAddress';
   /** The uuid of an update, or of the product of a join or of redirects. */
   uuid?: string;
   /** What the call was given (the fields of whichever write it is). */
@@ -107,6 +109,15 @@ export class RecordingServices implements EntityServices {
       input: { groupUuid }
     });
     return this.inner.addVariantItem(groupUuid, productUuid);
+  }
+
+  async createCustomerAddress(customerUuid: string, input: AddressWrite) {
+    this.check({
+      method: 'createCustomerAddress',
+      uuid: customerUuid,
+      input: { ...input }
+    });
+    return this.inner.createCustomerAddress(customerUuid, input);
   }
 
   async createCustomer(input: CustomerWrite) {

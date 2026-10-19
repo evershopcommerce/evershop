@@ -17,10 +17,12 @@ import { buildEntityPath } from '../../catalog/services/redirect/pathRemap.js';
 import { resolveCategoryUrlPath } from '../../catalog/services/redirect/resolveCategoryUrlPath.js';
 import addVariantItem from '../../catalog/services/variant/addVariantItem.js';
 import createVariantGroup from '../../catalog/services/variant/createVariantGroup.js';
+import createCustomerAddress from '../../customer/services/customer/address/createCustomerAddress.js';
 import createCustomer from '../../customer/services/customer/createCustomer.js';
 import { setCustomerMetafields } from '../../customer/services/customer/customerMetafield.js';
 import updateCustomer from '../../customer/services/customer/updateCustomer.js';
 import type {
+  AddressWrite,
   CategoryWrite,
   CustomerWrite,
   EntityServices,
@@ -111,6 +113,16 @@ export function createCoreEntityServices(pool: Pool): EntityServices {
       const { password, passwordHash, noPassword, ...fields } = input;
       void [password, passwordHash, noPassword];
       await updateCustomer(uuid, fields as never, {});
+    },
+
+    // The seam, the validation and the insert are core's; a rejection is thrown
+    // as `AddressValidationError`, which carries `errors`.
+    async createCustomerAddress(customerUuid: string, input: AddressWrite) {
+      const row = await createCustomerAddress(customerUuid, { ...input }, {});
+      return {
+        id: Number(row.customer_address_id),
+        uuid: String(row.uuid)
+      };
     },
 
     async setCustomerMetafields(customerId, values) {

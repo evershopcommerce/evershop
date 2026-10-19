@@ -95,6 +95,8 @@ export function memoryLookupHarness(): LookupHarness {
       customers: (emails) => current.customers(emails),
       customerGroups: (names) => current.customerGroups(names),
       passwordCheck: () => current.passwordCheck(),
+      addressRules: () => current.addressRules(),
+      customerAddresses: (ids) => current.customerAddresses(ids),
       products: (skus) => current.products(skus),
       productUrlKeyOwners: (keys) => current.productUrlKeyOwners(keys),
       attributeGroups: (names) => current.attributeGroups(names),

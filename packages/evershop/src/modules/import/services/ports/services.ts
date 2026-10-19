@@ -80,6 +80,17 @@ export interface CustomerWrite {
 }
 
 /**
+ * What `createCustomerAddress` takes (§ 5.5): the shared columns as text, the
+ * registered extras in `extra`, and `is_default` as 0 or 1. Core runs its
+ * normalization seam and its validation on it.
+ */
+export interface AddressWrite {
+  extra?: Record<string, unknown>;
+  is_default?: 0 | 1;
+  [column: string]: unknown;
+}
+
+/**
  * The writes: the existing core services behind one object (§ 4.5, point 2), so
  * that a test replaces all of them. An error they throw is a failed row, and the
  * run goes on. The real one is made from `createCategory` and `updateCategory`;
@@ -103,6 +114,15 @@ export interface EntityServices {
   }): Promise<{ id: number; uuid: string }>;
   /** Puts a product in a variant group (G1); the package converges. */
   addVariantItem(groupUuid: string, productUuid: string): Promise<void>;
+  /**
+   * An address is added to a customer; it is never matched with an existing one
+   * (D-18). A rejection by the validation is thrown as an error that carries
+   * `errors`, a list of `{ field, code, message }`.
+   */
+  createCustomerAddress(
+    customerUuid: string,
+    input: AddressWrite
+  ): Promise<{ id: number; uuid: string }>;
   /**
    * A customer, with no welcome e-mail and the password as `CustomerWrite` says
    * (G3). The custom fields are a separate call: core has no create-time path.

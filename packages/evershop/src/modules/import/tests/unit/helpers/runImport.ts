@@ -2,9 +2,11 @@ import { createHash } from 'crypto';
 import { generateFileName } from '../../../../cms/services/generateFileName.js';
 import { categoryValidator } from '../../../services/entities/category/categoryValidator.js';
 import { customerValidator } from '../../../services/entities/customer/customerValidator.js';
+import { customerAddressValidator } from '../../../services/entities/customerAddress/customerAddressValidator.js';
 import { productValidator } from '../../../services/entities/product/productValidator.js';
 import type { CategoryPlan } from '../../../services/plan/categoryPlan.js';
 import { planCategories } from '../../../services/plan/categoryPlan.js';
+import { planAddresses } from '../../../services/plan/customerAddressPlan.js';
 import { planCustomers } from '../../../services/plan/customerPlan.js';
 import { planProducts } from '../../../services/plan/productPlan.js';
 import type { StoreFixture } from '../../../services/ports/lookup.js';
@@ -16,6 +18,7 @@ import type {
   CategoryWriterArgs,
   WriteOutcome
 } from '../../../services/write/categoryWriter.js';
+import { writeCustomerAddresses } from '../../../services/write/customerAddressWriter.js';
 import { writeCustomers } from '../../../services/write/customerWriter.js';
 import { writeProducts } from '../../../services/write/productWriter.js';
 import { FakeClock } from '../../../testing/FakeClock.js';
@@ -204,6 +207,58 @@ export async function importCustomers(
     header: indexed.header,
     state: indexed.state,
     plan,
+    context,
+    services,
+    clock,
+    resumed: options.resumed,
+    include: options.include,
+    signal: options.signal,
+    batchSize: options.batchSize
+  })) {
+    outcomes.push(outcome);
+    if (
+      options.stopAfter !== undefined &&
+      outcomes.length >= options.stopAfter
+    ) {
+      break;
+    }
+  }
+  return { ...run, outcomes };
+}
+
+/** The same for a customer addresses file. */
+export async function importAddresses(
+  file: string,
+  options: ImportOptions = {}
+): Promise<Omit<ImportRun, 'plan'>> {
+  const lookup = new MemoryLookup(options.store);
+  const memory = new MemoryServices(lookup);
+  const services = new RecordingServices(memory);
+  const clock = new FakeClock();
+  const images = new FakeImageFetcher(keyDeps);
+  const run = { lookup, memory, services, images, clock };
+  options.prepare?.(run);
+  const context = {
+    lookup,
+    mode: options.mode ?? 'upsert',
+    now: () => clock.now(),
+    sha256Hex: keyDeps.sha256Hex
+  };
+  const open = () => chunked(file);
+  const indexed = await indexFile({
+    validator: customerAddressValidator,
+    context,
+    open,
+    limits: options.limits
+  });
+  if (indexed.header === null) throw new Error('The test file has no header');
+  const outcomes: WriteOutcome[] = [];
+  for await (const outcome of writeCustomerAddresses({
+    open,
+    limits: options.limits,
+    header: indexed.header,
+    state: indexed.state,
+    plan: planAddresses(),
     context,
     services,
     clock,

@@ -1,6 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { ALL_RULES } from '../../../services/rules/allRules.js';
 import { CATEGORY_RULES } from '../../../services/rules/categoryRules.js';
+import { ADDRESS_RULES } from '../../../services/rules/customerAddressRules.js';
 import { CUSTOMER_RULES } from '../../../services/rules/customerRules.js';
 import { METAFIELD_RULES } from '../../../services/rules/metafieldRules.js';
 import { PRODUCT_RULES } from '../../../services/rules/productRules.js';
@@ -18,11 +19,14 @@ const RULES: Rule[] = [
   ...CATEGORY_RULES,
   ...PRODUCT_RULES,
   ...CUSTOMER_RULES,
+  ...ADDRESS_RULES,
   ...METAFIELD_RULES
 ];
 
 const entityOf = (rule: Rule) =>
-  rule.entity === 'product' || rule.entity === 'customer'
+  rule.entity === 'product' ||
+  rule.entity === 'customer' ||
+  rule.entity === 'customerAddress'
     ? rule.entity
     : 'category';
 
@@ -58,7 +62,7 @@ describe('the examples of the rules', () => {
   it.each(cases)('$title', async ({ example, entity }) => {
     for (const chunkSize of [undefined, 3]) {
       const result = await validateEntity(
-        entity as 'category' | 'product' | 'customer',
+        entity as 'category' | 'product' | 'customer' | 'customerAddress',
         example.file,
         {
           mode: example.mode,

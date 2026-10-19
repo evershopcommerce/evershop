@@ -1,13 +1,18 @@
+import { ADDRESS_COLUMNS } from '../../../lib/address/tokens.js';
 import type {
   FieldDescriptor,
   MetafieldDefinition
 } from '../../../lib/metafield/types.js';
+import { normalizeAddressInput } from '../../customer/services/customer/address/normalizeAddressInput.js';
+import { createAddressRules } from '../adapters/addressRules.js';
 import { toStoredMetafield } from '../adapters/metafieldCheck.js';
 import type {
   Lookup,
   MetafieldFieldFixture,
+  AddressRules,
   NamedRecord,
   PasswordCheck,
+  StoredAddress,
   StoredCustomer,
   StoredMetafield,
   StoredAttribute,
@@ -45,6 +50,17 @@ export interface MemoryCustomer {
   status: 0 | 1;
   groupId: number | null;
   metaData: Record<string, Record<string, unknown>>;
+}
+
+/** An address in the memory store. */
+export interface MemoryAddress {
+  id: number;
+  uuid: string;
+  customerId: number;
+  /** The 14 shared columns, `''` where empty. */
+  fields: Record<string, string>;
+  extra: Record<string, unknown> | null;
+  isDefault: boolean;
 }
 
 interface MemoryAttribute extends StoredAttribute {
@@ -96,6 +112,14 @@ export class MemoryLookup implements Lookup {
 
   readonly customerGroups_: NamedRecord[] = [];
 
+  /** The addresses of the customers. `MemoryServices` writes here. */
+  readonly addresses_: MemoryAddress[] = [];
+
+  private readonly addressSellTo: 'all' | string[] = 'all';
+
+  /** The ids of the extra address fields, by country (those a store registered). */
+  readonly addressExtras_: Record<string, string[]> = {};
+
   /** The shortest password the store accepts. */
   passwordMinLength = 6;
 
@@ -135,6 +159,8 @@ export class MemoryLookup implements Lookup {
         name: group.name
       });
     });
+    this.addressExtras_ = { ...fixture.addressExtras };
+    this.addressSellTo = fixture.addressSellTo ?? 'all';
     (fixture.customers ?? []).forEach((customer, index) => {
       const id = customer.id ?? index + 1;
       const group = customer.group
@@ -150,6 +176,26 @@ export class MemoryLookup implements Lookup {
         status: customer.status ?? 1,
         groupId: group?.id ?? null,
         metaData: customer.metaData ?? {}
+      });
+    });
+    (fixture.customerAddresses ?? []).forEach((address, index) => {
+      const owner = [...this.customers_.values()].find(
+        (c) => lower(c.email) === lower(address.customer)
+      );
+      if (!owner)
+        throw new Error(`No customer ${address.customer} for an address`);
+      this.addresses_.push({
+        id: index + 1,
+        uuid: `address-uuid-${index + 1}`,
+        customerId: owner.id,
+        fields: Object.fromEntries(
+          ADDRESS_COLUMNS.map((column) => [
+            column,
+            address.fields[column] ?? ''
+          ])
+        ),
+        extra: address.extra ?? null,
+        isDefault: false
       });
     });
 
@@ -330,6 +376,36 @@ export class MemoryLookup implements Lookup {
   async customerGroups(names: readonly string[]) {
     this.count('customerGroups');
     return this.named(this.customerGroups_, names);
+  }
+
+  // The store's own normalizer, run directly (the real store runs the processors
+  // that the customer module registers for it), and core's library for the rest.
+  async addressRules(): Promise<AddressRules> {
+    this.count('addressRules');
+    return createAddressRules({
+      normalize: async (address) =>
+        normalizeAddressInput.call({}, address as never) as never,
+      extraIds: (country) => this.addressExtras_[country.toUpperCase()] ?? [],
+      sellToCountries: this.addressSellTo
+    });
+  }
+
+  async customerAddresses(
+    customerIds: readonly number[]
+  ): Promise<Map<number, StoredAddress[]>> {
+    this.count('customerAddresses');
+    const found = new Map<number, StoredAddress[]>();
+    for (const address of this.addresses_) {
+      if (!customerIds.includes(address.customerId)) continue;
+      const list = found.get(address.customerId) ?? [];
+      list.push({
+        id: address.id,
+        fields: { ...address.fields },
+        extra: address.extra ? { ...address.extra } : null
+      });
+      found.set(address.customerId, list);
+    }
+    return found;
   }
 
   async passwordCheck(): Promise<PasswordCheck> {

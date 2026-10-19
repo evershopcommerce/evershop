@@ -325,6 +325,7 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
                   ${schema}.package, ${schema}.tax_class,
                   ${schema}.variant_group, ${schema}.url_redirect,
                   ${schema}.customer, ${schema}.customer_group,
+                  ${schema}.customer_address,
                   ${schema}.url_rewrite RESTART IDENTITY`
       );
       // Parents first, as the foreign key of a real store needs.
@@ -427,12 +428,14 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
           inserted.rows[0].customer_group_id
         );
       }
+      const customerIds = new Map<string, number>();
       for (const customer of fixture.customers ?? []) {
         // eslint-disable-next-line no-await-in-loop
-        await pool.query(
+        const made = await pool.query(
           `INSERT INTO ${schema}.customer
              (email, full_name, status, group_id, password, meta_data)
-           VALUES ($1, $2, $3, $4, 'not-a-real-hash', $5::jsonb)`,
+           VALUES ($1, $2, $3, $4, 'not-a-real-hash', $5::jsonb)
+           RETURNING customer_id`,
           [
             customer.email,
             customer.name ?? customer.email,
@@ -441,6 +444,23 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
               ? groupIds.get(customer.group.toLowerCase()) ?? null
               : null,
             JSON.stringify(customer.metaData ?? {})
+          ]
+        );
+        customerIds.set(customer.email.toLowerCase(), made.rows[0].customer_id);
+      }
+      for (const address of fixture.customerAddresses ?? []) {
+        const columns = Object.keys(address.fields);
+        // eslint-disable-next-line no-await-in-loop
+        await pool.query(
+          `INSERT INTO ${schema}.customer_address
+             (customer_id, ${columns.join(', ')}, extra)
+           VALUES ($1, ${columns.map((_, n) => `$${n + 2}`).join(', ')}, $${
+            columns.length + 2
+          }::jsonb)`,
+          [
+            customerIds.get(address.customer.toLowerCase()),
+            ...columns.map((column) => address.fields[column]),
+            address.extra ? JSON.stringify(address.extra) : null
           ]
         );
       }

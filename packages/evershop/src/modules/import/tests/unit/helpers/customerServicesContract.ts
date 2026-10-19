@@ -13,6 +13,14 @@ export interface CustomerView {
   metaData: Record<string, Record<string, unknown>>;
 }
 
+/** An address as the store has it. */
+export interface AddressView {
+  uuid: string;
+  fields: Record<string, string>;
+  extra: Record<string, unknown> | null;
+  isDefault: boolean;
+}
+
 /**
  * The services and a way to look at what they wrote. The store has two groups
  * and two custom fields for customers: `custom.optin` (a boolean) and
@@ -26,6 +34,8 @@ export interface CustomerServicesHarness {
   storedHash(email: string): Promise<string | null>;
   /** Whether this password logs the customer in. */
   loginWorks(email: string, password: string): Promise<boolean>;
+  /** The addresses of the customer, in the order they were added. */
+  addresses(email: string): Promise<AddressView[]>;
   /** The events that send the welcome e-mail (`customer_registered`, `account_created`). */
   welcomeEvents(): Promise<number>;
   count(): Promise<number>;
@@ -284,6 +294,129 @@ export function customerServicesContract(
           })
         );
         expect(error.message).toMatch(/not found/i);
+      });
+    });
+
+    describe('createCustomerAddress', () => {
+      const US = {
+        recipient: 'Jane Doe',
+        address_line_1: '1 Market Street',
+        locality: 'San Francisco',
+        administrative_area: 'US-CA',
+        postal_code: '94105',
+        country: 'US',
+        telephone: '+14155550100'
+      };
+      const customer = async (email = 'contract-a@example.com') =>
+        services.createCustomer({
+          email,
+          full_name: 'Contract A',
+          password: 'Secret-1'
+        });
+
+      it('adds an address to the customer, after the seam: trimmed, the country in capitals, the telephone E.164', async () => {
+        const { uuid } = await customer();
+        const made = await services.createCustomerAddress(uuid, {
+          ...US,
+          recipient: '  Jane Doe ',
+          country: 'us',
+          telephone: '(415) 555-0100'
+        });
+        expect(typeof made.id).toBe('number');
+        expect(made.uuid).toMatch(/^[0-9a-f-]{36}$/);
+        const [stored] = await h.addresses('contract-a@example.com');
+        expect(stored.uuid).toBe(made.uuid);
+        expect(stored.fields).toMatchObject({
+          recipient: 'Jane Doe',
+          address_line_1: '1 Market Street',
+          country: 'US',
+          telephone: '+14155550100',
+          given_name: '',
+          organization: ''
+        });
+        expect(stored.extra).toBeNull();
+      });
+
+      it('keeps the extras it is given, and makes one default address, the last that says so', async () => {
+        const { uuid } = await customer();
+        await services.createCustomerAddress(uuid, {
+          ...US,
+          extra: { gift_note: 'Door' },
+          is_default: 1
+        });
+        await services.createCustomerAddress(uuid, {
+          ...US,
+          address_line_1: '2 Main Street',
+          is_default: 0
+        });
+        let list = await h.addresses('contract-a@example.com');
+        expect(list.map((a) => a.isDefault)).toEqual([true, false]);
+        expect(list[0].extra).toEqual({ gift_note: 'Door' });
+        await services.createCustomerAddress(uuid, {
+          ...US,
+          address_line_1: '3 Elm Street',
+          is_default: 1
+        });
+        list = await h.addresses('contract-a@example.com');
+        expect(list.map((a) => a.isDefault)).toEqual([false, false, true]);
+      });
+
+      it('adds the same address again when it is given again (nothing is matched, D-18)', async () => {
+        const { uuid } = await customer();
+        await services.createCustomerAddress(uuid, { ...US });
+        await services.createCustomerAddress(uuid, { ...US });
+        expect(await h.addresses('contract-a@example.com')).toHaveLength(2);
+      });
+
+      it('keeps each customer’s addresses apart', async () => {
+        const one = await customer('contract-a@example.com');
+        const two = await customer('contract-b@example.com');
+        await services.createCustomerAddress(one.uuid, {
+          ...US,
+          is_default: 1
+        });
+        await services.createCustomerAddress(two.uuid, {
+          ...US,
+          is_default: 1
+        });
+        expect((await h.addresses('contract-a@example.com'))[0].isDefault).toBe(
+          true
+        );
+        expect((await h.addresses('contract-b@example.com'))[0].isDefault).toBe(
+          true
+        );
+      });
+
+      it('refuses an address that the validation refuses, with every error and its field, and adds nothing', async () => {
+        const { uuid } = await customer();
+        const error = (await failure(
+          services.createCustomerAddress(uuid, {
+            ...US,
+            postal_code: 'ABC',
+            administrative_area: 'California'
+          })
+        )) as Error & { errors?: Array<{ field?: string; code: string }> };
+        expect(error.name).toBe('AddressValidationError');
+        expect(
+          (error.errors ?? []).map((e) => `${e.field}:${e.code}`).sort()
+        ).toEqual([
+          'administrative_area:region_invalid',
+          'postal_code:pattern'
+        ]);
+        expect(await h.addresses('contract-a@example.com')).toEqual([]);
+      });
+
+      it('refuses a customer that is not there, and goes on after a failure', async () => {
+        const { uuid } = await customer();
+        const error = await failure(
+          services.createCustomerAddress(
+            '00000000-0000-4000-8000-00000000dead',
+            { ...US }
+          )
+        );
+        expect(error.message).toMatch(/invalid customer/i);
+        await services.createCustomerAddress(uuid, { ...US });
+        expect(await h.addresses('contract-a@example.com')).toHaveLength(1);
       });
     });
 

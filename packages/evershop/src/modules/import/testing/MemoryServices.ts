@@ -1,4 +1,6 @@
+import { ADDRESS_COLUMNS } from '../../../lib/address/tokens.js';
 import type {
+  AddressWrite,
   CategoryWrite,
   CustomerWrite,
   EntityServices,
@@ -349,6 +351,52 @@ export class MemoryServices implements EntityServices {
 
   private customerByUuid(uuid: string) {
     return [...this.store.customers_.values()].find((c) => c.uuid === uuid);
+  }
+
+  async createCustomerAddress(
+    customerUuid: string,
+    input: AddressWrite
+  ): Promise<{ id: number; uuid: string }> {
+    const rules = await this.store.addressRules();
+    const { extra, is_default: isDefault, ...columns } = input;
+    // As core: the seam, then the validation, which throws every error together.
+    const normalized = await rules.normalize({
+      ...columns,
+      ...(extra ? { extra } : {})
+    });
+    const problems = await rules.check(normalized);
+    if (problems.length > 0) {
+      throw Object.assign(
+        new Error(problems.map((p) => p.message).join(', ')),
+        { name: 'AddressValidationError', errors: problems }
+      );
+    }
+    const customer = this.customerByUuid(customerUuid);
+    if (!customer) throw new Error('Invalid customer');
+    const id = Math.max(0, ...this.store.addresses_.map((a) => a.id)) + 1;
+    const uuid = `00000000-0000-4000-8000-${String(id).padStart(12, '0')}`;
+    if (isDefault) {
+      for (const other of this.store.addresses_) {
+        if (other.customerId === customer.id) other.isDefault = false;
+      }
+    }
+    const folded = (normalized.extra ?? null) as Record<string, unknown> | null;
+    this.store.addresses_.push({
+      id,
+      uuid,
+      customerId: customer.id,
+      fields: Object.fromEntries(
+        ADDRESS_COLUMNS.map((column) => [
+          column,
+          normalized[column] === undefined || normalized[column] === null
+            ? ''
+            : String(normalized[column])
+        ])
+      ),
+      extra: folded && Object.keys(folded).length > 0 ? { ...folded } : null,
+      isDefault: Boolean(isDefault)
+    });
+    return { id, uuid };
   }
 
   async createCustomer(
