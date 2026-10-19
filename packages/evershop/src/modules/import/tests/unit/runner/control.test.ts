@@ -312,7 +312,8 @@ describe('the heartbeat, in more detail', () => {
     }
     h.deps.lookup = new Spy();
     await runValidation(1, h.deps);
-    expect(seen).toEqual({ stage: 'reading', total: 0, createRows: 0 });
+    // The store is asked in the second pass over the file: the stage is 'lookups'.
+    expect(seen).toEqual({ stage: 'lookups', total: 0, createRows: 0 });
     expect(h.jobs.snapshot(1).stage).toBeNull();
   });
 

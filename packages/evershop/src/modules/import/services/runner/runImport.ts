@@ -85,7 +85,10 @@ export async function runImport(
       if (!(await deps.jobs.clearIssues(jobId, attempt, 'validate'))) {
         return await session.abandon();
       }
-      const summary = await checkFile(session, job, pipeline);
+      const summary = await checkFile(session, job, pipeline, [
+        'rechecking',
+        'rechecking'
+      ]);
       if (control.reason) {
         return await session.finish('validated');
       }

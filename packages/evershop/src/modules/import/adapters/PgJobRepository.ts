@@ -17,6 +17,7 @@ import type {
   FinishPatch,
   JobRepository
 } from '../services/ports/jobRepository.js';
+import type { ImportEntity } from '../services/types.js';
 import {
   COLUMNS,
   ISSUES_PAGE,
@@ -172,6 +173,15 @@ export class PgJobRepository implements JobRepository {
       [jobId, attempt]
     );
     return result.rowCount === 1;
+  }
+
+  async busyImport(): Promise<ImportEntity | null> {
+    const result = await this.pool.query(
+      `SELECT entity FROM import_job
+        WHERE status IN ('queued', 'running')
+        ORDER BY import_job_id LIMIT 1`
+    );
+    return (result.rows[0]?.entity as ImportEntity | undefined) ?? null;
   }
 
   async setWaiting(

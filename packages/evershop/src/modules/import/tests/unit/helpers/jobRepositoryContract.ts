@@ -296,6 +296,40 @@ export function jobRepositoryContract(
       });
     });
 
+    describe('busyImport', () => {
+      it('gives the entity of an import that is queued or running, and null when there is none', async () => {
+        expect(await repo.busyImport()).toBeNull();
+        const job = await h.insert({ status: 'validated', entity: 'category' });
+        expect(await repo.busyImport()).toBeNull();
+        await h.setStatus(job.id, 'queued');
+        expect(await repo.busyImport()).toBe('category');
+        await h.setStatus(job.id, 'running');
+        expect(await repo.busyImport()).toBe('category');
+        for (const status of [
+          'completed',
+          'failed',
+          'canceled',
+          'stopped',
+          'interrupted',
+          'uploaded',
+          'validating'
+        ] as const) {
+          // eslint-disable-next-line no-await-in-loop
+          await h.setStatus(job.id, status);
+          // eslint-disable-next-line no-await-in-loop
+          expect([status, await repo.busyImport()]).toEqual([status, null]);
+        }
+      });
+
+      it('gives the entity of whichever import is there, one after the other', async () => {
+        const first = await h.insert({ status: 'queued', entity: 'product' });
+        expect(await repo.busyImport()).toBe('product');
+        await h.setStatus(first.id, 'completed');
+        await h.insert({ status: 'running', entity: 'category' });
+        expect(await repo.busyImport()).toBe('category');
+      });
+    });
+
     describe('the wait for the event queue', () => {
       it('marks the job as waiting from now on, and clears the mark, and writes nothing else', async () => {
         const { id, attempt } = await claimed({ status: 'queued' });
