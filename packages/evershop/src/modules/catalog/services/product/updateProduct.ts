@@ -475,7 +475,13 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
       }
     }
   }
+  // `product` is the stored row (with its description columns): the base of the
+  // result, so that the steps that follow (inventory, attributes, images) always
+  // have the id and the variant group of the product, also when this payload
+  // changed nothing in `product` or `product_description` (attributes only,
+  // images only: found by the import engine, 2026-10-19).
   return {
+    ...product,
     ...description,
     ...newProduct,
     updatedId: product.product_id
