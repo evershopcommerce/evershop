@@ -324,6 +324,7 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
                   ${schema}.attribute_group, ${schema}.attribute_group_link,
                   ${schema}.package, ${schema}.tax_class,
                   ${schema}.variant_group, ${schema}.url_redirect,
+                  ${schema}.customer, ${schema}.customer_group,
                   ${schema}.url_rewrite RESTART IDENTITY`
       );
       // Parents first, as the foreign key of a real store needs.
@@ -412,6 +413,36 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
             ]
           );
         }
+      }
+      const groupIds = new Map<string, number>();
+      for (const group of fixture.customerGroups ?? []) {
+        // eslint-disable-next-line no-await-in-loop
+        const inserted = await pool.query(
+          `INSERT INTO ${schema}.customer_group (group_name)
+           VALUES ($1) RETURNING customer_group_id`,
+          [group.name]
+        );
+        groupIds.set(
+          group.name.toLowerCase(),
+          inserted.rows[0].customer_group_id
+        );
+      }
+      for (const customer of fixture.customers ?? []) {
+        // eslint-disable-next-line no-await-in-loop
+        await pool.query(
+          `INSERT INTO ${schema}.customer
+             (email, full_name, status, group_id, password, meta_data)
+           VALUES ($1, $2, $3, $4, 'not-a-real-hash', $5::jsonb)`,
+          [
+            customer.email,
+            customer.name ?? customer.email,
+            customer.status ?? 1,
+            customer.group
+              ? groupIds.get(customer.group.toLowerCase()) ?? null
+              : null,
+            JSON.stringify(customer.metaData ?? {})
+          ]
+        );
       }
       await setProductStore(pool, schema, fixture, ids);
       // Half of the reserved keys are routes, half are language codes.

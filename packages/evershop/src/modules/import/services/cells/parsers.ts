@@ -264,3 +264,35 @@ export function parseBcryptHash(text: string): CellResult<string> {
     'is not a bcrypt hash: it starts with $2a$, $2b$ or $2y$, then a cost from 04 to 31, and is 60 characters long.'
   );
 }
+
+/**
+ * The longest e-mail address (RFC 5321). Core accepts a longer one, but the
+ * expression below backtracks on a long run of letters, and a cell can hold 64
+ * KiB, so a longer address is refused before the expression runs.
+ */
+export const MAX_EMAIL_LENGTH = 254;
+
+// The expression of the `email` format of `ajv-formats` ("full" mode, which
+// `getAjv()` uses), so the check of core's schema and this one agree. A test
+// compares the two on many strings.
+const EMAIL =
+  /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
+
+/** An e-mail address, as core's schema accepts it (CUS-01). */
+export function parseEmail(text: string): CellResult<string> {
+  if (text.length > MAX_EMAIL_LENGTH) {
+    return refuse(
+      'INVALID_VALUE',
+      { reason: 'too_long', max: MAX_EMAIL_LENGTH },
+      `is longer than ${MAX_EMAIL_LENGTH} characters, which no e-mail address is.`
+    );
+  }
+  if (EMAIL.test(text)) {
+    return accept(text);
+  }
+  return refuse(
+    'INVALID_VALUE',
+    { reason: 'not_email' },
+    'must be an e-mail address, such as jane@example.com.'
+  );
+}

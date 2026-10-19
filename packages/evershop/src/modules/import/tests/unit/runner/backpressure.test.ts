@@ -44,6 +44,10 @@ function eventfulStore(h: Harness, rowMs = 400) {
     createVariantGroup: (input) => inner.createVariantGroup(input),
     addVariantItem: (group, product) => inner.addVariantItem(group, product),
     recordRedirects: (uuid, paths) => inner.recordRedirects(uuid, paths),
+    createCustomer: (input) => inner.createCustomer(input),
+    updateCustomer: (uuid, input) => inner.updateCustomer(uuid, input),
+    setCustomerMetafields: (id, values) =>
+      inner.setCustomerMetafields(id, values),
     async createCategory(input) {
       await h.clock.advance(rowMs);
       return inner.createCategory(input);

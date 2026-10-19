@@ -7,6 +7,7 @@ import {
 import type { Pool } from 'pg';
 import { getConnection } from '../../../lib/postgres/connection.js';
 import { CatalogUrn } from '../../../lib/urn/index.js';
+import { createUnusablePasswordHash } from '../../../lib/util/passwordHelper.js';
 import { recordRedirect } from '../../base/services/recordRedirect.js';
 import createCategory from '../../catalog/services/category/createCategory.js';
 import updateCategory from '../../catalog/services/category/updateCategory.js';
@@ -16,8 +17,12 @@ import { buildEntityPath } from '../../catalog/services/redirect/pathRemap.js';
 import { resolveCategoryUrlPath } from '../../catalog/services/redirect/resolveCategoryUrlPath.js';
 import addVariantItem from '../../catalog/services/variant/addVariantItem.js';
 import createVariantGroup from '../../catalog/services/variant/createVariantGroup.js';
+import createCustomer from '../../customer/services/customer/createCustomer.js';
+import { setCustomerMetafields } from '../../customer/services/customer/customerMetafield.js';
+import updateCustomer from '../../customer/services/customer/updateCustomer.js';
 import type {
   CategoryWrite,
+  CustomerWrite,
   EntityServices,
   ProductWrite
 } from '../services/ports/services.js';
@@ -35,6 +40,10 @@ import type {
  */
 export function createCoreEntityServices(pool: Pool): EntityServices {
   const data = (input: CategoryWrite | ProductWrite) => ({ ...input });
+  // The password nobody knows (D-27): one bcrypt hash (about 60 ms) for all the
+  // accounts this object creates. The object lives as long as the worker, which
+  // is one job.
+  let unusablePasswordHash: string | undefined;
   return {
     async createCategory(input) {
       const row = await createCategory(data(input) as never, {});
@@ -77,6 +86,35 @@ export function createCoreEntityServices(pool: Pool): EntityServices {
 
     async addVariantItem(groupUuid, productUuid) {
       await addVariantItem(groupUuid, productUuid);
+    },
+
+    // G3: no welcome e-mail, a hash stored as given, or a password nobody knows.
+    async createCustomer(input: CustomerWrite) {
+      const { passwordHash, noPassword, ...fields } = input;
+      const context: Record<string, unknown> = {
+        suppressRegistrationEvent: true
+      };
+      if (passwordHash !== undefined) {
+        context.passwordHash = passwordHash;
+      }
+      if (noPassword === true) {
+        unusablePasswordHash ??= createUnusablePasswordHash();
+        context.allowNoPassword = true;
+        context.unusablePasswordHash = unusablePasswordHash;
+      }
+      const row = await createCustomer(fields as never, context);
+      return { id: Number(row.customer_id), uuid: String(row.uuid) };
+    },
+
+    // Core drops the password on an update; it is not even sent.
+    async updateCustomer(uuid: string, input: CustomerWrite) {
+      const { password, passwordHash, noPassword, ...fields } = input;
+      void [password, passwordHash, noPassword];
+      await updateCustomer(uuid, fields as never, {});
+    },
+
+    async setCustomerMetafields(customerId, values) {
+      await setCustomerMetafields(customerId, values);
     },
 
     // The old addresses go to the product's own path as 301 redirects (G4). The

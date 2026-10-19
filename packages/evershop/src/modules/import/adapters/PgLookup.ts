@@ -1,11 +1,14 @@
 import type { Pool } from 'pg';
 import type { MetafieldDefinition } from '../../../lib/metafield/types.js';
+import { verifyPassword } from '../../../lib/util/passwordHelper.js';
 import type {
   AttributeType,
   Lookup,
   NamedRecord,
+  PasswordCheck,
   StoredAttribute,
   StoredCategory,
+  StoredCustomer,
   StoredMetafield,
   StoredProduct,
   StoredRedirect,
@@ -148,6 +151,73 @@ export class PgLookup implements Lookup {
       );
     }
     return found;
+  }
+
+  async customers(
+    emails: readonly string[]
+  ): Promise<Map<string, StoredCustomer[]>> {
+    const found = new Map<string, StoredCustomer[]>();
+    if (emails.length === 0) {
+      return found;
+    }
+    // The unique index of the table is case-sensitive, so two customers can
+    // differ only in the case of the e-mail: every one is given.
+    const result = await this.pool.query(
+      `SELECT customer_id, uuid, email, full_name, status, group_id, meta_data
+         FROM customer
+        WHERE lower(email) = ANY($1::text[])
+        ORDER BY customer_id`,
+      [emails.map((email) => email.toLowerCase())]
+    );
+    for (const row of result.rows) {
+      const key = String(row.email).toLowerCase();
+      const list = found.get(key) ?? [];
+      list.push({
+        id: row.customer_id,
+        uuid: row.uuid,
+        email: row.email,
+        name: row.full_name ?? '',
+        status: row.status === 1 ? 1 : 0,
+        groupId: row.group_id,
+        metaData: row.meta_data ?? {}
+      });
+      found.set(key, list);
+    }
+    return found;
+  }
+
+  async customerGroups(
+    names: readonly string[]
+  ): Promise<Map<string, NamedRecord[]>> {
+    const found = new Map<string, NamedRecord[]>();
+    if (names.length === 0) {
+      return found;
+    }
+    const result = await this.pool.query(
+      `SELECT customer_group_id, group_name FROM customer_group
+        WHERE lower(group_name) = ANY($1::text[])
+        ORDER BY customer_group_id`,
+      [names.map((name) => name.trim().toLowerCase())]
+    );
+    for (const row of result.rows) {
+      const key = String(row.group_name).trim().toLowerCase();
+      const list = found.get(key) ?? [];
+      list.push({ id: row.customer_group_id, name: row.group_name });
+      found.set(key, list);
+    }
+    return found;
+  }
+
+  // Core's own rules: the length and whatever an extension added.
+  async passwordCheck(): Promise<PasswordCheck> {
+    return (password) => {
+      try {
+        verifyPassword(password);
+        return { ok: true };
+      } catch (error) {
+        return { ok: false, message: (error as Error).message };
+      }
+    };
   }
 
   async products(skus: readonly string[]): Promise<Map<string, StoredProduct>> {

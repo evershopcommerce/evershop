@@ -1,9 +1,12 @@
 import type {
   CategoryWrite,
+  CustomerWrite,
   EntityServices,
   ProductWrite
 } from '../services/ports/services.js';
 import type { MemoryLookup, MemoryProduct } from './MemoryLookup.js';
+
+const BCRYPT_HASH = /^\$2[aby]\$(0[4-9]|[12][0-9]|3[01])\$[./A-Za-z0-9]{53}$/;
 
 /** The error PostgreSQL gives for a unique constraint. */
 function uniqueViolation(constraint: string, value: string): Error {
@@ -38,6 +41,15 @@ export class MemoryServices implements EntityServices {
   readonly redirectRows = new Map<
     string,
     { toPath: string; statusCode: 301 | 302; source: string; entityUrn: string }
+  >();
+
+  /** The password that nobody knows, one for all the accounts made without one. */
+  readonly unusableHash = 'memory-unusable-password-hash';
+
+  /** How each customer's password was given, by uuid (nothing is hashed here). */
+  readonly customerPasswords = new Map<
+    string,
+    { kind: 'plain' | 'hash' | 'none'; value: string }
   >();
 
   constructor(private readonly store: MemoryLookup) {}
@@ -331,6 +343,97 @@ export class MemoryServices implements EntityServices {
         }
       }
     }
+  }
+
+  // ---- customers --------------------------------------------------------
+
+  private customerByUuid(uuid: string) {
+    return [...this.store.customers_.values()].find((c) => c.uuid === uuid);
+  }
+
+  async createCustomer(
+    input: CustomerWrite
+  ): Promise<{ id: number; uuid: string }> {
+    if (!input.email) throw new Error('Email is required');
+    if (!input.full_name) throw new Error('Full name is required');
+    const given = [
+      input.password !== undefined,
+      input.passwordHash !== undefined,
+      input.noPassword === true
+    ].filter(Boolean).length;
+    if (given > 1) {
+      throw new Error('Give either a password or a password hash, not both');
+    }
+    if (given === 0) throw new Error('Password is required');
+    if (
+      input.passwordHash !== undefined &&
+      !BCRYPT_HASH.test(input.passwordHash)
+    ) {
+      throw new Error('The password hash is not a bcrypt hash');
+    }
+    if (input.password !== undefined) {
+      const checked = (await this.store.passwordCheck())(input.password);
+      if (!checked.ok) throw new Error(checked.message);
+    }
+    // The unique index of the table: exact, not ignoring letter case.
+    if (
+      [...this.store.customers_.values()].some((c) => c.email === input.email)
+    ) {
+      throw new Error('Email is already used');
+    }
+    const id = Math.max(0, ...[...this.store.customers_.keys()]) + 1;
+    const uuid = `00000000-0000-4000-8000-${String(id).padStart(12, '0')}`;
+    this.store.customers_.set(id, {
+      id,
+      uuid,
+      email: input.email,
+      name: input.full_name,
+      status: input.status ?? 1,
+      groupId: input.group_id ?? 1,
+      metaData: {}
+    });
+    this.customerPasswords.set(
+      uuid,
+      input.password !== undefined
+        ? { kind: 'plain', value: input.password }
+        : input.passwordHash !== undefined
+        ? { kind: 'hash', value: input.passwordHash }
+        : { kind: 'none', value: this.unusableHash }
+    );
+    return { id, uuid };
+  }
+
+  async updateCustomer(uuid: string, input: CustomerWrite): Promise<void> {
+    const customer = this.customerByUuid(uuid);
+    if (!customer) throw new Error('Requested customer not found');
+    if (input.email !== undefined) customer.email = input.email;
+    if (input.full_name !== undefined) customer.name = input.full_name;
+    if (input.status !== undefined) customer.status = input.status;
+    if (input.group_id !== undefined) customer.groupId = input.group_id;
+    // The password is not changed here: core drops it on purpose.
+  }
+
+  async setCustomerMetafields(
+    customerId: number,
+    values: Record<string, Record<string, unknown>>
+  ): Promise<void> {
+    const customer = this.store.customers_.get(customerId);
+    if (!customer) throw new Error('Requested customer not found');
+    // As core's `validateMetafields`: every definition checks its value, a key
+    // with no definition is dropped, and the result replaces the stored set.
+    const kept: Record<string, Record<string, unknown>> = {};
+    for (const definition of (
+      await this.store.metafields('customer')
+    ).values()) {
+      const checked = definition.check(
+        values?.[definition.namespace]?.[definition.key]
+      );
+      if (!checked.ok) throw new Error(checked.message);
+      if (checked.value !== undefined) {
+        (kept[definition.namespace] ??= {})[definition.key] = checked.value;
+      }
+    }
+    customer.metaData = kept;
   }
 
   async recordRedirects(

@@ -104,6 +104,8 @@ const COPIED = [
   'package',
   'tax_class',
   'variant_group',
+  'customer',
+  'customer_group',
   'url_redirect',
   'url_rewrite'
 ];
