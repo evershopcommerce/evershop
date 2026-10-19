@@ -5,12 +5,17 @@ import type {
   CategoryState
 } from '../entities/category/categoryValidator.js';
 import type { HeaderInfo, ValidationContext } from '../entities/definition.js';
+import {
+  mergeMetaData,
+  missingRequired,
+  readMetafields
+} from '../entities/metafields.js';
 import { imageIssue, ImageError } from '../images/types.js';
 import type { ImageFetcher } from '../images/types.js';
 import { categoryRowsAtLevel } from '../plan/categoryPlan.js';
 import type { CategoryPlan } from '../plan/categoryPlan.js';
 import type { Clock } from '../ports/clock.js';
-import type { StoredCategory } from '../ports/lookup.js';
+import type { StoredCategory, StoredMetafield } from '../ports/lookup.js';
 import type { CategoryWrite, EntityServices } from '../ports/services.js';
 import type { CsvLimits } from '../reader/readCsv.js';
 import {
@@ -81,7 +86,12 @@ const CONSTRAINT_COLUMNS: Record<string, string> = {
 
 function serviceInput(
   data: CategoryData,
-  options: { parentId?: string; image?: string; withKey: boolean }
+  options: {
+    parentId?: string;
+    image?: string;
+    withKey: boolean;
+    metafields?: CategoryWrite['metafields'];
+  }
 ): CategoryWrite {
   const input: CategoryWrite = {};
   if (options.withKey && data.url_key !== undefined)
@@ -96,6 +106,7 @@ function serviceInput(
   }
   if (options.image !== undefined) input.image = options.image;
   if (options.parentId !== undefined) input.parent_id = options.parentId;
+  if (options.metafields !== undefined) input.metafields = options.metafields;
   return input;
 }
 
@@ -145,6 +156,8 @@ export async function* writeCategories(
 ): AsyncGenerator<WriteOutcome, void, undefined> {
   const { plan, context, services, images, clock, signal } = args;
   const batchSize = args.batchSize ?? DEFAULT_BATCH_SIZE;
+  // The custom-field definitions of categories, asked at the first row.
+  let definitions: ReadonlyMap<string, StoredMetafield> | null = null;
   // The keys of the rows that failed or were skipped.
   const failed = new Set<string>();
   let unit = 0;
@@ -274,17 +287,31 @@ export async function* writeCategories(
         })
       );
     }
-    if (data.metafields) {
-      return outcome(
-        'failed',
-        IMP_01.issue({
-          rowNumber,
-          column: 'metafield',
-          params: { reason: 'custom_fields_not_supported' },
-          message: `The custom fields of the category "${key}" cannot be written yet.`
-        })
-      );
+    // The custom fields: read and checked again, as the definitions may have
+    // changed since the check. Core replaces the whole set on a save, so what is
+    // sent is the stored set with the cells laid over it (§ 5.9).
+    definitions ??= await context.lookup.metafields('category');
+    const read = readMetafields({
+      rowNumber,
+      cells: data.metafields,
+      definitions,
+      deps: { now: context.now(), sha256Hex: context.sha256Hex }
+    });
+    const lacking = missingRequired({
+      rowNumber,
+      key,
+      creates: !existing,
+      cells: data.metafields,
+      stored: existing?.metaData ?? null,
+      definitions
+    });
+    if (read.issues.length + lacking.length > 0) {
+      return outcome('failed', ...read.issues, ...lacking);
     }
+    const metafields =
+      Object.keys(read.values).length > 0 || (!existing && definitions.size > 0)
+        ? mergeMetaData(existing?.metaData, read.values)
+        : undefined;
 
     // The image is fetched before anything is written (IMP-03).
     let image: string | undefined;
@@ -318,6 +345,7 @@ export async function* writeCategories(
         // whole subtree.
         const input = serviceInput(data, {
           withKey: false,
+          metafields,
           image,
           parentId:
             parentKey !== undefined && existing.parentUrlKey === parentKey
@@ -340,7 +368,7 @@ export async function* writeCategories(
       await withRetries(
         () =>
           services.createCategory(
-            serviceInput(data, { withKey: true, image, parentId })
+            serviceInput(data, { withKey: true, image, parentId, metafields })
           ),
         {
           isTransient: isTransientDatabaseError,

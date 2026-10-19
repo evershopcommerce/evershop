@@ -16,6 +16,7 @@ import type {
   Lookup,
   NamedRecord,
   StoredAttribute,
+  StoredMetafield,
   StoredProduct
 } from '../../ports/lookup.js';
 import type { CsvRow } from '../../reader/readCsv.js';
@@ -63,6 +64,7 @@ import type {
   HeaderInfo,
   ValidationContext
 } from '../definition.js';
+import { missingRequired, readMetafields } from '../metafields.js';
 import {
   checkVariantRow,
   closeRun,
@@ -178,6 +180,8 @@ export interface ProductState {
   refs: ReferenceCache;
   /** The variant groups of the file (§ 5.3). */
   variants: VariantState;
+  /** The custom-field definitions of products, asked once (§ 5.9). */
+  metafields: ReadonlyMap<string, StoredMetafield> | null;
 }
 
 /**
@@ -573,7 +577,8 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
     stored: new Map(),
     reserved: null,
     refs: new ReferenceCache(),
-    variants: createVariantState()
+    variants: createVariantState(),
+    metafields: null
   }),
 
   convert,
@@ -643,6 +648,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
       (row) => row.key !== null && state.firstRow.get(row.key) === row.rowNumber
     );
     state.reserved ??= await lookup.reservedUrlKeys();
+    state.metafields ??= await lookup.metafields('product');
     await fill(
       state.stored,
       own.map((row) => row.key as string),
@@ -910,6 +916,27 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
           groupId,
           stored
         });
+      }
+
+      // The custom fields (MET-01 to MET-05).
+      if (!wrongMode) {
+        const read = readMetafields({
+          rowNumber,
+          cells: data.metafields,
+          definitions: state.metafields,
+          deps: { now: ctx.now(), sha256Hex: ctx.sha256Hex }
+        });
+        issues.push(
+          ...read.issues,
+          ...missingRequired({
+            rowNumber,
+            key,
+            creates: !exists,
+            cells: data.metafields,
+            stored: stored?.metaData ?? null,
+            definitions: state.metafields
+          })
+        );
       }
 
       // The variant group the row belongs to (PRD-14 to PRD-19, PRD-24).

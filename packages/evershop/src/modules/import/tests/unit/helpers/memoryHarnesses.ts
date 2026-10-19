@@ -91,6 +91,7 @@ export function memoryLookupHarness(): LookupHarness {
       categories: (keys) => current.categories(keys),
       reservedUrlKeys: () => current.reservedUrlKeys(),
       metafieldKeys: (entity) => current.metafieldKeys(entity),
+      metafields: (entity) => current.metafields(entity),
       products: (skus) => current.products(skus),
       productUrlKeyOwners: (keys) => current.productUrlKeyOwners(keys),
       attributeGroups: (names) => current.attributeGroups(names),

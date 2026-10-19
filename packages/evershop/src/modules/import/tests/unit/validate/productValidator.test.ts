@@ -494,3 +494,78 @@ describe('variant groups across batches', () => {
     }
   });
 });
+
+describe('the custom fields of a product file (MET-06)', () => {
+  const fields = [
+    { namespace: 'custom', key: 'years', type: 'integer' as const },
+    {
+      namespace: 'custom',
+      key: 'warranty',
+      type: 'integer' as const,
+      validations: [{ type: 'range' as const, min: 0, max: 10 }]
+    },
+    { namespace: 'custom', key: 'eco', type: 'boolean' as const },
+    {
+      namespace: 'custom',
+      key: 'material',
+      type: 'short_text' as const,
+      required: true
+    }
+  ];
+  const store = {
+    ...PRODUCT_STORE_WITH_TEE,
+    metafieldDefinitions: { product: fields },
+    products: [
+      {
+        ...PRODUCT_STORE_WITH_TEE.products[0],
+        metaData: { custom: { material: 'Cotton' } }
+      }
+    ]
+  };
+
+  it('shows the problem of every column of a row, each with its own column', async () => {
+    const result = await validateProducts(
+      'sku,metafield:custom.years,metafield:custom.warranty,metafield:custom.eco\nTSH-1,many,99,maybe\n',
+      { store }
+    );
+    expect(result.issues.map((i) => [i.code, i.column, i.rowNumber])).toEqual([
+      ['METAFIELD_INVALID', 'metafield:custom.years', 2],
+      ['METAFIELD_INVALID', 'metafield:custom.warranty', 2],
+      ['METAFIELD_INVALID', 'metafield:custom.eco', 2]
+    ]);
+  });
+
+  it('keeps the stored value of a required field for an update, and asks a new product for it', async () => {
+    const update = await validateProducts('sku,price\nTSH-1,30\n', { store });
+    expect(update.issues).toEqual([]);
+    const create = await validateProducts(
+      productFile(productRow({ sku: 'NEW-1', url_key: 'new-1' })),
+      { store }
+    );
+    expect(create.issues.map((i) => [i.code, i.column])).toEqual([
+      ['MISSING_REQUIRED', 'metafield:custom.material']
+    ]);
+  });
+
+  it('does not ask a row that its mode refuses', async () => {
+    const result = await validateProducts(
+      productFile(productRow({ sku: 'NEW-1', url_key: 'new-1' })),
+      { store, mode: 'update' }
+    );
+    expect(result.issues.map((i) => i.code)).toEqual(['NOT_FOUND']);
+  });
+
+  it('asks the store for the definitions once for the whole file', async () => {
+    const rows = Array.from({ length: 30 }, (_, i) =>
+      productRow({ sku: `P-${i}`, url_key: `p-${i}` })
+    );
+    const result = await validateProducts(productFile(...rows), {
+      store: {
+        ...PRODUCT_STORE,
+        metafieldDefinitions: { product: [{ ...fields[0] }] }
+      },
+      batchSize: 10
+    });
+    expect(result.lookup.calls.metafields).toBe(1);
+  });
+});

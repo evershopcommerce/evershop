@@ -1,6 +1,11 @@
 import type { Readable } from 'stream';
 import type { HeaderInfo, ValidationContext } from '../entities/definition.js';
 import {
+  mergeMetaData,
+  missingRequired,
+  readMetafields
+} from '../entities/metafields.js';
+import {
   productValidator,
   type ProductRow,
   type ProductState
@@ -328,16 +333,31 @@ export async function* writeProducts(
         })
       );
     }
-    if (data.metafields) {
-      return failed(
-        IMP_01.issue({
-          rowNumber,
-          column: 'metafield',
-          params: { reason: 'custom_fields_not_supported' },
-          message: `The custom fields of the product "${key}" cannot be written yet.`
-        })
-      );
+    // The custom fields: read and checked again, as the definitions may have
+    // changed since the check. Core replaces the whole set on a save, so what is
+    // sent is the stored set with the cells laid over it (§ 5.9).
+    const read = readMetafields({
+      rowNumber,
+      cells: data.metafields,
+      definitions: resolver.metafields,
+      deps: { now: context.now(), sha256Hex: context.sha256Hex }
+    });
+    const lacking = missingRequired({
+      rowNumber,
+      key,
+      creates: !stored,
+      cells: data.metafields,
+      stored: stored?.metaData ?? null,
+      definitions: resolver.metafields
+    });
+    if (read.issues.length + lacking.length > 0) {
+      return failed(...read.issues, ...lacking);
     }
+    const hasCells = Object.keys(read.values).length > 0;
+    const metafields =
+      hasCells || (!stored && resolver.metafields.size > 0)
+        ? mergeMetaData(stored?.metaData, read.values)
+        : undefined;
     const resolved = resolver.resolve(row, stored);
     if (resolved.problems.length > 0) {
       return failed(...resolved.problems);
@@ -375,6 +395,9 @@ export async function* writeProducts(
       : createInput(row, resolved, imagePaths, resolver);
     if ('issue' in built) {
       return failed(built.issue);
+    }
+    if (metafields !== undefined) {
+      built.input.metafields = metafields;
     }
 
     let uuid: string;

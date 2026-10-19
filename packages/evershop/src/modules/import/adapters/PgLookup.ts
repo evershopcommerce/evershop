@@ -1,15 +1,18 @@
 import type { Pool } from 'pg';
+import type { MetafieldDefinition } from '../../../lib/metafield/types.js';
 import type {
   AttributeType,
   Lookup,
   NamedRecord,
   StoredAttribute,
   StoredCategory,
+  StoredMetafield,
   StoredProduct,
   StoredRedirect,
   StoredVariantGroup
 } from '../services/ports/lookup.js';
 import type { ImportEntity } from '../services/types.js';
+import { toStoredMetafield } from './metafieldCheck.js';
 
 /**
  * What decides a reserved `url_key` and does not live in the database: the
@@ -60,7 +63,7 @@ export class PgLookup implements Lookup {
       return found;
     }
     const result = await this.pool.query(
-      `SELECT c.category_id, c.uuid, c.status, cd.url_key, cd.name,
+      `SELECT c.category_id, c.uuid, c.status, c.meta_data, cd.url_key, cd.name,
               parent.url_key AS parent_url_key
          FROM category_description cd
          JOIN category c ON c.category_id = cd.category_description_category_id
@@ -76,7 +79,8 @@ export class PgLookup implements Lookup {
         urlKey: row.url_key,
         parentUrlKey: row.parent_url_key,
         name: row.name,
-        status: row.status ? 1 : 0
+        status: row.status ? 1 : 0,
+        metaData: row.meta_data ?? {}
       });
     }
     return found;
@@ -107,6 +111,43 @@ export class PgLookup implements Lookup {
     return new Set(
       result.rows.map((row) => `${row.namespace}.${row.field_key}`)
     );
+  }
+
+  async metafields(
+    entity: ImportEntity
+  ): Promise<ReadonlyMap<string, StoredMetafield>> {
+    const found = new Map<string, StoredMetafield>();
+    const owner = OWNER_TYPE[entity];
+    if (owner === null) {
+      return found;
+    }
+    const result = await this.pool.query(
+      `SELECT * FROM metafield_definition WHERE owner_type = $1
+        ORDER BY position, metafield_definition_id`,
+      [owner]
+    );
+    for (const row of result.rows) {
+      const definition: MetafieldDefinition = {
+        uuid: row.uuid,
+        ownerType: row.owner_type,
+        namespace: row.namespace,
+        key: row.field_key,
+        name: row.name,
+        type: row.field_type,
+        isList: row.is_list,
+        required: row.required,
+        validations: row.validations ?? [],
+        appearance: row.appearance ?? {},
+        subFields: row.sub_fields ?? [],
+        visibleToCustomer: Boolean(row.visible_to_customer),
+        position: row.position
+      };
+      found.set(
+        `${definition.namespace}.${definition.key}`,
+        toStoredMetafield(definition)
+      );
+    }
+    return found;
   }
 
   async products(skus: readonly string[]): Promise<Map<string, StoredProduct>> {

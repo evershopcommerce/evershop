@@ -1,5 +1,43 @@
 import type { ImportEntity } from '../types.js';
 
+/**
+ * A custom-field definition, as far as the import needs it (§ 5.9): the type, the
+ * sub-fields of a group, and a check that applies the validations and the
+ * `required` of the store (core's own check, compiled once).
+ */
+export type MetafieldType =
+  | 'short_text'
+  | 'long_text'
+  | 'rich_text'
+  | 'integer'
+  | 'number'
+  | 'boolean'
+  | 'date'
+  | 'color'
+  | 'url'
+  | 'group';
+
+export interface MetafieldField {
+  key: string;
+  type: MetafieldType;
+  isList: boolean;
+  required: boolean;
+  /** The defined sub-fields of a group (their own `subFields` for a nested group). */
+  subFields: MetafieldField[];
+}
+
+export interface StoredMetafield extends MetafieldField {
+  namespace: string;
+  /**
+   * Checks a value that was read from a cell, in the form the store keeps it, as
+   * core does when it saves a product (`ok: false` carries the message). A blank
+   * value is "not provided".
+   */
+  check(
+    value: unknown
+  ): { ok: true; value: unknown } | { ok: false; message: string };
+}
+
 /** A category as the store has it now (the merged state for an update). */
 export interface StoredCategory {
   /** `category_id`: what a child gives as its `parent_id`. */
@@ -11,6 +49,8 @@ export interface StoredCategory {
   parentUrlKey: string | null;
   name: string;
   status: 0 | 1;
+  /** Custom fields: `{namespace: {key: value}}`, the whole stored set (§ 5.9). */
+  metaData: Record<string, Record<string, unknown>>;
 }
 
 /** The types of attribute a product can have a value for (`attribute.type`). */
@@ -103,6 +143,10 @@ export interface Lookup {
   reservedUrlKeys(): Promise<ReadonlySet<string>>;
   /** The `namespace.key` of every custom-field definition of an entity (ALL-08). */
   metafieldKeys(entity: ImportEntity): Promise<ReadonlySet<string>>;
+  /** The custom-field definitions of an entity, by `namespace.key`, with their checks. */
+  metafields(
+    entity: ImportEntity
+  ): Promise<ReadonlyMap<string, StoredMetafield>>;
 
   /** The stored products for these SKUs (matched exactly). */
   products(skus: readonly string[]): Promise<Map<string, StoredProduct>>;
@@ -161,7 +205,29 @@ export interface StoreFixture {
     Partial<Omit<StoredCategory, 'urlKey'>> & { urlKey: string }
   >;
   reservedUrlKeys?: string[];
+  /** The definitions that are plain text fields: `namespace.key`. */
   metafields?: Partial<Record<ImportEntity, string[]>>;
+  /** Definitions with a type, a list, validations or sub-fields. */
+  metafieldDefinitions?: Partial<
+    Record<
+      ImportEntity,
+      Array<{
+        namespace: string;
+        key: string;
+        type?: MetafieldType;
+        isList?: boolean;
+        required?: boolean;
+        validations?: Array<{
+          type: 'size' | 'range' | 'regexp' | 'choices';
+          min?: number;
+          max?: number;
+          pattern?: string;
+          values?: Array<string | number>;
+        }>;
+        subFields?: MetafieldFieldFixture[];
+      }>
+    >
+  >;
 
   attributeGroups?: Array<{
     name: string;
@@ -206,4 +272,20 @@ export interface StoreFixture {
   }>;
   redirects?: Array<{ from: string; entityUrn?: string | null }>;
   rewritePaths?: string[];
+}
+
+/** A sub-field of a group in a fixture. */
+export interface MetafieldFieldFixture {
+  key: string;
+  type: MetafieldType;
+  isList?: boolean;
+  required?: boolean;
+  validations?: Array<{
+    type: 'size' | 'range' | 'regexp' | 'choices';
+    min?: number;
+    max?: number;
+    pattern?: string;
+    values?: Array<string | number>;
+  }>;
+  subFields?: MetafieldFieldFixture[];
 }

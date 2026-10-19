@@ -4,6 +4,7 @@ import type {
   Lookup,
   NamedRecord,
   StoredAttribute,
+  StoredMetafield,
   StoredProduct
 } from '../ports/lookup.js';
 import { ALL_08, ALL_21 } from '../rules/allRules.js';
@@ -53,6 +54,11 @@ export class ProductResolver {
   };
 
   defaultPackage: NamedRecord | null | undefined;
+
+  /** The custom-field definitions of products, asked once for the run. */
+  metafields: ReadonlyMap<string, StoredMetafield> = new Map();
+
+  private metafieldsAsked = false;
 
   constructor(private readonly lookup: Lookup) {}
 
@@ -148,6 +154,10 @@ export class ProductResolver {
     }
     if (this.defaultPackage === undefined) {
       this.defaultPackage = await lookup.defaultPackage();
+    }
+    if (!this.metafieldsAsked) {
+      this.metafieldsAsked = true;
+      this.metafields = await lookup.metafields('product');
     }
   }
 

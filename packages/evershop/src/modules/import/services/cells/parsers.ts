@@ -19,9 +19,9 @@ export interface CellFailure {
 
 export type CellResult<T> = { ok: true; value: T } | CellFailure;
 
-const accept = <T>(value: T): CellResult<T> => ({ ok: true, value });
+export const accept = <T>(value: T): CellResult<T> => ({ ok: true, value });
 
-const refuse = (
+export const refuse = (
   code: CellFailure['code'],
   params: Record<string, unknown>,
   problem: string

@@ -9,7 +9,11 @@ import {
 } from '../../cells/parsers.js';
 import type { CellFailure } from '../../cells/parsers.js';
 import { prepareText } from '../../cells/text.js';
-import type { Lookup, StoredCategory } from '../../ports/lookup.js';
+import type {
+  Lookup,
+  StoredCategory,
+  StoredMetafield
+} from '../../ports/lookup.js';
 import type { CsvRow } from '../../reader/readCsv.js';
 import {
   ALL_07,
@@ -41,6 +45,7 @@ import type {
   HeaderInfo,
   ValidationContext
 } from '../definition.js';
+import { missingRequired, readMetafields } from '../metafields.js';
 
 /** What a category row says, typed. A blank cell is left out: "not provided". */
 export interface CategoryData {
@@ -94,6 +99,8 @@ export interface CategoryState {
   /** What the store said about a `url_key` (null: it is not stored). */
   stored: Map<string, StoredCategory | null>;
   reserved: ReadonlySet<string> | null;
+  /** The custom-field definitions of categories, asked once (§ 5.9). */
+  metafields: ReadonlyMap<string, StoredMetafield> | null;
 }
 
 async function ensureStored(
@@ -351,7 +358,8 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
     firstRow: new Map(),
     parentOf: new Map(),
     stored: new Map(),
-    reserved: null
+    reserved: null,
+    metafields: null
   }),
 
   convert,
@@ -386,6 +394,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
       (row) => row.key !== null && state.firstRow.get(row.key) === row.rowNumber
     );
     state.reserved ??= await ctx.lookup.reservedUrlKeys();
+    state.metafields ??= await ctx.lookup.metafields('category');
     await ensureStored(state, ctx.lookup, [
       ...own.map((row) => row.key as string),
       ...own.flatMap((row) => (row.data.parent ? [row.data.parent] : []))
@@ -402,6 +411,8 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
         createRows += 1;
       }
 
+      const wrongMode =
+        (ctx.mode === 'create' && exists) || (ctx.mode === 'update' && !exists);
       if (ctx.mode === 'create' && exists) {
         issues.push(
           ALL_16.issue({
@@ -437,6 +448,26 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
             );
           }
         }
+      }
+
+      if (!wrongMode) {
+        const read = readMetafields({
+          rowNumber,
+          cells: row.data.metafields,
+          definitions: state.metafields,
+          deps: { now: ctx.now(), sha256Hex: ctx.sha256Hex }
+        });
+        issues.push(
+          ...read.issues,
+          ...missingRequired({
+            rowNumber,
+            key,
+            creates: !exists,
+            cells: row.data.metafields,
+            stored: state.stored.get(key)?.metaData ?? null,
+            definitions: state.metafields
+          })
+        );
       }
 
       if (state.reserved.has(key)) {
