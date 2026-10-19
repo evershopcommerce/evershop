@@ -103,6 +103,7 @@ export function memoryLookupHarness(): LookupHarness {
       packages: (names) => current.packages(names),
       taxClasses: (names) => current.taxClasses(names),
       defaultPackage: () => current.defaultPackage(),
+      attributeCodes: () => current.attributeCodes(),
       attributes: (codes) => current.attributes(codes),
       attributeGroupLinks: (id) => current.attributeGroupLinks(id),
       attributeOptions: (id, texts) => current.attributeOptions(id, texts),

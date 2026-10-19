@@ -3,6 +3,7 @@ import type { ImportService } from '../services/jobs/ImportService.js';
 import type { FileStore } from '../services/ports/fileStore.js';
 import type { Logger } from '../services/ports/logger.js';
 import type { RenderMessage } from '../services/report/errorsCell.js';
+import type { ImportEntity } from '../services/types.js';
 
 /**
  * What an HTTP handler answers with, before it is written to the response: a
@@ -34,6 +35,8 @@ export interface ImportWeb {
   ): AsyncIterable<StoredIssue>;
   /** The names of admin users, by id, for "uploaded by Jane". */
   adminNames(ids: readonly number[]): Promise<Map<number, string>>;
+  /** The template of an entity, made for this store (§ 5, D-13). */
+  template(entity: ImportEntity): Promise<string>;
   /** The limits the files were checked with (§ 8.7). */
   limits: { maxRows: number; maxCellLength: number };
   /** The sentence for a problem in the admin's language. */

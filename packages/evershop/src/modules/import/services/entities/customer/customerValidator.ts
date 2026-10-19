@@ -72,14 +72,17 @@ export const CUSTOMER_EXAMPLE_KEYS: readonly string[] = [
 /** What the errors download writes for a password, so as not to echo a secret (§ 5.4.1). */
 export const HIDDEN_PASSWORD = '(hidden)';
 
-const KNOWN_COLUMNS: ReadonlySet<string> = new Set([
+/** The columns of a customers file (not the `metafield:` ones), in the order of the template. */
+export const CUSTOMER_COLUMNS: readonly string[] = [
   'email',
   'full_name',
   'status',
   'group',
   'password_hash',
   'password'
-]);
+];
+
+const KNOWN_COLUMNS: ReadonlySet<string> = new Set(CUSTOMER_COLUMNS);
 
 const METAFIELD_PREFIX = 'metafield:';
 

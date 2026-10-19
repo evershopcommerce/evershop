@@ -14,13 +14,20 @@ import {
   cancelJob,
   deleteJob,
   downloadFileWithErrors,
+  downloadImportTemplate,
   getIssues,
   getJob,
   startJob
 } from '../../../web/handlers.js';
 import type { ImportWeb } from '../../../web/ImportWeb.js';
+import { pgTemplate } from '../../../web/pgTemplate.js';
 import { uploadJob } from '../../../web/upload.js';
 import { registerAddressField } from '../../../../../lib/address/extras.js';
+import {
+  configureAddressRuntime,
+  resetAddressRuntime
+} from '../../../../../lib/address/runtime.js';
+import { ADDRESS_SETTINGS_DEFAULTS } from '../../../../../lib/address/settings.js';
 import { EventStorage } from '../../../../../lib/event/EventStorage.js';
 import { addProcessor } from '../../../../../lib/util/registry.js';
 import { normalizeAddressInput } from '../../../../customer/services/customer/address/normalizeAddressInput.js';
@@ -572,11 +579,43 @@ describeDb('the web layer on PostgreSQL', () => {
       issuesInRowOrder: (jobId, phase) =>
         repository.issuesInRowOrder(jobId, phase),
       adminNames: async () => new Map([[7, 'Jane Doe']]),
+      template: pgTemplate(db!.pool),
       limits: { maxRows: 200_000, maxCellLength: 65_536 },
       logger: { info: () => {}, warn: () => {}, error: () => {} }
     };
     return { h, web };
   };
+
+  it('gives a template made for the store: its attributes and custom fields are columns, read from the tables', async () => {
+    const { web } = await build();
+    const seed = await pgLookupHarness(db!);
+    await seed.set({
+      attributes: [
+        { code: 'size', type: 'select', options: ['S'] },
+        { code: 'color', type: 'select', options: ['Black'] }
+      ],
+      metafields: {
+        product: ['custom.material'],
+        customer: ['custom.birthday'],
+        category: []
+      }
+    });
+    const header = async (which: string) =>
+      (await textOf(await downloadImportTemplate(web, which))).split(
+        /\r?\n/
+      )[0];
+    expect(await header('products')).toMatch(
+      /redirect_from,attr:color,attr:size,metafield:custom\.material$/
+    );
+    expect(await header('customers')).toMatch(
+      /password,metafield:custom\.birthday$/
+    );
+    expect(await header('categories')).toMatch(/image$/);
+    expect(await header('customer-addresses')).toMatch(
+      /^.email,recipient,organization,/
+    );
+    await seed.set({});
+  });
 
   it('takes an upload over HTTP, shows the job, and gives the file back with its problems', async () => {
     const { h, web } = await build();
@@ -743,6 +782,20 @@ describeDb('PgLookup', () => {
       country: 'US',
       organization: 'Added by an extension'
     });
+  });
+
+  it('says the name format the merchant set, as core reads it (the runtime settings)', async () => {
+    const harness = await pgLookupHarness(db!);
+    const rules = await harness.lookup.addressRules();
+    expect(rules.nameFormat()).toBe('single');
+    configureAddressRuntime({
+      getSettings: () => ({ ...ADDRESS_SETTINGS_DEFAULTS, nameFormat: 'split' })
+    });
+    try {
+      expect((await harness.lookup.addressRules()).nameFormat()).toBe('split');
+    } finally {
+      resetAddressRuntime();
+    }
   });
 
   it('gives the extra fields that are registered for a country, and only for it', async () => {

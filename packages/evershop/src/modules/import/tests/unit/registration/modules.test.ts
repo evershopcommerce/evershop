@@ -48,6 +48,7 @@ describe('the routes of the import module, as core loads them', () => {
     'createImportJob',
     'deleteImportJob',
     'downloadFileWithErrors',
+    'downloadImportTemplate',
     'getImportIssues',
     'getImportJob',
     'listOpenImportJobs',
@@ -56,10 +57,10 @@ describe('the routes of the import module, as core loads them', () => {
     'startImportJob'
   ];
 
-  it('are the ten of § 8.3, each once, all private API routes', () => {
+  it('are the eleven of § 8.3, each once, all private API routes', () => {
     ensureRoutesLoaded();
     const mine = getRoutes().filter((route: { path: string }) =>
-      route.path.startsWith('/api/import-jobs')
+      route.path.startsWith('/api/import-')
     );
     expect(mine.map((r: { id: string }) => r.id).sort()).toEqual(IDS);
     for (const route of mine) {

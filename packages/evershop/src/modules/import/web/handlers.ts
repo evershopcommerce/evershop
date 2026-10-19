@@ -6,6 +6,8 @@ import {
   READING_STOPPED_CODES,
   fileWithErrors
 } from '../services/report/fileWithErrors.js';
+import type { ImportEntity } from '../services/types.js';
+import { IMPORT_ENTITIES } from '../services/types.js';
 import type { HttpResult, ImportWeb } from './ImportWeb.js';
 import { issueView, jobView } from './jobView.js';
 
@@ -238,4 +240,43 @@ export const downloadFileWithErrors = (
       },
       body: joined(first.value, iterator)
     };
+  });
+
+/**
+ * The template of an entity (§ 8.3): the header row for this store and two example
+ * rows with reserved keys, which the import skips. The route takes the name the
+ * pages use (`categories`, `products`, `customers`, `customer-addresses`).
+ */
+export const downloadImportTemplate = (web: ImportWeb, which: unknown) =>
+  guarded(web, async () => {
+    const entity = (Object.keys(IMPORT_ENTITIES) as ImportEntity[]).find(
+      (key) => IMPORT_ENTITIES[key].routeValue === which
+    );
+    if (entity === undefined) {
+      throw new ImportApiError(
+        'INVALID_REQUEST',
+        `There is no template for "${String(which).slice(
+          0,
+          60
+        )}". The templates are ${Object.values(IMPORT_ENTITIES)
+          .map((e) => e.routeValue)
+          .join(', ')}.`
+      );
+    }
+    const text = await web.template(entity);
+    const fileName = IMPORT_ENTITIES[entity].fileName;
+    return {
+      kind: 'stream',
+      status: 200,
+      headers: {
+        'Content-Type': 'text/csv; charset=utf-8',
+        'Content-Disposition': `attachment; filename="${fileName}"; filename*=UTF-8''${encodeURIComponent(
+          fileName
+        )}`,
+        'Cache-Control': 'no-store'
+      },
+      body: (async function* single() {
+        yield text;
+      })()
+    } satisfies HttpResult;
   });

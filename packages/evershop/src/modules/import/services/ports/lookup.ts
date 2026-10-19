@@ -91,6 +91,8 @@ export interface AddressProblem {
  * registered for a country. The engine keeps no list of its own.
  */
 export interface AddressRules {
+  /** The merchant's name format: one `recipient`, or `given_name` and `family_name` (§ 5.5). */
+  nameFormat(): 'single' | 'split';
   isKnownCountry(code: string): boolean;
   /** The ids of the extra fields registered for the country (ADR-10). */
   extraIds(country: string): readonly string[];
@@ -242,6 +244,8 @@ export interface Lookup {
   taxClasses(names: readonly string[]): Promise<Map<string, NamedRecord[]>>;
   /** The package with `is_default` set, or null (D-25). */
   defaultPackage(): Promise<NamedRecord | null>;
+  /** The code of every attribute of the store, for the columns of a template (§ 5). */
+  attributeCodes(): Promise<string[]>;
   /** The attributes with these codes (matched ignoring letter case, by lower-case code). */
   attributes(codes: readonly string[]): Promise<Map<string, StoredAttribute>>;
   /**
@@ -325,6 +329,8 @@ export interface StoreFixture {
   addressExtras?: Record<string, string[]>;
   /** The countries the store sells to ('all' by default; the sell-to setting). */
   addressSellTo?: string[];
+  /** The name format of addresses ('single' by default). */
+  addressNameFormat?: 'single' | 'split';
   /** The shortest password the store accepts (core's default is 6). */
   passwordMinLength?: number;
 

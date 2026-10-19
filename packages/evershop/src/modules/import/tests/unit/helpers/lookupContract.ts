@@ -475,7 +475,31 @@ export function lookupContract(
       });
     });
 
+    describe('the attribute codes (the columns of a template)', () => {
+      it('gives the code of every attribute of the store, in the order they were made', async () => {
+        await h.set({
+          attributes: [
+            { code: 'color', type: 'select', options: ['Black'] },
+            { code: 'size', type: 'select', options: ['S'] },
+            { code: 'note', type: 'text' }
+          ]
+        });
+        expect(await h.lookup.attributeCodes()).toEqual([
+          'color',
+          'size',
+          'note'
+        ]);
+        await h.set({});
+        expect(await h.lookup.attributeCodes()).toEqual([]);
+      });
+    });
+
     describe('the address rules', () => {
+      it('say how the store writes names: one name, unless the merchant chose two', async () => {
+        await h.set({});
+        expect((await h.lookup.addressRules()).nameFormat()).toBe('single');
+      });
+
       it('knows the countries of the registry, in any letter case', async () => {
         await h.set({});
         const rules = await h.lookup.addressRules();

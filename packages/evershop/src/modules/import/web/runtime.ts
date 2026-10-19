@@ -12,6 +12,7 @@ import { PgJobAdmin } from '../adapters/PgJobAdmin.js';
 import { PgJobRepository } from '../adapters/PgJobRepository.js';
 import { ImportService } from '../services/jobs/ImportService.js';
 import type { ImportWeb } from './ImportWeb.js';
+import { pgTemplate } from './pgTemplate.js';
 
 let cached: ImportWeb | null = null;
 
@@ -30,6 +31,7 @@ export function importWeb(): ImportWeb {
       requests: new CoreJobRequests(pool, coreLogger)
     }),
     files: new PgFileStore(pool),
+    template: pgTemplate(pool),
     issuesInRowOrder: (jobId, phase) =>
       repository.issuesInRowOrder(jobId, phase),
     async adminNames(ids) {
