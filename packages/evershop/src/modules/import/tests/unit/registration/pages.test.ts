@@ -1,11 +1,9 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
-import http from 'http';
-import type { AddressInfo } from 'net';
 import { fileURLToPath } from 'url';
 import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
-import express from 'express';
+import pathToRegexp from 'path-to-regexp';
 import { parseRoute } from '../../../../../lib/router/scanForRoutes.js';
-import { sortRoutes } from '../../../../../lib/router/sortRoutes.js';
+import { SORT_KEYS } from '../../../adapters/importJobFilters.js';
 import { IMPORT_ENTITIES } from '../../../services/types.js';
 import { PLACEHOLDER_ID } from '../../../ui/uploadChoice.js';
 
@@ -21,7 +19,7 @@ const PAGES = `${ROOT}pages/admin/`;
 const PAGE_ROUTES: Array<[id: string, path: string]> = [
   ['importGrid', '/import'],
   ['importNew', '/import/new'],
-  ['importView', '/import/:id']
+  ['importView', '/import/view/:id']
 ];
 
 const walk = (dir: string): string[] =>
@@ -50,30 +48,49 @@ describe('the admin routes of the import', () => {
     });
   });
 
-  it('send /import/new to the new import page, not to a job called "new"', async () => {
-    const routes = sortRoutes(
-      PAGE_ROUTES.map(([id]) =>
-        parseRoute(`${PAGES}${id}/route.json`, true, false)
-      )
+  it('are matched one by one: no request matches two routes (core logs a warning for each one that does)', () => {
+    const apiIds = readdirSync(`${ROOT}api/`).filter((name) =>
+      existsSync(`${ROOT}api/${name}/route.json`)
     );
-    const app = express();
-    routes.forEach((route) => {
-      app.get(route!.path, (_req, res) => res.send(route!.id));
+    const groups = {
+      pages: PAGE_ROUTES.map(
+        ([id]) => parseRoute(`${PAGES}${id}/route.json`, true, false)!
+      ),
+      api: apiIds.map(
+        (id) => parseRoute(`${ROOT}api/${id}/route.json`, false, true)!
+      )
+    };
+    let checked = 0;
+    Object.values(groups).forEach((routes) => {
+      routes.forEach((route) => {
+        // A request for this route: every parameter is some text.
+        const sample = route.path.replace(/:\w+/g, 'sample');
+        route.method.forEach((method: string) => {
+          const matched = routes
+            .filter(
+              (r) =>
+                r.method.includes(method) &&
+                pathToRegexp(r.path, []).exec(sample)
+            )
+            .map((r) => r.id);
+          expect(matched).toEqual([route.id]);
+          checked += 1;
+        });
+      });
     });
-    const server = http.createServer(app);
-    await new Promise<void>((r) => server.listen(0, r));
-    const port = (server.address() as AddressInfo).port;
-    const get = async (path: string) =>
-      (await fetch(`http://127.0.0.1:${port}${path}`)).text();
-    try {
-      expect(await get('/import')).toBe('importGrid');
-      expect(await get('/import/new')).toBe('importNew');
-      expect(await get('/import/6f1d9a52-0000-4000-8000-000000000001')).toBe(
-        'importView'
+    expect(checked).toBeGreaterThanOrEqual(14);
+  });
+
+  it('send /import/new to the new import page, and a job to its own', () => {
+    const match = (path: string) =>
+      PAGE_ROUTES.filter(([, p]) => pathToRegexp(p, []).exec(path)).map(
+        ([id]) => id
       );
-    } finally {
-      await new Promise((r) => server.close(r));
-    }
+    expect(match('/import')).toEqual(['importGrid']);
+    expect(match('/import/new')).toEqual(['importNew']);
+    expect(match('/import/view/6f1d9a52-0000-4000-8000-000000000001')).toEqual([
+      'importView'
+    ]);
   });
 });
 
@@ -159,6 +176,54 @@ describe('the addresses that the pages ask for', () => {
         const wants = [...path.matchAll(/:(\w+)/g)].map((m) => m[1]);
         expect(key ? [key] : []).toEqual(wants);
       });
+    });
+  });
+
+  describe('the time of the pages', () => {
+    it.each(['importView/ImportJobView.js', 'importNew/ImportNewForm.js'])(
+      '%s asks for the time zone of the store, so that its times are the ones of the list',
+      (file) => {
+        expect(readFileSync(`${PAGES}${file}`, 'utf8')).toMatch(
+          /setting\s*\{\s*storeTimeZone\s*\}/
+        );
+      }
+    );
+  });
+
+  describe('the menu item and the grid', () => {
+    const pageSource = (path: string) =>
+      readFileSync(`${PAGES}${path}`, 'utf8');
+
+    it('the menu item is in the quick links, after New Product and New Coupon (D-12), and opens the grid', () => {
+      const source = pageSource('all/ImportQuickLink.js');
+      expect(source).toMatch(/areaId: 'quickLinks'/);
+      expect(source).toMatch(/sortOrder: 40/);
+      expect(source).toContain('importGrid: url(routeId: "importGrid")');
+    });
+
+    it('every sortable header is named by a key that the list accepts', () => {
+      const table = readFileSync(
+        `${ROOT}components/ImportGridTable.js`,
+        'utf8'
+      );
+      const names = [...table.matchAll(/name:\s*"(\w+)"/g)].map((m) => m[1]);
+      expect(names.length).toBeGreaterThanOrEqual(4);
+      names.forEach((name) => expect(SORT_KEYS).toContain(name));
+    });
+
+    it('the New import button is in the heading of the grid and opens the upload page', () => {
+      const source = pageSource('importGrid/NewImportButton.js');
+      expect(source).toMatch(/areaId: 'pageHeadingRight'/);
+      expect(source).toContain('url(routeId: "importNew")');
+    });
+
+    it('the grid asks the list with the filters of the address, and the address of each page and of Delete', () => {
+      const source = pageSource('importGrid/Grid.js');
+      expect(source).toMatch(/importJobs\(filters: \$filters\)/);
+      expect(source).toContain("filters: getContextValue('filtersFromUrl')");
+      ['viewUrl', 'deleteApi', 'active', 'createdByName'].forEach((field) =>
+        expect(source).toContain(field)
+      );
     });
   });
 

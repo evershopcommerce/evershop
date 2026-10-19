@@ -28,6 +28,7 @@ interface ImportJobViewProps {
   openUrl: string;
   gridUrl: string;
   newUrl: string;
+  setting: { storeTimeZone: string } | null;
 }
 
 type Urls = {
@@ -214,6 +215,7 @@ export default function ImportJobView(props: ImportJobViewProps) {
         pending={pending}
         refusal={refusal}
         stale={stale}
+        timeZone={props.setting?.storeTimeZone}
         urls={{
           newImport: urls.newImport,
           fileWithErrors: urls.fileWithErrors
@@ -247,5 +249,8 @@ export const query = `
     openUrl: url(routeId: "listOpenImportJobs")
     gridUrl: url(routeId: "importGrid")
     newUrl: url(routeId: "importNew")
+    setting {
+      storeTimeZone
+    }
   }
 `;

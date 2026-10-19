@@ -1,4 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
+
 import {
   formatBytes,
   formatDateTime,
@@ -37,5 +38,31 @@ describe('numbers and dates', () => {
     const text = formatDateTime('2026-10-13T15:02:00.000Z');
     expect(text).toMatch(/2026/);
     expect(text).toMatch(/\d{1,2}[:.]\d{2}/);
+  });
+
+  describe('the time zone', () => {
+    const iso = '2026-10-19T09:00:00.000Z';
+
+    it('is the time zone of the store when it is given', () => {
+      expect(formatDateTime(iso, 'UTC')).toContain('9:00');
+      expect(formatDateTime(iso, 'Asia/Ho_Chi_Minh')).toContain('4:00');
+      expect(formatDateTime(iso, 'America/New_York')).toContain('5:00');
+    });
+
+    it('can move the day', () => {
+      expect(
+        formatDateTime('2026-10-19T20:00:00.000Z', 'Asia/Ho_Chi_Minh')
+      ).toContain('Oct 20');
+      expect(formatDateTime('2026-10-19T20:00:00.000Z', 'UTC')).toContain(
+        'Oct 19'
+      );
+    });
+
+    it('is the browser’s when it is not given, empty, or not a time zone', () => {
+      const browser = formatDateTime(iso);
+      expect(formatDateTime(iso, null)).toBe(browser);
+      expect(formatDateTime(iso, '')).toBe(browser);
+      expect(formatDateTime(iso, 'Not/AZone')).toBe(browser);
+    });
   });
 });

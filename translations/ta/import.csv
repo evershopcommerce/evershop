@@ -108,3 +108,8 @@
 "Upload and validate","பதிவேற்றி சரிபார்"
 "Tip: import in this order - categories, products, customers, addresses.","குறிப்பு: இந்த வரிசையில் இறக்குமதி செய்யவும் - வகைகள், தயாரிப்புகள், வாடிக்கையாளர்கள், முகவரிகள்."
 "New import","புதிய இறக்குமதி"
+"Rows","வரிசைகள்"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","இதுவரை இறக்குமதி எதுவும் இல்லை. தயாரிப்புகள், வகைகள், வாடிக்கையாளர்கள் அல்லது வாடிக்கையாளர் முகவரிகளை இறக்குமதி செய்ய CSV கோப்பைப் பதிவேற்றவும்."
+"${count} imports could not be deleted. They may have started.","${count} இறக்குமதிகளை நீக்க முடியவில்லை. அவை தொடங்கியிருக்கலாம்."
+"Delete the selected imports?","தேர்ந்தெடுத்த இறக்குமதிகளை நீக்கவா?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","அவற்றின் கோப்புகளும் சிக்கல்களின் பட்டியல்களும் நீக்கப்படும். ஏற்கனவே இறக்குமதி செய்யப்பட்ட வரிசைகள் கடையிலேயே இருக்கும்."

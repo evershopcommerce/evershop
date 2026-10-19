@@ -30,6 +30,8 @@ export default {
   ImportJob: {
     active: ({ status }: { status: string }) =>
       (ACTIVE_STATUSES as readonly string[]).includes(status),
+    viewUrl: ({ uuid }: { uuid: string }) =>
+      buildUrl('importView', { id: uuid }),
     deleteApi: ({ uuid }: { uuid: string }) =>
       buildUrl('deleteImportJob', { id: uuid })
   }

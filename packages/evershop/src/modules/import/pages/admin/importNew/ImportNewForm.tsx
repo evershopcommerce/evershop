@@ -31,6 +31,7 @@ interface ImportNewFormProps {
   templateCustomerAddressUrl: string;
   currentAdminUser: { adminUserId: number } | null;
   importLimits: { maxFileBytes: number } | null;
+  setting: { storeTimeZone: string } | null;
 }
 
 /**
@@ -54,6 +55,8 @@ export default function ImportNewForm(props: ImportNewFormProps) {
   const [percent, setPercent] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const sending = useRef<AbortController | null>(null);
+  // Set when the page itself leaves for the page of the new job: no question then.
+  const leaving = useRef(false);
 
   const templates: Record<ImportEntity, string> = {
     product: props.templateProductUrl,
@@ -63,6 +66,7 @@ export default function ImportNewForm(props: ImportNewFormProps) {
   };
   const maxFileBytes = props.importLimits?.maxFileBytes ?? null;
   const me = props.currentAdminUser?.adminUserId ?? null;
+  const timeZone = props.setting?.storeTimeZone;
 
   // The jobs of the chosen type: asked at once, and again while one is at work.
   useEffect(() => {
@@ -81,7 +85,7 @@ export default function ImportNewForm(props: ImportNewFormProps) {
   useEffect(() => {
     if (!uploading) return undefined;
     const warn = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
+      if (!leaving.current) e.preventDefault();
     };
     window.addEventListener('beforeunload', warn);
     return () => window.removeEventListener('beforeunload', warn);
@@ -101,7 +105,7 @@ export default function ImportNewForm(props: ImportNewFormProps) {
 
   const ask = (notice: UploadNotice) =>
     new Promise<boolean>((resolve) => {
-      const { heading, content } = confirmText(notice);
+      const { heading, content } = confirmText(notice, timeZone);
       openAlert({
         heading,
         content,
@@ -144,6 +148,7 @@ export default function ImportNewForm(props: ImportNewFormProps) {
     );
     sending.current = null;
     if (result.ok) {
+      leaving.current = true;
       goTo(viewUrlFor(props.viewUrl, result.data.job.uuid));
       return;
     }
@@ -182,6 +187,7 @@ export default function ImportNewForm(props: ImportNewFormProps) {
         choice={choice}
         maxFileBytes={maxFileBytes}
         templateUrl={templates[entity]}
+        timeZone={timeZone}
         viewUrlOf={(job) => viewUrlFor(props.viewUrl, job.uuid)}
         upload={percent === null ? null : { percent }}
         error={error}
@@ -221,6 +227,9 @@ export const query = `
     }
     importLimits {
       maxFileBytes
+    }
+    setting {
+      storeTimeZone
     }
   }
 `;

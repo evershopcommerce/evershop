@@ -2,6 +2,6 @@
   "methods": [
     "GET"
   ],
-  "path": "/import-jobs/open",
+  "path": "/import-open-jobs",
   "access": "private"
 }

@@ -108,3 +108,8 @@
 "Upload and validate","Tải lên và kiểm tra"
 "Tip: import in this order - categories, products, customers, addresses.","Mẹo: hãy nhập theo thứ tự này - danh mục, sản phẩm, khách hàng, địa chỉ."
 "New import","Nhập dữ liệu mới"
+"Rows","Dòng"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","Chưa có lần nhập nào. Hãy tải lên tệp CSV để nhập sản phẩm, danh mục, khách hàng hoặc địa chỉ khách hàng."
+"${count} imports could not be deleted. They may have started.","Không thể xóa ${count} lần nhập. Có thể chúng đã bắt đầu."
+"Delete the selected imports?","Xóa các lần nhập đã chọn?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","Các tệp và danh sách vấn đề của chúng sẽ bị xóa. Các dòng đã nhập vẫn nằm trong cửa hàng."

@@ -108,3 +108,8 @@
 "Upload and validate","上传并验证"
 "Tip: import in this order - categories, products, customers, addresses.","提示：请按此顺序导入——分类、商品、客户、地址。"
 "New import","新建导入"
+"Rows","行数"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","还没有导入记录。上传 CSV 文件即可导入商品、分类、客户或客户地址。"
+"${count} imports could not be deleted. They may have started.","无法删除 ${count} 个导入。它们可能已经开始运行。"
+"Delete the selected imports?","删除所选的导入？"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","它们的文件和问题列表将被删除。已导入的行仍会保留在商店中。"

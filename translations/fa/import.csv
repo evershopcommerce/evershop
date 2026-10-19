@@ -108,3 +108,8 @@
 "Upload and validate","بارگذاری و اعتبارسنجی"
 "Tip: import in this order - categories, products, customers, addresses.","نکته: به این ترتیب درون‌ریزی کنید - دسته‌بندی‌ها، محصولات، مشتریان، نشانی‌ها."
 "New import","درون‌ریزی جدید"
+"Rows","ردیف‌ها"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","هنوز درون‌ریزی‌ای انجام نشده است. برای درون‌ریزی محصولات، دسته‌بندی‌ها، مشتریان یا نشانی‌های مشتریان یک فایل CSV بارگذاری کنید."
+"${count} imports could not be deleted. They may have started.","حذف ${count} درون‌ریزی ممکن نشد. شاید شروع شده باشند."
+"Delete the selected imports?","درون‌ریزی‌های انتخاب‌شده حذف شوند؟"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","فایل‌ها و فهرست مشکلات آن‌ها حذف می‌شود. ردیف‌هایی که قبلاً درون‌ریزی شده‌اند در فروشگاه باقی می‌مانند."

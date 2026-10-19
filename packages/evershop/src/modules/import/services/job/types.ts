@@ -149,6 +149,23 @@ export const ACTIVE_STATUSES: readonly JobStatus[] = [
   'running'
 ];
 
+/**
+ * The statuses that the list of imports can show and be filtered by: all but
+ * `uploading`, a file that has not arrived is not a past import.
+ */
+export const LISTED_STATUSES: readonly JobStatus[] = [
+  'uploaded',
+  'validating',
+  'validated',
+  'queued',
+  'running',
+  'completed',
+  'failed',
+  'stopped',
+  'canceled',
+  'interrupted'
+];
+
 /** Resume is allowed from these. */
 export const RESUMABLE_STATUSES: readonly JobStatus[] = [
   'stopped',

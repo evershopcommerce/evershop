@@ -108,3 +108,8 @@
 "Upload and validate","Otpremi i proveri"
 "Tip: import in this order - categories, products, customers, addresses.","Savet: uvozite ovim redosledom - kategorije, proizvodi, kupci, adrese."
 "New import","Novi uvoz"
+"Rows","Redovi"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","Još nema uvoza. Otpremite CSV datoteku da biste uvezli proizvode, kategorije, kupce ili adrese kupaca."
+"${count} imports could not be deleted. They may have started.","Nije moguće obrisati uvoze: ${count}. Možda su već počeli."
+"Delete the selected imports?","Obrisati izabrane uvoze?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","Njihove datoteke i liste problema se brišu. Redovi koji su već uvezeni ostaju u prodavnici."

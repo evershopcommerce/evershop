@@ -108,3 +108,8 @@
 "Upload and validate","Feltöltés és érvényesítés"
 "Tip: import in this order - categories, products, customers, addresses.","Tipp: ebben a sorrendben importáljon - kategóriák, termékek, vásárlók, címek."
 "New import","Új importálás"
+"Rows","Sorok"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","Még nincs importálás. Töltsön fel egy CSV-fájlt termékek, kategóriák, vásárlók vagy vásárlói címek importálásához."
+"${count} imports could not be deleted. They may have started.","${count} importálást nem sikerült törölni. Lehet, hogy elindultak."
+"Delete the selected imports?","Törli a kijelölt importálásokat?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","A fájljaik és a problémalistáik törlődnek. A már importált sorok az áruházban maradnak."

@@ -1,4 +1,4 @@
 {
   "methods": ["GET"],
-  "path": "/import/:id"
+  "path": "/import/view/:id"
 }

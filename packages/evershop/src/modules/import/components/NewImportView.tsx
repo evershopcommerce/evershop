@@ -32,6 +32,8 @@ export interface NewImportViewProps {
   choice: UploadChoice;
   maxFileBytes: number | null;
   templateUrl: string;
+  /** The time zone of the store: the times on the page are in it. */
+  timeZone?: string | null;
   /** The page of a job, for the link in the notice of an import at work. */
   viewUrlOf(job: JobView): string;
   /** Set while the file is on its way. */
@@ -48,7 +50,10 @@ export interface NewImportViewProps {
 const who = (job: JobView) => job.createdBy?.name ?? _('Someone');
 
 /** The text of a notice, and of the question that goes with it when it needs a yes. */
-export function noticeText(notice: UploadNotice): string {
+export function noticeText(
+  notice: UploadNotice,
+  timeZone?: string | null
+): string {
   const { job } = notice;
   const what = entityNoun(job.entity);
   switch (notice.kind) {
@@ -65,7 +70,7 @@ export function noticeText(notice: UploadNotice): string {
           file: job.fileName,
           state: statusLabel(job.status).toLocaleLowerCase(),
           name: who(job),
-          time: formatDateTime(job.createdAt)
+          time: formatDateTime(job.createdAt, timeZone)
         }
       );
     case 'close':
@@ -84,7 +89,10 @@ export function noticeText(notice: UploadNotice): string {
 }
 
 /** What the confirmation dialog says for a notice (D-32). */
-export function confirmText(notice: UploadNotice): {
+export function confirmText(
+  notice: UploadNotice,
+  timeZone?: string | null
+): {
   heading: string;
   content: string;
 } {
@@ -97,14 +105,14 @@ export function confirmText(notice: UploadNotice): {
         {
           name: who(job),
           file: job.fileName,
-          time: formatDateTime(job.createdAt)
+          time: formatDateTime(job.createdAt, timeZone)
         }
       )
     };
   }
   return {
     heading: _('Close the earlier import?'),
-    content: `${noticeText(notice)} ${_('Continue?')}`
+    content: `${noticeText(notice, timeZone)} ${_('Continue?')}`
   };
 }
 
@@ -157,7 +165,7 @@ export function NewImportView(props: NewImportViewProps) {
         {choice.notices.map((notice) => (
           <Alert key={`${notice.kind}-${notice.job.uuid}`}>
             <AlertDescription>
-              {noticeText(notice)}
+              {noticeText(notice, props.timeZone)}
               {notice.kind === 'busy' && (
                 <>
                   {' '}

@@ -74,7 +74,7 @@ export interface Screen {
 }
 
 export interface ScreenContext {
-  /** The jobs of `GET /import-jobs/open` (this one may be among them). */
+  /** The jobs of `GET /import-open-jobs` (this one may be among them). */
   others: readonly JobView[];
   nowMs: number;
 }

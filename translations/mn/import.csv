@@ -108,3 +108,8 @@
 "Upload and validate","Байршуулж шалгах"
 "Tip: import in this order - categories, products, customers, addresses.","Зөвлөмж: дараах дарааллаар импортлоно уу - ангилал, бүтээгдэхүүн, үйлчлүүлэгч, хаяг."
 "New import","Шинэ импорт"
+"Rows","Мөрүүд"
+"No import yet. Upload a CSV file to import products, categories, customers or customer addresses.","Одоогоор импорт байхгүй байна. Бүтээгдэхүүн, ангилал, үйлчлүүлэгч эсвэл үйлчлүүлэгчийн хаяг импортлохын тулд CSV файл байршуулна уу."
+"${count} imports could not be deleted. They may have started.","${count} импортыг устгаж чадсангүй. Эхэлсэн байж магадгүй."
+"Delete the selected imports?","Сонгосон импортуудыг устгах уу?"
+"Their files and lists of problems are deleted. The rows already imported stay in the store.","Тэдгээрийн файл болон асуудлын жагсаалт устгагдана. Аль хэдийн импортолсон мөрүүд дэлгүүрт үлдэнэ."
