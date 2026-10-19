@@ -1,10 +1,8 @@
 import type { Pool } from 'pg';
 import { emit } from '../../../lib/event/emitter.js';
+import { EVENT_STUCK_AFTER_MS } from '../services/ports/eventBacklog.js';
 import type { JobRequests } from '../services/ports/jobRequests.js';
 import type { Logger } from '../services/ports/logger.js';
-
-/** Core marks an event `processing` for longer than this as failed (`EventStorage`). */
-const STUCK_MINUTES = 5;
 
 /** The name of the event that asks for a worker (§ 8.4). */
 export const JOB_REQUESTED = 'import_job_requested';
@@ -35,17 +33,21 @@ export class CoreJobRequests implements JobRequests {
 
   async inFlight(jobUuids: readonly string[]): Promise<Set<string>> {
     if (jobUuids.length === 0) return new Set();
-    // As the backlog of events is counted (§ 8.5): an event that has been
-    // `processing` for more than the time core allows belongs to an event
-    // process that died, and nobody will answer it.
+    // As the backlog of events is counted (§ 8.5, `PgEventBacklog`): an event
+    // that has been `processing` for more than the time core allows belongs to
+    // an event process that died, and nobody will answer it.
     const result = await this.pool.query(
       `SELECT DISTINCT data->>'jobUuid' AS job_uuid FROM event
         WHERE name = $1
           AND (status = 'pending'
                OR (status = 'processing'
-                   AND started_at > now() - interval '${STUCK_MINUTES} minutes'))
+                   AND started_at > now() - ($3 * interval '1 millisecond')))
           AND data->>'jobUuid' = ANY($2::text[])`,
-      [JOB_REQUESTED, jobUuids.map((uuid) => uuid.toLowerCase())]
+      [
+        JOB_REQUESTED,
+        jobUuids.map((uuid) => uuid.toLowerCase()),
+        EVENT_STUCK_AFTER_MS
+      ]
     );
     return new Set(
       result.rows.map((row) => String(row.job_uuid).toLowerCase())

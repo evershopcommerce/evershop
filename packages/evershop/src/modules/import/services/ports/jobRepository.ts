@@ -71,6 +71,19 @@ export interface JobRepository {
   markStarted(jobId: number, attempt: number): Promise<boolean>;
 
   /**
+   * Says that the worker is waiting for the event queue (`waiting_since`, by the
+   * clock of the store, § 8.5) or that it is not any more. A job that is
+   * already waiting keeps the time it began. Written at once and not with the
+   * next heartbeat, so that the page shows "Slowing down" without a delay.
+   * False when the write is stale.
+   */
+  setWaiting(
+    jobId: number,
+    attempt: number,
+    waiting: boolean
+  ): Promise<boolean>;
+
+  /**
    * The row numbers that have a problem of severity `error` in a phase: the
    * rows that failed or were skipped (resume retries them first).
    */

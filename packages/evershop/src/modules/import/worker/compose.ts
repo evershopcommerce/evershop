@@ -3,12 +3,13 @@ import type { LookupFunction } from '../../../lib/ssrf/guardedLookup.js';
 import { createHttpImageFetcher } from '../adapters/HttpImageFetcher.js';
 import type { StoredFile } from '../adapters/HttpImageFetcher.js';
 import { nodeSha256Hex } from '../adapters/nodeSha256.js';
+import { PgEventBacklog } from '../adapters/PgEventBacklog.js';
 import { PgFileStore } from '../adapters/PgFileStore.js';
 import { PgJobAdmin } from '../adapters/PgJobAdmin.js';
 import { PgJobRepository } from '../adapters/PgJobRepository.js';
 import { PgLookup } from '../adapters/PgLookup.js';
 import { systemClock } from '../adapters/systemClock.js';
-import type { ImportDeps } from '../services/deps.js';
+import type { ImportConfig, ImportDeps } from '../services/deps.js';
 import type { JobAdmin } from '../services/ports/jobAdmin.js';
 import type { Logger } from '../services/ports/logger.js';
 import type { EntityServices } from '../services/ports/services.js';
@@ -33,7 +34,12 @@ export interface CorePorts {
   maxImageBytesForType(contentType: string): number;
   sanitizeFileName(name: string): string;
   logger: Logger;
-  limits: { maxRows: number; maxCellLength: number; maxIssues: number };
+  limits: Pick<ImportConfig, 'maxRows' | 'maxCellLength' | 'maxIssues'>;
+  /** When the import slows down for the event queue (§ 8.5). */
+  backlog: Pick<
+    ImportConfig,
+    'eventBacklogHigh' | 'eventBacklogLow' | 'eventBacklogMaxWaitMs'
+  >;
   imageTimeoutMs: number;
   /** A test switch: private addresses are refused unless it is on (§ 4.5, point 9). */
   allowPrivateNetworks(): boolean;
@@ -78,8 +84,9 @@ export function composeWorker(core: CorePorts): Composed {
       }),
       services: core.services,
       images,
+      backlog: new PgEventBacklog(core.pool),
       clock: systemClock,
-      config: core.limits,
+      config: { ...core.limits, ...core.backlog },
       logger: core.logger,
       sha256Hex: nodeSha256Hex
     },

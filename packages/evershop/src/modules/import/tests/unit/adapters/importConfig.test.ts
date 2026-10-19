@@ -8,6 +8,7 @@ import { afterEach, beforeAll, describe, expect, it } from '@jest/globals';
 process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
 const {
+  backlogLimits,
   fileLimits,
   importFlag,
   importSetting,
@@ -38,7 +39,10 @@ afterEach(() => {
     allowPrivateNetworks: undefined,
     imageTimeoutSeconds: undefined,
     maxWorkersPerInstance: undefined,
-    workerMemoryMb: undefined
+    workerMemoryMb: undefined,
+    eventBacklogHigh: undefined,
+    eventBacklogLow: undefined,
+    eventBacklogMaxWaitMinutes: undefined
   });
 });
 
@@ -121,5 +125,66 @@ describe('the settings of § 8.7', () => {
   it('rounds the size down to whole bytes', () => {
     set({ maxFileSizeMb: 0.5 });
     expect(maxFileBytes()).toBe(524_288);
+  });
+});
+
+describe('backlogLimits: when the import slows down for the event queue (§ 8.5)', () => {
+  it('has the defaults of the spec: pause above 500, go on below 100, give up after 30 minutes', () => {
+    expect(backlogLimits()).toEqual({
+      eventBacklogHigh: 500,
+      eventBacklogLow: 100,
+      eventBacklogMaxWaitMs: 30 * 60_000
+    });
+  });
+
+  it('follows the configuration, with the time in minutes made milliseconds', () => {
+    set({
+      eventBacklogHigh: 2000,
+      eventBacklogLow: 400,
+      eventBacklogMaxWaitMinutes: 5
+    });
+    expect(backlogLimits()).toEqual({
+      eventBacklogHigh: 2000,
+      eventBacklogLow: 400,
+      eventBacklogMaxWaitMs: 300_000
+    });
+  });
+
+  it('takes a time in fractions of a minute', () => {
+    set({ eventBacklogMaxWaitMinutes: 0.5 });
+    expect(backlogLimits().eventBacklogMaxWaitMs).toBe(30_000);
+  });
+
+  it('holds the low mark at the high one when it is set above it: the import would stop and start on every look', () => {
+    set({ eventBacklogHigh: 50, eventBacklogLow: 400 });
+    expect(backlogLimits()).toMatchObject({
+      eventBacklogHigh: 50,
+      eventBacklogLow: 50
+    });
+    set({ eventBacklogHigh: 50, eventBacklogLow: 50 });
+    expect(backlogLimits().eventBacklogLow).toBe(50);
+    set({ eventBacklogHigh: 50, eventBacklogLow: 49 });
+    expect(backlogLimits().eventBacklogLow).toBe(49);
+  });
+
+  it('holds the default low mark under a high mark that is set below it', () => {
+    set({ eventBacklogHigh: 20 });
+    expect(backlogLimits()).toMatchObject({
+      eventBacklogHigh: 20,
+      eventBacklogLow: 20
+    });
+  });
+
+  it.each([[0], [-1], ['soon']])('uses the default for %j', (value) => {
+    set({
+      eventBacklogHigh: value,
+      eventBacklogLow: value,
+      eventBacklogMaxWaitMinutes: value
+    });
+    expect(backlogLimits()).toEqual({
+      eventBacklogHigh: 500,
+      eventBacklogLow: 100,
+      eventBacklogMaxWaitMs: 30 * 60_000
+    });
   });
 });

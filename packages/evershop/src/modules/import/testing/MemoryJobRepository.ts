@@ -169,6 +169,7 @@ export class MemoryJobRepository implements JobRepository {
     job.heartbeatAt = this.clock.now();
     job.expiresAt = null;
     job.errorMessage = null;
+    job.waitingSince = null;
     return job.attempt;
   }
 
@@ -221,6 +222,17 @@ export class MemoryJobRepository implements JobRepository {
     const job = this.fenced(jobId, attempt);
     if (!job) return false;
     job.startedAt ??= this.clock.now();
+    return true;
+  }
+
+  async setWaiting(
+    jobId: number,
+    attempt: number,
+    waiting: boolean
+  ): Promise<boolean> {
+    const job = this.fenced(jobId, attempt);
+    if (!job) return false;
+    job.waitingSince = waiting ? job.waitingSince ?? this.clock.now() : null;
     return true;
   }
 
@@ -279,6 +291,7 @@ export class MemoryJobRepository implements JobRepository {
     if (patch.counts) job.counts = cloneCounts(patch.counts);
     job.stage = null;
     job.control = null;
+    job.waitingSince = null;
     job.heartbeatAt = this.clock.now();
     if (FINAL.has(to)) job.finishedAt = this.clock.now();
     job.expiresAt = this.clock.now() + this.retentionMs;

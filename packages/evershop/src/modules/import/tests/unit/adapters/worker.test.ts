@@ -150,6 +150,12 @@ describeDb('the worker on the real services', () => {
       sanitizeFileName: (name) => name,
       logger,
       limits,
+      // The defaults of the settings; the pool is the real event queue of the database.
+      backlog: {
+        eventBacklogHigh: 500,
+        eventBacklogLow: 100,
+        eventBacklogMaxWaitMs: 30 * 60_000
+      },
       imageTimeoutMs: 5000,
       allowPrivateNetworks: () => true,
       retentionMs: 86_400_000

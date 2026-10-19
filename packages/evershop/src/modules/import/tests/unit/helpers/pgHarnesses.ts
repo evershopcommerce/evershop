@@ -1,4 +1,5 @@
 import { createHash } from 'crypto';
+import { PgEventBacklog } from '../../../adapters/PgEventBacklog.js';
 import { PgFileStore } from '../../../adapters/PgFileStore.js';
 import { PgJobAdmin } from '../../../adapters/PgJobAdmin.js';
 import { PgJobMaintenance } from '../../../adapters/PgJobMaintenance.js';
@@ -8,6 +9,7 @@ import { RETENTION_MS } from '../../../services/job/transitions.js';
 import type { ImportJob, StoredIssue } from '../../../services/job/types.js';
 import type { StoreFixture } from '../../../services/ports/lookup.js';
 import type { ImportEntity } from '../../../services/types.js';
+import type { EventBacklogHarness } from './eventBacklogContract.js';
 import type { FileStoreHarness } from './fileStoreContract.js';
 import type { JobAdminHarness } from './jobAdminContract.js';
 import type { JobMaintenanceHarness } from './jobMaintenanceContract.js';
@@ -366,4 +368,24 @@ export async function pgLookupHarness(db: ScratchDb): Promise<LookupHarness> {
     }
   };
   return harness;
+}
+
+/** `PgEventBacklog` on the copy of the `event` table in the test schema. */
+export async function pgEventHarness(
+  db: ScratchDb,
+  backlog = new PgEventBacklog(db.pool)
+): Promise<EventBacklogHarness> {
+  await db.pool.query(`TRUNCATE "${db.schema}".event`);
+  return {
+    backlog,
+    async add(status, startedAgoMs = 0, name = 'category_created') {
+      await db.pool.query(
+        `INSERT INTO "${db.schema}".event (name, data, status, started_at)
+         VALUES ($1, '{}'::json, $2::varchar,
+                 CASE WHEN $2::varchar = 'pending' THEN NULL
+                      ELSE now() - ($3 * interval '1 millisecond') END)`,
+        [name, status, startedAgoMs]
+      );
+    }
+  };
 }

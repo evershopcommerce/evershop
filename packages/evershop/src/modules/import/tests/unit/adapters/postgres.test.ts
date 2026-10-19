@@ -20,6 +20,8 @@ import {
 } from '../../../web/handlers.js';
 import type { ImportWeb } from '../../../web/ImportWeb.js';
 import { uploadJob } from '../../../web/upload.js';
+import { EventStorage } from '../../../../../lib/event/EventStorage.js';
+import { eventBacklogContract } from '../helpers/eventBacklogContract.js';
 import { fileStoreContract } from '../helpers/fileStoreContract.js';
 import { jobAdminContract } from '../helpers/jobAdminContract.js';
 import { jobMaintenanceContract } from '../helpers/jobMaintenanceContract.js';
@@ -27,6 +29,7 @@ import { jobRepositoryContract } from '../helpers/jobRepositoryContract.js';
 import { lookupContract } from '../helpers/lookupContract.js';
 import {
   pgAdminHarness,
+  pgEventHarness,
   pgFileHarness,
   pgJobHarness,
   pgLookupHarness,
@@ -737,5 +740,59 @@ describeDb('PgLookup', () => {
       'en',
       'vi'
     ]);
+  });
+});
+
+describeDb('PgEventBacklog', () => {
+  eventBacklogContract('PgEventBacklog', () => pgEventHarness(db!));
+
+  it('reads the copy of the event table in the test schema, which has no trigger: no event process is woken', async () => {
+    const found = await db!.pool.query(
+      `SELECT (SELECT n.nspname FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+                WHERE c.oid = to_regclass('event')) AS schema,
+              (SELECT count(*)::int FROM pg_trigger
+                WHERE tgrelid = to_regclass('event') AND NOT tgisinternal) AS triggers`
+    );
+    expect(found.rows[0]).toEqual({ schema: db!.schema, triggers: 0 });
+  });
+
+  describe("against the rules of core's own event queue (EventStorage)", () => {
+    const MINUTE = 60_000;
+
+    it('counts as waiting exactly the processing events that core does not mark as lost', async () => {
+      const h = await pgEventHarness(db!);
+      await h.add('processing', 1 * MINUTE);
+      await h.add('processing', 4 * MINUTE);
+      await h.add('processing', 6 * MINUTE);
+      await h.add('processing', 30 * MINUTE);
+      expect(await h.backlog.depth()).toBe(2);
+
+      // Core marks the events that have been processing for too long as failed.
+      const lost = await new EventStorage(db!.pool).markStuckAsFailed();
+      expect(lost).toBe(2);
+      const left = await db!.pool.query(
+        `SELECT count(*)::int AS n FROM event WHERE status = 'processing'`
+      );
+      expect(left.rows[0].n).toBe(2);
+      expect(await h.backlog.depth()).toBe(2);
+    });
+
+    it('does not change when the event process claims the events, and drops as it finishes them', async () => {
+      const h = await pgEventHarness(db!);
+      await h.add('pending');
+      await h.add('pending');
+      await h.add('pending');
+      await h.add('processing', 1 * MINUTE);
+      expect(await h.backlog.depth()).toBe(4);
+
+      const storage = new EventStorage(db!.pool);
+      const claimed = await storage.claimBatch(10);
+      expect(claimed).toHaveLength(3);
+      // They moved from pending to processing: still waiting.
+      expect(await h.backlog.depth()).toBe(4);
+
+      await storage.markDoneAndDelete(claimed[0].uuid);
+      expect(await h.backlog.depth()).toBe(3);
+    });
   });
 });

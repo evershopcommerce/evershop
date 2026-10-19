@@ -146,6 +146,19 @@ type ConfigStructure = {
       /** The memory ceiling of one worker (`--max-old-space-size`), in MB. Default 1024. */
       workerMemoryMb?: number;
       /**
+       * The import pauses while more than this many events are waiting for the
+       * event process, so the store's own events (order emails) are not
+       * delayed. Default 500.
+       */
+      eventBacklogHigh?: number;
+      /** ...and goes on when fewer than this are waiting. Default 100. */
+      eventBacklogLow?: number;
+      /**
+       * An import that has waited this long, in minutes, for the queue to
+       * drain stops (`interrupted`) and can be resumed. Default 30.
+       */
+      eventBacklogMaxWaitMinutes?: number;
+      /**
        * Download images from private/loopback addresses and plain `http:`. Off
        * by default (SSRF protection); for the end-to-end tests and a source on
        * the same network.

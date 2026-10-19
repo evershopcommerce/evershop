@@ -9,7 +9,10 @@ export type ImportNumberKey =
   | 'retentionDays'
   | 'imageTimeoutSeconds'
   | 'maxWorkersPerInstance'
-  | 'workerMemoryMb';
+  | 'workerMemoryMb'
+  | 'eventBacklogHigh'
+  | 'eventBacklogLow'
+  | 'eventBacklogMaxWaitMinutes';
 
 /** The keys of `system.import.*` that are yes or no. */
 export type ImportFlagKey = 'allowPrivateNetworks';
@@ -55,4 +58,21 @@ export function maxWorkersPerInstance(): number {
 /** The memory ceiling of a worker, in MB: `workerMemoryMb`, 1,024 by default. */
 export function workerMemoryMb(): number {
   return Math.floor(importSetting('workerMemoryMb', 1024));
+}
+
+/**
+ * When the import slows down for the event queue (§ 8.5): pause above
+ * `eventBacklogHigh` events (500), go on below `eventBacklogLow` (100), give up
+ * after `eventBacklogMaxWaitMinutes` (30). A `low` above `high` would have the
+ * import stop and start on every look, so it is held at `high`.
+ */
+export function backlogLimits() {
+  const high = importSetting('eventBacklogHigh', 500);
+  const low = Math.min(importSetting('eventBacklogLow', 100), high);
+  return {
+    eventBacklogHigh: high,
+    eventBacklogLow: low,
+    eventBacklogMaxWaitMs:
+      importSetting('eventBacklogMaxWaitMinutes', 30) * 60_000
+  };
 }

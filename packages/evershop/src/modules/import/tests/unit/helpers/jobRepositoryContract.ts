@@ -182,6 +182,16 @@ export function jobRepositoryContract(
         });
       });
 
+      it('clears the mark of a wait that an earlier run left', async () => {
+        const job = await h.insert({
+          status: 'queued',
+          waitingSince: h.now() - 1000
+        });
+        expect((await h.snapshot(job.id)).waitingSince).not.toBeNull();
+        await repo.claim(job.id, 'queued', 'running', 'a');
+        expect((await h.snapshot(job.id)).waitingSince).toBeNull();
+      });
+
       it('raises the attempt at every claim', async () => {
         const job = await h.insert({ status: 'uploaded' });
         expect(await repo.claim(job.id, 'uploaded', 'validating', 'a')).toBe(1);
@@ -283,6 +293,77 @@ export function jobRepositoryContract(
           ok: true,
           control: 'cancel'
         });
+      });
+    });
+
+    describe('the wait for the event queue', () => {
+      it('marks the job as waiting from now on, and clears the mark, and writes nothing else', async () => {
+        const { id, attempt } = await claimed({ status: 'queued' });
+        await repo.checkpoint(id, attempt, {
+          counts: { ...emptyCounts(), created: 4 },
+          stage: 'writing',
+          issues: []
+        });
+        const before = await h.snapshot(id);
+        expect(before.waitingSince).toBeNull();
+        await h.advance(20);
+        const at = h.now();
+        expect(await repo.setWaiting(id, attempt, true)).toBe(true);
+        const waiting = await h.snapshot(id);
+        expect(waiting.waitingSince).toBeGreaterThanOrEqual(at);
+        expect(waiting.waitingSince).toBeLessThanOrEqual(h.now() + 5);
+        // Only the mark: the heartbeat, the counts and the stage are as they were.
+        expect({ ...waiting, waitingSince: null }).toEqual(before);
+
+        expect(await repo.setWaiting(id, attempt, false)).toBe(true);
+        expect(await h.snapshot(id)).toEqual(before);
+      });
+
+      it('keeps the time the wait began when the job is marked again, and takes a new time after a clear', async () => {
+        const { id, attempt } = await claimed({ status: 'queued' });
+        await repo.setWaiting(id, attempt, true);
+        const first = (await h.snapshot(id)).waitingSince as number;
+        await h.advance(30);
+        await repo.setWaiting(id, attempt, true);
+        expect((await h.snapshot(id)).waitingSince).toBe(first);
+        await repo.setWaiting(id, attempt, false);
+        await h.advance(30);
+        await repo.setWaiting(id, attempt, true);
+        expect((await h.snapshot(id)).waitingSince).toBeGreaterThan(first);
+      });
+
+      it('clears a job that does not wait without complaint', async () => {
+        const { id, attempt } = await claimed({ status: 'queued' });
+        expect(await repo.setWaiting(id, attempt, false)).toBe(true);
+        expect((await h.snapshot(id)).waitingSince).toBeNull();
+      });
+
+      it('is fenced like every write: a stale worker marks nothing', async () => {
+        const { id, attempt } = await claimed({ status: 'queued' });
+        expect(await repo.setWaiting(id, attempt + 1, true)).toBe(false);
+        expect((await h.snapshot(id)).waitingSince).toBeNull();
+        // The mark of the right worker is not cleared by a stale one either.
+        await repo.setWaiting(id, attempt, true);
+        const marked = (await h.snapshot(id)).waitingSince;
+        expect(await repo.setWaiting(id, attempt - 1, false)).toBe(false);
+        expect((await h.snapshot(id)).waitingSince).toBe(marked);
+      });
+
+      it('refuses a job that is finished, canceled, declared dead, or deleted', async () => {
+        const finished = await claimed({ status: 'queued' });
+        await repo.finish(finished.id, finished.attempt, 'stopped');
+        expect(await repo.setWaiting(finished.id, finished.attempt, true)).toBe(
+          false
+        );
+        for (const status of ['canceled', 'interrupted'] as const) {
+          const job = await claimed({ entity: 'product' });
+          await h.setStatus(job.id, status);
+          expect(await repo.setWaiting(job.id, job.attempt, true)).toBe(false);
+          await h.delete(job.id);
+        }
+        const gone = await claimed({ entity: 'customer' });
+        await h.delete(gone.id);
+        expect(await repo.setWaiting(gone.id, gone.attempt, true)).toBe(false);
       });
     });
 
@@ -610,6 +691,26 @@ export function jobRepositoryContract(
           counts: { total: 12, errors: 3 }
         });
       });
+
+      it.each([
+        'completed',
+        'stopped',
+        'interrupted',
+        'failed',
+        'canceled'
+      ] as const)(
+        'clears the mark of a wait when the run ends in %s',
+        async (to) => {
+          const { id, attempt } = await claimed({
+            status: 'queued',
+            startedAt: 1
+          });
+          await repo.setWaiting(id, attempt, true);
+          expect((await h.snapshot(id)).waitingSince).not.toBeNull();
+          expect(await repo.finish(id, attempt, to)).toBe(true);
+          expect((await h.snapshot(id)).waitingSince).toBeNull();
+        }
+      );
 
       it('sets the message when it is given one, and clears it when it is given null', async () => {
         // A job a worker holds with a message on it (set by an earlier end).

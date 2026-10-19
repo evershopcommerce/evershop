@@ -4,6 +4,7 @@ import type { ImportJob } from '../../../services/job/types.js';
 import type { StoreFixture } from '../../../services/ports/lookup.js';
 import { CollectingLogger } from '../../../testing/CollectingLogger.js';
 import { FakeClock } from '../../../testing/FakeClock.js';
+import { FakeEventBacklog } from '../../../testing/FakeEventBacklog.js';
 import { FakeImageFetcher } from '../../../testing/FakeImageFetcher.js';
 import { MemoryFileStore } from '../../../testing/MemoryFileStore.js';
 import { MemoryJobStore } from '../../../testing/MemoryJobStore.js';
@@ -21,6 +22,8 @@ export interface Harness {
   memory: MemoryServices;
   services: RecordingServices;
   images: FakeImageFetcher;
+  /** The event queue: empty, until a test fills it. */
+  backlog: FakeEventBacklog;
   logger: CollectingLogger;
   /** Stages a file and makes a job for it (by default `uploaded`). */
   stage(file: string | Buffer, fields?: Partial<ImportJob>): ImportJob;
@@ -40,18 +43,23 @@ export function harness(
     'https://example.com/women.jpg'
   );
   const logger = new CollectingLogger();
+  const backlog = new FakeEventBacklog(clock);
   const deps: ImportDeps = {
     files,
     jobs,
     lookup,
     services,
     images,
+    backlog,
     clock,
     logger,
     config: {
       maxRows: 200_000,
       maxCellLength: 65_536,
       maxIssues: 100_000,
+      eventBacklogHigh: 500,
+      eventBacklogLow: 100,
+      eventBacklogMaxWaitMs: 30 * 60_000,
       ...options.config
     },
     sha256Hex: (text) => createHash('sha256').update(text).digest('hex')
@@ -65,6 +73,7 @@ export function harness(
     memory,
     services,
     images,
+    backlog,
     logger,
     stage(file, fields = {}) {
       const id = fields.id ?? 1;

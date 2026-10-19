@@ -29,6 +29,15 @@ process.env.SUPPRESS_NO_CONFIG_WARNING = '1';
 process.env.SUPPRESS_STRICTNESS_CHECK = '1';
 process.env.ALLOW_CONFIG_MUTATIONS = 'true';
 
+// No event process runs on this database, so the events that the imported
+// categories write are never taken, and a worker that waited for them would wait
+// for ever. The workers of these tests do not wait for the event queue (the
+// test of the wait itself sets its own marks, and puts this back).
+const NO_BACKPRESSURE = JSON.stringify({
+  system: { import: { eventBacklogHigh: 1_000_000 } }
+});
+process.env.NODE_CONFIG = NO_BACKPRESSURE;
+
 const db = await openScratchDb({ core: true });
 if (db) {
   pointCoreAt(db);
@@ -613,3 +622,162 @@ describeDb('CoreJobRequests.inFlight: the requests on their way', () => {
     }
   });
 });
+
+describeDb(
+  'the import slows down for the event queue (§ 8.5), with real workers and real events',
+  () => {
+    const ROWS = 800;
+    const bulk = Array.from(
+      { length: ROWS },
+      (_, n) => `queue-${String(n).padStart(3, '0')}`
+    );
+    const pause = (ms: number) =>
+      new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+
+    /** The settings of the worker processes that the next events start. */
+    const settings = (values: Record<string, number>) => {
+      process.env.NODE_CONFIG = JSON.stringify({ system: { import: values } });
+    };
+    const count = async (sql: string, above: number) =>
+      Number((await db!.pool.query(sql, [above])).rows[0].n);
+    const written = () =>
+      count(
+        'SELECT count(*)::int AS n FROM category WHERE category_id > $1',
+        baseline.category
+      );
+    const waitingEvents = () =>
+      count(
+        `SELECT count(*)::int AS n FROM event
+        WHERE event_id > $1 AND name <> 'import_job_requested'`,
+        baseline.event
+      );
+    /** The event process, as far as the queue goes: it takes the events the import wrote. */
+    const drainQueue = () =>
+      db!.pool.query(
+        `DELETE FROM event WHERE event_id > $1 AND name <> 'import_job_requested'`,
+        [baseline.event]
+      );
+
+    /** Uploads the file, has it checked, starts it, and starts the worker that imports it. */
+    async function startImport(s: ImportService) {
+      const { job } = await upload(s, categoryFile(...bulk.map((k) => row(k))));
+      await core!.subscriber((await takeRequests())[0]);
+      await until(async () => (await statusOf(job.id))?.status === 'validated');
+      await s.start(job.id);
+      await core!.subscriber((await takeRequests())[0]);
+      return job;
+    }
+
+    it('stops writing while the queue is long, shows that it waits, keeps its heartbeat, and goes on when the queue has drained', async () => {
+      await cleanUp();
+      await remember();
+      settings({ eventBacklogHigh: 10, eventBacklogLow: 3 });
+      try {
+        const s = service();
+        const job = await startImport(s);
+
+        // Nobody takes the events, so the queue only grows: the worker waits.
+        await until(
+          async () => (await statusOf(job.id))?.waitingSince != null,
+          60_000
+        );
+        const waiting = (await statusOf(job.id))!;
+        expect(waiting.status).toBe('running');
+        const rows = await written();
+        expect(rows).toBeGreaterThan(10);
+        expect(rows).toBeLessThan(ROWS);
+        expect(await waitingEvents()).toBeGreaterThan(10);
+
+        // It writes nothing while it waits, it is the same wait, and it is alive.
+        await pause(2500);
+        expect(await written()).toBe(rows);
+        const later = (await statusOf(job.id))!;
+        expect(later.status).toBe('running');
+        expect(later.waitingSince).toBe(waiting.waitingSince);
+        expect(later.heartbeatAt).toBeGreaterThan(
+          waiting.heartbeatAt as number
+        );
+
+        // The event process catches up in bursts, as it does on a store.
+        await until(async () => {
+          await drainQueue();
+          return (await statusOf(job.id))?.status === 'completed';
+        }, 120_000);
+        const done = (await statusOf(job.id))!;
+        expect(done).toMatchObject({
+          waitingSince: null,
+          counts: { created: ROWS, failed: 0, skipped: 0 }
+        });
+        const made = await db!.pool.query(
+          `SELECT count(*)::int AS n, count(DISTINCT cd.url_key)::int AS keys
+           FROM category c
+           JOIN category_description cd ON cd.category_description_category_id = c.category_id
+          WHERE c.category_id > $1`,
+          [baseline.category]
+        );
+        expect(made.rows[0]).toEqual({ n: ROWS, keys: ROWS });
+        await until(() => core!.dispatchDeps().workers.running() === 0, 30_000);
+      } finally {
+        process.env.NODE_CONFIG = NO_BACKPRESSURE;
+        await cleanUp();
+      }
+    });
+
+    it('gives up when the queue does not drain, ends the job interrupted with the reason, and a resume goes on without a duplicate', async () => {
+      await cleanUp();
+      await remember();
+      // Six seconds is the longest the worker waits.
+      settings({
+        eventBacklogHigh: 10,
+        eventBacklogLow: 3,
+        eventBacklogMaxWaitMinutes: 0.1
+      });
+      try {
+        const s = service();
+        const job = await startImport(s);
+        await until(
+          async () => (await statusOf(job.id))?.status === 'interrupted',
+          90_000
+        );
+        const stopped = (await statusOf(job.id))!;
+        expect(stopped.errorMessage).toBe(
+          'The event process is not draining: more than 10 events were waiting for 0.1 minutes. Find out why events are not processed, then resume the import.'
+        );
+        expect(stopped.waitingSince).toBeNull();
+        expect(stopped.startedAt).not.toBeNull();
+        expect(stopped.counts.created).toBeGreaterThan(10);
+        expect(stopped.counts.created).toBeLessThan(ROWS);
+        expect(stopped.counts.lastUnit).toBe(stopped.counts.created);
+        expect(await written()).toBe(stopped.counts.created);
+        await until(() => core!.dispatchDeps().workers.running() === 0, 30_000);
+
+        // The event process is back; the admin resumes the job.
+        await drainQueue();
+        await s.resume(job.id);
+        await core!.subscriber((await takeRequests())[0]);
+        await until(async () => {
+          await drainQueue();
+          return (await statusOf(job.id))?.status === 'completed';
+        }, 120_000);
+        const done = (await statusOf(job.id))!;
+        expect(done.counts).toMatchObject({ failed: 0, skipped: 0 });
+        expect(done.counts.created + done.counts.updated).toBe(ROWS);
+        expect(done.attempt).toBe(3);
+        const made = await db!.pool.query(
+          `SELECT count(*)::int AS n, count(DISTINCT cd.url_key)::int AS keys
+           FROM category c
+           JOIN category_description cd ON cd.category_description_category_id = c.category_id
+          WHERE c.category_id > $1`,
+          [baseline.category]
+        );
+        expect(made.rows[0]).toEqual({ n: ROWS, keys: ROWS });
+        await until(() => core!.dispatchDeps().workers.running() === 0, 30_000);
+      } finally {
+        process.env.NODE_CONFIG = NO_BACKPRESSURE;
+        await cleanUp();
+      }
+    });
+  }
+);

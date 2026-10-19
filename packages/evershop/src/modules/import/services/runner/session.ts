@@ -190,6 +190,28 @@ export class Session {
   }
 
   /**
+   * Tells the job that the run waits for the event queue, or that it does not
+   * any more (`waiting_since`, § 8.5). False when the job is no longer ours (the
+   * run is then told to stop). A write that fails is logged and does not stop
+   * the run: the wait itself does not depend on it, only the hint on the page.
+   */
+  async setWaiting(waiting: boolean): Promise<boolean> {
+    try {
+      if (await this.deps.jobs.setWaiting(this.job.id, this.attempt, waiting)) {
+        return true;
+      }
+      this.control.stop('lost');
+      return false;
+    } catch (error) {
+      this.deps.logger.warn('The waiting state could not be written', {
+        job: this.job.id,
+        error: String((error as Error)?.message ?? error)
+      });
+      return true;
+    }
+  }
+
+  /**
    * Starts a phase from the beginning: the totals of an earlier run of it are
    * gone, and this run's problems and cap flag are the ones that count. A phase
    * the run does not begin is left as it was (a check must not clear the flag of
