@@ -125,9 +125,10 @@ describeDb('a customers file through a worker on the real services', () => {
       sanitizeFileName: (name) => name,
       logger,
       limits: { maxRows: 1000, maxCellLength: 65_536, maxIssues: 1000 },
+      // No event process runs on this database: the worker never waits for the queue.
       backlog: {
         eventBacklogHigh: 1_000_000,
-        eventBacklogLow: 100,
+        eventBacklogLow: 999_999,
         eventBacklogMaxWaitMs: 30 * 60_000
       },
       imageTimeoutMs: 5000,

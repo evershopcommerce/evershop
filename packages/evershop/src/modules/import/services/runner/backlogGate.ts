@@ -52,7 +52,7 @@ export class BacklogGate {
   constructor(private readonly deps: BacklogGateDeps) {}
 
   async pass(): Promise<GateResult> {
-    const { clock, signal, limits, logger, jobId } = this.deps;
+    const { clock, signal, limits } = this.deps;
     if (signal.aborted) {
       return 'stopped';
     }
@@ -62,16 +62,45 @@ export class BacklogGate {
     ) {
       return 'go';
     }
-    let depth = await this.sample();
+    const depth = await this.sample();
     if (depth === null || depth <= limits.high) {
       return 'go';
     }
 
+    const waited = await this.waitUntilBelowLow(depth, limits.high);
+    return waited === 'drained' ? 'go' : waited;
+  }
+
+  /**
+   * After the last unit (IMP-08): waits until fewer than `low` events are waiting,
+   * for at most `maxWaitMs`, so that the events of the import are handled before
+   * the page addresses are checked. `drained` also when the queue cannot be
+   * measured: the repair does not touch a record whose event is still to be
+   * handled, so it can go on without the answer.
+   */
+  async settle(): Promise<'drained' | 'stopped' | 'gave_up'> {
+    if (this.deps.signal.aborted) {
+      return 'stopped';
+    }
+    const depth = await this.sample();
+    if (depth === null || depth < this.deps.limits.low) {
+      return 'drained';
+    }
+    return this.waitUntilBelowLow(depth, this.deps.limits.low);
+  }
+
+  // Holds the run, looking every second, until fewer than `low` events are waiting.
+  private async waitUntilBelowLow(
+    first: number,
+    above: number
+  ): Promise<'drained' | 'stopped' | 'gave_up'> {
+    const { clock, signal, limits, logger, jobId } = this.deps;
+    let depth: number | null = first;
     const since = clock.now();
     logger.info('The import is waiting for the event queue to drain', {
       job: jobId,
       waiting: depth,
-      above: limits.high
+      above
     });
     if (!(await this.deps.setWaiting(true))) {
       return 'stopped';
@@ -99,7 +128,7 @@ export class BacklogGate {
       waiting: depth,
       waitedMs: clock.now() - since
     });
-    return (await this.deps.setWaiting(false)) ? 'go' : 'stopped';
+    return (await this.deps.setWaiting(false)) ? 'drained' : 'stopped';
   }
 
   /** The depth of the queue, or null when it could not be read. */

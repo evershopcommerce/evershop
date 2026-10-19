@@ -5,6 +5,7 @@ import type { FileStore } from './ports/fileStore.js';
 import type { JobRepository } from './ports/jobRepository.js';
 import type { Logger } from './ports/logger.js';
 import type { Lookup } from './ports/lookup.js';
+import type { PageAddresses } from './ports/pageAddresses.js';
 import type { EntityServices } from './ports/services.js';
 
 /** The limits the engine reads from the configuration (§ 8.7). */
@@ -36,6 +37,8 @@ export interface ImportDeps {
   images: ImageFetcher;
   /** The event queue the writes feed; the import slows down when it is long (§ 8.5). */
   backlog: EventBacklog;
+  /** Repairs the page addresses that the events of the import lost (IMP-08). */
+  pages: PageAddresses;
   clock: Clock;
   config: ImportConfig;
   logger: Logger;

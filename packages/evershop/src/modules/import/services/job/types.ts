@@ -42,6 +42,8 @@ export interface JobCounts {
   skipped: number;
   /** The number of units completed in plan order (§ 4.3), whole units only. */
   lastUnit: number;
+  /** The page addresses rebuilt after the last unit (IMP-08). */
+  pagesRebuilt: number;
   /** The totals per code, also above the cap on stored problems. */
   byCode: Record<IssuePhase, Record<string, number>>;
   issuesTruncated: Record<IssuePhase, boolean>;
@@ -67,6 +69,7 @@ export function emptyCounts(): JobCounts {
     failed: 0,
     skipped: 0,
     lastUnit: 0,
+    pagesRebuilt: 0,
     byCode: { validate: {}, import: {} },
     issuesTruncated: { validate: false, import: false },
     firstUnlistedRow: { validate: null, import: null }

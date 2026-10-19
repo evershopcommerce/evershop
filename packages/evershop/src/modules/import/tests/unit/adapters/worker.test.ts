@@ -150,10 +150,12 @@ describeDb('the worker on the real services', () => {
       sanitizeFileName: (name) => name,
       logger,
       limits,
-      // The defaults of the settings; the pool is the real event queue of the database.
+      // No event process runs on this database, so the queue only grows: the
+      // marks are out of reach and the worker never waits for it (before a row
+      // or after the last one, IMP-08).
       backlog: {
-        eventBacklogHigh: 500,
-        eventBacklogLow: 100,
+        eventBacklogHigh: 1_000_000,
+        eventBacklogLow: 999_999,
         eventBacklogMaxWaitMs: 30 * 60_000
       },
       imageTimeoutMs: 5000,

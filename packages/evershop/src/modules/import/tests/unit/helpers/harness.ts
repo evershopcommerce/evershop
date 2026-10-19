@@ -9,6 +9,7 @@ import { FakeImageFetcher } from '../../../testing/FakeImageFetcher.js';
 import { MemoryFileStore } from '../../../testing/MemoryFileStore.js';
 import { MemoryJobStore } from '../../../testing/MemoryJobStore.js';
 import { MemoryLookup } from '../../../testing/MemoryLookup.js';
+import { MemoryPageAddresses } from '../../../testing/MemoryPageAddresses.js';
 import { MemoryServices } from '../../../testing/MemoryServices.js';
 import { RecordingServices } from '../../../testing/RecordingServices.js';
 import { keyDeps } from './runImport.js';
@@ -24,6 +25,8 @@ export interface Harness {
   images: FakeImageFetcher;
   /** The event queue: empty, until a test fills it. */
   backlog: FakeEventBacklog;
+  /** The page addresses that the events lost: none, until a test says so. */
+  pages: MemoryPageAddresses;
   logger: CollectingLogger;
   /** Stages a file and makes a job for it (by default `uploaded`). */
   stage(file: string | Buffer, fields?: Partial<ImportJob>): ImportJob;
@@ -44,6 +47,7 @@ export function harness(
   );
   const logger = new CollectingLogger();
   const backlog = new FakeEventBacklog(clock);
+  const pages = new MemoryPageAddresses();
   const deps: ImportDeps = {
     files,
     jobs,
@@ -51,6 +55,7 @@ export function harness(
     services,
     images,
     backlog,
+    pages,
     clock,
     logger,
     config: {
@@ -74,6 +79,7 @@ export function harness(
     services,
     images,
     backlog,
+    pages,
     logger,
     stage(file, fields = {}) {
       const id = fields.id ?? 1;
