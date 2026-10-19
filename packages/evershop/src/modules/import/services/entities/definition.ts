@@ -74,4 +74,9 @@ export interface EntityValidator<D = unknown, State = unknown> {
     state: State,
     ctx: ValidationContext
   ): Promise<BatchResult>;
+  /**
+   * After the last batch. For what can only be said when the last row is known,
+   * such as the group of rows that was still open (variant groups, § 5.3).
+   */
+  finish?(state: State, ctx: ValidationContext): Promise<BatchResult>;
 }
