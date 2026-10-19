@@ -16,6 +16,7 @@ import {
   backlogLimits,
   fileLimits,
   importFlag,
+  imageConcurrency,
   importSetting,
   retentionMs
 } from '../adapters/importConfig.js';
@@ -76,6 +77,7 @@ export function createCorePorts(): CorePorts {
     limits: fileLimits(),
     backlog: backlogLimits(),
     imageTimeoutMs: importSetting('imageTimeoutSeconds', 30) * 1000,
+    imageConcurrency: imageConcurrency(),
     allowPrivateNetworks: () => importFlag('allowPrivateNetworks'),
     retentionMs: retentionMs()
   };

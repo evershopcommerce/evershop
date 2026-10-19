@@ -9,6 +9,7 @@ import { planCategories } from '../../../services/plan/categoryPlan.js';
 import { planAddresses } from '../../../services/plan/customerAddressPlan.js';
 import { planCustomers } from '../../../services/plan/customerPlan.js';
 import { planProducts } from '../../../services/plan/productPlan.js';
+import type { ImageFetcher } from '../../../services/images/types.js';
 import type { StoreFixture } from '../../../services/ports/lookup.js';
 import type { CsvLimits } from '../../../services/reader/readCsv.js';
 import type { ImportMode } from '../../../services/types.js';
@@ -55,6 +56,10 @@ export interface ImportOptions {
   prepare?: (run: Omit<ImportRun, 'outcomes' | 'plan'>) => void;
   /** Stop after this many outcomes (the way the runner stops at the tenth failure). */
   stopAfter?: number;
+  /** Images fetched ahead of their rows at the same time (the writers' default is 1). */
+  imageConcurrency?: number;
+  /** What the writer fetches images with, made from the fake (to measure the fetches). */
+  wrapImages?: (inner: FakeImageFetcher) => ImageFetcher;
 }
 
 /**
@@ -98,7 +103,8 @@ export async function importCategories(
     plan,
     context,
     services,
-    images,
+    images: options.wrapImages ? options.wrapImages(images) : images,
+    imageConcurrency: options.imageConcurrency,
     clock,
     resumed: options.resumed,
     include: options.include,
@@ -155,7 +161,8 @@ export async function importProducts(
     plan,
     context,
     services,
-    images,
+    images: options.wrapImages ? options.wrapImages(images) : images,
+    imageConcurrency: options.imageConcurrency,
     clock,
     resumed: options.resumed,
     include: options.include,

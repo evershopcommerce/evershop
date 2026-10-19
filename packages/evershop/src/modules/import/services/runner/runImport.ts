@@ -229,6 +229,7 @@ export async function runImport(
       context,
       services: deps.services,
       images: deps.images,
+      imageConcurrency: deps.config.imageConcurrency,
       clock: deps.clock,
       resumed,
       include: resumed

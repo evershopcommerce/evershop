@@ -159,6 +159,7 @@ describeDb('the worker on the real services', () => {
         eventBacklogMaxWaitMs: 30 * 60_000
       },
       imageTimeoutMs: 5000,
+      imageConcurrency: 4,
       allowPrivateNetworks: () => true,
       retentionMs: 86_400_000
     };
@@ -176,6 +177,18 @@ describeDb('the worker on the real services', () => {
         admin: composed.admin,
         workerId: 'test:1'
       });
+    // A worker process of its own, as the store starts one for each job: the
+    // images fetched in a run are remembered for that run only (§ 5.8).
+    const others: Array<ReturnType<typeof composeWorker>> = [];
+    const freshWorker = (uuid: string) => {
+      const own = composeWorker(ports);
+      others.push(own);
+      return runWorker(uuid, {
+        deps: own.deps,
+        admin: own.admin,
+        workerId: 'test:2'
+      });
+    };
     const upload = async (text: string) => {
       async function* once() {
         yield Buffer.from(text);
@@ -204,6 +217,7 @@ describeDb('the worker on the real services', () => {
       openConnections,
       service,
       worker,
+      freshWorker,
       upload,
       rows,
       imageUrl,
@@ -213,6 +227,10 @@ describeDb('the worker on the real services', () => {
         if (!workerClosed) {
           workerClosed = true;
           await composed.close();
+          for (const own of others) {
+            // eslint-disable-next-line no-await-in-loop
+            await own.close();
+          }
         }
       },
       async close() {
@@ -290,7 +308,7 @@ describeDb('the worker on the real services', () => {
       expect(again.replaced).toBe(false);
       await t.worker(again.job.uuid);
       await t.service.start(again.job.id);
-      expect((await t.worker(again.job.uuid)).outcome).toBe('completed');
+      expect((await t.freshWorker(again.job.uuid)).outcome).toBe('completed');
       expect(await t.composed.admin.get(again.job.id)).toMatchObject({
         counts: { created: 0, updated: 3, failed: 0 }
       });

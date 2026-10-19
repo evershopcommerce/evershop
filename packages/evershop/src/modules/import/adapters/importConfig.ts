@@ -8,6 +8,7 @@ export type ImportNumberKey =
   | 'maxIssues'
   | 'retentionDays'
   | 'imageTimeoutSeconds'
+  | 'imageConcurrency'
   | 'maxWorkersPerInstance'
   | 'workerMemoryMb'
   | 'eventBacklogHigh'
@@ -53,6 +54,11 @@ export function fileLimits() {
 /** The most workers one instance runs at a time: `maxWorkersPerInstance`, 2 by default. */
 export function maxWorkersPerInstance(): number {
   return Math.floor(importSetting('maxWorkersPerInstance', 2));
+}
+
+/** The images fetched at the same time: `imageConcurrency`, 4 by default, at least 1. */
+export function imageConcurrency(): number {
+  return Math.max(1, Math.floor(importSetting('imageConcurrency', 4)));
 }
 
 /** The memory ceiling of a worker, in MB: `workerMemoryMb`, 1,024 by default. */

@@ -141,6 +141,8 @@ type ConfigStructure = {
       retentionDays?: number;
       /** How long one image download may take, in seconds. Default 30. */
       imageTimeoutSeconds?: number;
+      /** How many images the import fetches at the same time. Default 4. */
+      imageConcurrency?: number;
       /** The most import workers one instance runs at a time. Default 2. */
       maxWorkersPerInstance?: number;
       /** The memory ceiling of one worker (`--max-old-space-size`), in MB. Default 1024. */

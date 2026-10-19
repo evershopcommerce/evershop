@@ -221,10 +221,21 @@ describeDb('a products file through a worker on the real services', () => {
           }
         }
       : real;
-    const server = http.createServer((_request, response) => {
-      response.setHeader('Content-Type', 'image/png');
-      response.setHeader('Content-Length', String(PNG.length));
-      response.end(PNG);
+    // The image server counts what it is asked for and how many at once.
+    const hits = new Map<string, number>();
+    let active = 0;
+    let peak = 0;
+    const server = http.createServer((request, response) => {
+      hits.set(request.url ?? '', (hits.get(request.url ?? '') ?? 0) + 1);
+      active += 1;
+      peak = Math.max(peak, active);
+      setTimeout(() => {
+        response.setHeader('Content-Type', 'image/png');
+        response.setHeader('Content-Length', String(PNG.length));
+        response.end(PNG, () => {
+          active -= 1;
+        });
+      }, 60);
     });
     await new Promise<void>((resolve) => {
       server.listen(0, '127.0.0.1', resolve);
@@ -253,6 +264,7 @@ describeDb('a products file through a worker on the real services', () => {
         eventBacklogMaxWaitMs: 30 * 60_000
       },
       imageTimeoutMs: 5000,
+      imageConcurrency: 4,
       allowPrivateNetworks: () => true,
       retentionMs: 86_400_000
     };
@@ -291,6 +303,9 @@ describeDb('a products file through a worker on the real services', () => {
     return {
       composed,
       imageUrl,
+      imageBase: imageUrl.replace('/mug.png', ''),
+      hits,
+      peak: () => peak,
       run,
       upload,
       worker,
@@ -474,6 +489,37 @@ describeDb('a products file through a worker on the real services', () => {
           )
         ).map((r) => r.request_path)
       ).toEqual(['/worker-cat/wk-mug-1', '/worker-cat/wk-mug-2']);
+    } finally {
+      await t.close();
+    }
+  });
+
+  it('downloads an image shared by many products once, and different images several at a time (imageConcurrency)', async () => {
+    const t = await setup();
+    try {
+      const rows = Array.from({ length: 8 }, (_, i) =>
+        row(
+          `WK-IMG-${i}`,
+          { images: `${t.imageBase}/own-${i}.png|${t.imageBase}/shared.png` },
+          ['Cotton', '1', '']
+        )
+      );
+      const { done } = await t.run(fileOf(...rows));
+      expect(done).toEqual({ outcome: 'completed', exitCode: 0 });
+      // One download for the image all eight share, one for each of the others.
+      expect(t.hits.get('/shared.png')).toBe(1);
+      for (let i = 0; i < 8; i += 1) {
+        expect(t.hits.get(`/own-${i}.png`)).toBe(1);
+      }
+      // Four at a time, not one after the other.
+      expect(t.peak()).toBeGreaterThan(1);
+      expect(t.peak()).toBeLessThanOrEqual(4);
+      const stored = await q(
+        `SELECT p.sku, count(i.*)::int AS n FROM product p
+           JOIN product_image i ON i.product_image_product_id = p.product_id
+          WHERE p.sku LIKE 'WK-IMG-%' GROUP BY p.sku ORDER BY p.sku`
+      );
+      expect(stored.map((r) => r.n)).toEqual(Array(8).fill(2));
     } finally {
       await t.close();
     }

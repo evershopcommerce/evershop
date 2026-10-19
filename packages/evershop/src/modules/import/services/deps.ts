@@ -22,6 +22,8 @@ export interface ImportConfig {
   eventBacklogLow: number;
   /** ...and gives up when a pause lasts this long (J5). */
   eventBacklogMaxWaitMs: number;
+  /** Images fetched at the same time, ahead of the rows that hold them (§ 8.5). */
+  imageConcurrency: number;
 }
 
 /**

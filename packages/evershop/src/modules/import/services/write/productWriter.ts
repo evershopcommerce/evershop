@@ -10,6 +10,7 @@ import {
   type ProductRow,
   type ProductState
 } from '../entities/product/productValidator.js';
+import { ImagePrefetcher } from '../images/prefetch.js';
 import { imageIssue, ImageError } from '../images/types.js';
 import type { ImageFetcher } from '../images/types.js';
 import type { ProductPlan } from '../plan/productPlan.js';
@@ -41,6 +42,8 @@ export interface ProductWriterArgs {
   context: ValidationContext;
   services: EntityServices;
   images: ImageFetcher;
+  /** Images fetched ahead of their rows, at the same time (default 1: one at a time). */
+  imageConcurrency?: number;
   clock: Pick<Clock, 'sleep'>;
   /** The job is a resumed one (IMP-07): a product that exists is updated. */
   resumed?: boolean;
@@ -125,6 +128,13 @@ export async function* writeProducts(
   const resolver = new ProductResolver(context.lookup);
   const groups = new Map<number, { uuid: string }>();
   let unitNumber = 0;
+  // The images of the rows of a batch are fetched a few at a time while the rows
+  // before them are written (§ 8.5).
+  const prefetcher = new ImagePrefetcher(
+    args.images,
+    Math.max(1, Math.floor(args.imageConcurrency ?? 1)),
+    signal
+  );
 
   async function* readUnits(): AsyncGenerator<ProductRow[], void, undefined> {
     let open: ProductRow[] = [];
@@ -156,20 +166,31 @@ export async function* writeProducts(
     const stored = await context.lookup.products(
       rows.map((row) => row.key as string)
     );
-    for (const unit of units) {
-      unitNumber += 1;
-      const included = unit.filter(
-        (row) =>
-          !args.include ||
-          args.include({
-            unit: unitNumber,
-            rowNumber: row.rowNumber,
-            key: row.key as string
-          })
-      );
-      if (included.length === 0) continue;
-      if (signal?.aborted) return;
-      yield* writeUnit(unitNumber, unit, included, stored);
+    const wanted = (number: number, row: ProductRow) =>
+      !args.include ||
+      args.include({
+        unit: number,
+        rowNumber: row.rowNumber,
+        key: row.key as string
+      });
+    prefetcher.schedule(
+      units.flatMap((unit, at) =>
+        unit
+          .filter((row) => wanted(unitNumber + at + 1, row))
+          .flatMap((row) => row.data.images ?? [])
+      )
+    );
+    try {
+      for (const unit of units) {
+        unitNumber += 1;
+        const included = unit.filter((row) => wanted(unitNumber, row));
+        if (included.length === 0) continue;
+        if (signal?.aborted) return;
+        yield* writeUnit(unitNumber, unit, included, stored);
+      }
+    } finally {
+      // What was fetched ahead for rows that were not written is forgotten.
+      prefetcher.clear();
     }
   }
 
@@ -368,15 +389,12 @@ export async function* writeProducts(
       imagePaths = [];
       for (const source of data.images) {
         try {
-          const image = await withRetries(
-            () => args.images.fetchAndStore(source),
-            {
-              isTransient: isTransientImageError,
-              sleep: args.clock.sleep,
-              onRetry,
-              signal
-            }
-          );
+          const image = await withRetries(() => prefetcher.fetch(source), {
+            isTransient: isTransientImageError,
+            sleep: args.clock.sleep,
+            onRetry,
+            signal
+          });
           imagePaths.push(image.url);
         } catch (error) {
           const problem =

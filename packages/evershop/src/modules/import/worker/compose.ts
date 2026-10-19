@@ -11,6 +11,7 @@ import { PgLookup } from '../adapters/PgLookup.js';
 import { PgPageAddresses } from '../adapters/PgPageAddresses.js';
 import { systemClock } from '../adapters/systemClock.js';
 import type { ImportConfig, ImportDeps } from '../services/deps.js';
+import { cachedImageFetcher } from '../services/images/cachedImageFetcher.js';
 import type { JobAdmin } from '../services/ports/jobAdmin.js';
 import type { Logger } from '../services/ports/logger.js';
 import type { EntityServices } from '../services/ports/services.js';
@@ -42,6 +43,8 @@ export interface CorePorts {
     'eventBacklogHigh' | 'eventBacklogLow' | 'eventBacklogMaxWaitMs'
   >;
   imageTimeoutMs: number;
+  /** How many images are fetched at the same time (`imageConcurrency`). */
+  imageConcurrency: number;
   /** A test switch: private addresses are refused unless it is on (§ 4.5, point 9). */
   allowPrivateNetworks(): boolean;
   retentionMs: number;
@@ -62,7 +65,7 @@ export interface Composed {
  * place where the ports meet their implementations.
  */
 export function composeWorker(core: CorePorts): Composed {
-  const images = createHttpImageFetcher({
+  const downloader = createHttpImageFetcher({
     keyDeps: {
       sha256Hex: nodeSha256Hex,
       sanitizeFileName: core.sanitizeFileName
@@ -75,6 +78,8 @@ export function composeWorker(core: CorePorts): Composed {
     allowedTypes: core.allowedImageTypes,
     maxBytesForType: core.maxImageBytesForType
   });
+  // One download for each URL in the run: variants share their main image (§ 5.8).
+  const images = cachedImageFetcher(downloader);
   return {
     deps: {
       files: new PgFileStore(core.pool),
@@ -88,11 +93,15 @@ export function composeWorker(core: CorePorts): Composed {
       backlog: new PgEventBacklog(core.pool),
       pages: new PgPageAddresses(core.pool),
       clock: systemClock,
-      config: { ...core.limits, ...core.backlog },
+      config: {
+        ...core.limits,
+        ...core.backlog,
+        imageConcurrency: core.imageConcurrency
+      },
       logger: core.logger,
       sha256Hex: nodeSha256Hex
     },
     admin: new PgJobAdmin(core.pool, { retentionMs: core.retentionMs }),
-    close: () => images.close()
+    close: () => downloader.close()
   };
 }

@@ -132,6 +132,7 @@ describeDb('a customers file through a worker on the real services', () => {
         eventBacklogMaxWaitMs: 30 * 60_000
       },
       imageTimeoutMs: 5000,
+      imageConcurrency: 4,
       allowPrivateNetworks: () => true,
       retentionMs: 86_400_000
     };
