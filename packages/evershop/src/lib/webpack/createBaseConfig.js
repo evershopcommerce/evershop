@@ -115,7 +115,10 @@ export function createBaseConfig(isServer) {
     target: isServer === true ? 'node' : 'web',
     output,
     plugins: [],
-    cache: { type: 'memory' }
+    // A one-shot production build never reuses the cache, but a memory cache keeps a second
+    // copy of every parsed module (and everything derived from it) resident for the whole
+    // compilation. Only the dev/watch build benefits from it.
+    cache: isProductionMode() ? false : { type: 'memory' }
   };
 
   if (isServer) {
@@ -179,7 +182,10 @@ export function createBaseConfig(isServer) {
           compress: true,
           mangle: true,
           module: true,
-          sourceMap: true,
+          // `devtool` is never set, so no .map file is emitted for the client bundle either way.
+          // With this on, swc still builds a mapping for every chunk and keeps it alive through
+          // the sealing/minification phase, which is where the build peaks on a small host.
+          sourceMap: false,
           keep_classnames: false,
           keep_fnames: false,
           safari10: true
