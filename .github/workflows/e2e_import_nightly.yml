@@ -1,0 +1,202 @@
+name: Import end-to-end (nightly)
+
+# The two import specs that are too long or too big for a pull request
+# (tests/e2e/admin/specs/import/smoke50k.spec.ts and twoInstances.spec.ts):
+#
+#  - smoke: a real import of 50,000 products through the page, while the storefront is
+#    probed every second and the memory of the processes is read; the numbers are in
+#    the summary of the run.
+#  - two instances: two stores over one database; the first has no event process, so
+#    the upload lands on one store and the job runs on the other.
+#
+# It runs every night, and by hand (Actions > Import end-to-end (nightly) > Run workflow).
+on:
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-import-nightly
+  cancel-in-progress: false
+
+env:
+  DB_HOST: localhost
+  DB_PORT: '5432'
+  DB_USER: postgres
+  DB_PASSWORD: postgres
+  DB_NAME: evershop_e2e
+  DB_SSLMODE: disable
+  PORT: '3000'
+  SUPPRESS_NO_CONFIG_WARNING: '1'
+  JWT_ADMIN_SECRET: e2e-admin-secret-0123456789abcdef
+  JWT_ADMIN_REFRESH_SECRET: e2e-admin-refresh-0123456789abcdef
+  JWT_CUSTOMER_SECRET: e2e-customer-secret-0123456789abcdef
+  JWT_CUSTOMER_REFRESH_SECRET: e2e-customer-refresh-0123456789abcdef
+  BASE_URL: http://localhost:3000
+  DATABASE_URL: postgres://postgres:postgres@localhost:5432/evershop_e2e
+  PLAYWRIGHT_WORKERS: '1'
+
+jobs:
+  smoke:
+    name: 50,000 rows
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install -g npm@9
+      - run: npm install
+      - run: npm run compile
+      - name: Create the database of the store, with the schema of a store
+        run: |
+          PGPASSWORD=postgres psql -h localhost -U postgres -v ON_ERROR_STOP=1 -c 'CREATE DATABASE evershop_e2e'
+          node scripts/ci/migrateCoreSchema.mjs
+      - name: Build the store
+        env:
+          NODE_ENV: production
+        run: node packages/evershop/dist/bin/build/index.js
+      - name: Start the store
+        env:
+          NODE_ENV: production
+        run: |
+          nohup node packages/evershop/dist/bin/start/index.js > store.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fs -o /dev/null http://localhost:3000/; then echo "store is up"; exit 0; fi
+            sleep 2
+          done
+          echo "the store did not start"; tail -50 store.log; exit 1
+      - name: Install the browser and the specs' dependencies
+        working-directory: tests/e2e
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+      - name: Run the smoke
+        working-directory: tests/e2e
+        env:
+          IMPORT_E2E_SMOKE: '1'
+        run: |
+          set -o pipefail
+          npx playwright test admin/specs/import/smoke50k.spec.ts --reporter=list | tee smoke.log
+      - name: What was measured
+        if: always()
+        working-directory: tests/e2e
+        run: |
+          { echo '### 50,000-row smoke'; echo; echo '```'; grep '^SMOKE ' smoke.log || echo 'no measurement'; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: The log of the store
+        if: always()
+        run: tail -200 store.log || true
+      - name: Keep the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: import-smoke-report
+          path: |
+            tests/e2e/playwright-report
+            tests/e2e/test-results
+          retention-days: 14
+
+  two-instances:
+    name: Two instances
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install -g npm@9
+      - run: npm install
+      - run: npm run compile
+      - name: Create the database of the store, with the schema of a store
+        run: |
+          PGPASSWORD=postgres psql -h localhost -U postgres -v ON_ERROR_STOP=1 -c 'CREATE DATABASE evershop_e2e'
+          node scripts/ci/migrateCoreSchema.mjs
+      - name: Build the store
+        env:
+          NODE_ENV: production
+        run: node packages/evershop/dist/bin/build/index.js
+      - name: Start the first store
+        env:
+          NODE_ENV: production
+        run: |
+          nohup node packages/evershop/dist/bin/start/index.js > store-a.log 2>&1 &
+          echo $! > a.pid
+          for i in $(seq 1 60); do
+            if curl -fs -o /dev/null http://localhost:3000/; then echo "the first store is up"; exit 0; fi
+            sleep 2
+          done
+          echo "the first store did not start"; tail -50 store-a.log; exit 1
+      # The second store starts after the first has migrated the database.
+      - name: Start the second store
+        env:
+          NODE_ENV: production
+          PORT: '3001'
+          BASE_URL: http://localhost:3001
+        run: |
+          nohup node packages/evershop/dist/bin/start/index.js > store-b.log 2>&1 &
+          echo $! > b.pid
+          for i in $(seq 1 60); do
+            if curl -fs -o /dev/null http://localhost:3001/; then echo "the second store is up"; exit 0; fi
+            sleep 2
+          done
+          echo "the second store did not start"; tail -50 store-b.log; exit 1
+      - name: Take the event process away from the first store
+        run: |
+          pkill -P "$(cat a.pid)" -f event-manager || true
+          sleep 2
+          if pgrep -P "$(cat a.pid)" -f event-manager; then echo "the first store still has its event process"; exit 1; fi
+          pgrep -P "$(cat b.pid)" -f event-manager
+      - name: Install the browser and the specs' dependencies
+        working-directory: tests/e2e
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+      - name: Run the spec
+        working-directory: tests/e2e
+        env:
+          IMPORT_E2E_SECOND_URL: http://localhost:3001
+        run: |
+          IMPORT_E2E_PID_A="$(cat ../../a.pid)" IMPORT_E2E_PID_B="$(cat ../../b.pid)" \
+            npx playwright test admin/specs/import/twoInstances.spec.ts --reporter=list
+      - name: The logs of the stores
+        if: always()
+        run: |
+          echo '--- first store'; tail -100 store-a.log || true
+          echo '--- second store'; tail -100 store-b.log || true
+      - name: Keep the report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: import-two-instances-report
+          path: |
+            tests/e2e/playwright-report
+            tests/e2e/test-results
+          retention-days: 14
