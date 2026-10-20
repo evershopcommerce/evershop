@@ -36,7 +36,8 @@ test.skip(
   process.env.IMPORT_E2E_SMOKE !== '1',
   'the 50,000-row smoke runs only when asked for (IMPORT_E2E_SMOKE=1)'
 );
-test.describe.configure({ mode: 'serial', timeout: 3 * 60 * 60_000 });
+// No retry: a second run of a three-hour measurement would hide the failure of the first.
+test.describe.configure({ mode: 'serial', timeout: 3 * 60 * 60_000, retries: 0 });
 
 const ROWS = Number(process.env.IMPORT_E2E_SMOKE_ROWS ?? 50_000);
 const CANCEL_AT = 2_000;

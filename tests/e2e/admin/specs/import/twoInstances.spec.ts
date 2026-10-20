@@ -29,7 +29,8 @@ test.skip(
   !process.env.IMPORT_E2E_SECOND_URL,
   'needs two stores over one database (IMPORT_E2E_SECOND_URL, IMPORT_E2E_PID_A, IMPORT_E2E_PID_B)'
 );
-test.describe.configure({ mode: 'serial', timeout: 300_000 });
+// No retry: the processes of the first run would be gone, and a pass on the second would hide the failure.
+test.describe.configure({ mode: 'serial', timeout: 300_000, retries: 0 });
 
 test.beforeAll(sweepImportWorld);
 test.afterAll(sweepImportWorld);

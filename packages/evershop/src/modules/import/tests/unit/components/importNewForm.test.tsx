@@ -224,6 +224,42 @@ describe('the page New import (jsdom)', () => {
       expect(text()).not.toContain('If a record already exists');
     });
 
+    it('starts with the type and the mode that the page of a job sends (Upload a new file)', async () => {
+      server();
+      window.history.pushState(
+        {},
+        '',
+        '/admin/import/new?entity=category&mode=update'
+      );
+      try {
+        await mount();
+        expect(radio('category').checked).toBe(true);
+        expect(
+          (container.querySelector('select') as HTMLSelectElement).value
+        ).toBe('update');
+      } finally {
+        window.history.pushState({}, '', '/');
+      }
+    });
+
+    it('ignores a type or a mode in the address that it does not know', async () => {
+      server();
+      window.history.pushState(
+        {},
+        '',
+        '/admin/import/new?entity=order&mode=merge'
+      );
+      try {
+        await mount();
+        expect(radio('product').checked).toBe(true);
+        expect(
+          (container.querySelector('select') as HTMLSelectElement).value
+        ).toBe('upsert');
+      } finally {
+        window.history.pushState({}, '', '/');
+      }
+    });
+
     it('frees the button when a file is chosen, and shows its name', async () => {
       server();
       await mount();
@@ -375,6 +411,34 @@ describe('the page New import (jsdom)', () => {
       await submit();
       expect(uploads()[0].body!.get('mode')).toBe('create');
       expect(uploads()[0].body!.get('checkImages')).toBe('true');
+    });
+
+    it('sends the file once, however many times the button is pressed before the look at the open jobs is answered', async () => {
+      server();
+      await mount();
+      await pick('category');
+      await chooseFile('categories.csv');
+      const hold = new Promise<HttpReply>((resolve) => {
+        setTimeout(() => resolve(json([])), 0);
+      });
+      answers.unshift((r) =>
+        r.method === 'GET' && r.url === PROPS.openUrl
+          ? (hold as never)
+          : undefined
+      );
+      await act(async () => {
+        const press = button('Upload and validate')!;
+        press.click();
+        press.click();
+        press.click();
+        await settle();
+      });
+      await act(async () => {
+        await tab.advance(10);
+        await settle();
+      });
+      expect(uploads()).toHaveLength(1);
+      expect(goTo).toHaveBeenCalledTimes(1);
     });
 
     it('does not send the image check for a type that has no images, even if it was ticked for another', async () => {

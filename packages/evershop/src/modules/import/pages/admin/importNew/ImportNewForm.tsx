@@ -6,6 +6,7 @@ import {
   NewImportView,
   confirmText
 } from '../../../components/NewImportView.js';
+import { IMPORT_ENTITIES } from '../../../services/types.js';
 import type { ImportEntity, ImportMode } from '../../../services/types.js';
 import { axiosHttp } from '../../../ui/axiosHttp.js';
 import { browserEnvironment } from '../../../ui/browserEnvironment.js';
@@ -55,6 +56,10 @@ export default function ImportNewForm(props: ImportNewFormProps) {
   const [percent, setPercent] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const sending = useRef<AbortController | null>(null);
+  // A click has been taken and is not finished (the look at the open jobs, the
+  // questions, the upload): a second click, or Enter, must not start another.
+  const submitting = useRef(false);
+  const [starting, setStarting] = useState(false);
   // Set when the page itself leaves for the page of the new job: no question then.
   const leaving = useRef(false);
 
@@ -67,6 +72,21 @@ export default function ImportNewForm(props: ImportNewFormProps) {
   const maxFileBytes = props.importLimits?.maxFileBytes ?? null;
   const me = props.currentAdminUser?.adminUserId ?? null;
   const timeZone = props.setting?.storeTimeZone;
+
+  // The page of a job sends the type and the mode with "Upload a new file". They
+  // are read after the first render, not in the initial state, so that the server
+  // and the browser render the same page.
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search);
+    const type = wanted.get('entity');
+    if (type !== null && Object.hasOwn(IMPORT_ENTITIES, type)) {
+      setEntity(type as ImportEntity);
+    }
+    const how = wanted.get('mode');
+    if (how === 'upsert' || how === 'create' || how === 'update') {
+      setMode(how);
+    }
+  }, []);
 
   // The jobs of the chosen type: asked at once, and again while one is at work.
   useEffect(() => {
@@ -100,7 +120,7 @@ export default function ImportNewForm(props: ImportNewFormProps) {
     me,
     file,
     maxFileBytes,
-    uploading
+    uploading: uploading || starting
   });
 
   const ask = (notice: UploadNotice) =>
@@ -157,24 +177,32 @@ export default function ImportNewForm(props: ImportNewFormProps) {
   };
 
   const submit = async () => {
-    setError(null);
-    // The notices may be old: look once more before sending a large file.
-    const fresh = await api.listOpen(props.openUrl);
-    const jobs = fresh.ok ? fresh.data : openJobs;
-    if (fresh.ok) setOpenJobs(fresh.data);
-    const now = describeUpload({
-      entity,
-      openJobs: jobs,
-      me,
-      file,
-      maxFileBytes,
-      uploading: false
-    });
-    if (!now.canUpload) return;
-    for (const notice of now.confirm) {
-      if (!(await ask(notice))) return;
+    if (submitting.current) return;
+    submitting.current = true;
+    setStarting(true);
+    try {
+      setError(null);
+      // The notices may be old: look once more before sending a large file.
+      const fresh = await api.listOpen(props.openUrl);
+      const jobs = fresh.ok ? fresh.data : openJobs;
+      if (fresh.ok) setOpenJobs(fresh.data);
+      const now = describeUpload({
+        entity,
+        openJobs: jobs,
+        me,
+        file,
+        maxFileBytes,
+        uploading: false
+      });
+      if (!now.canUpload) return;
+      for (const notice of now.confirm) {
+        if (!(await ask(notice))) return;
+      }
+      await send();
+    } finally {
+      submitting.current = false;
+      setStarting(false);
     }
-    await send();
   };
 
   return (

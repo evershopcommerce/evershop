@@ -1,6 +1,19 @@
 import type { ImportIssue, ImportSeverity } from './types.js';
 
 /**
+ * The problems of the file as a whole that stop the reader before the end of
+ * the file. A job with one of them has no file with errors to give: the page
+ * shows the problem, and the admin fixes the file.
+ */
+export const READING_STOPPED_CODES = [
+  'FILE_ENCODING',
+  'WRONG_DELIMITER',
+  'UNCLOSED_QUOTE',
+  'ROW_TOO_LARGE',
+  'FILE_TOO_LARGE'
+] as const;
+
+/**
  * The stable issue codes. A code is never renamed or reused, because reports
  * and translations refer to it. The API's own error codes are separate.
  */

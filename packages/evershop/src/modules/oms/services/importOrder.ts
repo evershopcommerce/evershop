@@ -175,9 +175,17 @@ export function priceHistoricalOrder(
   });
   const sum = (pick: (l: (typeof lines)[number]) => number) =>
     money(lines.reduce((total, l) => total + pick(l), 0));
-  const shippingExcl = money(shipping.feeExclTax ?? 0);
-  const shippingIncl = money(shipping.feeInclTax ?? shippingExcl);
-  const shippingTax = money(shipping.taxAmount ?? shippingIncl - shippingExcl);
+  // The fee as it was given: either side, with the tax or without. A fee given
+  // with tax only has the tax taken out of it, not counted as tax in full.
+  const feeTax = shipping.taxAmount;
+  const shippingExcl = money(
+    shipping.feeExclTax ?? (shipping.feeInclTax ?? 0) - (feeTax ?? 0)
+  );
+  const shippingIncl = money(
+    shipping.feeInclTax ??
+      (shipping.feeExclTax === undefined ? 0 : shippingExcl + (feeTax ?? 0))
+  );
+  const shippingTax = money(feeTax ?? shippingIncl - shippingExcl);
   const subTotalWithDiscountInclTax = sum((l) => l.withDiscountInclTax);
   return {
     lines,
@@ -225,18 +233,72 @@ function validateInput(data: HistoricalOrderInput): void {
   if (!Array.isArray(data.items) || data.items.length === 0) {
     throw new Error('A historical order needs at least one item.');
   }
+  // A number a caller gives: finite, and not below 0 when it is an amount.
+  const amount = (value: unknown, label: string) => {
+    if (value === undefined) return;
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+      throw new Error(`${label} must be a number from 0 up.`);
+    }
+  };
   data.items.forEach((item, i) => {
     const where = `Item ${i + 1} (${item.sku})`;
     if (!item.sku) throw new Error(`Item ${i + 1} has no sku.`);
     if (!Number.isInteger(item.qty) || item.qty <= 0) {
       throw new Error(`${where}: the quantity must be a whole number above 0.`);
     }
-    if (!(item.price >= 0))
+    if (typeof item.price !== 'number' || !Number.isFinite(item.price)) {
       throw new Error(`${where}: the price is not a number.`);
+    }
+    amount(item.price, `${where}: the price`);
+    amount(item.priceInclTax, `${where}: the price with tax`);
+    amount(item.taxPercent, `${where}: the tax percent`);
+    amount(item.weight, `${where}: the weight`);
     if ((item.discountAmount ?? 0) < 0) {
       throw new Error(`${where}: the discount cannot be negative.`);
     }
+    amount(item.discountAmount, `${where}: the discount`);
+    if (
+      item.discountAmount !== undefined &&
+      item.discountAmount > item.price * item.qty
+    ) {
+      throw new Error(
+        `${where}: the discount is more than the line (${
+          item.price * item.qty
+        }).`
+      );
+    }
+    if (item.priceInclTax !== undefined && item.taxPercent !== undefined) {
+      const worked = item.price * (1 + item.taxPercent / 100);
+      if (Math.abs(worked - item.priceInclTax) > 0.01) {
+        throw new Error(
+          `${where}: the price with tax (${item.priceInclTax}) and the tax percent (${item.taxPercent}) do not agree; give one of them.`
+        );
+      }
+    }
   });
+  amount(data.shipping?.feeExclTax, 'The shipping fee without tax');
+  amount(data.shipping?.feeInclTax, 'The shipping fee with tax');
+  amount(data.shipping?.taxAmount, 'The shipping tax');
+  (data.transactions ?? []).forEach((transaction, i) => {
+    if (
+      typeof transaction.amount !== 'number' ||
+      !Number.isFinite(transaction.amount)
+    ) {
+      throw new Error(`Transaction ${i + 1}: the amount is not a number.`);
+    }
+  });
+  // The numbers EverShop gives to new orders start at 10001: an imported order
+  // that keeps one of them would make a later checkout fail for good, when its
+  // own number comes up (the number is worked out from the highest order id).
+  if (
+    data.orderNumber !== undefined &&
+    /^[0-9]+$/.test(data.orderNumber) &&
+    Number(data.orderNumber) > 10000
+  ) {
+    throw new Error(
+      `The order number ${data.orderNumber} is in the range of the numbers that new orders get (10001 and up). Keep the old number with a prefix, for example IMP-${data.orderNumber}.`
+    );
+  }
   [data.shippingAddress, data.billingAddress].forEach((address) => {
     if (address === undefined) return;
     const country = address.country;
@@ -393,7 +455,7 @@ async function importOrderFunc(
       connection,
       order.insertId,
       transaction.amount,
-      transaction.transactionId ?? '',
+      transaction.transactionId,
       transaction.type,
       transaction.paymentAction,
       transaction.additionalInformation,

@@ -1,3 +1,4 @@
+import { Readable } from 'stream';
 import { describe, it, expect } from '@jest/globals';
 import { emptyCounts } from '../../../services/job/types.js';
 import {
@@ -114,6 +115,31 @@ describe('runImport: the check at the start (D-33, J6)', () => {
       { code: 'REFERENCE_NOT_FOUND', rowNumber: 2, entityKey: 'kid' }
     ]);
     expect(h.clock.running).toBe(0);
+  });
+
+  it('counts the bytes of the two passes on as one run, so that the page shows one bar', async () => {
+    const h = harness();
+    h.stage(FILE, queued);
+    const size = h.jobs.snapshot(1).fileSize;
+    let opens = 0;
+    let atSecondPass: { stage: string | null; bytesRead: number } | null = null;
+    const open = h.deps.files.open.bind(h.deps.files);
+    h.deps.files.open = (jobId) => {
+      opens += 1;
+      const inner = open(jobId);
+      if (opens !== 2) return inner;
+      // The second pass of the check waits for the heartbeat before it reads a byte.
+      return Readable.from(
+        (async function* second() {
+          await h.clock.advance(2500);
+          const job = h.jobs.snapshot(1);
+          atSecondPass = { stage: job.stage, bytesRead: job.counts.bytesRead };
+          for await (const chunk of inner) yield chunk;
+        })()
+      );
+    };
+    await runImport(1, h.deps);
+    expect(atSecondPass).toEqual({ stage: 'rechecking', bytesRead: size });
   });
 
   it('replaces the problems of the earlier check', async () => {

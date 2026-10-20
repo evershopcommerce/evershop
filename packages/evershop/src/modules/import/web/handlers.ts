@@ -184,7 +184,9 @@ export const downloadFileWithErrors = (
   guarded(web, async () => {
     const job = await web.service.byUuid(uuid);
     if (job.chunkCount === null) {
-      throw unavailable('The file has not been uploaded completely.');
+      throw unavailable(
+        'There is no file to give: the upload is not complete, or the file is not kept any more.'
+      );
     }
     // The table the page shows: the check's before the job wrote, the import's after.
     const asked = query.phase;

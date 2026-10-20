@@ -382,6 +382,36 @@ describeDb('importJobs in the admin schema', () => {
     }
   });
 
+  it('pages a list sorted by a column that many jobs share without losing or repeating a job: ties fall by id, in the direction asked for', async () => {
+    await cleanUp();
+    try {
+      const all = Array.from(
+        { length: 25 },
+        (_, n) => `same${String(n).padStart(2, '0')}.csv`
+      );
+      for (const [n, fileName] of all.entries()) {
+        // eslint-disable-next-line no-await-in-loop
+        await job({ fileName, ago: 100 - n });
+      }
+      for (const direction of ['ASC', 'DESC']) {
+        const seen: string[] = [];
+        for (const page of [1, 2, 3]) {
+          // eslint-disable-next-line no-await-in-loop
+          const rows = await ask([
+            { key: 'ob', operation: 'eq', value: 'status' },
+            { key: 'od', operation: 'eq', value: direction },
+            { key: 'limit', operation: 'eq', value: '10' },
+            { key: 'page', operation: 'eq', value: String(page) }
+          ]);
+          seen.push(...names(rows));
+        }
+        expect(seen).toEqual(direction === 'ASC' ? all : [...all].reverse());
+      }
+    } finally {
+      await cleanUp();
+    }
+  });
+
   it('is for the admin only: without a user it gives nothing', async () => {
     await cleanUp();
     try {

@@ -319,7 +319,8 @@ export function jobAdminContract(
           const old = await h.insert({
             status,
             startedAt: h.now() - 1000,
-            counts: { ...emptyCounts(), created: 12, failed: 3 }
+            counts: { ...emptyCounts(), created: 12, failed: 3 },
+            chunkCount: 2
           });
           await h.seedChunks(old.id, [bytes(1), bytes(2)]);
           await h.seedIssues(old.id, [issue(2, { phase: 'import' })]);
@@ -341,6 +342,7 @@ export function jobAdminContract(
             before + h.retentionMs
           );
           expect(await h.chunksOf(old.id)).toEqual([]);
+          expect(closed.chunkCount).toBeNull();
           // What it reported stays as history.
           expect(await h.issues(old.id)).toHaveLength(1);
         }
@@ -349,7 +351,7 @@ export function jobAdminContract(
       it.each(['completed', 'failed', 'canceled'] as const)(
         'deletes the file a %s job kept, and keeps the job as history',
         async (status) => {
-          const old = await h.insert({ status, startedAt: 5 });
+          const old = await h.insert({ status, startedAt: 5, chunkCount: 1 });
           await h.seedChunks(old.id, [bytes(1)]);
           await h.seedIssues(old.id, [issue(2)]);
           const job = await uploading();
@@ -359,6 +361,8 @@ export function jobAdminContract(
           });
           expect((await admin.get(old.id))?.status).toBe(status);
           expect(await h.chunksOf(old.id)).toEqual([]);
+          // The job says it has no file, so its page does not offer the download.
+          expect((await admin.get(old.id))?.chunkCount).toBeNull();
           expect(await h.issues(old.id)).toHaveLength(1);
         }
       );

@@ -7,6 +7,14 @@ on:
   pull_request:
     paths:
       - 'packages/evershop/src/modules/import/**'
+      # What the import calls: the services it writes through, its storage and
+      # its guard, and the processes it runs in.
+      - 'packages/evershop/src/modules/catalog/**'
+      - 'packages/evershop/src/modules/customer/**'
+      - 'packages/evershop/src/modules/oms/**'
+      - 'packages/evershop/src/modules/cms/**'
+      - 'packages/evershop/src/lib/postgres/**'
+      - 'packages/evershop/src/lib/ssrf/**'
       - 'packages/evershop/src/bin/**'
       - 'packages/evershop/src/lib/event/**'
       - 'tests/e2e/admin/specs/import/**'
