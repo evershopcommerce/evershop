@@ -292,6 +292,39 @@ describe('runImport: resume (§ 8.4)', () => {
     expect(h.services.calls.map((c) => c.input.url_key)).toEqual(keys(14));
   });
 
+  it('keeps the problem of a row that a resumed run did not get to, so the next resume still writes it', async () => {
+    const h = await stopped();
+    h.services.calls.length = 0;
+    h.services.clearFailures();
+    // The second run is stopped (a deploy) after it wrote the third row again.
+    const controller = new AbortController();
+    h.services.failOn((call) => {
+      if (call.input.url_key === 'k02') controller.abort();
+      return false;
+    }, new Error('never'));
+    h.jobs.setStatus(1, 'queued');
+    const second = await runImport(1, h.deps, { signal: controller.signal });
+    expect(second.outcome).toBe('interrupted');
+    expect(h.lookup.stored.size).toBeGreaterThanOrEqual(3);
+    expect(h.lookup.stored.size).toBeLessThan(10);
+    // The rows it did not reach are still on the list of the rows to write again.
+    const left = [...(await h.jobs.errorRows(1, 'import'))].sort(
+      (a, b) => a - b
+    );
+    expect(left.length).toBe(10 - h.lookup.stored.size);
+    // The third run writes every one of them, and the file in the end.
+    h.services.calls.length = 0;
+    h.jobs.setStatus(1, 'queued');
+    const third = await runImport(1, h.deps);
+    expect(third.outcome).toBe('completed');
+    expect(h.lookup.stored.size).toBe(14);
+    expect(h.jobs.issues(1, 'import')).toEqual([]);
+    expect(h.jobs.snapshot(1).counts).toMatchObject({
+      failed: 0,
+      lastUnit: 14
+    });
+  });
+
   it('stops again after ten failures when the cause is not fixed, not before', async () => {
     const h = await stopped();
     h.services.calls.length = 0;
@@ -508,6 +541,29 @@ describe('runImport: when it cannot run', () => {
     const result = await runImport(1, h.deps);
     expect(result.outcome).toBe('failed');
     expect(h.services.calls).toEqual([]);
+  });
+
+  it('interrupts the job, so that it can be resumed, when the database fails for a moment outside a row (D-20)', async () => {
+    const h = harness();
+    h.stage(categoryFile(named('a'), named('b')), queued);
+    const reads = h.deps.lookup.categories.bind(h.deps.lookup);
+    let broken = true;
+    h.deps.lookup.categories = async (keys) => {
+      if (broken) {
+        throw Object.assign(new Error('terminating connection'), {
+          code: '57P01'
+        });
+      }
+      return reads(keys);
+    };
+    const first = await runImport(1, h.deps);
+    expect(first.outcome).toBe('interrupted');
+    expect(h.jobs.snapshot(1).status).toBe('interrupted');
+    expect(h.jobs.snapshot(1).errorMessage).toContain('Resume it');
+    broken = false;
+    h.jobs.setStatus(1, 'queued');
+    expect((await runImport(1, h.deps)).outcome).toBe('completed');
+    expect(h.lookup.stored.size).toBe(2);
   });
 
   it('fails the job, with the reason, when the engine breaks (J3)', async () => {

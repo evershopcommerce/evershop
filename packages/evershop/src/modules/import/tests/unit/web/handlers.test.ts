@@ -619,6 +619,12 @@ describe('downloadFileWithErrors', () => {
       unavailable(await downloadFileWithErrors(web, job.uuid, {}));
     });
 
+    it('the check stopped, and the problem is counted but was not stored (over the cap on stored problems)', async () => {
+      const { web, store, job } = staged();
+      store.live(job.id).counts.byCode.validate.FILE_TOO_LARGE = 1;
+      unavailable(await downloadFileWithErrors(web, job.uuid, {}));
+    });
+
     it('the reader stops early, before the first byte (a small file with a quote that never closes)', async () => {
       const ctx = makeWeb();
       const job = ctx.store.insert({ status: 'validated' });

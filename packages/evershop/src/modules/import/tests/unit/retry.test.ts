@@ -45,6 +45,33 @@ describe('isTransientDatabaseError (D-20)', () => {
     expect(isTransientDatabaseError(dbError(code))).toBe(false);
   });
 
+  it('knows the errors of the driver for a connection that dropped under a query, which have no code', () => {
+    expect(
+      isTransientDatabaseError(new Error('Connection terminated unexpectedly'))
+    ).toBe(true);
+    expect(
+      isTransientDatabaseError(
+        new Error(
+          'Client has encountered a connection error and is not queryable'
+        )
+      )
+    ).toBe(true);
+    // Exactly these: our own end() of a client and a wrapped message are not it.
+    expect(isTransientDatabaseError(new Error('Connection terminated'))).toBe(
+      false
+    );
+    expect(
+      isTransientDatabaseError(
+        new Error('failed: Connection terminated unexpectedly')
+      )
+    ).toBe(false);
+    expect(
+      isTransientDatabaseError({
+        message: 'Connection terminated unexpectedly'
+      })
+    ).toBe(false);
+  });
+
   it('is not fooled by an error with no code, or no error', () => {
     expect(isTransientDatabaseError(new Error('boom'))).toBe(false);
     expect(isTransientDatabaseError(null)).toBe(false);

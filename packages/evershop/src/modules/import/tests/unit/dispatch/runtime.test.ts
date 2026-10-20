@@ -26,13 +26,21 @@ const set = (values: Record<string, unknown>) => {
 };
 
 afterEach(() => {
-  set({ maxWorkersPerInstance: undefined, workerMemoryMb: undefined });
+  set({
+    maxWorkersPerInstance: undefined,
+    workerMemoryMb: undefined,
+    lockTimeoutSeconds: undefined
+  });
 });
 
 function spy() {
-  const calls: Array<{ command: string; args: readonly string[] }> = [];
-  const spawn: SpawnFn = (command, args) => {
-    calls.push({ command, args });
+  const calls: Array<{
+    command: string;
+    args: readonly string[];
+    env: NodeJS.ProcessEnv | undefined;
+  }> = [];
+  const spawn: SpawnFn = (command, args, options) => {
+    calls.push({ command, args, env: options.env });
     const child = new EventEmitter() as EventEmitter & { unref(): void };
     child.unref = () => undefined;
     return child as never;
@@ -67,6 +75,24 @@ describe('createDispatchDeps', () => {
     expect(deps.maxWorkers).toBe(3);
     deps.workers.start('11111111-2222-4333-8444-555555555555');
     expect(calls[0].args[0]).toBe('--max-old-space-size=256');
+  });
+
+  it('gives the worker a lock timeout of 10 seconds, and no statement timeout (S6)', () => {
+    const { calls, spawn } = spy();
+    createDispatchDeps(spawn).workers.start(
+      '11111111-2222-4333-8444-555555555555'
+    );
+    expect(calls[0].env?.DB_LOCK_TIMEOUT_MS).toBe('10000');
+    expect(calls[0].env?.DB_STATEMENT_TIMEOUT_MS).toBeUndefined();
+  });
+
+  it('follows lockTimeoutSeconds', () => {
+    set({ lockTimeoutSeconds: 3 });
+    const { calls, spawn } = spy();
+    createDispatchDeps(spawn).workers.start(
+      '11111111-2222-4333-8444-555555555555'
+    );
+    expect(calls[0].env?.DB_LOCK_TIMEOUT_MS).toBe('3000');
   });
 
   it('gives the cron jobs one wiring: the maintenance, the requests and a logger', () => {

@@ -17,7 +17,10 @@ class FakeChild extends EventEmitter {
   }
 }
 
-function fakePool(env: NodeJS.ProcessEnv = { KEEP: 'yes' }) {
+function fakePool(
+  env: NodeJS.ProcessEnv = { KEEP: 'yes' },
+  databaseTimeouts?: { lockMs?: number; statementMs?: number }
+) {
   const logger = new CollectingLogger();
   const children: FakeChild[] = [];
   const calls: Array<{
@@ -37,6 +40,7 @@ function fakePool(env: NodeJS.ProcessEnv = { KEEP: 'yes' }) {
     logger,
     execPath: '/usr/bin/node',
     env,
+    databaseTimeouts,
     spawn
   });
   return { pool, logger, children, calls };
@@ -68,6 +72,24 @@ describe('NodeWorkerPool: how a worker is started (the spawn contract)', () => {
     expect(calls[0].options.env).toEqual({
       DB_HOST: 'db',
       ALLOW_CONFIG_MUTATIONS: 'true'
+    });
+  });
+
+  it('gives the worker its database limits (S6), only the ones that are asked for', () => {
+    const both = fakePool({ DB_HOST: 'db' }, { lockMs: 5000, statementMs: 0 });
+    both.pool.start(UUID);
+    expect(both.calls[0].options.env).toEqual({
+      DB_HOST: 'db',
+      ALLOW_CONFIG_MUTATIONS: 'true',
+      DB_LOCK_TIMEOUT_MS: '5000',
+      DB_STATEMENT_TIMEOUT_MS: '0'
+    });
+    const lock = fakePool({ DB_HOST: 'db' }, { lockMs: 7000 });
+    lock.pool.start(UUID);
+    expect(lock.calls[0].options.env).toEqual({
+      DB_HOST: 'db',
+      ALLOW_CONFIG_MUTATIONS: 'true',
+      DB_LOCK_TIMEOUT_MS: '7000'
     });
   });
 

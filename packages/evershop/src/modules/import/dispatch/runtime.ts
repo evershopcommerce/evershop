@@ -3,6 +3,7 @@ import { pool } from '../../../lib/postgres/connection.js';
 import { CoreJobRequests } from '../adapters/CoreJobRequests.js';
 import { coreLogger } from '../adapters/coreLogger.js';
 import {
+  lockTimeoutMs,
   maxWorkersPerInstance,
   retentionMs,
   workerMemoryMb
@@ -32,6 +33,7 @@ export function createDispatchDeps(spawn?: SpawnFn): DispatchDeps {
       script: WORKER_SCRIPT,
       memoryMb: workerMemoryMb(),
       logger: coreLogger,
+      databaseTimeouts: { lockMs: lockTimeoutMs() },
       spawn
     }),
     maxWorkers: maxWorkersPerInstance(),

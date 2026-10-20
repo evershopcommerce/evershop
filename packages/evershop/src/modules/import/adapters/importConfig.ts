@@ -11,6 +11,7 @@ export type ImportNumberKey =
   | 'imageConcurrency'
   | 'maxWorkersPerInstance'
   | 'workerMemoryMb'
+  | 'lockTimeoutSeconds'
   | 'eventBacklogHigh'
   | 'eventBacklogLow'
   | 'eventBacklogMaxWaitMinutes';
@@ -64,6 +65,16 @@ export function imageConcurrency(): number {
 /** The memory ceiling of a worker, in MB: `workerMemoryMb`, 1,024 by default. */
 export function workerMemoryMb(): number {
   return Math.floor(importSetting('workerMemoryMb', 1024));
+}
+
+/**
+ * How long a statement of the worker may wait for a lock held by someone else
+ * (`lock_timeout`, S6): `lockTimeoutSeconds`, 10 by default. A row that times out
+ * is retried like any transient failure (D-20), and a job does not sit behind a
+ * lock for ever with a beating heart.
+ */
+export function lockTimeoutMs(): number {
+  return Math.floor(importSetting('lockTimeoutSeconds', 10) * 1000);
 }
 
 /**

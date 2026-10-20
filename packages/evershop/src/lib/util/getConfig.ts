@@ -160,6 +160,7 @@ type ConfigStructure = {
        * drain stops (`interrupted`) and can be resumed. Default 30.
        */
       eventBacklogMaxWaitMinutes?: number;
+      lockTimeoutSeconds?: number;
       /**
        * Download images from private/loopback addresses and plain `http:`. Off
        * by default (SSRF protection); for the end-to-end tests and a source on

@@ -91,7 +91,8 @@ export class PgJobRepository implements JobRepository {
   async clearIssues(
     jobId: number,
     attempt: number,
-    phase: IssuePhase
+    phase: IssuePhase,
+    keepRows: readonly number[] = []
   ): Promise<boolean> {
     const result = await this.pool.query(
       `WITH job AS (
@@ -99,9 +100,10 @@ export class PgJobRepository implements JobRepository {
        ), cleared AS (
          DELETE FROM import_job_issue
           WHERE import_job_id IN (SELECT import_job_id FROM job) AND phase = $3
+            AND (row_number IS NULL OR row_number <> ALL($4::int[]))
        )
        SELECT count(*)::int AS fenced FROM job`,
-      [jobId, attempt, phase]
+      [jobId, attempt, phase, keepRows]
     );
     return result.rows[0].fenced === 1;
   }
@@ -127,6 +129,18 @@ export class PgJobRepository implements JobRepository {
       );
       if (updated.rows.length === 0) {
         return { ok: false } as const;
+      }
+      if (
+        checkpoint.supersedes !== undefined &&
+        checkpoint.supersedes.length > 0
+      ) {
+        // The rows written again: their old problems go with the new outcome.
+        await client.query(
+          `DELETE FROM import_job_issue
+            WHERE import_job_id = $1 AND phase = 'import'
+              AND row_number = ANY($2::int[])`,
+          [jobId, checkpoint.supersedes]
+        );
       }
       if (checkpoint.issues.length > 0) {
         // The row lock the update took keeps the fence true until the commit.

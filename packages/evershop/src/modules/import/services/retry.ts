@@ -24,6 +24,13 @@ const TRANSIENT_SOCKET_CODES: ReadonlySet<string> = new Set([
   'ETIMEDOUT'
 ]);
 
+// The driver's own errors for a connection that dropped under a query have no
+// code: the socket ended (a crash, an immediate shutdown, a pooler that killed it).
+const DROPPED_CONNECTION_MESSAGES: ReadonlySet<string> = new Set([
+  'Connection terminated unexpectedly',
+  'Client has encountered a connection error and is not queryable'
+]);
+
 const TRANSIENT_DNS_CODES: ReadonlySet<string> = new Set([
   'ENOTFOUND',
   'EAI_AGAIN'
@@ -40,7 +47,9 @@ const TRANSIENT_HTTP_STATUSES: ReadonlySet<number> = new Set([
 export function isTransientDatabaseError(error: unknown): boolean {
   const code = (error as { code?: unknown } | null)?.code;
   if (typeof code !== 'string') {
-    return false;
+    return (
+      error instanceof Error && DROPPED_CONNECTION_MESSAGES.has(error.message)
+    );
   }
   return (
     TRANSIENT_SQLSTATES.has(code) ||

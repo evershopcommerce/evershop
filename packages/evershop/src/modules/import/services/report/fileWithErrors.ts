@@ -117,7 +117,9 @@ export async function* fileWithErrors(
   let columns: string[] = [];
   let hidden = new Set<number>();
   let lastRow = 0;
-  let out = '';
+  // The byte order mark is the first thing in the file, even when the upload
+  // began with blank lines, or Excel does not see it.
+  let out = BOM;
   try {
     for await (const event of readCsv(args.source, args.limits)) {
       if (event.type === 'end') {
@@ -144,7 +146,7 @@ export async function* fileWithErrors(
               isHiddenColumn(args.entity, name) ? [index] : []
             )
           );
-          out += BOM + csvLine([...columns, ERRORS_COLUMN]);
+          out += csvLine([...columns, ERRORS_COLUMN]);
         } else {
           const { cells } = event.row;
           const issues = await cursor.takeRow(rowNumber);
@@ -167,7 +169,7 @@ export async function* fileWithErrors(
         }
       }
     }
-    if (out !== '') {
+    if (out !== '' && out !== BOM) {
       yield out;
     }
   } finally {
