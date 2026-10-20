@@ -95,6 +95,15 @@ describe('getJob: a job as the API shows it', () => {
     expect(JSON.stringify(data)).not.toContain('host:9');
   });
 
+  it('says whether the file is kept, without telling how many chunks it has', async () => {
+    const { web, store } = makeWeb();
+    const kept = store.insert({ chunkCount: 2 });
+    expect(bodyOf(await getJob(web, kept.uuid)).data.fileKept).toBe(true);
+    // A newer upload took the file of a finished job, or the clean-up dropped it.
+    const gone = store.insert({ entity: 'product', chunkCount: null });
+    expect(bodyOf(await getJob(web, gone.uuid)).data.fileKept).toBe(false);
+  });
+
   it('says that a cancel was not asked for when none was', async () => {
     const { web, store } = makeWeb();
     const job = store.insert({ control: null });
@@ -575,7 +584,7 @@ describe('downloadFileWithErrors', () => {
       const result = await downloadFileWithErrors(ctx.web, job.uuid, {});
       unavailable(result);
       expect(bodyOf(result).error.message).toContain(
-        'not been uploaded completely'
+        'the file is not kept any more'
       );
     });
 

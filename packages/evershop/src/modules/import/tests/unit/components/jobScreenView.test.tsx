@@ -99,7 +99,9 @@ describe('the page of one import', () => {
     it('has no Start; it has the download, Check again, a new upload and Delete', () => {
       expect(buttons(html).map((b) => b.action)).toEqual(['recheck', 'delete']);
       expect(html).toContain('href="/api/import-jobs/x/file-with-errors.csv"');
-      expect(html).toContain('href="/admin/import/new"');
+      expect(html).toContain(
+        'href="/admin/import/new?entity=product&amp;mode=upsert"'
+      );
       expect(text(html)).toContain('Download file with errors');
       expect(text(html)).toContain('Upload a new file');
     });
@@ -291,7 +293,9 @@ describe('the page of one import', () => {
       });
       expect(text(html)).toContain('The job could not run.');
       expect(text(html)).toContain('The file could not be read.');
-      expect(html).toContain('href="/admin/import/new"');
+      expect(html).toContain(
+        'href="/admin/import/new?entity=product&amp;mode=upsert"'
+      );
     });
 
     it('canceled: how far it got', () => {

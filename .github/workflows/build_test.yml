@@ -57,6 +57,12 @@ jobs:
             tables=$(psql -h localhost -U postgres -d $name -tAc "SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public'")
             echo "$name: $tables tables"
             test "$tables" -ge 50
+            # A count can pass while a whole module failed to migrate: name the tables
+            # that the import tests write to.
+            for table in product product_description product_inventory '"order"' order_item order_address cart customer customer_address payment_transaction url_rewrite event attribute_group category category_description coupon; do
+              found=$(psql -h localhost -U postgres -d $name -tAc "SELECT to_regclass('public.$table') IS NOT NULL")
+              test "$found" = t || { echo "$name: the table $table is missing"; exit 1; }
+            done
           done
       - run: npm run test
         env:

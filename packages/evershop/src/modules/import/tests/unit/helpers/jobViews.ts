@@ -16,6 +16,7 @@ export function aJob(
     cancelRequested: false,
     fileName: 'products.csv',
     fileSize: 1000,
+    fileKept: true,
     options: {},
     counts: { ...emptyCounts(), total: 100, ...counts },
     errorMessage: null,

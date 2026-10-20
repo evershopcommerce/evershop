@@ -1,3 +1,4 @@
+import { READING_STOPPED_CODES } from '../services/issues.js';
 import { OPEN_STATUSES } from '../services/job/types.js';
 import type { IssuePhase, JobStatus } from '../services/job/types.js';
 import type { ImportEntity } from '../services/types.js';
@@ -101,6 +102,15 @@ const percentOf = (done: number, total: number): number =>
  * The percentage covers both, so the bar does not fall back to zero in the middle.
  */
 export function fileProgress(job: JobView): Progress {
+  if (job.stage === 'rechecking') {
+    // Both passes of the check at the start count their bytes in one run.
+    const { bytesRead } = job.counts;
+    return {
+      kind: 'file',
+      pass: bytesRead > job.fileSize ? 2 : 1,
+      percent: percentOf(bytesRead, job.fileSize * 2)
+    };
+  }
   const pass = job.stage === 'lookups' ? 2 : 1;
   const share = percentOf(job.counts.bytesRead, job.fileSize);
   return {
@@ -218,6 +228,16 @@ export function describeJob(job: JobView, context: ScreenContext): Screen {
     }
   }
 
+  // There is no file with errors to give when the check could not read the whole
+  // file, or when the file is not kept any more (a newer upload took its place).
+  if (
+    !job.fileKept ||
+    READING_STOPPED_CODES.some(
+      (code) => (job.counts.byCode.validate[code] ?? 0) > 0
+    )
+  ) {
+    actions = actions.filter((a) => a !== 'downloadErrors');
+  }
   if (job.cancelRequested && isLive(job.status)) {
     notes.push({ kind: 'cancelRequested' });
     actions = actions.filter((a) => a !== 'cancel');

@@ -108,6 +108,38 @@ describe('priceHistoricalOrder', () => {
     expect(order.total_tax_amount).toBe(1.5);
   });
 
+  it('takes the tax out of a fee that is given with tax only, and does not count the whole fee as tax', () => {
+    const only = priceHistoricalOrder([item()], { feeInclTax: 12 }).order;
+    expect(only).toMatchObject({
+      shipping_fee_excl_tax: 12,
+      shipping_fee_incl_tax: 12,
+      shipping_tax_amount: 0,
+      grand_total: 112
+    });
+    const withTax = priceHistoricalOrder([item()], {
+      feeInclTax: 12,
+      taxAmount: 2
+    }).order;
+    expect(withTax).toMatchObject({
+      shipping_fee_excl_tax: 10,
+      shipping_fee_incl_tax: 12,
+      shipping_tax_amount: 2
+    });
+  });
+
+  it('adds the tax to a fee that is given without tax, with a tax amount', () => {
+    const { order } = priceHistoricalOrder([item()], {
+      feeExclTax: 10,
+      taxAmount: 2
+    });
+    expect(order).toMatchObject({
+      shipping_fee_excl_tax: 10,
+      shipping_fee_incl_tax: 12,
+      shipping_tax_amount: 2,
+      grand_total: 112
+    });
+  });
+
   it('has no shipping at all when none is given', () => {
     const { order } = priceHistoricalOrder([item()]);
     expect(order).toMatchObject({

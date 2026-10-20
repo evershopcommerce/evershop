@@ -1,8 +1,8 @@
 import type { IncomingMessage } from 'http';
 import multer from 'multer';
 import type { StorageEngine } from 'multer';
-import type { ImportJob } from '../services/job/types.js';
 import { ImportApiError } from '../services/jobs/errors.js';
+import type { ReceivedUpload } from '../services/jobs/ImportService.js';
 import { failure } from './handlers.js';
 import type { HttpResult, ImportWeb } from './ImportWeb.js';
 import { jobView } from './jobView.js';
@@ -10,7 +10,7 @@ import { jobView } from './jobView.js';
 type UploadRequest = IncomingMessage & {
   body?: Record<string, unknown>;
   file?: Express.Multer.File & {
-    importResult?: { job: ImportJob; replaced: boolean };
+    received?: ReceivedUpload;
     fieldsSeen?: string[];
   };
 };
@@ -20,11 +20,16 @@ const invalid = (message: string) =>
 
 /**
  * Multer reads the multipart body, and this storage engine hands the stream of
- * the `file` part straight to `ImportService.upload`, so the file goes into the
+ * the `file` part straight to `ImportService.receive`, so the file goes into the
  * database chunk by chunk and web memory stays at a few MiB for any file size.
  * The fields that came before the file are already in `req.body` (multer fills
  * it as they arrive), which is why `entity`, `mode` and `checkImages` must come
  * **before** `file` (§ 8.3).
+ *
+ * Only the request is read here. The swap (which deletes the entity's unstarted
+ * jobs and closes a stopped one) is made after the whole request is known to be
+ * valid, by `uploadJob`: a request that is refused for a field after the file, or
+ * a second file, must not cost the admin the job that was there.
  */
 function importStorage(
   web: ImportWeb,
@@ -42,7 +47,7 @@ function importStorage(
       // Which fields were known when the file began: the others came after it.
       const fieldsSeen = Object.keys(body);
       web.service
-        .upload({
+        .receive({
           entity: body.entity,
           mode: body.mode,
           checkImages: body.checkImages,
@@ -51,19 +56,19 @@ function importStorage(
           file: file.stream
         })
         .then(
-          (importResult) => done(null, { importResult, fieldsSeen } as never),
+          (received) => done(null, { received, fieldsSeen } as never),
           done
         );
     },
     // Multer calls this for a file it already took when a later part of the
     // request is refused (a second file, a limit): the job it made goes too.
     _removeFile(_req, file, done) {
-      const made = (file as { importResult?: { job: ImportJob } }).importResult;
+      const made = (file as { received?: ReceivedUpload }).received;
       if (!made) {
         done(null);
         return;
       }
-      web.service.remove(made.job.id).then(
+      web.service.discard(made).then(
         () => done(null),
         () => done(null)
       );
@@ -74,6 +79,10 @@ function importStorage(
 /** What multer says when the request is not what it can read. */
 function fromMulter(error: unknown): ImportApiError | null {
   const { code, message } = error as { code?: string; message?: string };
+  // The client left, or sent a body that is cut or malformed: its own doing.
+  if (message !== undefined && /request (aborted|closed)/i.test(message)) {
+    return invalid('The upload was cut off before the request was complete.');
+  }
   switch (code) {
     case 'LIMIT_UNEXPECTED_FILE':
       return invalid(
@@ -86,8 +95,17 @@ function fromMulter(error: unknown): ImportApiError | null {
     case 'LIMIT_FIELD_VALUE':
       return invalid('The request has too many or too large fields.');
     default:
-      return message !== undefined && /multipart|boundary/i.test(message)
-        ? invalid('The request must be multipart/form-data.')
+      if (
+        message !== undefined &&
+        /multipart|boundary|unexpected end of form|malformed part header/i.test(
+          message
+        )
+      ) {
+        return invalid('The request must be multipart/form-data.');
+      }
+      // Anything else multer itself raised is about the request, not the store.
+      return error instanceof multer.MulterError
+        ? invalid('The request is not a valid upload.')
         : null;
   }
 }
@@ -121,22 +139,29 @@ export function uploadJob(
           throw fromMulter(error) ?? error;
         }
         const stored = req.file;
-        if (!stored?.importResult) {
+        if (!stored?.received) {
           throw invalid('The request has no file in the field "file".');
         }
-        const { job, replaced } = stored.importResult;
         const late = Object.keys(req.body ?? {}).filter(
           (field) => !(stored.fieldsSeen ?? []).includes(field)
         );
         if (late.length > 0) {
-          // The job was made with what was known when the file began.
-          await web.service.remove(job.id).catch(() => undefined);
+          // The job was made with what was known when the file began; nothing
+          // of the entity has been touched yet.
+          await web.service.discard(stored.received);
           throw invalid(
             `The fields ${late.join(
               ', '
             )} must be sent before the field "file".`
           );
         }
+        // The whole request is valid: now the swap.
+        const { job, replaced } = await web.service
+          .finalize(stored.received)
+          .catch(async (e) => {
+            await web.service.discard(stored.received as ReceivedUpload);
+            throw e;
+          });
         const names = job.createdBy
           ? await web.adminNames([job.createdBy])
           : new Map<number, string>();

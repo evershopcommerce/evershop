@@ -54,6 +54,10 @@ export class Poller<T> {
 
   private stopped = true;
 
+  // Each start and stop makes the answers of the asks made before it out of date:
+  // an old answer must not overwrite what a button has just brought back.
+  private generation = 0;
+
   private wait: number;
 
   private last: T | undefined;
@@ -93,6 +97,8 @@ export class Poller<T> {
 
   stop(): void {
     this.stopped = true;
+    this.generation += 1;
+    this.inFlight = false;
     this.cancelTimer();
     this.unsubscribe?.();
     this.unsubscribe = null;
@@ -134,25 +140,31 @@ export class Poller<T> {
   private ask(): void {
     if (this.stopped || this.inFlight) return;
     this.inFlight = true;
+    const { generation } = this;
     this.options.fetch().then(
-      (result) => this.answered(result),
+      (result) => this.answered(result, generation),
       () =>
         // `fetch` is meant not to throw; if it does, treat it as a failed ask.
-        this.answered({
-          ok: false,
-          error: {
-            status: 0,
-            code: null,
-            message: 'The request failed.',
-            details: {},
-            retryAfterMs: null,
-            aborted: false
-          }
-        })
+        this.answered(
+          {
+            ok: false,
+            error: {
+              status: 0,
+              code: null,
+              message: 'The request failed.',
+              details: {},
+              retryAfterMs: null,
+              aborted: false
+            }
+          },
+          generation
+        )
     );
   }
 
-  private answered(result: ApiResult<T>): void {
+  private answered(result: ApiResult<T>, generation: number): void {
+    // The poller was stopped or started again since this was asked.
+    if (generation !== this.generation) return;
     this.inFlight = false;
     if (this.stopped) return;
     if (result.ok) {

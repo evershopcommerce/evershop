@@ -307,6 +307,18 @@ function actionLabel(action: ScreenAction): string {
   }
 }
 
+/**
+ * The page "New import" with the type and the mode of this job chosen, so that
+ * the corrected file is not checked as a file of another type.
+ */
+export function uploadNewUrl(
+  base: string,
+  job: Pick<JobView, 'entity' | 'mode'>
+): string {
+  const query = new URLSearchParams({ entity: job.entity, mode: job.mode });
+  return `${base}${base.includes('?') ? '&' : '?'}${query.toString()}`;
+}
+
 function Actions({
   screen,
   pending,
@@ -339,7 +351,7 @@ function Actions({
             <a
               key={action}
               className={buttonVariants({ variant: 'outline' })}
-              href={urls.newImport}
+              href={uploadNewUrl(urls.newImport, job)}
             >
               {actionLabel(action)}
             </a>

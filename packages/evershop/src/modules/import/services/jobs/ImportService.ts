@@ -1,7 +1,7 @@
 import type { ImportJob, IssuePhase, StoredIssue } from '../job/types.js';
 import { isJobUuid } from '../job/uuid.js';
 import type { Sha256 } from '../ports/hasher.js';
-import type { JobAdmin } from '../ports/jobAdmin.js';
+import type { JobAdmin, UploadedFile } from '../ports/jobAdmin.js';
 import type { JobRequests } from '../ports/jobRequests.js';
 import type { RenderMessage } from '../report/errorsCell.js';
 import { IMPORT_ENTITIES } from '../types.js';
@@ -41,6 +41,14 @@ export interface UploadArgs {
   createdBy: number | null;
   /** The file as it arrives. Nothing is parsed. */
   file: AsyncIterable<Uint8Array | string>;
+}
+
+/** An upload whose file has arrived whole but whose swap has not been made (`receive`). */
+export interface ReceivedUpload {
+  /** The new job, still `uploading`. */
+  job: ImportJob;
+  entity: ImportEntity;
+  file: UploadedFile;
 }
 
 export interface IssuesArgs {
@@ -157,6 +165,23 @@ export class ImportService {
   async upload(
     args: UploadArgs
   ): Promise<{ job: ImportJob; replaced: boolean }> {
+    const received = await this.receive(args);
+    try {
+      return await this.finalize(received);
+    } catch (e) {
+      // A job that is not `uploading` any more is left alone.
+      await this.discard(received);
+      throw e;
+    }
+  }
+
+  /**
+   * The first half of an upload: the file goes into the chunks of a new job that
+   * is still `uploading`. Nothing of the entity is changed yet, so a caller that
+   * has more to check in the request (the multipart parser) can still refuse it
+   * and `discard` the job at no cost. `finalize` does the swap.
+   */
+  async receive(args: UploadArgs): Promise<ReceivedUpload> {
     const { jobs, sha256, maxFileBytes } = this.deps;
     const entity = parseEntity(args.entity);
     const mode = parseMode(args.mode);
@@ -201,26 +226,44 @@ export class ImportService {
         }
         seq += 1;
       }
-      const done = await jobs.completeUpload(job.id, {
-        size,
-        chunkCount: seq,
-        sha256: hash.digestHex()
-      });
-      if (!done.ok) {
-        throw done.reason === 'import_running'
-          ? this.busy(entity)
-          : new ImportApiError(
-              'NOT_FOUND',
-              'The upload was removed before it finished.'
-            );
-      }
-      await this.requestWorker(done.job);
-      return { job: done.job, replaced: done.replaced };
+      return {
+        job,
+        entity,
+        file: { size, chunkCount: seq, sha256: hash.digestHex() }
+      };
     } catch (e) {
-      // A job that is not `uploading` any more is left alone.
       await jobs.abortUpload(job.id).catch(() => undefined);
       throw e;
     }
+  }
+
+  /**
+   * The second half: the swap (the entity's unstarted jobs go, a stopped one that
+   * wrote something is closed), the job becomes `uploaded`, and the worker is
+   * asked to check it.
+   */
+  async finalize(
+    received: ReceivedUpload
+  ): Promise<{ job: ImportJob; replaced: boolean }> {
+    const done = await this.deps.jobs.completeUpload(
+      received.job.id,
+      received.file
+    );
+    if (!done.ok) {
+      throw done.reason === 'import_running'
+        ? this.busy(received.entity)
+        : new ImportApiError(
+            'NOT_FOUND',
+            'The upload was removed before it finished.'
+          );
+    }
+    await this.requestWorker(done.job);
+    return { job: done.job, replaced: done.replaced };
+  }
+
+  /** Throws away a received upload that was not finalized. A job that is not `uploading` is left alone. */
+  async discard(received: ReceivedUpload): Promise<void> {
+    await this.deps.jobs.abortUpload(received.job.id).catch(() => undefined);
   }
 
   async get(jobId: number): Promise<ImportJob> {

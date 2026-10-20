@@ -25,6 +25,10 @@ export async function checkFile(
   // The file is read twice: first for what the rows say, then against the store.
   // The progress of each pass is the bytes read against the size of the file.
   let passes = 0;
+  // Two passes under one stage name (the check at the start of an import) cannot
+  // tell the page which pass it is in, so the bytes of the second pass go on from
+  // the size of the file and the bar runs once from 0 to 100.
+  const continuous = stages[0] === stages[1];
   const summary = await validateFile({
     validator: pipeline.validator,
     // The check at the start of an import does not fetch images (D-33).
@@ -36,9 +40,10 @@ export async function checkFile(
     open: () => {
       passes += 1;
       session.stage = passes === 1 ? stages[0] : stages[1];
-      counts.bytesRead = 0;
+      const offset = continuous && passes > 1 ? job.fileSize : 0;
+      counts.bytesRead = offset;
       return countBytes(deps.files.open(job.id), (total) => {
-        counts.bytesRead = total;
+        counts.bytesRead = offset + total;
       });
     },
     limits: validationLimits(deps),
@@ -54,6 +59,10 @@ export async function checkFile(
         (counts.byCode.validate[issue.code] ?? 0) + 1;
     }
   });
+  if (continuous) {
+    // The check ends as every check does: the file has been read.
+    counts.bytesRead = job.fileSize;
+  }
   counts.total = summary.totalRows;
   counts.createRows = summary.createRows;
   counts.updateRows = summary.updateRows;

@@ -146,6 +146,7 @@ export class MemoryJobStore
         other.stage = null;
         other.control = null;
         this.chunks.delete(other.id);
+        other.chunkCount = null;
         replaced = true;
       } else if (
         other.status === 'completed' ||
@@ -154,6 +155,7 @@ export class MemoryJobStore
       ) {
         // The file a finished job kept for its download with errors.
         this.chunks.delete(other.id);
+        other.chunkCount = null;
       }
     }
     const now = this.clock.now();
@@ -363,6 +365,7 @@ export class MemoryJobStore
         (this.chunks.get(job.id)?.length ?? 0) > 0
       ) {
         this.chunks.delete(job.id);
+        job.chunkCount = null;
         filesDropped += 1;
       }
     }

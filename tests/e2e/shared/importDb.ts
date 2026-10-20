@@ -121,14 +121,14 @@ export async function countCategories(prefix = 'e2e-imp-%'): Promise<number> {
 
 /** A category made by SQL, as another part of the store would have made it. */
 export async function insertCategory(urlKey: string, name: string): Promise<number> {
-  const db = getDb();
-  const { rows } = await db.query<{ category_id: number }>(
-    `INSERT INTO category (status) VALUES (true) RETURNING category_id`
-  );
-  await db.query(
-    `INSERT INTO category_description (category_description_category_id, name, url_key, description, short_description)
-     VALUES ($1, $2, $3, '[]', '')`,
-    [rows[0].category_id, name, urlKey]
+  // One statement: a url_key that exists fails the whole of it, and no category
+  // without a description is left behind.
+  const { rows } = await getDb().query<{ category_id: number }>(
+    `WITH made AS (INSERT INTO category (status) VALUES (true) RETURNING category_id)
+     INSERT INTO category_description (category_description_category_id, name, url_key, description, short_description)
+     SELECT category_id, $1, $2, '[]', '' FROM made
+     RETURNING category_description_category_id AS category_id`,
+    [name, urlKey]
   );
   return rows[0].category_id;
 }

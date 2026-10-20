@@ -98,6 +98,9 @@ export class PgJobMaintenance implements JobMaintenance {
             AND COALESCE((j.counts->>'failed')::int, 0) = 0
             AND COALESCE((j.counts->>'skipped')::int, 0) = 0
           RETURNING f.import_job_id
+       ), told AS (
+         UPDATE import_job SET chunk_count = NULL
+          WHERE import_job_id IN (SELECT import_job_id FROM dropped)
        )
        SELECT count(DISTINCT import_job_id)::int AS jobs FROM dropped`
     );

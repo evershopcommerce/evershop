@@ -46,6 +46,7 @@ export class ImportJobCollection {
         );
       }
     });
+    this.breakTies();
     const totalQuery = this.baseQuery.clone();
     totalQuery.select('COUNT(import_job.import_job_id)', 'total');
     totalQuery.removeOrderBy();
@@ -56,6 +57,22 @@ export class ImportJobCollection {
       ? parseInt(String(pageFilter.value), 10) || 1
       : 1;
     this.totalQuery = totalQuery;
+  }
+
+  /**
+   * The builder keeps one order key. A list sorted by a column that many jobs
+   * share (the status) would give no fixed order inside a tie, so a job could be
+   * on two pages, or on none. The id goes after the key, in the same direction.
+   */
+  private breakTies(): void {
+    const order = this.baseQuery._orderBy;
+    const render: () => string = order.render.bind(order);
+    order.render = () => {
+      const text = render();
+      return text === '' || String(order._field).includes('import_job_id')
+        ? text
+        : `${text}, "import_job"."import_job_id" ${order._direction}`;
+    };
   }
 
   async items(): Promise<Array<Record<string, unknown>>> {
