@@ -704,11 +704,15 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
 
     // The url_keys that are written, and those that will be derived.
     const derived = new Map<number, string>();
+    // Rows whose name makes a url_key longer than the column allows.
+    const tooLong = new Set<number>();
     for (const row of own) {
       const stored = state.stored.get(row.key as string);
       if (!stored && row.data.url_key === undefined && row.data.name) {
         const slug = slugify(row.data.name);
-        if (slug !== '') {
+        if (slug.length > MAX_KEY_LENGTH) {
+          tooLong.add(row.rowNumber);
+        } else if (slug !== '') {
           derived.set(row.rowNumber, slug);
         }
       }
@@ -776,12 +780,15 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
         if (data.name !== undefined) {
           urlKey = derived.get(rowNumber);
           if (urlKey === undefined) {
+            const long = tooLong.has(rowNumber);
             issues.push(
               PRD_28.issue({
                 rowNumber,
                 column: 'url_key',
-                params: { reason: 'cannot_derive' },
-                message: `The url_key is blank and cannot be made from the name, because it has no Latin letters or digits. Write a url_key.`,
+                params: { reason: long ? 'too_long' : 'cannot_derive' },
+                message: long
+                  ? `The url_key is blank and the one made from the name would be longer than ${MAX_KEY_LENGTH} characters. Write a url_key.`
+                  : `The url_key is blank and cannot be made from the name, because it has no Latin letters or digits. Write a url_key.`,
                 value: data.name
               })
             );
@@ -1112,6 +1119,11 @@ async function checkAttributes(args: AttributeCheck): Promise<void> {
     const attribute = refs.attributes.get(cell.code);
     if (!attribute) {
       // The header said so (ALL-08).
+      continue;
+    }
+    // A cell of nothing but separators says no option: nothing is written for it
+    // (the resolver skips it), so it does not count as a value either.
+    if (attribute.type === 'multiselect' && parseList(cell.text).length === 0) {
       continue;
     }
     given.add(cell.code);

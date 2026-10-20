@@ -268,6 +268,27 @@ describe('writeCustomerAddresses: a row the services refuse', () => {
     expect(final.outcomes[0].result).toBe('failed');
   });
 
+  it('does not add an address twice when the first try was stored but its answer was lost (the connection reset under the commit)', async () => {
+    const run = await importAddresses(addressFile(addressRow()), {
+      store: ADDRESS_STORE,
+      prepare: (r) => {
+        const original = r.services.createCustomerAddress.bind(r.services);
+        let first = true;
+        r.services.createCustomerAddress = async (uuid, input) => {
+          const stored = await original(uuid, input);
+          if (first) {
+            first = false;
+            throw dbError('ECONNRESET');
+          }
+          return stored;
+        };
+      }
+    });
+    expect(results(run)).toEqual(['jane.doe@example.com:created']);
+    expect(run.outcomes[0].retries).toBe(1);
+    expect(run.lookup.addresses_).toHaveLength(1);
+  });
+
   it('fails a row whose customer has gone since the check, or has become ambiguous', async () => {
     const gone = await importAddresses(addressFile(addressRow()), {
       store: ADDRESS_STORE,

@@ -18,4 +18,11 @@ export interface PageAddresses {
    * same one.
    */
   reemitMissing(entity: PageEntity, since: number): Promise<number>;
+
+  /**
+   * Which of these records have a page address now (their creation event has
+   * been handled). A record that is moved under a category that was created a
+   * moment ago needs that category's address to work out its own redirects.
+   */
+  withAddress(entity: PageEntity, ids: readonly number[]): Promise<Set<number>>;
 }

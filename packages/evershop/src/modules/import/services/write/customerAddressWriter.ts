@@ -181,17 +181,36 @@ export async function* writeCustomerAddresses(
     const input: AddressWrite = { ...addressOf(data) };
     if (data.isDefault !== undefined) input.is_default = data.isDefault;
 
+    // The customer has this address already, among those that were read for the
+    // batch or (when none were) as the store has them now.
+    const alreadyThere = async (known?: StoredAddress[]): Promise<boolean> => {
+      rules ??= await context.lookup.addressRules();
+      const normalized = await rules.normalize(addressOf(data));
+      const there =
+        known ??
+        (await context.lookup.customerAddresses([customer.id])).get(
+          customer.id
+        ) ??
+        [];
+      return there.some((address) => sameAddress(address, normalized));
+    };
+
     try {
-      if (args.resumed) {
-        rules ??= await context.lookup.addressRules();
-        const normalized = await rules.normalize(addressOf(data));
-        const there = storedAddresses.get(customer.id) ?? [];
-        if (there.some((address) => sameAddress(address, normalized))) {
-          return outcome('created');
-        }
+      if (
+        args.resumed &&
+        (await alreadyThere(storedAddresses.get(customer.id) ?? []))
+      ) {
+        return outcome('created');
       }
       await withRetries(
-        () => services.createCustomerAddress(customer.uuid, input),
+        async () => {
+          // An attempt that failed with the connection (a reset while the commit
+          // was on its way) may have been stored: look before adding it again.
+          if (retries > 0 && (await alreadyThere())) {
+            return;
+          }
+          await services.createCustomerAddress(customer.uuid, input);
+        },
         {
           isTransient: isTransientDatabaseError,
           sleep: clock.sleep,

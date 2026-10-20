@@ -17,6 +17,7 @@ import { categoryRowsAtLevel } from '../plan/categoryPlan.js';
 import type { CategoryPlan } from '../plan/categoryPlan.js';
 import type { Clock } from '../ports/clock.js';
 import type { StoredCategory, StoredMetafield } from '../ports/lookup.js';
+import type { PageAddresses } from '../ports/pageAddresses.js';
 import type { CategoryWrite, EntityServices } from '../ports/services.js';
 import type { CsvLimits } from '../reader/readCsv.js';
 import {
@@ -76,11 +77,23 @@ export interface CategoryWriterArgs {
    */
   include?: (unit: { unit: number; rowNumber: number; key: string }) => boolean;
   signal?: AbortSignal;
+  /**
+   * The page addresses, to wait for the address of a category that was created
+   * in this run before an existing category is moved under it. Without it, no
+   * wait.
+   */
+  pages?: Pick<PageAddresses, 'withAddress'>;
   /** Rows whose current state is asked of the store together. */
   batchSize?: number;
 }
 
 const DEFAULT_BATCH_SIZE = 1000;
+
+// How long a category that is moved under a new one waits for the page address
+// of the new one: the event that makes it is handled in a moment, or in a few
+// seconds when the event process is busy.
+const ADDRESS_POLL_MS = 100;
+const ADDRESS_POLLS = 300;
 
 // The constraint of the unique `url_key` and the column it is about.
 const CONSTRAINT_COLUMNS: Record<string, string> = {
@@ -170,7 +183,35 @@ export async function* writeCategories(
   let definitions: ReadonlyMap<string, StoredMetafield> | null = null;
   // The keys of the rows that failed or were skipped.
   const failed = new Set<string>();
+  // The keys of the categories this run created.
+  const created = new Set<string>();
   let unit = 0;
+
+  /**
+   * Core works out the redirects of a category that moves from the address of
+   * its new parent, which a subscriber of the creation event makes. A parent that
+   * this run created a moment ago may not have it yet, and the move would then
+   * leave no redirect, or a wrong one. A wait that runs out goes on, as before.
+   */
+  async function waitForAddress(categoryId: number): Promise<void> {
+    if (!args.pages) {
+      return;
+    }
+    try {
+      for (let poll = 0; poll < ADDRESS_POLLS && !signal?.aborted; poll += 1) {
+        if (
+          (await args.pages.withAddress('category', [categoryId])).has(
+            categoryId
+          )
+        ) {
+          return;
+        }
+        await clock.sleep(ADDRESS_POLL_MS);
+      }
+    } catch {
+      // The wait is a courtesy; the move is not failed because of it.
+    }
+  }
 
   for (let level = 0; level < plan.levels; level += 1) {
     const rows = categoryRowsAtLevel({
@@ -367,6 +408,15 @@ export async function* writeCategories(
     }
 
     try {
+      if (
+        existing &&
+        parentKey !== undefined &&
+        parentId !== undefined &&
+        existing.parentUrlKey !== parentKey &&
+        created.has(parentKey)
+      ) {
+        await waitForAddress(Number(parentId));
+      }
       if (existing) {
         // The key is the identity of the row, so it is not sent. A parent that is
         // already the parent is not sent either: a change of parent moves the
@@ -405,6 +455,7 @@ export async function* writeCategories(
           signal
         }
       );
+      created.add(key);
       return outcome('created');
     } catch (error) {
       return outcome('failed', failure(error, row));

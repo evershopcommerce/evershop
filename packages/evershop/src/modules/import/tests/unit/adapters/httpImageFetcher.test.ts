@@ -144,7 +144,7 @@ describe('createHttpImageFetcher', () => {
     const hash = keyDeps.sha256Hex(source);
     expect(stored).toHaveLength(1);
     expect(stored[0].directory).toBe(
-      `catalog/${hash.slice(0, 2)}/${hash.slice(2, 4)}`
+      `catalog/${hash.slice(0, 8)}/${hash.slice(8, 16)}`
     );
     // The extension is the one of the content type, not the one of the URL.
     expect(stored[0].fileName).toBe('blue-tee.png');
@@ -162,7 +162,7 @@ describe('createHttpImageFetcher', () => {
     await fetcher.fetchAndStore(url('/via-redirect'));
     const hash = keyDeps.sha256Hex(url('/via-redirect'));
     expect(stored[0].directory).toBe(
-      `catalog/${hash.slice(0, 2)}/${hash.slice(2, 4)}`
+      `catalog/${hash.slice(0, 8)}/${hash.slice(8, 16)}`
     );
     expect(stored[0].fileName).toBe('via-redirect.png');
     await fetcher.close();

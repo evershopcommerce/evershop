@@ -111,6 +111,26 @@ describe('the keys of a product file', () => {
     expect(result.summary).toMatchObject({ createRows: 1, updateRows: 0 });
   });
 
+  it('refuses a blank url_key when the name would make one over 255 characters (the write would fail), and takes exactly 255', async () => {
+    const long = await validateProducts(
+      productFile(productRow({ url_key: '', name: 'word '.repeat(60) })),
+      { store: PRODUCT_STORE }
+    );
+    expect(long.issues).toMatchObject([
+      {
+        code: 'MISSING_REQUIRED',
+        column: 'url_key',
+        rowNumber: 2,
+        params: { reason: 'too_long' }
+      }
+    ]);
+    const exact = await validateProducts(
+      productFile(productRow({ url_key: '', name: 'a'.repeat(255) })),
+      { store: PRODUCT_STORE }
+    );
+    expect(exact.issues).toEqual([]);
+  });
+
   it('skips the two example rows of the template with a warning each', async () => {
     const result = await validateProducts(
       productFile(
@@ -492,6 +512,87 @@ describe('variant groups across batches', () => {
       );
       expect(result.issues).toEqual([]);
     }
+  });
+});
+
+describe('a multiselect cell of nothing but separators', () => {
+  const store = {
+    ...PRODUCT_STORE,
+    attributeGroups: [
+      { name: 'Default', attributes: ['color', 'size', 'tags'] }
+    ],
+    attributes: [
+      ...PRODUCT_STORE.attributes,
+      {
+        code: 'tags',
+        type: 'multiselect' as const,
+        required: true,
+        options: ['new', 'sale']
+      }
+    ]
+  };
+  const withTags = (cell: string) =>
+    `${PRODUCT_HEADER},attr:tags\n${productRow()},${cell}\n`;
+
+  it('is no value: a required multiselect with only separators is still missing', async () => {
+    for (const cell of ['|', '" | "', '"||"']) {
+      // eslint-disable-next-line no-await-in-loop
+      const result = await validateProducts(withTags(cell), { store });
+      expect(result.issues).toMatchObject([
+        { code: 'MISSING_REQUIRED', column: 'attr:tags', rowNumber: 2 }
+      ]);
+    }
+  });
+
+  it('a real value satisfies it', async () => {
+    const result = await validateProducts(withTags('new|sale'), { store });
+    expect(result.issues).toEqual([]);
+  });
+});
+
+describe('the attribute group of a product that is in a stored variant group', () => {
+  const store = {
+    ...PRODUCT_STORE,
+    attributeGroups: [
+      { name: 'Default', attributes: ['color', 'size'] },
+      { name: 'Other', attributes: ['color'] }
+    ],
+    products: [
+      {
+        sku: 'TSH-1',
+        urlKey: 'classic-tee',
+        attributeGroup: 'Default',
+        package: 'Standard Box',
+        variantGroup: 'tee',
+        values: { color: 'Black', size: 'S' }
+      }
+    ],
+    variantGroups: [
+      { label: 'tee', attributeGroup: 'Default', axes: ['color', 'size'] }
+    ]
+  };
+  const update = (attributeGroup: string) =>
+    `sku,attribute_group\nTSH-1,${attributeGroup}\n`;
+
+  it('cannot be changed by a row that does not name the group: the database would drop the values of the axes', async () => {
+    const result = await validateProducts(update('Other'), { store });
+    // The warning that the values of the axis `size` go is there as well.
+    expect(result.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'VARIANT_INCONSISTENT',
+          severity: 'error',
+          column: 'attribute_group',
+          rowNumber: 2
+        })
+      ])
+    );
+    expect(result.summary.errors).toBe(1);
+  });
+
+  it('may be said again as it is', async () => {
+    const result = await validateProducts(update('Default'), { store });
+    expect(result.issues).toEqual([]);
   });
 });
 

@@ -277,3 +277,33 @@ describe('runImport: the page addresses after the last unit (IMP-08)', () => {
     expect(h.jobs.snapshot(1).counts.pagesRebuilt).toBe(4);
   });
 });
+
+describe('runImport: a category moved under one that this run created', () => {
+  it('waits for the address of the new parent, then moves it', async () => {
+    const h = harness({
+      store: { categories: [{ urlKey: 'shoes', name: 'Shoes', status: 1 }] }
+    });
+    h.stage(
+      categoryFile(
+        categoryRow({ url_key: 'women', name: 'Women', image: '' }),
+        categoryRow({
+          url_key: 'shoes',
+          name: 'Shoes',
+          parent: 'women',
+          image: ''
+        })
+      ),
+      queued
+    );
+    h.pages.holdBack = 2;
+    const result = await runImport(1, h.deps);
+    expect(result.outcome).toBe('completed');
+    expect(h.pages.looks).toHaveLength(3);
+    expect(h.lookup.stored.get('shoes')?.parentUrlKey).toBe('women');
+    expect(h.jobs.snapshot(1).counts).toMatchObject({
+      created: 1,
+      updated: 1,
+      failed: 0
+    });
+  });
+});

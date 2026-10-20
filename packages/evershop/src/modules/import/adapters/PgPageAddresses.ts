@@ -59,4 +59,21 @@ export class PgPageAddresses implements PageAddresses {
     );
     return Number(result.rows[0].n);
   }
+
+  async withAddress(
+    entity: PageEntity,
+    ids: readonly number[]
+  ): Promise<Set<number>> {
+    const kind = KINDS[entity];
+    const result = await this.pool.query(
+      `SELECT r.${kind.id} AS id
+         FROM ${kind.table} r
+        WHERE r.${kind.id} = ANY($1::int[])
+          AND EXISTS (
+            SELECT 1 FROM url_rewrite u
+             WHERE u.entity_type = '${entity}' AND u.entity_uuid = r.uuid)`,
+      [ids]
+    );
+    return new Set(result.rows.map((row) => Number(row.id)));
+  }
 }

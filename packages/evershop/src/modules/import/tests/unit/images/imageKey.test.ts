@@ -12,14 +12,14 @@ const keyOf = (url: string, type = 'image/png') =>
   imageStorageKey(url, type, deps);
 
 describe('imageStorageKey (§ 5.8)', () => {
-  it('puts the file in catalog/<aa>/<bb>, the first four digits of the hash of the URL', () => {
-    // The first four hex digits of the SHA-256 of each URL.
+  it('puts the file in catalog/<8 digits>/<8 digits>, the first sixteen hex digits of the hash of the URL', () => {
+    // The first sixteen hex digits of the SHA-256 of each URL.
     expect(keyOf('https://cdn.example.com/a.png')).toEqual({
-      directory: 'catalog/61/55',
+      directory: 'catalog/6155f67e/fa620e76',
       fileName: 'a.png'
     });
     expect(keyOf('https://other.example.com/a.png')).toEqual({
-      directory: 'catalog/72/b7',
+      directory: 'catalog/72b720e4/2762c11c',
       fileName: 'a.png'
     });
   });
@@ -36,9 +36,21 @@ describe('imageStorageKey (§ 5.8)', () => {
     );
   });
 
+  it('does not let two URLs with one file name share a folder, however many there are', () => {
+    // With 16 bits of the hash (65,536 folders) a few hundred such URLs collide.
+    const seen = new Map<string, string>();
+    for (let id = 0; id < 20_000; id += 1) {
+      const url = `https://cdn.example.com/p/${id}/main.jpg`;
+      const key = keyOf(url, 'image/jpeg');
+      const path = `${key.directory}/${key.fileName}`;
+      expect(seen.get(path)).toBeUndefined();
+      seen.set(path, url);
+    }
+  });
+
   it('keeps the name of the URL, sanitized, and takes the extension from the content type', () => {
     expect(keyOf('https://cdn.example.com/img/Blue%20Tee.JPG?v=2')).toEqual({
-      directory: 'catalog/7b/05',
+      directory: 'catalog/7b053eec/60a750ba',
       fileName: 'blue-tee.png'
     });
     expect(keyOf('https://cdn.example.com/a.svg', 'image/png').fileName).toBe(

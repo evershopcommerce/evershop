@@ -86,7 +86,7 @@ export function imageFetcherContract(
       const first = await context.fetcher.fetchAndStore(context.urls.ok);
       expect(first.copied).toBe(true);
       expect(first.url).toMatch(
-        /^\/assets\/catalog\/[0-9a-f]{2}\/[0-9a-f]{2}\/[a-z0-9-]+\.png$/
+        /^\/assets\/catalog\/[0-9a-f]{8}\/[0-9a-f]{8}\/[a-z0-9-]+\.png$/
       );
       expect(await context.fetcher.fetchAndStore(context.urls.ok)).toEqual(
         first

@@ -8,7 +8,7 @@ export interface ImageKeyDeps {
 }
 
 export interface ImageKey {
-  /** `catalog/<aa>/<bb>`, no leading slash. */
+  /** `catalog/<16 hex digits of the hash>/<16 more>`, no leading slash. */
   directory: string;
   fileName: string;
 }
@@ -37,7 +37,10 @@ function baseNameOf(url: string): string {
  * Where an image is stored (§ 5.8). The folder comes from the URL, the file name
  * from the last part of its path, the extension from the content type. The same
  * URL gives the same key every time, so reading it again replaces the file; two
- * URLs with the same file name land in different folders.
+ * URLs with the same file name land in different folders. The folder takes 64
+ * bits of the hash: with 16 bits (65,536 folders) an import of a few thousand
+ * images that are all called `main.jpg` would overwrite some of them with
+ * another product's picture, and nothing would say so.
  */
 export function imageStorageKey(
   url: string,
@@ -59,7 +62,7 @@ export function imageStorageKey(
     .slice(0, MAX_NAME_LENGTH)
     .replace(/-$/, '');
   return {
-    directory: `catalog/${hash.slice(0, 2)}/${hash.slice(2, 4)}`,
+    directory: `catalog/${hash.slice(0, 8)}/${hash.slice(8, 16)}`,
     fileName: `${name || 'image'}${extension}`
   };
 }

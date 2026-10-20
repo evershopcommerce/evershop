@@ -447,7 +447,9 @@ export async function* writeProducts(
       try {
         if (!group) {
           const attributeGroupId = resolved.groupId ?? stored?.attributeGroupId;
-          const axes = [...(data.variant_axes ?? [])];
+          const axes = (data.variant_axes ?? []).map((code) =>
+            resolver.storedAttributeCode(code)
+          );
           const made = await withRetries(
             () =>
               args.services.createVariantGroup({
