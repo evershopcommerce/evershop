@@ -5,6 +5,12 @@ import {
 } from '../../../services/rules/categoryFiles.js';
 import { emptyCounts } from '../../../services/job/types.js';
 import { runValidation } from '../../../services/runner/index.js';
+import { ImageError } from '../../../services/images/types.js';
+import {
+  PRODUCT_STORE,
+  productFile,
+  productRow
+} from '../../../services/rules/productFiles.js';
 import { MemoryLookup } from '../../../testing/MemoryLookup.js';
 import { harness } from '../helpers/harness.js';
 
@@ -260,5 +266,65 @@ describe('runValidation: when it cannot run', () => {
     );
     expect(h.logger.of('error')).toHaveLength(1);
     expect(h.clock.running).toBe(0);
+  });
+});
+
+describe('runValidation: "Check that image URLs can be reached" (IMG-05)', () => {
+  const GONE = 'https://example.com/gone.jpg';
+  const FINE = 'https://example.com/women.jpg';
+  const FILE = categoryFile(
+    named('a', '', { image: FINE }),
+    named('b', '', { image: GONE }),
+    named('c', '', { image: GONE }),
+    named('d', '', { image: '' })
+  );
+  const missing = (h: ReturnType<typeof harness>) =>
+    h.images.fails(GONE, new ImageError('http_status', { status: 404 }));
+
+  it('reports the rows whose image cannot be reached, and asks for each address once', async () => {
+    const h = harness();
+    missing(h);
+    h.stage(FILE, { options: { checkImages: true } });
+    const result = await runValidation(1, h.deps);
+    expect(result.outcome).toBe('validated');
+    expect(
+      h.jobs.issues(1).map((i) => [i.code, i.rowNumber, i.column])
+    ).toEqual([
+      ['IMAGE_UNREADABLE', 3, 'image'],
+      ['IMAGE_UNREADABLE', 4, 'image']
+    ]);
+    expect(h.jobs.snapshot(1).counts).toMatchObject({ errors: 2 });
+    expect([...h.images.probed].sort()).toEqual([GONE, FINE].sort());
+    // The check stores nothing.
+    expect(h.images.fetched).toEqual([]);
+  });
+
+  it('does not ask for any image when the box is not ticked', async () => {
+    const h = harness();
+    missing(h);
+    h.stage(FILE, { options: { checkImages: false } });
+    await runValidation(1, h.deps);
+    expect(h.images.probed).toEqual([]);
+    expect(h.jobs.issues(1)).toEqual([]);
+  });
+
+  it('checks the images of a products file as well, every address of a cell', async () => {
+    const h = harness({ store: PRODUCT_STORE });
+    missing(h);
+    h.images.hasImage('https://example.com/tee.jpg');
+    h.stage(
+      productFile(
+        productRow({
+          sku: 'A',
+          url_key: 'a',
+          images: `https://example.com/tee.jpg|${GONE}`
+        })
+      ),
+      { entity: 'product', options: { checkImages: true } }
+    );
+    await runValidation(1, h.deps);
+    expect(
+      h.jobs.issues(1).map((i) => [i.code, i.rowNumber, i.column, i.value])
+    ).toEqual([['IMAGE_UNREADABLE', 2, 'images', GONE]]);
   });
 });

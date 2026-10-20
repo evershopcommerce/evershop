@@ -116,6 +116,19 @@ describe('runImport: the check at the start (D-33, J6)', () => {
     expect(h.clock.running).toBe(0);
   });
 
+  it('does not fetch the images of the file again, even when the box was ticked (D-33)', async () => {
+    const h = harness();
+    h.stage(
+      categoryFile(named('a', '', { image: 'https://example.com/women.jpg' })),
+      { ...queued, options: { checkImages: true } }
+    );
+    const result = await runImport(1, h.deps);
+    expect(result.outcome).toBe('completed');
+    // Only the writer fetched it, once.
+    expect(h.images.probed).toEqual([]);
+    expect(h.images.fetched).toEqual(['https://example.com/women.jpg']);
+  });
+
   it('replaces the problems of the earlier check', async () => {
     const h = harness();
     h.stage(FILE, queued);
