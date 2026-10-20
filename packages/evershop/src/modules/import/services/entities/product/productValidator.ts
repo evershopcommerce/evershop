@@ -12,6 +12,7 @@ import {
 } from '../../cells/parsers.js';
 import type { CellFailure } from '../../cells/parsers.js';
 import { prepareText } from '../../cells/text.js';
+import { probeImageRefs } from '../../images/probeRefs.js';
 import type {
   Lookup,
   NamedRecord,
@@ -1010,6 +1011,21 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
         }
       }
     }
+    // IMG-05: with the box ticked, the images are asked for, without storing them.
+    issues.push(
+      ...(await probeImageRefs(
+        ctx.images,
+        own.flatMap((row) =>
+          row.invalid.includes('images')
+            ? []
+            : (row.data.images ?? []).map((url) => ({
+                rowNumber: row.rowNumber,
+                column: 'images',
+                url
+              }))
+        )
+      ))
+    );
     return { issues, createRows, updateRows };
   },
 

@@ -31,7 +31,12 @@ export async function checkFile(
   const continuous = stages[0] === stages[1];
   const summary = await validateFile({
     validator: pipeline.validator,
-    context: validationContext(deps, job),
+    // The check at the start of an import does not fetch images (D-33).
+    context: validationContext(
+      deps,
+      job,
+      stages[0] === 'reading' ? { signal: session.control.signal } : undefined
+    ),
     open: () => {
       passes += 1;
       session.stage = passes === 1 ? stages[0] : stages[1];

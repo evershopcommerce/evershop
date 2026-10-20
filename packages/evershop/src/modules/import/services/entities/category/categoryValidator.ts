@@ -9,6 +9,7 @@ import {
 } from '../../cells/parsers.js';
 import type { CellFailure } from '../../cells/parsers.js';
 import { prepareText } from '../../cells/text.js';
+import { probeImageRefs } from '../../images/probeRefs.js';
 import type {
   Lookup,
   StoredCategory,
@@ -505,6 +506,23 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
         }
       }
     }
+    // IMG-05: with the box ticked, the images are asked for, without storing them.
+    issues.push(
+      ...(await probeImageRefs(
+        ctx.images,
+        own.flatMap((row) =>
+          row.data.image === undefined || row.invalid.includes('image')
+            ? []
+            : [
+                {
+                  rowNumber: row.rowNumber,
+                  column: 'image',
+                  url: row.data.image
+                }
+              ]
+        )
+      ))
+    );
     return { issues, createRows, updateRows };
   }
 };

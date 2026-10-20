@@ -12,7 +12,7 @@ type Entry =
 /**
  * TEST-ONLY. An `ImageFetcher` that answers from a table: URL → an image, or a
  * failure, optionally after a delay. It stores nothing; the URL it returns is
- * built from the same key as the real one (`/assets/catalog/<aa>/<bb>/<name>`),
+ * built from the same key as the real one (`/assets/catalog/<8 digits>/<8 digits>/<name>`),
  * so the same URL always gives the same answer.
  */
 export class FakeImageFetcher implements ImageFetcher {

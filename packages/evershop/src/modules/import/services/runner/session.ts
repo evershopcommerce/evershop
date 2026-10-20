@@ -68,13 +68,28 @@ export function validationLimits(deps: ImportDeps): Partial<CsvLimits> {
 
 export function validationContext(
   deps: ImportDeps,
-  job: ImportJob
+  job: ImportJob,
+  /**
+   * Set by the check of an upload (not the check at the start of an import, D-33,
+   * which does not fetch images): with the box "Check that image URLs can be
+   * reached" ticked, the check asks for the images (IMG-05).
+   */
+  probing?: { signal: AbortSignal }
 ): ValidationContext {
   return {
     lookup: deps.lookup,
     mode: job.mode,
     now: () => deps.clock.now(),
-    sha256Hex: deps.sha256Hex
+    sha256Hex: deps.sha256Hex,
+    ...(probing && job.options.checkImages === true
+      ? {
+          images: {
+            probe: (url: string) => deps.images.probe(url),
+            concurrency: deps.config.imageConcurrency,
+            signal: probing.signal
+          }
+        }
+      : {})
   };
 }
 

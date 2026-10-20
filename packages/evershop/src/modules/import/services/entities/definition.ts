@@ -1,3 +1,4 @@
+import type { ImageProbing } from '../images/probeRefs.js';
 import type { Lookup } from '../ports/lookup.js';
 import type { CsvRow } from '../reader/readCsv.js';
 import type { ImportEntity, ImportIssue, ImportMode } from '../types.js';
@@ -17,6 +18,12 @@ export interface ValidationContext {
   now: () => number;
   /** SHA-256 of a text as hexadecimal digits (the Ids port). */
   sha256Hex: (text: string) => string;
+  /**
+   * Present when the check is to reach the images of the file (IMG-05): the box
+   * "Check that image URLs can be reached" is ticked, and this is the check of
+   * an upload, not the one at the start of an import.
+   */
+  images?: ImageProbing;
 }
 
 /** A row after its cells are converted (layer C). */
