@@ -373,7 +373,7 @@ describe('parseBcryptHash (CUS-06)', () => {
     [`$2a$04$${body}`],
     [`$2b$10$${body}`],
     [`$2y$10$${body}`],
-    [`$2y$31$${body}`],
+    [`$2y$15$${body}`],
     [`$2a$10$${'./AZaz09'.repeat(6)}${'.'.repeat(5)}`]
   ])('accepts %s', (text) => {
     expect(value(parseBcryptHash(text))).toBe(text);
@@ -383,6 +383,9 @@ describe('parseBcryptHash (CUS-06)', () => {
     [`$2x$10$${body}`],
     [`$2a$03$${body}`],
     [`$2a$32$${body}`],
+    // A cost this high would keep the store busy for hours at the first login.
+    [`$2a$16$${body}`],
+    [`$2y$31$${body}`],
     [`$2a$9$${body}`],
     [`$2a$10$${body.slice(1)}`],
     [`$2a$10$${body}a`],

@@ -60,6 +60,8 @@ export interface ImportOptions {
   imageConcurrency?: number;
   /** What the writer fetches images with, made from the fake (to measure the fetches). */
   wrapImages?: (inner: FakeImageFetcher) => ImageFetcher;
+  /** The page addresses, for the category writer's wait for the address of a new parent. */
+  pages?: CategoryWriterArgs['pages'];
 }
 
 /**
@@ -106,6 +108,7 @@ export async function importCategories(
     images: options.wrapImages ? options.wrapImages(images) : images,
     imageConcurrency: options.imageConcurrency,
     clock,
+    pages: options.pages,
     resumed: options.resumed,
     include: options.include,
     signal: options.signal,

@@ -14,6 +14,7 @@ import { planAddresses } from '../plan/customerAddressPlan.js';
 import { planCustomers } from '../plan/customerPlan.js';
 import { planProducts } from '../plan/productPlan.js';
 import type { Clock } from '../ports/clock.js';
+import type { PageAddresses } from '../ports/pageAddresses.js';
 import type { EntityServices } from '../ports/services.js';
 import type { CsvLimits } from '../reader/readCsv.js';
 import type { ImportEntity } from '../types.js';
@@ -36,6 +37,8 @@ export interface PipelineWriteArgs {
   imageConcurrency?: number;
   clock: Pick<Clock, 'sleep'>;
   resumed: boolean;
+  /** For the writers that wait for the page address of a record they just made. */
+  pages?: Pick<PageAddresses, 'withAddress'>;
   include?: (unit: { unit: number; rowNumber: number; key: string }) => boolean;
   signal?: AbortSignal;
 }

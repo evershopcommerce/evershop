@@ -90,8 +90,6 @@ const KNOWN_COLUMNS: ReadonlySet<string> = new Set(CATEGORY_COLUMNS);
 const METAFIELD_PREFIX = 'metafield:';
 const KEY_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const MAX_KEY_LENGTH = 255;
-// The deepest chain of parents that is followed; a real tree is far shallower.
-const MAX_CHAIN = 200;
 
 /** Everything that is remembered across the rows of a category file. */
 export interface CategoryState {
@@ -534,7 +532,7 @@ async function findCycle(
   const chain = [key];
   const seen = new Set([key]);
   let current: string | null = parent;
-  while (current !== null && chain.length < MAX_CHAIN) {
+  while (current !== null) {
     if (current === key) {
       return [...chain, key];
     }

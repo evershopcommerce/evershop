@@ -1,6 +1,7 @@
 import { pool } from '../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../lib/router/buildUrl.js';
 import { getRoutes } from '../../../lib/router/Router.js';
+import { getBaseUrl } from '../../../lib/util/getBaseUrl.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { generateFileName } from '../../cms/services/generateFileName.js';
 import {
@@ -23,13 +24,20 @@ import {
 import type { CorePorts } from './compose.js';
 
 /** The base addresses of the store's own file storage: the local assets, and the cloud hosts. */
-function ownStorageBases(): string[] {
+export function ownStorageBases(): string[] {
   const bases: string[] = [];
   try {
-    const home = String(getConfig('shop.homeUrl', '') ?? '');
+    // The address the store answers to: `EVERSHOP_HOME_URL` first, as everywhere
+    // in core, then `shop.homeUrl`; the configured one counts as well when the
+    // override differs from it.
+    const homes = new Set(
+      [getBaseUrl(), String(getConfig('shop.homeUrl', '') ?? '')].filter(
+        (home) => home !== ''
+      )
+    );
     // `/assets/<path>` is where the local storage serves its files.
     const asset = buildUrl('staticAsset', ['x']).replace(/x$/, '');
-    if (home) bases.push(new URL(asset, home).toString());
+    homes.forEach((home) => bases.push(new URL(asset, home).toString()));
   } catch {
     // Routes not loaded, or no home URL: only the cloud hosts count.
   }

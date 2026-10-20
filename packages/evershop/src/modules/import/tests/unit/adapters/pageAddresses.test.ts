@@ -173,6 +173,34 @@ describeDb(
       }
     });
 
+    it('says which records have a page address now: the ones whose creation event was handled', async () => {
+      await start();
+      try {
+        const pages = new PgPageAddresses(db!.pool);
+        const first = await category('pa-has');
+        const second = await category('pa-lacks');
+        const [event] = await events(
+          'category_created',
+          'category_id',
+          first.id
+        );
+        // Nothing has an address yet: the events are still to be handled.
+        expect(
+          await pages.withAddress('category', [first.id, second.id])
+        ).toEqual(new Set());
+        await buildCategoryAddress!(event.data);
+        expect(
+          await pages.withAddress('category', [first.id, second.id])
+        ).toEqual(new Set([first.id]));
+        expect(await pages.withAddress('category', [])).toEqual(new Set());
+        expect(await pages.withAddress('category', [987_654_321])).toEqual(
+          new Set()
+        );
+      } finally {
+        await cleanUp();
+      }
+    });
+
     it('does the same for a product', async () => {
       await start();
       try {

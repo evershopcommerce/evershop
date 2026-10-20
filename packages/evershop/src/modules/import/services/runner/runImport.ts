@@ -231,6 +231,7 @@ export async function runImport(
       images: deps.images,
       imageConcurrency: deps.config.imageConcurrency,
       clock: deps.clock,
+      pages: deps.pages,
       resumed,
       include: resumed
         ? ({ unit, rowNumber }) =>

@@ -253,15 +253,20 @@ export function parseRedirectPath(text: string): CellResult<string> {
   );
 }
 
-/** The shape of a bcrypt hash that `compareSync` can read (CUS-06, § 5.4.1). */
+/**
+ * The shape of a bcrypt hash that `compareSync` can read (CUS-06, § 5.4.1). The
+ * cost is at most 15: the work doubles with each step, and a hash of cost 31
+ * would keep the single process of the store busy for days at the first login of
+ * that customer, with no password needed to ask for it.
+ */
 export function parseBcryptHash(text: string): CellResult<string> {
-  if (/^\$2[aby]\$(0[4-9]|[12][0-9]|3[01])\$[./A-Za-z0-9]{53}$/.test(text)) {
+  if (/^\$2[aby]\$(0[4-9]|1[0-5])\$[./A-Za-z0-9]{53}$/.test(text)) {
     return accept(text);
   }
   return refuse(
     'INVALID_VALUE',
     { reason: 'not_bcrypt' },
-    'is not a bcrypt hash: it starts with $2a$, $2b$ or $2y$, then a cost from 04 to 31, and is 60 characters long.'
+    'is not a bcrypt hash: it starts with $2a$, $2b$ or $2y$, then a cost from 04 to 15, and is 60 characters long.'
   );
 }
 

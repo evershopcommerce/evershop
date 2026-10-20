@@ -278,6 +278,23 @@ describe('validateFile: the tree of categories', () => {
     expect((result.issues[0].params.chain as string[]).length).toBe(10);
   });
 
+  it('finds a loop of a thousand rows, however long (it used to give up after 200 steps and let the plan fail)', async () => {
+    const rows = Array.from({ length: 1000 }, (_, n) =>
+      categoryRow({
+        url_key: `c${n}`,
+        name: `C${n}`,
+        parent: `c${(n + 1) % 1000}`
+      })
+    );
+    const result = await validateCategories(categoryFile(...rows), {
+      store: {}
+    });
+    expect(result.issues).toHaveLength(1000);
+    expect(new Set(result.issues.map((i) => i.code))).toEqual(
+      new Set(['PARENT_CYCLE'])
+    );
+  });
+
   it('lets the file move a category away from the parent the store gave it: the file wins', async () => {
     // Stored: b is a child of a. The file puts a under b, and b under c. After
     // the import there is no loop, though the stored tree would make one.

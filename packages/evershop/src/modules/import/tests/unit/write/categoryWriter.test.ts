@@ -112,7 +112,7 @@ describe('writeCategories: what is sent to the services', () => {
       meta_title: 'Shoes',
       meta_description: 'Buy shoes',
       image: expect.stringMatching(
-        /^\/assets\/catalog\/[0-9a-f]{2}\/[0-9a-f]{2}\/women\.png$/
+        /^\/assets\/catalog\/[0-9a-f]{8}\/[0-9a-f]{8}\/women\.png$/
       )
     });
     expect(input.description?.[0].columns[0].data.blocks[0]).toMatchObject({
@@ -583,6 +583,81 @@ describe('writeCategories: transient failures are waited out (D-20, IMP-06)', ()
     expect(results(run)).toEqual(['a:failed', 'b:created']);
     expect(run.lookup.stored.has('a')).toBe(false);
     expect(run.outcomes[0].issues[0].value).toBe(url);
+  });
+});
+
+describe('writeCategories: a category moved under one that was just created', () => {
+  // `shoes` is stored at the top; the file creates `women` and moves `shoes` under it.
+  const store = {
+    categories: [{ urlKey: 'shoes', name: 'Shoes', status: 1 as const }]
+  };
+  const file = () => categoryFile(named('women'), named('shoes', 'women'));
+  const addressAfter = (looksNeeded: number) => {
+    const looks: number[][] = [];
+    const pages = {
+      withAddress: async (_entity: string, ids: readonly number[]) => {
+        looks.push([...ids]);
+        return looks.length > looksNeeded ? new Set(ids) : new Set<number>();
+      }
+    };
+    return { looks, pages };
+  };
+
+  it('waits for the page address of the new parent before it moves the category (core works out the redirects from it)', async () => {
+    const { looks, pages } = addressAfter(3);
+    const run = await importCategories(file(), { store, pages });
+    expect(results(run)).toEqual(['women:created', 'shoes:updated']);
+    expect(run.services.calls.map((c) => c.method)).toEqual([
+      'createCategory',
+      'updateCategory'
+    ]);
+    // Three looks found no address, the fourth did; it waited 100 ms between them.
+    expect(looks).toHaveLength(4);
+    expect(looks[0]).toEqual([run.lookup.stored.get('women')?.id]);
+    expect(run.clock.sleeps).toEqual([100, 100, 100]);
+  });
+
+  it('does not wait for a parent that was there before the run, nor for a category that stays where it is', async () => {
+    const { looks, pages } = addressAfter(99);
+    const before = await importCategories(file(), {
+      store: {
+        categories: [
+          { urlKey: 'shoes', name: 'Shoes', status: 1 as const },
+          { urlKey: 'women', name: 'Women', status: 1 as const }
+        ]
+      },
+      pages
+    });
+    expect(results(before)).toEqual(['women:updated', 'shoes:updated']);
+    expect(looks).toEqual([]);
+    const created = await importCategories(
+      categoryFile(named('women'), named('kids', 'women')),
+      { store, pages }
+    );
+    expect(results(created)).toEqual(['women:created', 'kids:created']);
+    expect(looks).toEqual([]);
+  });
+
+  it('goes on without the address when it does not come, and when the look fails', async () => {
+    const never = addressAfter(Infinity);
+    const run = await importCategories(file(), { store, pages: never.pages });
+    expect(results(run)).toEqual(['women:created', 'shoes:updated']);
+    expect(never.looks).toHaveLength(300);
+    const broken = await importCategories(file(), {
+      store,
+      pages: {
+        withAddress: async () => {
+          throw new Error('connection terminated');
+        }
+      }
+    });
+    expect(results(broken)).toEqual(['women:created', 'shoes:updated']);
+  });
+
+  it('does not wait at all without the page addresses', async () => {
+    const run = await importCategories(file(), { store });
+    expect(results(run)).toEqual(['women:created', 'shoes:updated']);
+    expect(run.clock.sleeps).toEqual([]);
   });
 });
 

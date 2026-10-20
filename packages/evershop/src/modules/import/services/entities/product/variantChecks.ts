@@ -200,6 +200,27 @@ export async function checkVariantRow(
   if (state.run && state.run.label !== label) {
     issues.push(...closeRun(state));
   }
+  if (
+    label === null &&
+    stored &&
+    stored.variantGroupId !== null &&
+    data.attribute_group !== undefined &&
+    ctx.groupId !== null &&
+    ctx.groupId !== stored.attributeGroupId
+  ) {
+    // The trigger that keeps a variant group whole would drop the values of the
+    // axes that the new attribute group does not hold.
+    issues.push(
+      PRD_18.issue({
+        code: 'VARIANT_INCONSISTENT',
+        rowNumber,
+        column: 'attribute_group',
+        params: { stored: stored.variantGroupId },
+        message: `The product "${stored.sku}" is a member of a stored variant group, so its attribute group cannot change alone. Change it for every member, with the column variant_group.`,
+        value: data.attribute_group
+      })
+    );
+  }
   if (label === null || state.bad.has(label)) {
     return issues;
   }

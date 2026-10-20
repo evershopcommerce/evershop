@@ -119,35 +119,113 @@ describe('convertMetafieldCell: lists', () => {
   });
 });
 
+// A group with the two sub-fields the examples use.
+const SUBS: MetafieldField[] = [
+  { ...field('short_text'), key: 'fit', required: true },
+  { ...field('integer'), key: 'gsm' }
+];
+const group = (more: Partial<MetafieldField> = {}) =>
+  field('group', { subFields: SUBS, ...more });
+
 describe('convertMetafieldCell: groups and rich text', () => {
   it('reads a group as a JSON object and a list of groups as a JSON array', () => {
-    expect(read(field('group'), '{"fit":"Relaxed","gsm":180}')).toEqual({
+    expect(read(group(), '{"fit":"Relaxed","gsm":180}')).toEqual({
       ok: true,
       value: { fit: 'Relaxed', gsm: 180 }
     });
+    expect(read(group({ isList: true }), '[{"fit":"a"},{"fit":"b"}]')).toEqual({
+      ok: true,
+      value: [{ fit: 'a' }, { fit: 'b' }]
+    });
+  });
+
+  it('refuses a key that is not a sub-field of the definition (core would drop it without a word)', () => {
+    // The names are case-sensitive, so a wrong case is an unknown key.
+    expect(read(group(), '{"Fit":"Relaxed","gsm":180}')).toMatchObject({
+      ok: false,
+      code: 'INVALID_VALUE',
+      params: { reason: 'unknown_sub_field', key: 'Fit' }
+    });
+    expect(read(group(), '{"fit":"a","gsmm":1}')).toMatchObject({
+      ok: false,
+      params: { reason: 'unknown_sub_field', key: 'gsmm' }
+    });
     expect(
-      read(field('group', { isList: true }), '[{"fit":"a"},{"fit":"b"}]')
-    ).toEqual({ ok: true, value: [{ fit: 'a' }, { fit: 'b' }] });
+      read(group({ isList: true }), '[{"fit":"a"},{"bogus":1}]')
+    ).toMatchObject({
+      ok: false,
+      params: { reason: 'unknown_sub_field', key: 'bogus' }
+    });
+    // A group with no sub-fields has nothing a key could be.
+    expect(read(field('group'), '{"fit":"a"}')).toMatchObject({
+      ok: false,
+      params: { reason: 'unknown_sub_field' }
+    });
+  });
+
+  it('refuses an entry of a list of groups that is not an object', () => {
+    expect(
+      read(group({ isList: true }), '[{"fit":"a"}, "text"]')
+    ).toMatchObject({
+      ok: false,
+      params: { reason: 'not_object' }
+    });
+    expect(read(group({ isList: true }), '[{"fit":"a"}, null]')).toMatchObject({
+      ok: false,
+      params: { reason: 'not_object' }
+    });
+  });
+
+  it('checks a group inside a group by its own definition', () => {
+    const nested = field('group', {
+      subFields: [
+        {
+          ...field('group'),
+          key: 'size',
+          subFields: [{ ...field('integer'), key: 'w' }]
+        },
+        {
+          ...field('group', { isList: true }),
+          key: 'parts',
+          subFields: [{ ...field('integer'), key: 'n' }]
+        }
+      ]
+    });
+    expect(read(nested, '{"size":{"w":3},"parts":[{"n":1}]}')).toMatchObject({
+      ok: true
+    });
+    expect(read(nested, '{"size":{"W":3}}')).toMatchObject({
+      ok: false,
+      params: { reason: 'unknown_sub_field', key: 'W' }
+    });
+    expect(read(nested, '{"parts":{"n":1}}')).toMatchObject({
+      ok: false,
+      params: { reason: 'not_array', key: 'parts' }
+    });
+    expect(read(nested, '{"parts":[{"x":1}]}')).toMatchObject({
+      ok: false,
+      params: { reason: 'unknown_sub_field', key: 'x' }
+    });
   });
 
   it('refuses JSON that does not parse, and JSON of the wrong shape', () => {
-    expect(read(field('group'), '{fit: 1}')).toMatchObject({
+    expect(read(group(), '{fit: 1}')).toMatchObject({
       ok: false,
       code: 'INVALID_JSON'
     });
-    expect(read(field('group'), '[1]')).toMatchObject({
+    expect(read(group(), '[1]')).toMatchObject({
       ok: false,
       code: 'INVALID_VALUE',
       params: { reason: 'not_object' }
     });
-    expect(read(field('group', { isList: true }), '{"a":1}')).toMatchObject({
+    expect(read(group({ isList: true }), '{"a":1}')).toMatchObject({
       ok: false,
       params: { reason: 'not_array' }
     });
   });
 
   it('drops a __proto__ key of a group', () => {
-    const result = read(field('group'), '{"__proto__":{"x":1},"fit":"a"}');
+    const result = read(group(), '{"__proto__":{"x":1},"fit":"a"}');
     expect(result).toEqual({ ok: true, value: { fit: 'a' } });
   });
 
@@ -172,6 +250,18 @@ describe('convertMetafieldCell: groups and rich text', () => {
       ok: false,
       code: 'INVALID_JSON'
     });
+    // An item that is not a document would be dropped.
+    for (const text of [
+      '["Hello"]',
+      '[{"content":"x"}]',
+      '[{"text":[]}]',
+      '[null]'
+    ]) {
+      expect(read(field('rich_text', { isList: true }), text)).toMatchObject({
+        ok: false,
+        params: { reason: 'not_document' }
+      });
+    }
   });
 
   it('refuses a type it does not know', () => {

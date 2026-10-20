@@ -540,9 +540,81 @@ describe('writeProducts: the old addresses', () => {
   });
 });
 
+describe('writeProducts: a multiselect cell of nothing but separators', () => {
+  it('sends no attribute for it: an empty list would delete the options the product has', async () => {
+    const store = {
+      ...PRODUCT_STORE_WITH_TEE,
+      attributeGroups: [{ name: 'Default', attributes: ['color', 'size'] }],
+      attributes: [
+        {
+          code: 'color',
+          type: 'multiselect' as const,
+          options: ['Black', 'White']
+        },
+        { code: 'size', type: 'text' as const }
+      ]
+    };
+    const run = await importProducts(
+      productFile(
+        productRow({ 'attr:color': ' | ', 'attr:size': 'Made to measure' })
+      ),
+      { store }
+    );
+    expect(run.services.calls[0].input.attributes).toEqual([
+      { attribute_code: 'size', value: 'Made to measure' }
+    ]);
+  });
+});
+
 describe('writeProducts: a variant group', () => {
   const tees = (...skus: Array<[string, string, string]>) =>
     productFile(...skus.map(([sku, color, size]) => member(sku, color, size)));
+
+  it('names the axes by the codes the store has, not by the lower case of the file (the store matches codes with their case)', async () => {
+    const store = {
+      ...STORE,
+      attributeGroups: [{ name: 'Default', attributes: ['Color', 'Size'] }],
+      attributes: [
+        { code: 'Color', type: 'select' as const, options: ['Black', 'White'] },
+        { code: 'Size', type: 'select' as const, options: ['S', 'M', 'L'] }
+      ]
+    };
+    const run = await importProducts(
+      tees(['TSH-1', 'Black', 'S'], ['TSH-2', 'White', 'S']),
+      { store }
+    );
+    expect(results(run)).toEqual(['TSH-1:created', 'TSH-2:created']);
+    expect(
+      run.services.calls.find((c) => c.method === 'createVariantGroup')?.input
+    ).toEqual({ attributeGroupId: 1, axisCodes: ['Color', 'Size'] });
+  });
+
+  it('finds the stored code of an axis that has no column in the file (the members keep their values)', async () => {
+    const store = {
+      ...STORE,
+      attributeGroups: [{ name: 'Default', attributes: ['Color', 'Size'] }],
+      attributes: [
+        { code: 'Color', type: 'select' as const, options: ['Black', 'White'] },
+        { code: 'Size', type: 'select' as const, options: ['S', 'M', 'L'] }
+      ],
+      products: ['TSH-1', 'TSH-2'].map((sku, at) => ({
+        sku,
+        urlKey: sku.toLowerCase(),
+        attributeGroup: 'Default',
+        package: 'Standard Box',
+        values: { Color: at === 0 ? 'Black' : 'White', Size: 'S' }
+      }))
+    };
+    const run = await importProducts(
+      'sku,variant_group,variant_axes,attr:Color\n' +
+        'TSH-1,tee,color|size,Black\nTSH-2,tee,color|size,White\n',
+      { store }
+    );
+    expect(results(run)).toEqual(['TSH-1:updated', 'TSH-2:updated']);
+    expect(
+      run.services.calls.find((c) => c.method === 'createVariantGroup')?.input
+    ).toEqual({ attributeGroupId: 1, axisCodes: ['Color', 'Size'] });
+  });
 
   it('makes the group with the first member, and joins every member, in order', async () => {
     const run = await importProducts(

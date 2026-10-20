@@ -113,7 +113,10 @@ export class ProductResolver {
     }
     const codes = fresh(
       asked.attributes,
-      rows.flatMap((row) => (row.data.attributes ?? []).map((a) => a.code))
+      rows.flatMap((row) => [
+        ...(row.data.attributes ?? []).map((a) => a.code),
+        ...(row.data.variant_axes ?? [])
+      ])
     );
     if (codes.length > 0) {
       for (const [key, attribute] of await lookup.attributes(codes)) {
@@ -162,6 +165,15 @@ export class ProductResolver {
   }
 
   /** The ids of one row. A problem means the row must not be written. */
+  /**
+   * The code an attribute is stored under, for a code as the file has it (lower
+   * case; the store matches codes with their letter case). A code that was not
+   * asked for in `prepare` comes back as it is.
+   */
+  storedAttributeCode(code: string): string {
+    return this.attributes.get(code)?.code ?? code;
+  }
+
   resolve(row: ProductRow, stored: StoredProduct | null): ResolvedProduct {
     const { data, rowNumber } = row;
     const problems: ImportIssue[] = [];
@@ -275,7 +287,12 @@ export class ProductResolver {
             ids.push(String(found[0]));
           }
         }
-        if (ids.length === texts.length) {
+        // A multiselect cell of nothing but separators has no option to send;
+        // an empty list would delete the options the product has.
+        if (
+          ids.length === texts.length &&
+          !(attribute.type === 'multiselect' && ids.length === 0)
+        ) {
           attributes.push({
             attribute_code: attribute.code,
             value: attribute.type === 'multiselect' ? ids : ids[0]

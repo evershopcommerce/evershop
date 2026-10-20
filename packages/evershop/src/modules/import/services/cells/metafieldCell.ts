@@ -27,12 +27,36 @@ export function convertMetafieldCell(
   deps: DescriptionDeps
 ): CellResult<unknown> {
   if (field.type === 'group') {
-    return parseJson(text, field.isList ? 'array' : 'object');
+    const parsed = parseJson(text, field.isList ? 'array' : 'object');
+    if (!parsed.ok) {
+      return parsed;
+    }
+    // Core keeps only the sub-fields the definition has and drops the rest
+    // without a word, so a key with the wrong case would vanish from the row.
+    const problem = groupProblem(field, parsed.value);
+    return problem === null
+      ? parsed
+      : refuse('INVALID_VALUE', problem.params, problem.text);
   }
   if (field.type === 'rich_text') {
     if (field.isList) {
       // A list of documents: [{ "content": Row[] }, ...]
-      return parseJson(text, 'array');
+      const parsed = parseJson(text, 'array');
+      if (!parsed.ok) {
+        return parsed;
+      }
+      const bad = (parsed.value as unknown[]).findIndex(
+        (item) => !isObject(item) || !Array.isArray(item.content)
+      );
+      return bad === -1
+        ? parsed
+        : refuse(
+            'INVALID_VALUE',
+            { reason: 'not_document', item: bad + 1 },
+            `has an item that is not a document (item ${
+              bad + 1
+            }): each one is {"content": [...]}.`
+          );
     }
     const rows = descriptionToRows(text, deps);
     return rows === null
@@ -57,6 +81,48 @@ export function convertMetafieldCell(
     values.push(converted.value);
   }
   return accept(values);
+}
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+// The first thing in the value of a group that its definition does not allow.
+function groupProblem(
+  field: MetafieldField,
+  value: unknown
+): { params: Record<string, unknown>; text: string } | null {
+  const defined = new Map(field.subFields.map((sub) => [sub.key, sub]));
+  for (const item of field.isList ? (value as unknown[]) : [value]) {
+    if (!isObject(item)) {
+      return {
+        params: { reason: 'not_object' },
+        text: 'must hold an object for each entry of the group.'
+      };
+    }
+    for (const [key, inner] of Object.entries(item)) {
+      const sub = defined.get(key);
+      if (!sub) {
+        return {
+          params: { reason: 'unknown_sub_field', key },
+          text: `has a key that is not a field of the group ("${key}"). The names of the fields are written as the definition has them, with their letter case.`
+        };
+      }
+      if (sub.type === 'group' && inner !== null && inner !== undefined) {
+        if (sub.isList && !Array.isArray(inner)) {
+          return {
+            params: { reason: 'not_array', key },
+            text: `has a field ("${key}") that must be a list.`
+          };
+        }
+        const found = groupProblem(sub, inner);
+        if (found) {
+          return found;
+        }
+      }
+    }
+  }
+  return null;
 }
 
 function convertScalar(
