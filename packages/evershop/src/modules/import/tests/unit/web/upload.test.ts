@@ -15,11 +15,14 @@ import type { WebHarness } from '../helpers/webHarness.js';
 let ctx: WebHarness;
 let server: http.Server;
 let port: number;
+// What the server answered, in order (a client that has left does not read it).
+const answered: number[] = [];
 
 beforeAll(async () => {
   server = http.createServer((request, response) => {
     uploadJob(ctx.web, request, response, 7).then((result: HttpResult) => {
       if (result.kind !== 'json') throw new Error('json expected');
+      answered.push(result.status);
       response.statusCode = result.status;
       response.setHeader('Content-Type', 'application/json');
       response.end(JSON.stringify(result.body));
@@ -145,6 +148,66 @@ describe('uploadJob: a request it refuses, and leaves nothing behind', () => {
     expect(answer.status).toBe(400);
     expect(answer.body.error.message).toContain('mode');
     await nothingLeft();
+  });
+
+  it.each([
+    [
+      'a field after the file',
+      (): Part[] => [file(), { name: 'mode', value: 'create' }]
+    ],
+    ['a second file', (): Part[] => [file(), file()]]
+  ])(
+    'with %s it does not touch the jobs that were there: the swap is made only for a request that is valid',
+    async (_name, after) => {
+      for (const there of [
+        { status: 'validated' as const },
+        { status: 'stopped' as const, startedAt: 5 },
+        { status: 'interrupted' as const, startedAt: 5 }
+      ]) {
+        ctx = makeWeb();
+        const old = ctx.store.insert({ entity: 'category', ...there });
+        // eslint-disable-next-line no-await-in-loop
+        const answer = await post(
+          multipart([{ name: 'entity', value: 'category' }, ...after()])
+        );
+        expect(answer.status).toBe(400);
+        // eslint-disable-next-line no-await-in-loop
+        const kept = await ctx.store.get(old.id);
+        expect(kept?.status).toBe(there.status);
+        // eslint-disable-next-line no-await-in-loop
+        expect((await ctx.store.listOpen()).map((j) => j.id)).toEqual([old.id]);
+      }
+    }
+  );
+
+  it('the client leaves in the middle of the body: 400 and no error in the log (it is not a fault of the store)', async () => {
+    ctx = makeWeb();
+    answered.length = 0;
+    const body = multipart([...fields(), file(Buffer.alloc(200_000, 65))]);
+    await new Promise<void>((resolve) => {
+      const request = http.request({
+        host: '127.0.0.1',
+        port,
+        method: 'POST',
+        path: '/',
+        headers: { 'Content-Type': 'multipart/form-data; boundary=BOUNDARY' }
+      });
+      request.on('error', () => undefined);
+      request.write(body.subarray(0, 50_000), () => {
+        request.destroy();
+        resolve();
+      });
+    });
+    // The server notices after a moment; it answers (to nobody) and keeps nothing.
+    for (let tries = 0; tries < 100 && answered.length === 0; tries += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((r) => {
+        setTimeout(r, 20);
+      });
+    }
+    expect(answered).toEqual([400]);
+    expect(await ctx.store.listOpen()).toEqual([]);
+    expect(ctx.logger.of('error')).toEqual([]);
   });
 
   it('there is no file', async () => {

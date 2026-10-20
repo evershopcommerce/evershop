@@ -177,12 +177,18 @@ export class PgJobAdmin implements JobAdmin {
       );
       // An entity never has more than one staged file: the file a finished job
       // kept for its download with errors goes too, and the job stays as history.
+      // The job says so (no chunks), or its page would offer a download that fails.
       await client.query(
-        `DELETE FROM import_job_file
-          WHERE import_job_id IN (
-            SELECT import_job_id FROM import_job
-             WHERE entity = $1
-               AND status IN ('completed','failed','canceled'))`,
+        `WITH dropped AS (
+           DELETE FROM import_job_file
+            WHERE import_job_id IN (
+              SELECT import_job_id FROM import_job
+               WHERE entity = $1
+                 AND status IN ('completed','failed','canceled'))
+            RETURNING import_job_id
+         )
+         UPDATE import_job SET chunk_count = NULL
+          WHERE import_job_id IN (SELECT import_job_id FROM dropped)`,
         [entity]
       );
       const updated = await client.query(

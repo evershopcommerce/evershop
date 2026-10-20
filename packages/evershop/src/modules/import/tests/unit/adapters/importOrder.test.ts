@@ -564,6 +564,74 @@ describeDb('importOrder on the core scratch database', () => {
         /known country/
       ));
     it('with no currency', () => nothing(order({ currency: '' }), /currency/));
+    it.each([
+      ['a price that is not a number', { price: Number.NaN }],
+      ['a price that is not finite', { price: Number.POSITIVE_INFINITY }],
+      ['a discount that is not a number', { discountAmount: Number.NaN }],
+      ['a discount above the line', { discountAmount: 31 }],
+      ['a price with tax that is not a number', { priceInclTax: Number.NaN }],
+      ['a negative tax percent', { taxPercent: -5 }],
+      ['a weight that is not a number', { weight: Number.NaN }],
+      [
+        'a price with tax and a tax percent that do not agree',
+        { priceInclTax: 12, taxPercent: 10 }
+      ]
+    ])('with %s', (_name, over) =>
+      nothing(
+        order({
+          items: [
+            { sku: 'HO-1', name: 'x', qty: 3, price: 10, ...(over as object) }
+          ]
+        }),
+        /number|more than the line|do not agree/
+      )
+    );
+    it('with a shipping fee that is not a number', () =>
+      nothing(
+        order({ shipping: { feeExclTax: Number.NaN } }),
+        /shipping fee without tax/
+      ));
+    it('with a payment amount that is not a number', () =>
+      nothing(
+        order({
+          transactions: [
+            { type: 'online', amount: Number.NaN, paymentAction: 'capture' }
+          ]
+        }),
+        /amount is not a number/
+      ));
+    it.each(['10001', '10050', '99999999'])(
+      'with the order number %s, which new orders will be given',
+      (orderNumber) => nothing(order({ orderNumber }), /new orders get/)
+    );
+  });
+
+  it('keeps an order number that new orders will not be given', async () => {
+    for (const orderNumber of ['10000', '0042', 'IMP-10050']) {
+      // eslint-disable-next-line no-await-in-loop
+      const kept = await service!.importOrder(order({ orderNumber }) as never);
+      expect(kept.orderNumber).toBe(orderNumber);
+    }
+  });
+
+  it('stores payments that have no gateway id, as many as there are', async () => {
+    const imported = await service!.importOrder(
+      order({
+        paymentStatus: 'paid',
+        transactions: [
+          { type: 'online', amount: 30, paymentAction: 'authorize' },
+          { type: 'online', amount: 30, paymentAction: 'capture' }
+        ]
+      }) as never
+    );
+    const saved = await q(
+      'SELECT transaction_id, payment_action FROM payment_transaction WHERE payment_transaction_order_id = $1 ORDER BY payment_transaction_id',
+      [imported.orderId]
+    );
+    expect(saved).toEqual([
+      { transaction_id: null, payment_action: 'authorize' },
+      { transaction_id: null, payment_action: 'capture' }
+    ]);
   });
 
   it('writes nothing when a hook fails after everything was written (one transaction)', async () => {

@@ -66,6 +66,21 @@ describe('Poller', () => {
       onFailure: (f, again) => failures.push([f.status, again])
     });
 
+  it('ignores the answer of an ask that was made before it was started again (a button brought a newer state)', async () => {
+    const src = source('hold', good(9));
+    const poller = make(src);
+    poller.start();
+    expect(src.calls).toHaveLength(1);
+    // A button was pressed: the page has the new state and starts the poller again with it.
+    poller.start(7);
+    // The old ask is answered late, with the old state.
+    await Promise.resolve();
+    src.release(good(1));
+    await settle();
+    expect(values).toEqual([]);
+    poller.stop();
+  });
+
   it('asks at once when it knows nothing, then every five seconds while the job goes on', async () => {
     const src = source(good(1), good(2), good(3));
     const poller = make(src);

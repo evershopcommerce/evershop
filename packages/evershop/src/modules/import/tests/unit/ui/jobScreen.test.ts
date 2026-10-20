@@ -141,6 +141,55 @@ describe('the state of the screen, with its buttons (§ 8.2)', () => {
     expect(screen.actions).toEqual(actions);
   });
 
+  it('does not offer the file with errors when the check could not read the whole file: the API answers 409', () => {
+    for (const code of [
+      'FILE_ENCODING',
+      'WRONG_DELIMITER',
+      'UNCLOSED_QUOTE',
+      'ROW_TOO_LARGE',
+      'FILE_TOO_LARGE'
+    ]) {
+      const screen = describeJob(
+        aJob({
+          status: 'validated',
+          counts: {
+            errors: 1,
+            byCode: { validate: { [code]: 1 }, import: {} }
+          }
+        }),
+        context()
+      );
+      expect(screen.state).toBe('invalid');
+      expect(screen.actions).toEqual(['recheck', 'uploadNew', 'delete']);
+    }
+    // Another problem keeps the download.
+    expect(
+      describeJob(
+        aJob({
+          status: 'validated',
+          counts: {
+            errors: 1,
+            byCode: { validate: { INVALID_VALUE: 1 }, import: {} }
+          }
+        }),
+        context()
+      ).actions
+    ).toContain('downloadErrors');
+  });
+
+  it('does not offer the file with errors when the file is not kept any more (a newer upload took its place)', () => {
+    const screen = describeJob(
+      aJob({
+        status: 'completed',
+        startedAt: '2026-10-19T09:00:30.000Z',
+        fileKept: false,
+        counts: { failed: 3 }
+      }),
+      context()
+    );
+    expect(screen.actions).toEqual(['delete']);
+  });
+
   it('never offers Delete on a job that is at work: the API refuses it (WRONG_STATUS)', () => {
     const active: JobStatus[] = [
       'uploading',
@@ -200,6 +249,24 @@ describe('the bar', () => {
     expect(second(0)).toEqual({ kind: 'file', pass: 2, percent: 50 });
     expect(second(500)).toEqual({ kind: 'file', pass: 2, percent: 75 });
     expect(second(1000)).toEqual({ kind: 'file', pass: 2, percent: 100 });
+  });
+
+  it('runs once from 0 to 100 over the two passes of the check at the start, which share one stage', () => {
+    const at = (bytesRead: number) =>
+      fileProgress(
+        aJob({
+          status: 'running',
+          stage: 'rechecking',
+          fileSize: 1000,
+          counts: { bytesRead }
+        })
+      );
+    expect(at(0)).toEqual({ kind: 'file', pass: 1, percent: 0 });
+    expect(at(500)).toEqual({ kind: 'file', pass: 1, percent: 25 });
+    expect(at(1000)).toEqual({ kind: 'file', pass: 1, percent: 50 });
+    // The second pass goes on from the size of the file.
+    expect(at(1500)).toEqual({ kind: 'file', pass: 2, percent: 75 });
+    expect(at(2000)).toEqual({ kind: 'file', pass: 2, percent: 100 });
   });
 
   it('stays within 0 and 100 when the byte count passes the size or the size is not known', () => {

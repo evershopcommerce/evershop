@@ -17,6 +17,9 @@ export function jobView(job: ImportJob, names: Map<number, string>) {
     cancelRequested: job.control === 'cancel',
     fileName: job.fileName,
     fileSize: job.fileSize,
+    // False when the file is not kept (a newer upload took its place, or it had
+    // nothing to give back): there is no file with errors to download then.
+    fileKept: job.chunkCount !== null,
     options: job.options,
     counts: job.counts,
     errorMessage: job.errorMessage,

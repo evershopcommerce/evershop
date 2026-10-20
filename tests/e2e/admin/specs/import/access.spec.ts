@@ -66,7 +66,10 @@ test.describe('logged in', () => {
   test('the job of the API has no id of the database, no hash and no worker', async ({ page }) => {
     const job = await insertJob({ entity: 'category', status: 'validated', fileName: 'e2e-imp-shape.csv' });
     const body = (await (await page.request.get(`/api/import-jobs/${job.uuid}`)).json()).data;
-    expect(Object.keys(body)).not.toEqual(expect.arrayContaining(['import_job_id', 'importJobId', 'fileSha256', 'worker', 'attempt']));
+    // Each one by itself: leaking any of them is a leak.
+    for (const key of ['import_job_id', 'importJobId', 'fileSha256', 'file_sha256', 'worker', 'attempt']) {
+      expect(Object.keys(body), key).not.toContain(key);
+    }
     expect(body.uuid).toBe(job.uuid);
   });
 });

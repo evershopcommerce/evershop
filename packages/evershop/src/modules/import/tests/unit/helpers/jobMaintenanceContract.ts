@@ -397,7 +397,8 @@ export function jobMaintenanceContract(
           const job = await h.insert({
             status,
             expiresAt: h.now() + h.retentionMs,
-            counts: counts(0, 0)
+            counts: counts(0, 0),
+            chunkCount: 3
           });
           await h.seedChunks(job.id, [bytes(1), bytes(2), bytes(3)]);
           // One job, not three chunks.
@@ -406,7 +407,11 @@ export function jobMaintenanceContract(
             filesDropped: 1
           });
           expect(await h.chunksOf(job.id)).toEqual([]);
-          expect(await h.admin.get(job.id)).toMatchObject({ status });
+          expect(await h.admin.get(job.id)).toMatchObject({
+            status,
+            // The job says it has no file any more.
+            chunkCount: null
+          });
           // Once is enough.
           expect(await m.cleanUp(UPLOAD_IDLE)).toEqual(none);
         }

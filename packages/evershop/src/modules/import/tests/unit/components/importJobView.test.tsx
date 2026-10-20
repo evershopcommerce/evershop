@@ -284,6 +284,31 @@ describe('the page of one import (jsdom)', () => {
       expect(container.querySelector('[data-action="cancel"]')).toBeNull();
     });
 
+    it('sends the cancel once when the button of the dialog is pressed twice (the dialog fades out under the pointer)', async () => {
+      const state = server(running);
+      await mount();
+      await click('cancel');
+      const release = hold('POST', URLS.cancelUrl);
+      state.job = aJob({ ...running, cancelRequested: true });
+      await act(async () => {
+        // Two presses before the answer of the first comes.
+        openAlert.mock.calls[0][0].secondaryAction.onAction();
+        openAlert.mock.calls[0][0].secondaryAction.onAction();
+        await settle();
+      });
+      expect(requests('POST', URLS.cancelUrl)).toHaveLength(1);
+      await act(async () => {
+        release(
+          json({
+            ...aJob({ ...running, cancelRequested: true }),
+            cancel: 'requested'
+          })
+        );
+        await settle();
+      });
+      expect(requests('POST', URLS.cancelUrl)).toHaveLength(1);
+    });
+
     it('does nothing when the admin keeps the import', async () => {
       server(running);
       await mount();

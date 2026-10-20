@@ -139,25 +139,35 @@ export default function ImportJobView(props: ImportJobViewProps) {
     return () => instance.stop();
   }, [api, urls.open, status]);
 
+  // The dialog of Cancel and Delete stays on screen while it fades out: a second
+  // click on its button must not send the call again (the second Cancel would be
+  // refused as a wrong status, the second Delete as a job that is not there).
+  const running = useRef(false);
   const run = async (action: keyof typeof CALLS) => {
-    setPending(action);
-    setRefusal(null);
-    const result = await CALLS[action](api, urls);
-    setPending(null);
-    if (!result.ok) {
-      setRefusal(refusalMessage(result.error));
-      // The job may have moved on without this page knowing (a worker, another admin).
-      poller.current?.refresh();
-      return;
+    if (running.current) return;
+    running.current = true;
+    try {
+      setPending(action);
+      setRefusal(null);
+      const result = await CALLS[action](api, urls);
+      setPending(null);
+      if (!result.ok) {
+        setRefusal(refusalMessage(result.error));
+        // The job may have moved on without this page knowing (a worker, another admin).
+        poller.current?.refresh();
+        return;
+      }
+      if (action === 'delete') {
+        toast.success(_('The import was deleted.'));
+        goTo(urls.grid);
+        return;
+      }
+      setJob(result.data);
+      // Restart the asking with the new state: a job that is at work again needs it.
+      poller.current?.start(result.data);
+    } finally {
+      running.current = false;
     }
-    if (action === 'delete') {
-      toast.success(_('The import was deleted.'));
-      goTo(urls.grid);
-      return;
-    }
-    setJob(result.data);
-    // Restart the asking with the new state: a job that is at work again needs it.
-    poller.current?.start(result.data);
   };
 
   const onAction = (action: ScreenAction) => {
