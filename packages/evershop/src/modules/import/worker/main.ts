@@ -2,6 +2,7 @@ import { hostname, setPriority } from 'os';
 import { headlessBoot } from '../../../bin/lib/bootstrap/headlessBoot.js';
 import { error as logError } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
+import { retentionMs } from '../adapters/importConfig.js';
 import { PgJobAdmin } from '../adapters/PgJobAdmin.js';
 import { PgJobRepository } from '../adapters/PgJobRepository.js';
 import { composeWorker } from './compose.js';
@@ -58,8 +59,8 @@ runWorkerProcess(process.argv[2], {
   compose: () => composeWorker(createCorePorts()),
   failUnstarted: (jobUuid, reason) =>
     failUnstarted(jobUuid, reason, {
-      admin: new PgJobAdmin(pool),
-      jobs: new PgJobRepository(pool),
+      admin: new PgJobAdmin(pool, { retentionMs: retentionMs() }),
+      jobs: new PgJobRepository(pool, { retentionMs: retentionMs() }),
       workerId
     }),
   workerId,

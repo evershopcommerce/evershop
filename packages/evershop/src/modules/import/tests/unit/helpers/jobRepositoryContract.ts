@@ -493,6 +493,57 @@ export function jobRepositoryContract(
         expect((await h.issues(id)).map((i) => i.phase)).toEqual(['validate']);
       });
 
+      it('keeps the problems of the rows it is told to keep, and clears the rest of the phase', async () => {
+        const { id, attempt } = await claimed({ status: 'queued' });
+        await repo.checkpoint(id, attempt, {
+          ...noWork,
+          issues: [
+            issue(4, 'error', 'import'),
+            issue(5, 'warning', 'import'),
+            issue(6, 'error', 'import'),
+            issue(null, 'error', 'import'),
+            issue(7, 'error', 'validate')
+          ]
+        });
+        expect(await repo.clearIssues(id, attempt, 'import', [4, 6])).toBe(
+          true
+        );
+        expect((await h.issues(id)).map((i) => [i.phase, i.rowNumber])).toEqual(
+          [
+            ['import', 4],
+            ['import', 6],
+            ['validate', 7]
+          ]
+        );
+      });
+
+      it('deletes, in the step that stores the new problems, the old problems of the rows it supersedes', async () => {
+        const { id, attempt } = await claimed({ status: 'queued' });
+        await repo.checkpoint(id, attempt, {
+          ...noWork,
+          issues: [
+            issue(4, 'error', 'import'),
+            issue(4, 'warning', 'import'),
+            issue(6, 'error', 'import'),
+            issue(8, 'error', 'import'),
+            issue(4, 'error', 'validate')
+          ]
+        });
+        await repo.checkpoint(id, attempt, {
+          ...noWork,
+          // Row 4 failed again and row 6 is done; row 8 is not reached yet.
+          issues: [{ ...issue(4, 'error', 'import'), code: 'WRITE_FAILED' }],
+          supersedes: [4, 6]
+        });
+        expect(
+          (await h.issues(id)).map((i) => [i.phase, i.rowNumber, i.code])
+        ).toEqual([
+          ['import', 8, 'INVALID_VALUE'],
+          ['validate', 4, 'INVALID_VALUE'],
+          ['import', 4, 'WRITE_FAILED']
+        ]);
+      });
+
       it('clears nothing from another job', async () => {
         const a = await claimed();
         const other = await h.insert({

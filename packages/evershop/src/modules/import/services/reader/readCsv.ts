@@ -151,7 +151,12 @@ function readHeader(cells: string[]): Header {
     columns.push(name);
     keep.push(index);
     if (name !== '') {
-      positions.set(name, [...(positions.get(name) ?? []), index + 1]);
+      const where = positions.get(name);
+      if (where === undefined) {
+        positions.set(name, [index + 1]);
+      } else {
+        where.push(index + 1);
+      }
     }
   });
   const issues: ImportIssue[] = [];
@@ -161,10 +166,12 @@ function readHeader(cells: string[]): Header {
         createIssue({
           code: 'DUPLICATE_COLUMN',
           column: name,
-          params: { column: name, positions: where },
-          message: `The column "${name}" appears more than once (columns ${where.join(
-            ', '
-          )}).`
+          params: { column: name, positions: where.slice(0, 20) },
+          message: `The column "${name}" appears more than once (columns ${where
+            .slice(0, 20)
+            .join(', ')}${
+            where.length > 20 ? `, and ${where.length - 20} more` : ''
+          }).`
         })
       );
     }

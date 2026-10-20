@@ -142,7 +142,8 @@ describe('fileWithErrors: row numbers are the rows of the file', () => {
 
   it('keeps the blank lines that come before the header', async () => {
     const text = await download('\n\na,b\n1,2\n', [issue(4, 'b', 'Bad.')]);
-    expect(text).toBe(`\r\n\r\n${BOM}a,b,_errors\r\n1,2,b: Bad.\r\n`);
+    // The byte order mark is the first thing in the file.
+    expect(text).toBe(`${BOM}\r\n\r\na,b,_errors\r\n1,2,b: Bad.\r\n`);
   });
 
   it('keeps a long run of blank lines', async () => {

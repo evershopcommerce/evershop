@@ -353,6 +353,19 @@ describe('readCsv: the header', () => {
     expect(result.rows).toHaveLength(1);
   });
 
+  it('finds the duplicates of a very wide header at once, and lists the first positions only', async () => {
+    const width = 200_000;
+    const header = Array.from({ length: width }, () => 'a').join(',');
+    const started = Date.now();
+    // One read: readAll cuts the input down to one byte per chunk, which is not what is measured here.
+    const result = await collect(chunked(`${header}\n1\n`));
+    expect(Date.now() - started).toBeLessThan(2000);
+    const dup = result.issues.filter((i) => i.code === 'DUPLICATE_COLUMN');
+    expect(dup).toHaveLength(1);
+    expect((dup[0].params.positions as number[]).length).toBe(20);
+    expect(dup[0].message.length).toBeLessThan(300);
+  });
+
   it('compares column names after trimming, and with letter case (names are case-sensitive)', async () => {
     const trimmed = await readAll('sku, sku \n1,2\n');
     expect(trimmed.issues.map((issue) => issue.code)).toEqual([

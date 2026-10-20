@@ -1,6 +1,7 @@
 import { MAX_FAILED_ROWS } from '../deps.js';
 import type { ImportDeps } from '../deps.js';
 import type { PageEntity } from '../ports/pageAddresses.js';
+import { isTransientDatabaseError } from '../retry.js';
 import type { ImportEntity } from '../types.js';
 import { indexFile } from '../validate/validateFile.js';
 import type { WriteOutcome } from '../write/categoryWriter.js';
@@ -209,12 +210,16 @@ export async function runImport(
 
     // A resumed run writes again the rows that failed or were skipped, and
     // then the units after the last one that was saved. The old problems of
-    // the import go; the ones of this run replace them.
+    // the import go, except those of the rows still to write again: each of
+    // those goes in the checkpoint that records the row's new outcome, so a
+    // run that ends before it gets to a row leaves it for the next resume.
     const lastUnitBefore = counts.lastUnit;
     let retryRows = new Set<number>();
     if (resumed) {
       retryRows = await deps.jobs.errorRows(jobId, 'import');
-      if (!(await deps.jobs.clearIssues(jobId, attempt, 'import'))) {
+      if (
+        !(await deps.jobs.clearIssues(jobId, attempt, 'import', [...retryRows]))
+      ) {
         return await session.abandon();
       }
     }
@@ -240,6 +245,9 @@ export async function runImport(
     });
     for await (const outcome of writing) {
       recordOutcome(session, outcome);
+      if (retryRows.has(outcome.rowNumber)) {
+        session.supersede(outcome.rowNumber);
+      }
       if (outcome.result === 'failed') {
         failedThisRun += 1;
         if (failedThisRun >= MAX_FAILED_ROWS) {
@@ -258,6 +266,17 @@ export async function runImport(
       job: jobId,
       error: String((error as Error)?.message ?? error)
     });
+    if (isTransientDatabaseError(error)) {
+      // A hiccup of the database outside a row (the reads a batch starts with,
+      // the plan): what was written stays and the job can be resumed, as with a
+      // row that failed the same way (D-20).
+      return session.finish(
+        'interrupted',
+        `The import was interrupted by an error of the database: ${String(
+          (error as Error)?.message ?? error
+        )}. Resume it.`.slice(0, 1000)
+      );
+    }
     return session.finish('failed', failureMessage(error));
   }
 }

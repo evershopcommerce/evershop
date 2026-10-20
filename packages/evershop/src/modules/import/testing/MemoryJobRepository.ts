@@ -189,11 +189,18 @@ export class MemoryJobRepository implements JobRepository {
   async clearIssues(
     jobId: number,
     attempt: number,
-    phase: IssuePhase
+    phase: IssuePhase,
+    keepRows: readonly number[] = []
   ): Promise<boolean> {
     if (!this.fenced(jobId, attempt)) return false;
+    const keep = new Set(keepRows);
     this.rows = this.rows.filter(
-      (row) => !(row.jobId === jobId && row.phase === phase)
+      (row) =>
+        !(
+          row.jobId === jobId &&
+          row.phase === phase &&
+          (row.rowNumber === null || !keep.has(row.rowNumber))
+        )
     );
     return true;
   }
@@ -212,6 +219,21 @@ export class MemoryJobRepository implements JobRepository {
     job.counts = cloneCounts(checkpoint.counts);
     if (checkpoint.stage !== undefined) job.stage = checkpoint.stage;
     job.heartbeatAt = this.clock.now();
+    if (
+      checkpoint.supersedes !== undefined &&
+      checkpoint.supersedes.length > 0
+    ) {
+      const replaced = new Set(checkpoint.supersedes);
+      this.rows = this.rows.filter(
+        (row) =>
+          !(
+            row.jobId === jobId &&
+            row.phase === 'import' &&
+            row.rowNumber !== null &&
+            replaced.has(row.rowNumber)
+          )
+      );
+    }
     for (const issue of checkpoint.issues) {
       this.rows.push({ ...issue, jobId });
     }

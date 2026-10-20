@@ -19,6 +19,12 @@ export interface NodeWorkerPoolOptions {
   execPath?: string;
   /** The environment the worker starts with; this process's by default. */
   env?: NodeJS.ProcessEnv;
+  /**
+   * The limits the worker's database connections get (S6): only the worker's
+   * environment sets them, so that it fails fast and does not queue behind a
+   * storefront lock. A limit that is not given is not set.
+   */
+  databaseTimeouts?: { lockMs?: number; statementMs?: number };
   /** For a test. */
   spawn?: SpawnFn;
 }
@@ -32,7 +38,9 @@ export interface NodeWorkerPoolOptions {
  *   of this process goes, as it does for the event and cron processes;
  * - the memory ceiling as an argument, and `ALLOW_CONFIG_MUTATIONS=true`, which
  *   the bootstrap of the modules needs and the event process has switched off
- *   after its own boot (`startSubscriberProcess` sets it for the same reason).
+ *   after its own boot (`startSubscriberProcess` sets it for the same reason);
+ * - the database limits of S6 (`DB_LOCK_TIMEOUT_MS`), read by `connection.ts`
+ *   when the worker loads it, which is why they are set here and not in `main`.
  *
  * It counts the workers it has started that have not ended, for the limit of
  * `maxWorkersPerInstance`. A worker of an earlier event process is not counted.
@@ -57,7 +65,17 @@ export class NodeWorkerPool implements WorkerPool {
         stdio: ['ignore', 'inherit', 'inherit'],
         env: {
           ...(options.env ?? process.env),
-          ALLOW_CONFIG_MUTATIONS: 'true'
+          ALLOW_CONFIG_MUTATIONS: 'true',
+          ...(options.databaseTimeouts?.lockMs === undefined
+            ? {}
+            : { DB_LOCK_TIMEOUT_MS: String(options.databaseTimeouts.lockMs) }),
+          ...(options.databaseTimeouts?.statementMs === undefined
+            ? {}
+            : {
+                DB_STATEMENT_TIMEOUT_MS: String(
+                  options.databaseTimeouts.statementMs
+                )
+              })
         }
       }
     );

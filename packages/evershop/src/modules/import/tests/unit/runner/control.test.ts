@@ -85,6 +85,32 @@ describe('the heartbeat (§ 8.4)', () => {
     expect(h.jobs.snapshot(1).status).toBe('validated');
   });
 
+  it('writes the last problems when the one write of a short run fails: the end of the run tries again', async () => {
+    // No tick comes (the run takes no time), so the write at the end is the only one.
+    const h = harness();
+    h.stage(BAD_STATUS);
+    h.jobs.failNextCheckpoints(1);
+    await runValidation(1, h.deps);
+    expect(h.jobs.issues(1).map((i) => i.code)).toEqual(['INVALID_VALUE']);
+    expect(h.jobs.snapshot(1)).toMatchObject({ status: 'validated' });
+    expect(h.jobs.snapshot(1).counts.errors).toBe(1);
+  });
+
+  it('does not store a final status over problems it could not write: the job is left for recovery', async () => {
+    const h = harness();
+    h.stage(BAD_STATUS);
+    h.jobs.failNextCheckpoints(10);
+    const result = await runValidation(1, h.deps);
+    expect(result.outcome).toBe('interrupted');
+    // Still `validating`, with the counts of the last good checkpoint: the heartbeat stops
+    // and the recovery job marks it `interrupted`.
+    expect(h.jobs.snapshot(1).status).toBe('validating');
+    expect(h.jobs.snapshot(1).counts.errors).toBe(0);
+    expect(h.logger.of('error').map((l) => l.message)).toContain(
+      'The last problems could not be written'
+    );
+  });
+
   it('stops the timer when the run ends, however it ends', async () => {
     for (const how of ['ok', 'fail'] as const) {
       const h = harness();

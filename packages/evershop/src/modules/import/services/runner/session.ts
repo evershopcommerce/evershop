@@ -10,6 +10,7 @@ import type {
 } from '../job/types.js';
 import type { ImportJob } from '../job/types.js';
 import type { CsvLimits } from '../reader/readCsv.js';
+import { RETRY_WAITS_MS } from '../retry.js';
 import { IssueSink } from './issueSink.js';
 
 /** How a run ended; the caller (the worker's `main`) turns it into an exit code. */
@@ -107,6 +108,9 @@ export class Session {
 
   private readonly owned = { validate: false, import: false };
 
+  /** Rows written again by a resumed run, whose old problems the next checkpoint replaces. */
+  private superseded: number[] = [];
+
   private chain: Promise<unknown> = Promise.resolve();
 
   private readonly onAbort = () => this.control.stop('interrupted');
@@ -163,12 +167,19 @@ export class Session {
     }
     const validate = this.sinks.validate.take();
     const imported = this.sinks.import.take();
+    const superseded = this.superseded;
+    this.superseded = [];
     const counts = this.currentCounts();
     try {
       const result = await this.deps.jobs.checkpoint(
         this.job.id,
         this.attempt,
-        { counts, stage: this.stage, issues: [...validate, ...imported] }
+        {
+          counts,
+          stage: this.stage,
+          issues: [...validate, ...imported],
+          supersedes: superseded
+        }
       );
       if (!result.ok) {
         this.control.stop('lost');
@@ -181,6 +192,7 @@ export class Session {
     } catch (error) {
       this.sinks.validate.restore(validate);
       this.sinks.import.restore(imported);
+      this.superseded = [...superseded, ...this.superseded];
       this.deps.logger.warn('The heartbeat could not be written', {
         job: this.job.id,
         error: String((error as Error)?.message ?? error)
@@ -209,6 +221,11 @@ export class Session {
       });
       return true;
     }
+  }
+
+  /** A resumed run wrote this row again: its old problems go with the next checkpoint. */
+  supersede(rowNumber: number): void {
+    this.superseded.push(rowNumber);
   }
 
   /**
@@ -286,8 +303,29 @@ export class Session {
         text = 'The worker was stopped before it finished.';
       }
     }
-    if (!(await this.flush()) && this.control.reason === 'lost') {
+    // The last problems and the counts go in one step (§ 8.4). A write that
+    // failed is tried again; a job whose last step cannot be stored is left as it
+    // is: it stops beating, recovery marks it `interrupted`, and a resume starts
+    // from the last place that was stored with its problems.
+    let flushed = await this.flush();
+    for (const wait of RETRY_WAITS_MS) {
+      if (flushed || this.control.reason === 'lost') {
+        break;
+      }
+      await this.deps.clock.sleep(wait);
+      flushed = await this.flush();
+    }
+    if (this.control.reason === 'lost') {
       return { outcome: 'lost' };
+    }
+    if (!flushed) {
+      this.deps.logger.error('The last problems could not be written', {
+        job: this.job.id
+      });
+      return {
+        outcome: 'interrupted',
+        message: 'The last problems could not be written.'
+      };
     }
     const done = await this.deps.jobs.finish(
       this.job.id,

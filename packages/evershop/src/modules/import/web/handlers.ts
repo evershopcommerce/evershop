@@ -197,11 +197,15 @@ export const downloadFileWithErrors = (
       );
     }
     for (const code of READING_STOPPED_CODES) {
-      const found = await web.service.issues(job.id, {
-        phase: 'validate',
-        code,
-        limit: 1
-      });
+      // Counted when it was found, kept or not (a job over the cap on stored problems).
+      const counted = (job.counts.byCode.validate[code] ?? 0) > 0;
+      const found = counted
+        ? { total: 1 }
+        : await web.service.issues(job.id, {
+            phase: 'validate',
+            code,
+            limit: 1
+          });
       if (found.total > 0) {
         throw unavailable(
           'The check could not read the whole file, so there is no copy to give. Fix the file and upload it again.'

@@ -11,6 +11,38 @@ const issue = (rowNumber?: number) =>
     message: 'm'
   });
 
+describe('IssueSink: the problems of the file as a whole', () => {
+  it('keeps them beyond the cap on the problems of rows, up to a number of their own', () => {
+    const sink = new IssueSink('validate', 2);
+    sink.add(issue(2), 'a');
+    sink.add(issue(3), 'b');
+    sink.add(issue(4), 'c');
+    sink.add(issue(), null);
+    const taken = sink.take();
+    expect(taken.map((i) => i.rowNumber)).toEqual([2, 3, null]);
+    // The rows that were not kept are still said to be missing.
+    expect(sink.truncated).toBe(true);
+    expect(sink.firstUnlistedRow).toBe(4);
+  });
+
+  it('does not let them use the room of the rows', () => {
+    const sink = new IssueSink('validate', 2);
+    sink.add(issue(), null);
+    sink.add(issue(2), 'a');
+    sink.add(issue(3), 'b');
+    expect(sink.take()).toHaveLength(3);
+    expect(sink.truncated).toBe(false);
+  });
+
+  it('keeps no more than a hundred of them', () => {
+    const sink = new IssueSink('validate', 1);
+    for (let i = 0; i < 150; i += 1) sink.add(issue(), null);
+    expect(sink.take()).toHaveLength(100);
+    expect(sink.truncated).toBe(true);
+    expect(sink.firstUnlistedRow).toBeNull();
+  });
+});
+
 describe('IssueSink: the cap (§ 8.4)', () => {
   it('keeps what is under the cap and says nothing is missing', () => {
     const sink = new IssueSink('validate', 2);
@@ -47,7 +79,8 @@ describe('IssueSink: the cap (§ 8.4)', () => {
     const sink = new IssueSink('validate', 1);
     sink.add(issue(2), 'a');
     sink.add(issue(), null);
-    expect(sink.truncated).toBe(true);
+    // It is kept, so nothing is missing.
+    expect(sink.truncated).toBe(false);
     expect(sink.firstUnlistedRow).toBeNull();
     sink.add(issue(7), 'c');
     expect(sink.firstUnlistedRow).toBe(7);

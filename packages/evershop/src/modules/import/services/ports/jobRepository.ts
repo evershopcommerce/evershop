@@ -13,6 +13,14 @@ export interface Checkpoint {
   counts: JobCounts;
   stage?: JobStage | null;
   issues: StoredIssue[];
+  /**
+   * Rows of the import whose earlier problems are replaced by what this
+   * checkpoint says about them (a resumed run that wrote them again): their old
+   * problems are deleted in the same step that stores the new ones, so a run
+   * that ends before it reaches a row leaves that row's problem for the next
+   * resume to retry.
+   */
+  supersedes?: number[];
 }
 
 export interface FinishPatch {
@@ -50,11 +58,16 @@ export interface JobRepository {
     worker: string
   ): Promise<number | null>;
 
-  /** Entering `validating` and the check at the start begin from row 1. */
+  /**
+   * Entering `validating` and the check at the start begin from row 1. A resumed
+   * import keeps the problems of the rows it has yet to write again (`keepRows`);
+   * a checkpoint deletes them one by one (`Checkpoint.supersedes`).
+   */
   clearIssues(
     jobId: number,
     attempt: number,
-    phase: IssuePhase
+    phase: IssuePhase,
+    keepRows?: readonly number[]
   ): Promise<boolean>;
 
   /**

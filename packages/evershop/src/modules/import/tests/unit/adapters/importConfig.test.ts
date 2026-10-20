@@ -13,6 +13,7 @@ const {
   imageConcurrency,
   importFlag,
   importSetting,
+  lockTimeoutMs,
   maxFileBytes,
   maxWorkersPerInstance,
   retentionMs,
@@ -44,7 +45,20 @@ afterEach(() => {
     workerMemoryMb: undefined,
     eventBacklogHigh: undefined,
     eventBacklogLow: undefined,
-    eventBacklogMaxWaitMinutes: undefined
+    eventBacklogMaxWaitMinutes: undefined,
+    lockTimeoutSeconds: undefined
+  });
+});
+
+describe('lockTimeoutMs', () => {
+  it('is 10 seconds by default, follows lockTimeoutSeconds, and falls back for a value that is not a positive number', () => {
+    expect(lockTimeoutMs()).toBe(10_000);
+    set({ lockTimeoutSeconds: 2.5 });
+    expect(lockTimeoutMs()).toBe(2500);
+    set({ lockTimeoutSeconds: 0 });
+    expect(lockTimeoutMs()).toBe(10_000);
+    set({ lockTimeoutSeconds: -4 });
+    expect(lockTimeoutMs()).toBe(10_000);
   });
 });
 
