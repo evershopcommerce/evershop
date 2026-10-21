@@ -14,6 +14,8 @@ import {
   PRD_19,
   PRD_24
 } from '../../rules/productRules.js';
+import { say } from '../../say.js';
+import type { Say } from '../../say.js';
 import type { ImportIssue } from '../../types.js';
 import type { ConvertedRow } from '../definition.js';
 import type { ProductData } from './productValidator.js';
@@ -104,8 +106,7 @@ export function indexVariants(
           rowNumber,
           column: 'variant_axes',
           params: { reason: 'no_group' },
-          message:
-            'variant_axes is given without a variant_group, so the product is not part of a variant group.',
+          message: say`variant_axes is given without a variant_group, so the product is not part of a variant group.`,
           value: axes.join('|')
         })
       );
@@ -119,7 +120,7 @@ export function indexVariants(
         rowNumber,
         column: 'variant_group',
         params: { group: label },
-        message: `The rows of the variant group "${label}" are not next to each other. Put them together in the file.`,
+        message: say`The rows of the variant group "${label}" are not next to each other. Put them together in the file.`,
         value: label
       })
     );
@@ -127,7 +128,7 @@ export function indexVariants(
   state.seen.add(label);
   state.last = label;
 
-  const bad = (reason: string, message: string) => {
+  const bad = (reason: string, message: Say) => {
     issues.push(
       PRD_13.issue({
         rowNumber,
@@ -142,17 +143,17 @@ export function indexVariants(
   if (axes.length === 0) {
     bad(
       'missing',
-      `The variant group "${label}" needs variant_axes: the attributes its products differ by, such as color|size.`
+      say`The variant group "${label}" needs variant_axes: the attributes its products differ by, such as color|size.`
     );
     return issues;
   }
   if (axes.length > MAX_AXES) {
-    bad('too_many', `A variant group has at most ${MAX_AXES} axes.`);
+    bad('too_many', say`A variant group has at most ${MAX_AXES} axes.`);
     return issues;
   }
   const duplicate = axes.find((code, at) => axes.indexOf(code) !== at);
   if (duplicate !== undefined) {
-    bad('duplicate', `The axis "${duplicate}" is listed twice.`);
+    bad('duplicate', say`The axis "${duplicate}" is listed twice.`);
     return issues;
   }
   const first = state.axes.get(label);
@@ -161,7 +162,7 @@ export function indexVariants(
   } else if (!sameSet(first.list, axes)) {
     bad(
       'differs',
-      `The axes of the variant group "${label}" differ from those of row ${first.row}. Every row of a group names the same axes.`
+      say`The axes of the variant group "${label}" differ from those of row ${first.row}. Every row of a group names the same axes.`
     );
   }
   return issues;
@@ -216,7 +217,7 @@ export async function checkVariantRow(
         rowNumber,
         column: 'attribute_group',
         params: { stored: stored.variantGroupId },
-        message: `The product "${stored.sku}" is a member of a stored variant group, so its attribute group cannot change alone. Change it for every member, with the column variant_group.`,
+        message: say`The product "${stored.sku}" is a member of a stored variant group, so its attribute group cannot change alone. Change it for every member, with the column variant_group.`,
         value: data.attribute_group
       })
     );
@@ -259,7 +260,7 @@ export async function checkVariantRow(
           rowNumber,
           column: `attr:${code}`,
           params: { axis: code, group: label },
-          message: `The product "${sku}" is a member of the variant group "${label}" and needs a value for its axis "${code}".`
+          message: say`The product "${sku}" is a member of the variant group "${label}" and needs a value for its axis "${code}".`
         })
       );
     }
@@ -323,7 +324,7 @@ function checkAxes(
   bad: Set<string>
 ): ImportIssue[] {
   const issues: ImportIssue[] = [];
-  const problem = (axis: string, reason: string, message: string) => {
+  const problem = (axis: string, reason: string, message: Say) => {
     bad.add(axis);
     issues.push(
       PRD_14.issue({
@@ -341,19 +342,19 @@ function checkAxes(
       problem(
         code,
         'not_found',
-        `The axis "${code}" of the variant group "${label}" is not an attribute of the store.`
+        say`The axis "${code}" of the variant group "${label}" is not an attribute of the store.`
       );
     } else if (attribute.type !== 'select') {
       problem(
         code,
         'not_select',
-        `The axis "${code}" of the variant group "${label}" must be an attribute of type select.`
+        say`The axis "${code}" of the variant group "${label}" must be an attribute of type select.`
       );
     } else if (ctx.groupId !== null && !ctx.linked(attribute.id)) {
       problem(
         code,
         'not_in_group',
-        `The axis "${code}" of the variant group "${label}" is not linked to the attribute group of the products.`
+        say`The axis "${code}" of the variant group "${label}" is not linked to the attribute group of the products.`
       );
     }
   }
@@ -379,7 +380,7 @@ function compareShared(
         rowNumber,
         column,
         params: { group: run.label, firstRow: run.firstRow, field: column },
-        message: `The product "${sku}" has a different ${what} from the first member of the variant group "${run.label}" (row ${run.firstRow}). All members must have the same.`
+        message: say`The product "${sku}" has a different ${what} from the first member of the variant group "${run.label}" (row ${run.firstRow}). All members must have the same.`
       })
     );
   if (
@@ -435,7 +436,7 @@ async function checkStoredGroup(
         rowNumber,
         column: 'variant_group',
         params: { group: label, firstRow: run.storedGroup.row },
-        message: `The product "${stored.sku}" is in another stored variant group than the member in row ${run.storedGroup.row}. The import never moves a product from one group to another.`,
+        message: say`The product "${stored.sku}" is in another stored variant group than the member in row ${run.storedGroup.row}. The import never moves a product from one group to another.`,
         value: label
       })
     );
@@ -452,7 +453,7 @@ async function checkStoredGroup(
         rowNumber,
         column: 'variant_group',
         params: { group: label, other: owner },
-        message: `The variant groups "${owner}" and "${label}" of the file are the same group in the store. Give them one label.`,
+        message: say`The variant groups "${owner}" and "${label}" of the file are the same group in the store. Give them one label.`,
         value: label
       })
     );
@@ -467,7 +468,7 @@ async function checkStoredGroup(
   if (!group) {
     return issues;
   }
-  const inconsistent = (column: string, message: string) =>
+  const inconsistent = (column: string, message: Say) =>
     issues.push(
       PRD_18.issue({
         code: 'VARIANT_INCONSISTENT',
@@ -481,7 +482,7 @@ async function checkStoredGroup(
   if (!sameSet(group.axisCodes.map(lower), run.axes)) {
     inconsistent(
       'variant_axes',
-      `The stored variant group of "${
+      say`The stored variant group of "${
         stored.sku
       }" has the axes ${group.axisCodes.join(
         ', '
@@ -491,7 +492,7 @@ async function checkStoredGroup(
   if (ctx.groupId !== null && group.attributeGroupId !== ctx.groupId) {
     inconsistent(
       'attribute_group',
-      `The stored variant group of "${stored.sku}" belongs to another attribute group than the one of the file.`
+      say`The stored variant group of "${stored.sku}" belongs to another attribute group than the one of the file.`
     );
   }
   const stock = group.members.find((m) => m.packageId !== null)?.packageId;
@@ -502,7 +503,7 @@ async function checkStoredGroup(
   ) {
     inconsistent(
       'package',
-      `The members of the stored variant group of "${stored.sku}" have another package than the one of the file.`
+      say`The members of the stored variant group of "${stored.sku}" have another package than the one of the file.`
     );
   }
   for (const member of group.members) {
@@ -547,7 +548,7 @@ export function closeRun(state: VariantState): ImportIssue[] {
             combination: member.combo,
             other: other.sku
           },
-          message: `The product "${
+          message: say`The product "${
             member.sku
           }" has the same values for the axes (${run.axes.join(', ')}) as "${
             other.sku

@@ -8,6 +8,7 @@ import type {
   JobStatus,
   StoredIssue
 } from '../services/job/types.js';
+import type { SayData } from '../services/say.js';
 import type { ImportEntity, ImportMode } from '../services/types.js';
 
 /**
@@ -85,7 +86,11 @@ export function toJob(row: Record<string, any>): ImportJob {
   };
 }
 
+/** Where the template of a sentence is kept: inside the parameters of the problem. */
+export const SAY_KEY = '__say';
+
 export function toIssue(row: Record<string, any>): StoredIssue {
+  const { [SAY_KEY]: say, ...params } = row.params ?? {};
   return {
     phase: row.phase as IssuePhase,
     rowNumber: row.row_number,
@@ -93,8 +98,9 @@ export function toIssue(row: Record<string, any>): StoredIssue {
     column: row.column_name,
     code: row.code,
     severity: row.severity,
-    params: row.params ?? {},
+    params,
     message: row.message,
+    ...(say ? { say: say as SayData } : {}),
     value: row.value
   };
 }

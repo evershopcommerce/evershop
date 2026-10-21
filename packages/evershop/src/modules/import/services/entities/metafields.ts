@@ -4,6 +4,7 @@ import { cellMessage } from '../cells/parsers.js';
 import type { StoredMetafield } from '../ports/lookup.js';
 import { ALL_11 } from '../rules/allRules.js';
 import { MET_01, MET_02, MET_04 } from '../rules/metafieldRules.js';
+import { say } from '../say.js';
 import type { ImportIssue } from '../types.js';
 
 /** `{namespace: {key: value}}`, the form core stores and takes. */
@@ -60,7 +61,7 @@ export function readMetafields(args: {
           rowNumber,
           column,
           params: { field: key },
-          message: `The value in column "${column}" is not valid: ${checked.message}`,
+          message: say`The value in column "${column}" is not valid: ${checked.message}`,
           value: text
         })
       );
@@ -102,7 +103,7 @@ export function missingRequired(args: {
           rowNumber,
           column: columnOf(key),
           params: { field: key },
-          message: `The custom field "${key}" is required and "${args.key}" has no value for it.`
+          message: say`The custom field "${key}" is required and "${args.key}" has no value for it.`
         })
       );
     }

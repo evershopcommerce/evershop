@@ -27,6 +27,8 @@ import {
 import { ALL_16 } from '../rules/allRules.js';
 import { IMP_01, IMP_02, IMP_04, IMP_05 } from '../rules/importPhaseRules.js';
 import { PRD_07, PRD_18, PRD_28 } from '../rules/productRules.js';
+import { say } from '../say.js';
+import type { Say } from '../say.js';
 import { slugify } from '../slug.js';
 import type { ImportIssue } from '../types.js';
 import type { WriteOutcome, WriteResult } from './categoryWriter.js';
@@ -77,7 +79,7 @@ function failure(error: unknown, row: ProductRow): ImportIssue {
       rowNumber,
       column: 'sku',
       params: { constraint: 'PRODUCT_SKU_UNIQUE' },
-      message: `The sku "${key}" is already used by another product.`,
+      message: say`The sku "${key}" is already used by another product.`,
       value: key as string
     });
   }
@@ -86,7 +88,7 @@ function failure(error: unknown, row: ProductRow): ImportIssue {
       rowNumber,
       column: 'url_key',
       params: { constraint: 'PRODUCT_URL_KEY_UNIQUE' },
-      message: `The url_key of the product "${key}" is already used by another product.`
+      message: say`The url_key of the product "${key}" is already used by another product.`
     });
   }
   if (e?.code === '23505') {
@@ -96,13 +98,13 @@ function failure(error: unknown, row: ProductRow): ImportIssue {
         constraint: typeof e.constraint === 'string' ? e.constraint : undefined,
         sqlState: '23505'
       },
-      message: `A value of the product "${key}" is already used by another record.`
+      message: say`A value of the product "${key}" is already used by another record.`
     });
   }
   return IMP_01.issue({
     rowNumber,
     params: typeof e?.code === 'string' ? { sqlState: e.code } : {},
-    message: `The product "${key}" could not be saved: ${message}`
+    message: say`The product "${key}" could not be saved: ${message}`
   });
 }
 
@@ -256,7 +258,7 @@ export async function* writeProducts(
             rowNumber: row.rowNumber,
             column: 'variant_group',
             params: { group: label, firstRow: dependencyFailed },
-            message: `Row ${row.rowNumber} was skipped because the first member of the variant group "${label}" could not be saved.`,
+            message: say`Row ${row.rowNumber} was skipped because the first member of the variant group "${label}" could not be saved.`,
             value: label as string
           })
         );
@@ -269,7 +271,7 @@ export async function* writeProducts(
             rowNumber: row.rowNumber,
             column: 'variant_group',
             params: { group: label },
-            message: `The members of the variant group "${label}" are in different variant groups in the store now. The import never moves a product between groups.`,
+            message: say`The members of the variant group "${label}" are in different variant groups in the store now. The import never moves a product between groups.`,
             value: label as string
           })
         );
@@ -337,7 +339,7 @@ export async function* writeProducts(
           rowNumber,
           column: 'sku',
           params: { key },
-          message: `The product "${key}" already exists, and this import only creates new ones.`,
+          message: say`The product "${key}" already exists, and this import only creates new ones.`,
           value: key
         })
       );
@@ -349,7 +351,7 @@ export async function* writeProducts(
           rowNumber,
           column: 'sku',
           params: { key },
-          message: `The product "${key}" does not exist, and this import only updates existing ones.`,
+          message: say`The product "${key}" does not exist, and this import only updates existing ones.`,
           value: key
         })
       );
@@ -472,7 +474,7 @@ export async function* writeProducts(
         return {
           result: 'failed',
           issues: [
-            partial(error, row, 'saved, but not put in its variant group')
+            partial(error, row, say`saved, but not put in its variant group`)
           ],
           group: madeGroup
         };
@@ -489,7 +491,7 @@ export async function* writeProducts(
       } catch (error) {
         return {
           result: 'failed',
-          issues: [partial(error, row, 'saved, but its redirects were not')],
+          issues: [partial(error, row, say`saved, but its redirects were not`)],
           group: madeGroup,
           joined: label !== null
         };
@@ -513,12 +515,12 @@ export async function* writeProducts(
 }
 
 // A row that ended half done (IMP-05): the product is saved, a later step is not.
-function partial(error: unknown, row: ProductRow, what: string): ImportIssue {
+function partial(error: unknown, row: ProductRow, what: Say): ImportIssue {
   const message = String((error as { message?: unknown })?.message ?? error);
   return IMP_05.issue({
     rowNumber: row.rowNumber,
-    params: { step: what },
-    message: `The product "${row.key}" ${what}: ${message}. Run the import again to complete it.`
+    params: { step: String(what) },
+    message: say`The product "${row.key}" ${what}: ${message}. Run the import again to complete it.`
   });
 }
 
@@ -538,7 +540,7 @@ function createInput(
         rowNumber,
         column: 'url_key',
         params: { reason: 'cannot_derive' },
-        message: `The url_key cannot be made from the name of the product "${row.key}".`
+        message: say`The url_key cannot be made from the name of the product "${row.key}".`
       })
     };
   }
@@ -565,7 +567,7 @@ function createInput(
           rowNumber,
           column: 'package',
           params: { reason: 'no_default_package' },
-          message: `The product "${row.key}" is shipped, has no package, and the store has no default package.`
+          message: say`The product "${row.key}" is shipped, has no package, and the store has no default package.`
         })
       };
     }
@@ -621,7 +623,7 @@ function updateInput(
             rowNumber,
             column: 'package',
             params: { reason: 'no_default_package' },
-            message: `The product "${row.key}" is shipped, has no package, and the store has no default package.`
+            message: say`The product "${row.key}" is shipped, has no package, and the store has no default package.`
           })
         };
       }

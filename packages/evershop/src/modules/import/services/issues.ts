@@ -1,3 +1,4 @@
+import { Say } from './say.js';
 import type { ImportIssue, ImportSeverity } from './types.js';
 
 /**
@@ -102,7 +103,8 @@ function truncate(text: string, max: number): string {
 
 export interface IssueInput {
   code: ImportIssueCode;
-  message: string;
+  /** A `say` sentence can be said in the admin's language; a plain text stays as it is. */
+  message: string | Say;
   params?: Record<string, unknown>;
   /** Default: the code's own severity. */
   severity?: ImportSeverity;
@@ -121,8 +123,11 @@ export function createIssue(input: IssueInput): ImportIssue {
     code: input.code,
     severity: input.severity ?? defaultSeverity(input.code),
     params: input.params ?? {},
-    message: truncate(withoutNul(input.message), MAX_MESSAGE_LENGTH)
+    message: truncate(withoutNul(String(input.message)), MAX_MESSAGE_LENGTH)
   };
+  if (input.message instanceof Say) {
+    issue.say = input.message.data();
+  }
   if (input.rowNumber !== undefined) {
     issue.rowNumber = input.rowNumber;
   }

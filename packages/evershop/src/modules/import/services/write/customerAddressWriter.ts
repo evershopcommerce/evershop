@@ -23,6 +23,7 @@ import { isTransientDatabaseError, withRetries } from '../retry.js';
 import { ALL_21 } from '../rules/allRules.js';
 import { ADR_01 } from '../rules/customerAddressRules.js';
 import { IMP_01 } from '../rules/importPhaseRules.js';
+import { say } from '../say.js';
 import type { ImportIssue } from '../types.js';
 import type { WriteOutcome, WriteResult } from './categoryWriter.js';
 
@@ -160,7 +161,7 @@ export async function* writeCustomerAddresses(
           rowNumber,
           column: 'email',
           params: { reference: 'customer', value: email },
-          message: `There is no customer with the e-mail "${email}" any more.`,
+          message: say`There is no customer with the e-mail "${email}" any more.`,
           value: email
         })
       );
@@ -172,7 +173,7 @@ export async function* writeCustomerAddresses(
           rowNumber,
           column: 'email',
           params: { reference: 'email', value: email, matches: matches.length },
-          message: `The e-mail "${email}" matches ${matches.length} customers of the store that differ only in letter case, so it is not clear which is meant.`,
+          message: say`The e-mail "${email}" matches ${matches.length} customers of the store that differ only in letter case, so it is not clear which is meant.`,
           value: email
         })
       );
@@ -230,7 +231,7 @@ export async function* writeCustomerAddresses(
         IMP_01.issue({
           rowNumber,
           params: typeof e?.code === 'string' ? { sqlState: e.code } : {},
-          message: `The address of "${email}" could not be saved: ${String(
+          message: say`The address of "${email}" could not be saved: ${String(
             e?.message ?? error
           )}`
         })

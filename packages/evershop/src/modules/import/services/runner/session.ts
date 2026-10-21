@@ -1,6 +1,7 @@
 import { HEARTBEAT_MS } from '../deps.js';
 import type { ImportDeps } from '../deps.js';
 import type { ValidationContext } from '../entities/definition.js';
+import { jobMessages } from '../job/messages.js';
 import { cloneCounts } from '../job/types.js';
 import type {
   IssuePhase,
@@ -315,7 +316,7 @@ export class Session {
         text = null;
       } else if (reason === 'interrupted') {
         status = 'interrupted';
-        text = 'The worker was stopped before it finished.';
+        text = String(jobMessages.workerStopped());
       }
     }
     // The last problems and the counts go in one step (§ 8.4). A write that
@@ -363,9 +364,10 @@ export class Session {
 export function failureMessage(error: unknown): string {
   const e = error as { name?: string; message?: string };
   if (e?.name === 'FileDamagedError') {
-    return 'The uploaded file is damaged. Upload it again.';
+    return String(jobMessages.damagedFile());
   }
-  return `The import stopped because of an error: ${String(
-    e?.message ?? error
-  )}`.slice(0, 1000);
+  return String(jobMessages.stoppedByError(String(e?.message ?? error))).slice(
+    0,
+    1000
+  );
 }

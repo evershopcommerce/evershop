@@ -1,9 +1,11 @@
 import type { StoredIssue } from '../job/types.js';
+import { say, sayText } from '../say.js';
+import type { Say } from '../say.js';
 
 /** What a message is made from: the code and the parameters, with the English fallback. */
 export type RenderableIssue = Pick<
   StoredIssue,
-  'code' | 'params' | 'message' | 'column' | 'severity'
+  'code' | 'params' | 'message' | 'say' | 'column' | 'severity'
 >;
 
 /**
@@ -13,6 +15,9 @@ export type RenderableIssue = Pick<
  * without one the stored English `message` is used.
  */
 export type RenderMessage = (issue: RenderableIssue) => string;
+
+/** Says one of the sentences around the problems (`row:`, `warning:`, `(and 3 more)`) in the admin's language. */
+export type RenderSentence = (sentence: Say) => string;
 
 export const MORE_NOT_LISTED = '(more problems not listed)';
 
@@ -49,19 +54,27 @@ function columnLabel(column: string): string {
   return FORMULA_START.test(name) ? `"${name}"` : name;
 }
 
-function segment(issue: StoredIssue, render: RenderMessage): string {
+function segment(
+  issue: StoredIssue,
+  render: RenderMessage,
+  sentence: RenderSentence
+): string {
   const text = oneLine(render(issue));
   const where = issue.column === null ? null : columnLabel(issue.column);
   if (issue.severity === 'warning') {
-    return where === null ? `warning: ${text}` : `warning: ${where}: ${text}`;
+    return where === null
+      ? sentence(say`warning: ${text}`)
+      : sentence(say`warning: ${where}: ${text}`);
   }
-  return `${where ?? 'row'}: ${text}`;
+  return where === null ? sentence(say`row: ${text}`) : `${where}: ${text}`;
 }
 
 export interface ErrorsCellOptions {
   /** The header's column names, to put the problems in the order of the columns. */
   columns: readonly string[];
   render?: RenderMessage;
+  /** Says the words around the problems; English without it. */
+  sentence?: RenderSentence;
   /** The row may have problems that were over the cap and are not stored (§ 8.4). */
   unlisted?: boolean;
 }
@@ -84,6 +97,7 @@ export function errorsCell(
   options: ErrorsCellOptions
 ): string {
   const render = options.render ?? ((issue: RenderableIssue) => issue.message);
+  const sentence = options.sentence ?? ((text: Say) => String(text));
   const position = (column: string | null) => {
     if (column === null) return -1;
     const index = options.columns.indexOf(column);
@@ -97,12 +111,14 @@ export function errorsCell(
   );
   const parts = ordered
     .slice(0, MAX_PROBLEMS_PER_ROW)
-    .map((issue) => segment(issue, render));
+    .map((issue) => segment(issue, render, sentence));
   if (ordered.length > MAX_PROBLEMS_PER_ROW) {
-    parts.push(`(and ${ordered.length - MAX_PROBLEMS_PER_ROW} more)`);
+    parts.push(
+      sentence(say`(and ${ordered.length - MAX_PROBLEMS_PER_ROW} more)`)
+    );
   }
   if (options.unlisted) {
-    parts.push(MORE_NOT_LISTED);
+    parts.push(sentence(sayText(MORE_NOT_LISTED)));
   }
   return parts.join(SEPARATOR);
 }

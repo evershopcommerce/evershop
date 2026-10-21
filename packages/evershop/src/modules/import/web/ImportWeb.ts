@@ -2,7 +2,10 @@ import type { IssuePhase, StoredIssue } from '../services/job/types.js';
 import type { ImportService } from '../services/jobs/ImportService.js';
 import type { FileStore } from '../services/ports/fileStore.js';
 import type { Logger } from '../services/ports/logger.js';
-import type { RenderMessage } from '../services/report/errorsCell.js';
+import type {
+  RenderMessage,
+  RenderSentence
+} from '../services/report/errorsCell.js';
 import type { ImportEntity } from '../services/types.js';
 
 /**
@@ -41,5 +44,9 @@ export interface ImportWeb {
   limits: { maxRows: number; maxCellLength: number };
   /** The sentence for a problem in the admin's language. */
   render?: RenderMessage;
+  /** The words around the problems in the file with errors, in the admin's language. */
+  sentence?: RenderSentence;
+  /** The message of a job (why it stopped...) in the admin's language. */
+  jobMessage?: (message: string | null) => string | null;
   logger: Logger;
 }

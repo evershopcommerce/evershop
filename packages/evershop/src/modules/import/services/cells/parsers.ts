@@ -1,4 +1,6 @@
 import { createIssue } from '../issues.js';
+import { say, sayText } from '../say.js';
+import type { Say } from '../say.js';
 import type { ImportIssue } from '../types.js';
 
 /**
@@ -21,11 +23,33 @@ export type CellResult<T> = { ok: true; value: T } | CellFailure;
 
 export const accept = <T>(value: T): CellResult<T> => ({ ok: true, value });
 
+// The sentence of a failure as a `say` template, kept out of sight of a
+// comparison of failures as data: `problem` is its English text.
+const SAID = Symbol('said');
+
 export const refuse = (
   code: CellFailure['code'],
   params: Record<string, unknown>,
-  problem: string
-): CellFailure => ({ ok: false, code, params, problem });
+  problem: Say | string
+): CellFailure => {
+  const failure: CellFailure = {
+    ok: false,
+    code,
+    params,
+    problem: String(problem)
+  };
+  if (typeof problem !== 'string') {
+    Object.defineProperty(failure, SAID, { value: problem });
+  }
+  return failure;
+};
+
+/** The failure as a sentence that can be said in another language. */
+export function sentenceOf(failure: CellFailure): Say {
+  return (
+    (failure as unknown as { [SAID]?: Say })[SAID] ?? sayText(failure.problem)
+  );
+}
 
 /** The limits of ALL-20: what the database column can hold. */
 export const MAX_QTY = 2_147_483_647;
@@ -34,8 +58,8 @@ export const MAX_POSITION = 32_767;
 export const DECIMAL_BELOW = 100_000_000;
 
 /** The sentence of an issue about a cell: `The value in column "x" …`. */
-export function cellMessage(column: string, failure: CellFailure): string {
-  return `The value in column "${column}" ${failure.problem}`;
+export function cellMessage(column: string, failure: CellFailure): Say {
+  return say`The value in column "${column}" ${sentenceOf(failure)}`;
 }
 
 export function cellIssue(
@@ -64,7 +88,7 @@ export function parseBoolean(text: string): CellResult<0 | 1> {
   return refuse(
     'INVALID_VALUE',
     { reason: 'not_boolean' },
-    'must be 1, 0, true or false.'
+    say`must be 1, 0, true or false.`
   );
 }
 
@@ -81,7 +105,7 @@ export function parseWholeNumber(
     return refuse(
       'INVALID_VALUE',
       { reason: 'not_whole_number' },
-      'must be a whole number: digits only, no sign, no point and no thousands separator.'
+      say`must be a whole number: digits only, no sign, no point and no thousands separator.`
     );
   }
   const digits = text.replace(/^0+(?=[0-9])/, '');
@@ -90,7 +114,7 @@ export function parseWholeNumber(
     return refuse(
       'INVALID_VALUE',
       { reason: 'out_of_range', min: 0, max },
-      `must be a whole number from 0 to ${max}.`
+      say`must be a whole number from 0 to ${max}.`
     );
   }
   return accept(digits);
@@ -107,7 +131,7 @@ export function parseDecimal(text: string): CellResult<string> {
     return refuse(
       'INVALID_VALUE',
       { reason: 'not_decimal' },
-      'must be a number with at most 2 decimals after a point, such as 24 or 24.50: no sign, no comma and no thousands separator.'
+      say`must be a number with at most 2 decimals after a point, such as 24 or 24.50: no sign, no comma and no thousands separator.`
     );
   }
   const whole = match[1].replace(/^0+(?=[0-9])/, '');
@@ -116,7 +140,7 @@ export function parseDecimal(text: string): CellResult<string> {
     return refuse(
       'INVALID_VALUE',
       { reason: 'out_of_range', below: DECIMAL_BELOW },
-      `must be below ${DECIMAL_BELOW}.`
+      say`must be below ${DECIMAL_BELOW}.`
     );
   }
   return accept(whole + (match[2] ?? ''));
@@ -149,7 +173,7 @@ export function parseDate(text: string): CellResult<string> {
   return refuse(
     'INVALID_VALUE',
     { reason: 'not_date' },
-    'must be a date that exists, written YYYY-MM-DD, such as 2026-10-17.'
+    say`must be a date that exists, written YYYY-MM-DD, such as 2026-10-17.`
   );
 }
 
@@ -161,7 +185,7 @@ export function parseColor(text: string): CellResult<string> {
   return refuse(
     'INVALID_VALUE',
     { reason: 'not_color' },
-    'must be a color written #RRGGBB, such as #1A2B3C.'
+    say`must be a color written #RRGGBB, such as #1A2B3C.`
   );
 }
 
@@ -193,7 +217,7 @@ export function parseJson(
   try {
     value = JSON.parse(text, dropProto);
   } catch {
-    return refuse('INVALID_JSON', {}, 'is not valid JSON.');
+    return refuse('INVALID_JSON', {}, say`is not valid JSON.`);
   }
   const isArray = Array.isArray(value);
   if (
@@ -203,14 +227,14 @@ export function parseJson(
     return refuse(
       'INVALID_VALUE',
       { reason: 'not_object' },
-      'must be a JSON object: text between { and }.'
+      say`must be a JSON object: text between { and }.`
     );
   }
   if (expect === 'array' && !isArray) {
     return refuse(
       'INVALID_VALUE',
       { reason: 'not_array' },
-      'must be a JSON array: text between [ and ].'
+      say`must be a JSON array: text between [ and ].`
     );
   }
   return accept(value);
@@ -234,7 +258,7 @@ export function parseHttpUrl(text: string): CellResult<string> {
   return refuse(
     'INVALID_VALUE',
     { reason: 'not_url' },
-    'must be an address that starts with http:// or https:// and has no spaces.'
+    say`must be an address that starts with http:// or https:// and has no spaces.`
   );
 }
 
@@ -249,7 +273,7 @@ export function parseRedirectPath(text: string): CellResult<string> {
   return refuse(
     'INVALID_VALUE',
     { reason: 'not_path' },
-    'must be a path that starts with / and has no spaces, ? or #.'
+    say`must be a path that starts with / and has no spaces, ? or #.`
   );
 }
 
@@ -266,7 +290,7 @@ export function parseBcryptHash(text: string): CellResult<string> {
   return refuse(
     'INVALID_VALUE',
     { reason: 'not_bcrypt' },
-    'is not a bcrypt hash: it starts with $2a$, $2b$ or $2y$, then a cost from 04 to 15, and is 60 characters long.'
+    say`is not a bcrypt hash: it starts with $2a$, $2b$ or $2y$, then a cost from 04 to 15, and is 60 characters long.`
   );
 }
 
@@ -289,7 +313,7 @@ export function parseEmail(text: string): CellResult<string> {
     return refuse(
       'INVALID_VALUE',
       { reason: 'too_long', max: MAX_EMAIL_LENGTH },
-      `is longer than ${MAX_EMAIL_LENGTH} characters, which no e-mail address is.`
+      say`is longer than ${MAX_EMAIL_LENGTH} characters, which no e-mail address is.`
     );
   }
   if (EMAIL.test(text)) {
@@ -298,6 +322,6 @@ export function parseEmail(text: string): CellResult<string> {
   return refuse(
     'INVALID_VALUE',
     { reason: 'not_email' },
-    'must be an e-mail address, such as jane@example.com.'
+    say`must be an e-mail address, such as jane@example.com.`
   );
 }

@@ -1,3 +1,4 @@
+import type { SayData } from '../say.js';
 import type { ImportEntity, ImportMode } from '../types.js';
 
 /** The statuses of a job (§ 8.4). `failed`, `completed` and `canceled` are final. */
@@ -182,5 +183,7 @@ export interface StoredIssue {
   severity: 'error' | 'warning';
   params: Record<string, unknown>;
   message: string;
+  /** The sentence as a template and its values (see `ImportIssue.say`). */
+  say?: SayData;
   value: string | null;
 }

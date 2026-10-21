@@ -4,6 +4,7 @@ import {
   createIssue,
   defaultSeverity
 } from '../../services/issues.js';
+import { say } from '../../services/say.js';
 
 describe('issue codes', () => {
   it('are unique, in capitals and underscores', () => {
@@ -191,5 +192,40 @@ describe('createIssue', () => {
       value: 'x'.repeat(5_000_000)
     });
     expect(issue.value).toBe(`${'x'.repeat(100)}…`);
+  });
+});
+
+describe('createIssue and a sentence that can be said in another language', () => {
+  it('keeps the English text as the message, and the sentence as a template with its values', () => {
+    const issue = createIssue({
+      code: 'INVALID_VALUE',
+      rowNumber: 3,
+      column: 'price',
+      message: say`The value in column "${'price'}" must be below ${100}.`
+    });
+    expect(issue.message).toBe(
+      'The value in column "price" must be below 100.'
+    );
+    expect(issue.say).toEqual({
+      t: 'The value in column "${1}" must be below ${2}.',
+      a: ['price', '100']
+    });
+  });
+
+  it('keeps a plain text as a message only', () => {
+    const issue = createIssue({ code: 'INVALID_VALUE', message: 'Plain.' });
+    expect(issue.message).toBe('Plain.');
+    expect(issue.say).toBeUndefined();
+    expect('say' in issue).toBe(false);
+  });
+
+  it('cuts the message, not the sentence', () => {
+    const long = 'y'.repeat(3000);
+    const issue = createIssue({
+      code: 'INVALID_VALUE',
+      message: say`Column "${long}" is odd.`
+    });
+    expect(issue.message.length).toBeLessThanOrEqual(1001);
+    expect(issue.say?.a[0]).toHaveLength(1001);
   });
 });

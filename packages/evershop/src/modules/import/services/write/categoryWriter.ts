@@ -28,6 +28,7 @@ import {
 import { ALL_16 } from '../rules/allRules.js';
 import { CAT_05 } from '../rules/categoryRules.js';
 import { CAT_07, IMP_01, IMP_02 } from '../rules/importPhaseRules.js';
+import { say } from '../say.js';
 import type { ImportIssue, ImportMode } from '../types.js';
 
 /** What happened to one row (a unit, for categories). */
@@ -143,15 +144,15 @@ function failure(error: unknown, row: CategoryRow): ImportIssue {
       column,
       params: { constraint, sqlState: '23505' },
       message: column
-        ? `The ${column} "${key}" is already used by another category.`
-        : `A value of the category "${key}" is already used by another record.`,
+        ? say`The ${column} "${key}" is already used by another category.`
+        : say`A value of the category "${key}" is already used by another record.`,
       value: column === 'url_key' ? (key as string) : undefined
     });
   }
   return IMP_01.issue({
     rowNumber,
     params: typeof e?.code === 'string' ? { sqlState: e.code } : {},
-    message: `The category "${key}" could not be saved: ${message}`
+    message: say`The category "${key}" could not be saved: ${message}`
   });
 }
 
@@ -304,7 +305,7 @@ export async function* writeCategories(
           rowNumber,
           column: 'parent',
           params: { parent: parentKey },
-          message: `Row ${rowNumber} was skipped because its parent "${parentKey}" could not be saved.`,
+          message: say`Row ${rowNumber} was skipped because its parent "${parentKey}" could not be saved.`,
           value: parentKey
         })
       );
@@ -321,7 +322,7 @@ export async function* writeCategories(
             rowNumber,
             column: 'parent',
             params: { reference: 'category', value: parentKey },
-            message: `The parent "${parentKey}" is no longer a category of the store.`,
+            message: say`The parent "${parentKey}" is no longer a category of the store.`,
             value: parentKey
           })
         );
@@ -338,7 +339,7 @@ export async function* writeCategories(
           rowNumber,
           column: 'url_key',
           params: { key },
-          message: `The category "${key}" already exists, and this import only creates new ones.`,
+          message: say`The category "${key}" already exists, and this import only creates new ones.`,
           value: key
         })
       );
@@ -351,7 +352,7 @@ export async function* writeCategories(
           rowNumber,
           column: 'url_key',
           params: { key },
-          message: `The category "${key}" does not exist, and this import only updates existing ones.`,
+          message: say`The category "${key}" does not exist, and this import only updates existing ones.`,
           value: key
         })
       );

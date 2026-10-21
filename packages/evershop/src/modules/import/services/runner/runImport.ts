@@ -1,5 +1,6 @@
 import { MAX_FAILED_ROWS } from '../deps.js';
 import type { ImportDeps } from '../deps.js';
+import { jobMessages } from '../job/messages.js';
 import type { PageEntity } from '../ports/pageAddresses.js';
 import { isTransientDatabaseError } from '../retry.js';
 import type { ImportEntity } from '../types.js';
@@ -16,8 +17,7 @@ import {
 } from './session.js';
 import type { RunOptions, RunResult } from './session.js';
 
-const RECHECK_MESSAGE =
-  'The file has problems that were not there when it was checked, so nothing was written. See the problems, then check again.';
+const RECHECK_MESSAGE = String(jobMessages.recheckFoundErrors());
 
 // The records whose page address a creation event makes (IMP-08).
 const PAGE_ENTITY: Partial<Record<ImportEntity, PageEntity>> = {
@@ -28,7 +28,9 @@ const PAGE_ENTITY: Partial<Record<ImportEntity, PageEntity>> = {
 /** J5: the text of the job when the event queue did not drain in time. */
 export function notDrainingMessage(config: ImportDeps['config']): string {
   const minutes = Math.round((config.eventBacklogMaxWaitMs / 60_000) * 10) / 10;
-  return `The event process is not draining: more than ${config.eventBacklogHigh} events were waiting for ${minutes} minutes. Find out why events are not processed, then resume the import.`;
+  return String(
+    jobMessages.eventsNotDraining(config.eventBacklogHigh, minutes)
+  );
 }
 
 /**
@@ -189,7 +191,7 @@ export async function runImport(
       if (tooManyFailures && !control.reason) {
         return await session.finish(
           'stopped',
-          `Stopped after ${MAX_FAILED_ROWS} failed rows.`
+          String(jobMessages.stoppedAfterFailures(MAX_FAILED_ROWS))
         );
       }
       await rebuildPageAddresses();
@@ -273,9 +275,11 @@ export async function runImport(
       // row that failed the same way (D-20).
       return session.finish(
         'interrupted',
-        `The import was interrupted by an error of the database: ${String(
-          (error as Error)?.message ?? error
-        )}. Resume it.`.slice(0, 1000)
+        String(
+          jobMessages.interruptedByDatabase(
+            String((error as Error)?.message ?? error)
+          )
+        ).slice(0, 1000)
       );
     }
     return session.finish('failed', failureMessage(error));

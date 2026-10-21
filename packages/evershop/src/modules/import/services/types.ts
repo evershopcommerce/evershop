@@ -1,4 +1,5 @@
 import type { ImportIssueCode } from './issues.js';
+import type { SayData } from './say.js';
 
 /**
  * The things the engine imports (v1), with the file name each one has and the
@@ -49,11 +50,14 @@ export interface ImportIssue {
   severity: ImportSeverity;
   /** What the message is built from. Must be plain JSON. */
   params: Record<string, unknown>;
-  /**
-   * An English sentence. The admin page renders `code` and `params` in the
-   * admin's language instead.
-   */
+  /** The sentence in English, as it was made. */
   message: string;
+  /**
+   * The same sentence as a template and its values (`say`), so that it can be
+   * said in the admin's language when it is read. Absent for a sentence that
+   * has no translation (it stays as `message` says it).
+   */
+  say?: SayData;
   /** The offending cell, truncated. Never set for a password column. */
   value?: string;
 }

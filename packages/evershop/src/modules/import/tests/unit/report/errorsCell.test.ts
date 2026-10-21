@@ -1,5 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import type { StoredIssue } from '../../../services/job/types.js';
+import type { Say } from '../../../services/say.js';
 import {
   errorsCell,
   MAX_PROBLEMS_PER_ROW,
@@ -134,6 +135,59 @@ describe('errorsCell: the text of one row (§ 7.3)', () => {
     expect(seen).toEqual([
       ['INVALID_VALUE', { reason: 'not_a_number' }, 'status', 'error']
     ]);
+  });
+});
+
+describe("errorsCell: the words around the problems, in the admin's language", () => {
+  // A language where the words are other words.
+  const words: Record<string, string> = {
+    'row: ${1}': 'dòng: ${1}',
+    'warning: ${1}': 'cảnh báo: ${1}',
+    'warning: ${1}: ${2}': 'cảnh báo: ${1}: ${2}',
+    '(and ${1} more)': '(và ${1} nữa)',
+    '(more problems not listed)': '(còn lỗi khác chưa liệt kê)'
+  };
+  const sentence = (text: Say) => {
+    const { t, a } = text.data();
+    return (words[t] ?? t).replace(/\$\{(\d+)\}/g, (_m, n) =>
+      String(a[Number(n) - 1])
+    );
+  };
+
+  it('says "row:" and "warning:" in the language, and leaves the name of a column as it is', () => {
+    expect(
+      errorsCell(
+        [
+          issue({ column: null, message: 'Thiếu ô.' }),
+          issue({ column: 'status', severity: 'warning', message: 'Lạ.' }),
+          issue({ column: null, severity: 'warning', message: 'Cũ.' }),
+          issue({ column: 'name', message: 'Sai.' })
+        ],
+        { columns: COLUMNS, sentence }
+      )
+    ).toBe(
+      'dòng: Thiếu ô. | name: Sai. | cảnh báo: Cũ. | cảnh báo: status: Lạ.'
+    );
+  });
+
+  it('says the ends of a long cell in the language', () => {
+    const many = Array.from({ length: MAX_PROBLEMS_PER_ROW + 3 }, () =>
+      issue()
+    );
+    const text = errorsCell(many, {
+      columns: COLUMNS,
+      sentence,
+      unlisted: true
+    });
+    expect(text.endsWith(' | (và 3 nữa) | (còn lỗi khác chưa liệt kê)')).toBe(
+      true
+    );
+  });
+
+  it('is in English without it', () => {
+    expect(errorsCell([issue({ column: null })], { columns: COLUMNS })).toBe(
+      'row: It is wrong.'
+    );
   });
 });
 

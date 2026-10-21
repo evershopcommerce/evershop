@@ -1,3 +1,4 @@
+import { jobMessages } from '../services/job/messages.js';
 import type { JobAdmin } from '../services/ports/jobAdmin.js';
 import type { JobRepository } from '../services/ports/jobRepository.js';
 
@@ -38,7 +39,7 @@ export async function failUnstarted(
   const text = reason instanceof Error ? reason.message : String(reason);
   const firstLine = text.split(/\r?\n/)[0].trim();
   return deps.jobs.finish(job.id, attempt, 'failed', {
-    errorMessage: `The import worker could not start: ${firstLine}`.slice(
+    errorMessage: String(jobMessages.workerCouldNotStart(firstLine)).slice(
       0,
       MAX_MESSAGE
     )

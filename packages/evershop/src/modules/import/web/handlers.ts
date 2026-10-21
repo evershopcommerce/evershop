@@ -65,7 +65,7 @@ async function view(web: ImportWeb, jobs: ImportJob[]) {
     )
   ];
   const names = ids.length > 0 ? await web.adminNames(ids) : new Map();
-  return jobs.map((job) => jobView(job, names));
+  return jobs.map((job) => jobView(job, names, web.jobMessage));
 }
 
 export const getJob = (web: ImportWeb, uuid: unknown) =>
@@ -220,6 +220,7 @@ export const downloadFileWithErrors = (
       issues: web.issuesInRowOrder(job.id, phase),
       firstUnlistedRow: job.counts.firstUnlistedRow[phase],
       render: web.render,
+      sentence: web.sentence,
       limits: web.limits
     })[Symbol.asyncIterator]();
     let first: IteratorResult<string, void>;

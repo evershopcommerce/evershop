@@ -7,7 +7,12 @@ const iso = (ms: number | null): string | null =>
  * A job as the API shows it. The uuid is its name in every URL; the numeric id,
  * the fencing token, the worker and the hash of the file stay inside.
  */
-export function jobView(job: ImportJob, names: Map<number, string>) {
+export function jobView(
+  job: ImportJob,
+  names: Map<number, string>,
+  /** Says the message of the job in the admin's language (English without it). */
+  say: (message: string | null) => string | null = (message) => message
+) {
   return {
     uuid: job.uuid,
     entity: job.entity,
@@ -22,7 +27,7 @@ export function jobView(job: ImportJob, names: Map<number, string>) {
     fileKept: job.chunkCount !== null,
     options: job.options,
     counts: job.counts,
-    errorMessage: job.errorMessage,
+    errorMessage: say(job.errorMessage),
     createdAt: iso(job.createdAt),
     statusChangedAt: iso(job.statusChangedAt),
     validatedAt: iso(job.validatedAt),

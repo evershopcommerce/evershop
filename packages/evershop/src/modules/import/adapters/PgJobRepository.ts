@@ -22,6 +22,7 @@ import {
   COLUMNS,
   ISSUES_PAGE,
   MAX_VALUE_LENGTH,
+  SAY_KEY,
   inTransaction,
   jsonText,
   noNul,
@@ -165,7 +166,10 @@ export class PgJobRepository implements JobRepository {
                 entity_key: issue.entityKey,
                 column_name: issue.column,
                 code: issue.code,
-                params: issue.params,
+                // The template of the sentence goes in with the parameters.
+                params: issue.say
+                  ? { ...issue.params, [SAY_KEY]: issue.say }
+                  : issue.params,
                 severity: issue.severity,
                 message: issue.message,
                 value:

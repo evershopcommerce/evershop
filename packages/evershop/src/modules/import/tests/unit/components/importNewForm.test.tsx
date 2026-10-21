@@ -418,8 +418,10 @@ describe('the page New import (jsdom)', () => {
       await mount();
       await pick('category');
       await chooseFile('categories.csv');
+      // The look at the open jobs is held until the test lets it go: no real timer.
+      let release: (reply: HttpReply) => void = () => undefined;
       const hold = new Promise<HttpReply>((resolve) => {
-        setTimeout(() => resolve(json([])), 0);
+        release = resolve;
       });
       answers.unshift((r) =>
         r.method === 'GET' && r.url === PROPS.openUrl
@@ -434,7 +436,7 @@ describe('the page New import (jsdom)', () => {
         await settle();
       });
       await act(async () => {
-        await tab.advance(10);
+        release(json([]));
         await settle();
       });
       expect(uploads()).toHaveLength(1);

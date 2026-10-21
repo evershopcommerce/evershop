@@ -415,6 +415,10 @@ describe('cellIssue', () => {
       message: expect.stringMatching(
         /^The value in column "price" must be a number/
       ),
+      say: expect.objectContaining({
+        t: 'The value in column "${1}" ${2}',
+        a: ['price', expect.objectContaining({ t: expect.any(String) })]
+      }),
       value: '24.999'
     });
   });

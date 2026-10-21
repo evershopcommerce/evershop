@@ -1,6 +1,7 @@
 import { createIssue } from '../issues.js';
 import type { ImportIssueCode } from '../issues.js';
 import type { StoreFixture } from '../ports/lookup.js';
+import type { Say } from '../say.js';
 import type {
   ImportEntity,
   ImportIssue,
@@ -91,7 +92,7 @@ export type Rule = (ExampleRuleDefinition | NamedTestRuleDefinition) & {
     rowNumber?: number;
     column?: string;
     params?: Record<string, unknown>;
-    message: string;
+    message: string | Say;
     value?: string;
     /** One of the rule's `alsoCodes`. */
     code?: ImportIssueCode;
