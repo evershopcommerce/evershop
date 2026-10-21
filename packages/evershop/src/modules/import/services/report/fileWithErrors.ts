@@ -91,8 +91,12 @@ export interface FileWithErrorsArgs {
  *   reader leaves it out, and the new one is the last column.
  * - A blank line is written as a blank line, so the row numbers of the problems
  *   are the row numbers of the file the admin gets.
- * - A row that has more or fewer cells than the header (`ROW_WIDTH`) is padded
- *   to the width of the header; its extra cells come after `_errors`.
+ * - A row that has more or fewer cells than the header (`ROW_WIDTH`) is written
+ *   with the cells it has, and `_errors` after them; its extra cells, if it has
+ *   any, come after `_errors`. A short row is not padded: padded, it would have
+ *   the width of the header when the file is uploaded again, and pass the check
+ *   with its cells in the wrong columns (a price in the place of a name). Left
+ *   short, it is refused again until it is fixed.
  * - A plain-text `password` cell is written as `(hidden)` (§ 5.4.1).
  *
  * It throws `FileWithErrorsError` when the reader has to stop before the end of
@@ -151,9 +155,11 @@ export async function* fileWithErrors(
             hidden.has(index) && cell.trim() !== '' ? HIDDEN_CELL : cell
           );
           const width = columns.length;
-          const fitted = shown.slice(0, width);
-          while (fitted.length < width) fitted.push('');
-          out += csvLine([...fitted, text, ...shown.slice(width)]);
+          out += csvLine([
+            ...shown.slice(0, width),
+            text,
+            ...shown.slice(width)
+          ]);
         }
         if (out.length >= CHUNK_SIZE) {
           yield out;

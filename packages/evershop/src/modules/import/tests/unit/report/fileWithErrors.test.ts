@@ -188,9 +188,25 @@ describe('fileWithErrors: row numbers are the rows of the file', () => {
 });
 
 describe('fileWithErrors: a row with the wrong number of cells (ROW_WIDTH)', () => {
-  it('pads a short row to the width of the header, so _errors stays in its column', async () => {
+  it('does not pad a short row: the problem comes after the cells it has', async () => {
     const text = await download('a,b,c\n1,2\n', [issue(2, null, 'Short.')]);
-    expect(text).toBe(`${BOM}a,b,c,_errors\r\n1,2,,row: Short.\r\n`);
+    expect(text).toBe(`${BOM}a,b,c,_errors\r\n1,2,row: Short.\r\n`);
+  });
+
+  it('gives a short row the width error again when the file is uploaded as it is (padded, it would pass with its cells in the wrong places)', async () => {
+    const original =
+      'sku,name,price,qty\nA-1,Blue,19.99,5\nA-2,Red shirt 24.50,3\n';
+    const first = await collect(chunked(original));
+    expect(first.issues.map((i) => [i.code, i.rowNumber])).toEqual([
+      ['ROW_WIDTH', 3]
+    ]);
+    const text = await download(original, [
+      issue(3, null, String(first.issues[0].message))
+    ]);
+    const again = await collect(chunked(text));
+    expect(again.issues.map((i) => [i.code, i.rowNumber])).toEqual([
+      ['ROW_WIDTH', 3]
+    ]);
   });
 
   it('puts the extra cells of a long row after _errors', async () => {
