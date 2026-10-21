@@ -958,6 +958,50 @@ export const ALL_23 = defineRule({
   }
 });
 
+export const ALL_24 = defineRule({
+  id: 'ALL-24',
+  entity: 'all',
+  layer: 'F',
+  source: 'engine',
+  op: 'B',
+  code: 'COLUMNS_IGNORED',
+  testedBy: 'example',
+  summary:
+    'When more than half of the columns of the file are ignored, one warning says how many, and tells the admin to check the type of the file.',
+  examples: {
+    pass: [
+      {
+        name: 'one column in three is ignored: only its own warning',
+        ...UPDATE,
+        file: 'url_key,name,colour\nwomen,Women,red\n',
+        expect: [{ code: 'UNKNOWN_COLUMN', column: 'colour' }]
+      },
+      {
+        name: 'exactly half of the columns are ignored: not more than half',
+        ...UPDATE,
+        file: 'url_key,name,colour,size\nwomen,Women,red,s\n',
+        expect: [
+          { code: 'UNKNOWN_COLUMN', column: 'colour' },
+          { code: 'UNKNOWN_COLUMN', column: 'size' }
+        ]
+      }
+    ],
+    fail: [
+      {
+        name: 'a products file uploaded as categories: 3 of 5 columns are ignored',
+        ...UPDATE,
+        file: 'url_key,name,sku,price,qty\nwomen,Women,A-1,10,5\n',
+        expect: [
+          { code: 'COLUMNS_IGNORED' },
+          { code: 'UNKNOWN_COLUMN', column: 'sku' },
+          { code: 'UNKNOWN_COLUMN', column: 'price' },
+          { code: 'UNKNOWN_COLUMN', column: 'qty' }
+        ]
+      }
+    ]
+  }
+});
+
 export const ALL_RULES = [
   ALL_01,
   ALL_02,
@@ -979,5 +1023,6 @@ export const ALL_RULES = [
   ALL_20,
   ALL_21,
   ALL_22,
-  ALL_23
+  ALL_23,
+  ALL_24
 ];

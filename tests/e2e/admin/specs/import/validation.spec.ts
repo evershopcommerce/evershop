@@ -141,3 +141,23 @@ test('a record that the file needs is deleted after the check: Start finds it, w
   expect(job.status).toBe('validated');
   expect(job.started_at).toBeNull();
 });
+
+test('a products file uploaded as Categories is valid, and the page says that most of its columns were ignored', async ({ page }, info) => {
+  const file = writeCsv(info.outputPath('files'), 'e2e-imp-wrong-type.csv', [
+    ['sku', 'name', 'url_key', 'status', 'price', 'qty', 'weight', 'visibility'],
+    ['E2E-WRONG-1', 'Blue shirt', 'e2e-imp-wrong-1', '1', '19.99', '5', '1', '1']
+  ]);
+  await uploadFile(page, 'Categories', file);
+  await waitForChecked(page);
+
+  // the rules of a categories file are met, so the file is valid, but it is not
+  // "fine": one warning says how much of it is ignored, and what to check
+  const table = page.getByTestId('problems');
+  await expect(table).toContainText('COLUMNS_IGNORED x1');
+  await expect(table).toContainText('UNKNOWN_COLUMN x5');
+  await expect(table).toContainText(
+    '5 of 8 columns were ignored because this type of file does not use them.'
+  );
+  await expect(table).toContainText('check that you chose the right type of file');
+});
+

@@ -296,3 +296,4 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","variant_axes foi informado sem variant_group, portanto o produto não faz parte de um grupo de variantes."
 "warning: ${1}","aviso: ${1}"
 "warning: ${1}: ${2}","aviso: ${1}: ${2}"
+"${1} of ${2} columns were ignored because this type of file does not use them. If that is not what you expected, check that you chose the right type of file.","${1} de ${2} colunas foram ignoradas porque este tipo de arquivo não as usa. Se não era o que você esperava, verifique se escolheu o tipo de arquivo correto."
