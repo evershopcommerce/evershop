@@ -1,0 +1,17 @@
+click "Shipping Setting"
+click "Create New Zone"
+enter "test zone" into "Enter Zone name"
+click "Select"
+type "United"
+click "United States" using OCR
+click "Select"
+click "Alaska" using OCR
+click "Save"
+click "Add method"
+enter "Express" into "Select..."
+type enter
+click button on the left of "No"
+enter "10" into "Shipping cost"
+click "Save"
+check that page contains "Shipping method saved successfully"
+click "close"

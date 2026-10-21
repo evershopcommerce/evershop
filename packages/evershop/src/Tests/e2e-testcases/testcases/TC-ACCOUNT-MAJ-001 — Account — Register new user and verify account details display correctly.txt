@@ -1,0 +1,5 @@
+account-create-new
+click "Account"
+check that page contains "My Account"
+check that page contains stored value "userName"
+check that page contains stored value "userEmail"

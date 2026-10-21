@@ -1,0 +1,8 @@
+open url stored value "homePrefix"
+click "Account"
+click "Create an account"
+generate unique name , then enter into "Name" and save as "userName"
+generate unique email , then enter into "Email" and save as "userEmail"
+enter "test123" into "Password"
+click "Sign up"
+check that page contains "Shop now"

@@ -1,0 +1,8 @@
+open url stored value "homePrefix"
+click "Account"
+click "Create an account"
+enter "test user" into "Full Name"
+enter stored value "userEmail" into "Email"
+enter stored value "userPass" into "Password"
+click "Sign up"
+check that page contains "Shop now"
