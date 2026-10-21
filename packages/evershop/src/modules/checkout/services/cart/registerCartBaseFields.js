@@ -1,5 +1,6 @@
 import { select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
+import { translate } from '../../../../lib/locale/translate/translate.js';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getValueSync } from '../../../../lib/util/registry.js';
@@ -340,7 +341,9 @@ export function registerCartBaseFields(fields) {
           if (!provider) {
             this.setError(
               'shipping_method_data',
-              `Shipping provider "${input.provider_code}" is not registered`
+              translate('Shipping provider "${provider}" is not registered', {
+                provider: input.provider_code
+              })
             );
             return null;
           }
@@ -643,11 +646,16 @@ export function registerCartBaseFields(fields) {
           ) {
             this.setError(
               'payment_method',
-              `Payment method ${paymentMethod} is not available`
+              translate('Payment method ${method} is not available', {
+                method: paymentMethod
+              })
             );
             return null;
           } else if (paymentMethod === null) {
-            this.setError('payment_method', 'Payment method is required');
+            this.setError(
+              'payment_method',
+              translate('Payment method is required')
+            );
             return null;
           }
         }
