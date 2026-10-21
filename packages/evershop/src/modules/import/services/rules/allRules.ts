@@ -958,64 +958,6 @@ export const ALL_23 = defineRule({
   }
 });
 
-export const ALL_24 = defineRule({
-  id: 'ALL-24',
-  entity: 'all',
-  layer: 'F',
-  source: 'engine',
-  op: 'B',
-  code: 'WRONG_FILE_TYPE',
-  testedBy: 'example',
-  summary:
-    'A file that has the natural-key column of another kind of file (sku, email) is refused: it was made for another import.',
-  examples: {
-    pass: [
-      { name: 'a categories file', ...UPDATE, file: VALID, expect: [] },
-      {
-        name: 'a products file as products',
-        entity: 'product',
-        store: PRODUCT_STORE,
-        file: productFile(productRow()),
-        expect: []
-      },
-      {
-        name: 'a customer addresses file has the email of its customer',
-        entity: 'customerAddress',
-        store: ADDRESS_STORE,
-        file: addressFile(addressRow()),
-        expect: []
-      }
-    ],
-    fail: [
-      {
-        name: 'a products file uploaded as categories',
-        ...UPDATE,
-        file: 'sku,url_key,name,status,price\nA-1,women,Women,1,10\n',
-        expect: [{ code: 'WRONG_FILE_TYPE', column: 'sku' }]
-      },
-      {
-        name: 'a customers file uploaded as categories',
-        ...UPDATE,
-        file: 'email,url_key,name\njane@example.test,women,Women\n',
-        expect: [{ code: 'WRONG_FILE_TYPE', column: 'email' }]
-      },
-      {
-        name: 'a customers file uploaded as products (it would only say that the sku is missing)',
-        entity: 'product',
-        store: PRODUCT_STORE,
-        file: 'email,full_name\njane@example.test,Jane\n',
-        expect: [{ code: 'WRONG_FILE_TYPE', column: 'email' }]
-      },
-      {
-        name: 'a products file uploaded as customers',
-        entity: 'customer',
-        file: 'sku,email,full_name\nA-1,jane@example.test,Jane\n',
-        expect: [{ code: 'WRONG_FILE_TYPE', column: 'sku' }]
-      }
-    ]
-  }
-});
-
 export const ALL_RULES = [
   ALL_01,
   ALL_02,
@@ -1037,6 +979,5 @@ export const ALL_RULES = [
   ALL_20,
   ALL_21,
   ALL_22,
-  ALL_23,
-  ALL_24
+  ALL_23
 ];

@@ -141,25 +141,3 @@ test('a record that the file needs is deleted after the check: Start finds it, w
   expect(job.status).toBe('validated');
   expect(job.started_at).toBeNull();
 });
-
-test('a products file uploaded as Categories is refused for its type, not accepted with warnings', async ({ page }, info) => {
-  const file = writeCsv(info.outputPath('files'), 'e2e-imp-wrong-type.csv', [
-    ['sku', 'name', 'url_key', 'status', 'price', 'qty'],
-    ['E2E-WRONG-1', 'Blue shirt', 'e2e-imp-wrong-1', '1', '19.99', '5']
-  ]);
-  await uploadFile(page, 'Categories', file);
-  await waitForChecked(page);
-
-  // not "All 1 rows are valid ... warnings": the file is refused, with the reason
-  const text = await viewText(page);
-  expect(text).not.toContain('rows are valid');
-  await expect(page.getByRole('button', { name: 'Start import' })).toHaveCount(0);
-  const table = page.getByTestId('problems');
-  await expect(table).toContainText('WRONG_FILE_TYPE x1');
-  await expect(table).toContainText(
-    'This looks like a products file: it has a "sku" column.'
-  );
-  // the other columns of the file are not listed one by one
-  await expect(table).not.toContainText('UNKNOWN_COLUMN');
-});
-

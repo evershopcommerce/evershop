@@ -296,6 +296,3 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","variant_axes è indicato senza un variant_group, quindi il prodotto non fa parte di nessun gruppo di varianti."
 "warning: ${1}","avviso: ${1}"
 "warning: ${1}: ${2}","avviso: ${1}: ${2}"
-"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","Sembra ${1}: contiene una colonna ""${2}"". Scegli il tipo di file corretto al caricamento oppure rimuovi quella colonna."
-"a products file","un file dei prodotti"
-"a customers file or a customer addresses file","un file dei clienti o un file degli indirizzi dei clienti"

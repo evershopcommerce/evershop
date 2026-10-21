@@ -25,7 +25,6 @@ describe('issue codes', () => {
         'ROW_WIDTH',
         'MISSING_COLUMN',
         'UNKNOWN_COLUMN',
-        'WRONG_FILE_TYPE',
         'MISSING_REQUIRED',
         'INVALID_VALUE',
         'INVALID_JSON',

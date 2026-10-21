@@ -296,6 +296,3 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","در این ردیف variant_axes بدون variant_group آمده است، بنابراین محصول عضو هیچ گروه تنوعی نیست."
 "warning: ${1}","هشدار: ${1}"
 "warning: ${1}: ${2}","هشدار: ${1}: ${2}"
-"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","به نظر می‌رسد این ${1} است: ستون ""${2}"" را دارد. هنگام بارگذاری، نوع درست فایل را انتخاب کنید یا این ستون را حذف کنید."
-"a products file","فایل محصولات"
-"a customers file or a customer addresses file","فایل مشتریان یا فایل نشانی‌های مشتریان"

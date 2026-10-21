@@ -296,6 +296,3 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","variant_axes er oppgitt uten variant_group, så produktet er ikke en del av en variantgruppe."
 "warning: ${1}","advarsel: ${1}"
 "warning: ${1}: ${2}","advarsel: ${1}: ${2}"
-"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","Dette ser ut som ${1}: filen har en kolonne ""${2}"". Velg riktig filtype når du laster opp, eller fjern kolonnen."
-"a products file","en fil for produkter"
-"a customers file or a customer addresses file","en fil for kunder eller en fil for kundeadresser"
