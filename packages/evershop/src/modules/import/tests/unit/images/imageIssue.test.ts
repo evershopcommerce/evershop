@@ -15,6 +15,16 @@ describe('imageIssue (IMAGE_UNREADABLE)', () => {
       params: { reason: 'http_status', status: 404 },
       message:
         'The image in column "images" answered with the status 404 and not with an image.',
+      say: {
+        t: 'The image in column "${1}" ${2}',
+        a: [
+          'images',
+          {
+            t: 'answered with the status ${1} and not with an image.',
+            a: ['404']
+          }
+        ]
+      },
       value: 'https://x.test/a.png'
     });
   });

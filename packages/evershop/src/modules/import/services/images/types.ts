@@ -1,4 +1,6 @@
 import { IMP_03 } from '../rules/importPhaseRules.js';
+import { say } from '../say.js';
+import type { Say } from '../say.js';
 import type { ImportIssue } from '../types.js';
 
 /**
@@ -64,43 +66,43 @@ export interface ImageFetcher {
   probe(url: string): Promise<void>;
 }
 
-function describe(error: ImageError): string {
+function describe(error: ImageError): Say {
   const { reason, params } = error;
   switch (reason) {
     case 'invalid_url':
-      return 'is not an address that can be read: it must start with http:// or https:// and have no user name or password.';
+      return say`is not an address that can be read: it must start with http:// or https:// and have no user name or password.`;
     case 'blocked':
-      return 'points to a private or reserved address, which is not allowed.';
+      return say`points to a private or reserved address, which is not allowed.`;
     case 'timeout':
-      return 'did not answer in time.';
+      return say`did not answer in time.`;
     case 'network':
-      return `could not be reached (${String(
+      return say`could not be reached (${String(
         params.code ?? 'network error'
       )}).`;
     case 'http_status':
-      return `answered with the status ${String(
+      return say`answered with the status ${String(
         params.status
       )} and not with an image.`;
     case 'too_many_redirects':
-      return `is redirected more than ${String(params.max)} times.`;
+      return say`is redirected more than ${String(params.max)} times.`;
     case 'not_an_image':
       return params.contentType
-        ? `is not an image: the server says it is ${String(
+        ? say`is not an image: the server says it is ${String(
             params.contentType
           )}.`
-        : 'is not an image: the server does not say what it is.';
+        : say`is not an image: the server does not say what it is.`;
     case 'type_not_allowed':
-      return `is a type of image that this store does not accept (${String(
+      return say`is a type of image that this store does not accept (${String(
         params.contentType
       )}).`;
     case 'too_large':
-      return `is larger than the ${String(
+      return say`is larger than the ${String(
         params.maxMb
       )} MB that this store accepts for ${String(params.contentType)}.`;
     case 'empty':
-      return 'is empty.';
+      return say`is empty.`;
     default:
-      return 'could not be saved in the file storage.';
+      return say`could not be saved in the file storage.`;
   }
 }
 
@@ -113,7 +115,7 @@ export function imageIssue(
     rowNumber: where.rowNumber,
     column: where.column,
     params: { reason: error.reason, ...error.params },
-    message: `The image in column "${where.column}" ${describe(error)}`,
+    message: say`The image in column "${where.column}" ${describe(error)}`,
     value: where.value
   });
 }

@@ -35,6 +35,7 @@ import {
   CUS_09,
   CUS_11
 } from '../../rules/customerRules.js';
+import { say } from '../../say.js';
 import type { ImportIssue } from '../../types.js';
 import type {
   BatchResult,
@@ -154,7 +155,7 @@ function convert(
         rowNumber,
         column: 'email',
         params: { key: email },
-        message: `Row ${rowNumber} is an example row of the template (${email}) and is skipped.`,
+        message: say`Row ${rowNumber} is an example row of the template (${email}) and is skipped.`,
         value: email
       })
     );
@@ -167,7 +168,7 @@ function convert(
         rowNumber,
         column: 'email',
         params: { reason: 'no_key' },
-        message: `Row ${rowNumber} has no email. A customer is identified by the e-mail address.`
+        message: say`Row ${rowNumber} has no email. A customer is identified by the e-mail address.`
       })
     );
   } else {
@@ -207,8 +208,7 @@ function convert(
           rowNumber,
           column: 'password',
           params: { reason: 'placeholder' },
-          message:
-            'The password is "(hidden)", which is what the file with errors shows instead of a password. Type the password again, or leave the cell empty.'
+          message: say`The password is "(hidden)", which is what the file with errors shows instead of a password. Type the password again, or leave the cell empty.`
         })
       );
       invalid.push('password');
@@ -277,8 +277,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
         ALL_07.issue({
           column: 'email',
           params: { column: 'email' },
-          message:
-            'The file has no "email" column. A customer is identified by the e-mail address.'
+          message: say`The file has no "email" column. A customer is identified by the e-mail address.`
         })
       );
       return { issues, fatal: true };
@@ -295,7 +294,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
             ALL_08.issue({
               column,
               params: { column },
-              message: `The column "${column}" names a custom field that does not exist for customers. Create the definition first.`
+              message: say`The column "${column}" names a custom field that does not exist for customers. Create the definition first.`
             })
           );
         }
@@ -304,7 +303,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
           ALL_09.issue({
             column,
             params: { column },
-            message: `The column "${column}" is not a column of the customers file and is ignored.`
+            message: say`The column "${column}" is not a column of the customers file and is ignored.`
           })
         );
       }
@@ -333,7 +332,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
           rowNumber: row.rowNumber,
           column: 'email',
           params: { firstRow: first },
-          message: `The e-mail "${row.data.email}" is already used in row ${first} (letter case does not matter). Each customer can appear once in a file.`,
+          message: say`The e-mail "${row.data.email}" is already used in row ${first} (letter case does not matter). Each customer can appear once in a file.`,
           value: row.data.email
         })
       ];
@@ -377,7 +376,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
               value: email,
               matches: matches.length
             },
-            message: `The e-mail "${email}" matches ${matches.length} customers of the store that differ only in letter case, so it is not clear which is meant.`,
+            message: say`The e-mail "${email}" matches ${matches.length} customers of the store that differ only in letter case, so it is not clear which is meant.`,
             value: email
           })
         );
@@ -400,7 +399,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
             rowNumber,
             column: 'email',
             params: { key: email },
-            message: `The customer "${email}" already exists, and this import only creates new ones.`,
+            message: say`The customer "${email}" already exists, and this import only creates new ones.`,
             value: email
           })
         );
@@ -411,7 +410,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
             rowNumber,
             column: 'email',
             params: { key: email },
-            message: `The customer "${email}" does not exist, and this import only updates existing ones.`,
+            message: say`The customer "${email}" does not exist, and this import only updates existing ones.`,
             value: email
           })
         );
@@ -425,7 +424,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
               rowNumber,
               column: 'group',
               params: { reference: 'customer group', value: data.group },
-              message: `The customer group "${data.group}" is not a group of the store.`,
+              message: say`The customer group "${data.group}" is not a group of the store.`,
               value: data.group
             })
           );
@@ -439,7 +438,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
                 value: data.group,
                 matches: groups.length
               },
-              message: `The customer group "${data.group}" matches ${groups.length} groups, so it is not clear which is meant.`,
+              message: say`The customer group "${data.group}" matches ${groups.length} groups, so it is not clear which is meant.`,
               value: data.group
             })
           );
@@ -454,7 +453,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
                 rowNumber,
                 column: 'full_name',
                 params: { column: 'full_name' },
-                message: `The new customer "${email}" needs a value in column "full_name".`
+                message: say`The new customer "${email}" needs a value in column "full_name".`
               })
             );
           }
@@ -467,7 +466,7 @@ export const customerValidator: EntityValidator<CustomerData, CustomerState> = {
                   rowNumber,
                   column,
                   params: { column },
-                  message: `The column "${column}" is ignored for "${email}", who is already a customer: an import never changes a password.`
+                  message: say`The column "${column}" is ignored for "${email}", who is already a customer: an import never changes a password.`
                 })
               );
             }
@@ -510,7 +509,7 @@ function passwordIssues(
         rowNumber,
         column: 'password',
         params: { reason: 'both' },
-        message: 'Give either a password or a password_hash, not both.'
+        message: say`Give either a password or a password_hash, not both.`
       })
     );
   }
@@ -522,7 +521,7 @@ function passwordIssues(
           rowNumber,
           column: 'password',
           params: { reason: 'password_rule', message: checked.message },
-          message: `The value in column "password" is refused by the password rules of the store: ${checked.message}.`
+          message: say`The value in column "password" is refused by the password rules of the store: ${checked.message}.`
         })
       );
     }

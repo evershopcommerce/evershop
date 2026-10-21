@@ -168,7 +168,9 @@ export function uploadJob(
         resolve({
           kind: 'json',
           status: 200,
-          body: { data: { ...jobView(job, names), replaced } }
+          body: {
+            data: { ...jobView(job, names, web.jobMessage), replaced }
+          }
         });
       })().catch((e) => resolve(failure(web, e)));
     });

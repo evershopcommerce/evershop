@@ -9,6 +9,7 @@ import type {
 } from '../ports/lookup.js';
 import { ALL_08, ALL_21 } from '../rules/allRules.js';
 import { PRD_09, PRD_10, PRD_12 } from '../rules/productRules.js';
+import { say } from '../say.js';
 import type { ImportIssue } from '../types.js';
 
 const lower = (text: string) => text.trim().toLowerCase();
@@ -191,7 +192,7 @@ export class ProductResolver {
             rowNumber,
             column,
             params: { reference: column, value },
-            message: `The ${label} "${value}" is no longer in the store.`,
+            message: say`The ${label} "${value}" is no longer in the store.`,
             value
           })
         );
@@ -203,7 +204,7 @@ export class ProductResolver {
             rowNumber,
             column,
             params: { reference: column, value, matches: records.length },
-            message: `The ${label} "${value}" matches ${records.length} records, so it is not clear which is meant.`,
+            message: say`The ${label} "${value}" matches ${records.length} records, so it is not clear which is meant.`,
             value
           })
         );
@@ -233,7 +234,7 @@ export class ProductResolver {
             rowNumber,
             column: 'category',
             params: { reference: 'category', value: data.category },
-            message: `The category "${data.category}" is no longer a category of the store.`,
+            message: say`The category "${data.category}" is no longer a category of the store.`,
             value: data.category
           })
         );
@@ -251,7 +252,7 @@ export class ProductResolver {
             rowNumber,
             column: cell.column,
             params: { column: cell.column },
-            message: `The attribute "${cell.code}" is no longer in the store.`,
+            message: say`The attribute "${cell.code}" is no longer in the store.`,
             value: cell.text
           })
         );
@@ -269,7 +270,7 @@ export class ProductResolver {
                 rowNumber,
                 column: cell.column,
                 params: { attribute: attribute.code, option: text },
-                message: `"${text}" is no longer an option of the attribute "${attribute.code}".`,
+                message: say`"${text}" is no longer an option of the attribute "${attribute.code}".`,
                 value: text
               })
             );
@@ -279,7 +280,7 @@ export class ProductResolver {
                 rowNumber,
                 column: cell.column,
                 params: { reference: 'attribute option', value: text },
-                message: `"${text}" matches ${found.length} options of the attribute "${attribute.code}".`,
+                message: say`"${text}" matches ${found.length} options of the attribute "${attribute.code}".`,
                 value: text
               })
             );

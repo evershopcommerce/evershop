@@ -24,6 +24,7 @@ import { isTransientDatabaseError, withRetries } from '../retry.js';
 import { ALL_16, ALL_21 } from '../rules/allRules.js';
 import { CUS_04, CUS_07, CUS_10 } from '../rules/customerRules.js';
 import { IMP_01, IMP_02 } from '../rules/importPhaseRules.js';
+import { say } from '../say.js';
 import type { ImportIssue } from '../types.js';
 import type { WriteOutcome, WriteResult } from './categoryWriter.js';
 
@@ -69,15 +70,15 @@ function failure(error: unknown, row: CustomerRow): ImportIssue {
       column,
       params: { constraint, sqlState: '23505' },
       message: column
-        ? `The ${column} "${email}" is already used by another customer.`
-        : `A value of the customer "${email}" is already used by another record.`,
+        ? say`The ${column} "${email}" is already used by another customer.`
+        : say`A value of the customer "${email}" is already used by another record.`,
       value: column === 'email' ? email : undefined
     });
   }
   return IMP_01.issue({
     rowNumber,
     params: typeof e?.code === 'string' ? { sqlState: e.code } : {},
-    message: `The customer "${email}" could not be saved: ${String(
+    message: say`The customer "${email}" could not be saved: ${String(
       e?.message ?? error
     )}`
   });
@@ -199,7 +200,7 @@ export async function* writeCustomers(
           rowNumber,
           column: 'email',
           params: { reference: 'email', value: email, matches: matches.length },
-          message: `The e-mail "${email}" matches ${matches.length} customers of the store that differ only in letter case, so it is not clear which is meant.`,
+          message: say`The e-mail "${email}" matches ${matches.length} customers of the store that differ only in letter case, so it is not clear which is meant.`,
           value: email
         })
       );
@@ -213,7 +214,7 @@ export async function* writeCustomers(
           rowNumber,
           column: 'email',
           params: { key: email },
-          message: `The customer "${email}" already exists, and this import only creates new ones.`,
+          message: say`The customer "${email}" already exists, and this import only creates new ones.`,
           value: email
         })
       );
@@ -226,7 +227,7 @@ export async function* writeCustomers(
           rowNumber,
           column: 'email',
           params: { key: email },
-          message: `The customer "${email}" does not exist, and this import only updates existing ones.`,
+          message: say`The customer "${email}" does not exist, and this import only updates existing ones.`,
           value: email
         })
       );
@@ -243,7 +244,7 @@ export async function* writeCustomers(
             rowNumber,
             column: 'group',
             params: { reference: 'customer group', value: data.group },
-            message: `The customer group "${data.group}" is no longer a group of the store.`,
+            message: say`The customer group "${data.group}" is no longer a group of the store.`,
             value: data.group
           })
         );
@@ -259,7 +260,7 @@ export async function* writeCustomers(
               value: data.group,
               matches: found.length
             },
-            message: `The customer group "${data.group}" matches ${found.length} groups, so it is not clear which is meant.`,
+            message: say`The customer group "${data.group}" matches ${found.length} groups, so it is not clear which is meant.`,
             value: data.group
           })
         );
@@ -314,7 +315,7 @@ export async function* writeCustomers(
               rowNumber,
               column: 'password',
               params: { reason: 'both' },
-              message: 'Give either a password or a password_hash, not both.'
+              message: say`Give either a password or a password_hash, not both.`
             })
           );
         }
@@ -343,11 +344,13 @@ export async function* writeCustomers(
           CUS_10.issue({
             rowNumber,
             params: {},
-            message: `The customer "${email}" was ${
-              existing ? 'updated' : 'created'
-            }, but the custom fields could not be saved: ${String(
-              (error as { message?: unknown })?.message ?? error
-            )}. Importing the file again completes it.`
+            message: existing
+              ? say`The customer "${email}" was updated, but the custom fields could not be saved: ${String(
+                  (error as { message?: unknown })?.message ?? error
+                )}. Importing the file again completes it.`
+              : say`The customer "${email}" was created, but the custom fields could not be saved: ${String(
+                  (error as { message?: unknown })?.message ?? error
+                )}. Importing the file again completes it.`
           })
         );
       }

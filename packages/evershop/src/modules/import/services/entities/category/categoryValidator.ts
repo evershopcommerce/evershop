@@ -37,6 +37,7 @@ import {
   CAT_09,
   IMG_01
 } from '../../rules/categoryRules.js';
+import { say } from '../../say.js';
 import { slugify } from '../../slug.js';
 import type { ImportIssue } from '../../types.js';
 import type {
@@ -173,7 +174,7 @@ function convert(
         rowNumber,
         column: 'url_key',
         params: { key: written },
-        message: `Row ${rowNumber} is an example row of the template (${written}) and is skipped.`,
+        message: say`Row ${rowNumber} is an example row of the template (${written}) and is skipped.`,
         value: written
       })
     );
@@ -195,7 +196,7 @@ function convert(
           rowNumber,
           column: 'url_key',
           params: { reason: 'no_key_and_no_name' },
-          message: `Row ${rowNumber} has no url_key and no name to make one from.`
+          message: say`Row ${rowNumber} has no url_key and no name to make one from.`
         })
       );
     } else {
@@ -206,7 +207,7 @@ function convert(
             rowNumber,
             column: 'url_key',
             params: { reason: 'cannot_derive' },
-            message: `The url_key is blank and cannot be made from the name, because it has no Latin letters or digits. Write a url_key.`,
+            message: say`The url_key is blank and cannot be made from the name, because it has no Latin letters or digits. Write a url_key.`,
             value: typed
           })
         );
@@ -224,8 +225,7 @@ function convert(
           params: {
             reason: key.length > MAX_KEY_LENGTH ? 'too_long' : 'pattern'
           },
-          message:
-            'The value in column "url_key" must use only lowercase letters, digits and single hyphens, and be 1 to 255 characters (for example women-shoes).',
+          message: say`The value in column "url_key" must use only lowercase letters, digits and single hyphens, and be 1 to 255 characters (for example women-shoes).`,
           value: key
         })
       );
@@ -321,8 +321,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
         ALL_07.issue({
           column: 'url_key',
           params: { column: 'url_key' },
-          message:
-            'The file has no "url_key" column. A category is identified by its url_key.'
+          message: say`The file has no "url_key" column. A category is identified by its url_key.`
         })
       );
       return { issues, fatal: true };
@@ -339,7 +338,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
             ALL_08.issue({
               column,
               params: { column },
-              message: `The column "${column}" names a custom field that does not exist for categories. Create the definition first.`
+              message: say`The column "${column}" names a custom field that does not exist for categories. Create the definition first.`
             })
           );
         }
@@ -348,7 +347,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
           ALL_09.issue({
             column,
             params: { column },
-            message: `The column "${column}" is not a column of the categories file and is ignored.`
+            message: say`The column "${column}" is not a column of the categories file and is ignored.`
           })
         );
       }
@@ -377,7 +376,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
           rowNumber: row.rowNumber,
           column: 'url_key',
           params: { firstRow: first },
-          message: `The url_key "${row.key}" is already used in row ${first}. Each category can appear once in a file.`,
+          message: say`The url_key "${row.key}" is already used in row ${first}. Each category can appear once in a file.`,
           value: row.key
         })
       ];
@@ -422,7 +421,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
             rowNumber,
             column: 'url_key',
             params: { key },
-            message: `The category "${key}" already exists, and this import only creates new ones.`,
+            message: say`The category "${key}" already exists, and this import only creates new ones.`,
             value: key
           })
         );
@@ -433,7 +432,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
             rowNumber,
             column: 'url_key',
             params: { key },
-            message: `The category "${key}" does not exist, and this import only updates existing ones.`,
+            message: say`The category "${key}" does not exist, and this import only updates existing ones.`,
             value: key
           })
         );
@@ -445,7 +444,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
                 rowNumber,
                 column,
                 params: { column },
-                message: `The new category "${key}" needs a value in column "${column}".`
+                message: say`The new category "${key}" needs a value in column "${column}".`
               })
             );
           }
@@ -478,7 +477,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
             rowNumber,
             column: 'url_key',
             params: { key },
-            message: `The url_key "${key}" is the address of a page of the store or a language code, so a category cannot use it.`,
+            message: say`The url_key "${key}" is the address of a page of the store or a language code, so a category cannot use it.`,
             value: key
           })
         );
@@ -494,7 +493,7 @@ export const categoryValidator: EntityValidator<CategoryData, CategoryState> = {
               rowNumber,
               column: 'parent',
               params: { reference: 'category', value: parent },
-              message: `The parent "${parent}" is not a category of the store or of this file.`,
+              message: say`The parent "${parent}" is not a category of the store or of this file.`,
               value: parent
             })
           );
@@ -532,7 +531,7 @@ function cycle(rowNumber: number, chain: string[]): ImportIssue {
     rowNumber,
     column: 'parent',
     params: { chain },
-    message: `The parent would make a loop: ${chain.join(
+    message: say`The parent would make a loop: ${chain.join(
       ' → '
     )}. A category cannot be its own ancestor.`
   });

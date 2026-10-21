@@ -1,4 +1,6 @@
 import type { MetafieldField } from '../ports/lookup.js';
+import { say } from '../say.js';
+import type { Say } from '../say.js';
 import { descriptionToRows } from './description.js';
 import type { DescriptionDeps } from './description.js';
 import {
@@ -8,7 +10,8 @@ import {
   parseDate,
   parseJson,
   parseList,
-  refuse
+  refuse,
+  sentenceOf
 } from './parsers.js';
 import type { CellResult } from './parsers.js';
 
@@ -53,14 +56,14 @@ export function convertMetafieldCell(
         : refuse(
             'INVALID_VALUE',
             { reason: 'not_document', item: bad + 1 },
-            `has an item that is not a document (item ${
+            say`has an item that is not a document (item ${
               bad + 1
             }): each one is {"content": [...]}.`
           );
     }
     const rows = descriptionToRows(text, deps);
     return rows === null
-      ? refuse('INVALID_VALUE', { reason: 'blank' }, 'is empty.')
+      ? refuse('INVALID_VALUE', { reason: 'blank' }, say`is empty.`)
       : accept(rows);
   }
   if (!field.isList) {
@@ -70,13 +73,13 @@ export function convertMetafieldCell(
   for (const [index, item] of parseList(text).entries()) {
     const converted = convertScalar(field, item);
     if (!converted.ok) {
-      return {
-        ...converted,
-        params: { ...converted.params, item: index + 1 },
-        problem: `has an item that is not valid (item ${index + 1}): it ${
-          converted.problem
-        }`
-      };
+      return refuse(
+        converted.code,
+        { ...converted.params, item: index + 1 },
+        say`has an item that is not valid (item ${index + 1}): it ${sentenceOf(
+          converted
+        )}`
+      );
     }
     values.push(converted.value);
   }
@@ -91,13 +94,13 @@ function isObject(value: unknown): value is Record<string, unknown> {
 function groupProblem(
   field: MetafieldField,
   value: unknown
-): { params: Record<string, unknown>; text: string } | null {
+): { params: Record<string, unknown>; text: Say } | null {
   const defined = new Map(field.subFields.map((sub) => [sub.key, sub]));
   for (const item of field.isList ? (value as unknown[]) : [value]) {
     if (!isObject(item)) {
       return {
         params: { reason: 'not_object' },
-        text: 'must hold an object for each entry of the group.'
+        text: say`must hold an object for each entry of the group.`
       };
     }
     for (const [key, inner] of Object.entries(item)) {
@@ -105,14 +108,14 @@ function groupProblem(
       if (!sub) {
         return {
           params: { reason: 'unknown_sub_field', key },
-          text: `has a key that is not a field of the group ("${key}"). The names of the fields are written as the definition has them, with their letter case.`
+          text: say`has a key that is not a field of the group ("${key}"). The names of the fields are written as the definition has them, with their letter case.`
         };
       }
       if (sub.type === 'group' && inner !== null && inner !== undefined) {
         if (sub.isList && !Array.isArray(inner)) {
           return {
             params: { reason: 'not_array', key },
-            text: `has a field ("${key}") that must be a list.`
+            text: say`has a field ("${key}") that must be a list.`
           };
         }
         const found = groupProblem(sub, inner);
@@ -139,7 +142,7 @@ function convertScalar(
         : refuse(
             'INVALID_VALUE',
             { reason: 'not_url' },
-            'must be an address with a scheme, such as https://example.com, and no spaces.'
+            say`must be an address with a scheme, such as https://example.com, and no spaces.`
           );
     case 'integer':
       return /^-?[0-9]+$/.test(text) && Number.isSafeInteger(Number(text))
@@ -147,7 +150,7 @@ function convertScalar(
         : refuse(
             'INVALID_VALUE',
             { reason: 'not_integer' },
-            'must be a whole number, such as 12 or -3.'
+            say`must be a whole number, such as 12 or -3.`
           );
     case 'number':
       return /^-?[0-9]+(\.[0-9]+)?$/.test(text) && Number.isFinite(Number(text))
@@ -155,7 +158,7 @@ function convertScalar(
         : refuse(
             'INVALID_VALUE',
             { reason: 'not_number' },
-            'must be a number, such as 12 or 3.5: no comma and no thousands separator.'
+            say`must be a number, such as 12 or 3.5: no comma and no thousands separator.`
           );
     case 'boolean': {
       const parsed = parseBoolean(text);
@@ -169,7 +172,7 @@ function convertScalar(
       return refuse(
         'INVALID_VALUE',
         { reason: 'unsupported_type', type: field.type },
-        `has a type that the import cannot read (${field.type}).`
+        say`has a type that the import cannot read (${field.type}).`
       );
   }
 }

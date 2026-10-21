@@ -56,6 +56,7 @@ import {
   PRD_27,
   PRD_28
 } from '../../rules/productRules.js';
+import { say } from '../../say.js';
 import { slugify } from '../../slug.js';
 import type { ImportIssue } from '../../types.js';
 import type {
@@ -287,7 +288,7 @@ function convert(
         rowNumber,
         column: 'sku',
         params: { key: sku },
-        message: `Row ${rowNumber} is an example row of the template (${sku}) and is skipped.`,
+        message: say`Row ${rowNumber} is an example row of the template (${sku}) and is skipped.`,
         value: sku
       })
     );
@@ -300,7 +301,7 @@ function convert(
         rowNumber,
         column: 'sku',
         params: { reason: 'no_key' },
-        message: `Row ${rowNumber} has no sku. A product is identified by its sku.`
+        message: say`Row ${rowNumber} has no sku. A product is identified by its sku.`
       })
     );
   } else {
@@ -338,8 +339,7 @@ function convert(
           params: {
             reason: urlKey.length > MAX_KEY_LENGTH ? 'too_long' : 'pattern'
           },
-          message:
-            'The value in column "url_key" must use only lowercase letters, digits and single hyphens, and be 1 to 255 characters (for example classic-tee).',
+          message: say`The value in column "url_key" must use only lowercase letters, digits and single hyphens, and be 1 to 255 characters (for example classic-tee).`,
           value: urlKey
         })
       );
@@ -425,7 +425,7 @@ function convert(
             rowNumber,
             column: 'images',
             params: { url: parsed.value },
-            message: `The image address is given twice in this cell and is used once.`,
+            message: say`The image address is given twice in this cell and is used once.`,
             value: parsed.value
           })
         );
@@ -516,8 +516,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
         ALL_07.issue({
           column: 'sku',
           params: { column: 'sku' },
-          message:
-            'The file has no "sku" column. A product is identified by its sku.'
+          message: say`The file has no "sku" column. A product is identified by its sku.`
         })
       );
       return { issues, fatal: true };
@@ -540,7 +539,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
             ALL_08.issue({
               column,
               params: { column },
-              message: `The column "${column}" names a custom field that does not exist for products. Create the definition first.`
+              message: say`The column "${column}" names a custom field that does not exist for products. Create the definition first.`
             })
           );
         }
@@ -549,7 +548,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
           ALL_09.issue({
             column,
             params: { column },
-            message: `The column "${column}" is not a column of the products file and is ignored.`
+            message: say`The column "${column}" is not a column of the products file and is ignored.`
           })
         );
       }
@@ -564,7 +563,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
             ALL_08.issue({
               column,
               params: { column },
-              message: `The column "${column}" names an attribute that does not exist. Create the attribute first.`
+              message: say`The column "${column}" names an attribute that does not exist. Create the attribute first.`
             })
           );
         }
@@ -599,7 +598,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
           rowNumber: row.rowNumber,
           column: 'sku',
           params: { firstRow: first },
-          message: `The sku "${row.key}" is already used in row ${first}. Each product can appear once in a file.`,
+          message: say`The sku "${row.key}" is already used in row ${first}. Each product can appear once in a file.`,
           value: row.key
         })
       ];
@@ -614,7 +613,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
             rowNumber: row.rowNumber,
             column: 'url_key',
             params: { firstRow: other.row },
-            message: `The url_key "${urlKey}" is already used in row ${other.row}. Each url_key can be used once in a file.`,
+            message: say`The url_key "${urlKey}" is already used in row ${other.row}. Each url_key can be used once in a file.`,
             value: urlKey
           })
         );
@@ -631,7 +630,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
             rowNumber: row.rowNumber,
             column: 'redirect_from',
             params: { path, firstRow: firstPath },
-            message: `The old address "${path}" is already given in row ${firstPath}. A path can redirect from one product only.`,
+            message: say`The old address "${path}" is already given in row ${firstPath}. A path can redirect from one product only.`,
             value: path
           })
         );
@@ -768,7 +767,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
                 rowNumber,
                 column,
                 params: { column },
-                message: `The new product "${key}" needs a value in column "${column}".`
+                message: say`The new product "${key}" needs a value in column "${column}".`
               })
             );
           }
@@ -788,8 +787,8 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
                 column: 'url_key',
                 params: { reason: long ? 'too_long' : 'cannot_derive' },
                 message: long
-                  ? `The url_key is blank and the one made from the name would be longer than ${MAX_KEY_LENGTH} characters. Write a url_key.`
-                  : `The url_key is blank and cannot be made from the name, because it has no Latin letters or digits. Write a url_key.`,
+                  ? say`The url_key is blank and the one made from the name would be longer than ${MAX_KEY_LENGTH} characters. Write a url_key.`
+                  : say`The url_key is blank and cannot be made from the name, because it has no Latin letters or digits. Write a url_key.`,
                 value: data.name
               })
             );
@@ -803,7 +802,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
                   rowNumber,
                   column: 'url_key',
                   params: { firstRow: other, derived: true },
-                  message: `The url_key "${urlKey}" made from the name is already used in row ${other}. Write a different url_key.`,
+                  message: say`The url_key "${urlKey}" made from the name is already used in row ${other}. Write a different url_key.`,
                   value: urlKey
                 })
               );
@@ -821,7 +820,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
               rowNumber,
               column: 'url_key',
               params: { urlKey, owner },
-              message: `The url_key "${urlKey}" is already used by the product with the sku "${owner}".`,
+              message: say`The url_key "${urlKey}" is already used by the product with the sku "${owner}".`,
               value: urlKey
             })
           );
@@ -832,7 +831,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
               rowNumber,
               column: 'url_key',
               params: { urlKey },
-              message: `The url_key "${urlKey}" is the address of a page of the store or a language code, so a product cannot use it.`,
+              message: say`The url_key "${urlKey}" is the address of a page of the store or a language code, so a product cannot use it.`,
               value: urlKey
             })
           );
@@ -870,7 +869,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
             rowNumber,
             column: 'category',
             params: { reference: 'category', value: data.category },
-            message: `The category "${data.category}" is not a category of the store.`,
+            message: say`The category "${data.category}" is not a category of the store.`,
             value: data.category
           })
         );
@@ -887,7 +886,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
                 rowNumber,
                 column,
                 params: { column },
-                message: `The product "${key}" needs no shipping, so its ${column} is not stored.`,
+                message: say`The product "${key}" needs no shipping, so its ${column} is not stored.`,
                 value: data[column]
               })
             );
@@ -906,7 +905,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
               rowNumber,
               column: 'package',
               params: { reason: 'no_default_package' },
-              message: `The product "${key}" is shipped and has no package, and the store has no default package. Write a package.`
+              message: say`The product "${key}" is shipped and has no package, and the store has no default package. Write a package.`
             })
           );
         }
@@ -993,7 +992,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
               rowNumber,
               column: 'redirect_from',
               params: { path },
-              message: `The old address "${path}" is already a redirect of another record.`,
+              message: say`The old address "${path}" is already a redirect of another record.`,
               value: path
             })
           );
@@ -1004,7 +1003,7 @@ export const productValidator: EntityValidator<ProductData, ProductState> = {
               rowNumber,
               column: 'redirect_from',
               params: { path },
-              message: `The old address "${path}" is the address of a page of the store, so the redirect would never be used.`,
+              message: say`The old address "${path}" is the address of a page of the store, so the redirect would never be used.`,
               value: path
             })
           );
@@ -1050,7 +1049,7 @@ function modeIssue(
       rowNumber,
       column: 'sku',
       params: { key },
-      message: `The product "${key}" already exists, and this import only creates new ones.`,
+      message: say`The product "${key}" already exists, and this import only creates new ones.`,
       value: key
     });
   }
@@ -1060,7 +1059,7 @@ function modeIssue(
       rowNumber,
       column: 'sku',
       params: { key },
-      message: `The product "${key}" does not exist, and this import only updates existing ones.`,
+      message: say`The product "${key}" does not exist, and this import only updates existing ones.`,
       value: key
     });
   }
@@ -1086,7 +1085,7 @@ function reference(
         rowNumber,
         column,
         params: { reference: column, value },
-        message: `The ${label} "${value}" does not exist in the store.`,
+        message: say`The ${label} "${value}" does not exist in the store.`,
         value
       })
     );
@@ -1098,7 +1097,7 @@ function reference(
         rowNumber,
         column,
         params: { reference: column, value, matches: records.length },
-        message: `The ${label} "${value}" matches ${records.length} records. Rename them so that the name is unique.`,
+        message: say`The ${label} "${value}" matches ${records.length} records. Rename them so that the name is unique.`,
         value
       })
     );
@@ -1149,7 +1148,7 @@ async function checkAttributes(args: AttributeCheck): Promise<void> {
           rowNumber,
           column: cell.column,
           params: { attribute: attribute.code },
-          message: `The attribute "${attribute.code}" is not linked to the attribute group of the product "${key}", so its value would be removed.`,
+          message: say`The attribute "${attribute.code}" is not linked to the attribute group of the product "${key}", so its value would be removed.`,
           value: cell.text
         })
       );
@@ -1170,7 +1169,7 @@ async function checkAttributes(args: AttributeCheck): Promise<void> {
           rowNumber,
           column: `${ATTR_PREFIX}${attribute.code}`,
           params: { attribute: attribute.code },
-          message: `The attribute "${attribute.code}" is required for the attribute group of the product "${key}" and has no value.`
+          message: say`The attribute "${attribute.code}" is required for the attribute group of the product "${key}" and has no value.`
         })
       );
     }
@@ -1191,7 +1190,7 @@ async function checkAttributes(args: AttributeCheck): Promise<void> {
           rowNumber,
           column: 'attribute_group',
           params: { attributes: lost.map((a) => a.code) },
-          message: `The product "${key}" changes its attribute group; the values of ${lost
+          message: say`The product "${key}" changes its attribute group; the values of ${lost
             .map((a) => `"${a.code}"`)
             .join(
               ', '
@@ -1222,7 +1221,7 @@ async function checkOptions(
         rowNumber,
         column: cell.column,
         params: { reason: 'unsupported_attribute_type', type: attribute.type },
-        message: `The attribute "${attribute.code}" has the type "${attribute.type}", which the import cannot write.`,
+        message: say`The attribute "${attribute.code}" has the type "${attribute.type}", which the import cannot write.`,
         value: cell.text
       })
     );
@@ -1250,7 +1249,7 @@ async function checkOptions(
           rowNumber,
           column: cell.column,
           params: { attribute: attribute.code, option: text },
-          message: `"${text}" is not an option of the attribute "${attribute.code}".`,
+          message: say`"${text}" is not an option of the attribute "${attribute.code}".`,
           value: text
         })
       );
@@ -1264,7 +1263,7 @@ async function checkOptions(
             value: text,
             matches: ids.length
           },
-          message: `"${text}" matches ${ids.length} options of the attribute "${attribute.code}". Rename them so that each text is unique.`,
+          message: say`"${text}" matches ${ids.length} options of the attribute "${attribute.code}". Rename them so that each text is unique.`,
           value: text
         })
       );

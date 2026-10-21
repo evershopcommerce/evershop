@@ -7,6 +7,9 @@ import { chunked, collect, readAll } from '../helpers/readAll.js';
 // result must be the same each time.
 
 const cellsOf = (rows: { cells: string[] }[]) => rows.map((row) => row.cells);
+// The sentence as a template is checked in say.test.ts; these compare the rest.
+const plain = <T extends { say?: unknown }>(issues: T[]) =>
+  issues.map(({ say: _say, ...rest }) => rest);
 
 describe('readCsv: rows', () => {
   it('reads the header and the rows, and numbers the rows like a spreadsheet', async () => {
@@ -244,7 +247,7 @@ describe('readCsv: blank lines', () => {
 describe('readCsv: the width of a row (ALL-06)', () => {
   it('reports a row with too few and a row with too many cells, and goes on', async () => {
     const result = await readAll('a,b,c\n1,2,3\n1,2\n1,2,3,4\n7,8,9\n');
-    expect(result.issues).toEqual([
+    expect(plain(result.issues)).toEqual([
       {
         code: 'ROW_WIDTH',
         severity: 'error',
@@ -304,7 +307,7 @@ describe('readCsv: the width of a row (ALL-06)', () => {
 describe('readCsv: the header', () => {
   it('refuses a semicolon-separated file, with the delimiter named', async () => {
     const result = await readAll('sku;name;price\nA;Alpha;1\n');
-    expect(result.issues).toEqual([
+    expect(plain(result.issues)).toEqual([
       {
         code: 'WRONG_DELIMITER',
         severity: 'error',
@@ -339,7 +342,7 @@ describe('readCsv: the header', () => {
 
   it('reports a column that appears twice, with the positions, and goes on reading', async () => {
     const result = await readAll('sku,name,sku\nA,Alpha,B\n');
-    expect(result.issues).toEqual([
+    expect(plain(result.issues)).toEqual([
       {
         code: 'DUPLICATE_COLUMN',
         severity: 'error',
@@ -548,7 +551,7 @@ describe('readCsv: the number of rows (ALL-03)', () => {
 
   it('stops at the first row over the maximum', async () => {
     const result = await readAll('a\n1\n2\n3\n4\n5\n', { maxRows: 3 });
-    expect(result.issues).toEqual([
+    expect(plain(result.issues)).toEqual([
       {
         code: 'FILE_TOO_LARGE',
         severity: 'error',
@@ -572,7 +575,7 @@ describe('readCsv: the cells (ALL-12)', () => {
     const result = await readAll('sku,name\nA,abcdefghij\nB,ok\n', {
       maxCellLength: 5
     });
-    expect(result.issues).toEqual([
+    expect(plain(result.issues)).toEqual([
       {
         code: 'INVALID_VALUE',
         severity: 'error',
@@ -602,7 +605,7 @@ describe('readCsv: the cells (ALL-12)', () => {
 
   it('flags a NUL character, and leaves the cell out of the issue', async () => {
     const result = await readAll('sku,name\nA,bad\u0000cell\nB,fine\n');
-    expect(result.issues).toEqual([
+    expect(plain(result.issues)).toEqual([
       {
         code: 'INVALID_VALUE',
         severity: 'error',

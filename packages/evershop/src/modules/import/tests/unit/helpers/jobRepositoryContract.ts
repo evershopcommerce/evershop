@@ -466,6 +466,31 @@ export function jobRepositoryContract(
         expect(await h.issues(id)).toEqual([given]);
       });
 
+      it('keeps the sentence of a problem as a template with its values, and keeps it out of the parameters', async () => {
+        const { id, attempt } = await claimed();
+        const given: StoredIssue = {
+          ...issue(4),
+          params: { reason: 'not_decimal', max: 100 },
+          message: 'The value in column "price" must be below 100.',
+          say: {
+            t: 'The value in column "${1}" must be below ${2}.',
+            a: ['price', '100']
+          }
+        };
+        await repo.checkpoint(id, attempt, {
+          ...noWork,
+          issues: [given, issue(5)]
+        });
+        // As the repository reads it back (the file with errors reads this way).
+        const read: StoredIssue[] = [];
+        for await (const stored of repo.issuesInRowOrder(id, 'validate')) {
+          read.push(stored);
+        }
+        expect(read[0]).toEqual(given);
+        expect(read[1].say).toBeUndefined();
+        expect(read[1].params).toEqual({});
+      });
+
       it('stores a problem of the file as a whole, with nothing optional', async () => {
         const { id, attempt } = await claimed();
         const given: StoredIssue = {

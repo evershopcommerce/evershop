@@ -17,6 +17,7 @@ import {
   ADR_11,
   ADR_12
 } from '../../rules/customerAddressRules.js';
+import { say } from '../../say.js';
 import type { ImportIssue } from '../../types.js';
 import type {
   BatchResult,
@@ -124,7 +125,7 @@ function convert(row: CsvRow, header: HeaderInfo): AddressRow {
         rowNumber,
         column: 'email',
         params: { key: email },
-        message: `Row ${rowNumber} is an example row of the template (${email}) and is skipped.`,
+        message: say`Row ${rowNumber} is an example row of the template (${email}) and is skipped.`,
         value: email
       })
     );
@@ -137,7 +138,7 @@ function convert(row: CsvRow, header: HeaderInfo): AddressRow {
         rowNumber,
         column: 'email',
         params: { reason: 'no_key' },
-        message: `Row ${rowNumber} has no email. An address belongs to the customer with that e-mail address.`
+        message: say`Row ${rowNumber} has no email. An address belongs to the customer with that e-mail address.`
       })
     );
   } else {
@@ -196,8 +197,7 @@ export const customerAddressValidator: EntityValidator<
         ALL_07.issue({
           column: 'email',
           params: { column: 'email' },
-          message:
-            'The file has no "email" column. An address belongs to the customer with that e-mail address.'
+          message: say`The file has no "email" column. An address belongs to the customer with that e-mail address.`
         })
       );
       return { issues, fatal: true };
@@ -210,7 +210,7 @@ export const customerAddressValidator: EntityValidator<
         ALL_09.issue({
           column,
           params: { column },
-          message: `The column "${column}" is not a column of the customer addresses file and is ignored.`
+          message: say`The column "${column}" is not a column of the customer addresses file and is ignored.`
         })
       );
     }
@@ -241,7 +241,7 @@ export const customerAddressValidator: EntityValidator<
         rowNumber: row.rowNumber,
         column: 'is_default',
         params: { firstRow: first },
-        message: `Row ${first} already makes an address of "${row.data.email}" the default one. The last one in the file wins.`,
+        message: say`Row ${first} already makes an address of "${row.data.email}" the default one. The last one in the file wins.`,
         value: '1'
       })
     ];
@@ -271,7 +271,7 @@ export const customerAddressValidator: EntityValidator<
             rowNumber,
             column: 'email',
             params: { reference: 'customer', value: email },
-            message: `There is no customer with the e-mail "${email}". Import the customers first.`,
+            message: say`There is no customer with the e-mail "${email}". Import the customers first.`,
             value: email
           })
         );
@@ -285,7 +285,7 @@ export const customerAddressValidator: EntityValidator<
               value: email,
               matches: matches.length
             },
-            message: `The e-mail "${email}" matches ${matches.length} customers of the store that differ only in letter case, so it is not clear which is meant.`,
+            message: say`The e-mail "${email}" matches ${matches.length} customers of the store that differ only in letter case, so it is not clear which is meant.`,
             value: email
           })
         );
@@ -299,7 +299,7 @@ export const customerAddressValidator: EntityValidator<
             rowNumber,
             column: 'country',
             params: { reason: 'unknown_country' },
-            message: `The country "${country}" is not a country code the store knows (two letters, such as US).`,
+            message: say`The country "${country}" is not a country code the store knows (two letters, such as US).`,
             value: country
           })
         );
@@ -317,7 +317,7 @@ export const customerAddressValidator: EntityValidator<
                   rowNumber,
                   column: 'extra',
                   params: { reason: 'unknown_extra', key: name },
-                  message: `The extra field "${name}" is not registered for the country ${country.toUpperCase()}.`
+                  message: say`The extra field "${name}" is not registered for the country ${country.toUpperCase()}.`
                 })
               );
             }

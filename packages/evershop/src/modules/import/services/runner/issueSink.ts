@@ -56,6 +56,7 @@ export class IssueSink {
       severity: issue.severity,
       params: issue.params,
       message: issue.message,
+      ...(issue.say ? { say: issue.say } : {}),
       value: issue.value ?? null
     });
   }

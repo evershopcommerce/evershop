@@ -2,6 +2,7 @@ import { pipeline } from 'stream';
 import type { Readable } from 'stream';
 import csvParser from 'csv-parser';
 import { createIssue } from '../issues.js';
+import { say } from '../say.js';
 import type { ImportIssue } from '../types.js';
 import { CsvFileError, CsvFileGuard } from './csvFileGuard.js';
 
@@ -65,7 +66,7 @@ function cellLimitIssue(
       rowNumber,
       column,
       params: { reason: 'too_long', maxLength: maxCellLength },
-      message: `The value in column "${column}" is longer than ${maxCellLength} characters.`,
+      message: say`The value in column "${column}" is longer than ${maxCellLength} characters.`,
       value: cell
     });
   }
@@ -75,7 +76,7 @@ function cellLimitIssue(
       rowNumber,
       column,
       params: { reason: 'nul' },
-      message: `The value in column "${column}" contains a NUL character (U+0000), which cannot be stored.`
+      message: say`The value in column "${column}" contains a NUL character (U+0000), which cannot be stored.`
     });
   }
   return null;
@@ -89,23 +90,23 @@ function fileErrorIssue(error: CsvFileError): ImportIssue {
       params,
       message:
         params.reason === 'utf16'
-          ? 'The file is saved as UTF-16 ("Unicode Text"). Save it as "CSV UTF-8 (Comma delimited)" instead.'
-          : 'The file is not valid UTF-8 text. Save it as "CSV UTF-8 (Comma delimited)".'
+          ? say`The file is saved as UTF-16 ("Unicode Text"). Save it as "CSV UTF-8 (Comma delimited)" instead.`
+          : say`The file is not valid UTF-8 text. Save it as "CSV UTF-8 (Comma delimited)".`
     });
   }
   if (code === 'UNCLOSED_QUOTE') {
     return createIssue({
       code,
       params,
-      message: `A quote character (") that opens in row ${params.row} is never closed. A quote inside a cell must be written twice ("") and a cell that holds a comma, a quote or a line break must be wrapped in quotes.`
+      message: say`A quote character (") that opens in row ${params.row} is never closed. A quote inside a cell must be written twice ("") and a cell that holds a comma, a quote or a line break must be wrapped in quotes.`
     });
   }
   return createIssue({
     code,
     params,
     message: params.quoteOpen
-      ? `Row ${params.row} is larger than ${params.maxRowBytes} bytes. A quote character (") that opens in it is probably never closed. A quote inside a cell must be written twice ("") and a cell that holds a comma, a quote or a line break must be wrapped in quotes.`
-      : `Row ${params.row} is larger than ${params.maxRowBytes} bytes.`
+      ? say`Row ${params.row} is larger than ${params.maxRowBytes} bytes. A quote character (") that opens in it is probably never closed. A quote inside a cell must be written twice ("") and a cell that holds a comma, a quote or a line break must be wrapped in quotes.`
+      : say`Row ${params.row} is larger than ${params.maxRowBytes} bytes.`
   });
 }
 
@@ -133,9 +134,10 @@ function readHeader(cells: string[]): Header {
         createIssue({
           code: 'WRONG_DELIMITER',
           params: { delimiter },
-          message: `The header row is a single column that contains ${
-            delimiter === ';' ? 'a semicolon (;)' : 'a tab'
-          }. The file must be comma-separated: save it as "CSV (Comma delimited)".`
+          message:
+            delimiter === ';'
+              ? say`The header row is a single column that contains a semicolon (;). The file must be comma-separated: save it as "CSV (Comma delimited)".`
+              : say`The header row is a single column that contains a tab. The file must be comma-separated: save it as "CSV (Comma delimited)".`
         })
       ]
     };
@@ -167,11 +169,14 @@ function readHeader(cells: string[]): Header {
           code: 'DUPLICATE_COLUMN',
           column: name,
           params: { column: name, positions: where.slice(0, 20) },
-          message: `The column "${name}" appears more than once (columns ${where
-            .slice(0, 20)
-            .join(', ')}${
-            where.length > 20 ? `, and ${where.length - 20} more` : ''
-          }).`
+          message:
+            where.length > 20
+              ? say`The column "${name}" appears more than once (columns ${where
+                  .slice(0, 20)
+                  .join(', ')}, and ${where.length - 20} more).`
+              : say`The column "${name}" appears more than once (columns ${where.join(
+                  ', '
+                )}).`
         })
       );
     }
@@ -241,7 +246,7 @@ export async function* readCsv(
           issue: createIssue({
             code: 'FILE_TOO_LARGE',
             params: { reason: 'rows', maxRows: limits.maxRows },
-            message: `The file has more than ${limits.maxRows} data rows. Split it into smaller files.`
+            message: say`The file has more than ${limits.maxRows} data rows. Split it into smaller files.`
           })
         };
         stopped = true;
@@ -255,7 +260,7 @@ export async function* readCsv(
             code: 'ROW_WIDTH',
             rowNumber,
             params: { expected: header.width, actual: cells.length },
-            message: `Row ${rowNumber} has ${cells.length} cells but the header has ${header.width}. A cell that holds a comma, a quote or a line break must be wrapped in quotes.`
+            message: say`Row ${rowNumber} has ${cells.length} cells but the header has ${header.width}. A cell that holds a comma, a quote or a line break must be wrapped in quotes.`
           })
         );
       } else {
@@ -295,8 +300,8 @@ export async function* readCsv(
           code: 'FILE_EMPTY',
           params: { reason: noHeader ? 'no_header' : 'no_rows' },
           message: noHeader
-            ? 'The file is empty. It needs a header row and at least one data row.'
-            : 'The file has a header row but no data rows.'
+            ? say`The file is empty. It needs a header row and at least one data row.`
+            : say`The file has a header row but no data rows.`
         })
       };
     }

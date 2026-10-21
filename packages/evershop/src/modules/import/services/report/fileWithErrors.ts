@@ -5,7 +5,7 @@ import type { CsvLimits } from '../reader/readCsv.js';
 import type { ImportEntity } from '../types.js';
 import { csvLine } from './csvWrite.js';
 import { errorsCell } from './errorsCell.js';
-import type { RenderMessage } from './errorsCell.js';
+import type { RenderMessage, RenderSentence } from './errorsCell.js';
 
 export { READING_STOPPED_CODES } from '../issues.js';
 
@@ -75,6 +75,8 @@ export interface FileWithErrorsArgs {
   /** `counts.firstUnlistedRow` of that phase: from this row on, problems may be missing. */
   firstUnlistedRow?: number | null;
   render?: RenderMessage;
+  /** Says the words around the problems (see `errorsCell`). */
+  sentence?: RenderSentence;
   /** The limits the file was checked with. */
   limits?: Partial<CsvLimits>;
 }
@@ -142,6 +144,7 @@ export async function* fileWithErrors(
           const text = errorsCell(issues, {
             columns,
             render: args.render,
+            sentence: args.sentence,
             unlisted: firstUnlisted !== null && rowNumber >= firstUnlisted
           });
           const shown = cells.map((cell, index) =>

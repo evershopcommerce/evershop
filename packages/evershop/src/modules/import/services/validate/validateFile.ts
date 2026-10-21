@@ -7,6 +7,7 @@ import type {
 import { createIssue } from '../issues.js';
 import { readCsv } from '../reader/readCsv.js';
 import type { CsvLimits } from '../reader/readCsv.js';
+import { say } from '../say.js';
 import type { ImportIssue } from '../types.js';
 
 export interface ValidationSummary {
@@ -210,7 +211,7 @@ async function firstPass(
               code: 'UNKNOWN_COLUMN',
               rowNumber: event.row.rowNumber,
               params: { position: at + 1 },
-              message: `Column ${
+              message: say`Column ${
                 at + 1
               } has no name, so its values are not read.`
             }),
