@@ -26,6 +26,7 @@ import {
 import { CustomerRow } from '../../../../types/db/index.js';
 import { getAjv } from '../../../base/services/getAjv.js';
 import customerDataSchema from './customerDataSchema.json' with { type: 'json' };
+import { emailPattern } from './emailPattern.js';
 
 export interface CustomerData {
   email?: string,
@@ -164,10 +165,11 @@ async function createCustomer<T extends CustomerData>(data: T, context: Record<s
     } else {
       hashedPassword = hashPassword(password || '');
     }
-    // Check if email is already used
+    // Check if email is already used (in any letter case: the log in treats
+    // Jane@x.com and jane@x.com as one address, so two accounts would be one)
     const existingCustomer = await select()
       .from('customer')
-      .where('email', '=', email)
+      .where('email', 'ILIKE', emailPattern(email as string))
       .load(pool);
 
     if (existingCustomer) {

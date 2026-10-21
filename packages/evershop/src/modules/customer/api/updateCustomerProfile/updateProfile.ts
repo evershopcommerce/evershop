@@ -10,6 +10,7 @@ import {
 } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import { emailPattern } from '../../services/customer/emailPattern.js';
 import updateCustomer from '../../services/customer/updateCustomer.js';
 
 /**
@@ -68,7 +69,7 @@ export default async (
     ) {
       const existing = await select()
         .from('customer')
-        .where('email', '=', data.email)
+        .where('email', 'ILIKE', emailPattern(data.email))
         .load(pool);
       if (existing && existing.uuid !== currentCustomer.uuid) {
         response.status(INVALID_PAYLOAD);

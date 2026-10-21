@@ -3,17 +3,17 @@ import { translate } from '../../../../lib/locale/translate/translate.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { comparePassword } from '../../../../lib/util/passwordHelper.js';
 import { buildCustomerPayload } from './buildCustomerPayload.js';
+import { emailPattern } from './emailPattern.js';
 /**
  * Login a customer with email and password. This function must be accessed from the request object (request.loginCustomerWithEmail(email, password, callback))
  * @param {string} email
  * @param {string} password
  */
 async function loginCustomerWithEmail(email: string, password: string) {
-  // Escape the email to prevent SQL injection
-  const customerEmail = email.replace(/%/g, '\\%');
+  // `ILIKE` with the address written literally: any letter case, no wildcard.
   const customer = await select()
     .from('customer')
-    .where('email', 'ILIKE', customerEmail)
+    .where('email', 'ILIKE', emailPattern(email))
     .and('status', '=', 1)
     .load(pool);
   const result = comparePassword(password, customer ? customer.password : '');

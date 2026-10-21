@@ -111,13 +111,44 @@ describe('createCustomer, as it always was', () => {
     expect(emitted).toEqual([]);
   });
 
+  it('refuses an e-mail address that is taken in another letter case: the log in reads both as one address', async () => {
+    for (const email of ['Taken@Example.com', 'TAKEN@EXAMPLE.COM']) {
+      // eslint-disable-next-line no-await-in-loop
+      const e = await rejection(
+        createCustomer({ ...VALID, email, password: 'secret-123' }, {})
+      );
+      expect(e.message).toBe('Email is already used');
+    }
+    expect(db.inserts).toEqual([]);
+  });
+
+  it('does not take a `_` or a `%` of the address for a wildcard', async () => {
+    db.tables.customer.push({
+      customer_id: 4,
+      uuid: 'cust-4',
+      email: 'jane_doe@example.com'
+    });
+    // `janexdoe@example.com` is another address than `jane_doe@example.com`.
+    const created = await createCustomer(
+      { ...VALID, email: 'janexdoe@example.com', password: 'secret-123' },
+      {}
+    );
+    expect(created.email).toBe('janexdoe@example.com');
+    const e = await rejection(
+      createCustomer(
+        { ...VALID, email: 'JANE_DOE@example.com', password: 'secret-123' },
+        {}
+      )
+    );
+    expect(e.message).toBe('Email is already used');
+  });
+
   it('still requires a name', async () => {
     const e = await rejection(
       createCustomer({ email: 'a@example.com', password: 'secret-123' }, {})
     );
     expect(e.message).toMatch(/full_name|Full name/i);
   });
-
 });
 
 describe('createCustomer and a request body that names the options', () => {
@@ -177,7 +208,10 @@ describe('createCustomer with a stored hash (context.passwordHash)', () => {
 
   it('does not run the password rules on a hash', async () => {
     // "a" is far below the 6 characters of the rule; its hash is still fine.
-    await createCustomer({ ...VALID }, { passwordHash: bcrypt.hashSync('a', 4) });
+    await createCustomer(
+      { ...VALID },
+      { passwordHash: bcrypt.hashSync('a', 4) }
+    );
     expect(db.inserts).toHaveLength(1);
   });
 
@@ -208,7 +242,9 @@ describe('createCustomer with a stored hash (context.passwordHash)', () => {
         { passwordHash: HASH }
       )
     );
-    expect(e.message).toBe('Give either a password or a password hash, not both');
+    expect(e.message).toBe(
+      'Give either a password or a password hash, not both'
+    );
     expect(db.inserts).toEqual([]);
   });
 
