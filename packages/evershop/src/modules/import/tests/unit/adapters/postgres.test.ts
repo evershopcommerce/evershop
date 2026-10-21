@@ -76,13 +76,17 @@ describeDb('the import tables (migration Version-1.0.0)', () => {
     );
 
   it('puts the tables in the test schema and nowhere else', async () => {
+    // A store may run on this database and have its own `public.import_job`
+    // (its migration ran): the test's table is then another table, not none.
     const found = await pool().query(
       `SELECT (SELECT n.nspname FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
                 WHERE c.oid = to_regclass('import_job')) AS schema,
-              to_regclass('public.import_job')::text AS in_public`
+              to_regclass('import_job')::oid::text AS used,
+              to_regclass('public.import_job')::oid::text AS in_public`
     );
     expect(found.rows[0].schema).toBe(db!.schema);
-    expect(found.rows[0].in_public).toBeNull();
+    expect(found.rows[0].used).not.toBeNull();
+    expect(found.rows[0].used).not.toBe(found.rows[0].in_public);
   });
 
   it('refuses a status, an entity and a mode that do not exist', async () => {

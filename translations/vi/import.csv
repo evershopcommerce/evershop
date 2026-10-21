@@ -296,3 +296,6 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","Có variant_axes nhưng không có variant_group nên sản phẩm không thuộc nhóm biến thể nào."
 "warning: ${1}","cảnh báo: ${1}"
 "warning: ${1}: ${2}","cảnh báo: ${1}: ${2}"
+"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","Đây có vẻ là ${1}: tệp có cột ""${2}"". Hãy chọn đúng loại tệp khi tải lên, hoặc xóa cột đó."
+"a products file","tệp sản phẩm"
+"a customers file or a customer addresses file","tệp khách hàng hoặc tệp địa chỉ khách hàng"
