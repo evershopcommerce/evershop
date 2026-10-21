@@ -296,3 +296,6 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","variant_group बिना variant_axes दिइएको छ, त्यसैले उत्पादन कुनै भेरियन्ट समूहको भाग होइन।"
 "warning: ${1}","चेतावनी: ${1}"
 "warning: ${1}: ${2}","चेतावनी: ${1}: ${2}"
+"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","यो ${1} जस्तो देखिन्छ: यसमा ""${2}"" स्तम्भ छ। अपलोड गर्दा फाइलको सही प्रकार छान्नुहोस्, वा त्यो स्तम्भ हटाउनुहोस्।"
+"a products file","उत्पादनहरूको फाइल"
+"a customers file or a customer addresses file","ग्राहकहरूको फाइल वा ग्राहकका ठेगानाहरूको फाइल"

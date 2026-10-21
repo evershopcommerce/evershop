@@ -37,6 +37,7 @@ const EXPECTED_IDS = [
   'ALL-21',
   'ALL-22',
   'ALL-23',
+  'ALL-24',
   'ADR-01',
   'ADR-02',
   'ADR-03',

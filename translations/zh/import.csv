@@ -296,3 +296,6 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","提供了 variant_axes 但没有 variant_group，因此该商品不属于任何变体组。"
 "warning: ${1}","警告：${1}"
 "warning: ${1}: ${2}","警告：${1}：${2}"
+"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","这看起来像${1}：其中有一列 ""${2}""。上传时请选择正确的文件类型，或删除该列。"
+"a products file","商品文件"
+"a customers file or a customer addresses file","客户文件或客户地址文件"

@@ -296,3 +296,6 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","Значение variant_axes указано без variant_group, поэтому товар не входит в группу вариантов."
 "warning: ${1}","предупреждение: ${1}"
 "warning: ${1}: ${2}","предупреждение: ${1}: ${2}"
+"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","Похоже, это ${1}: в нём есть столбец ""${2}"". При загрузке выберите правильный тип файла или удалите этот столбец."
+"a products file","файл товаров"
+"a customers file or a customer addresses file","файл клиентов или файл адресов клиентов"
