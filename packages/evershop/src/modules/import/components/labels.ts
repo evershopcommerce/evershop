@@ -86,8 +86,18 @@ export function statusLabel(status: JobStatus): string {
   }
 }
 
-export function statusTone(status: JobStatus): BadgeTone {
+export function statusTone(
+  status: JobStatus,
+  errors?: number | null
+): BadgeTone {
   switch (status) {
+    case 'validated':
+      // "Checked" says nothing about how it went: the colour does.
+      return errors === undefined || errors === null
+        ? 'secondary'
+        : errors > 0
+        ? 'destructive'
+        : 'success';
     case 'completed':
       return 'success';
     case 'failed':

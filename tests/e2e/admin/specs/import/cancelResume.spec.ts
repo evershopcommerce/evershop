@@ -48,7 +48,8 @@ test('a stopped job resumes at its saved place: the rows after it are done and t
   );
   await page.reload();
   await expect(page.getByText(/^Stopped after 0 failed rows \(1 of 3 rows done\)\./)).toBeVisible();
-  await expect(page.getByText('Stopped after 10 failed rows.')).toBeVisible();
+  // the reason of a stopped job is the line above: it is not repeated in a box
+  await expect(page.getByText('Stopped after 10 failed rows.')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Resume' })).toBeEnabled();
 
   await page.getByRole('button', { name: 'Resume' }).click();

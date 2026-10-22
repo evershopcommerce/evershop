@@ -297,3 +297,5 @@
 "warning: ${1}","advertencia: ${1}"
 "warning: ${1}: ${2}","advertencia: ${1}: ${2}"
 "${1} of ${2} columns were ignored because this type of file does not use them. If that is not what you expected, check that you chose the right type of file.","Se ignoraron ${1} de ${2} columnas porque este tipo de archivo no las usa. Si no es lo que esperabas, comprueba que elegiste el tipo de archivo correcto."
+"Error","Error"
+"Warning","Advertencia"

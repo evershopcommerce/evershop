@@ -297,3 +297,5 @@
 "warning: ${1}","警告：${1}"
 "warning: ${1}: ${2}","警告：${1}：${2}"
 "${1} of ${2} columns were ignored because this type of file does not use them. If that is not what you expected, check that you chose the right type of file.","${2} 列中有 ${1} 列已被忽略，因为此类文件不使用这些列。如果这不是你预期的结果，请检查是否选择了正确的文件类型。"
+"Error","错误"
+"Warning","警告"

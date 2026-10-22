@@ -70,7 +70,7 @@ export function clearedUrl(href: string): string {
 /** A number of the counts of a job, or null when the job has not counted it yet. */
 export function countOf(
   counts: Record<string, unknown> | null | undefined,
-  key: 'total' | 'created' | 'updated' | 'failed'
+  key: 'total' | 'created' | 'updated' | 'failed' | 'errors'
 ): number | null {
   const value = counts?.[key];
   return typeof value === 'number' && Number.isFinite(value) ? value : null;

@@ -297,3 +297,5 @@
 "warning: ${1}","предупреждение: ${1}"
 "warning: ${1}: ${2}","предупреждение: ${1}: ${2}"
 "${1} of ${2} columns were ignored because this type of file does not use them. If that is not what you expected, check that you chose the right type of file.","Проигнорировано столбцов: ${1} из ${2}, потому что этот тип файла их не использует. Если это неожиданно, проверьте, правильный ли тип файла выбран."
+"Error","Ошибка"
+"Warning","Предупреждение"

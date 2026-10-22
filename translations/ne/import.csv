@@ -297,3 +297,5 @@
 "warning: ${1}","चेतावनी: ${1}"
 "warning: ${1}: ${2}","चेतावनी: ${1}: ${2}"
 "${1} of ${2} columns were ignored because this type of file does not use them. If that is not what you expected, check that you chose the right type of file.","${2} मध्ये ${1} स्तम्भ बेवास्ता गरियो किनभने यो प्रकारको फाइलले तिनलाई प्रयोग गर्दैन। यदि यो तपाईंले अपेक्षा गरेको होइन भने, फाइलको सही प्रकार छानिएको छ कि छैन जाँच गर्नुहोस्।"
+"Error","त्रुटि"
+"Warning","चेतावनी"

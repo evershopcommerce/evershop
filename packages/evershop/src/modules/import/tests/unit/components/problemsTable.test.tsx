@@ -323,4 +323,55 @@ describe('the table of problems', () => {
     expect(text()).toContain('Problem on row 2');
     expect(text()).not.toContain('Problem on row 1');
   });
+
+  it('marks each problem as an error or a warning with a shape, a colour and a word for a screen reader', async () => {
+    answer = () =>
+      page([issue(14), issue(20, 'REFERENCE_NOT_FOUND', 'warning')]);
+    await mount();
+    const rows = [...container.querySelectorAll('tbody tr')];
+    expect(rows).toHaveLength(2);
+    // the word is there for a screen reader, the shape and the colour for the eye
+    expect(rows[0].querySelector('.sr-only')?.textContent).toBe('Error');
+    expect(rows[0].querySelector('svg')?.getAttribute('class')).toContain(
+      'text-destructive'
+    );
+    expect(rows[1].querySelector('.sr-only')?.textContent).toBe('Warning');
+    expect(rows[1].querySelector('svg')?.getAttribute('class')).toContain(
+      'text-amber'
+    );
+    // the icons are decoration: they are not read
+    expect(rows[0].querySelector('svg')?.getAttribute('aria-hidden')).toBe(
+      'true'
+    );
+  });
+
+  it('keeps the table inside its box: it scrolls there, and the border has a colour of its own', async () => {
+    answer = () => page([issue(14)]);
+    await mount();
+    const box = container.querySelector('table')?.parentElement
+      ?.parentElement as HTMLElement;
+    expect(box.className).toContain('overflow-x-auto');
+    // a bare `border` is the colour of the text, a black frame
+    expect(box.className).toContain('border-border');
+    expect(
+      container.querySelector('tbody td:nth-child(4)')?.className
+    ).toContain('whitespace-normal');
+  });
+
+  it('shows which type is the filter: the pill of the type is pressed', async () => {
+    await mount();
+    expect(
+      buttonWith('REFERENCE_NOT_FOUND x3').getAttribute('aria-pressed')
+    ).toBe('false');
+    await act(async () => {
+      buttonWith('REFERENCE_NOT_FOUND x3').click();
+      await settle();
+    });
+    expect(
+      buttonWith('REFERENCE_NOT_FOUND x3').getAttribute('aria-pressed')
+    ).toBe('true');
+    expect(buttonWith('INVALID_VALUE x7').getAttribute('aria-pressed')).toBe(
+      'false'
+    );
+  });
 });
