@@ -18,6 +18,7 @@ import { IMPORT_ENTITIES } from '../services/types.js';
 import type { ImportEntity, ImportMode } from '../services/types.js';
 import { STATUS_FILTERS, countOf } from '../ui/gridUrl.js';
 import type { GridFilters } from '../ui/gridUrl.js';
+import { ChoiceSelect } from './ChoiceSelect.js';
 import { formatNumber } from './format.js';
 import { JobStatusBadge } from './JobStatusBadge.js';
 import { entityLabel, modeLabel, statusLabel } from './labels.js';
@@ -49,9 +50,6 @@ export interface ImportGridTableProps {
   onDelete(): void;
 }
 
-const selectClass =
-  'border-input dark:bg-input/30 h-9 rounded-md border bg-transparent px-2.5 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
-
 const cell = (value: number | null) =>
   value === null ? '--' : formatNumber(value);
 
@@ -77,32 +75,31 @@ export function ImportGridTable(props: ImportGridTableProps) {
             if (e.key === 'Enter') props.onFilter({ file });
           }}
         />
-        <select
-          aria-label={_('Status')}
-          className={selectClass}
+        <ChoiceSelect
+          label={_('Status')}
+          className="w-44"
           value={filters.status}
-          onChange={(e) => props.onFilter({ status: e.target.value })}
-        >
-          <option value="">{_('All statuses')}</option>
-          {STATUS_FILTERS.map((status) => (
-            <option key={status} value={status}>
-              {statusLabel(status)}
-            </option>
-          ))}
-        </select>
-        <select
-          aria-label={_('Type')}
-          className={selectClass}
+          choices={[
+            { value: '', label: _('All statuses') },
+            ...STATUS_FILTERS.map((status) => ({
+              value: status,
+              label: statusLabel(status)
+            }))
+          ]}
+          onChange={(status) => props.onFilter({ status })}
+        />
+        <ChoiceSelect
+          label={_('Type')}
+          className="w-48"
           value={filters.entity}
-          onChange={(e) => props.onFilter({ entity: e.target.value })}
-        >
-          <option value="">{_('All types')}</option>
-          {(Object.keys(IMPORT_ENTITIES) as ImportEntity[]).map((entity) => (
-            <option key={entity} value={entity}>
-              {entityLabel(entity)}
-            </option>
-          ))}
-        </select>
+          choices={[
+            { value: '', label: _('All types') },
+            ...(Object.keys(IMPORT_ENTITIES) as ImportEntity[]).map(
+              (entity) => ({ value: entity, label: entityLabel(entity) })
+            )
+          ]}
+          onChange={(entity) => props.onFilter({ entity })}
+        />
         <Button variant="link" onClick={props.onClear}>
           {_('Clear filter')}
         </Button>

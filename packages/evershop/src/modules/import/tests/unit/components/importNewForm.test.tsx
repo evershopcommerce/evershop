@@ -8,6 +8,17 @@ import {
   jest
 } from '@jest/globals';
 import type { HttpReply, HttpRequest } from '../../../ui/importApi.js';
+import {
+  checkboxNamed,
+  choose,
+  comboboxLabelled,
+  isHeld,
+  isOn,
+  openChoices,
+  openList,
+  radioNamed,
+  shown
+} from '../helpers/coreControls.js';
 import { FakeTab, settle } from '../helpers/fakeTab.js';
 import { aJob } from '../helpers/jobViews.js';
 import { STORE_ZONE, browserTime, storeTime } from '../helpers/timeZones.js';
@@ -128,10 +139,20 @@ const advance = (ms: number) =>
 const text = () => container.textContent?.replace(/\s+/g, ' ') ?? '';
 const uploads = () => sent.filter((r) => r.method === 'POST');
 const listings = () => sent.filter((r) => r.method === 'GET');
-const radio = (value: string) =>
-  container.querySelector(
-    `input[type="radio"][value="${value}"]`
-  ) as HTMLInputElement;
+const RADIO_NAMES: Record<string, string> = {
+  product: 'Products',
+  category: 'Categories',
+  customer: 'Customers',
+  customerAddress: 'Customer addresses'
+};
+const radio = (value: string) => radioNamed(container, RADIO_NAMES[value])!;
+const modeSelect = () =>
+  comboboxLabelled(container, 'If a record already exists')!;
+const imageCheck = () =>
+  checkboxNamed(
+    container,
+    'Check that image URLs can be reached while validating (slower)'
+  )!;
 const button = (label: string) =>
   [...container.querySelectorAll('button')].find(
     (b) => b.textContent === label
@@ -185,7 +206,7 @@ describe('the page New import (jsdom)', () => {
     it('starts with products, a file to choose, and the button held', async () => {
       server();
       await mount();
-      expect(radio('product').checked).toBe(true);
+      expect(isOn(radio('product'))).toBe(true);
       expect(text()).toContain('No file chosen');
       expect(button('Upload and validate')!.disabled).toBe(true);
     });
@@ -233,10 +254,8 @@ describe('the page New import (jsdom)', () => {
       );
       try {
         await mount();
-        expect(radio('category').checked).toBe(true);
-        expect(
-          (container.querySelector('select') as HTMLSelectElement).value
-        ).toBe('update');
+        expect(isOn(radio('category'))).toBe(true);
+        expect(shown(modeSelect())).toBe('Only update');
       } finally {
         window.history.pushState({}, '', '/');
       }
@@ -251,10 +270,8 @@ describe('the page New import (jsdom)', () => {
       );
       try {
         await mount();
-        expect(radio('product').checked).toBe(true);
-        expect(
-          (container.querySelector('select') as HTMLSelectElement).value
-        ).toBe('upsert');
+        expect(isOn(radio('product'))).toBe(true);
+        expect(shown(modeSelect())).toBe('Create and update');
       } finally {
         window.history.pushState({}, '', '/');
       }
@@ -392,19 +409,23 @@ describe('the page New import (jsdom)', () => {
       expect(asked).toBe(false);
     });
 
+    it('offers the three modes in its list', async () => {
+      server();
+      await mount();
+      await openList(act, modeSelect());
+      expect(openChoices()).toEqual([
+        'Create and update',
+        'Only create',
+        'Only update'
+      ]);
+    });
+
     it('sends the mode that was chosen, and the image check when it is ticked', async () => {
       server();
       await mount();
-      const select = container.querySelector('select') as HTMLSelectElement;
+      await choose(act, modeSelect(), 'Only create');
       await act(async () => {
-        select.value = 'create';
-        select.dispatchEvent(new window.Event('change', { bubbles: true }));
-        await settle();
-      });
-      await act(async () => {
-        (
-          container.querySelector('input[type="checkbox"]') as HTMLInputElement
-        ).click();
+        imageCheck().click();
         await settle();
       });
       await chooseFile();
@@ -447,9 +468,7 @@ describe('the page New import (jsdom)', () => {
       server();
       await mount();
       await act(async () => {
-        (
-          container.querySelector('input[type="checkbox"]') as HTMLInputElement
-        ).click();
+        imageCheck().click();
         await settle();
       });
       await pick('customer');
@@ -461,12 +480,7 @@ describe('the page New import (jsdom)', () => {
     it('sends customer addresses with the default mode: they are only added', async () => {
       server();
       await mount();
-      const select = container.querySelector('select') as HTMLSelectElement;
-      await act(async () => {
-        select.value = 'update';
-        select.dispatchEvent(new window.Event('change', { bubbles: true }));
-        await settle();
-      });
+      await choose(act, modeSelect(), 'Only update');
       await pick('customerAddress');
       await chooseFile('addresses.csv');
       await submit();
@@ -481,7 +495,9 @@ describe('the page New import (jsdom)', () => {
       await chooseFile();
       await submit();
       expect(button('Upload and validate')).toBeUndefined();
-      expect(radio('product').closest('fieldset')!.disabled).toBe(true);
+      expect(isHeld(radio('product'))).toBe(true);
+      expect(isHeld(modeSelect())).toBe(true);
+      expect(isHeld(imageCheck())).toBe(true);
       expect(
         (container.querySelector('input[type="file"]') as HTMLInputElement)
           .disabled

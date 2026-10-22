@@ -1,4 +1,4 @@
-import { expect, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
@@ -28,6 +28,12 @@ export const dialogButton = (page: Page, name: string) =>
 
 export const VIEW_URL = /\/admin\/import\/view\/([0-9a-f-]{36})/;
 
+/** Picks a choice in a select of the core: a button that opens a list of options. */
+export async function pickChoice(page: Page, select: Locator, choice: string): Promise<void> {
+  await select.click();
+  await page.getByRole('option', { name: choice, exact: true }).click();
+}
+
 export async function openNewImport(page: Page, entity: EntityChoice): Promise<void> {
   await page.goto('/admin/import/new');
   await page.getByRole('radio', { name: entity }).check();
@@ -55,7 +61,7 @@ export async function uploadFile(
 ): Promise<string> {
   await openNewImport(page, entity);
   if (options.mode) {
-    await page.getByLabel('If a record already exists').selectOption({ label: options.mode });
+    await pickChoice(page, page.getByLabel('If a record already exists'), options.mode);
   }
   await page.locator('input[type="file"]').setInputFiles(file);
   await page.getByRole('button', { name: 'Upload and validate' }).click();

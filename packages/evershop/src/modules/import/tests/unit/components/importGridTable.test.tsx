@@ -191,9 +191,11 @@ describe('the table of past imports (spec 8.1)', () => {
       filters: { status: 'stopped', entity: 'customer', file: 'spring' }
     });
     expect(html).toMatch(
-      /<select[^>]*aria-label="Status"[\s\S]*?<option value="stopped" selected=""/
+      /aria-label="Status"[^>]*>\s*<span data-slot="select-value"[^>]*>Stopped</
     );
-    expect(html).toMatch(/<option value="customer" selected=""/);
+    expect(html).toMatch(
+      /aria-label="Type"[^>]*>\s*<span data-slot="select-value"[^>]*>Customers</
+    );
     expect(html).toContain('value="spring"');
   });
 });
