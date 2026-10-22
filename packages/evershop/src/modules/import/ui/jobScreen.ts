@@ -263,8 +263,10 @@ export function describeJob(job: JobView, context: ScreenContext): Screen {
   ) {
     notes.push({ kind: 'pageAddresses', rebuilt: job.counts.pagesRebuilt });
   }
+  // A stopped job's reason is always "stopped after N failed rows", which the
+  // summary line already says with the rows done: not repeated in a box.
   if (
-    (state === 'stopped' || state === 'interrupted' || state === 'failed') &&
+    (state === 'interrupted' || state === 'failed') &&
     job.errorMessage !== null
   ) {
     notes.push({ kind: 'reason', text: job.errorMessage });

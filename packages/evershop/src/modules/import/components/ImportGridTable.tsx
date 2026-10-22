@@ -185,7 +185,10 @@ export function ImportGridTable(props: ImportGridTableProps) {
               <TableCell>{entityLabel(job.entity)}</TableCell>
               <TableCell>{modeLabel(job.entity, job.mode)}</TableCell>
               <TableCell>
-                <JobStatusBadge status={job.status} />
+                <JobStatusBadge
+                  status={job.status}
+                  errors={countOf(job.counts, 'errors')}
+                />
               </TableCell>
               <TableCell>{cell(countOf(job.counts, 'total'))}</TableCell>
               <TableCell>{cell(countOf(job.counts, 'created'))}</TableCell>

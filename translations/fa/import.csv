@@ -297,3 +297,5 @@
 "warning: ${1}","هشدار: ${1}"
 "warning: ${1}: ${2}","هشدار: ${1}: ${2}"
 "${1} of ${2} columns were ignored because this type of file does not use them. If that is not what you expected, check that you chose the right type of file.","${1} ستون از ${2} ستون نادیده گرفته شد، زیرا این نوع فایل از آن‌ها استفاده نمی‌کند. اگر انتظارش را نداشتید، بررسی کنید که نوع درست فایل را انتخاب کرده باشید."
+"Error","خطا"
+"Warning","هشدار"

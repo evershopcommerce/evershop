@@ -20,6 +20,7 @@ import {
 } from '../ui/issueFilters.js';
 import type { IssueFilters } from '../ui/issueFilters.js';
 import { formatNumber } from './format.js';
+import { ToneIcon } from './Notice.js';
 
 export interface ProblemsTableProps {
   api: ImportApi;
@@ -27,7 +28,26 @@ export interface ProblemsTableProps {
 }
 
 const selectClass =
-  'border-input dark:bg-input/30 h-9 rounded-md border bg-transparent px-2.5 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
+  'border-input bg-background dark:bg-input/30 h-9 rounded-md border px-2.5 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
+
+// A type to filter by: a pill, so that it reads as something to press.
+const pillClass =
+  'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs transition-colors outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
+
+/** The severity of a problem, by shape and colour (never colour alone) and for a screen reader. */
+function Severity({ severity }: { severity: 'error' | 'warning' }) {
+  return (
+    <>
+      <ToneIcon
+        tone={severity === 'error' ? 'error' : 'warning'}
+        className="mt-0.5"
+      />
+      <span className="sr-only">
+        {severity === 'error' ? _('Error') : _('Warning')}
+      </span>
+    </>
+  );
+}
 
 /**
  * The problems of the job (§ 8.2): the totals per type, three filters, and the
@@ -66,7 +86,7 @@ export function ProblemsTable({ api, issuesUrl }: ProblemsTableProps) {
     <div className="grid gap-3" data-testid="problems">
       <h3 className="font-medium">{_('Problems')}</h3>
       {types.length > 0 && (
-        <div className="flex flex-wrap gap-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-sm">
           <span className="text-muted-foreground">
             {_('Problems by type:')}
           </span>
@@ -74,8 +94,11 @@ export function ProblemsTable({ api, issuesUrl }: ProblemsTableProps) {
             <button
               key={code}
               type="button"
-              className={`underline-offset-2 hover:underline ${
-                filters.code === code ? 'font-semibold' : ''
+              aria-pressed={filters.code === code}
+              className={`${pillClass} ${
+                filters.code === code
+                  ? 'border-primary bg-primary/10 text-foreground font-medium'
+                  : 'border-border text-foreground hover:bg-muted'
               }`}
               onClick={() =>
                 setFilters(
@@ -137,47 +160,59 @@ export function ProblemsTable({ api, issuesUrl }: ProblemsTableProps) {
           }}
         />
       </div>
-      {failed && <p className="text-sm text-destructive">{failed}</p>}
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead style={{ width: '5rem' }}>{_('Row')}</TableHead>
-            <TableHead>{_('Key')}</TableHead>
-            <TableHead>{_('Column')}</TableHead>
-            <TableHead>{_('Problem')}</TableHead>
-            <TableHead>{_('Value')}</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {(data?.items ?? []).map((issue, i) => (
-            <TableRow key={`${issue.row}-${issue.column}-${issue.code}-${i}`}>
-              <TableCell>{issue.row ?? '--'}</TableCell>
-              <TableCell
-                className="max-w-48 truncate"
-                title={issue.key ?? undefined}
-              >
-                {issue.key ?? '--'}
-              </TableCell>
-              <TableCell>{issue.column ?? '--'}</TableCell>
-              <TableCell>
-                <span
-                  className={
-                    issue.severity === 'error' ? '' : 'text-muted-foreground'
-                  }
-                >
-                  {issue.message}
-                </span>
-              </TableCell>
-              <TableCell
-                className="max-w-48 truncate"
-                title={issue.value ?? undefined}
-              >
-                {issue.value ?? ''}
-              </TableCell>
+      {failed && (
+        <p className="text-destructive flex items-center gap-1.5 text-sm">
+          <ToneIcon tone="error" />
+          {failed}
+        </p>
+      )}
+      <div className="border-border overflow-x-auto rounded-lg border">
+        <Table>
+          <TableHeader className="bg-muted/40">
+            <TableRow>
+              <TableHead style={{ width: '5rem' }}>{_('Row')}</TableHead>
+              <TableHead>{_('Key')}</TableHead>
+              <TableHead>{_('Column')}</TableHead>
+              <TableHead>{_('Problem')}</TableHead>
+              <TableHead>{_('Value')}</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {(data?.items ?? []).map((issue, i) => (
+              <TableRow key={`${issue.row}-${issue.column}-${issue.code}-${i}`}>
+                <TableCell>{issue.row ?? '--'}</TableCell>
+                <TableCell
+                  className="max-w-48 truncate"
+                  title={issue.key ?? undefined}
+                >
+                  {issue.key ?? '--'}
+                </TableCell>
+                <TableCell>{issue.column ?? '--'}</TableCell>
+                <TableCell className="min-w-64 break-words whitespace-normal">
+                  <span className="flex items-start gap-2">
+                    <Severity severity={issue.severity} />
+                    <span
+                      className={
+                        issue.severity === 'error'
+                          ? ''
+                          : 'text-muted-foreground'
+                      }
+                    >
+                      {issue.message}
+                    </span>
+                  </span>
+                </TableCell>
+                <TableCell
+                  className="max-w-48 truncate"
+                  title={issue.value ?? undefined}
+                >
+                  {issue.value ?? ''}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
       {data && data.items.length === 0 && (
         <p className="text-sm text-muted-foreground text-center">
           {_('There is no problem to display.')}

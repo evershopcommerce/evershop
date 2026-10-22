@@ -515,8 +515,14 @@ describe('the notes', () => {
     );
   });
 
-  it('gives the reason the server states for a job that stopped, failed or was interrupted', () => {
-    (['stopped', 'failed', 'interrupted'] as JobStatus[]).forEach((status) => {
+  it('gives the reason the server states for a job that failed or was interrupted, and not for one that stopped (the summary says why)', () => {
+    expect(
+      kinds({
+        status: 'stopped',
+        errorMessage: 'Stopped after 10 failed rows.'
+      })
+    ).not.toContain('reason');
+    (['failed', 'interrupted'] as JobStatus[]).forEach((status) => {
       expect(
         describeJob(
           aJob({ status, errorMessage: 'The worker was stopped.' }),

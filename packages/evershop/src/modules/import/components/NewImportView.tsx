@@ -1,4 +1,3 @@
-import { Alert, AlertDescription } from '@components/common/ui/Alert.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Card, CardContent } from '@components/common/ui/Card.js';
 import { Progress } from '@components/common/ui/Progress.js';
@@ -13,6 +12,7 @@ import type {
 import type { JobView } from '../web/jobView.js';
 import { formatBytes, formatDateTime } from './format.js';
 import { entityLabel, entityNoun, modeLabel, statusLabel } from './labels.js';
+import { Notice, ToneIcon } from './Notice.js';
 
 /** The order of the radio buttons (§ 8.2). */
 export const ENTITY_CHOICES: readonly ImportEntity[] = [
@@ -128,7 +128,14 @@ function fileProblemText(
 }
 
 const fieldClass =
-  'border-input dark:bg-input/30 h-9 rounded-md border bg-transparent px-2.5 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
+  'border-input bg-background dark:bg-input/30 h-9 rounded-md border px-2.5 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
+
+// A notice that is about to be overwritten is a warning; one that only informs is not.
+const NOTICE_TONE = {
+  busy: 'info',
+  replace: 'warning',
+  close: 'warning'
+} as const;
 
 /**
  * The page "New import" (§ 8.2): what to import, what to do with a record that
@@ -141,7 +148,7 @@ export function NewImportView(props: NewImportViewProps) {
   const uploading = upload !== null;
   return (
     <Card>
-      <CardContent className="grid gap-5">
+      <CardContent className="grid min-w-0 grid-cols-1 gap-5">
         <fieldset className="grid gap-2" disabled={uploading}>
           <legend className="font-medium mb-1">
             {_('What do you want to import?')}
@@ -150,6 +157,7 @@ export function NewImportView(props: NewImportViewProps) {
             {ENTITY_CHOICES.map((value) => (
               <label key={value} className="flex items-center gap-2 text-sm">
                 <input
+                  className="accent-primary size-4"
                   type="radio"
                   name="entity"
                   value={value}
@@ -163,19 +171,23 @@ export function NewImportView(props: NewImportViewProps) {
         </fieldset>
 
         {choice.notices.map((notice) => (
-          <Alert key={`${notice.kind}-${notice.job.uuid}`}>
-            <AlertDescription>
-              {noticeText(notice, props.timeZone)}
-              {notice.kind === 'busy' && (
-                <>
-                  {' '}
-                  <a href={props.viewUrlOf(notice.job)} className="underline">
-                    {_('Open it')}
-                  </a>
-                </>
-              )}
-            </AlertDescription>
-          </Alert>
+          <Notice
+            key={`${notice.kind}-${notice.job.uuid}`}
+            tone={NOTICE_TONE[notice.kind]}
+          >
+            {noticeText(notice, props.timeZone)}
+            {notice.kind === 'busy' && (
+              <>
+                {' '}
+                <a
+                  href={props.viewUrlOf(notice.job)}
+                  className="font-medium underline underline-offset-4"
+                >
+                  {_('Open it')}
+                </a>
+              </>
+            )}
+          </Notice>
         ))}
 
         {choice.showMode && (
@@ -201,7 +213,11 @@ export function NewImportView(props: NewImportViewProps) {
 
         <div className="grid gap-1 text-sm">
           <span className="font-medium">{_('Template')}</span>
-          <a href={props.templateUrl} download className="underline w-fit">
+          <a
+            href={props.templateUrl}
+            download
+            className="text-primary w-fit underline-offset-4 hover:underline"
+          >
             {_('Download the ${what} template (CSV)', {
               what: entityNoun(entity)
             })}
@@ -227,14 +243,15 @@ export function NewImportView(props: NewImportViewProps) {
             >
               {_('Choose a CSV file...')}
             </Button>
-            <span>
+            <span className={props.file ? '' : 'text-muted-foreground'}>
               {props.file
                 ? `${props.file.name} - ${formatBytes(props.file.size)}`
                 : _('No file chosen')}
             </span>
           </div>
           {choice.fileProblem && (
-            <p className="text-destructive">
+            <p className="text-destructive flex items-center gap-1.5">
+              <ToneIcon tone="error" />
               {fileProblemText(choice.fileProblem, props.maxFileBytes)}
             </p>
           )}
@@ -243,6 +260,7 @@ export function NewImportView(props: NewImportViewProps) {
         {choice.showCheckImages && (
           <label className="flex items-center gap-2 text-sm">
             <input
+              className="accent-primary size-4"
               type="checkbox"
               checked={props.checkImages}
               disabled={uploading}
@@ -254,11 +272,7 @@ export function NewImportView(props: NewImportViewProps) {
           </label>
         )}
 
-        {props.error && (
-          <Alert variant="destructive">
-            <AlertDescription>{props.error}</AlertDescription>
-          </Alert>
-        )}
+        {props.error && <Notice tone="error">{props.error}</Notice>}
 
         {upload && (
           <div className="grid gap-2">

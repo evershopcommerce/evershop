@@ -1,7 +1,7 @@
-import { Alert, AlertDescription } from '@components/common/ui/Alert.js';
 import { Button, buttonVariants } from '@components/common/ui/Button.js';
 import { Card, CardContent } from '@components/common/ui/Card.js';
 import { Progress } from '@components/common/ui/Progress.js';
+import { Spinner } from '@components/common/ui/Spinner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import type {
@@ -14,6 +14,8 @@ import type { JobView } from '../web/jobView.js';
 import { formatDateTime, formatNumber } from './format.js';
 import { JobStatusBadge } from './JobStatusBadge.js';
 import { entityLabel, entityNoun, modeLabel } from './labels.js';
+import { Notice, ToneIcon } from './Notice.js';
+import type { NoticeTone } from './Notice.js';
 
 export interface JobScreenUrls {
   newImport: string;
@@ -43,7 +45,7 @@ function Header({ job, timeZone }: { job: JobView; timeZone?: string | null }) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
       <h2 className="text-lg font-semibold break-all">{job.fileName}</h2>
-      <JobStatusBadge status={job.status} />
+      <JobStatusBadge status={job.status} errors={job.counts.errors} />
       <p className="text-sm text-muted-foreground w-full">
         {entityLabel(job.entity)}
         {job.entity === 'customerAddress'
@@ -106,6 +108,59 @@ function noteText(note: ScreenNote): string {
   }
 }
 
+/** How a note is shown: a thing to do or to know is a warning, a failure is an error. */
+function noteTone(note: ScreenNote, state: Screen['state']): NoticeTone {
+  switch (note.kind) {
+    case 'notStarted':
+    case 'overlapped':
+      return 'warning';
+    case 'recheckFoundErrors':
+      return 'error';
+    case 'reason':
+      return state === 'failed' ? 'error' : 'warning';
+    default:
+      return 'info';
+  }
+}
+
+/**
+ * The first line of what the screen says, with the colour of how it went: an
+ * icon for a result (green when it went well, amber when the admin has
+ * something to do, red when it failed), and none while the job is at work.
+ */
+function Lead({
+  tone,
+  children
+}: {
+  tone: NoticeTone | null;
+  children: React.ReactNode;
+}) {
+  return (
+    <p
+      className="flex items-start gap-2 font-medium"
+      data-tone={tone ?? undefined}
+    >
+      {tone && <ToneIcon tone={tone} className="mt-0.5" />}
+      <span>{children}</span>
+    </p>
+  );
+}
+
+/** The second line of a result, under the words of the first (not under its icon). */
+function Hint({
+  indent = false,
+  children
+}: {
+  indent?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <p className={`text-sm text-muted-foreground ${indent ? 'pl-6' : ''}`}>
+      {children}
+    </p>
+  );
+}
+
 function Lines({ job, screen }: { job: JobView; screen: Screen }) {
   const { counts } = job;
   const done = counts.created + counts.updated + counts.failed + counts.skipped;
@@ -121,31 +176,31 @@ function Lines({ job, screen }: { job: JobView; screen: Screen }) {
   switch (screen.state) {
     case 'uploading':
       return (
-        <p>
+        <Lead tone={null}>
           {_(
             'The file is still being uploaded. If the upload stops, it is deleted after 10 minutes.'
           )}
-        </p>
+        </Lead>
       );
     case 'uploaded':
-      return <p>{_('Waiting for the check to start...')}</p>;
+      return <Lead tone={null}>{_('Waiting for the check to start...')}</Lead>;
     case 'validating':
       return (
         <>
-          <p>
+          <Lead tone={null}>
             {screen.progress?.kind === 'file' && screen.progress.pass === 2
               ? _('Checking the rows against the store...')
               : _('Reading the rows...')}
-          </p>
-          <p className="text-sm text-muted-foreground">
+          </Lead>
+          <Hint>
             {_('You can leave this page. The check continues on the server.')}
-          </p>
+          </Hint>
         </>
       );
     case 'invalid':
       return (
         <>
-          <p>
+          <Lead tone="error">
             {_(
               'The check found ${errors} errors and ${warnings} warnings in ${total} rows.',
               {
@@ -154,15 +209,15 @@ function Lines({ job, screen }: { job: JobView; screen: Screen }) {
                 total: n(counts.total)
               }
             )}
-          </p>
-          <p className="text-sm text-muted-foreground">
+          </Lead>
+          <Hint indent>
             {_('Fix them to continue: the import starts only on a clean file.')}
-          </p>
+          </Hint>
         </>
       );
     case 'valid':
       return (
-        <p>
+        <Lead tone="success">
           {_(
             'All ${total} rows are valid: ${create} to create, ${update} to update, ${warnings} warnings.',
             {
@@ -172,43 +227,43 @@ function Lines({ job, screen }: { job: JobView; screen: Screen }) {
               warnings: n(counts.warnings)
             }
           )}
-        </p>
+        </Lead>
       );
     case 'queued':
-      return <p>{_('Starting...')}</p>;
+      return <Lead tone={null}>{_('Starting...')}</Lead>;
     case 'resuming':
-      return <p>{_('Resuming...')}</p>;
+      return <Lead tone={null}>{_('Resuming...')}</Lead>;
     case 'rechecking':
       return (
         <>
-          <p>{_('Checking the file again before the import...')}</p>
-          <p className="text-sm text-muted-foreground">
-            {_('If new problems are found, nothing is written.')}
-          </p>
+          <Lead tone={null}>
+            {_('Checking the file again before the import...')}
+          </Lead>
+          <Hint>{_('If new problems are found, nothing is written.')}</Hint>
         </>
       );
     case 'running':
       return (
         <>
-          <p>
+          <Lead tone={null}>
             {_('Importing... ${done} of ${total} rows', {
               done: n(Math.min(done, counts.total)),
               total: n(counts.total)
             })}
-          </p>
-          <p className="text-sm text-muted-foreground">{result}</p>
+          </Lead>
+          <Hint>{result}</Hint>
         </>
       );
     case 'completed':
       return (
-        <p>
+        <Lead tone={counts.failed > 0 ? 'warning' : 'success'}>
           {_('Done.')} {result}
-        </p>
+        </Lead>
       );
     case 'stopped':
       return (
         <>
-          <p>
+          <Lead tone="warning">
             {_(
               'Stopped after ${failed} failed rows (${done} of ${total} rows done).',
               {
@@ -217,39 +272,37 @@ function Lines({ job, screen }: { job: JobView; screen: Screen }) {
                 total: n(counts.total)
               }
             )}
-          </p>
-          <p className="text-sm text-muted-foreground">
+          </Lead>
+          <Hint indent>
             {_(
               'Fix the cause, then resume: the failed rows are tried again and the import continues.'
             )}
-          </p>
+          </Hint>
         </>
       );
     case 'interrupted':
       return (
         <>
-          <p>
+          <Lead tone="warning">
             {_(
               'The import stopped before it finished. ${done} rows were done.',
               {
                 done: n(Math.min(done, counts.total))
               }
             )}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {_('Resume continues at the last saved row.')}
-          </p>
+          </Lead>
+          <Hint indent>{_('Resume continues at the last saved row.')}</Hint>
         </>
       );
     case 'failed':
-      return <p>{_('The job could not run.')}</p>;
+      return <Lead tone="error">{_('The job could not run.')}</Lead>;
     case 'canceled':
       return (
-        <p>
+        <Lead tone={null}>
           {_('Canceled after ${done} rows.', {
             done: n(Math.min(done, counts.total))
           })}
-        </p>
+        </Lead>
       );
     default:
       return null;
@@ -283,7 +336,8 @@ const ACTION_VARIANT: Record<
   recheck: 'outline',
   uploadNew: 'outline',
   downloadErrors: 'outline',
-  delete: 'outline'
+  // The one button that cannot be undone is tinted red and kept apart from the rest.
+  delete: 'destructive'
 };
 
 function actionLabel(action: ScreenAction): string {
@@ -332,7 +386,7 @@ function Actions({
   if (screen.actions.length === 0) return null;
   const blocked = screen.blockedBy !== null;
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap items-center gap-2">
       {screen.actions.map((action) => {
         if (action === 'downloadErrors') {
           return (
@@ -362,11 +416,15 @@ function Actions({
           <Button
             key={action}
             variant={ACTION_VARIANT[action]}
+            className={action === 'delete' ? 'ml-auto' : undefined}
             disabled={pending !== null || gated}
             data-action={action}
             data-job={job.uuid}
             onClick={() => onAction(action)}
           >
+            {pending === action && (
+              <Spinner role="presentation" aria-hidden="true" />
+            )}
             {actionLabel(action)}
           </Button>
         );
@@ -384,33 +442,27 @@ export function JobScreenView(props: JobScreenViewProps) {
   const { job, screen, refusal, stale, problems } = props;
   return (
     <Card>
-      <CardContent className="grid gap-4">
+      <CardContent className="grid min-w-0 grid-cols-1 gap-4">
         <Header job={job} timeZone={props.timeZone} />
         <div className="grid gap-2" data-state={screen.state}>
           <Lines job={job} screen={screen} />
           <ProgressBar screen={screen} />
         </div>
         {screen.notes.map((note) => (
-          <Alert key={note.kind} variant="default">
-            <AlertDescription>{noteText(note)}</AlertDescription>
-          </Alert>
+          <Notice key={note.kind} tone={noteTone(note, screen.state)}>
+            {noteText(note)}
+          </Notice>
         ))}
         {screen.blockedBy && (
-          <Alert variant="default">
-            <AlertDescription>{blockerText(screen.blockedBy)}</AlertDescription>
-          </Alert>
+          <Notice tone="info">{blockerText(screen.blockedBy)}</Notice>
         )}
-        {refusal && (
-          <Alert variant="destructive">
-            <AlertDescription>{refusal}</AlertDescription>
-          </Alert>
-        )}
+        {refusal && <Notice tone="error">{refusal}</Notice>}
         {stale && (
-          <p className="text-sm text-muted-foreground">
+          <Notice tone="warning">
             {_(
               'The page could not reach the server. It shows the last state it knew and will try again.'
             )}
-          </p>
+          </Notice>
         )}
         <Actions
           screen={screen}
