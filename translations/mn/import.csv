@@ -296,6 +296,4 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","variant_axes өгөгдсөн боловч variant_group байхгүй тул бүтээгдэхүүн хувилбарын бүлэгт ороогүй."
 "warning: ${1}","анхааруулга: ${1}"
 "warning: ${1}: ${2}","анхааруулга: ${1}: ${2}"
-"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","Энэ нь ${1} шиг харагдаж байна: файлд ""${2}"" багана байна. Байршуулахдаа файлын зөв төрлийг сонгоно уу, эсвэл тэр баганыг устгана уу."
-"a products file","бүтээгдэхүүний файл"
-"a customers file or a customer addresses file","үйлчлүүлэгчдийн файл эсвэл үйлчлүүлэгчийн хаягийн файл"
+"${1} of ${2} columns were ignored because this type of file does not use them. If that is not what you expected, check that you chose the right type of file.","${2} баганаас ${1} багана үл тооцогдлоо, учир нь энэ төрлийн файл тэдгээрийг ашигладаггүй. Хэрэв та үүнийг хүлээгээгүй бол файлын зөв төрлийг сонгосон эсэхээ шалгана уу."

@@ -964,53 +964,39 @@ export const ALL_24 = defineRule({
   layer: 'F',
   source: 'engine',
   op: 'B',
-  code: 'WRONG_FILE_TYPE',
+  code: 'COLUMNS_IGNORED',
   testedBy: 'example',
   summary:
-    'A file that has the natural-key column of another kind of file (sku, email) is refused: it was made for another import.',
+    'When more than half of the columns of the file are ignored, one warning says how many, and tells the admin to check the type of the file.',
   examples: {
     pass: [
-      { name: 'a categories file', ...UPDATE, file: VALID, expect: [] },
       {
-        name: 'a products file as products',
-        entity: 'product',
-        store: PRODUCT_STORE,
-        file: productFile(productRow()),
-        expect: []
+        name: 'one column in three is ignored: only its own warning',
+        ...UPDATE,
+        file: 'url_key,name,colour\nwomen,Women,red\n',
+        expect: [{ code: 'UNKNOWN_COLUMN', column: 'colour' }]
       },
       {
-        name: 'a customer addresses file has the email of its customer',
-        entity: 'customerAddress',
-        store: ADDRESS_STORE,
-        file: addressFile(addressRow()),
-        expect: []
+        name: 'exactly half of the columns are ignored: not more than half',
+        ...UPDATE,
+        file: 'url_key,name,colour,size\nwomen,Women,red,s\n',
+        expect: [
+          { code: 'UNKNOWN_COLUMN', column: 'colour' },
+          { code: 'UNKNOWN_COLUMN', column: 'size' }
+        ]
       }
     ],
     fail: [
       {
-        name: 'a products file uploaded as categories',
+        name: 'a products file uploaded as categories: 3 of 5 columns are ignored',
         ...UPDATE,
-        file: 'sku,url_key,name,status,price\nA-1,women,Women,1,10\n',
-        expect: [{ code: 'WRONG_FILE_TYPE', column: 'sku' }]
-      },
-      {
-        name: 'a customers file uploaded as categories',
-        ...UPDATE,
-        file: 'email,url_key,name\njane@example.test,women,Women\n',
-        expect: [{ code: 'WRONG_FILE_TYPE', column: 'email' }]
-      },
-      {
-        name: 'a customers file uploaded as products (it would only say that the sku is missing)',
-        entity: 'product',
-        store: PRODUCT_STORE,
-        file: 'email,full_name\njane@example.test,Jane\n',
-        expect: [{ code: 'WRONG_FILE_TYPE', column: 'email' }]
-      },
-      {
-        name: 'a products file uploaded as customers',
-        entity: 'customer',
-        file: 'sku,email,full_name\nA-1,jane@example.test,Jane\n',
-        expect: [{ code: 'WRONG_FILE_TYPE', column: 'sku' }]
+        file: 'url_key,name,sku,price,qty\nwomen,Women,A-1,10,5\n',
+        expect: [
+          { code: 'COLUMNS_IGNORED' },
+          { code: 'UNKNOWN_COLUMN', column: 'sku' },
+          { code: 'UNKNOWN_COLUMN', column: 'price' },
+          { code: 'UNKNOWN_COLUMN', column: 'qty' }
+        ]
       }
     ]
   }

@@ -142,24 +142,22 @@ test('a record that the file needs is deleted after the check: Start finds it, w
   expect(job.started_at).toBeNull();
 });
 
-test('a products file uploaded as Categories is refused for its type, not accepted with warnings', async ({ page }, info) => {
+test('a products file uploaded as Categories is valid, and the page says that most of its columns were ignored', async ({ page }, info) => {
   const file = writeCsv(info.outputPath('files'), 'e2e-imp-wrong-type.csv', [
-    ['sku', 'name', 'url_key', 'status', 'price', 'qty'],
-    ['E2E-WRONG-1', 'Blue shirt', 'e2e-imp-wrong-1', '1', '19.99', '5']
+    ['sku', 'name', 'url_key', 'status', 'price', 'qty', 'weight', 'visibility'],
+    ['E2E-WRONG-1', 'Blue shirt', 'e2e-imp-wrong-1', '1', '19.99', '5', '1', '1']
   ]);
   await uploadFile(page, 'Categories', file);
   await waitForChecked(page);
 
-  // not "All 1 rows are valid ... warnings": the file is refused, with the reason
-  const text = await viewText(page);
-  expect(text).not.toContain('rows are valid');
-  await expect(page.getByRole('button', { name: 'Start import' })).toHaveCount(0);
+  // the rules of a categories file are met, so the file is valid, but it is not
+  // "fine": one warning says how much of it is ignored, and what to check
   const table = page.getByTestId('problems');
-  await expect(table).toContainText('WRONG_FILE_TYPE x1');
+  await expect(table).toContainText('COLUMNS_IGNORED x1');
+  await expect(table).toContainText('UNKNOWN_COLUMN x5');
   await expect(table).toContainText(
-    'This looks like a products file: it has a "sku" column.'
+    '5 of 8 columns were ignored because this type of file does not use them.'
   );
-  // the other columns of the file are not listed one by one
-  await expect(table).not.toContainText('UNKNOWN_COLUMN');
+  await expect(table).toContainText('check that you chose the right type of file');
 });
 

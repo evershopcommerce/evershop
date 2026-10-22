@@ -9,7 +9,7 @@ import { readCsv } from '../reader/readCsv.js';
 import type { CsvLimits } from '../reader/readCsv.js';
 import { say } from '../say.js';
 import type { ImportIssue } from '../types.js';
-import { wrongFileType } from './wrongFileType.js';
+import { mostColumnsIgnored } from './ignoredColumns.js';
 
 export interface ValidationSummary {
   /** The data rows of the file (not the header, not blank rows). */
@@ -180,13 +180,11 @@ async function firstPass(
       await emit(event.issue, null);
     } else if (event.type === 'header') {
       header = headerInfo(event.columns);
-      const wrong = wrongFileType(header, validator.entity);
-      if (wrong) {
-        await emit(wrong, null);
-        summary.stopped = true;
-        break;
-      }
       const checked = await validator.checkHeader(header, context);
+      const ignored = mostColumnsIgnored(header, checked.issues);
+      if (ignored) {
+        await emit(ignored, null);
+      }
       for (const issue of checked.issues) {
         await emit(issue, null);
       }

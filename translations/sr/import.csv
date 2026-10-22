@@ -296,6 +296,4 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","variant_axes je naveden bez variant_group, pa proizvod nije deo grupe varijanti."
 "warning: ${1}","upozorenje: ${1}"
 "warning: ${1}: ${2}","upozorenje: ${1}: ${2}"
-"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","Izgleda da je ovo ${1}: ima kolonu ""${2}"". Pri otpremanju izaberite odgovarajući tip datoteke ili uklonite tu kolonu."
-"a products file","datoteka proizvoda"
-"a customers file or a customer addresses file","datoteka kupaca ili datoteka adresa kupaca"
+"${1} of ${2} columns were ignored because this type of file does not use them. If that is not what you expected, check that you chose the right type of file.","${1} od ${2} kolona je ignorisano jer ovaj tip datoteke ne koristi te kolone. Ako to niste očekivali, proverite da li ste izabrali odgovarajući tip datoteke."

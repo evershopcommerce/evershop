@@ -296,6 +296,4 @@
 "variant_axes is given without a variant_group, so the product is not part of a variant group.","variant_axes கொடுக்கப்பட்டுள்ளது, ஆனால் variant_group இல்லை, எனவே தயாரிப்பு எந்த மாறுபாட்டுக் குழுவிலும் இல்லை."
 "warning: ${1}","எச்சரிக்கை: ${1}"
 "warning: ${1}: ${2}","எச்சரிக்கை: ${1}: ${2}"
-"This looks like ${1}: it has a ""${2}"" column. Choose the right type of file when you upload, or remove that column.","இது ${1} போல் தெரிகிறது: இதில் ""${2}"" நெடுவரிசை உள்ளது. பதிவேற்றும்போது சரியான கோப்பு வகையைத் தேர்ந்தெடுக்கவும், அல்லது அந்த நெடுவரிசையை நீக்கவும்."
-"a products file","தயாரிப்புகள் கோப்பு"
-"a customers file or a customer addresses file","வாடிக்கையாளர்கள் கோப்பு அல்லது வாடிக்கையாளர் முகவரிகள் கோப்பு"
+"${1} of ${2} columns were ignored because this type of file does not use them. If that is not what you expected, check that you chose the right type of file.","${2} நெடுவரிசைகளில் ${1} புறக்கணிக்கப்பட்டன, ஏனெனில் இந்த வகை கோப்பு அவற்றைப் பயன்படுத்தாது. இது நீங்கள் எதிர்பார்த்தது இல்லையெனில், சரியான கோப்பு வகையைத் தேர்ந்தெடுத்துள்ளீர்களா என்பதைச் சரிபார்க்கவும்."

@@ -29,7 +29,7 @@ export const IMPORT_ISSUE_CODES = [
   'ROW_WIDTH',
   'MISSING_COLUMN',
   'UNKNOWN_COLUMN',
-  'WRONG_FILE_TYPE',
+  'COLUMNS_IGNORED',
   'MISSING_REQUIRED',
   'INVALID_VALUE',
   'INVALID_JSON',
@@ -63,6 +63,7 @@ export type ImportIssueCode = (typeof IMPORT_ISSUE_CODES)[number];
 /** Codes that are only ever warnings; every other code is an error by default. */
 const WARNING_CODES: ReadonlySet<ImportIssueCode> = new Set([
   'UNKNOWN_COLUMN',
+  'COLUMNS_IGNORED',
   'VALUES_WILL_BE_REMOVED',
   'IGNORED_VALUE',
   'DUPLICATE_VALUE',

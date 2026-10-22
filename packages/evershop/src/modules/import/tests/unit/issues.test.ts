@@ -25,7 +25,7 @@ describe('issue codes', () => {
         'ROW_WIDTH',
         'MISSING_COLUMN',
         'UNKNOWN_COLUMN',
-        'WRONG_FILE_TYPE',
+        'COLUMNS_IGNORED',
         'MISSING_REQUIRED',
         'INVALID_VALUE',
         'INVALID_JSON',
@@ -58,11 +58,12 @@ describe('issue codes', () => {
     );
   });
 
-  it('are errors, except the five that are only warnings', () => {
+  it('are errors, except the six that are only warnings', () => {
     const warnings = IMPORT_ISSUE_CODES.filter(
       (code) => defaultSeverity(code) === 'warning'
     );
     expect(warnings.sort()).toEqual([
+      'COLUMNS_IGNORED',
       'DUPLICATE_VALUE',
       'IGNORED_VALUE',
       'TEMPLATE_EXAMPLE_ROW',

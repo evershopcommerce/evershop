@@ -128,6 +128,8 @@ export const ADR_03 = defineAddressRule({
           'email,full_name,address_1,city,province,postcode,country,telephone\n' +
           'jane.doe@example.com,Jane Doe,1 Market Street,San Francisco,CA,94105,US,415-555-0100\n',
         expect: [
+          // 5 of the 8 columns are ignored
+          { code: 'COLUMNS_IGNORED' },
           { code: 'UNKNOWN_COLUMN', column: 'full_name' },
           { code: 'UNKNOWN_COLUMN', column: 'address_1' },
           { code: 'UNKNOWN_COLUMN', column: 'city' },
