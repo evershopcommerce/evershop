@@ -4,7 +4,7 @@ import {
   jobsByFile,
   sweepImportWorld
 } from '../../../shared/importDb.js';
-import { dialogButton } from '../../../shared/importPage.js';
+import { dialogButton, pickChoice } from '../../../shared/importPage.js';
 
 /**
  * The list of past imports (spec § 8.1): the rows, the filters, the order, the
@@ -66,14 +66,14 @@ test('filters: by status, by type and by part of the file name; Clear filter', a
   const rows = (re: RegExp) => page.getByRole('row').filter({ hasText: re });
   await expect(rows(/e2e-imp-grid-/)).toHaveCount(3);
 
-  await page.getByLabel('Status').selectOption('stopped');
+  await pickChoice(page, page.getByLabel('Status'), 'Stopped');
   await expect(page).toHaveURL(/status=stopped/);
   await expect(rows(/e2e-imp-grid-/)).toHaveCount(1);
   await expect(rowOf(page, 'e2e-imp-grid-b-winter.csv')).toBeVisible();
 
   await page.getByRole('button', { name: 'Clear filter' }).click();
   await expect(page).toHaveURL(/\/admin\/import$/);
-  await page.getByLabel('Type').selectOption('product');
+  await pickChoice(page, page.getByLabel('Type'), 'Products');
   await expect(rows(/e2e-imp-grid-/)).toHaveCount(1);
   await expect(rowOf(page, 'e2e-imp-grid-c-spring.csv')).toBeVisible();
 

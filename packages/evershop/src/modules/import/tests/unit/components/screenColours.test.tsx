@@ -277,15 +277,14 @@ describe('the notices of the page of a new import', () => {
     ).toEqual(['info']);
   });
 
-  it('draws the choices in the colour of the admin, and the template link too', () => {
+  it('draws the choices with the controls of the core, which are in the colour of the admin, and the template link too', () => {
     const html = page([]);
-    // all four radios, and the box of the images (the blue of the browser is not the colour of the admin)
-    expect(
-      html.match(/<input[^>]*class="accent-primary[^"]*"[^>]*type="radio"/g)
-    ).toHaveLength(4);
-    expect(
-      html.match(/<input[^>]*class="accent-primary[^"]*"[^>]*type="checkbox"/g)
-    ).toHaveLength(1);
+    // the four radios, the box of the images and the select are the ones of the core: the ones of the browser are blue
+    expect(html.match(/data-slot="radio-group-item"/g)).toHaveLength(4);
+    expect(html.match(/data-slot="checkbox"/g)).toHaveLength(1);
+    expect(html.match(/data-slot="select-trigger"/g)).toHaveLength(1);
+    expect(html).not.toMatch(/<select[\s>]/);
+    expect(html).not.toContain('accent-primary');
     expect(html).toMatch(/<a[^>]*href="\/template"[^>]*text-primary/);
   });
 });

@@ -19,6 +19,7 @@ import {
   withFilter
 } from '../ui/issueFilters.js';
 import type { IssueFilters } from '../ui/issueFilters.js';
+import { ChoiceSelect } from './ChoiceSelect.js';
 import { formatNumber } from './format.js';
 import { ToneIcon } from './Notice.js';
 
@@ -26,9 +27,6 @@ export interface ProblemsTableProps {
   api: ImportApi;
   issuesUrl: string;
 }
-
-const selectClass =
-  'border-input bg-background dark:bg-input/30 h-9 rounded-md border px-2.5 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
 
 // A type to filter by: a pill, so that it reads as something to press.
 const pillClass =
@@ -114,37 +112,33 @@ export function ProblemsTable({ api, issuesUrl }: ProblemsTableProps) {
         </div>
       )}
       <div className="flex flex-wrap gap-2">
-        <select
-          aria-label={_('Severity')}
-          className={selectClass}
+        <ChoiceSelect
+          label={_('Severity')}
+          className="w-44"
           value={filters.severity}
-          onChange={(e) =>
+          choices={[
+            { value: '', label: _('All severities') },
+            { value: 'error', label: _('Errors') },
+            { value: 'warning', label: _('Warnings') }
+          ]}
+          onChange={(severity) =>
             setFilters(
               withFilter(filters, {
-                severity: e.target.value as IssueFilters['severity']
+                severity: severity as IssueFilters['severity']
               })
             )
           }
-        >
-          <option value="">{_('All severities')}</option>
-          <option value="error">{_('Errors')}</option>
-          <option value="warning">{_('Warnings')}</option>
-        </select>
-        <select
-          aria-label={_('Type')}
-          className={selectClass}
+        />
+        <ChoiceSelect
+          label={_('Type')}
+          className="w-64"
           value={filters.code}
-          onChange={(e) =>
-            setFilters(withFilter(filters, { code: e.target.value }))
-          }
-        >
-          <option value="">{_('All types')}</option>
-          {types.map(({ code }) => (
-            <option key={code} value={code}>
-              {code}
-            </option>
-          ))}
-        </select>
+          choices={[
+            { value: '', label: _('All types') },
+            ...types.map(({ code }) => ({ value: code, label: code }))
+          ]}
+          onChange={(code) => setFilters(withFilter(filters, { code }))}
+        />
         <Input
           aria-label={_('Column')}
           placeholder={_('Column')}

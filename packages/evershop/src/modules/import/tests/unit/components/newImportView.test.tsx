@@ -56,13 +56,16 @@ const text = (html: string) =>
     .replace(/\s+/g, ' ')
     .trim();
 
+// The opening tag of the first element with this role.
+const tagOf = (html: string, role: string) =>
+  new RegExp(`<[a-z]+[^>]*role="${role}"[^>]*>`).exec(html)?.[0] ?? '';
+
+// The radios of the core: a `role="radio"` element named by its label, in the order drawn.
 const radios = (html: string) =>
-  [...html.matchAll(/<input[^>]*type="radio"[^>]*value="(\w+)"[^>]*>/g)].map(
-    (m) => ({
-      value: m[1],
-      checked: /checked=""/.test(m[0])
-    })
-  );
+  [...html.matchAll(/<span[^>]*role="radio"[^>]*>/g)].map((m) => ({
+    name: /aria-label="([^"]*)"/.exec(m[0])?.[1],
+    checked: /aria-checked="true"/.test(m[0])
+  }));
 
 const primary = (html: string) => {
   const m = html.match(/<button[^>]*>\s*Upload and validate\s*<\/button>/);
@@ -73,10 +76,10 @@ describe('the page New import', () => {
   it('asks what to import, in the order of the spec, with the chosen type marked', () => {
     const html = page({ entity: 'category' });
     expect(radios(html)).toEqual([
-      { value: 'product', checked: false },
-      { value: 'category', checked: true },
-      { value: 'customer', checked: false },
-      { value: 'customerAddress', checked: false }
+      { name: 'Products', checked: false },
+      { name: 'Categories', checked: true },
+      { name: 'Customers', checked: false },
+      { name: 'Customer addresses', checked: false }
     ]);
     const t = text(html);
     expect(t.indexOf('Products')).toBeLessThan(t.indexOf('Categories'));
@@ -86,10 +89,9 @@ describe('the page New import', () => {
 
   it('offers the three modes, and the choice to check images, for products', () => {
     const html = page({ entity: 'product' });
-    expect(html).toContain('<option value="upsert"');
+    // the list of modes is closed here (the page that opens it is tested whole, in importNewForm)
+    expect(tagOf(html, 'combobox')).toContain('id="import-mode"');
     expect(text(html)).toContain('Create and update');
-    expect(text(html)).toContain('Only create');
-    expect(text(html)).toContain('Only update');
     expect(text(html)).toContain(
       'Check that image URLs can be reached while validating (slower)'
     );
@@ -308,8 +310,9 @@ describe('the page New import', () => {
         { file: { size: 100 }, uploading: true },
         { upload: { percent: 10 } }
       );
-      expect(html).toMatch(/<fieldset[^>]*\sdisabled=""/);
-      expect(html).toMatch(/<select[^>]*\sdisabled=""/);
+      expect(tagOf(html, 'radiogroup')).toContain('aria-disabled="true"');
+      expect(tagOf(html, 'combobox')).toContain(' disabled=""');
+      expect(tagOf(html, 'checkbox')).toContain('aria-disabled="true"');
       expect(html).toMatch(/<input[^>]*type="file"[^>]*\sdisabled=""/);
     });
   });

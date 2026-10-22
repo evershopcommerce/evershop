@@ -8,6 +8,7 @@ import {
   jest
 } from '@jest/globals';
 import type { HttpReply, HttpRequest } from '../../../ui/importApi.js';
+import { choose, openList, shown } from '../helpers/coreControls.js';
 import { settle } from '../helpers/fakeTab.js';
 
 /**
@@ -110,13 +111,6 @@ const button = (label: string) =>
   [...container.querySelectorAll('button')].find(
     (b) => b.textContent === label
   );
-const change = (el: HTMLSelectElement, value: string) =>
-  act(async () => {
-    el.value = value;
-    el.dispatchEvent(new window.Event('change', { bubbles: true }));
-    await settle();
-  });
-
 describe('the list of past imports (jsdom)', () => {
   beforeEach(() => {
     sent.length = 0;
@@ -171,10 +165,30 @@ describe('the list of past imports (jsdom)', () => {
   describe('the filters', () => {
     it('go to the address with the status chosen', async () => {
       await mount(list([row(1)]));
-      await change(box('Status') as HTMLSelectElement, 'stopped');
+      await choose(act, box('Status'), 'Stopped');
       expect(goTo).toHaveBeenCalledWith(
         'http://localhost/admin/import?status=stopped'
       );
+    });
+
+    it('marks the choice in use in the list, and All statuses when there is no filter', async () => {
+      await mount(list([row(1)]));
+      // "All statuses" is a choice, not an empty select (the core greys a placeholder)
+      expect(box('Status').hasAttribute('data-placeholder')).toBe(false);
+      await openList(act, box('Status'));
+      const chosen = [...document.querySelectorAll('[role="option"]')]
+        .filter((option) => option.getAttribute('aria-selected') === 'true')
+        .map((option) => option.textContent);
+      expect(chosen).toEqual(['All statuses']);
+    });
+
+    it('go to the address without the status when All statuses is chosen', async () => {
+      window.history.pushState({}, '', '/admin/import?status=stopped');
+      await mount(
+        list([row(1)], [{ key: 'status', operation: 'eq', value: 'stopped' }])
+      );
+      await choose(act, box('Status'), 'All statuses');
+      expect(goTo).toHaveBeenCalledWith('http://localhost/admin/import');
     });
 
     it('go to the address with the type chosen, and keep the rest', async () => {
@@ -186,7 +200,7 @@ describe('the list of past imports (jsdom)', () => {
       await mount(
         list([row(1)], [{ key: 'status', operation: 'eq', value: 'failed' }])
       );
-      await change(box('Type') as HTMLSelectElement, 'customer');
+      await choose(act, box('Type'), 'Customers');
       const url = new URL(goTo.mock.calls[0][0] as string);
       expect(url.searchParams.get('status')).toBe('failed');
       expect(url.searchParams.get('entity')).toBe('customer');
@@ -235,7 +249,7 @@ describe('the list of past imports (jsdom)', () => {
           ]
         )
       );
-      expect((box('Status') as HTMLSelectElement).value).toBe('stopped');
+      expect(shown(box('Status'))).toBe('Stopped');
       expect((box('Search') as HTMLInputElement).value).toBe('spring');
     });
 

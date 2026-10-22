@@ -1,6 +1,12 @@
 import { Button } from '@components/common/ui/Button.js';
 import { Card, CardContent } from '@components/common/ui/Card.js';
+import { Checkbox } from '@components/common/ui/Checkbox.js';
+import { Label } from '@components/common/ui/Label.js';
 import { Progress } from '@components/common/ui/Progress.js';
+import {
+  RadioGroup,
+  RadioGroupItem
+} from '@components/common/ui/RadioGroup.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useRef } from 'react';
 import type { ImportEntity, ImportMode } from '../services/types.js';
@@ -10,6 +16,7 @@ import type {
   UploadNotice
 } from '../ui/uploadChoice.js';
 import type { JobView } from '../web/jobView.js';
+import { ChoiceSelect } from './ChoiceSelect.js';
 import { formatBytes, formatDateTime } from './format.js';
 import { entityLabel, entityNoun, modeLabel, statusLabel } from './labels.js';
 import { Notice, ToneIcon } from './Notice.js';
@@ -127,9 +134,6 @@ function fileProblemText(
       });
 }
 
-const fieldClass =
-  'border-input bg-background dark:bg-input/30 h-9 rounded-md border px-2.5 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
-
 // A notice that is about to be overwritten is a warning; one that only informs is not.
 const NOTICE_TONE = {
   busy: 'info',
@@ -149,26 +153,34 @@ export function NewImportView(props: NewImportViewProps) {
   return (
     <Card>
       <CardContent className="grid min-w-0 grid-cols-1 gap-5">
-        <fieldset className="grid gap-2" disabled={uploading}>
-          <legend className="font-medium mb-1">
+        <div className="grid gap-2">
+          <span id="import-entity-label" className="font-medium mb-1">
             {_('What do you want to import?')}
-          </legend>
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
+          </span>
+          <RadioGroup
+            aria-labelledby="import-entity-label"
+            className="flex flex-wrap gap-x-6 gap-y-2"
+            value={entity}
+            disabled={uploading}
+            onValueChange={(value) => props.onEntity(value as ImportEntity)}
+          >
             {ENTITY_CHOICES.map((value) => (
-              <label key={value} className="flex items-center gap-2 text-sm">
-                <input
-                  className="accent-primary size-4"
-                  type="radio"
-                  name="entity"
+              <div key={value} className="flex items-center gap-2">
+                <RadioGroupItem
+                  id={`import-entity-${value}`}
                   value={value}
-                  checked={entity === value}
-                  onChange={() => props.onEntity(value)}
+                  aria-label={entityLabel(value)}
                 />
-                {entityLabel(value)}
-              </label>
+                <Label
+                  htmlFor={`import-entity-${value}`}
+                  className="font-normal cursor-pointer"
+                >
+                  {entityLabel(value)}
+                </Label>
+              </div>
             ))}
-          </div>
-        </fieldset>
+          </RadioGroup>
+        </div>
 
         {choice.notices.map((notice) => (
           <Notice
@@ -191,24 +203,22 @@ export function NewImportView(props: NewImportViewProps) {
         ))}
 
         {choice.showMode && (
-          <label className="grid gap-1 text-sm">
-            <span className="font-medium">
+          <div className="grid gap-1 text-sm">
+            <Label htmlFor="import-mode">
               {_('If a record already exists')}
-            </span>
-            <select
-              aria-label={_('If a record already exists')}
-              className={`${fieldClass} w-64`}
+            </Label>
+            <ChoiceSelect
+              id="import-mode"
+              className="w-64"
               value={props.mode}
               disabled={uploading}
-              onChange={(e) => props.onMode(e.target.value as ImportMode)}
-            >
-              {MODE_CHOICES.map((value) => (
-                <option key={value} value={value}>
-                  {modeLabel(entity, value)}
-                </option>
-              ))}
-            </select>
-          </label>
+              choices={MODE_CHOICES.map((value) => ({
+                value,
+                label: modeLabel(entity, value)
+              }))}
+              onChange={(value) => props.onMode(value as ImportMode)}
+            />
+          </div>
         )}
 
         <div className="grid gap-1 text-sm">
@@ -258,18 +268,25 @@ export function NewImportView(props: NewImportViewProps) {
         </div>
 
         {choice.showCheckImages && (
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              className="accent-primary size-4"
-              type="checkbox"
+          <div className="flex items-center gap-2 text-sm">
+            <Checkbox
+              id="import-check-images"
+              aria-label={_(
+                'Check that image URLs can be reached while validating (slower)'
+              )}
               checked={props.checkImages}
               disabled={uploading}
-              onChange={(e) => props.onCheckImages(e.target.checked)}
+              onCheckedChange={(checked) => props.onCheckImages(checked)}
             />
-            {_(
-              'Check that image URLs can be reached while validating (slower)'
-            )}
-          </label>
+            <Label
+              htmlFor="import-check-images"
+              className="font-normal cursor-pointer"
+            >
+              {_(
+                'Check that image URLs can be reached while validating (slower)'
+              )}
+            </Label>
+          </div>
         )}
 
         {props.error && <Notice tone="error">{props.error}</Notice>}

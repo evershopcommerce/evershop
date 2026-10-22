@@ -6,6 +6,11 @@ import type {
   HttpRequest,
   IssuesPage
 } from '../../../ui/importApi.js';
+import {
+  choose as chooseOption,
+  comboboxNamed,
+  shown
+} from '../helpers/coreControls.js';
 import { settle } from '../helpers/fakeTab.js';
 
 const React = (await import('react')).default;
@@ -73,14 +78,8 @@ const mount = async () => {
 };
 const text = () => container.textContent?.replace(/\s+/g, ' ') ?? '';
 const last = () => asked[asked.length - 1].params;
-const select = (label: string) =>
-  container.querySelector(`select[aria-label="${label}"]`) as HTMLSelectElement;
-const choose = (el: HTMLSelectElement, value: string) =>
-  act(async () => {
-    el.value = value;
-    el.dispatchEvent(new window.Event('change', { bubbles: true }));
-    await settle();
-  });
+const select = (label: string) => comboboxNamed(container, label)!;
+const choose = (el: HTMLElement, text: string) => chooseOption(act, el, text);
 const buttonWith = (label: string) =>
   [...container.querySelectorAll('button')].find(
     (b) => b.textContent === label
@@ -123,7 +122,7 @@ describe('the table of problems', () => {
       await settle();
     });
     expect(last()).toEqual({ code: 'REFERENCE_NOT_FOUND', page: 1, limit: 50 });
-    expect(select('Type').value).toBe('REFERENCE_NOT_FOUND');
+    expect(shown(select('Type'))).toBe('REFERENCE_NOT_FOUND');
     await act(async () => {
       buttonWith('REFERENCE_NOT_FOUND x3').click();
       await settle();
@@ -144,7 +143,7 @@ describe('the table of problems', () => {
 
   it('filters by severity', async () => {
     await mount();
-    await choose(select('Severity'), 'warning');
+    await choose(select('Severity'), 'Warnings');
     expect(last()).toEqual({ severity: 'warning', page: 1, limit: 50 });
   });
 
@@ -253,7 +252,7 @@ describe('the table of problems', () => {
         buttonWith('Next').click();
         await settle();
       });
-      await choose(select('Severity'), 'error');
+      await choose(select('Severity'), 'Errors');
       expect(last()).toEqual({ severity: 'error', page: 1, limit: 50 });
     });
   });
@@ -273,11 +272,11 @@ describe('the table of problems', () => {
       headers: {},
       data: { error: { status: 500, message: 'The request failed.' } }
     });
-    await choose(select('Severity'), 'error');
+    await choose(select('Severity'), 'Errors');
     expect(text()).toContain('The request failed.');
     expect(text()).toContain('Problem on row 1');
     answer = () => page([issue(2)]);
-    await choose(select('Severity'), 'warning');
+    await choose(select('Severity'), 'Warnings');
     expect(text()).not.toContain('The request failed.');
     expect(text()).toContain('Problem on row 2');
   });
@@ -307,8 +306,8 @@ describe('the table of problems', () => {
       waiting[0](page([issue(9)]));
       await settle();
     });
-    await choose(select('Severity'), 'error');
-    await choose(select('Severity'), 'warning');
+    await choose(select('Severity'), 'Errors');
+    await choose(select('Severity'), 'Warnings');
     expect(waiting).toHaveLength(3);
     expect(asked[1].signal?.aborted).toBe(true);
     expect(asked[2].signal?.aborted).toBe(false);
