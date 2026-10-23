@@ -95,11 +95,11 @@ function noteText(note: ScreenNote): string {
     case 'pageAddresses':
       return note.rebuilt > 0
         ? _(
-            'Page addresses are finished in the background and may take a few minutes. ${count} were rebuilt after the import.',
+            'The web addresses (links) of the items you imported are still being set up in the background. For a large file this can take a few minutes. If a page does not open yet, try again later. ${count} of these addresses were missing when the import ended and are being set up now.',
             { count: n(note.rebuilt) }
           )
         : _(
-            'Page addresses are finished in the background and may take a few minutes.'
+            'The web addresses (links) of the items you imported are still being set up in the background. For a large file this can take a few minutes. If a page does not open yet, try again later.'
           );
     case 'reason':
       return note.text;
