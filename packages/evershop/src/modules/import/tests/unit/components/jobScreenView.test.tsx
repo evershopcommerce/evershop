@@ -244,7 +244,11 @@ describe('the page of one import', () => {
       expect(t).toContain(
         'Done. Created 90 - Updated 7 - Failed 3 - Skipped 0'
       );
-      expect(t).toContain('Page addresses are finished in the background');
+      // said for someone who has never heard of events or a queue
+      expect(t).toContain(
+        'The web addresses (links) of the items you imported are still being set up in the background. For a large file this can take a few minutes. If a page does not open yet, try again later.'
+      );
+      expect(t).not.toContain('were missing');
       expect(html).toContain('/file-with-errors.csv');
     });
 
@@ -256,7 +260,10 @@ describe('the page of one import', () => {
           counts: { total: 10, created: 10, pagesRebuilt: 4 }
         })
       );
-      expect(t).toContain('4 were rebuilt after the import');
+      expect(t).toContain(
+        'If a page does not open yet, try again later. 4 of these addresses were missing when the import ended and are being set up now.'
+      );
+      expect(t).not.toContain('rebuilt');
     });
 
     it('stopped: how far it got, how to go on, and the buttons for it', () => {

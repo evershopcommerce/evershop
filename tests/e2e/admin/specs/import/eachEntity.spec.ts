@@ -97,7 +97,7 @@ test('products: a simple product and a virtual one, with a price and a category'
   expect(Number((await productRow('E2E-IMP-1'))?.price)).toBeCloseTo(19.99);
   expect(Number((await productRow('E2E-IMP-2'))?.price)).toBeCloseTo(5);
   // the product page is made by the store after the import
-  await expect(page.getByText(/Page addresses are finished in the background/)).toBeVisible();
+  await expect(page.getByText(/The web addresses \(links\) of the items you imported are still being set up/)).toBeVisible();
 });
 
 test('customers: created with a group, no welcome e-mail needed, and again as updates', async ({ page }, info) => {
