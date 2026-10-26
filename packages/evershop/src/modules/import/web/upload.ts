@@ -18,6 +18,34 @@ type UploadRequest = IncomingMessage & {
 const invalid = (message: string) =>
   new ImportApiError('INVALID_REQUEST', message);
 
+interface ImportStorage extends StorageEngine {
+  /**
+   * What the read of the file failed with, once it has ended: null when it did
+   * not fail or never began. It never rejects.
+   */
+  failure(): Promise<unknown>;
+}
+
+const isAbort = (error: unknown): boolean => {
+  const { name, code } = (error ?? {}) as { name?: string; code?: string };
+  return name === 'AbortError' || code === 'ABORT_ERR';
+};
+
+/**
+ * Why the read of the file stopped, when multer says `AbortError`. When the size
+ * check (or the store) stops reading, the stream of the file is destroyed, and
+ * multer reports that abort at once, while `receive` is still cleaning up (the
+ * database takes a moment) and has not yet said why it stopped. That reason is
+ * the answer (413, 404), and the abort is only what followed it. When `receive`
+ * did not fail, or never began, there is no reason and the abort stays as it is.
+ */
+async function reasonBehindAbort(
+  error: unknown,
+  storage: ImportStorage
+): Promise<unknown> {
+  return isAbort(error) ? storage.failure() : null;
+}
+
 /**
  * Multer reads the multipart body, and this storage engine hands the stream of
  * the `file` part straight to `ImportService.receive`, so the file goes into the
@@ -34,8 +62,11 @@ const invalid = (message: string) =>
 function importStorage(
   web: ImportWeb,
   adminUserId: number | null
-): StorageEngine {
+): ImportStorage {
+  // How the read of the file ended: null if it did not fail (or did not begin).
+  let reading: Promise<unknown> = Promise.resolve(null);
   return {
+    failure: () => reading,
     _handleFile(req, file, done) {
       const body = (req as UploadRequest).body ?? {};
       if (body.entity === undefined) {
@@ -46,19 +77,22 @@ function importStorage(
       }
       // Which fields were known when the file began: the others came after it.
       const fieldsSeen = Object.keys(body);
-      web.service
-        .receive({
-          entity: body.entity,
-          mode: body.mode,
-          checkImages: body.checkImages,
-          fileName: file.originalname,
-          createdBy: adminUserId,
-          file: file.stream
-        })
-        .then(
-          (received) => done(null, { received, fieldsSeen } as never),
-          done
-        );
+      const received = web.service.receive({
+        entity: body.entity,
+        mode: body.mode,
+        checkImages: body.checkImages,
+        fileName: file.originalname,
+        createdBy: adminUserId,
+        file: file.stream
+      });
+      reading = received.then(
+        () => null,
+        (e: unknown) => e
+      );
+      received.then(
+        (stored) => done(null, { received: stored, fieldsSeen } as never),
+        done
+      );
     },
     // Multer calls this for a file it already took when a later part of the
     // request is refused (a second file, a limit): the job it made goes too.
@@ -124,8 +158,9 @@ export function uploadJob(
   return new Promise((resolve) => {
     // `defParamCharset` is multer's, and busboy's: a file name in UTF-8 is not
     // read as Latin-1. The type definitions do not list it yet.
+    const storage = importStorage(web, adminUserId);
     const options: multer.Options & { defParamCharset: string } = {
-      storage: importStorage(web, adminUserId),
+      storage,
       defParamCharset: 'utf8',
       // The size of the file is limited by the service, which has its own code
       // for it; `single('file')` takes one file.
@@ -136,7 +171,11 @@ export function uploadJob(
       const req = request as UploadRequest;
       (async () => {
         if (error) {
-          throw fromMulter(error) ?? error;
+          throw (
+            (await reasonBehindAbort(error, storage)) ??
+            fromMulter(error) ??
+            error
+          );
         }
         const stored = req.file;
         if (!stored?.received) {
