@@ -21,7 +21,7 @@
 # Base image is Node 20: the minimum this project supports, and what CI tests
 # against. The previous node:18-alpine was below that floor and is past EOL.
 
-FROM node:20-alpine
+FROM node:24.22.1-alpine
 WORKDIR /app
 
 # husky's `prepare` hook runs during `npm install` and exits non-zero when
