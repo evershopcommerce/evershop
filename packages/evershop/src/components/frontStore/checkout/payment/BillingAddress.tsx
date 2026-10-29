@@ -34,7 +34,6 @@ export function BillingAddress({
   const { form, checkoutData } = useCheckout();
   const { updateCheckoutData } = useCheckoutDispatch();
   const {
-    setValue,
     getValues,
     trigger,
     formState: { disabled }
@@ -52,11 +51,15 @@ export function BillingAddress({
 
   const [useSameAddress, setUseSameAddress] = useState(!noShippingRequired);
 
+  // The billing form fills itself: `CustomerAddressForm` maps a stored
+  // address (the GraphQL shape) to its field ids with `initialValuesFor`.
+  // Writing `billingAddress` into the form here put that shape in raw —
+  // `locality` and `country` as objects, `addressLine1`-style keys no field
+  // reads — so a saved address came back as City "[object Object]" and an
+  // empty Country, and saving it again failed with unknown address fields.
   useEffect(() => {
     if (useSameAddress && shippingAddress) {
       updateCheckoutData({ billingAddress: shippingAddress });
-    } else if (!useSameAddress) {
-      setValue('billingAddress', billingAddress);
     }
   }, [useSameAddress, checkoutData.shippingAddress]);
 
@@ -195,10 +198,12 @@ export function BillingAddress({
             ) : (
               <ItemDescription className="text-inherit mt-3 overflow-visible">
                 <div className="text-inherit">
+                  {/* No shipping: the billing address is the only address,
+                      so the one already saved on the cart is shown. */}
                   <CustomerAddressForm
                     surface="billing"
                     namePrefix="billingAddress"
-                    address={undefined} // Always start empty for different address
+                    address={billingAddress}
                   />
                   {noShippingRequired && (
                     <Button
