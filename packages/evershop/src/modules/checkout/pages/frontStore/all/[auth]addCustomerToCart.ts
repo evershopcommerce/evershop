@@ -2,6 +2,10 @@ import { select, update } from '@evershop/postgres-query-builder';
 import { error } from '../../../../../lib/log/logger.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { EvershopRequest } from '../../../../../types/request.js';
+import {
+  belongsToAnotherCustomer,
+  releaseCartFromSession
+} from '../../../services/cartSession.js';
 
 export default async (request: EvershopRequest, response, next) => {
   try {
@@ -14,7 +18,13 @@ export default async (request: EvershopRequest, response, next) => {
         .where('sid', '=', sessionID)
         .and('status', '=', 1)
         .load(pool);
-      if (cart) {
+      if (cart && belongsToAnotherCustomer(cart, customer.customer_id)) {
+        // Another customer's cart, left on this browser's session when they
+        // signed out. Claiming it handed their items and their address to
+        // whoever signed in next. Unlink it instead — it stays theirs.
+        await releaseCartFromSession(cart.cart_id);
+      } else if (cart) {
+        // A guest cart (or already this customer's): the customer takes it.
         await update('cart')
           .given({
             customer_group_id: customer.group_id,
