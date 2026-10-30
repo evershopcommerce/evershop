@@ -88,8 +88,16 @@ export default () => {
     }
   };
 
-  (request as EvershopRequest).logoutCustomer = function logout(callback) {
-    hookable(logoutCustomer.bind(this))();
+  (request as EvershopRequest).logoutCustomer = async function logout(callback) {
+    // Async since the sign-out also unlinks the customer's cart from the
+    // browser session (logoutCustomer.js). A throwing hook still reaches the
+    // callback, as it reached the callers' try/catch when this was sync.
+    try {
+      await hookable(logoutCustomer.bind(this))();
+    } catch (e) {
+      callback(e as Error);
+      return;
+    }
     if (this.session) {
       this.session.save(callback);
     }
