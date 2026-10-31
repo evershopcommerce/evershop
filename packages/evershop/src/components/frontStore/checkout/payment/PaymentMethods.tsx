@@ -152,8 +152,10 @@ export function PaymentMethods({
                                   </span>
                                 </label>
                               </ItemTitle>
+                              {/* Not clamped: a method's form may hold more
+                                  than ItemDescription's two lines (#1175). */}
                               {component?.formRenderer && isSelected && (
-                                <ItemDescription className="text-inherit overflow-visible">
+                                <ItemDescription className="text-inherit line-clamp-none">
                                   {renderComponent(component.formRenderer, {
                                     isSelected
                                   })}

@@ -172,8 +172,11 @@ export function BillingAddress({
                       </label>
                     </ItemTitle>
 
+                    {/* ItemDescription clamps its text to two lines; a form
+                        inside it must not be clamped, or the address preview
+                        is cut short and the button below covers it (#1175). */}
                     {!useSameAddress && (
-                      <ItemDescription className="text-inherit mt-3 overflow-visible">
+                      <ItemDescription className="text-inherit mt-3 line-clamp-none">
                         <div className="text-inherit">
                           <CustomerAddressForm
                             surface="billing"
@@ -196,7 +199,7 @@ export function BillingAddress({
                 </Item>
               </>
             ) : (
-              <ItemDescription className="text-inherit mt-3 overflow-visible">
+              <ItemDescription className="text-inherit mt-3 line-clamp-none">
                 <div className="text-inherit">
                   {/* No shipping: the billing address is the only address,
                       so the one already saved on the cart is shown. */}
