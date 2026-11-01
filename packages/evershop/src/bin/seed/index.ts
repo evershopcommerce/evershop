@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
-import './initEnvDev.js';
+// No NODE_ENV of its own: the seed runs in the store's mode (shell or .env).
+// Forcing 'development' made the theme and extension loaders demand a `src/`
+// folder that a built theme or extension does not have to ship.
 import 'dotenv/config';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
