@@ -7,7 +7,7 @@ import { addUpdatedAtTrigger } from '../../../lib/postgres/updatedAtTrigger.js';
  * webhook payloads) never saw a change. See lib/postgres/updatedAtTrigger.ts.
  */
 export default async (connection: PoolClient) => {
-  for (const table of ['cms_page', 'widget', 'widget_placement']) {
+  for (const table of ['cms_page', 'widget_instance', 'widget_placement']) {
     await addUpdatedAtTrigger(connection, table);
   }
 };

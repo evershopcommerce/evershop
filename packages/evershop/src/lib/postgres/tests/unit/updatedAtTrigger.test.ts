@@ -1,22 +1,30 @@
 import { jest, describe, it, expect, beforeAll, afterAll } from '@jest/globals';
+import {
+  commit,
+  rollback,
+  startTransaction
+} from '@evershop/postgres-query-builder';
 import { Pool } from 'pg';
 import { addUpdatedAtTrigger } from '../../updatedAtTrigger.js';
 
 /**
- * `updated_at` on 20 core tables was never refreshed: no code set it, so it
+ * `updated_at` on 19 core tables was never refreshed: no code set it, so it
  * stayed at the creation time. A migration in each owning module now adds a
  * BEFORE UPDATE trigger (`addUpdatedAtTrigger`) that sets it to now(), unless
  * the statement sets `updated_at` itself.
  *
  * The first part runs everywhere (a fake connection records the SQL). The
- * second runs the REAL migrations on stub tables in a scratch database on the
- * local Postgres server, and skips itself when no server is reachable, like
- * catalog's recomputeStats.test.ts.
+ * second runs ALL the core migrations into a scratch database on the local
+ * Postgres server, as `scripts/ci/migrateCoreSchema.mjs` does, and skips itself
+ * when no server is reachable (like catalog's recomputeStats.test.ts). It runs
+ * on the real schema on purpose: a list checked against stub tables passed
+ * while naming `user_token_secret` (dropped in auth 1.0.1) and `widget`
+ * (renamed to `widget_instance` in cms 1.3.0).
  */
-jest.setTimeout(30000);
+jest.setTimeout(60000);
 
 const MIGRATIONS: Array<[string, string, string[]]> = [
-  ['auth', 'Version-1.0.2.js', ['admin_user', 'user_token_secret']],
+  ['auth', 'Version-1.0.2.js', ['admin_user']],
   ['blog', 'Version-1.0.1.js', ['blog_category', 'blog_post']],
   [
     'catalog',
@@ -28,7 +36,11 @@ const MIGRATIONS: Array<[string, string, string[]]> = [
     'Version-1.0.14.js',
     ['cart', 'cart_item', 'order', 'order_activity', 'shipment']
   ],
-  ['cms', 'Version-1.5.1.js', ['cms_page', 'widget', 'widget_placement']],
+  [
+    'cms',
+    'Version-1.5.1.js',
+    ['cms_page', 'widget_instance', 'widget_placement']
+  ],
   [
     'customer',
     'Version-1.0.6.js',
@@ -37,6 +49,19 @@ const MIGRATIONS: Array<[string, string, string[]]> = [
   ['promotion', 'Version-1.1.1.js', ['coupon']]
 ];
 const ALL_TABLES = MIGRATIONS.flatMap(([, , tables]) => tables);
+// Tables with `updated_at` left out on purpose: their code sets it itself
+// (the author's ruling), and `migration` is the runner's own bookkeeping.
+const LEFT_OUT = [
+  'changeset',
+  'landing_page',
+  'metafield_definition',
+  'migration',
+  'package',
+  'rollout_plan',
+  'theme_install_state',
+  'webhook',
+  'webhook_delivery'
+];
 
 const loadMigration = async (module: string, file: string) =>
   (await import(`../../../../modules/${module}/migration/${file}`)).default as (
@@ -49,7 +74,9 @@ function fakeConnection(hasColumn = true) {
     statements,
     triggerTables: () =>
       statements
-        .map((sql) => /CREATE TRIGGER "SET_UPDATED_AT" BEFORE UPDATE ON "(\w+)"/.exec(sql))
+        .map((sql) =>
+          /CREATE TRIGGER "SET_UPDATED_AT" BEFORE UPDATE ON "(\w+)"/.exec(sql)
+        )
         .filter(Boolean)
         .map((m) => (m as RegExpExecArray)[1]),
     async query(sql: string) {
@@ -66,9 +93,9 @@ describe('the migrations that add the trigger', () => {
     expect(connection.triggerTables()).toEqual(tables);
   });
 
-  it('cover the 20 tables no code maintains, once each', () => {
-    expect(new Set(ALL_TABLES).size).toBe(20);
-    expect(ALL_TABLES).toHaveLength(20);
+  it('cover 19 tables, once each', () => {
+    expect(new Set(ALL_TABLES).size).toBe(19);
+    expect(ALL_TABLES).toHaveLength(19);
   });
 
   it('the helper refuses a bad table name and a table without updated_at', async () => {
@@ -76,9 +103,9 @@ describe('the migrations that add the trigger', () => {
       addUpdatedAtTrigger(fakeConnection() as any, 'product; DROP TABLE x')
     ).rejects.toThrow('invalid table name');
     const noColumn = fakeConnection(false);
-    await expect(addUpdatedAtTrigger(noColumn as any, 'product')).rejects.toThrow(
-      "table 'product' has no updated_at column"
-    );
+    await expect(
+      addUpdatedAtTrigger(noColumn as any, 'product')
+    ).rejects.toThrow("table 'product' has no updated_at column");
     expect(noColumn.triggerTables()).toEqual([]);
   });
 });
@@ -123,36 +150,47 @@ if (!serverAvailable) {
   );
 }
 
-describeDb('the trigger on a real database (scratch DB)', () => {
+describeDb('the real core migrations (scratch DB)', () => {
   let db: Pool;
-  const OLD = '2001-01-01T00:00:00.000Z';
 
-  const updatedAt = async (table: string): Promise<string> =>
-    (await db.query(`SELECT updated_at FROM "${table}" WHERE id = 1`)).rows[0]
-      .updated_at.toISOString();
+  const triggerCounts = async () =>
+    (
+      await db.query(
+        `SELECT c.relname AS table, count(*)::int AS n
+           FROM pg_trigger t JOIN pg_class c ON c.oid = t.tgrelid
+          WHERE t.tgname = 'SET_UPDATED_AT'
+          GROUP BY c.relname ORDER BY c.relname`
+      )
+    ).rows;
 
   beforeAll(async () => {
     db = new Pool({ ...poolConfig(SCRATCH_DB), max: 2 });
-    // Stub tables: only what the trigger needs
-    for (const table of ALL_TABLES) {
-      await db.query(
-        `CREATE TABLE "${table}" (id INT PRIMARY KEY, name TEXT,
-           updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP)`
-      );
-      await db.query(
-        `INSERT INTO "${table}" (id, name, updated_at) VALUES (1, 'a', $1)`,
-        [OLD]
-      );
-    }
+    // One transaction for the whole chain, as the runner opens one per version:
+    // outside a transaction the query builder releases the client after its
+    // first query. `commit` releases it at the end.
     const connection = await db.connect();
+    await startTransaction(connection);
+    const { getCoreModules } = await import(
+      '../../../../bin/lib/loadModules.js'
+    );
+    const { migrate } = await import('../../../../bin/lib/bootstrap/migrate.js');
+    // `migrate` logs a failed migration and then calls process.exit: make
+    // that a failure of this test instead of the end of the test run
+    const exit = jest.spyOn(process, 'exit').mockImplementation(((
+      code?: number
+    ) => {
+      throw new Error(`a core migration failed (process.exit ${code})`);
+    }) as never);
     try {
-      for (const [module, file] of MIGRATIONS) {
-        await (await loadMigration(module, file))(connection);
-      }
-      // Running one again is harmless
-      await (await loadMigration('catalog', 'Version-1.0.16.js'))(connection);
+      // With our own connection: no pool of core's is opened
+      // migrate.js is JavaScript: its `connection = null` default reads as `null`
+      await migrate(getCoreModules(), connection as never);
+      await commit(connection);
+    } catch (e) {
+      await rollback(connection);
+      throw e;
     } finally {
-      connection.release();
+      exit.mockRestore();
     }
   });
 
@@ -165,40 +203,76 @@ describeDb('the trigger on a real database (scratch DB)', () => {
     await admin.end();
   });
 
-  it('every table has exactly one SET_UPDATED_AT trigger', async () => {
+  it('run to the end, the new versions included', async () => {
     const { rows } = await db.query(
-      `SELECT c.relname AS table, count(*)::int AS n
-         FROM pg_trigger t JOIN pg_class c ON c.oid = t.tgrelid
-        WHERE t.tgname = 'SET_UPDATED_AT'
-        GROUP BY c.relname ORDER BY c.relname`
+      `SELECT module, version FROM migration WHERE module = ANY($1) ORDER BY module`,
+      [MIGRATIONS.map(([module]) => module)]
     );
     expect(rows).toEqual(
+      [...MIGRATIONS]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([module, file]) => ({
+          module,
+          version: file.replace('Version-', '').replace('.js', '')
+        }))
+    );
+  });
+
+  it('every one of the 19 tables has exactly one trigger, and nothing else has it', async () => {
+    expect(await triggerCounts()).toEqual(
       [...ALL_TABLES].sort().map((table) => ({ table, n: 1 }))
     );
   });
 
-  it('an update refreshes updated_at on every table', async () => {
-    const { rows } = await db.query(`SELECT now() AS now`);
-    const now = rows[0].now.toISOString();
-    for (const table of ALL_TABLES) {
-      await db.query(`UPDATE "${table}" SET name = 'b' WHERE id = 1`);
-      expect([table, await updatedAt(table)]).not.toEqual([table, OLD]);
-      expect(new Date(await updatedAt(table)).getTime()).toBeGreaterThanOrEqual(
-        new Date(now).getTime()
-      );
-    }
+  it('every table with updated_at is either covered or left out on purpose', async () => {
+    const { rows } = await db.query(
+      `SELECT table_name FROM information_schema.columns
+        WHERE table_schema = current_schema() AND column_name = 'updated_at'
+        ORDER BY table_name`
+    );
+    expect(rows.map((r) => r.table_name)).toEqual(
+      [...ALL_TABLES, ...LEFT_OUT].sort()
+    );
   });
 
-  it('a value the statement sets itself is kept (an import writing a historical date)', async () => {
-    for (const table of ALL_TABLES) {
-      await db.query(
-        `UPDATE "${table}" SET name = 'c', updated_at = $1 WHERE id = 1`,
-        ['1999-06-01T00:00:00.000Z']
-      );
-      expect([table, await updatedAt(table)]).toEqual([
-        table,
-        '1999-06-01T00:00:00.000Z'
-      ]);
+  it('on a real table: an update refreshes updated_at, a value the statement sets is kept', async () => {
+    const { rows } = await db.query(
+      `INSERT INTO customer_group (group_name) VALUES ('Wholesale')
+       RETURNING customer_group_id AS id`
+    );
+    const { id } = rows[0];
+    const updatedAt = async () =>
+      (
+        await db.query(
+          `SELECT updated_at FROM customer_group WHERE customer_group_id = $1`,
+          [id]
+        )
+      ).rows[0].updated_at.toISOString();
+
+    // An explicit value (an import writing a historical date) is kept
+    await db.query(
+      `UPDATE customer_group SET updated_at = '2001-01-01T00:00:00Z' WHERE customer_group_id = $1`,
+      [id]
+    );
+    expect(await updatedAt()).toBe('2001-01-01T00:00:00.000Z');
+
+    // Any other update refreshes it
+    await db.query(
+      `UPDATE customer_group SET group_name = 'Trade' WHERE customer_group_id = $1`,
+      [id]
+    );
+    expect(new Date(await updatedAt()).getFullYear()).toBeGreaterThan(2001);
+  });
+
+  it('running a migration again changes nothing', async () => {
+    const connection = await db.connect();
+    try {
+      await (await loadMigration('catalog', 'Version-1.0.16.js'))(connection);
+    } finally {
+      connection.release();
     }
+    expect(await triggerCounts()).toEqual(
+      [...ALL_TABLES].sort().map((table) => ({ table, n: 1 }))
+    );
   });
 });
