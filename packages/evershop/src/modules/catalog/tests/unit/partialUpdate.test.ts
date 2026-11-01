@@ -15,22 +15,24 @@ import updateProductPayloadSchema from '../../api/updateProduct/payloadSchema.js
  * back as if the caller had sent it (description [], tax_class null,
  * category_id null; description [], parent_id null).
  */
+const PRODUCT_COLUMNS = [
+  'uuid',
+  'sku',
+  'price',
+  'weight',
+  'status',
+  'visibility',
+  'group_id',
+  'tax_class',
+  'category_id',
+  'package_id',
+  'no_shipping_required',
+  'variant_group_id'
+];
 const db = createRecordingBuilder({
   // As the real builder does, the stand-in writes only the columns a table has.
   columns: {
-    product: [
-      'sku',
-      'price',
-      'weight',
-      'status',
-      'visibility',
-      'group_id',
-      'tax_class',
-      'category_id',
-      'package_id',
-      'no_shipping_required',
-      'variant_group_id'
-    ],
+    product: PRODUCT_COLUMNS,
     product_description: [
       'name',
       'description',
@@ -116,6 +118,45 @@ describe('updateProduct with a partial payload (#1103)', () => {
     ).rejects.toThrow();
     expect(db.writes).toEqual([]);
     expect(db.transaction).toEqual(['start', 'rollback']);
+  });
+});
+
+describe('updateProduct always updates the product row once', () => {
+  // `product_updated` comes only from the AFTER UPDATE trigger on `product`, and
+  // its subscriber rebuilds `url_rewrite`. A payload with no `product` column
+  // (a new url_key or name, stock, attributes, images) wrote nothing to
+  // `product`, so no event fired: the product kept its old URL, which the
+  // redirect captured in the same save sends to the new one, which 404'd.
+  beforeEach(() => db.setRows({ product: { ...storedProduct } }));
+  // The stand-in also records the attempt that writes no column ("No data was
+  // provided"): only the writes that reach a `product` column count.
+  const productRowWrites = () =>
+    db
+      .writesTo('product')
+      .map((w) => definedEntries(w.given))
+      .map((given) =>
+        Object.fromEntries(
+          Object.entries(given).filter(([key]) => PRODUCT_COLUMNS.includes(key))
+        )
+      )
+      .filter((given) => Object.keys(given).length > 0);
+
+  it('a description-only update touches the row, without changing it', async () => {
+    await updateProduct('p-1', { url_key: 'canvas-tote-2' } as any, {});
+    expect(productRowWrites()).toEqual([{ uuid: 'p-1' }]);
+    expect(db.writesTo('product_description')[0].given).toMatchObject({
+      url_key: 'canvas-tote-2'
+    });
+  });
+
+  it('so does an update of the stock only', async () => {
+    await updateProduct('p-1', { qty: '3' } as any, {});
+    expect(productRowWrites()).toEqual([{ uuid: 'p-1' }]);
+  });
+
+  it('an update with a product column writes the row once, with no extra touch', async () => {
+    await updateProduct('p-1', { price: '12.00', name: 'Tote' } as any, {});
+    expect(productRowWrites()).toEqual([{ price: '12.00' }]);
   });
 });
 

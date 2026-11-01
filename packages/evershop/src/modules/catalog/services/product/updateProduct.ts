@@ -328,6 +328,16 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
     if (!e.message.includes('No data was provided')) {
       throw e;
     }
+    // The payload changes no `product` column (only the description, stock,
+    // attributes or images). Update the row anyway, without changing it, so
+    // its triggers run as on any other save: `product_updated` comes only from
+    // the AFTER UPDATE trigger on `product`, and its subscriber rebuilds
+    // `url_rewrite`. Without it a new url_key kept the old URL, which the
+    // redirect captured below sends to the new path, which had no rewrite: 404.
+    await update('product')
+      .given({ uuid })
+      .where('product_id', '=', product.product_id)
+      .execute(connection);
   }
   let description;
   try {
