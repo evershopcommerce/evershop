@@ -1,5 +1,5 @@
 import { select } from '@evershop/postgres-query-builder';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4, validate as isUuid } from 'uuid';
 import { translate } from '../../../../lib/locale/translate/translate.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getValue, getValueSync } from '../../../../lib/util/registry.js';
@@ -181,10 +181,27 @@ async function createNewCart(initialData) {
   return cart;
 }
 
+/**
+ * No active cart has this id: none at all, the id is not a UUID, or the cart
+ * is no longer active (its order was placed). A route answers 404 for it
+ * (see `findCartByUUID`). The message is the one `getCart` always threw.
+ */
+class CartNotFoundError extends Error {
+  constructor() {
+    super('Cart not found');
+    this.name = 'CartNotFoundError';
+  }
+}
+
 async function getCart(uuid) {
+  // `cart.uuid` is a UUID column: anything else fails in Postgres ("invalid
+  // input syntax for type uuid"), so it never reaches the query
+  if (typeof uuid !== 'string' || !isUuid(uuid)) {
+    throw new CartNotFoundError();
+  }
   const cart = await select().from('cart').where('uuid', '=', uuid).load(pool);
   if (!cart || cart.status !== true) {
-    throw new Error('Cart not found');
+    throw new CartNotFoundError();
   }
   const cartObject = new Cart(cart);
   // Get the cart items
@@ -211,4 +228,4 @@ async function getCart(uuid) {
   return cartObject;
 }
 
-export { Cart, Item, createNewCart, getCart };
+export { Cart, CartNotFoundError, Item, createNewCart, getCart };

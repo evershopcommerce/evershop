@@ -2,26 +2,27 @@ import { select } from '@evershop/postgres-query-builder';
 import { translate } from '../../../../lib/locale/translate/translate.js';
 import { pool } from '../../../../lib/postgres/connection.js';
 import {
-  INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
+  INVALID_PAYLOAD,
+  NOT_FOUND,
   OK
 } from '../../../../lib/util/httpStatus.js';
 import { setContextValue } from '../../../graphql/services/contextHelper.js';
-import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { findCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
 
 export default async (request, response, next) => {
   try {
     const cartId = request.params.cart_id;
     const { sku, qty } = request.body;
-    const cart = await getCartByUUID(cartId); // Cart object
+    const cart = await findCartByUUID(cartId); // Cart object
 
-    // If the cart is not found, respond with 400
+    // If the cart is not found, respond with 404
     if (!cart) {
-      response.status(INVALID_PAYLOAD);
+      response.status(NOT_FOUND);
       response.json({
         error: {
-          status: INVALID_PAYLOAD,
+          status: NOT_FOUND,
           message: translate('Invalid cart id')
         }
       });
