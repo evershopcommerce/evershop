@@ -6,14 +6,13 @@ import { translate } from '../../../../lib/locale/translate/translate.js';
 import { debug, error } from '../../../../lib/log/logger.js';
 import { sendEmail } from '../../../../lib/mail/emailHelper.js';
 import { pool } from '../../../../lib/postgres/connection.js';
-import { getBaseUrl } from '../../../../lib/util/getBaseUrl.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { getValue } from '../../../../lib/util/registry.js';
 import { EventData } from '../../../../types/event.js';
 import { getStoreLanguage } from '../../../setting/services/setting.js';
 import { decorateAddressForEmail } from '../../services/addressEmailData.js';
-import { signTrackingToken } from '../../services/anonymousTrackingToken.js';
 import { getCarrier } from '../../services/carrier/registry.js';
+import { getOrderEmailLink } from '../../services/orderEmailLink.js';
 
 export const TEMPLATE = `{{#> emailLayout preheader=(t "Your order #\${number} is on the way." number=order.order_number)}}
 <h1 style="margin:0 0 6px;font-size:22px;line-height:1.3;font-weight:700;color:#111114;">{{t "Your order is on the way"}}</h1>
@@ -94,16 +93,7 @@ export default async function sendShipmentCreatedEmail(
           })
         : null);
 
-    let trackOrderUrl: string;
-    try {
-      const token = signTrackingToken(order.uuid);
-      trackOrderUrl = `${getBaseUrl()}/orders/${order.uuid}/track?token=${encodeURIComponent(token)}`;
-    } catch (e) {
-      debug(
-        'Anonymous tracking token secret is not configured — falling back to logged-in account URL.'
-      );
-      trackOrderUrl = `${getBaseUrl()}/account/orders/${order.uuid}`;
-    }
+    const trackOrderUrl = getOrderEmailLink(order.uuid);
 
     let template;
     if (config?.templatePath) {

@@ -3,9 +3,9 @@ import { jest, describe, it, expect } from '@jest/globals';
 /**
  * What the event process does at start-up, seen from the outside: which
  * bootstraps run, with which context, which locks are taken and in what order,
- * that the settings and the routes are NOT loaded at start (the settings are
- * refreshed before each batch of events instead), and that LISTEN comes after
- * the boot. The fakes are the low-level modules, not headlessBoot, so the same
+ * that the routes are loaded after the locks (subscribers build URLs) and the
+ * settings are NOT (they are refreshed before each batch of events instead),
+ * and that LISTEN comes after the boot. The fakes are the low-level modules, not headlessBoot, so the same
  * test passes on the code from before the boot was moved into headlessBoot (S2)
  * and on the code after it: that is what shows the move changed nothing.
  * event-manager.ts runs when it is imported, so everything around it is faked.
@@ -117,13 +117,14 @@ for (let i = 0; i < 50 && !calls.includes('loadAndProcess'); i += 1) {
 }
 
 describe('event-manager start-up', () => {
-  it('runs the bootstrap of the core modules, then the extensions, then takes the three locks, then listens and drains', () => {
+  it('runs the bootstrap of the core modules, then the extensions, then takes the three locks, loads the routes, then listens and drains', () => {
     expect(calls).toEqual([
       'bootstrap /core',
       'bootstrap /ext',
       'lockHooks',
       'lockRegistry',
       'lockAddressRegistry',
+      'ensureRoutesLoaded',
       'listen client connect',
       'LISTEN new_event',
       'markStuckAsFailed',
@@ -136,9 +137,9 @@ describe('event-manager start-up', () => {
     expect(captured.contexts).toEqual([expected, expected]);
   });
 
-  it('does not load the settings or the routes at start; it refreshes the settings before each batch instead', () => {
+  it('loads the routes at start, so subscribers can build URLs; not the settings, which it refreshes before each batch', () => {
+    expect(calls.filter((c) => c === 'ensureRoutesLoaded')).toHaveLength(1);
     expect(calls).not.toContain('refreshSetting');
-    expect(calls).not.toContain('ensureRoutesLoaded');
     expect(captured.processorOptions.beforeBatch).toBe(refreshSetting);
   });
 

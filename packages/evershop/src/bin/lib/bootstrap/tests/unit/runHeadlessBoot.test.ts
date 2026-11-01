@@ -6,9 +6,10 @@ import type {
 } from '../../runHeadlessBoot.js';
 
 /**
- * The boot of a process that has no Express app. The default call must do what
- * the event process has always done: every bootstrap in order, then the three
- * locks, and nothing else.
+ * The boot of a process that has no Express app. The default call (no option)
+ * does every bootstrap in order, then the three locks, and nothing else; the
+ * event and cron processes add the routes, the import worker the routes and
+ * the settings.
  */
 const coreModule: BootModule = { path: '/core/catalog' };
 const extension: BootModule = { path: '/ext/shipping' };
@@ -44,7 +45,7 @@ function makeDeps(overrides: Partial<HeadlessBootDeps> = {}) {
 }
 
 describe('runHeadlessBoot', () => {
-  it('runs every bootstrap in order, then the three locks, and nothing else (the event process)', async () => {
+  it('runs every bootstrap in order, then the three locks, and nothing else (default options)', async () => {
     const { deps, calls } = makeDeps();
     await runHeadlessBoot({ context: { process: 'event' } }, deps);
     expect(calls).toEqual([
