@@ -11,6 +11,7 @@ import {
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
 import { emailPattern } from '../../services/customer/emailPattern.js';
+import { withoutProtectedCustomerFields } from '../../services/customer/protectedCustomerFields.js';
 import updateCustomer from '../../services/customer/updateCustomer.js';
 
 /**
@@ -19,11 +20,10 @@ import updateCustomer from '../../services/customer/updateCustomer.js';
  * strip the fields a customer must never be able to set on themselves:
  *  - `password`: changed only through the dedicated change-password flow, which
  *    verifies the current password.
- *  - `group_id` / `status`: privilege escalation — self-promoting into another
- *    customer/pricing group, or re-activating a disabled account.
+ *  - the fields only the store may set (`PROTECTED_CUSTOMER_FIELDS`): the
+ *    group and status (self-promoting into another pricing group, re-activating
+ *    a disabled account), the custom fields, and the database's own columns.
  */
-const SENSITIVE_FIELDS = ['password', 'group_id', 'status'] as const;
-
 export default async (
   request: EvershopRequest,
   response: EvershopResponse,
@@ -47,10 +47,11 @@ export default async (
 
     // Take the whole body (so extension fields flow through) but strip the
     // sensitive fields a customer must not be able to set on themselves.
-    const data: Record<string, unknown> = { ...request.body };
-    SENSITIVE_FIELDS.forEach((field) => {
-      delete data[field];
-    });
+    const data: Record<string, unknown> = await withoutProtectedCustomerFields(
+      { ...request.body },
+      { routeId: request.currentRoute.id },
+      ['password']
+    );
 
     if (Object.keys(data).length === 0) {
       response.status(INVALID_PAYLOAD);

@@ -86,6 +86,13 @@ export interface ValueRegistry {
 
   /** Customer input data before the update transaction runs */
   customerDataBeforeUpdate: CustomerData;
+  /**
+   * Customer fields the public routes (`POST /api/customers` for anyone but an
+   * admin, `PATCH /api/customers/me`) remove from the request body. Context
+   * carries `routeId`. Add a field to protect an extension's own column;
+   * leaving out a core field does not unprotect it.
+   */
+  protectedCustomerFields: string[];
 
   // ── Customer: Address ─────────────────────────────────────────────────────
 
