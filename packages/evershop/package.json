@@ -44,6 +44,10 @@
       "import": "./dist/lib/postgres/query.js",
       "types": "./dist/lib/postgres/query.d.ts"
     },
+    "./lib/postgres/updatedAtTrigger": {
+      "import": "./dist/lib/postgres/updatedAtTrigger.js",
+      "types": "./dist/lib/postgres/updatedAtTrigger.d.ts"
+    },
     "./lib/locale/*": {
       "import": "./dist/lib/locale/*.js",
       "types": "./dist/lib/locale/*.d.ts"
