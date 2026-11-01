@@ -1,4 +1,3 @@
-import { pathToFileURL } from 'url';
 import cron from 'node-cron';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
 import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
@@ -8,6 +7,7 @@ import { debug, error } from '../log/logger.js';
 import { lockHooks } from '../util/hookable.js';
 import { lockRegistry } from '../util/registry.js';
 import { getEnabledJobs } from './jobManager.js';
+import { runJob } from './runJob.js';
 
 async function start() {
   const modules = [...getCoreModules(), ...getEnabledExtensions()];
@@ -28,24 +28,10 @@ async function start() {
   }
   const jobs = getEnabledJobs();
 
-  // Schedule the jobs
+  // Schedule the jobs. Each run refreshes this process's settings first
+  // (runJob.ts).
   jobs.forEach((job) => {
-    cron.schedule(job.schedule, async () => {
-      try {
-        // Load the module
-        const module = await import(pathToFileURL(job.resolve).toString());
-        // Make sure the module is a function or async function
-        if (typeof module.default !== 'function') {
-          throw new Error(
-            `Job ${job.name} is not a function. Make sure the module exports a function as default.`
-          );
-        }
-        // Execute the job
-        await module.default();
-      } catch (e) {
-        error(e);
-      }
-    });
+    cron.schedule(job.schedule, () => runJob(job));
   });
 }
 
