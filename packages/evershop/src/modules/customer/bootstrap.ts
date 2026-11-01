@@ -4,6 +4,7 @@ import { hookable } from '../../lib/util/hookable.js';
 import { addProcessor } from '../../lib/util/registry.js';
 import type { EvershopRequest } from '../../types/request.js';
 import { normalizeAddressInput } from './services/customer/address/normalizeAddressInput.js';
+import loginCustomer from './services/customer/loginCustomer.js';
 import loginCustomerWithEmail from './services/customer/loginCustomerWithEmail.js';
 import logoutCustomer from './services/customer/logoutCustomer.js';
 import { registerDefaultCustomerCollectionFilters } from './services/registerDefaultCustomerCollectionFilters.js';
@@ -85,6 +86,24 @@ export default () => {
     await hookable(loginCustomerWithEmail.bind(this))(email, password);
     if (this.session) {
       this.session.save(callback);
+    }
+  };
+
+  /**
+   * Sign in a customer without a password, for an extension that has already
+   * confirmed who they are (a social login). Active accounts only; see
+   * services/customer/loginCustomer.ts. The callback runs after the session
+   * is saved, or at once when the request has no session (an API route).
+   */
+  (request as EvershopRequest).loginCustomer = async function login(
+    customerId,
+    callback
+  ) {
+    await hookable(loginCustomer.bind(this))(customerId);
+    if (this.session) {
+      this.session.save(callback);
+    } else {
+      callback?.(null);
     }
   };
 
