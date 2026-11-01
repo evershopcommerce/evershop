@@ -34,16 +34,18 @@ export interface HeadlessBootOptions {
 }
 
 /**
- * Boots a process that has no Express app (the event process, the import
- * worker): runs the `bootstrap` of every module in order, then locks the hook
- * system, the registry and the address registry, exactly as the event process
- * has always done. Without it, what the bootstraps register (processors,
+ * Boots a process that has no Express app (the event process, the cron
+ * process, the import worker): runs the `bootstrap` of every module in order,
+ * then locks the hook system, the registry and the address registry, exactly
+ * as the event process has always done. Without it, what the bootstraps register (processors,
  * hooks, the address normalization seam) would be missing, and the process
  * would write data that the admin would refuse.
  *
- * The two options are off by default, so the event process, which refreshes
- * its settings before each batch of events and never builds a URL, behaves as
- * before. The import worker turns both on.
+ * The two options are off by default. The event process and the cron process
+ * ask for the routes (they build URLs for emails and jobs) but not for an
+ * extra settings load: the setting module's own bootstrap already warms the
+ * cache in every process, and they refresh it before each batch or job. The
+ * import worker turns both on.
  *
  * If a bootstrap throws, nothing is locked and the error reaches the caller.
  */

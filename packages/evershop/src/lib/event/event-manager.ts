@@ -27,14 +27,17 @@ const { loadAndProcess } = createEventProcessor({
 const init = async () => {
   try {
     // Every module's bootstrap, then the hook, registry and address-registry
-    // locks. The settings are not loaded here: they are refreshed before each
-    // batch of events (`beforeBatch` above).
+    // locks, then the routes, so subscribers can build URLs (`buildUrl`,
+    // `buildAbsoluteUrl`) instead of writing them by hand. No extra settings
+    // load is asked for: the setting module's bootstrap warms the cache, and
+    // it is refreshed before each batch of events (`beforeBatch` above).
     await headlessBoot({
       modules,
       context: {
         ...JSON.parse(process.env.bootstrapContext || '{}'),
         process: 'event'
-      }
+      },
+      loadRoutes: true
     });
   } catch (e) {
     error(e);

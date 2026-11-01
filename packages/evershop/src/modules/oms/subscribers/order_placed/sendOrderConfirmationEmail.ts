@@ -15,7 +15,7 @@ import { getValue } from '../../../../lib/util/registry.js';
 import { EventData } from '../../../../types/event.js';
 import { getStoreLanguage } from '../../../setting/services/setting.js';
 import { decorateAddressForEmail } from '../../services/addressEmailData.js';
-import { signTrackingToken } from '../../services/anonymousTrackingToken.js';
+import { getOrderEmailLink } from '../../services/orderEmailLink.js';
 import { resolveThumbnailUrl } from '../../services/thumbnailUrl.js';
 
 export const TEMPLATE = `{{#> emailLayout preheader=(t "Your order #\${number} is confirmed." number=order.order_number)}}
@@ -113,18 +113,10 @@ export default async function sendOrderConfirmationEmail(
     } else {
       template = TEMPLATE;
     }
-    // Anonymous-safe link to the order for the "View your order" button — a
-    // signed tracking URL, falling back to the logged-in account page when the
-    // token secret is not configured (mirrors the shipment emails).
-    let orderUrl: string;
-    try {
-      const token = signTrackingToken(order.uuid);
-      orderUrl = `${getBaseUrl()}/orders/${order.uuid}/track?token=${encodeURIComponent(
-        token
-      )}`;
-    } catch {
-      orderUrl = `${getBaseUrl()}/account/orders/${order.uuid}`;
-    }
+    // The "View your order" link: the signed tracking page, or the account
+    // page when the token secret is not configured (shared with the shipment
+    // emails)
+    const orderUrl = getOrderEmailLink(order.uuid);
     const dynamicData = await getValue('orderConfirmationEmailData', {
       order,
       shippingAddress,
