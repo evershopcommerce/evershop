@@ -65,6 +65,16 @@ export async function recordPaypalPayment(
   await startTransaction(connection);
   let firstFinalization = false;
   try {
+    // Serialize every finalization of this order (return page, webhook,
+    // reconciliation cron): lock the order row before the existence check.
+    // Without it, callers running at the same time all read "no transaction
+    // yet" and each emit order_placed (#1180). The second caller now waits for
+    // the first to commit, then sees its transaction row (READ COMMITTED).
+    // The same guard as Stripe's webhook (loadOrderByUuidForUpdate).
+    await connection.query(
+      'SELECT "order_id" FROM "order" WHERE "order_id" = $1 FOR UPDATE',
+      [order.order_id]
+    );
     const existing = await select()
       .from('payment_transaction')
       .where('transaction_id', '=', payment.id)
@@ -96,6 +106,17 @@ export async function recordPaypalPayment(
         false,
         connection
       );
+      // In the transaction, with its connection: the event is saved with the
+      // payment or not at all. Emitted after the commit through the pool, a
+      // failed emit lost order_placed for good, since every later caller sees
+      // the transaction row and skips it. Subscribers still see it only after
+      // the commit, so they see the settled payment status; the payload is
+      // re-loaded so it isn't the stale pending order.
+      const freshOrder = await select()
+        .from('order')
+        .where('order_id', '=', order.order_id)
+        .load(connection);
+      await emit('order_placed', { ...(freshOrder ?? order) }, connection);
     }
     await commit(connection);
   } catch (e) {
@@ -103,15 +124,7 @@ export async function recordPaypalPayment(
     throw e;
   }
 
-  if (firstFinalization) {
-    // After the commit so subscribers see the settled payment status, and
-    // from a re-loaded row so the payload isn't the stale pending one.
-    const freshOrder = await select()
-      .from('order')
-      .where('order_id', '=', order.order_id)
-      .load(pool);
-    await emit('order_placed', { ...(freshOrder ?? order) });
-  } else {
+  if (!firstFinalization) {
     debug(
       `PayPal ${action} for order ${order.uuid} was already recorded; skipping order_placed`
     );
