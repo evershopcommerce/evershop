@@ -14,7 +14,11 @@ const db = createFakeDb({
   customer: [{ customer_id: 3, uuid: 'cust-3', email: 'taken@example.com' }]
 });
 const qb = createFakeQueryBuilder(db);
-const emitted: Array<{ name: string; data: Record<string, unknown> }> = [];
+const emitted: Array<{
+  name: string;
+  data: Record<string, unknown>;
+  conn?: unknown;
+}> = [];
 
 jest.unstable_mockModule('@evershop/postgres-query-builder', () => ({ ...qb }));
 jest.unstable_mockModule('../../../../lib/postgres/connection.js', () => ({
@@ -22,8 +26,8 @@ jest.unstable_mockModule('../../../../lib/postgres/connection.js', () => ({
   getConnection: qb.getConnection
 }));
 jest.unstable_mockModule('../../../../lib/event/emitter.js', () => ({
-  emit: async (name: string, data: Record<string, unknown>) => {
-    emitted.push({ name, data });
+  emit: async (name: string, data: Record<string, unknown>, conn?: unknown) => {
+    emitted.push({ name, data, conn });
   }
 }));
 
@@ -83,6 +87,22 @@ describe('createCustomer, as it always was', () => {
   it('emits account_created, not customer_registered, for a disabled customer', async () => {
     await createCustomer({ ...VALID, password: 'secret-123', status: 0 }, {});
     expect(emitted.map((e) => e.name)).toEqual(['account_created']);
+  });
+
+  it('writes either event in the customer transaction, so it is saved only with the customer', async () => {
+    // Without the transaction's connection the event row is saved at once
+    // through the pool: subscribers could run before the customer exists, and
+    // the event would survive a rollback.
+    const connection = await qb.getConnection();
+    await createCustomer({ ...VALID, password: 'secret-123' }, {});
+    await createCustomer(
+      { ...VALID, email: 'off@example.com', password: 'secret-123', status: 0 },
+      {}
+    );
+    expect(emitted.map((e) => [e.name, e.conn === connection])).toEqual([
+      ['customer_registered', true],
+      ['account_created', true]
+    ]);
   });
 
   it('refuses a missing password', async () => {
