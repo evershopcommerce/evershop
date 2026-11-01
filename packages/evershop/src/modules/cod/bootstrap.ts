@@ -1,5 +1,8 @@
+import { select } from '@evershop/postgres-query-builder';
 import config from 'config';
 import { emit } from '../../lib/event/emitter.js';
+import { error } from '../../lib/log/logger.js';
+import { pool } from '../../lib/postgres/connection.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { hookAfter } from '../../lib/util/hookable.js';
 import { getSetting } from '../../modules/setting/services/setting.js';
@@ -135,11 +138,26 @@ export default async () => {
     }
   );
 
+  // After the order transaction has committed. The `order` handed here is the
+  // insert result, which is stale: CodInitializePayment moved it to
+  // `cod_pending` and createOrderFunc recomputed its shipment status in that
+  // transaction. So the event carries the committed row, as the zero-total
+  // checkout does. A failure here must not fail the checkout of an order that
+  // already exists: it is logged, as the zero-total checkout does too.
   hookAfter<SaveOrderContext, CreateOrderResult>(
     'createOrderFunc',
     async function EmitOrderPlacedEvent(order) {
-      if (order.payment_method === 'cod') {
-        await emit('order_placed', order);
+      if (order.payment_method !== 'cod') {
+        return;
+      }
+      try {
+        const placed = await select()
+          .from('order')
+          .where('order_id', '=', order.insertId)
+          .load(pool);
+        await emit('order_placed', { ...(placed ?? order) });
+      } catch (e) {
+        error(e);
       }
     }
   );
