@@ -9,7 +9,7 @@ import React, {
   ReactNode,
   useCallback
 } from 'react';
-import { useQuery, useClient } from 'urql';
+import { useClient } from 'urql';
 
 const ShippingMethodsQuery = `
   query GetCartShippingMethods($country: String!, $administrativeArea: String, $locality: String, $dependentLocality: String, $postalCode: String) {
@@ -505,12 +505,6 @@ export const CartProvider = ({
 
   const [state, dispatch] = useReducer(cartReducer, hydratedInitialState);
 
-  // Use urql to query cart data
-  const [cartQueryResult, refetchCart] = useQuery({
-    query: query,
-    pause: true
-  });
-
   const retry = async function <T>(
     fn: () => Promise<T>,
     retries = 2,
@@ -527,6 +521,13 @@ export const CartProvider = ({
     }
   };
 
+  // Fetch the cart again and wait for it. This used `useQuery`'s re-run
+  // function, which in urql 3 returns nothing: awaiting it waited for
+  // nothing, so `synced` turned true, and every `await addItem()` (and the
+  // other changes) resolved, before the new cart arrived. MiniCart opens on
+  // `synced` after ADD_ITEM, so it showed the old contents, and a failed
+  // fetch never reached the catch. The new cart and `synced` now land
+  // together.
   const syncCartWithServer = useCallback(
     async (trigger?: string): Promise<void> => {
       try {
@@ -536,7 +537,20 @@ export const CartProvider = ({
           payload: { syncing: true, synced: false, trigger }
         });
 
-        await refetchCart({ requestPolicy: 'network-only' });
+        const result = await client
+          .query(query, {}, { requestPolicy: 'network-only' })
+          .toPromise();
+        if (result.error) {
+          throw new Error(result.error.message || 'Failed to sync cart');
+        }
+        dispatch({
+          type: 'SET_CART',
+          // No cart on the server (yet): an empty one
+          payload: result.data?.myCart ?? {
+            ...initialEmptyState.data,
+            addItemApi: addMineCartItemApi
+          }
+        });
 
         // Set syncing to false and synced to true on success
         dispatch({
@@ -557,42 +571,8 @@ export const CartProvider = ({
         });
       }
     },
-    [refetchCart]
+    [client, query, addMineCartItemApi]
   );
-
-  // Effect to update cart when GraphQL query result changes
-  React.useEffect(() => {
-    // Only process if we have fetched data (either successful or error state)
-    if (cartQueryResult.fetching === false) {
-      if (cartQueryResult.data?.myCart) {
-        const serverCart = cartQueryResult.data.myCart;
-        dispatch({
-          type: 'SET_CART',
-          payload: serverCart
-        });
-      } else if (cartQueryResult.error) {
-        // Handle error case
-        dispatch({
-          type: 'SET_ERROR',
-          payload: cartQueryResult.error.message || 'Failed to fetch cart data'
-        });
-      } else if (cartQueryResult.operation) {
-        // Query executed but returned no data - initialize empty cart
-        dispatch({
-          type: 'SET_CART',
-          payload: {
-            ...initialEmptyState.data,
-            addItemApi: addMineCartItemApi
-          }
-        });
-      }
-    }
-  }, [
-    cartQueryResult.data,
-    cartQueryResult.error,
-    cartQueryResult.fetching,
-    cartQueryResult.operation
-  ]);
 
   React.useEffect(() => {
     if (cart && JSON.stringify(cart) !== JSON.stringify(state.data)) {
