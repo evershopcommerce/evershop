@@ -1,3 +1,9 @@
 You will be redirected to PayPal,Bićete preusmereni na PayPal.
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,Žao nam je. Došlo je do greške prilikom obrade plaćanja. Vaša kartica nije naplaćena. Molimo pokušajte ponovo.
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.","Žao nam je. Došlo je do problema pri završetku vašeg plaćanja. Ako ste odobrili plaćanje na PayPal-u, nemojte pokušavati ponovo — kontaktirajte nas i potvrdićemo status vašeg plaćanja."
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.","Žao nam je. Došlo je do problema pri završetku vašeg plaćanja. Ako ste odobrili plaćanje na PayPal-u ili Venmo-u, nemojte pokušavati ponovo — kontaktirajte nas i potvrdićemo status vašeg plaćanja."
+Failed to load Venmo,Učitavanje Venmo-a nije uspelo
+Venmo is not available for this purchase. Please choose another payment method.,Venmo nije dostupan za ovu kupovinu. Izaberite drugi način plaćanja.
+Click the Venmo button below to complete your payment.,Kliknite na Venmo dugme ispod da biste završili plaćanje.
+Enable Venmo?,Omogućiti Venmo?
+Venmo Display Name,Prikazno ime za Venmo
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,Koristi PayPal pristupne podatke i webhook iznad. Venmo se nudi samo kupcima iz SAD i samo kada je valuta prodavnice USD.

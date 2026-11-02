@@ -277,6 +277,25 @@ describeDb('a PayPal payment is bound to its order (scratch DB)', () => {
     expect(await placedEvents(order.order_id)).toBe(1);
   });
 
+  it('records a capture of a Venmo order onto the PayPal statuses', async () => {
+    const order = await createPendingOrder({ payment_method: 'venmo' });
+    await handlePaypalWebhookEvent(
+      captureEvent(
+        'PAYMENT.CAPTURE.COMPLETED',
+        {
+          id: 'CAP-VENMO',
+          value: '500.00',
+          paypalOrderId: order.integration_order_id
+        },
+        order.order_number
+      ),
+      noPaypalCalls
+    );
+    expect((await reload(order)).payment_status).toBe('paypal_captured');
+    expect(await transactions(order.order_id)).toBe(1);
+    expect(await placedEvents(order.order_id)).toBe(1);
+  });
+
   it('leaves a capture of another payment method on the same PayPal app alone', async () => {
     const order = await createPendingOrder({
       payment_method: 'paypal_fastlane',

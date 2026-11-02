@@ -1,3 +1,9 @@
 You will be redirected to PayPal,Você será redirecionado para o PayPal.
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,Sentimos muito. Ocorreu um erro ao processar seu pagamento. A cobrança em seu cartão não foi efetuada. Por favor tente novamente.
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.","Lamentamos. Ocorreu um problema ao concluir seu pagamento. Se você aprovou o pagamento no PayPal, não tente novamente — entre em contato conosco e confirmaremos o status do seu pagamento."
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.","Lamentamos. Ocorreu um problema ao concluir seu pagamento. Se você aprovou o pagamento no PayPal ou no Venmo, não tente novamente — entre em contato conosco e confirmaremos o status do seu pagamento."
+Failed to load Venmo,Não foi possível carregar o Venmo
+Venmo is not available for this purchase. Please choose another payment method.,O Venmo não está disponível para esta compra. Escolha outra forma de pagamento.
+Click the Venmo button below to complete your payment.,Clique no botão do Venmo abaixo para concluir seu pagamento.
+Enable Venmo?,Ativar o Venmo?
+Venmo Display Name,Nome de exibição do Venmo
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,Usa as credenciais e o webhook do PayPal acima. O Venmo é oferecido apenas a compradores dos EUA e somente quando a moeda da loja é USD.

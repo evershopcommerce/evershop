@@ -1,3 +1,9 @@
 You will be redirected to PayPal,Du vil bli omdirigert til PayPal.
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,Beklager. Det oppstod en feil under behandling av betalingen din. Kortet ditt ble ikke belastet. Vennligst prøv igjen.
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.","Vi beklager. Det oppstod et problem med å fullføre betalingen din. Hvis du godkjente betalingen hos PayPal, må du ikke prøve igjen — kontakt oss, så bekrefter vi betalingsstatusen din."
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.","Vi beklager. Det oppstod et problem med å fullføre betalingen din. Hvis du godkjente betalingen hos PayPal eller Venmo, må du ikke prøve igjen — kontakt oss, så bekrefter vi betalingsstatusen din."
+Failed to load Venmo,Kunne ikke laste inn Venmo
+Venmo is not available for this purchase. Please choose another payment method.,Venmo er ikke tilgjengelig for dette kjøpet. Velg en annen betalingsmåte.
+Click the Venmo button below to complete your payment.,Klikk på Venmo-knappen nedenfor for å fullføre betalingen.
+Enable Venmo?,Aktivere Venmo?
+Venmo Display Name,Visningsnavn for Venmo
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,"Bruker PayPal-legitimasjonen og webhooken ovenfor. Venmo tilbys bare kjøpere i USA, og bare når butikkens valuta er USD."

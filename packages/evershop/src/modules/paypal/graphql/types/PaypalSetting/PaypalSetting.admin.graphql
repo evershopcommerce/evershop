@@ -1,7 +1,6 @@
 extend type Setting {
   paypalPaymentStatus: Int
-  paypalClientId: String
+  paypalVenmoStatus: Int
   paypalClientSecret: String
   paypalWebhookId: String
-  paypalPaymentIntent: String
 }

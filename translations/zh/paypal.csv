@@ -1,3 +1,9 @@
 You will be redirected to PayPal,您将被重定向至 PayPal
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,我们很抱歉。在处理您的付款时发生了错误。您的银行卡尚未扣款。请重试。
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.",很抱歉，完成付款时出现问题。如果您已在 PayPal 批准付款，请不要重试 — 请联系我们，我们将为您确认付款状态。
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.",很抱歉，完成付款时出现问题。如果您已在 PayPal 或 Venmo 批准付款，请不要重试 — 请联系我们，我们将为您确认付款状态。
+Failed to load Venmo,无法加载 Venmo
+Venmo is not available for this purchase. Please choose another payment method.,此次购买无法使用 Venmo。请选择其他付款方式。
+Click the Venmo button below to complete your payment.,点击下方的 Venmo 按钮完成付款。
+Enable Venmo?,启用 Venmo？
+Venmo Display Name,Venmo 显示名称
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,使用上方的 PayPal 凭据和 Webhook。Venmo 仅面向美国买家，且仅在商店货币为 USD 时提供。
