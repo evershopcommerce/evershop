@@ -1,7 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
 import { localizeUrl } from '../../../../../lib/locale/localeContext.js';
 import { pool } from '../../../../../lib/postgres/connection.js';
-import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
+import { getAssetUrl } from '../../../../../lib/util/getAssetUrl.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 import { BlogUrn } from '../../../lib/BlogUrn.js';
@@ -87,12 +87,8 @@ export default async (request, response, next) => {
       .execute(pool);
     const tagNames = tagRows.map((t) => t.name);
 
-    const baseUrl = getBaseUrl();
-    const ogImage = post.thumbnail
-      ? post.thumbnail.startsWith('http')
-        ? post.thumbnail
-        : `${baseUrl}${post.thumbnail}`
-      : undefined;
+    // A local path gets the base URL; a cloud storage URL stays as it is
+    const ogImage = post.thumbnail ? getAssetUrl(post.thumbnail) : undefined;
 
     setPageMetaInfo(request, {
       title: post.meta_title || post.name,

@@ -10,7 +10,9 @@ import {
 import { buildHreflangAlternates } from '../../../../../lib/locale/localeResolution.js';
 import { translate } from '../../../../../lib/locale/translate/translate.js';
 import { get } from '../../../../../lib/util/get.js';
+import { getAssetUrl } from '../../../../../lib/util/getAssetUrl.js';
 import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
+import { getImageUrl } from '../../../../../lib/util/getImageUrl.js';
 import { getValueSync } from '../../../../../lib/util/registry.js';
 import { OgInfo } from '../../../../../types/pageMeta.js';
 import { getSetting } from '../../../../setting/services/setting.js';
@@ -43,7 +45,7 @@ export default {
         // Otherwise fall back to a favicon.ico dropped in the public folder.
         try {
           await access(path.resolve(CONSTANTS.PUBLICPATH, 'favicon.ico'));
-          return getBaseUrl() + '/assets/favicon.ico';
+          return getAssetUrl('/assets/favicon.ico');
         } catch (error) {
           return null;
         }
@@ -159,18 +161,22 @@ export default {
       }
     },
     ogInfo: async (root, args, context): Promise<OgInfo> => {
-      const baseUrl = getBaseUrl();
       // Prefer the admin "social sharing image"; otherwise fall back to the logo
-      // (admin setting → themeConfig). The (relative) value is passed as the
-      // `/images` source so the processor reads it locally, while the og:image
-      // meta value itself stays absolute as social crawlers require.
+      // (admin setting → themeConfig). The stored value is passed as the
+      // `/images` source so the processor reads it, while the og:image meta
+      // value itself stays absolute as social crawlers require.
       const social = await getSetting<string>('socialSharingImage', '');
       const logoSrc = await getSetting<string>('logo', '');
-      const buildImage = (src: string, params: string) =>
-        `${baseUrl}/images?src=${encodeURIComponent(src)}&${params}`;
-      const socialImage = social ? buildImage(social, 'w=1200&q=80&f=jpeg') : '';
+      const socialImage = social
+        ? getImageUrl(social, { width: 1200, quality: 80, format: 'jpeg' })
+        : '';
       const logoImage = logoSrc
-        ? buildImage(logoSrc, 'w=1200&q=80&h=675&f=png')
+        ? getImageUrl(logoSrc, {
+            width: 1200,
+            quality: 80,
+            height: 675,
+            format: 'png'
+          })
         : '';
       const image = get(
         context,
