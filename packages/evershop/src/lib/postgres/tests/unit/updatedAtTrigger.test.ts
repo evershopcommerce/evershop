@@ -5,6 +5,7 @@ import {
   startTransaction
 } from '@evershop/postgres-query-builder';
 import { Pool } from 'pg';
+import semver from 'semver';
 import { addUpdatedAtTrigger } from '../../updatedAtTrigger.js';
 
 /**
@@ -208,13 +209,24 @@ describeDb('the real core migrations (scratch DB)', () => {
       `SELECT module, version FROM migration WHERE module = ANY($1) ORDER BY module`,
       [MIGRATIONS.map(([module]) => module)]
     );
-    expect(rows).toEqual(
-      [...MIGRATIONS]
-        .sort(([a], [b]) => a.localeCompare(b))
-        .map(([module, file]) => ({
-          module,
-          version: file.replace('Version-', '').replace('.js', '')
-        }))
+    // Each module got at least as far as its updated_at migration; a later
+    // migration of the same module may follow it
+    const minimum = new Map(
+      MIGRATIONS.map(([module, file]) => [
+        module,
+        file.replace('Version-', '').replace('.js', '')
+      ])
+    );
+    expect(
+      rows.map(({ module, version }) => [
+        module,
+        minimum.get(module),
+        semver.gte(version, minimum.get(module)!)
+      ])
+    ).toEqual(
+      [...minimum.keys()]
+        .sort((a, b) => a.localeCompare(b))
+        .map((module) => [module, minimum.get(module), true])
     );
   });
 

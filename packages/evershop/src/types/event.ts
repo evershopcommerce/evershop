@@ -87,12 +87,33 @@ export interface EventDataRegistry {
   category_deleted: CategoryRow;
 
   /**
-   * Fired when product inventory is updated
-   * Data: Complete product_inventory table row
+   * Fired when a product's inventory row changes (a save that changes nothing
+   * fires nothing): an admin save, an order taking stock, a restock, an
+   * import. Written by a database trigger (catalog migration 1.0.17).
+   * Data: the product, and the inventory row before and after the change
    */
   inventory_updated: {
+    product_id: number;
+    product_uuid: string;
+    sku: string;
     old: ProductInventoryRow;
     new: ProductInventoryRow;
+  };
+
+  /**
+   * Fired when a product goes from out of stock to in stock, together with
+   * `inventory_updated`. In stock is the storefront's rule: stock not
+   * managed, or a quantity above 0 with stock availability on. Written by the
+   * same database trigger.
+   * Data: the product and its inventory now
+   */
+  product_back_in_stock: {
+    product_id: number;
+    product_uuid: string;
+    sku: string;
+    qty: number;
+    manage_stock: boolean;
+    stock_availability: boolean;
   };
 
   /**
