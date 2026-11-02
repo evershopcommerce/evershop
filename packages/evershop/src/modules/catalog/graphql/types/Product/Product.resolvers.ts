@@ -1,10 +1,9 @@
-import { select } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
 import { localizeUrl } from '../../../../../lib/locale/localeContext.js';
-import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { buildFilterFromUrl } from '../../../../../lib/util/buildFilterFromUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { getProductsBaseQuery } from '../../../services/getProductsBaseQuery.js';
+import { getProductUrl } from '../../../services/product/productUrl.js';
 import { ProductCollection } from '../../../services/ProductCollection.js';
 
 export default {
@@ -19,21 +18,11 @@ export default {
       const w = parseFloat(product?.weight);
       return Number.isFinite(w) ? w : 0;
     },
-    url: async (product, _, { pool }) => {
-      // Get the url rewrite for this product
-      const urlRewrite = await select()
-        .from('url_rewrite')
-        .where('entity_uuid', '=', product.uuid)
-        .and('entity_type', '=', 'product')
-        .load(pool);
+    url: async (product, _, { pool }) =>
+      // url_rewrite first, else the productView route (getProductUrl).
       // localizeUrl adds the /<locale> prefix for non-default storefront locales
       // (no-op for the default locale / admin context), spec §6.18.
-      return localizeUrl(
-        urlRewrite
-          ? urlRewrite.request_path
-          : buildUrl('productView', { uuid: product.uuid })
-      );
-    },
+      localizeUrl(await getProductUrl(product.uuid, {}, pool)),
     description: ({ description }) => {
       if (!description) {
         return [];
