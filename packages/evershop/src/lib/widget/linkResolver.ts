@@ -1,4 +1,5 @@
 import { Pool } from 'pg';
+import { getProductUrls } from '../../modules/catalog/services/product/productUrl.js';
 import { localizeUrl } from '../locale/localeContext.js';
 import { select } from '../postgres/query.js';
 import { buildUrl } from '../router/buildUrl.js';
@@ -102,20 +103,8 @@ export function linkLoaderFromBatch(batchFn: LinkBatchFn): LinkLoaderFactory {
 
 /** Built-in catalog:product loader. */
 const productLoader: LinkLoaderFactory = linkLoaderFromBatch(
-  async (uuids, pool) => {
-    if (uuids.length === 0) return [];
-    const rows = await select('entity_uuid', 'request_path')
-      .from('url_rewrite')
-      .where('entity_type', '=', 'product')
-      .and('entity_uuid', 'IN', [...uuids])
-      .execute(pool);
-    const m = new Map<string, string>(
-      rows.map((r: any) => [r.entity_uuid, r.request_path])
-    );
-    return uuids.map(
-      (u) => m.get(u) ?? buildUrl('productView', { uuid: u })
-    );
-  }
+  // url_rewrite first, else the productView route; one query per batch
+  async (uuids, pool) => getProductUrls([...uuids], {}, pool)
 );
 
 /** Built-in catalog:category loader. */

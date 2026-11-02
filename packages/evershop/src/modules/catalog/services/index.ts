@@ -6,6 +6,11 @@ export * from './product/updateProduct.js';
 export { default as deleteProduct } from './product/deleteProduct.js';
 export * from './product/deleteProduct.js';
 export * from './product/productMetafield.js';
+export {
+  getProductUrl,
+  getProductUrls,
+  type ProductUrlOptions
+} from './product/productUrl.js';
 
 // Categories
 export { default as createCategory } from './category/createCategory.js';
