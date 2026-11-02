@@ -4,8 +4,15 @@ import { registerJob } from '../../lib/cronjob/jobManager.js';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
-import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
-import { getSetting } from '../setting/services/setting.js';
+import {
+  PaymentMethodFactory,
+  registerPaymentMethod
+} from '../checkout/services/getAvailablePaymentMethods.js';
+import {
+  getSetting,
+  getStoreCurrency
+} from '../setting/services/setting.js';
+import { VENMO_CURRENCIES } from './services/paymentMethods.js';
 import { formatPaypalAmount } from './services/paypalPayload.js';
 import { createStandaloneAxiosInstance } from './services/requester.js';
 import { voidPaymentTransaction } from './services/voidPaymentTransaction.js';
@@ -92,25 +99,12 @@ export default async () => {
     );
   }
 
-  registerPaymentMethod({
-    init: async () => ({
-      code: 'paypal',
-      name: await getSetting('paypalDisplayName', 'PayPal')
-    }),
-    validator: async () => {
-      const paypalConfig = getConfig('system.paypal', {});
-      let paypalStatus;
-      if (paypalConfig?.status) {
-        paypalStatus = paypalConfig.status;
-      } else {
-        paypalStatus = await getSetting('paypalPaymentStatus', 0);
-      }
-      if (parseInt(paypalStatus, 10) === 1) {
-        return true;
-      } else {
-        return false;
-      }
-    },
+  // Venmo is a PayPal funding source: the money moves through the same PayPal
+  // order, so both methods share these handlers.
+  const paypalOperations: Pick<
+    PaymentMethodFactory,
+    'capture' | 'void' | 'refund'
+  > = {
     // Capture an authorized payment. Capturing an authorization mints a NEW
     // capture id at PayPal — core (captureOrder) records it as the capture
     // transaction so later refunds target it. The handler only hits PayPal.
@@ -187,5 +181,48 @@ export default async () => {
         refund.amount?.value ?? formatPaypalAmount(amount, order.currency);
       return { transactionId: refund.id, amount: parseFloat(value), raw: refund };
     }
+  };
+
+  registerPaymentMethod({
+    init: async () => ({
+      code: 'paypal',
+      name: await getSetting('paypalDisplayName', 'PayPal')
+    }),
+    validator: async () => {
+      const paypalConfig = getConfig('system.paypal', {});
+      let paypalStatus;
+      if (paypalConfig?.status) {
+        paypalStatus = paypalConfig.status;
+      } else {
+        paypalStatus = await getSetting('paypalPaymentStatus', 0);
+      }
+      if (parseInt(paypalStatus, 10) === 1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    ...paypalOperations
+  });
+
+  registerPaymentMethod({
+    init: async () => ({
+      code: 'venmo',
+      name: await getSetting('paypalVenmoDisplayName', 'Venmo')
+    }),
+    validator: async () => {
+      const paypalConfig = getConfig('system.paypal', {});
+      let venmoStatus;
+      if (paypalConfig?.venmoStatus) {
+        venmoStatus = paypalConfig.venmoStatus;
+      } else {
+        venmoStatus = await getSetting('paypalVenmoStatus', 0);
+      }
+      return (
+        parseInt(venmoStatus, 10) === 1 &&
+        VENMO_CURRENCIES.includes(getStoreCurrency())
+      );
+    },
+    ...paypalOperations
   });
 };

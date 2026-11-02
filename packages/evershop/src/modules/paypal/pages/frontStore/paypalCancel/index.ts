@@ -5,6 +5,7 @@ import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
 import { EvershopResponse } from '../../../../../types/response.js';
 import cancelOrder from '../../../../oms/services/cancelOrder.js';
+import { PAYPAL_METHOD_CODES } from '../../../services/paymentMethods.js';
 
 // The third parameter matters even though it is never called: a 2-arg page
 // middleware is treated as passive and auto-next()s after the redirect,
@@ -27,7 +28,7 @@ export default async (
       .from('order')
       .where('integration_order_id', '=', paypalToken)
       .and('uuid', '=', order_id)
-      .and('payment_method', '=', 'paypal')
+      .and('payment_method', 'IN', PAYPAL_METHOD_CODES)
       .and('payment_status', '=', 'pending')
       .load(pool);
     if (order) {

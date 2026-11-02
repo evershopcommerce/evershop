@@ -16,26 +16,18 @@ export default {
         return 0;
       }
     },
-    paypalPaymentIntent: (setting) => {
-      const paypalPaymentIntent = setting.find(
-        (s) => s.name === 'paypalPaymentIntent'
-      );
-      if (paypalPaymentIntent) {
-        return paypalPaymentIntent.value;
-      } else {
-        return 'CAPTURE';
-      }
-    },
-    paypalClientId: (setting) => {
+    paypalVenmoStatus: (setting) => {
       const paypalConfig = getConfig('system.paypal', {});
-      if (paypalConfig.clientId) {
-        return paypalConfig.clientId;
+      if (paypalConfig.venmoStatus) {
+        return paypalConfig.venmoStatus;
       }
-      const paypalClientId = setting.find((s) => s.name === 'paypalClientId');
-      if (paypalClientId) {
-        return paypalClientId.value;
+      const paypalVenmoStatus = setting.find(
+        (s) => s.name === 'paypalVenmoStatus'
+      );
+      if (paypalVenmoStatus) {
+        return parseInt(paypalVenmoStatus.value, 10);
       } else {
-        return null;
+        return 0;
       }
     },
     paypalClientSecret: (setting, _, { user }) => {

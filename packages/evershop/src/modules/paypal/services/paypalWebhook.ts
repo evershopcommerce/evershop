@@ -9,6 +9,7 @@ import {
   finalizePaypalOrderOrFail,
   recordPaypalPayment
 } from './finalizePaypalOrder.js';
+import { PAYPAL_METHOD_CODES } from './paymentMethods.js';
 
 export interface PaypalWebhookEvent {
   event_type?: string;
@@ -58,7 +59,7 @@ async function resolveOrderForEvent(event: PaypalWebhookEvent) {
     const order = await select()
       .from('order')
       .where('integration_order_id', '=', keys.paypalOrderId)
-      .and('payment_method', '=', 'paypal')
+      .and('payment_method', 'IN', PAYPAL_METHOD_CODES)
       .load(pool);
     if (order) {
       return order;
@@ -68,7 +69,7 @@ async function resolveOrderForEvent(event: PaypalWebhookEvent) {
     const order = await select()
       .from('order')
       .where('order_number', '=', keys.invoiceNumber)
-      .and('payment_method', '=', 'paypal')
+      .and('payment_method', 'IN', PAYPAL_METHOD_CODES)
       .load(pool);
     if (order) {
       return order;
