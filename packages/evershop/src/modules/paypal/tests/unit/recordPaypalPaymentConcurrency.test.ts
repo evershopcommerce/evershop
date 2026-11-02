@@ -279,11 +279,62 @@ describeDb(
         'paypal_captured'
       );
       const { rows } = await db.query(
+        `SELECT data FROM event
+        WHERE name = 'order_placed' AND (data->>'order_id')::int = $1`,
+        [order.order_id]
+      );
+      const {
+        rows: [saved]
+      } = await db.query(`SELECT placed_at FROM "order" WHERE order_id = $1`, [
+        order.order_id
+      ]);
+      expect(rows).toHaveLength(1);
+      expect(rows[0].data.payment_status).toBe('paypal_captured');
+      // markOrderPlaced set placed_at, and the event carries it
+      expect(saved.placed_at).toBeInstanceOf(Date);
+      expect(new Date(rows[0].data.placed_at).getTime()).toBe(
+        saved.placed_at.getTime()
+      );
+    });
+
+    it('authorized, then captured under a new id: one order_placed, when authorized', async () => {
+      // Each payment is recorded (once per transaction id), but the order is
+      // placed once: the guard per transaction id sent a second order_placed
+      const order = await createPendingOrder();
+      arrived = 1; // one caller at a time: do not wait for a second
+      const authorized = await recordPaypalPayment(
+        order,
+        { id: 'AUTHORIZATION-1', amount: { value: '10.00' } },
+        { status: 'CREATED' },
+        'authorize',
+        'paypal_authorized'
+      );
+      const captured = await recordPaypalPayment(
+        order,
+        { id: 'CAPTURE-AFTER-AUTHORIZATION', amount: { value: '10.00' } },
+        { status: 'COMPLETED' },
+        'capture',
+        'paypal_captured'
+      );
+      expect([authorized.firstFinalization, captured.firstFinalization]).toEqual(
+        [true, true]
+      );
+      const { rows } = await db.query(
         `SELECT data->>'payment_status' AS status FROM event
         WHERE name = 'order_placed' AND (data->>'order_id')::int = $1`,
         [order.order_id]
       );
-      expect(rows).toEqual([{ status: 'paypal_captured' }]);
+      expect(rows).toEqual([{ status: 'paypal_authorized' }]);
+      const { rows: payments } = await db.query(
+        `SELECT
+            (SELECT count(*)::int FROM payment_transaction
+              WHERE payment_transaction_order_id = $1) AS transactions,
+            (SELECT payment_status FROM "order" WHERE order_id = $1) AS status`,
+        [order.order_id]
+      );
+      expect(payments).toEqual([
+        { transactions: 2, status: 'paypal_captured' }
+      ]);
     });
   }
 );

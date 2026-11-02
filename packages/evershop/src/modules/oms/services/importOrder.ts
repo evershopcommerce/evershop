@@ -210,6 +210,26 @@ export function priceHistoricalOrder(
   };
 }
 
+/**
+ * Whether an order that already happened was placed (its `order_placed` was
+ * emitted), so it gets `placed_at`: its payment went further than pending,
+ * failed or canceled, a payment was recorded for it, or it is a Cash on
+ * Delivery order (placed when created, canceled or not). The rule oms
+ * migration 1.0.11 used for the orders already in the store.
+ */
+export function wasOrderPlaced(
+  paymentStatus: string,
+  transactionCount: number,
+  paymentMethod?: string
+): boolean {
+  return (
+    (!['pending', 'canceled'].includes(paymentStatus) &&
+      !paymentStatus.endsWith('failed')) ||
+    transactionCount > 0 ||
+    paymentMethod === 'cod'
+  );
+}
+
 const ADDRESS_COLUMNS = [
   'recipient',
   'postal_code',
@@ -359,6 +379,11 @@ async function importOrderFunc(
       : 'pending');
   // Throws when a status is not one of the store's: the status is never typed in.
   const status = resolveOrderStatus(paymentStatus, shipmentStatus);
+  const placed = wasOrderPlaced(
+    paymentStatus,
+    data.transactions?.length ?? 0,
+    data.paymentMethod
+  );
 
   // The placeholder cart: the order's `cart_id` is required, and the cart is closed.
   const cart = await insert('cart')
@@ -416,7 +441,8 @@ async function importOrderFunc(
         (item) => item.noShippingRequired === true
       ),
       meta_data: data.metaData ?? {},
-      created_at: createdAt
+      created_at: createdAt,
+      placed_at: placed ? createdAt : null
     })
     .execute(connection);
 

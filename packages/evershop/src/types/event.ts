@@ -126,8 +126,12 @@ export interface EventDataRegistry {
   order_created: OrderRow;
 
   /**
-   * Fired when a new order is placed
-   * (This means the order is created and the payment is successful (decided by the payment method, for example, for cod, the order is created when the order is placed, but for online payment, the order is created when the payment is successful))
+   * Fired once per order when it is placed: the gateway accepts its payment
+   * (authorized or captured; for PayPal, also a capture pending review), or,
+   * for an offline method such as Cash on Delivery, the order is created. The
+   * payment method decides the moment and calls
+   * `markOrderPlaced`, which emits this event with the order row as it is
+   * then (new payment status and `placed_at` included).
    */
   order_placed: OrderRow;
 
