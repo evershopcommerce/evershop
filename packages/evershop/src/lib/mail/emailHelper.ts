@@ -11,6 +11,7 @@ import { resolveRegionName } from '../address/regions.js';
 import { translate } from '../locale/translate/translate.js';
 import { getBaseUrl } from '../util/getBaseUrl.js';
 import { getConfig } from '../util/getConfig.js';
+import { getImageUrl } from '../util/getImageUrl.js';
 import { addProcessor, getValue, getValueSync } from '../util/registry.js';
 import { fitLogo } from './logoSizing.js';
 import { registerEmailTemplates } from './templates/index.js';
@@ -324,7 +325,6 @@ async function prepareData(data: EmailData): Promise<EmailData> {
     | undefined;
   if (logoSetting) {
     const alt = await getSetting('storeName', 'Evershop');
-    const enc = encodeURIComponent(logoSetting);
     // The admin uploader stores the logo's real pixel size in `logoWidth`/
     // `logoHeight`. When we have it, size by a target height with a proportional
     // width (fitLogo) and serve a width-only, aspect-preserving image — the size
@@ -339,7 +339,11 @@ async function prepareData(data: EmailData): Promise<EmailData> {
       logo = {
         // 2× the display width for retina; the optimizer won't enlarge past the
         // source, and width-only keeps the aspect ratio (no padding).
-        src: `${getBaseUrl()}/images?src=${enc}&w=${fitted.width * 2}&q=85&f=png`,
+        src: getImageUrl(logoSetting, {
+          width: fitted.width * 2,
+          quality: 85,
+          format: 'png'
+        }),
         alt,
         width: String(fitted.width),
         height: String(fitted.height)
@@ -348,7 +352,12 @@ async function prepareData(data: EmailData): Promise<EmailData> {
       // Real dimensions unknown (e.g. logo set outside the uploader) — fall back
       // to a safe fixed box: fit:contain (height param) so it can never overflow.
       logo = {
-        src: `${getBaseUrl()}/images?src=${enc}&w=360&h=120&q=85&f=png`,
+        src: getImageUrl(logoSetting, {
+          width: 360,
+          height: 120,
+          quality: 85,
+          format: 'png'
+        }),
         alt,
         width: '180',
         height: '60'
