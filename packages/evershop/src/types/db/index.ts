@@ -549,6 +549,12 @@ export interface OrderRow {
   payment_status: string;
   created_at: Date;
   updated_at: Date;
+  /**
+   * When the order was placed: set once by `markOrderPlaced`, which emits
+   * `order_placed` only when it sets it. `null` while the payment is awaited,
+   * and for an order whose payment failed or was never made.
+   */
+  placed_at: Date | null;
   total_tax_amount: string | null;
   status: string | null;
   no_shipping_required: boolean;
@@ -557,8 +563,8 @@ export interface OrderRow {
 
 export type OrderInsert = Omit<
   OrderRow,
-  'order_id' | 'uuid' | 'created_at' | 'updated_at'
->;
+  'order_id' | 'uuid' | 'created_at' | 'updated_at' | 'placed_at'
+> & { placed_at?: Date | null };
 export type OrderUpdate = Partial<Omit<OrderRow, 'order_id'>>;
 
 // =============================================================================

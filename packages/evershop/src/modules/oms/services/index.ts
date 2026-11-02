@@ -16,6 +16,7 @@ export {
 } from './updateShipmentStatusFromCarrier.js';
 export type { CarrierStatusMeta } from './updateShipmentStatusFromCarrier.js';
 export * from './updatePaymentStatus.js';
+export { markOrderPlaced } from './markOrderPlaced.js';
 export * from './updateShipmentStatus.js';
 export * from './orderLoader.js';
 export * from './addPaymentTransaction.js';

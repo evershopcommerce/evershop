@@ -1,8 +1,5 @@
-import { select } from '@evershop/postgres-query-builder';
 import config from 'config';
-import { emit } from '../../lib/event/emitter.js';
 import { error } from '../../lib/log/logger.js';
-import { pool } from '../../lib/postgres/connection.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { hookAfter } from '../../lib/util/hookable.js';
 import { getSetting } from '../../modules/setting/services/setting.js';
@@ -13,6 +10,7 @@ import {
   SaveOrderContext
 } from '../checkout/services/orderCreator.js';
 import { addPaymentTransaction } from '../oms/services/addPaymentTransaction.js';
+import { markOrderPlaced } from '../oms/services/markOrderPlaced.js';
 import { updatePaymentStatus } from '../oms/services/updatePaymentStatus.js';
 
 export default async () => {
@@ -138,12 +136,11 @@ export default async () => {
     }
   );
 
-  // After the order transaction has committed. The `order` handed here is the
-  // insert result, which is stale: CodInitializePayment moved it to
-  // `cod_pending` and createOrderFunc recomputed its shipment status in that
-  // transaction. So the event carries the committed row, as the zero-total
-  // checkout does. A failure here must not fail the checkout of an order that
-  // already exists: it is logged, as the zero-total checkout does too.
+  // A COD order is placed when it is created. Marked after the order
+  // transaction has committed, not in it: createOrderFunc recomputes the
+  // shipment status after `saveOrder`, and `order_placed` carries the order as
+  // it is when marked. A failure here must not fail the checkout of an order
+  // that already exists: it is logged, as the zero-total checkout does.
   hookAfter<SaveOrderContext, CreateOrderResult>(
     'createOrderFunc',
     async function EmitOrderPlacedEvent(order) {
@@ -151,11 +148,7 @@ export default async () => {
         return;
       }
       try {
-        const placed = await select()
-          .from('order')
-          .where('order_id', '=', order.insertId)
-          .load(pool);
-        await emit('order_placed', { ...(placed ?? order) });
+        await markOrderPlaced(order.insertId);
       } catch (e) {
         error(e);
       }
