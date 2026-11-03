@@ -1,8 +1,8 @@
 import { select } from '@evershop/postgres-query-builder';
-import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
 import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { toGraphqlAddress } from '../../../../base/services/address/graphqlAddress.js';
+import { getProductUrl } from '../../../../catalog/services/product/productUrl.js';
 import { getCarrier } from '../../../services/carrier/registry.js';
 import { getOrdersBaseQuery } from '../../../services/getOrdersBaseQuery.js';
 import { canAccessOrder } from '../../../services/orderAccess.js';
@@ -163,12 +163,15 @@ export default {
     }
   },
   OrderItem: {
+    // The product's page in the store, like a cart item's productUrl (it
+    // returned the admin edit page before, and the storefront schema shares
+    // this resolver). Null when the product was deleted.
     productUrl: async ({ productId }, _, { pool }) => {
       const product = await select()
         .from('product')
         .where('product_id', '=', productId)
         .load(pool);
-      return product ? buildUrl('productEdit', { id: product.uuid }) : null;
+      return product ? getProductUrl(product.uuid, {}, pool) : null;
     },
     /**
      * Per-item fulfillment rollup. Sums shipment_item.qty across non-canceled
