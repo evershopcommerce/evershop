@@ -11,6 +11,7 @@ import { debug } from '../../../lib/log/logger.js';
 import { getConnection, pool } from '../../../lib/postgres/connection.js';
 import addOrderActivityLog from '../../oms/services/addOrderActivityLog.js';
 import { updatePaymentStatus } from '../../oms/services/updatePaymentStatus.js';
+import { paymentStatusFor } from './paymentMethods.js';
 
 /**
  * The buyer went through the PayPal flow but the payment was declined or
@@ -22,22 +23,28 @@ export class PaypalPaymentDeclinedError extends Error {}
 // A COMPLETED capture is settled money. A PENDING one (eCheck, manual review)
 // is initiated but not settled — the order must not read as paid until the
 // webhook/cron confirms it. Anything else is a failure.
-export function mapCaptureStatus(status?: string): string | null {
+export function mapCaptureStatus(
+  status?: string,
+  paymentMethod = 'paypal'
+): string | null {
   if (status === 'COMPLETED') {
-    return 'paypal_captured';
+    return paymentStatusFor(paymentMethod, 'captured');
   }
   if (status === 'PENDING') {
-    return 'paypal_pending';
+    return paymentStatusFor(paymentMethod, 'pending');
   }
   return null;
 }
 
-export function mapAuthorizationStatus(status?: string): string | null {
+export function mapAuthorizationStatus(
+  status?: string,
+  paymentMethod = 'paypal'
+): string | null {
   if (status === 'CREATED') {
-    return 'paypal_authorized';
+    return paymentStatusFor(paymentMethod, 'authorized');
   }
   if (status === 'PENDING') {
-    return 'paypal_pending';
+    return paymentStatusFor(paymentMethod, 'pending');
   }
   return null;
 }
@@ -125,7 +132,7 @@ interface FinalizeStrategy {
   endpoint: string;
   alreadyDoneIssue: string;
   extract: (data: any) => any;
-  map: (status?: string) => string | null;
+  map: (status?: string, paymentMethod?: string) => string | null;
 }
 
 /**
@@ -207,7 +214,7 @@ export async function finalizePaypalOrder(
       `PayPal ${strategy.action} response carries no payment object`
     );
   }
-  const paymentStatus = strategy.map(payment.status);
+  const paymentStatus = strategy.map(payment.status, order.payment_method);
   if (!paymentStatus) {
     throw new PaypalPaymentDeclinedError(
       `PayPal ${strategy.action} was declined (payment status: ${payment.status})`
@@ -226,7 +233,7 @@ export async function finalizePaypalOrder(
 /**
  * `finalizePaypalOrder` for callers with nobody left to show an error to
  * (webhook, reconciliation cron): a declined payment marks the order
- * `paypal_failed` for admin review instead of throwing. Everything else
+ * `<method>_failed` for admin review instead of throwing. Everything else
  * still throws.
  */
 export async function finalizePaypalOrderOrFail(
@@ -237,7 +244,8 @@ export async function finalizePaypalOrderOrFail(
     return await finalizePaypalOrder(order, axiosInstance);
   } catch (e) {
     if (e instanceof PaypalPaymentDeclinedError) {
-      await updatePaymentStatus(order.order_id, 'paypal_failed');
+      const failedStatus = paymentStatusFor(order.payment_method, 'failed');
+      await updatePaymentStatus(order.order_id, failedStatus);
       await addOrderActivityLog(
         order.order_id,
         `PayPal payment failed: ${e.message}`,
@@ -245,7 +253,7 @@ export async function finalizePaypalOrderOrFail(
         pool as any
       );
       return {
-        paymentStatus: 'paypal_failed',
+        paymentStatus: failedStatus,
         transactionId: '',
         firstFinalization: false
       };

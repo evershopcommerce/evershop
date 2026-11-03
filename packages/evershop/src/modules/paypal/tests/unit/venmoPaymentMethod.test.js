@@ -18,9 +18,16 @@ jest.unstable_mockModule('../../../setting/services/setting.js', () => ({
   getStoreCurrency: () => settingValues.storeCurrency ?? 'USD'
 }));
 
+const { default: config } = await import('config');
 const { default: bootstrap } = await import('../../bootstrap.js');
 const { getPaymentMethodFactory } = await import(
   '../../../checkout/services/getAvailablePaymentMethods.js'
+);
+const { resolveRefundStatus } = await import(
+  '../../../oms/services/refundStatus.js'
+);
+const { mapAuthorizationStatus, mapCaptureStatus } = await import(
+  '../../services/finalizePaypalOrder.js'
 );
 
 /**
@@ -78,5 +85,60 @@ describe('venmo payment method', () => {
     expect(venmo.capture).toBe(paypal.capture);
     expect(venmo.void).toBe(paypal.void);
     expect(venmo.refund).toBe(paypal.refund);
+  });
+});
+
+/**
+ * Core derives status codes from the order's payment method
+ * (`<method>_captured` in captureOrder, `<method>_refunded` /
+ * `<method>_partial_refunded` in resolveRefundStatus). A Venmo order whose
+ * statuses were never registered made an admin capture fail AFTER PayPal had
+ * moved the money, rolling back the local record. Every status this module or
+ * core can put on a Venmo order must exist.
+ */
+describe('venmo payment statuses', () => {
+  beforeAll(async () => {
+    await bootstrap();
+  });
+
+  it('registers every status core derives for each method', () => {
+    const statuses = config.get('oms.order.paymentStatus');
+    for (const method of ['paypal', 'venmo']) {
+      const derived = [
+        `${method}_captured`,
+        resolveRefundStatus(method, 10, 10, 'USD').status,
+        resolveRefundStatus(method, 10, 4, 'USD').status
+      ];
+      for (const code of derived) {
+        expect(statuses[code]).toBeDefined();
+      }
+    }
+  });
+
+  it('mirrors the PayPal statuses and order-status mapping', () => {
+    const statuses = config.get('oms.order.paymentStatus');
+    const pso = config.get('oms.order.psoMapping');
+    for (const state of [
+      'authorized',
+      'captured',
+      'pending',
+      'failed',
+      'refunded',
+      'partial_refunded'
+    ]) {
+      expect(statuses[`venmo_${state}`]).toEqual(statuses[`paypal_${state}`]);
+    }
+    for (const [key, orderStatus] of Object.entries(pso)) {
+      if (key.startsWith('paypal_')) {
+        expect(pso[key.replace(/^paypal_/, 'venmo_')]).toBe(orderStatus);
+      }
+    }
+  });
+
+  it('maps a Venmo payment onto venmo_* statuses', () => {
+    expect(mapCaptureStatus('COMPLETED', 'venmo')).toBe('venmo_captured');
+    expect(mapCaptureStatus('PENDING', 'venmo')).toBe('venmo_pending');
+    expect(mapAuthorizationStatus('CREATED', 'venmo')).toBe('venmo_authorized');
+    expect(mapCaptureStatus('DECLINED', 'venmo')).toBeNull();
   });
 });
