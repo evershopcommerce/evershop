@@ -1,3 +1,9 @@
+import {
+  publishSafely,
+  toCommerceCart,
+  toLineChange
+} from '@components/frontStore/commerceEventData.js';
+import { dispatchCommerceEvent } from '@evershop/evershop/components/common/commerceEvents';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Address, AddressGraphql } from '@evershop/evershop/types/address';
 import { ApiResponse } from '@evershop/evershop/types/apiResponse';
@@ -334,7 +340,22 @@ interface CartDispatch {
   fetchAvailableShippingMethods: (
     params: ShippingAddressParams
   ) => Promise<void>;
-  syncCartWithServer: (trigger?: string) => Promise<void>; // Added trigger parameter
+  // Resolves with the new cart, or undefined when it could not be fetched
+  syncCartWithServer: (trigger?: string) => Promise<CartData | undefined>;
+}
+
+/** Publish the quantity change of one line (none when it did not change) */
+function publishLineChange(
+  before: CartItem | undefined,
+  after: CartItem | undefined,
+  cart: CartData
+): void {
+  publishSafely(() => {
+    const change = toLineChange(before, after, cart);
+    if (change) {
+      dispatchCommerceEvent(change.name, change.data);
+    }
+  });
 }
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
@@ -504,6 +525,10 @@ export const CartProvider = ({
   }
 
   const [state, dispatch] = useReducer(cartReducer, hydratedInitialState);
+  // The cart as last rendered, for the "before" of an event: some callbacks
+  // below keep an older `state` in their closure
+  const stateRef = React.useRef(state);
+  stateRef.current = state;
 
   const retry = async function <T>(
     fn: () => Promise<T>,
@@ -529,7 +554,7 @@ export const CartProvider = ({
   // fetch never reached the catch. The new cart and `synced` now land
   // together.
   const syncCartWithServer = useCallback(
-    async (trigger?: string): Promise<void> => {
+    async (trigger?: string): Promise<CartData | undefined> => {
       try {
         // Set syncing to true and synced to false when starting sync
         dispatch({
@@ -543,20 +568,19 @@ export const CartProvider = ({
         if (result.error) {
           throw new Error(result.error.message || 'Failed to sync cart');
         }
-        dispatch({
-          type: 'SET_CART',
-          // No cart on the server (yet): an empty one
-          payload: result.data?.myCart ?? {
-            ...initialEmptyState.data,
-            addItemApi: addMineCartItemApi
-          }
-        });
+        // No cart on the server (yet): an empty one
+        const cart: CartData = result.data?.myCart ?? {
+          ...initialEmptyState.data,
+          addItemApi: addMineCartItemApi
+        };
+        dispatch({ type: 'SET_CART', payload: cart });
 
         // Set syncing to false and synced to true on success
         dispatch({
           type: 'SET_SYNC_STATUS',
           payload: { syncing: false, synced: true, trigger }
         });
+        return cart;
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -569,6 +593,7 @@ export const CartProvider = ({
           type: 'SET_SYNC_STATUS',
           payload: { syncing: false, synced: false, trigger }
         });
+        return undefined;
       }
     },
     [client, query, addMineCartItemApi]
@@ -585,6 +610,7 @@ export const CartProvider = ({
       if (!state.data) {
         throw new Error('Cannot add item: cart not initialized');
       }
+      const linesBefore = stateRef.current.data?.items ?? [];
 
       try {
         // Set specific loading state
@@ -602,14 +628,26 @@ export const CartProvider = ({
           })
         );
 
-        const json = (await response.json()) as ApiResponse<CartData>;
+        const json = (await response.json()) as ApiResponse<{
+          item?: { uuid?: string };
+        }>;
 
         if (!response.ok) {
           throw new Error(json.error?.message || 'Failed to add item.');
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.ADD_ITEM);
+        const cart = await syncCartWithServer(CartSyncTrigger.ADD_ITEM);
+        if (cart) {
+          // The line the API added to: a new one, or one that had the product
+          const addedUuid =
+            'data' in json ? json.data?.item?.uuid : undefined;
+          const isAdded = (line: CartItem) =>
+            addedUuid ? line.uuid === addedUuid : line.productSku === payload.sku;
+          const after = cart.items.find(isAdded);
+          const before = linesBefore.find(isAdded);
+          publishLineChange(before, after, cart);
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -658,7 +696,14 @@ export const CartProvider = ({
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.REMOVE_ITEM);
+        const cart = await syncCartWithServer(CartSyncTrigger.REMOVE_ITEM);
+        if (cart) {
+          publishLineChange(
+            item,
+            cart.items.find((line) => line.uuid === item.uuid),
+            cart
+          );
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -713,7 +758,15 @@ export const CartProvider = ({
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.UPDATE_ITEM);
+        const cart = await syncCartWithServer(CartSyncTrigger.UPDATE_ITEM);
+        if (cart) {
+          // 2 → 5 is "added" with qty 3; 5 → 2 "removed" with qty 3
+          publishLineChange(
+            item,
+            cart.items.find((line) => line.uuid === item.uuid),
+            cart
+          );
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -829,7 +882,17 @@ export const CartProvider = ({
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.ADD_SHIPPING_METHOD);
+        const cart = await syncCartWithServer(
+          CartSyncTrigger.ADD_SHIPPING_METHOD
+        );
+        if (cart) {
+          publishSafely(() =>
+            dispatchCommerceEvent('checkout_shipping_info_submitted', {
+              ...toCommerceCart(cart),
+              shippingMethod: { code, name }
+            })
+          );
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -1035,7 +1098,15 @@ export const CartProvider = ({
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.APPLY_COUPON);
+        const cart = await syncCartWithServer(CartSyncTrigger.APPLY_COUPON);
+        if (cart) {
+          publishSafely(() =>
+            dispatchCommerceEvent('coupon_applied', {
+              coupon: cart.coupon || couponCode,
+              cart: toCommerceCart(cart)
+            })
+          );
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -1061,6 +1132,7 @@ export const CartProvider = ({
     if (!state.data?.removeCouponApi) {
       throw new Error(_('No coupon to remove'));
     }
+    const removedCoupon = stateRef.current.data?.coupon || '';
 
     try {
       dispatch({
@@ -1082,7 +1154,15 @@ export const CartProvider = ({
       }
 
       // Sync with server (both immediate update and GraphQL refetch)
-      await syncCartWithServer(CartSyncTrigger.REMOVE_COUPON);
+      const cart = await syncCartWithServer(CartSyncTrigger.REMOVE_COUPON);
+      if (cart) {
+        publishSafely(() =>
+          dispatchCommerceEvent('coupon_removed', {
+            coupon: removedCoupon,
+            cart: toCommerceCart(cart)
+          })
+        );
+      }
     } catch (error) {
       dispatch({
         type: 'SET_ERROR',
