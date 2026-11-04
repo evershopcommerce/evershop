@@ -1227,12 +1227,18 @@ export const CartProvider = ({
     return state.data?.uuid ?? null;
   }, [state.data?.uuid]);
 
+  // The latest shipping quote: an address edited again while its quote was
+  // on the way (a country, then another) must not get the older address's
+  // methods when that answer lands last
+  const shippingQuote = React.useRef(0);
+
   // Fetch available shipping methods based on address parameters and update cart state
   const fetchAvailableShippingMethods = useCallback(
     async (params: ShippingAddressParams) => {
       if (!state.data?.uuid) {
         throw new Error('Cannot fetch shipping methods: cart not initialized');
       }
+      const quote = ++shippingQuote.current;
 
       try {
         dispatch({
@@ -1249,6 +1255,10 @@ export const CartProvider = ({
             postalCode: params.postalCode || null
           })
           .toPromise();
+        if (quote !== shippingQuote.current) {
+          // A newer address was quoted since: its answer decides
+          return;
+        }
 
         if (result.error) {
           throw new Error(
@@ -1279,10 +1289,13 @@ export const CartProvider = ({
 
         throw new Error(errorMessage);
       } finally {
-        dispatch({
-          type: 'SET_SPECIFIC_LOADING',
-          payload: { operation: 'fetchingShippingMethods', loading: false }
-        });
+        // The newer quote, still on the way, keeps the loading state
+        if (quote === shippingQuote.current) {
+          dispatch({
+            type: 'SET_SPECIFIC_LOADING',
+            payload: { operation: 'fetchingShippingMethods', loading: false }
+          });
+        }
       }
     },
     [state.data?.uuid, client]
