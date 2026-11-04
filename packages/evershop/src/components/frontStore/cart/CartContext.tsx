@@ -553,7 +553,7 @@ export const CartProvider = ({
   // `synced` after ADD_ITEM, so it showed the old contents, and a failed
   // fetch never reached the catch. The new cart and `synced` now land
   // together.
-  const syncCartWithServer = useCallback(
+  const fetchCart = useCallback(
     async (trigger?: string): Promise<CartData | undefined> => {
       try {
         // Set syncing to true and synced to false when starting sync
@@ -597,6 +597,22 @@ export const CartProvider = ({
       }
     },
     [client, query, addMineCartItemApi]
+  );
+
+  // One fetch at a time: urql gives a query the result of an identical one
+  // already in flight (dedupExchange). Two changes close together (the
+  // quantities of two lines) made the second sync share the first one's
+  // fetch, sent before the second change reached the server, so the page
+  // kept that older cart (a line's old price, the old totals). Each sync now
+  // starts its fetch once the one before it has finished.
+  const syncQueue = React.useRef<Promise<unknown>>(Promise.resolve());
+  const syncCartWithServer = useCallback(
+    (trigger?: string): Promise<CartData | undefined> => {
+      const sync = syncQueue.current.then(() => fetchCart(trigger));
+      syncQueue.current = sync;
+      return sync;
+    },
+    [fetchCart]
   );
 
   React.useEffect(() => {
