@@ -1,12 +1,18 @@
 import path from 'path';
+import { select } from '@evershop/postgres-query-builder';
 import config from 'config';
 import { registerJob } from '../../lib/cronjob/jobManager.js';
 import { CONSTANTS } from '../../lib/helpers.js';
 import { warning } from '../../lib/log/logger.js';
+import { pool } from '../../lib/postgres/connection.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
+import { sumRefundedAmount } from '../oms/services/refundStatus.js';
 import { getSetting } from '../setting/services/setting.js';
-import { formatPaypalAmount } from './services/paypalPayload.js';
+import {
+  capturePaypalAuthorization,
+  refundPaypalCapture
+} from './services/paypalMoneyOperations.js';
 import { createStandaloneAxiosInstance } from './services/requester.js';
 import { voidPaymentTransaction } from './services/voidPaymentTransaction.js';
 
@@ -118,29 +124,12 @@ export default async () => {
       if (!transaction?.transaction_id) {
         throw new Error('Missing PayPal authorization id to capture');
       }
-      const axiosInstance = await createStandaloneAxiosInstance();
-      const captureResponse = await axiosInstance.post(
-        `/v2/payments/authorizations/${transaction.transaction_id}/capture`,
-        {},
-        {
-          headers: {
-            'PayPal-Request-Id': `${order.uuid}-capture-${Date.now()}`,
-            Prefer: 'return=representation'
-          },
-          validateStatus: (status: number) => status < 500
-        }
+      return capturePaypalAuthorization(
+        await createStandaloneAxiosInstance(),
+        order.uuid,
+        transaction.transaction_id,
+        parseFloat(String(transaction.amount))
       );
-      const capture = captureResponse.data;
-      if (captureResponse.status >= 400 || capture.status !== 'COMPLETED') {
-        throw new Error(
-          capture.message || `PayPal capture failed (status ${capture.status})`
-        );
-      }
-      return {
-        transactionId: capture.id,
-        amount: parseFloat(capture.amount?.value ?? String(transaction.amount)),
-        raw: capture
-      };
     },
     // Release an uncaptured authorization. Core calls this from cancelOrder when
     // a voidable order is canceled; the handler voids the authorization.
@@ -154,38 +143,16 @@ export default async () => {
       if (!transaction.transaction_id) {
         throw new Error('Missing PayPal capture transaction id to refund');
       }
-      const axiosInstance = await createStandaloneAxiosInstance();
-      const paypalResponse = await axiosInstance.post(
-        `/v2/payments/captures/${transaction.transaction_id}/refund`,
-        {
-          amount: {
-            value: formatPaypalAmount(amount, order.currency),
-            currency_code: order.currency
-          },
-          invoice_id: order.order_number
-        },
-        {
-          headers: {
-            'PayPal-Request-Id': `${order.uuid}-refund-${Date.now()}`,
-            // Without this PayPal returns a minimal body (no amount) and we'd
-            // record a 0 refund.
-            Prefer: 'return=representation'
-          },
-          validateStatus: (status: number) => status < 500
-        }
-      );
-      const refund = paypalResponse.data;
-      if (
-        paypalResponse.status >= 400 ||
-        !['COMPLETED', 'PENDING'].includes(refund.status)
-      ) {
-        throw new Error(
-          refund.message || `PayPal refund failed (status ${refund.status})`
-        );
-      }
-      const value =
-        refund.amount?.value ?? formatPaypalAmount(amount, order.currency);
-      return { transactionId: refund.id, amount: parseFloat(value), raw: refund };
+      const ledger = await select()
+        .from('payment_transaction')
+        .where('payment_transaction_order_id', '=', order.order_id)
+        .execute(pool);
+      return refundPaypalCapture(await createStandaloneAxiosInstance(), {
+        order,
+        captureId: transaction.transaction_id,
+        amount,
+        refundedBefore: sumRefundedAmount(ledger)
+      });
     }
   });
 };
