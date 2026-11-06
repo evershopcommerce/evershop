@@ -12,6 +12,7 @@ import { OrderRow, PaymentTransactionRow } from '../../../types/db/index.js';
 import { PaymentStatus } from '../../../types/order.js';
 import { getPaymentMethodFactory } from '../../checkout/services/getAvailablePaymentMethods.js';
 import addOrderActivityLog from './addOrderActivityLog.js';
+import { resolveCapturedStatus } from './refundStatus.js';
 import { updatePaymentStatus } from './updatePaymentStatus.js';
 
 export interface CaptureOrderResult {
@@ -25,7 +26,8 @@ export interface CaptureOrderResult {
  * Core is the whole pipeline: it validates (the method supports capture, the
  * order is in a capturable status), calls the handler — the one gateway step,
  * which settles the authorization and returns the gateway's capture id + amount
- * — then records the capture transaction and moves the payment status to
+ * — then records the capture transaction and moves the payment status to the
+ * one the handler returned, else the method's `statuses.captured`, else
  * `<method>_captured`. Recording the capture matters: some gateways (PayPal)
  * mint a NEW capture id that later refunds must target.
  *
@@ -84,7 +86,11 @@ export async function captureOrder(uuid: string): Promise<CaptureOrderResult> {
   // The one gateway-specific step.
   const result = await factory.capture({ order, transaction: authorization });
 
-  const capturedStatus = `${order.payment_method}_captured`;
+  const capturedStatus = resolveCapturedStatus(
+    order.payment_method,
+    result.status,
+    factory.statuses
+  );
   const currency = result.currency ?? order.currency;
   const connection = await getConnection(pool);
   try {
