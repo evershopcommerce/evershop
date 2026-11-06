@@ -46,7 +46,9 @@ export default async () => {
         paypal_pending: {
           name: 'Payment Pending',
           // Money is in flight (eCheck, review) — neither cancelable nor paid
-          // until PayPal reports the capture COMPLETED or DENIED.
+          // until PayPal decides: the capture webhook, or the reconciliation
+          // job reading the held capture or authorization back from PayPal
+          // (failed past `pendingPaymentTtlDays`).
           isCancelable: false,
           badge: 'warning'
         },
@@ -81,9 +83,10 @@ export default async () => {
   };
   config.util.setModuleDefaults('oms', paypalPaymentStatus);
 
-  // Reconcile abandoned pending PayPal orders: capture the ones the buyer
-  // actually approved (missed-webhook / lost-return-leg fallback), cancel and
-  // restock the rest. registerJob throws on a bad cron expression — degrade
+  // Reconcile PayPal orders: settle payments PayPal holds (paypal_pending),
+  // capture abandoned pending orders the buyer actually approved
+  // (missed-webhook / lost-return-leg fallback), cancel and restock the rest.
+  // registerJob throws on a bad cron expression — degrade
   // to a skipped job, never a store that won't boot.
   try {
     const paypalConfig = getConfig('system.paypal', {}) as Record<
