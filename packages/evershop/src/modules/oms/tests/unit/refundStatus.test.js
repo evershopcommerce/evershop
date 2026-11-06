@@ -2,6 +2,7 @@ import {
   findCaptureTransaction,
   isRefundAlreadyRecorded,
   remainingRefundableMinorUnits,
+  resolveCapturedStatus,
   resolveRefundStatus,
   sumRefundedAmount,
   toMinorUnits
@@ -43,6 +44,46 @@ describe('resolveRefundStatus', () => {
       status: 'stripe_refunded',
       isFullRefund: true
     });
+  });
+  it("uses the method's declared statuses over the convention", () => {
+    const statuses = {
+      refunded: 'paypal_refunded',
+      partialRefunded: 'paypal_partial_refunded'
+    };
+    expect(resolveRefundStatus('venmo', 50, 50, 'USD', statuses).status).toBe(
+      'paypal_refunded'
+    );
+    expect(resolveRefundStatus('venmo', 50, 20, 'USD', statuses).status).toBe(
+      'paypal_partial_refunded'
+    );
+  });
+  it('falls back to the convention for a status the method left out', () => {
+    expect(
+      resolveRefundStatus('venmo', 50, 20, 'USD', {
+        refunded: 'paypal_refunded'
+      }).status
+    ).toBe('venmo_partial_refunded');
+  });
+});
+
+describe('resolveCapturedStatus', () => {
+  it('prefers the status the capture handler returned', () => {
+    expect(
+      resolveCapturedStatus('venmo', 'custom_captured', {
+        captured: 'paypal_captured'
+      })
+    ).toBe('custom_captured');
+  });
+  it("then the method's declared captured status", () => {
+    expect(
+      resolveCapturedStatus('venmo', undefined, { captured: 'paypal_captured' })
+    ).toBe('paypal_captured');
+  });
+  it('then the <method>_captured convention', () => {
+    expect(resolveCapturedStatus('stripe')).toBe('stripe_captured');
+    expect(resolveCapturedStatus('stripe', undefined, {})).toBe(
+      'stripe_captured'
+    );
   });
 });
 

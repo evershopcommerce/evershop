@@ -18,9 +18,13 @@ jest.unstable_mockModule('../../../setting/services/setting.js', () => ({
   getStoreCurrency: () => settingValues.storeCurrency ?? 'USD'
 }));
 
+const { default: config } = await import('config');
 const { default: bootstrap } = await import('../../bootstrap.js');
 const { getPaymentMethodFactory } = await import(
   '../../../checkout/services/getAvailablePaymentMethods.js'
+);
+const { resolveCapturedStatus, resolveRefundStatus } = await import(
+  '../../../oms/services/refundStatus.js'
 );
 
 /**
@@ -78,5 +82,42 @@ describe('venmo payment method', () => {
     expect(venmo.capture).toBe(paypal.capture);
     expect(venmo.void).toBe(paypal.void);
     expect(venmo.refund).toBe(paypal.refund);
+  });
+
+  // Core picks the status of a recorded capture/refund from the method's
+  // `statuses`, else `<method>_<state>`. Without the declaration an admin
+  // capture of a Venmo order moved it to the unregistered `venmo_captured`
+  // AFTER PayPal had taken the money, and the local record rolled back.
+  it('moves Venmo orders onto the registered paypal_* statuses', () => {
+    const registered = config.get('oms.order.paymentStatus');
+    for (const factory of [paypal, venmo]) {
+      const captured = resolveCapturedStatus(
+        'venmo',
+        undefined,
+        factory.statuses
+      );
+      const refunded = resolveRefundStatus(
+        'venmo',
+        10,
+        10,
+        'USD',
+        factory.statuses
+      ).status;
+      const partial = resolveRefundStatus(
+        'venmo',
+        10,
+        4,
+        'USD',
+        factory.statuses
+      ).status;
+      expect([captured, refunded, partial]).toEqual([
+        'paypal_captured',
+        'paypal_refunded',
+        'paypal_partial_refunded'
+      ]);
+      for (const code of [captured, refunded, partial]) {
+        expect(registered[code]).toBeDefined();
+      }
+    }
   });
 });

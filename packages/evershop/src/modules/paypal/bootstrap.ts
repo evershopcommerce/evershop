@@ -100,11 +100,17 @@ export default async () => {
   }
 
   // Venmo is a PayPal funding source: the money moves through the same PayPal
-  // order, so both methods share these handlers.
+  // order, so both methods share these handlers and the `paypal_*` statuses
+  // (without `statuses`, core would move a Venmo order to `venmo_captured`).
   const paypalOperations: Pick<
     PaymentMethodFactory,
-    'capture' | 'void' | 'refund'
+    'capture' | 'void' | 'refund' | 'statuses'
   > = {
+    statuses: {
+      captured: 'paypal_captured',
+      refunded: 'paypal_refunded',
+      partialRefunded: 'paypal_partial_refunded'
+    },
     // Capture an authorized payment. Capturing an authorization mints a NEW
     // capture id at PayPal — core (captureOrder) records it as the capture
     // transaction so later refunds target it. The handler only hits PayPal.
