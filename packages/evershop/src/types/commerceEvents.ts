@@ -112,6 +112,18 @@ export interface CommerceEventDataRegistry {
   coupon_removed: { coupon: string; cart: CommerceCart };
   /** The checkout page is shown */
   checkout_started: CommerceCart;
+  /**
+   * The checkout has the shopper's email. A guest: their email was saved to
+   * the cart (they left the email field after changing it, or autofill
+   * filled it), once per new email. A logged-in customer: the checkout page
+   * is shown (the cart has the account email), right after
+   * `checkout_started`, once per cart and customer in a browser session. The
+   * email is not in the payload.
+   */
+  checkout_contact_info_submitted: CommerceCart & {
+    /** True for a logged-in customer, who typed nothing */
+    loggedIn: boolean;
+  };
   /** A shipping method is chosen at checkout */
   checkout_shipping_info_submitted: CommerceCart & {
     /** `code` is an id (a uuid for a core method); `name` is what the shopper sees */

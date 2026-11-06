@@ -283,6 +283,11 @@ export interface CartState {
     addingShippingMethod: boolean;
     addingShippingAddress: boolean;
     addingBillingAddress: boolean;
+    /**
+     * Never true: `addContactInfo` saves the email in the background, and
+     * the email changes no amount, so nothing shows as loading. Kept for
+     * code that reads it.
+     */
     addingContactInfo: boolean;
     applyingCoupon: boolean;
     removingCoupon: boolean;
@@ -308,6 +313,7 @@ type CartAction =
     }
   | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'CLEAR_ERROR' }
+  | { type: 'SET_CUSTOMER_EMAIL'; payload: string }
   | {
       type: 'SET_SYNC_STATUS';
       payload: { syncing?: boolean; synced?: boolean; trigger?: string };
@@ -424,6 +430,14 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         if (draft.data) {
           draft.data.error = null;
           draft.data.errors = [];
+        }
+        break;
+
+      // Only the email: SET_CART would also clear the error and the loading
+      // states of other operations still running
+      case 'SET_CUSTOMER_EMAIL':
+        if (draft.data) {
+          draft.data.customerEmail = action.payload;
         }
         break;
 
@@ -1027,47 +1041,39 @@ export const CartProvider = ({
         throw new Error(_('Cannot add contact info: cart not initialized'));
       }
 
-      try {
-        dispatch({
-          type: 'SET_SPECIFIC_LOADING',
-          payload: { operation: 'addingContactInfo', loading: true }
-        });
+      // The checkout saves the email in the background, as soon as a guest
+      // enters it, and the email changes no amount. So no loading state (the
+      // cart items and totals would flash as loading), no refetch, and no
+      // SET_ERROR on a failure (the cart error shows in the coupon form): the
+      // caller gets the error.
+      const response = await retry(() =>
+        fetch(state.data!.addContactInfoApi, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(contactInfo)
+        })
+      );
 
-        const response = await retry(() =>
-          fetch(state.data!.addContactInfoApi, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(contactInfo)
+      const json = await response.json();
+
+      if (!response.ok) {
+        throw new Error(json.error?.message || _('Failed to add contact info.'));
+      }
+
+      // The cart keeps its data and gets the email the server saved
+      const email: string = json.data?.email ?? contactInfo.email;
+      dispatch({ type: 'SET_CUSTOMER_EMAIL', payload: email });
+      const cart = stateRef.current.data;
+      if (cart) {
+        publishSafely(() =>
+          dispatchCommerceEvent('checkout_contact_info_submitted', {
+            ...toCommerceCart(cart),
+            loggedIn: Boolean(cart.customerId)
           })
         );
-
-        const json = await response.json();
-
-        if (!response.ok) {
-          throw new Error(
-            json.error?.message || _('Failed to add contact info.')
-          );
-        }
-
-        // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.ADD_CONTACT_INFO);
-      } catch (error) {
-        dispatch({
-          type: 'SET_ERROR',
-          payload:
-            error instanceof Error
-              ? error.message
-              : _('Failed to add contact info')
-        });
-        throw error;
-      } finally {
-        dispatch({
-          type: 'SET_SPECIFIC_LOADING',
-          payload: { operation: 'addingContactInfo', loading: false }
-        });
       }
     },
-    [state.data?.addContactInfoApi, syncCartWithServer]
+    [state.data?.addContactInfoApi]
   );
 
   // Apply coupon
