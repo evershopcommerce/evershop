@@ -9,24 +9,3 @@ export const PAYPAL_METHOD_CODES = ['paypal', 'venmo'];
 
 /** Venmo only settles in US dollars. */
 export const VENMO_CURRENCIES = ['USD'];
-
-export type PaypalPaymentState =
-  | 'authorized'
-  | 'captured'
-  | 'pending'
-  | 'failed'
-  | 'refunded'
-  | 'partial_refunded';
-
-/**
- * The payment status code for an order of `paymentMethod` in `state`. Core
- * builds status codes as `<payment_method>_<state>` (captureOrder,
- * resolveRefundStatus), so a Venmo order must carry `venmo_*` statuses — a
- * `paypal_*` one would make core move it to a status nobody registered.
- */
-export function paymentStatusFor(
-  paymentMethod: string | null | undefined,
-  state: PaypalPaymentState
-): string {
-  return `${paymentMethod || 'paypal'}_${state}`;
-}

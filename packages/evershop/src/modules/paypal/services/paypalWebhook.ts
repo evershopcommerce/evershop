@@ -9,11 +9,7 @@ import {
   finalizePaypalOrderOrFail,
   recordPaypalPayment
 } from './finalizePaypalOrder.js';
-import {
-  PAYPAL_METHOD_CODES,
-  PaypalPaymentState,
-  paymentStatusFor
-} from './paymentMethods.js';
+import { PAYPAL_METHOD_CODES } from './paymentMethods.js';
 
 export interface PaypalWebhookEvent {
   event_type?: string;
@@ -94,6 +90,8 @@ async function resolveOrderForEvent(event: PaypalWebhookEvent) {
   return null;
 }
 
+const SETTLED = ['paypal_captured', 'paypal_refunded', 'paypal_partial_refunded'];
+
 /**
  * Apply one verified webhook event. Unknown events and unknown orders are
  * ignored (the endpoint still answers 200 — PayPal retries anything else).
@@ -112,10 +110,6 @@ export async function handlePaypalWebhookEvent(
     return;
   }
   const resource = event.resource || {};
-  const status = (state: PaypalPaymentState) =>
-    paymentStatusFor(order.payment_method, state);
-  const refunded = [status('refunded'), status('partial_refunded')];
-  const settled = [status('captured'), ...refunded];
   switch (event.event_type) {
     case 'CHECKOUT.ORDER.APPROVED': {
       // The buyer approved but never came back through the return page.
@@ -125,7 +119,11 @@ export async function handlePaypalWebhookEvent(
       break;
     }
     case 'PAYMENT.CAPTURE.COMPLETED': {
-      if ([...refunded, 'canceled'].includes(order.payment_status)) {
+      if (
+        ['paypal_refunded', 'paypal_partial_refunded', 'canceled'].includes(
+          order.payment_status
+        )
+      ) {
         break;
       }
       await recordPaypalPayment(
@@ -133,13 +131,13 @@ export async function handlePaypalWebhookEvent(
         resource,
         event,
         'capture',
-        status('captured')
+        'paypal_captured'
       );
       break;
     }
     case 'PAYMENT.CAPTURE.PENDING': {
       // Never downgrade an already-settled order on out-of-order delivery.
-      if ([...settled, 'canceled'].includes(order.payment_status)) {
+      if (SETTLED.includes(order.payment_status) || order.payment_status === 'canceled') {
         break;
       }
       await recordPaypalPayment(
@@ -147,17 +145,17 @@ export async function handlePaypalWebhookEvent(
         resource,
         event,
         'capture',
-        status('pending')
+        'paypal_pending'
       );
       break;
     }
     case 'PAYMENT.CAPTURE.DENIED': {
-      if (!['pending', status('pending')].includes(order.payment_status)) {
+      if (!['pending', 'paypal_pending'].includes(order.payment_status)) {
         break;
       }
       // Per spec decision D5: mark failed for admin review, never auto-cancel
       // (money state after a denial can be ambiguous).
-      await updatePaymentStatus(order.order_id, status('failed'));
+      await updatePaymentStatus(order.order_id, 'paypal_failed');
       await addOrderActivityLog(
         order.order_id,
         `PayPal denied the payment capture. Capture ID: ${resource.id}`,

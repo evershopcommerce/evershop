@@ -5,11 +5,10 @@ import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
 import { EvershopResponse } from '../../../../../types/response.js';
 import { finalizePaypalOrder } from '../../../services/finalizePaypalOrder.js';
-import {
-  PAYPAL_METHOD_CODES,
-  paymentStatusFor
-} from '../../../services/paymentMethods.js';
+import { PAYPAL_METHOD_CODES } from '../../../services/paymentMethods.js';
 import { createAxiosInstance } from '../../../services/requester.js';
+
+const SETTLED_STATUSES = ['paypal_captured', 'paypal_authorized', 'paypal_pending'];
 
 export default async (
   request: EvershopRequest,
@@ -35,10 +34,7 @@ export default async (
     response.redirect(302, buildUrl('homepage'));
     return;
   }
-  const settledStatuses = (['captured', 'authorized', 'pending'] as const).map(
-    (state) => paymentStatusFor(order.payment_method, state)
-  );
-  if (settledStatuses.includes(order.payment_status)) {
+  if (SETTLED_STATUSES.includes(order.payment_status)) {
     // Refresh or revisit of the return URL after the payment already settled.
     // Send the customer to the order confirmation, not the homepage.
     response.redirect(302, `${buildUrl('checkoutSuccess')}/${order_id}`);

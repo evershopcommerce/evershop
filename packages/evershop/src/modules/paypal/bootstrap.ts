@@ -12,85 +12,68 @@ import {
   getSetting,
   getStoreCurrency
 } from '../setting/services/setting.js';
-import {
-  PAYPAL_METHOD_CODES,
-  PaypalPaymentState,
-  paymentStatusFor,
-  VENMO_CURRENCIES
-} from './services/paymentMethods.js';
+import { VENMO_CURRENCIES } from './services/paymentMethods.js';
 import { formatPaypalAmount } from './services/paypalPayload.js';
 import { createStandaloneAxiosInstance } from './services/requester.js';
 import { voidPaymentTransaction } from './services/voidPaymentTransaction.js';
 
 export default async () => {
-  // One status set per payment method this module serves: core derives
-  // status codes from the order's method (`<method>_captured`,
-  // `<method>_refunded`), so a Venmo order needs `venmo_*` next to `paypal_*`.
-  const statuses: Record<PaypalPaymentState, Record<string, unknown>> = {
-    authorized: {
-      name: 'Authorized',
-      isCancelable: true,
-      isCapturable: true,
-      isVoidable: true,
-      badge: 'warning'
-    },
-    captured: {
-      name: 'Captured',
-      // Canceling a captured order would have to refund the money first;
-      // blocking here keeps cancelOrder from failing halfway through the
-      // void hook.
-      isCancelable: false,
-      isRefundable: true,
-      badge: 'success'
-    },
-    pending: {
-      name: 'Payment Pending',
-      // Money is in flight (eCheck, review) — neither cancelable nor paid
-      // until PayPal reports the capture COMPLETED or DENIED.
-      isCancelable: false,
-      badge: 'warning'
-    },
-    failed: {
-      name: 'Failed',
-      isCancelable: true,
-      badge: 'critical'
-    },
-    refunded: {
-      name: 'Refunded',
-      isCancelable: false,
-      badge: 'destructive'
-    },
-    partial_refunded: {
-      name: 'Partial Refunded',
-      isCancelable: false,
-      isRefundable: true,
-      badge: 'destructive'
+  const paypalPaymentStatus = {
+    order: {
+      paymentStatus: {
+        paypal_authorized: {
+          name: 'Authorized',
+          isCancelable: true,
+          isCapturable: true,
+          isVoidable: true,
+          badge: 'warning'
+        },
+        paypal_captured: {
+          name: 'Captured',
+          // Canceling a captured order would have to refund the money first;
+          // blocking here keeps cancelOrder from failing halfway through the
+          // void hook.
+          isCancelable: false,
+          isRefundable: true,
+          badge: 'success'
+        },
+        paypal_pending: {
+          name: 'Payment Pending',
+          // Money is in flight (eCheck, review) — neither cancelable nor paid
+          // until PayPal reports the capture COMPLETED or DENIED.
+          isCancelable: false,
+          badge: 'warning'
+        },
+        paypal_failed: {
+          name: 'Failed',
+          isCancelable: true,
+          badge: 'critical'
+        },
+        paypal_refunded: {
+          name: 'Refunded',
+          isCancelable: false,
+          badge: 'destructive'
+        },
+        paypal_partial_refunded: {
+          name: 'Partial Refunded',
+          isCancelable: false,
+          isRefundable: true,
+          badge: 'destructive'
+        }
+      },
+      psoMapping: {
+        'paypal_authorized:*': 'processing',
+        'paypal_captured:*': 'processing',
+        'paypal_captured:delivered': 'completed',
+        'paypal_pending:*': 'processing',
+        'paypal_failed:*': 'new',
+        'paypal_refunded:*': 'closed',
+        'paypal_partial_refunded:*': 'processing',
+        'paypal_partial_refunded:delivered': 'completed'
+      }
     }
   };
-  const psoMapping: Record<string, string> = {
-    'authorized:*': 'processing',
-    'captured:*': 'processing',
-    'captured:delivered': 'completed',
-    'pending:*': 'processing',
-    'failed:*': 'new',
-    'refunded:*': 'closed',
-    'partial_refunded:*': 'processing',
-    'partial_refunded:delivered': 'completed'
-  };
-  const paymentStatus = {};
-  const paymentStatusMapping = {};
-  for (const method of PAYPAL_METHOD_CODES) {
-    for (const [state, detail] of Object.entries(statuses)) {
-      paymentStatus[paymentStatusFor(method, state as PaypalPaymentState)] =
-        detail;
-    }
-    for (const [key, orderStatus] of Object.entries(psoMapping)) {
-      paymentStatusMapping[`${method}_${key}`] = orderStatus;
-    }
-  }
-  config.util.setModuleDefaults('oms', {
-    order: { paymentStatus, psoMapping: paymentStatusMapping }
-  });
+  config.util.setModuleDefaults('oms', paypalPaymentStatus);
 
   // Reconcile abandoned pending PayPal orders: capture the ones the buyer
   // actually approved (missed-webhook / lost-return-leg fallback), cancel and
