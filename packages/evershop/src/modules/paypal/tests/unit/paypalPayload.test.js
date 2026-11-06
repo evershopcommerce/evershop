@@ -2,7 +2,8 @@ import {
   buildPaypalAmount,
   findApprovalUrl,
   formatPaypalAmount,
-  isZeroDecimalCurrency
+  isZeroDecimalCurrency,
+  paypalAmountsMatch
 } from '../../services/paypalPayload.js';
 
 describe('formatPaypalAmount', () => {
@@ -108,7 +109,12 @@ describe('buildPaypalAmount', () => {
       discount_amount: 0
     };
     const inclItems = [
-      { product_name: 'A', product_sku: 'A1', qty: 2, final_price_incl_tax: 11.0 }
+      {
+        product_name: 'A',
+        product_sku: 'A1',
+        qty: 2,
+        final_price_incl_tax: 11.0
+      }
     ];
     const result = buildPaypalAmount(inclOrder, inclItems, true);
     expect(result.identityHolds).toBe(true);
@@ -140,5 +146,49 @@ describe('buildPaypalAmount', () => {
     expect(result.identityHolds).toBe(true);
     expect(result.amount.value).toBe('1500');
     expect(result.items[0].unit_amount.value).toBe('600');
+  });
+});
+
+describe('paypalAmountsMatch', () => {
+  it('compares the money, not the string', () => {
+    expect(
+      paypalAmountsMatch(
+        { currency_code: 'USD', value: '10' },
+        { currency_code: 'usd', value: '10.00' }
+      )
+    ).toBe(true);
+    expect(
+      paypalAmountsMatch(
+        { currency_code: 'JPY', value: '1234' },
+        { currency_code: 'JPY', value: '1234' }
+      )
+    ).toBe(true);
+  });
+
+  it('rejects another value or currency', () => {
+    expect(
+      paypalAmountsMatch(
+        { currency_code: 'USD', value: '0.01' },
+        { currency_code: 'USD', value: '500.00' }
+      )
+    ).toBe(false);
+    expect(
+      paypalAmountsMatch(
+        { currency_code: 'EUR', value: '10.00' },
+        { currency_code: 'USD', value: '10.00' }
+      )
+    ).toBe(false);
+  });
+
+  it('rejects a missing amount', () => {
+    expect(
+      paypalAmountsMatch(undefined, { currency_code: 'USD', value: '1' })
+    ).toBe(false);
+    expect(
+      paypalAmountsMatch(
+        { currency_code: 'USD', value: 'abc' },
+        { currency_code: 'USD', value: 'abc' }
+      )
+    ).toBe(false);
   });
 });
