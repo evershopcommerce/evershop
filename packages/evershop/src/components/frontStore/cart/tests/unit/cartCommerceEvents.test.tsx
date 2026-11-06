@@ -7,17 +7,22 @@ import { jest, describe, it, expect, afterEach, beforeEach } from '@jest/globals
  * its event once the server accepted it and the new cart has arrived.
  * - add, remove and quantity change: `product_added_to_cart` or
  *   `product_removed_from_cart` with the changed qty (2 → 5 is "added" 3);
- * - coupon applied or removed; shipping method chosen;
+ * - coupon applied or removed; shipping method chosen; a guest's email
+ *   saved (no refetch: the email changes no amount);
  * - nothing when the server refuses the change.
  *
  * The real CartProvider, with a fake urql client (it returns `nextCart`) and
  * a fake fetch for the cart APIs.
  */
 let nextCart: unknown;
+let refetches = 0;
 const fakeClient = {
-  query: () => ({
-    toPromise: async () => ({ data: { myCart: nextCart } })
-  })
+  query: () => {
+    refetches += 1;
+    return {
+      toPromise: async () => ({ data: { myCart: nextCart } })
+    };
+  }
 };
 jest.unstable_mockModule('urql', () => ({
   useClient: () => fakeClient,
@@ -27,7 +32,7 @@ jest.unstable_mockModule('urql', () => ({
 const React = (await import('react')).default;
 const { act } = await import('react');
 const { createRoot } = await import('react-dom/client');
-const { CartProvider, useCartDispatch } = await import('../../CartContext.js');
+const { CartProvider, useCartDispatch, useCartState } = await import('../../CartContext.js');
 const { onCommerceEvent } = await import('../../../../common/commerceEvents.js');
 
 const money = (value: number) => ({ value, text: String(value) });
@@ -65,8 +70,10 @@ const makeCart = (items: unknown[], extra: Record<string, unknown> = {}) => ({
 });
 
 let actions: ReturnType<typeof useCartDispatch>;
+let cartState: ReturnType<typeof useCartState>;
 function Probe() {
   actions = useCartDispatch();
+  cartState = useCartState();
   return null;
 }
 
@@ -211,6 +218,52 @@ describe('cart commerce events', () => {
       name: 'checkout_shipping_info_submitted',
       data: { shippingMethod: { code: 'flat', name: 'Flat rate' }, cartId: 'cart-1', value: 10 }
     });
+  });
+
+  it('a guest email: checkout_contact_info_submitted with the cart, without the email', async () => {
+    await mount(makeCart([tee(1)], { addContactInfoApi: '/api/carts/cart-1/contacts' }));
+    apiResponse.body = { data: { email: 'jane@example.com' } };
+    refetches = 0;
+    await run(() => actions.addContactInfo({ email: 'jane@example.com' }));
+
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({
+      name: 'checkout_contact_info_submitted',
+      data: { cartId: 'cart-1', currency: 'USD', value: 10, totalQty: 1, loggedIn: false }
+    });
+    expect(JSON.stringify(events[0])).not.toContain('jane');
+    // The cart has the email, without a refetch and without a loading flag left on
+    expect(cartState.data?.customerEmail).toBe('jane@example.com');
+    expect(refetches).toBe(0);
+    expect(cartState.loadingStates.addingContactInfo).toBe(false);
+  });
+
+  it('a customer\'s cart (code that calls addContactInfo for a logged-in customer): loggedIn', async () => {
+    await mount(makeCart([tee(1)], { addContactInfoApi: '/api/carts/cart-1/contacts', customerId: 7 }));
+    apiResponse.body = { data: { email: 'jane@example.com' } };
+    await run(() => actions.addContactInfo({ email: 'jane@example.com' }));
+    expect(events.map((e) => [e.name, (e.data as { loggedIn: boolean }).loggedIn])).toEqual([
+      ['checkout_contact_info_submitted', true]
+    ]);
+  });
+
+  it('a guest email the server refuses: no event, no cart error, the caller gets the error', async () => {
+    await mount(makeCart([tee(1)], { addContactInfoApi: '/api/carts/cart-1/contacts' }));
+    apiResponse = { ok: false, body: { error: { message: 'Invalid cart' } } };
+    let thrown: unknown;
+    await act(async () => {
+      await actions.addContactInfo({ email: 'jane@example.com' }).catch((e) => {
+        thrown = e;
+      });
+    });
+    await settle();
+
+    expect((thrown as Error).message).toBe('Invalid cart');
+    expect(events).toEqual([]);
+    // The cart error shows in the coupon form: a background save stays out of it
+    expect(cartState.data?.error).toBeNull();
+    expect(cartState.data?.customerEmail).toBeUndefined();
+    expect(cartState.loadingStates.addingContactInfo).toBe(false);
   });
 
   it('nothing when the server refuses the change', async () => {

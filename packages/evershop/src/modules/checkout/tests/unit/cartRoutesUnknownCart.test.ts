@@ -109,9 +109,11 @@ describe('the cart routes with a cart that does not exist', () => {
     expect(queries).toEqual([]);
   });
 
+  // The contacts route checks `status` in its UPDATE, which this stand-in
+  // pool does not run: saveContactInfo.test.ts covers it on Postgres
   it('a cart that is no longer active (its order was placed) is 404', async () => {
     poolMode = 'inactive';
-    const response = await call(ROUTES[1][1], VALID_UUID, {}, ROUTES[1][3]);
+    const response = await call(ROUTES[0][1], VALID_UUID, {}, ROUTES[0][3]);
     expect(response.statusCode).toBe(404);
   });
 

@@ -6,6 +6,10 @@ import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals
  * The checkout's commerce events:
  * - `cart_viewed` (cart/CartViewedEvent.tsx) and `checkout_started`
  *   (checkout/CheckoutStartedEvent.tsx): once when the page is shown;
+ * - `checkout_contact_info_submitted` for a logged-in customer
+ *   (CheckoutStartedEvent.tsx): right after `checkout_started`, once per cart
+ *   and customer in a browser session (a guest's comes from
+ *   `CartContext.addContactInfo`);
  * - `payment_info_submitted` (CheckoutContext.checkout()): once the order is
  *   created with its payment method, not when the server refuses it;
  * - `checkout_completed` (checkoutSuccess/CheckoutCompletedEvent.tsx): once
@@ -102,6 +106,7 @@ describe('checkout commerce events', () => {
   beforeEach(() => {
     delete (window as unknown as Record<string, unknown>).__evershopCommerceEvents;
     window.localStorage.clear();
+    window.sessionStorage.clear();
     events = [];
     stop = onCommerceEvent('*', (e) => events.push(e));
     container = document.createElement('div');
@@ -145,6 +150,60 @@ describe('checkout commerce events', () => {
           image: undefined
         }
       ]
+    });
+  });
+
+  describe('checkout_contact_info_submitted for a logged-in customer', () => {
+    afterEach(() => {
+      delete (cart as Record<string, unknown>).customerId;
+    });
+
+    it('right after checkout_started, with the cart and loggedIn, once per page', async () => {
+      Object.assign(cart, { customerId: 7 });
+      await render(
+        <React.StrictMode>
+          <CheckoutStartedEvent />
+        </React.StrictMode>
+      );
+      expect(events.map((e) => e.name)).toEqual(['checkout_started', 'checkout_contact_info_submitted']);
+      expect(events[1].data).toEqual({ ...events[0].data, loggedIn: true });
+      expect(events[1].seq).toBeGreaterThan(events[0].seq);
+    });
+
+    it('a reload of the checkout: checkout_started only', async () => {
+      Object.assign(cart, { customerId: 7 });
+      await render(<CheckoutStartedEvent />);
+      await remount(<CheckoutStartedEvent />);
+      expect(events.map((e) => e.name)).toEqual([
+        'checkout_started',
+        'checkout_contact_info_submitted',
+        'checkout_started'
+      ]);
+    });
+
+    it('another customer on the same cart (a guest who logged in): published again', async () => {
+      Object.assign(cart, { customerId: 7 });
+      await render(<CheckoutStartedEvent />);
+      Object.assign(cart, { customerId: 8 });
+      await remount(<CheckoutStartedEvent />);
+      expect(events.filter((e) => e.name === 'checkout_contact_info_submitted')).toHaveLength(2);
+    });
+
+    it('storage blocked: still published, on each checkout page', async () => {
+      const blocked = () => {
+        throw new Error('SecurityError');
+      };
+      const getItem = jest.spyOn(window.Storage.prototype, 'getItem').mockImplementation(blocked);
+      const setItem = jest.spyOn(window.Storage.prototype, 'setItem').mockImplementation(blocked);
+      try {
+        Object.assign(cart, { customerId: 7 });
+        await render(<CheckoutStartedEvent />);
+        await remount(<CheckoutStartedEvent />);
+        expect(events.filter((e) => e.name === 'checkout_contact_info_submitted')).toHaveLength(2);
+      } finally {
+        getItem.mockRestore();
+        setItem.mockRestore();
+      }
     });
   });
 

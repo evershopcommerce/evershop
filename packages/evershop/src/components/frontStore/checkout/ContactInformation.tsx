@@ -1,6 +1,7 @@
 import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
+import { isValidEmail } from '@components/common/form/utils/isValidEmail.js';
 import { Button } from '@components/common/ui/Button.js';
 import {
   Card,
@@ -16,7 +17,10 @@ import {
   ItemTitle
 } from '@components/common/ui/Item.js';
 import { toast } from '@components/common/ui/Sonner.js';
-import { useCartState } from '@components/frontStore/cart/CartContext.js';
+import {
+  useCartDispatch,
+  useCartState
+} from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
   useCheckoutDispatch
@@ -26,7 +30,7 @@ import {
   useCustomerDispatch
 } from '@components/frontStore/customer/CustomerContext.jsx';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const LoggedIn: React.FC<{
   fullName: string;
@@ -117,6 +121,39 @@ const Guest: React.FC<{
     });
   }, [contactEmail]);
 
+  // Save the email to the cart as soon as it is entered, not only with the
+  // order, so the cart has it if the shopper leaves before ordering. On the
+  // DOM `change` event, not React's onChange (an `input` event): the browser
+  // fires it when the shopper leaves the field after changing it and when
+  // autofill fills it, never on each key, so a half-typed address is not
+  // saved. A failed save is not shown: the order sends the email anyway.
+  const { addContactInfo } = useCartDispatch();
+  const emailFieldRef = useRef<HTMLDivElement>(null);
+  const savedEmail = useRef(email);
+  useEffect(() => {
+    const wrapper = emailFieldRef.current;
+    if (!wrapper) {
+      return undefined;
+    }
+    const save = (event: Event) => {
+      // An email input drops the spaces around its value itself
+      const { value } = event.target as HTMLInputElement;
+      if (!isValidEmail(value) || value === savedEmail.current) {
+        return;
+      }
+      const previous = savedEmail.current;
+      savedEmail.current = value;
+      addContactInfo({ email: value }).catch(() => {
+        // Let the next change try again
+        if (savedEmail.current === value) {
+          savedEmail.current = previous;
+        }
+      });
+    };
+    wrapper.addEventListener('change', save);
+    return () => wrapper.removeEventListener('change', save);
+  }, [addContactInfo]);
+
   const handleLogin = async () => {
     if (isLogging) return;
 
@@ -155,16 +192,18 @@ const Guest: React.FC<{
 
   return (
     <div>
-      <EmailField
-        defaultValue={email}
-        name="contact.email"
-        label={_('Email')}
-        required
-        validation={{
-          required: _('Email is required')
-        }}
-        placeholder={_('Enter your email')}
-      />
+      <div ref={emailFieldRef}>
+        <EmailField
+          defaultValue={email}
+          name="contact.email"
+          label={_('Email')}
+          required
+          validation={{
+            required: _('Email is required')
+          }}
+          placeholder={_('Enter your email')}
+        />
+      </div>
 
       {showLogin && (
         <div className="mt-4">
