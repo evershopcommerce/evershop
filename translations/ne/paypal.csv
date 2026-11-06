@@ -1,3 +1,9 @@
 You will be redirected to PayPal,तपाईंलाई PayPal मा पुन: निर्देशित गरिनेछ।
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,हामीलाई माफ गर्नुहोस। तपाईंको भुक्तानी प्रक्रिया गर्दा त्रुटि भयो। तपाईंको कार्ड चार्ज गरिएको छैन। कृपया पुन: प्रयास गर्नुहोस्।
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.","हामी क्षमाप्रार्थी छौं। तपाईंको भुक्तानी पूरा गर्दा समस्या आयो। यदि तपाईंले PayPal मा भुक्तानी स्वीकृत गर्नुभएको छ भने, कृपया फेरि प्रयास नगर्नुहोस् — हामीलाई सम्पर्क गर्नुहोस्, हामी तपाईंको भुक्तानीको स्थिति पुष्टि गर्नेछौं।"
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.","हामी क्षमाप्रार्थी छौं। तपाईंको भुक्तानी पूरा गर्दा समस्या आयो। यदि तपाईंले PayPal वा Venmo मा भुक्तानी स्वीकृत गर्नुभएको छ भने, कृपया फेरि प्रयास नगर्नुहोस् — हामीलाई सम्पर्क गर्नुहोस्, हामी तपाईंको भुक्तानीको स्थिति पुष्टि गर्नेछौं।"
+Failed to load Venmo,Venmo लोड गर्न सकिएन
+Venmo is not available for this purchase. Please choose another payment method.,यस खरिदका लागि Venmo उपलब्ध छैन। कृपया अर्को भुक्तानी विधि छान्नुहोस्।
+Click the Venmo button below to complete your payment.,आफ्नो भुक्तानी पूरा गर्न तलको Venmo बटन क्लिक गर्नुहोस्।
+Enable Venmo?,Venmo सक्षम गर्ने?
+Venmo Display Name,Venmo प्रदर्शन नाम
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,"माथिको PayPal प्रमाणपत्र र webhook प्रयोग गर्छ। Venmo अमेरिकी खरिदकर्ताहरूलाई मात्र, र स्टोरको मुद्रा USD हुँदा मात्र उपलब्ध हुन्छ।"

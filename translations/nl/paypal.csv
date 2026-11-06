@@ -1,3 +1,9 @@
 You will be redirected to PayPal,U wordt doorgestuurd naar PayPal.
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,Het spijt ons. Er is een fout opgetreden bij het verwerken van je betaling. Je kaart is niet gedebiteerd. Probeer het opnieuw.
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.","Het spijt ons. Er is een probleem opgetreden bij het voltooien van je betaling. Als je de betaling bij PayPal hebt goedgekeurd, probeer het dan niet opnieuw — neem contact met ons op en wij bevestigen de status van je betaling."
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.","Het spijt ons. Er is een probleem opgetreden bij het voltooien van je betaling. Als je de betaling bij PayPal of Venmo hebt goedgekeurd, probeer het dan niet opnieuw — neem contact met ons op en wij bevestigen de status van je betaling."
+Failed to load Venmo,Venmo kon niet worden geladen
+Venmo is not available for this purchase. Please choose another payment method.,Venmo is niet beschikbaar voor deze aankoop. Kies een andere betaalmethode.
+Click the Venmo button below to complete your payment.,Klik op de Venmo-knop hieronder om je betaling te voltooien.
+Enable Venmo?,Venmo inschakelen?
+Venmo Display Name,Weergavenaam van Venmo
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,Gebruikt de PayPal-inloggegevens en webhook hierboven. Venmo wordt alleen aangeboden aan kopers in de VS en alleen als de valuta van de winkel USD is.

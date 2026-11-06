@@ -1,4 +1,8 @@
 extend type Setting {
   paypalDisplayName: String
   paypalEnvironment: String
+  # Public by design: the Venmo checkout needs these to load the JS SDK.
+  paypalClientId: String
+  paypalPaymentIntent: String
+  paypalVenmoDisplayName: String
 }

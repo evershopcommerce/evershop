@@ -20,6 +20,8 @@ interface PaypalPaymentProps {
     paypalWebhookId: string;
     paypalEnvironment: string;
     paypalPaymentIntent: string;
+    paypalVenmoStatus: true | false | 0 | 1;
+    paypalVenmoDisplayName: string;
   };
 }
 export default function PaypalPayment({
@@ -30,7 +32,9 @@ export default function PaypalPayment({
     paypalClientSecret,
     paypalWebhookId,
     paypalEnvironment,
-    paypalPaymentIntent
+    paypalPaymentIntent,
+    paypalVenmoStatus,
+    paypalVenmoDisplayName
   }
 }: PaypalPaymentProps) {
   return (
@@ -155,6 +159,40 @@ export default function PaypalPayment({
           </div>
         </div>
       </CardContent>
+      <CardContent className="pt-4 border-t border-border">
+        <div className="grid grid-cols-3 gap-5">
+          <div className="col-span-1 items-center flex">
+            <h4>{_('Enable Venmo?')}</h4>
+          </div>
+          <div className="col-span-2">
+            <ToggleField
+              name="paypalVenmoStatus"
+              defaultValue={paypalVenmoStatus}
+              trueValue={1}
+              falseValue={0}
+            />
+            <p className="text-sm text-muted-foreground mt-2">
+              {_(
+                'Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.'
+              )}
+            </p>
+          </div>
+        </div>
+      </CardContent>
+      <CardContent className="pt-4 border-t border-border">
+        <div className="grid grid-cols-3 gap-5">
+          <div className="col-span-1 items-center flex">
+            <h4>{_('Venmo Display Name')}</h4>
+          </div>
+          <div className="col-span-2">
+            <InputField
+              name="paypalVenmoDisplayName"
+              placeholder={_('Venmo Display Name')}
+              defaultValue={paypalVenmoDisplayName}
+            />
+          </div>
+        </div>
+      </CardContent>
     </Card>
   );
 }
@@ -174,6 +212,8 @@ export const query = `
       paypalWebhookId
       paypalEnvironment
       paypalPaymentIntent
+      paypalVenmoStatus
+      paypalVenmoDisplayName
     }
   }
 `;

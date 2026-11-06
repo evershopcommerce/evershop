@@ -1,1 +1,7 @@
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.","Sajnáljuk. Probléma merült fel a fizetés befejezésekor. Ha a PayPalban jóváhagyta a fizetést, kérjük, ne próbálja újra — vegye fel velünk a kapcsolatot, és megerősítjük a fizetés állapotát."
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.","Sajnáljuk. Probléma merült fel a fizetés befejezésekor. Ha a PayPalban vagy a Venmóban jóváhagyta a fizetést, kérjük, ne próbálja újra — vegye fel velünk a kapcsolatot, és megerősítjük a fizetés állapotát."
+Failed to load Venmo,A Venmo betöltése nem sikerült
+Venmo is not available for this purchase. Please choose another payment method.,"A Venmo ennél a vásárlásnál nem érhető el. Kérjük, válasszon másik fizetési módot."
+Click the Venmo button below to complete your payment.,A fizetés befejezéséhez kattintson az alábbi Venmo gombra.
+Enable Venmo?,Engedélyezi a Venmót?
+Venmo Display Name,Venmo megjelenített neve
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,"A fenti PayPal hitelesítő adatokat és webhookot használja. A Venmo csak egyesült államokbeli vásárlóknak érhető el, és csak akkor, ha a bolt pénzneme USD."

@@ -1,3 +1,9 @@
 You will be redirected to PayPal,Вы будете перенаправлены на PayPal.
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,"Мы сожалеем. При обработке вашего платежа произошла ошибка. Средства с вашей карты не были списаны. Пожалуйста, попробуйте еще раз."
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.","Приносим извинения. При завершении платежа возникла проблема. Если вы подтвердили платёж в PayPal, не пытайтесь провести его повторно — свяжитесь с нами, и мы уточним статус вашего платежа."
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.","Приносим извинения. При завершении платежа возникла проблема. Если вы подтвердили платёж в PayPal или Venmo, не пытайтесь провести его повторно — свяжитесь с нами, и мы уточним статус вашего платежа."
+Failed to load Venmo,Не удалось загрузить Venmo
+Venmo is not available for this purchase. Please choose another payment method.,Venmo недоступен для этой покупки. Выберите другой способ оплаты.
+Click the Venmo button below to complete your payment.,"Нажмите кнопку Venmo ниже, чтобы завершить оплату."
+Enable Venmo?,Включить Venmo?
+Venmo Display Name,Отображаемое имя Venmo
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,Использует указанные выше учётные данные и вебхук PayPal. Venmo предлагается только покупателям из США и только если валюта магазина — USD.

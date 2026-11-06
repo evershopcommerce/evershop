@@ -5,6 +5,7 @@ import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { EvershopRequest } from '../../../../../types/request.js';
 import { EvershopResponse } from '../../../../../types/response.js';
 import { finalizePaypalOrder } from '../../../services/finalizePaypalOrder.js';
+import { PAYPAL_METHOD_CODES } from '../../../services/paymentMethods.js';
 import { createAxiosInstance } from '../../../services/requester.js';
 
 const SETTLED_STATUSES = ['paypal_captured', 'paypal_authorized', 'paypal_pending'];
@@ -26,7 +27,7 @@ export default async (
     .from('order')
     .where('uuid', '=', order_id)
     .and('integration_order_id', '=', paypalToken)
-    .and('payment_method', '=', 'paypal')
+    .and('payment_method', 'IN', PAYPAL_METHOD_CODES)
     .load(pool);
 
   if (!order) {
