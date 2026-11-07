@@ -39,7 +39,7 @@ env:
 jobs:
   smoke:
     name: 50,000 rows
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 150
     services:
       postgres:
@@ -112,7 +112,7 @@ jobs:
 
   two-instances:
     name: Two instances
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 40
     services:
       postgres:
