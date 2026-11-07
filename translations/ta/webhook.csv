@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","நிகழ்வுகளை எங்கு அனுப்புவது, மேலும் இந்த webhook செயலில் உள்ளதா என்பது."
 "You can create at most ${max} webhooks","அதிகபட்சம் ${max} webhook களை உருவாக்கலாம்"
+"Carts","வண்டிகள்"
+"Cart email added","வண்டியில் மின்னஞ்சல் சேர்க்கப்பட்டது"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","திறந்த வண்டி ஒரு மின்னஞ்சலைப் பெறுகிறது: விருந்தினர் செக்அவுட்டில் அதை உள்ளிடுகிறார், அல்லது உள்நுழைந்த வாடிக்கையாளருக்கு வண்டி உள்ளது. கைவிடப்பட்ட வண்டி மின்னஞ்சல்களுக்கு. வண்டி ID, மின்னஞ்சல் மற்றும் வாடிக்கையாளர் ID ஐ அனுப்புகிறது."

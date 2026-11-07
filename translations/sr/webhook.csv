@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","Gde se šalju događaji i da li je ovaj webhook aktivan."
 "You can create at most ${max} webhooks","Možete kreirati najviše ${max} webhook-ova"
+"Carts","Korpe"
+"Cart email added","Imejl dodat korpi"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","Otvorena korpa dobija imejl: gost ga unosi na plaćanju ili prijavljeni kupac ima korpu. Za imejlove o napuštenim korpama. Šalje ID korpe, imejl i ID kupca."

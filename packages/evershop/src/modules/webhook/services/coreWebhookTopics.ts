@@ -154,5 +154,12 @@ export const coreWebhookTopics: WebhookTopic[] = [
     label: 'Customer deleted',
     description:
       'A customer account is deleted. Sends the deleted customer (never the password).'
+  },
+  {
+    group: 'Carts',
+    name: 'cart_email_added',
+    label: 'Cart email added',
+    description:
+      'An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.'
   }
 ];

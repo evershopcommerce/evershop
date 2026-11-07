@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","Gửi sự kiện đến đâu, và webhook này có đang hoạt động hay không."
 "You can create at most ${max} webhooks","Bạn chỉ có thể tạo tối đa ${max} webhook"
+"Carts","Giỏ hàng"
+"Cart email added","Giỏ hàng đã có email"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","Một giỏ hàng đang mở nhận được email: khách nhập email khi thanh toán, hoặc khách hàng đã đăng nhập có giỏ hàng. Dùng cho email giỏ hàng bị bỏ quên. Gửi ID giỏ hàng, email và ID khách hàng."

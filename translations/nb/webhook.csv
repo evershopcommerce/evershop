@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","Hvor hendelsene skal sendes, og om denne webhooken er aktiv."
 "You can create at most ${max} webhooks","Du kan opprette maksimalt ${max} webhooks"
+"Carts","Handlekurver"
+"Cart email added","E-post lagt til handlekurv"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","En åpen handlekurv får en e-postadresse: en gjest skriver den inn i kassen, eller en innlogget kunde har en handlekurv. For e-poster om forlatte handlekurver. Sender handlekurv-ID, e-postadressen og kunde-ID."

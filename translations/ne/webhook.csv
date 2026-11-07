@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","घटनाहरू कहाँ पठाउने, र यो webhook सक्रिय छ कि छैन।"
 "You can create at most ${max} webhooks","तपाईंले बढीमा ${max} webhook सिर्जना गर्न सक्नुहुन्छ"
+"Carts","कार्टहरू"
+"Cart email added","कार्टमा इमेल थपियो"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","खुला कार्टले इमेल पाउँछ: पाहुनाले चेकआउटमा प्रविष्ट गर्छ, वा लगइन गरेको ग्राहकसँग कार्ट छ। छोडिएका कार्टका इमेलहरूका लागि। कार्ट ID, इमेल र ग्राहक ID पठाउँछ।"

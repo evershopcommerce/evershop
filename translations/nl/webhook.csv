@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","Waarheen de gebeurtenissen worden gestuurd en of deze webhook actief is."
 "You can create at most ${max} webhooks","Je kunt maximaal ${max} webhooks aanmaken"
+"Carts","Winkelmandjes"
+"Cart email added","E-mail toegevoegd aan winkelmandje"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","Een open winkelmandje krijgt een e-mailadres: een gast vult het in bij het afrekenen, of een ingelogde klant heeft een winkelmandje. Voor e-mails over verlaten winkelmandjes. Stuurt de winkelmandje-ID, het e-mailadres en de klant-ID."

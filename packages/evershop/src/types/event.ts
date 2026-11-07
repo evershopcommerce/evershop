@@ -141,6 +141,21 @@ export interface EventDataRegistry {
   customer_deleted: CustomerRow;
 
   /**
+   * Fired when an open cart gets an email, or its email changes: a guest
+   * enters it at checkout, a customer signs in with a cart, a signed-in
+   * customer's cart is created (a database trigger, checkout migration
+   * 1.0.15; the same email saved again fires nothing). For abandoned-cart
+   * emails: build the cart link with `buildCartRecoveryUrl(cart_id)`. The
+   * cart is named by its id, not its uuid, which opens the cart through the
+   * public cart APIs. A guest's email is not verified.
+   */
+  cart_email_added: {
+    cart_id: number;
+    customer_email: string;
+    customer_id: number | null;
+  };
+
+  /**
    * Fired when a new order record is created in database, regardless of the payment method or order status
    * Data: Complete order table row
    */

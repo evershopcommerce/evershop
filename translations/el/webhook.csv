@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","Πού θα σταλούν τα συμβάντα και αν αυτό το webhook είναι ενεργό."
 "You can create at most ${max} webhooks","Μπορείτε να δημιουργήσετε το πολύ ${max} webhooks"
+"Carts","Καλάθια"
+"Cart email added","Προστέθηκε email στο καλάθι"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","Ένα ανοιχτό καλάθι αποκτά email: ένας επισκέπτης το εισάγει στο ταμείο ή ένας συνδεδεμένος πελάτης έχει καλάθι. Για email εγκαταλελειμμένων καλαθιών. Στέλνει το ID του καλαθιού, το email και το ID του πελάτη."
