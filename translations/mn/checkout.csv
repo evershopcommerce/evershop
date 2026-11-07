@@ -49,3 +49,11 @@ Your order total is 0 — no payment is needed to place this order.,Таны з�
 Thank you for your order!,Захиалга өгсөнд баярлалаа!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,${orderNumber} дугаартай захиалга баталгаажлаа. Бид ${email} хаяг руу баримт илгээсэн.
 Shipping is not available at the moment. Please contact us to complete your order.,Одоогоор хүргэлт боломжгүй байна. Захиалгаа дуусгахын тулд бидэнтэй холбогдоно уу.
+Restore your cart,Сагсаа сэргээх
+The products from your saved cart will be added to your current cart.,Таны хадгалсан сагсны бүтээгдэхүүнүүд одоогийн сагсанд тань нэмэгдэнэ.
+Restore my cart,Миний сагсыг сэргээх
+This cart link is no longer valid,Энэ сагсны холбоос хүчингүй болсон байна
+The link may have expired or already been used.,Холбоосын хугацаа дууссан эсвэл аль хэдийн ашиглагдсан байж магадгүй.
+This cart was already restored,Энэ сагсыг аль хэдийн сэргээсэн
+Its products were added to a cart the first time this link was used.,Энэ холбоосыг анх ашиглах үед түүний бүтээгдэхүүнүүдийг сагсанд нэмсэн.
+Go to your cart,Сагс руугаа очих

@@ -1,0 +1,14 @@
+extend type Query {
+  """
+  The state of the cart recovery page (`/cart/recover`): `ready` (the link
+  can be used: the page shows the button), `restored` (the link was used
+  already) or `invalid`. Null on other pages.
+  """
+  cartRecoveryStatus: String
+  """
+  The products of the saved cart on the cart recovery page, as the cart
+  service builds them, without the ones it would refuse (disabled, out of
+  stock). Empty on other pages.
+  """
+  cartRecoveryItems: [CartItem!]!
+}

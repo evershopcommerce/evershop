@@ -49,3 +49,11 @@ Your order total is 0 — no payment is needed to place this order.,مجموع �
 Thank you for your order!,از سفارش شما متشکریم!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,سفارش شماره ${orderNumber} تأیید شد. رسید به ${email} ایمیل شد.
 Shipping is not available at the moment. Please contact us to complete your order.,در حال حاضر ارسال امکان‌پذیر نیست. برای تکمیل سفارش با ما تماس بگیرید.
+Restore your cart,بازیابی سبد خرید شما
+The products from your saved cart will be added to your current cart.,محصولات سبد خرید ذخیره‌شده شما به سبد خرید فعلی‌تان اضافه می‌شوند.
+Restore my cart,بازیابی سبد خرید من
+This cart link is no longer valid,این پیوند سبد خرید دیگر معتبر نیست
+The link may have expired or already been used.,ممکن است این پیوند منقضی شده باشد یا قبلاً استفاده شده باشد.
+This cart was already restored,این سبد خرید قبلاً بازیابی شده است
+Its products were added to a cart the first time this link was used.,محصولات آن نخستین باری که این پیوند استفاده شد به یک سبد خرید اضافه شدند.
+Go to your cart,رفتن به سبد خرید شما

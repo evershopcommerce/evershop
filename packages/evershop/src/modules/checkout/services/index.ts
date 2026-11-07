@@ -14,6 +14,8 @@ export * from './addShippingAddress.js';
 export * from './addBillingAddress.js';
 export * from './checkout.js';
 export * from './setShippingMethod.js';
+// The link that gives a saved cart back to a shopper (abandoned-cart emails)
+export { buildCartRecoveryUrl } from './buildCartRecoveryUrl.js';
 export {
   default as removeCartItem,
   hookBeforeRemoveCartItem,
