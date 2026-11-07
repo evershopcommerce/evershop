@@ -180,6 +180,10 @@ Analytics,Analítica
 Google Analytics 4 Measurement ID,ID de medición de Google Analytics 4
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Se encuentra en Google Analytics en Admin → Data Streams → tu flujo web. Déjalo vacío para desactivar el seguimiento.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Introduce un ID de medición GA4 válido, p. ej. G-XXXXXXXXXX"
+Cookie consent,Consentimiento de cookies
+Not required: collect from the first page,No obligatorio: recopilar desde la primera página
+Required: no cookies until the shopper accepts,Obligatorio: sin cookies hasta que el cliente acepte
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","Con «Obligatorio», Google Analytics no guarda cookies hasta que tu banner de cookies le indique a Google que el cliente las aceptó. Mientras tanto, Google sigue recibiendo las páginas vistas y los eventos sin cookies, y tus informes muestran pocos de ellos. Elige «Obligatorio» siempre que tu tienda tenga un banner de cookies, y usa un banner compatible con Google Consent Mode, como Cookiebot, OneTrust o CookieYes. Con «Obligatorio» y sin un banner así, tus informes quedan casi vacíos."
 Allow guest checkout,Permitir compra como invitado
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Cuando está activado, los compradores pueden hacer un pedido sin cuenta. Cuando está desactivado, deben iniciar sesión o registrarse para pagar."
 Enable rule-based related products,Activar productos relacionados basados en reglas

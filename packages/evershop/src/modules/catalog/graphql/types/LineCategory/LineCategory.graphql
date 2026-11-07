@@ -1,0 +1,14 @@
+# The product's category on a cart or order line, as Product.category gives
+# it. Lives in CATALOG, the owner of categories, extending checkout's CartItem
+# and oms's OrderItem. Non-admin file: visible to both schemas.
+# NOTE: a block description above `extend type` is invalid SDL — keep this
+# header as comments.
+extend type CartItem {
+  "The product's category now; null when it has none, or the product was deleted"
+  category: Category
+}
+
+extend type OrderItem {
+  "The product's category now (not when the order was placed); null when it has none, or the product was deleted"
+  category: Category
+}

@@ -80,6 +80,16 @@ describe('commerce event data', () => {
     });
   });
 
+  it("a line's category (cart and order lines ask for it) is the item's categories; none without one", () => {
+    const shirts = { ...line, category: { name: 'Shirts' } };
+    expect(toCommerceItem(shirts).categories).toEqual(['Shirts']);
+    expect(toCommerceCart({ ...cart, items: [shirts] }).items[0].categories).toEqual(['Shirts']);
+    expect(toLineChange(undefined, shirts, { ...cart, items: [shirts] })?.data.items[0].categories).toEqual(['Shirts']);
+    for (const category of [undefined, null, { name: null }, { name: '' }]) {
+      expect(toCommerceItem({ ...line, category }).categories).toBeUndefined();
+    }
+  });
+
   it('an item can carry another qty than its line (a quantity change)', () => {
     expect(toCommerceItem(line, 1)).toMatchObject({ qty: 1, discount: 1 });
     expect(lineValue(line, 1)).toBe(9);

@@ -180,6 +180,10 @@ Analytics,分析
 Google Analytics 4 Measurement ID,Google Analytics 4 衡量 ID
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,在 Google Analytics 的 Admin → Data Streams → 您的网站数据流中查找。留空则停用跟踪。
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX",请输入有效的 GA4 衡量 ID，例如 G-XXXXXXXXXX
+Cookie consent,Cookie 同意
+Not required: collect from the first page,不需要：从第一个页面开始收集
+Required: no cookies until the shopper accepts,需要：顾客同意前不使用 Cookie
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.",选择“需要”时，在您的 Cookie 横幅告知 Google 顾客已同意之前，Google Analytics 不会设置任何 Cookie。在此之前，Google 仍会收到不带 Cookie 的页面浏览和事件，但您的报告中只会显示其中很少一部分。只要您的商店有 Cookie 横幅，就请选择“需要”，并使用支持 Google Consent Mode 的横幅，如 Cookiebot、OneTrust 或 CookieYes。选择“需要”却没有这样的横幅时，您的报告几乎是空的。
 Allow guest checkout,允许访客结账
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",启用后，购物者无需账户即可下单。停用后，他们必须登录或注册才能结账。
 Enable rule-based related products,启用基于规则的相关商品

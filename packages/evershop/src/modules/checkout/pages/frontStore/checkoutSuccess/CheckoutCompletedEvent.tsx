@@ -151,6 +151,9 @@ export const query = `
         variantOptions {
           optionText
         }
+        category {
+          name
+        }
       }
     }
   }

@@ -180,6 +180,10 @@ Analytics,एनालिटिक्स
 Google Analytics 4 Measurement ID,Google Analytics 4 मापन ID
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Google Analytics मा Admin → Data Streams → तपाईंको वेब स्ट्रिम अन्तर्गत भेटिन्छ। ट्र्याकिङ निष्क्रिय पार्न खाली छोड्नुहोस्।
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","मान्य GA4 मापन ID प्रविष्ट गर्नुहोस्, जस्तै G-XXXXXXXXXX"
+Cookie consent,कुकी सहमति
+Not required: collect from the first page,आवश्यक छैन: पहिलो पृष्ठदेखि नै सङ्कलन गर्नुहोस्
+Required: no cookies until the shopper accepts,आवश्यक: ग्राहकले स्वीकार नगरेसम्म कुकी प्रयोग नगर्नुहोस्
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","""आवश्यक"" छान्दा, तपाईंको कुकी ब्यानरले ग्राहकले स्वीकार गरेको कुरा Google लाई नबताएसम्म Google Analytics ले कुनै कुकी राख्दैन। त्यतिन्जेल पनि Google ले कुकीबिना पृष्ठ दृश्य र घटनाहरू प्राप्त गरिरहन्छ, तर तपाईंको रिपोर्टमा तीमध्ये थोरै मात्र देखिन्छन्। तपाईंको पसलमा कुकी ब्यानर छ भने ""आवश्यक"" छान्नुहोस्, र Google Consent Mode समर्थन गर्ने ब्यानर (जस्तै Cookiebot, OneTrust वा CookieYes) प्रयोग गर्नुहोस्। ""आवश्यक"" छानेर पनि त्यस्तो ब्यानर नभए तपाईंको रिपोर्ट लगभग खाली रहन्छ।"
 Allow guest checkout,अतिथि चेकआउट अनुमति दिनुहोस्
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","सक्षम गरिएमा, खरिदकर्ताले खाता बिना अर्डर गर्न सक्छन्। निष्क्रिय गरिएमा, चेकआउट गर्न लग इन वा दर्ता गर्नुपर्छ।"
 Enable rule-based related products,नियम-आधारित सम्बन्धित उत्पादनहरू सक्षम गर्नुहोस्

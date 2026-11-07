@@ -180,6 +180,10 @@ Analytics,Αναλυτικά στοιχεία
 Google Analytics 4 Measurement ID,Αναγνωριστικό μέτρησης Google Analytics 4
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Βρίσκεται στο Google Analytics στο Admin → Data Streams → η ροή ιστού σας. Αφήστε το κενό για απενεργοποίηση της παρακολούθησης.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Εισαγάγετε έγκυρο αναγνωριστικό μέτρησης GA4, π.χ. G-XXXXXXXXXX"
+Cookie consent,Συναίνεση για cookies
+Not required: collect from the first page,Δεν απαιτείται: συλλογή από την πρώτη σελίδα
+Required: no cookies until the shopper accepts,Απαιτείται: χωρίς cookies μέχρι να αποδεχτεί ο πελάτης
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","Με την επιλογή «Απαιτείται», το Google Analytics δεν αποθηκεύει cookies μέχρι το banner cookies σας να ενημερώσει την Google ότι ο πελάτης αποδέχτηκε. Μέχρι τότε, η Google λαμβάνει κανονικά προβολές σελίδων και συμβάντα χωρίς cookies, και οι αναφορές σας δείχνουν λίγα από αυτά. Επιλέξτε «Απαιτείται» όταν το κατάστημά σας έχει banner cookies, και χρησιμοποιήστε banner που υποστηρίζει το Google Consent Mode, όπως Cookiebot, OneTrust ή CookieYes. Με «Απαιτείται» και χωρίς τέτοιο banner, οι αναφορές σας μένουν σχεδόν άδειες."
 Allow guest checkout,Να επιτρέπεται η ολοκλήρωση παραγγελίας ως επισκέπτης
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Όταν είναι ενεργό, οι αγοραστές μπορούν να παραγγείλουν χωρίς λογαριασμό. Όταν είναι ανενεργό, πρέπει να συνδεθούν ή να εγγραφούν για να ολοκληρώσουν την παραγγελία."
 Enable rule-based related products,Ενεργοποίηση σχετικών προϊόντων βάσει κανόνων

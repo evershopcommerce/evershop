@@ -26,6 +26,7 @@ export interface CommerceLine {
   lineTotal?: { value: number } | null;
   lineTotalWithDiscount?: { value: number } | null;
   variantOptions?: Array<{ optionText?: string | null } | null> | null;
+  category?: { name?: string | null } | null;
 }
 
 /** The fields of a cart the events read */
@@ -123,7 +124,8 @@ export function toCommerceItem(
     priceInclTax: line.finalPriceInclTax?.value,
     discount: line.qty > 0 ? roundAmount(discountTotal / line.qty, currency) : 0,
     url: absoluteUrl(line.productUrl),
-    image: absoluteUrl(line.thumbnail)
+    image: absoluteUrl(line.thumbnail),
+    categories: line.category?.name ? [line.category.name] : undefined
   };
 }
 
