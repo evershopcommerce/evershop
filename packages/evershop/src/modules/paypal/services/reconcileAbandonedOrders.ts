@@ -4,6 +4,7 @@ import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import cancelOrder from '../../oms/services/cancelOrder.js';
 import { finalizePaypalOrderOrFail } from './finalizePaypalOrder.js';
+import { PAYPAL_METHOD_CODES } from './paymentMethods.js';
 import { createStandaloneAxiosInstance } from './requester.js';
 
 export const DEFAULT_ABANDONED_TTL_HOURS = 6;
@@ -67,7 +68,7 @@ export default async function reconcileAbandonedPaypalOrders() {
   const cutoff = new Date(Date.now() - ttlHours * 3600 * 1000).toISOString();
   const orders = await select()
     .from('order')
-    .where('payment_method', '=', 'paypal')
+    .where('payment_method', 'IN', PAYPAL_METHOD_CODES)
     .and('payment_status', '=', 'pending')
     .and('created_at', '<', cutoff)
     .execute(pool);

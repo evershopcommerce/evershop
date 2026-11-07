@@ -1,3 +1,9 @@
 You will be redirected to PayPal,Та PayPal руу шилжих болно
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,Уучлаарай. Таны төлбөрийг боловсруулах явцад алдаа гарлаа. Таны картаас ямар ч мөнгө хасагдаагүй. Дахин оролдоно уу.
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.","Уучлаарай. Таны төлбөрийг гүйцэтгэхэд асуудал гарлаа. Хэрэв та PayPal дээр төлбөрийг баталсан бол дахин оролдохгүй байна уу — бидэнтэй холбогдоно уу, бид таны төлбөрийн төлөвийг шалгаж баталгаажуулна."
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.","Уучлаарай. Таны төлбөрийг гүйцэтгэхэд асуудал гарлаа. Хэрэв та PayPal эсвэл Venmo дээр төлбөрийг баталсан бол дахин оролдохгүй байна уу — бидэнтэй холбогдоно уу, бид таны төлбөрийн төлөвийг шалгаж баталгаажуулна."
+Failed to load Venmo,Venmo-г ачаалж чадсангүй
+Venmo is not available for this purchase. Please choose another payment method.,Энэ худалдан авалтад Venmo боломжгүй байна. Өөр төлбөрийн хэрэгсэл сонгоно уу.
+Click the Venmo button below to complete your payment.,Төлбөрөө гүйцээхийн тулд доорх Venmo товчийг дарна уу.
+Enable Venmo?,Venmo-г идэвхжүүлэх үү?
+Venmo Display Name,Venmo-гийн харагдах нэр
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,"Дээрх PayPal-ийн нэвтрэх мэдээлэл болон webhook-ийг ашиглана. Venmo-г зөвхөн АНУ-ын худалдан авагчдад, мөн дэлгүүрийн валют USD үед л санал болгоно."

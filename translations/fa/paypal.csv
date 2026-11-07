@@ -1,3 +1,9 @@
 You will be redirected to PayPal,به صفحه‌ی PayPal هدایت خواهید شد.
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,متأسفیم، در پردازش پرداخت شما خطایی رخ داد. از کارت شما مبلغی کسر نشد. لطفاً دوباره تلاش کنید.
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.",متأسفیم. در تکمیل پرداخت شما مشکلی پیش آمد. اگر پرداخت را در PayPal تأیید کرده‌اید، لطفاً دوباره تلاش نکنید — با ما تماس بگیرید تا وضعیت پرداخت شما را بررسی کنیم.
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.",متأسفیم. در تکمیل پرداخت شما مشکلی پیش آمد. اگر پرداخت را در PayPal یا Venmo تأیید کرده‌اید، لطفاً دوباره تلاش نکنید — با ما تماس بگیرید تا وضعیت پرداخت شما را بررسی کنیم.
+Failed to load Venmo,بارگیری Venmo ناموفق بود
+Venmo is not available for this purchase. Please choose another payment method.,Venmo برای این خرید در دسترس نیست. لطفاً روش پرداخت دیگری را انتخاب کنید.
+Click the Venmo button below to complete your payment.,برای تکمیل پرداخت، روی دکمه Venmo در پایین کلیک کنید.
+Enable Venmo?,Venmo فعال شود؟
+Venmo Display Name,نام نمایشی Venmo
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,از اطلاعات ورود و وب‌هوک PayPal بالا استفاده می‌کند. Venmo فقط به خریداران آمریکایی و فقط زمانی ارائه می‌شود که واحد پول فروشگاه USD باشد.

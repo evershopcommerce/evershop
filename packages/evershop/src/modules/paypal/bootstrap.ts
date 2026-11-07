@@ -6,9 +6,16 @@ import { CONSTANTS } from '../../lib/helpers.js';
 import { warning } from '../../lib/log/logger.js';
 import { pool } from '../../lib/postgres/connection.js';
 import { getConfig } from '../../lib/util/getConfig.js';
-import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
+import {
+  PaymentMethodFactory,
+  registerPaymentMethod
+} from '../checkout/services/getAvailablePaymentMethods.js';
 import { sumRefundedAmount } from '../oms/services/refundStatus.js';
-import { getSetting } from '../setting/services/setting.js';
+import { getSetting, getStoreCurrency } from '../setting/services/setting.js';
+import {
+  isPaymentMethodEnabled,
+  VENMO_CURRENCIES
+} from './services/paymentMethods.js';
 import {
   capturePaypalAuthorization,
   refundPaypalCapture
@@ -98,24 +105,17 @@ export default async () => {
     );
   }
 
-  registerPaymentMethod({
-    init: async () => ({
-      code: 'paypal',
-      name: await getSetting('paypalDisplayName', 'PayPal')
-    }),
-    validator: async () => {
-      const paypalConfig = getConfig('system.paypal', {});
-      let paypalStatus;
-      if (paypalConfig?.status) {
-        paypalStatus = paypalConfig.status;
-      } else {
-        paypalStatus = await getSetting('paypalPaymentStatus', 0);
-      }
-      if (parseInt(paypalStatus, 10) === 1) {
-        return true;
-      } else {
-        return false;
-      }
+  // Venmo is a PayPal funding source: the money moves through the same PayPal
+  // order, so both methods share these handlers and the `paypal_*` statuses
+  // (without `statuses`, core would move a Venmo order to `venmo_captured`).
+  const paypalOperations: Pick<
+    PaymentMethodFactory,
+    'capture' | 'void' | 'refund' | 'statuses'
+  > = {
+    statuses: {
+      captured: 'paypal_captured',
+      refunded: 'paypal_refunded',
+      partialRefunded: 'paypal_partial_refunded'
     },
     // Capture an authorized payment. Capturing an authorization mints a NEW
     // capture id at PayPal — core (captureOrder) records it as the capture
@@ -154,5 +154,50 @@ export default async () => {
         refundedBefore: sumRefundedAmount(ledger)
       });
     }
+  };
+
+  registerPaymentMethod({
+    init: async () => ({
+      code: 'paypal',
+      name: await getSetting('paypalDisplayName', 'PayPal')
+    }),
+    validator: async () => {
+      const paypalConfig = getConfig('system.paypal', {});
+      let paypalStatus;
+      if (paypalConfig?.status) {
+        paypalStatus = paypalConfig.status;
+      } else {
+        paypalStatus = await getSetting('paypalPaymentStatus', 0);
+      }
+      if (parseInt(paypalStatus, 10) === 1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    ...paypalOperations
+  });
+
+  registerPaymentMethod({
+    init: async () => ({
+      code: 'venmo',
+      name: await getSetting('paypalVenmoDisplayName', 'Venmo')
+    }),
+    validator: async () => {
+      const paypalConfig = getConfig('system.paypal', {}) as Record<
+        string,
+        unknown
+      >;
+      // Config wins over the admin setting, also when it turns Venmo off
+      const venmoStatus =
+        paypalConfig.venmoStatus !== undefined
+          ? paypalConfig.venmoStatus
+          : await getSetting('paypalVenmoStatus', 0);
+      return (
+        isPaymentMethodEnabled(venmoStatus) &&
+        VENMO_CURRENCIES.includes(getStoreCurrency())
+      );
+    },
+    ...paypalOperations
   });
 };

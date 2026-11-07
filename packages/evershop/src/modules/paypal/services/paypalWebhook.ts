@@ -11,6 +11,7 @@ import {
   PaypalAmountMismatchError,
   recordPaypalPayment
 } from './finalizePaypalOrder.js';
+import { PAYPAL_METHOD_CODES } from './paymentMethods.js';
 
 export interface PaypalWebhookEvent {
   event_type?: string;
@@ -72,7 +73,7 @@ async function resolveOrderForEvent(
     const order = await select()
       .from('order')
       .where('integration_order_id', '=', keys.paypalOrderId)
-      .and('payment_method', '=', 'paypal')
+      .and('payment_method', 'IN', PAYPAL_METHOD_CODES)
       .load(pool);
     if (order) {
       return { order, matchedBy: 'paypalOrderId' };
@@ -82,7 +83,7 @@ async function resolveOrderForEvent(
     const order = await select()
       .from('order')
       .where('order_number', '=', keys.invoiceNumber)
-      .and('payment_method', '=', 'paypal')
+      .and('payment_method', 'IN', PAYPAL_METHOD_CODES)
       .load(pool);
     if (order) {
       return { order, matchedBy: 'invoiceNumber' };
@@ -99,7 +100,7 @@ async function resolveOrderForEvent(
       const order = await select()
         .from('order')
         .where('order_id', '=', transaction.payment_transaction_order_id)
-        .and('payment_method', '=', 'paypal')
+        .and('payment_method', 'IN', PAYPAL_METHOD_CODES)
         .load(pool);
       if (order) {
         return { order, matchedBy: 'captureId' };

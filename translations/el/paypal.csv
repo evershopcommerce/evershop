@@ -1,3 +1,9 @@
 You will be redirected to PayPal,Θα ανακατευθυνθείτε στο PayPal
 We are sorry. There was an error processing your payment. Your card was not charged. Please try again.,Λυπούμαστε. Παρουσιάστηκε ένα σφάλμα κατά την επεξεργασία της πληρωμής σας. Η κάρτα σας δεν χρεώθηκε. Παρακαλούμε προσπαθήστε ξανά.
-"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal, please do not try again — contact us and we will confirm your payment status.","Λυπούμαστε. Παρουσιάστηκε πρόβλημα κατά την ολοκλήρωση της πληρωμής σας. Εάν εγκρίνατε την πληρωμή στο PayPal, μην προσπαθήσετε ξανά — επικοινωνήστε μαζί μας και θα επιβεβαιώσουμε την κατάσταση της πληρωμής σας."
+"We are sorry. There was a problem completing your payment. If you approved the payment at PayPal or Venmo, please do not try again — contact us and we will confirm your payment status.","Λυπούμαστε. Παρουσιάστηκε πρόβλημα κατά την ολοκλήρωση της πληρωμής σας. Εάν εγκρίνατε την πληρωμή στο PayPal ή στο Venmo, μην προσπαθήσετε ξανά — επικοινωνήστε μαζί μας και θα επιβεβαιώσουμε την κατάσταση της πληρωμής σας."
+Failed to load Venmo,Δεν ήταν δυνατή η φόρτωση του Venmo
+Venmo is not available for this purchase. Please choose another payment method.,Το Venmo δεν είναι διαθέσιμο για αυτήν την αγορά. Επιλέξτε άλλον τρόπο πληρωμής.
+Click the Venmo button below to complete your payment.,Κάντε κλικ στο κουμπί Venmo παρακάτω για να ολοκληρώσετε την πληρωμή σας.
+Enable Venmo?,Ενεργοποίηση Venmo;
+Venmo Display Name,Εμφανιζόμενο όνομα Venmo
+Uses the PayPal credentials and webhook above. Venmo is offered only to US buyers and only when the store currency is USD.,Χρησιμοποιεί τα διαπιστευτήρια PayPal και το webhook παραπάνω. Το Venmo προσφέρεται μόνο σε αγοραστές στις ΗΠΑ και μόνο όταν το νόμισμα του καταστήματος είναι USD.

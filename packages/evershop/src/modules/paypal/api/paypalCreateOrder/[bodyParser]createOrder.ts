@@ -13,6 +13,7 @@ import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../setting/services/setting.js';
+import { PAYPAL_METHOD_CODES } from '../../services/paymentMethods.js';
 import { buildOrderPaypalAmount } from '../../services/paypalOrderAmount.js';
 import { findApprovalUrl } from '../../services/paypalPayload.js';
 import { buildPaypalShipping } from '../../services/paypalShippingAddress.js';
@@ -28,7 +29,7 @@ export default async (
     const order = await select()
       .from('order')
       .where('uuid', '=', order_id)
-      .and('payment_method', '=', 'paypal')
+      .and('payment_method', 'IN', PAYPAL_METHOD_CODES)
       .and('payment_status', '=', 'pending')
       .load(pool);
 
@@ -54,6 +55,32 @@ export default async (
       }
 
       const homeUrl = getContextValue<string>(request, 'homeUrl', '');
+      const returnUrl = `${homeUrl}${buildUrl('paypalReturn', { order_id })}`;
+      const cancelUrl = `${homeUrl}${buildUrl('paypalCancel', { order_id })}`;
+      const brandName = await getSetting('storeName', 'Evershop');
+      // Venmo has no redirect flow: the buyer approves in the JS SDK popup
+      // (or QR code), so its source carries no return/cancel URLs.
+      const paymentSource =
+        order.payment_method === 'venmo'
+          ? {
+              venmo: {
+                experience_context: {
+                  shipping_preference: 'SET_PROVIDED_ADDRESS',
+                  brand_name: brandName
+                }
+              }
+            }
+          : {
+              paypal: {
+                experience_context: {
+                  cancel_url: cancelUrl,
+                  return_url: returnUrl,
+                  shipping_preference: 'SET_PROVIDED_ADDRESS',
+                  user_action: 'PAY_NOW',
+                  brand_name: brandName
+                }
+              }
+            };
       const orderData = {
         intent: await getSetting('paypalPaymentIntent', 'CAPTURE'),
         purchase_units: [
@@ -65,21 +92,7 @@ export default async (
             amount: finalAmount
           }
         ],
-        payment_source: {
-          paypal: {
-            experience_context: {
-              cancel_url: `${homeUrl}${buildUrl('paypalCancel', {
-                order_id
-              })}`,
-              return_url: `${homeUrl}${buildUrl('paypalReturn', {
-                order_id
-              })}`,
-              shipping_preference: 'SET_PROVIDED_ADDRESS',
-              user_action: 'PAY_NOW',
-              brand_name: await getSetting('storeName', 'Evershop')
-            }
-          }
-        }
+        payment_source: paymentSource
       } as CreateOrderRequestBody;
       const shippingAddress = await select()
         .from('order_address')
@@ -93,7 +106,7 @@ export default async (
         )) as any;
       } else {
         (
-          orderData.payment_source!.paypal as any
+          Object.values(orderData.payment_source!)[0] as any
         ).experience_context.shipping_preference = 'NO_SHIPPING';
       }
       const finalPaypalOrderData = getValueSync<CreateOrderRequestBody>(
@@ -121,7 +134,8 @@ export default async (
       );
 
       const approveUrl = data.id ? findApprovalUrl(data.links) : undefined;
-      if (data.id && approveUrl) {
+      // A Venmo order is approved in the SDK popup, so it has no approval link.
+      if (data.id && (approveUrl || order.payment_method === 'venmo')) {
         // Update order and insert papal order id
         await update('order')
           .given({ integration_order_id: data.id })
@@ -132,7 +146,11 @@ export default async (
         return response.json({
           data: {
             paypalOrderId: data.id,
-            approveUrl
+            approveUrl,
+            // The SDK flow lands the buyer on the same return/cancel pages the
+            // redirect flow uses; PayPal appends `token` there, the SDK can't.
+            returnUrl: `${returnUrl}?token=${encodeURIComponent(data.id)}`,
+            cancelUrl: `${cancelUrl}?token=${encodeURIComponent(data.id)}`
           }
         });
       } else {
