@@ -62,7 +62,7 @@ on:
 jobs:
   verify:
     name: Verify v${{ inputs.version }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -121,7 +121,7 @@ jobs:
     name: Publish to npm (${{ inputs.dist_tag }})
     needs: verify
     if: ${{ !inputs.promote }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # Uncomment once the environment exists, to require a human approval:
     # environment: npm-publish
     permissions:
@@ -221,7 +221,7 @@ jobs:
     name: Docker image (${{ inputs.dist_tag }})
     needs: [verify, publish]
     if: ${{ !inputs.promote }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -330,7 +330,7 @@ jobs:
     name: Promote v${{ inputs.version }} to latest
     needs: verify
     if: ${{ inputs.promote }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write # flip the GitHub Release off pre-release
       id-token: write # npm trusted publishing (dist-tag)

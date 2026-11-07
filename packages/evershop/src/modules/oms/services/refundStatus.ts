@@ -1,4 +1,5 @@
 import smallestUnit from 'zero-decimal-currencies';
+import type { PaymentMethodStatuses } from '../../checkout/services/getAvailablePaymentMethods.js';
 
 /**
  * An amount in the currency's smallest integer unit (10.00 USD → 1000,
@@ -14,26 +15,40 @@ export function toMinorUnits(
 
 /**
  * Decide the payment status for a refund. Full vs partial is the cumulative
- * refunded total measured against the captured amount, in minor units. Status
- * codes follow the `<method>_refunded` / `<method>_partial_refunded` convention
- * that the built-in gateways register (Stripe/PayPal), so core stays
- * gateway-agnostic.
+ * refunded total measured against the captured amount, in minor units. The
+ * status is the method's declared `statuses.refunded` / `partialRefunded`, else
+ * the `<method>_refunded` / `<method>_partial_refunded` convention that the
+ * built-in gateways register (Stripe/PayPal), so core stays gateway-agnostic.
  */
 export function resolveRefundStatus(
   paymentMethod: string,
   captureAmount: string | number,
   totalRefunded: string | number,
-  currency: string
+  currency: string,
+  statuses?: PaymentMethodStatuses
 ): { status: string; isFullRefund: boolean } {
   const isFullRefund =
     toMinorUnits(totalRefunded, currency) >=
     toMinorUnits(captureAmount, currency);
   return {
     status: isFullRefund
-      ? `${paymentMethod}_refunded`
-      : `${paymentMethod}_partial_refunded`,
+      ? statuses?.refunded ?? `${paymentMethod}_refunded`
+      : statuses?.partialRefunded ?? `${paymentMethod}_partial_refunded`,
     isFullRefund
   };
+}
+
+/**
+ * Decide the payment status for a capture: what the handler returned, else the
+ * method's declared `statuses.captured`, else the `<method>_captured`
+ * convention.
+ */
+export function resolveCapturedStatus(
+  paymentMethod: string,
+  returnedStatus?: string,
+  statuses?: PaymentMethodStatuses
+): string {
+  return returnedStatus ?? statuses?.captured ?? `${paymentMethod}_captured`;
 }
 
 /**

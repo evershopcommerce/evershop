@@ -69,9 +69,19 @@ export interface PaymentOperationResult {
   raw?: unknown;
 }
 
+/**
+ * What `capture` reports. On top of the ledger entry it may name the payment
+ * status the order moves to; without one, core uses the method's
+ * `statuses.captured`, then `<method>_captured`.
+ */
+export interface PaymentCaptureResult extends PaymentOperationResult {
+  /** A registered payment status code for the captured order. */
+  status?: string;
+}
+
 export type PaymentCaptureHandler = (
   context: PaymentOperationContext
-) => Promise<PaymentOperationResult>;
+) => Promise<PaymentCaptureResult>;
 
 export type PaymentVoidHandler = (
   context: PaymentOperationContext
@@ -80,6 +90,19 @@ export type PaymentVoidHandler = (
 export type PaymentRefundHandler = (
   context: PaymentRefundContext
 ) => Promise<PaymentOperationResult>;
+
+/**
+ * The payment status codes core moves an order to after a money operation.
+ * Each one must be a registered payment status. A method that leaves one out
+ * gets the `<method>_<state>` convention (`<method>_captured`,
+ * `<method>_refunded`, `<method>_partial_refunded`) — useful for a method that
+ * shares another one's statuses (PayPal's Venmo uses `paypal_*`).
+ */
+export interface PaymentMethodStatuses {
+  captured?: string;
+  refunded?: string;
+  partialRefunded?: string;
+}
 
 /**
  * The payment method registration contract.
@@ -120,6 +143,11 @@ export type PaymentMethodFactory = {
    * defaults to `false`.
    */
   supportsPartialRefund?: boolean;
+  /**
+   * Payment statuses for core-recorded captures and refunds (admin actions and
+   * gateway webhooks alike). Defaults to the `<method>_<state>` convention.
+   */
+  statuses?: PaymentMethodStatuses;
 };
 
 /**

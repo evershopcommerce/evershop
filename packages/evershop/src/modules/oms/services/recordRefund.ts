@@ -11,6 +11,7 @@ import { emit } from '../../../lib/event/emitter.js';
 import { debug } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { OrderRow } from '../../../types/db/index.js';
+import { getPaymentMethodFactory } from '../../checkout/services/getAvailablePaymentMethods.js';
 import addOrderActivityLog from './addOrderActivityLog.js';
 import {
   findCaptureTransaction,
@@ -67,6 +68,8 @@ export async function recordRefund(
   if (!order.payment_method) {
     throw new Error(`Order ${order.uuid} has no payment method to refund`);
   }
+  // Resolved before the transaction: the lookup reads settings off the pool.
+  const factory = await getPaymentMethodFactory(order.payment_method);
   const connection = conn ?? (await getConnection(pool));
   try {
     if (!conn) {
@@ -104,7 +107,8 @@ export async function recordRefund(
       order.payment_method,
       capture.amount,
       totalRefunded,
-      currency
+      currency,
+      factory?.statuses
     );
 
     await insertOnUpdate('payment_transaction', [
