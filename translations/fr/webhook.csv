@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","Où envoyer les événements, et si ce webhook est actif."
 "You can create at most ${max} webhooks","Vous pouvez créer au maximum ${max} webhooks"
+"Carts","Paniers"
+"Cart email added","E-mail ajouté au panier"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","Un panier ouvert reçoit un e-mail : un invité le saisit au paiement, ou un client connecté a un panier. Pour les e-mails de paniers abandonnés. Envoie l’ID du panier, l’e-mail et l’ID du client."

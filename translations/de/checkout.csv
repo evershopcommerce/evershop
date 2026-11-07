@@ -50,3 +50,11 @@ Your order total is 0 — no payment is needed to place this order.,Ihr Bestellw
 Thank you for your order!,Vielen Dank für Ihre Bestellung!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Bestellung Nr. ${orderNumber} ist bestätigt. Wir haben eine Bestätigung an ${email} gesendet.
 Shipping is not available at the moment. Please contact us to complete your order.,"Der Versand ist derzeit nicht möglich. Bitte kontaktieren Sie uns, um Ihre Bestellung abzuschließen."
+Restore your cart,Warenkorb wiederherstellen
+The products from your saved cart will be added to your current cart.,Die Produkte aus Ihrem gespeicherten Warenkorb werden Ihrem aktuellen Warenkorb hinzugefügt.
+Restore my cart,Meinen Warenkorb wiederherstellen
+This cart link is no longer valid,Dieser Warenkorb-Link ist nicht mehr gültig
+The link may have expired or already been used.,Der Link ist möglicherweise abgelaufen oder wurde bereits verwendet.
+This cart was already restored,Dieser Warenkorb wurde bereits wiederhergestellt
+Its products were added to a cart the first time this link was used.,Seine Produkte wurden beim ersten Öffnen dieses Links einem Warenkorb hinzugefügt.
+Go to your cart,Zu Ihrem Warenkorb

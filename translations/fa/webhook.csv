@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","رویدادها به کجا ارسال شوند و اینکه این webhook فعال باشد یا نه."
 "You can create at most ${max} webhooks","حداکثر می‌توانید ${max} webhook ایجاد کنید"
+"Carts","سبدهای خرید"
+"Cart email added","ایمیل به سبد خرید اضافه شد"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","یک سبد خرید باز ایمیل دریافت می‌کند: مهمان آن را هنگام پرداخت وارد می‌کند یا مشتری واردشده سبد خرید دارد. برای ایمیل‌های سبد خرید رهاشده. شناسه سبد خرید، ایمیل و شناسه مشتری را ارسال می‌کند."

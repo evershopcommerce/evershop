@@ -1,0 +1,5 @@
+{
+  "methods": ["GET"],
+  "path": "/cart/recover/:token",
+  "name": "Cart recovery link"
+}

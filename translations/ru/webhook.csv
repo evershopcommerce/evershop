@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","Куда отправлять события и активен ли этот webhook."
 "You can create at most ${max} webhooks","Можно создать не более ${max} webhook"
+"Carts","Корзины"
+"Cart email added","В корзину добавлен email"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","Открытая корзина получает email: гость вводит его при оформлении заказа или у вошедшего покупателя есть корзина. Для писем о брошенных корзинах. Отправляет ID корзины, email и ID покупателя."

@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","事件发送到哪里，以及此 webhook 是否启用。"
 "You can create at most ${max} webhooks","最多只能创建 ${max} 个 webhook"
+"Carts","购物车"
+"Cart email added","购物车已添加邮箱"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","未完成的购物车获得了邮箱：访客在结账时填写，或已登录的客户拥有购物车。用于弃购邮件。发送购物车 ID、邮箱和客户 ID。"

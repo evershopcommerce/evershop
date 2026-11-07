@@ -103,3 +103,6 @@
 "Webhooks","Webhooks"
 "Where to send the events, and whether this webhook is active.","Hova küldjük az eseményeket, és hogy ez a webhook aktív-e."
 "You can create at most ${max} webhooks","Legfeljebb ${max} webhookot hozhat létre"
+"Carts","Kosarak"
+"Cart email added","E-mail hozzáadva a kosárhoz"
+"An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.","Egy nyitott kosár e-mailt kap: egy vendég megadja a pénztárban, vagy egy bejelentkezett vásárlónak kosara van. Elhagyott kosaras e-mailekhez. Elküldi a kosár azonosítóját, az e-mailt és a vásárló azonosítóját."

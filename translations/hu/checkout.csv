@@ -49,3 +49,11 @@ Your order total is 0 — no payment is needed to place this order.,A rendelés 
 Thank you for your order!,Köszönjük a rendelését!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,A(z) ${orderNumber}. számú rendelés megerősítve. A visszaigazolást elküldtük a ${email} címre.
 Shipping is not available at the moment. Please contact us to complete your order.,"A szállítás jelenleg nem elérhető. Kérjük, lépjen kapcsolatba velünk a rendelés befejezéséhez."
+Restore your cart,Kosár visszaállítása
+The products from your saved cart will be added to your current cart.,A mentett kosarad termékei bekerülnek a jelenlegi kosaradba.
+Restore my cart,Kosaram visszaállítása
+This cart link is no longer valid,Ez a kosárhivatkozás már nem érvényes
+The link may have expired or already been used.,"Lehet, hogy a hivatkozás lejárt, vagy már felhasználták."
+This cart was already restored,Ezt a kosarat már visszaállították
+Its products were added to a cart the first time this link was used.,A termékei a hivatkozás első használatakor egy kosárba kerültek.
+Go to your cart,Ugrás a kosaradhoz

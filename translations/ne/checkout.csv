@@ -49,3 +49,11 @@ Your order total is 0 — no payment is needed to place this order.,तपाई
 Thank you for your order!,तपाईंको अर्डरको लागि धन्यवाद!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,अर्डर #${orderNumber} पुष्टि भयो। हामीले ${email} मा रसिद पठाएका छौं।
 Shipping is not available at the moment. Please contact us to complete your order.,हाल ढुवानी उपलब्ध छैन। अर्डर पूरा गर्न कृपया हामीलाई सम्पर्क गर्नुहोस्।
+Restore your cart,तपाईंको कार्ट पुनर्स्थापना गर्नुहोस्
+The products from your saved cart will be added to your current cart.,तपाईंको सुरक्षित गरिएको कार्टका उत्पादनहरू तपाईंको हालको कार्टमा थपिनेछन्।
+Restore my cart,मेरो कार्ट पुनर्स्थापना गर्नुहोस्
+This cart link is no longer valid,यो कार्ट लिंक अब मान्य छैन
+The link may have expired or already been used.,लिंकको म्याद सकिएको वा पहिले नै प्रयोग भइसकेको हुन सक्छ।
+This cart was already restored,यो कार्ट पहिले नै पुनर्स्थापना गरिसकिएको छ
+Its products were added to a cart the first time this link was used.,यो लिंक पहिलो पटक प्रयोग गर्दा यसका उत्पादनहरू कार्टमा थपिएका थिए।
+Go to your cart,तपाईंको कार्टमा जानुहोस्

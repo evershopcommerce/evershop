@@ -187,6 +187,10 @@ type ConfigStructure = {
   checkout: {
     showShippingNote: boolean;
     allowGuestCheckout: boolean;
+    cartRecovery: {
+      /** How long a cart recovery link works, from when it is made (default 30) */
+      ttlDays: number;
+    };
   };
   pricing: {
     rounding: string;

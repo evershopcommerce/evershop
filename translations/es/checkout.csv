@@ -51,3 +51,11 @@ Your order total is 0 — no payment is needed to place this order.,El total de 
 Thank you for your order!,¡Gracias por tu pedido!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,El pedido n.º ${orderNumber} está confirmado. Hemos enviado un recibo a ${email}.
 Shipping is not available at the moment. Please contact us to complete your order.,El envío no está disponible por el momento. Contáctenos para completar su pedido.
+Restore your cart,Restaurar su carrito
+The products from your saved cart will be added to your current cart.,Los productos de su carrito guardado se añadirán a su carrito actual.
+Restore my cart,Restaurar mi carrito
+This cart link is no longer valid,Este enlace del carrito ya no es válido
+The link may have expired or already been used.,Es posible que el enlace haya caducado o ya se haya utilizado.
+This cart was already restored,Este carrito ya se restauró
+Its products were added to a cart the first time this link was used.,Sus productos se añadieron a un carrito la primera vez que se usó este enlace.
+Go to your cart,Ir a su carrito

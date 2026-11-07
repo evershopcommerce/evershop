@@ -50,3 +50,11 @@ Your order total is 0 — no payment is needed to place this order.,Το σύν�
 Thank you for your order!,Ευχαριστούμε για την παραγγελία σας!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Η παραγγελία #${orderNumber} επιβεβαιώθηκε. Στείλαμε απόδειξη στο ${email}.
 Shipping is not available at the moment. Please contact us to complete your order.,Η αποστολή δεν είναι διαθέσιμη προς το παρόν. Επικοινωνήστε μαζί μας για να ολοκληρώσετε την παραγγελία σας.
+Restore your cart,Επαναφορά του καλαθιού σας
+The products from your saved cart will be added to your current cart.,Τα προϊόντα από το αποθηκευμένο καλάθι σας θα προστεθούν στο τρέχον καλάθι σας.
+Restore my cart,Επαναφορά του καλαθιού μου
+This cart link is no longer valid,Αυτός ο σύνδεσμος καλαθιού δεν είναι πλέον έγκυρος
+The link may have expired or already been used.,Ο σύνδεσμος μπορεί να έχει λήξει ή να έχει ήδη χρησιμοποιηθεί.
+This cart was already restored,Αυτό το καλάθι έχει ήδη επαναφερθεί
+Its products were added to a cart the first time this link was used.,Τα προϊόντα του προστέθηκαν σε ένα καλάθι την πρώτη φορά που χρησιμοποιήθηκε αυτός ο σύνδεσμος.
+Go to your cart,Μετάβαση στο καλάθι σας
