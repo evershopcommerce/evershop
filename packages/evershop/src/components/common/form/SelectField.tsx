@@ -1,7 +1,12 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
 import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
-import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel
+} from '@components/common/ui/Field.js';
 import {
   Select,
   SelectContent,
@@ -30,6 +35,8 @@ interface SelectFieldProps<T extends FieldValues = FieldValues> {
   label?: string;
   error?: string;
   helperText?: string;
+  /** Shown under the select, and read with it by screen readers */
+  description?: React.ReactNode;
   required?: boolean;
   validation?: RegisterOptions<T>;
   options: SelectOption[];
@@ -47,6 +54,7 @@ export function SelectField<T extends FieldValues = FieldValues>({
   label,
   error,
   helperText,
+  description,
   required,
   validation,
   options,
@@ -66,6 +74,13 @@ export function SelectField<T extends FieldValues = FieldValues>({
 
   const fieldError = getNestedError(resolvedName, errors, error);
   const fieldId = id || `field-${resolvedName}`;
+  const describedBy =
+    [
+      description ? `${fieldId}-description` : '',
+      fieldError !== undefined ? `${fieldId}-error` : ''
+    ]
+      .filter(Boolean)
+      .join(' ') || undefined;
 
   const hasDefaultValue =
     defaultValue !== undefined && defaultValue !== null && defaultValue !== '';
@@ -128,9 +143,7 @@ export function SelectField<T extends FieldValues = FieldValues>({
               id={fieldId}
               className={className}
               aria-invalid={fieldError !== undefined ? 'true' : 'false'}
-              aria-describedby={
-                fieldError !== undefined ? `${fieldId}-error` : undefined
-              }
+              aria-describedby={describedBy}
             >
               <SelectValue>
                 {options.find((o) => String(o.value) === String(field.value))
@@ -156,6 +169,11 @@ export function SelectField<T extends FieldValues = FieldValues>({
           </Select>
         )}
       />
+      {description && (
+        <FieldDescription id={`${fieldId}-description`}>
+          {description}
+        </FieldDescription>
+      )}
       {fieldError && (
         <FieldError id={`${fieldId}-error`}>{fieldError}</FieldError>
       )}

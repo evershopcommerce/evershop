@@ -180,6 +180,10 @@ Analytics,Аналитик
 Google Analytics 4 Measurement ID,Google Analytics 4 хэмжилтийн ID
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Google Analytics дотор Admin → Data Streams → таны вэб урсгал хэсэгт байна. Хяналтыг унтраахын тулд хоосон орхино уу.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Хүчинтэй GA4 хэмжилтийн ID оруулна уу, жишээ нь G-XXXXXXXXXX"
+Cookie consent,Күүкийн зөвшөөрөл
+Not required: collect from the first page,Шаардлагагүй: эхний хуудаснаас цуглуулах
+Required: no cookies until the shopper accepts,Шаардлагатай: худалдан авагч зөвшөөрөх хүртэл күүки ашиглахгүй
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","«Шаардлагатай»-г сонговол таны күүкийн баннер худалдан авагч зөвшөөрснийг Google-д мэдэгдэх хүртэл Google Analytics ямар ч күүки хадгалахгүй. Тэр хүртэл Google хуудас үзэлт болон үйл явдлыг күүкигүйгээр хүлээн авсаар байх бөгөөд таны тайланд тэдгээрийн цөөхөн нь л харагдана. Дэлгүүр тань күүкийн баннертай бол «Шаардлагатай»-г сонгож, Google Consent Mode-г дэмждэг баннер (жишээ нь Cookiebot, OneTrust эсвэл CookieYes) ашиглана уу. «Шаардлагатай»-г сонгосон ч ийм баннергүй бол таны тайлан бараг хоосон байна."
 Allow guest checkout,Зочноор захиалга өгөхийг зөвшөөрөх
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",Идэвхжүүлсэн үед худалдан авагчид бүртгэлгүйгээр захиалга өгөх боломжтой. Идэвхгүй үед тэд нэвтрэх эсвэл бүртгүүлэх шаардлагатай.
 Enable rule-based related products,Дүрэмд суурилсан холбоотой бүтээгдэхүүнийг идэвхжүүлэх

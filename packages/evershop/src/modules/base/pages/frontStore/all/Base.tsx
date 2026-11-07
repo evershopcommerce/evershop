@@ -102,6 +102,9 @@ export const query = `
         removeApi
         updateQtyApi
         errors
+        category {
+          name
+        }
       }
     }
     customer: currentCustomer {

@@ -47,6 +47,7 @@ export interface CommerceItem {
   url?: string;
   /** Absolute URL of the product image */
   image?: string;
+  /** The product's category, when it has one (on cart and order lines: its category now) */
   categories?: string[];
 }
 

@@ -125,6 +125,7 @@ export interface CartItem {
   removeApi: string; // API endpoint to remove item from cart
   updateQtyApi: string; // API endpoint to update item quantity
   errors?: string[]; // Validation errors for this item
+  category?: { name?: string | null } | null; // For the commerce events
 }
 
 export interface PaymentMethod {

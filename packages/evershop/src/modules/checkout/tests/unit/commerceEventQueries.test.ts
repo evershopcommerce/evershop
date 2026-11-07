@@ -21,6 +21,7 @@ const productView = await import(
 const checkoutCompleted = await import(
   '../../pages/frontStore/checkoutSuccess/CheckoutCompletedEvent.js'
 );
+const base = await import('../../../base/pages/frontStore/all/Base.js');
 
 const schema = buildASTSchema(buildTypeDefs(false));
 
@@ -44,5 +45,23 @@ describe('commerce event page queries', () => {
   it('checkout_completed asks for storefront fields only, placedAt included', () => {
     expect(errorsOf(checkoutCompleted.query)).toEqual([]);
     expect(checkoutCompleted.query).toContain('placedAt');
+  });
+
+  it("the cart and order lines' category (GA4 item_category on every event) is in both schemas", () => {
+    const lines = 'query { myCart { items { category { name } } } order(uuid: "a-uuid") { items { category { name } } } }';
+    expect(errorsOf(lines)).toEqual([]);
+    expect(validate(buildASTSchema(buildTypeDefs(true)), parse(lines))).toEqual([]);
+    // Only the lines have a category field: the query validates, so it asks the lines
+    expect(checkoutCompleted.query).toMatch(/category \{\s*name\s*\}/);
+  });
+
+  it("the page's cart query (Base.tsx, which the cart also refetches with) asks for the lines' category", () => {
+    // Only errors about the category: the query asks for two fields the
+    // schema no longer has (Customer.groupId, ShoppingCart.shippingMethod),
+    // which a page query does not validate
+    const aboutCategory = (query: string) => errorsOf(query).filter((e) => /category/i.test(e));
+    expect(aboutCategory('query { myCart { category { name } } }')).not.toEqual([]);
+    expect(aboutCategory(`${base.query}\n${base.fragments}`)).toEqual([]);
+    expect(base.query).toMatch(/category \{\s*name\s*\}/);
   });
 });
