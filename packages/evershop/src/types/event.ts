@@ -6,6 +6,10 @@ import {
   ProductInventoryRow,
   ProductRow
 } from './db/index.js';
+
+/** A customer row as the customer events carry it: never the password hash */
+export type CustomerEventRow = Omit<CustomerRow, 'password'>;
+
 /**
  * Event registry that maps event names to their data types.
  * Extend this interface in your modules to register custom events.
@@ -118,27 +122,27 @@ export interface EventDataRegistry {
 
   /**
    * Fired when a new customer is registered and status = 1 (account is active)
-   * Data: Complete customer table row
+   * Data: the customer table row, without the password hash
    */
-  customer_registered: CustomerRow;
+  customer_registered: CustomerEventRow;
 
   /**
    * Fired when a new customer record is added to database, regardless of the status value
-   * Data: Complete customer table row
+   * Data: the customer table row, without the password hash (customer migration 1.0.7)
    */
-  customer_created: CustomerRow;
+  customer_created: CustomerEventRow;
 
   /**
    * Fired when a customer record in database is updated
-   * Data: Complete customer table row
+   * Data: the customer table row, without the password hash (customer migration 1.0.7)
    */
-  customer_updated: CustomerRow;
+  customer_updated: CustomerEventRow;
 
   /**
    * Fired when a customer record is deleted
-   * Data: Complete customer table row
+   * Data: the deleted customer table row, without the password hash (customer migration 1.0.7)
    */
-  customer_deleted: CustomerRow;
+  customer_deleted: CustomerEventRow;
 
   /**
    * Fired when an open cart gets an email, or its email changes: a guest
