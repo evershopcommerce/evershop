@@ -80,6 +80,8 @@ describe('createCustomer, as it always was', () => {
     expect(data.group_id).toBe(1);
     expect(emitted.map((e) => e.name)).toEqual(['customer_registered']);
     expect(emitted[0].data).toMatchObject({ email: 'jane@example.com' });
+    // Events are stored and read by every subscriber: never the hash
+    expect(emitted[0].data).not.toHaveProperty('password');
     expect(customer.uuid).toMatch(/^uuid-/);
     expect(db.tx.committed).toBe(1);
   });
@@ -87,6 +89,7 @@ describe('createCustomer, as it always was', () => {
   it('emits account_created, not customer_registered, for a disabled customer', async () => {
     await createCustomer({ ...VALID, password: 'secret-123', status: 0 }, {});
     expect(emitted.map((e) => e.name)).toEqual(['account_created']);
+    expect(emitted[0].data).not.toHaveProperty('password');
   });
 
   it('writes either event in the customer transaction, so it is saved only with the customer', async () => {

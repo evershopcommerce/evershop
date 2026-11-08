@@ -21,7 +21,12 @@ export default async function sendCustomerWelcomeEmail(
   data: EventData<'customer_registered'>
 ) {
   try {
-    const email = data.email;
+    // An event saved before customer migration 1.0.7 may still carry the
+    // password hash: keep it out of the template data
+    const { password: _password, ...customer } = data as typeof data & {
+      password?: string;
+    };
+    const email = customer.email;
     // Off-request (event subscriber) — resolve the store locale explicitly (D7).
     const locale = await getStoreLanguage();
     const subject = translate('Welcome to our store!', {}, locale);
@@ -47,7 +52,7 @@ export default async function sendCustomerWelcomeEmail(
       template = TEMPLATE;
     }
     const dynamicData = await getValue('customerWelcomeEmailData', {
-      customer: data
+      customer
     });
     const args = await getValue(
       'customerWelcomeEmailArguments',
@@ -58,7 +63,7 @@ export default async function sendCustomerWelcomeEmail(
         data: dynamicData,
         locale
       },
-      { customer: data }
+      { customer }
     );
     await sendEmail('customer_welcome', args);
   } catch (e) {

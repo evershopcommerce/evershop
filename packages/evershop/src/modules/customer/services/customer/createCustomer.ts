@@ -196,11 +196,14 @@ async function createCustomer<T extends CustomerData>(data: T, context: Record<s
     // with the customer or not at all: through the pool it was saved at once,
     // and subscribers could run before the customer row was visible, or for
     // a customer that a rollback then removed.
+    // Never the password hash: events are stored and read by every
+    // subscriber (and the welcome email's template data)
     if (options.suppressRegistrationEvent !== true) {
+      const { password: _password, ...payload } = customer;
       if (parseInt(customer.status.toString(), 10) === 1) {
-        await emit('customer_registered', customer, connection);
+        await emit('customer_registered', payload, connection);
       } else {
-        await emit('account_created', customer, connection);
+        await emit('account_created', payload, connection);
       }
     }
 
