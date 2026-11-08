@@ -192,6 +192,17 @@ describe('decideCartRecovery', () => {
     expect(await decideCartRecovery(token, { sessionId: SID, customer: { customer_id: 7 } })).toMatchObject({ action: 'ready' });
   });
 
+  it('a cart given back after an abandoned payment (open again, unlinked, its order canceled): ready, and a restore works once', async () => {
+    seed([savedRow({ sid: null }), mineRow()], items(SAVED.id, [5]), [
+      { order_id: 3, cart_id: SAVED.id, status: 'canceled', placed_at: null }
+    ]);
+    expect(await decideCartRecovery(token, { sessionId: SID })).toMatchObject({ action: 'ready' });
+    expect(await restoreCart(savedRow({ sid: null }), { sessionId: SID })).toEqual({ added: 1, skipped: 0 });
+    expect(carts[MINE.uuid].items).toEqual([5]);
+    // The same link in the next reminder email: "already restored", not "no longer valid"
+    expect(await decideCartRecovery(token, { sessionId: SID })).toEqual({ action: 'restored' });
+  });
+
   it("a customer's cart: a guest must sign in, the owner may restore it, another customer may not", async () => {
     seed([savedRow({ customer_id: 18 })]);
     expect(await decideCartRecovery(token, { sessionId: SID })).toEqual({ action: 'login' });
