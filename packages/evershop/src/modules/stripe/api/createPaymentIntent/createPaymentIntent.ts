@@ -1,4 +1,4 @@
-import { select } from '@evershop/postgres-query-builder';
+import { insert, select } from '@evershop/postgres-query-builder';
 import Stripe from 'stripe';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
@@ -69,6 +69,17 @@ export default async (
       capture_method:
         stripePaymentMode === 'capture' ? 'automatic_async' : 'manual'
     });
+    // So the abandoned order job can ask Stripe what became of this intent
+    // (the order learns an intent's id only once it succeeds). A failure here
+    // never blocks the payment: the job then finds no intent and asks Stripe
+    // by the order's uuid instead.
+    try {
+      await insert('stripe_payment_intent')
+        .given({ order_id: order.order_id, payment_intent_id: paymentIntent.id })
+        .execute(pool);
+    } catch (e) {
+      error(e);
+    }
 
     response.status(OK);
     response.json({
