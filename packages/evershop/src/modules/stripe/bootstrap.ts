@@ -1,6 +1,10 @@
+import path from 'path';
 import config from 'config';
 import Stripe from 'stripe';
 import smallestUnit, { display } from 'zero-decimal-currencies';
+import { registerJob } from '../../lib/cronjob/jobManager.js';
+import { CONSTANTS } from '../../lib/helpers.js';
+import { warning } from '../../lib/log/logger.js';
 import { getConfig } from '../../lib/util/getConfig.js';
 import { PaymentStatus } from '../../types/order.js';
 import { registerPaymentMethod } from '../checkout/services/getAvailablePaymentMethods.js';
@@ -67,6 +71,32 @@ export default async () => {
     };
   };
   config.util.setModuleDefaults('oms', stripePaymentStatus);
+
+  // Resolve unpaid Stripe orders an hour on (services/reconcileAbandonedOrders):
+  // record a payment whose webhook was lost, cancel the abandoned ones and give
+  // their carts back. registerJob throws on a bad cron expression — degrade to
+  // a skipped job, never a store that won't boot.
+  try {
+    const stripeJobConfig = (getConfig('system.stripe', {}) ?? {}) as Record<
+      string,
+      unknown
+    >;
+    registerJob({
+      name: 'stripeReconcileAbandonedOrders',
+      schedule: String(stripeJobConfig.reconcileSchedule || '*/15 * * * *'),
+      resolve: path.resolve(
+        CONSTANTS.MODULESPATH,
+        'stripe/services/reconcileAbandonedOrders.js'
+      ),
+      enabled: stripeJobConfig.reconcileEnabled !== false
+    });
+  } catch (e) {
+    warning(
+      `Skipping stripeReconcileAbandonedOrders job registration: ${
+        (e as Error).message
+      }`
+    );
+  }
 
   registerPaymentMethod({
     init: async () => ({

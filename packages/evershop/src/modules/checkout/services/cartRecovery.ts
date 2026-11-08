@@ -49,8 +49,9 @@ export type CartRecoveryDecision =
   | { action: 'invalid' }
   /**
    * The link was used already: its cart was closed by a restore (closed,
-   * and no order was placed from it). An email flow puts the same link in
-   * every email, so a shopper can come back to it.
+   * and no order from it is alive: none, or only orders canceled before they
+   * were placed, whose cart `cancelAbandonedOrder` gave back). An email flow
+   * puts the same link in every email, so a shopper can come back to it.
    */
   | { action: 'restored' }
   /** A customer's cart and the visitor is not signed in */
@@ -77,12 +78,18 @@ export async function decideCartRecovery(
     return { action: 'invalid' };
   }
   if (!cart.status) {
-    // Closed: by an order (the order keeps its cart_id), or by a restore
-    const order = await select()
+    // Closed: by an order (the order keeps its cart_id), or by a restore. A
+    // cart given back after an abandoned payment (`cancelAbandonedOrder`) was
+    // open again, so only a restore closed it since: its canceled, never
+    // placed orders do not count.
+    const orders = (await select()
       .from('order')
       .where('cart_id', '=', cart.cart_id)
-      .load(pool);
-    return order ? { action: 'invalid' } : { action: 'restored' };
+      .execute(pool)) as Array<{ status?: string; placed_at?: unknown }>;
+    const alive = orders.some(
+      (order) => order.status !== 'canceled' || order.placed_at
+    );
+    return alive ? { action: 'invalid' } : { action: 'restored' };
   }
   if (cart.customer_id !== null && cart.customer_id !== undefined) {
     if (!visitor.customer?.customer_id) {

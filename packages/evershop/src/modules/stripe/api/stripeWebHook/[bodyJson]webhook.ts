@@ -2,7 +2,6 @@ import {
   startTransaction,
   commit,
   rollback,
-  insertOnUpdate,
   PoolClient
 } from '@evershop/postgres-query-builder';
 import stripePgk from 'stripe';
@@ -13,10 +12,14 @@ import { getConfig } from '../../../../lib/util/getConfig.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
 import addOrderActivityLog from '../../../oms/services/addOrderActivityLog.js';
-import { markOrderPlaced } from '../../../oms/services/markOrderPlaced.js';
 import { recordRefund } from '../../../oms/services/recordRefund.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
+import {
+  isPaymentIntentRecorded,
+  recordStripeAuthorization,
+  recordStripeCapture
+} from '../../services/recordPaymentIntent.js';
 import { paymentIntentMatchesOrder } from '../../services/stripeAmount.js';
 import { isHandledPaymentIntentEvent } from '../../services/webhookEvents.js';
 
@@ -194,84 +197,32 @@ export default async (
 
     // Whether this is the first time we process this intent, decided under the
     // row lock so concurrent deliveries cannot both see "not processed".
-    const { rows: existingTxn } = await connection.query(
-      'SELECT 1 FROM "payment_transaction" WHERE "transaction_id" = $1 AND "payment_transaction_order_id" = $2',
-      [paymentIntent.id, order.order_id]
+    const alreadyProcessed = await isPaymentIntentRecorded(
+      connection,
+      order.order_id,
+      paymentIntent.id
     );
-    const alreadyProcessed = existingTxn.length > 0;
 
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded': {
         debug('payment_intent.succeeded event received');
-        await insertOnUpdate('payment_transaction', [
-          'transaction_id',
-          'payment_transaction_order_id'
-        ])
-          .given({
-            amount: parseFloat(
-              display(paymentIntent.amount, paymentIntent.currency)
-            ),
-            payment_transaction_order_id: order.order_id,
-            transaction_id: paymentIntent.id,
-            transaction_type: 'online',
-            payment_action:
-              paymentIntent.capture_method === 'manual' ? 'Manual' : 'Automatic'
-          })
-          .execute(connection);
-
-        if (!alreadyProcessed) {
-          await updatePaymentStatus(
-            order.order_id,
-            'stripe_captured',
-            connection
-          );
-          await addOrderActivityLog(
-            order.order_id,
-            `Payment captured by using Stripe. Transaction ID: ${paymentIntent.id}`,
-            false,
-            connection
-          );
-          // On THIS connection, so `order_placed` lives or dies with the
-          // status update and subscribers see it only after the commit
-          await markOrderPlaced(order.order_id, connection);
-        }
+        await recordStripeCapture(
+          connection,
+          order,
+          paymentIntent,
+          alreadyProcessed
+        );
         break;
       }
       case 'payment_intent.amount_capturable_updated': {
         debug('payment_intent.amount_capturable_updated event received');
-        await insertOnUpdate('payment_transaction', [
-          'transaction_id',
-          'payment_transaction_order_id'
-        ])
-          .given({
-            amount: parseFloat(
-              display(paymentIntent.amount, paymentIntent.currency)
-            ),
-            payment_transaction_order_id: order.order_id,
-            transaction_id: paymentIntent.id,
-            transaction_type: 'online',
-            payment_action:
-              paymentIntent.capture_method === 'manual'
-                ? 'authorize'
-                : 'capture'
-          })
-          .execute(connection);
-
-        if (!alreadyProcessed) {
-          await updatePaymentStatus(
-            order.order_id,
-            'stripe_authorized',
-            connection
-          );
-          await addOrderActivityLog(
-            order.order_id,
-            `Payment authorized by using Stripe. Transaction ID: ${paymentIntent.id}`,
-            false,
-            connection
-          );
-          await markOrderPlaced(order.order_id, connection);
-        }
+        await recordStripeAuthorization(
+          connection,
+          order,
+          paymentIntent,
+          alreadyProcessed
+        );
         break;
       }
       case 'payment_intent.payment_failed': {
