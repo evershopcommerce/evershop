@@ -32,6 +32,8 @@ const WORKERS = Number(process.env.PLAYWRIGHT_WORKERS ?? '1');
 export default defineConfig({
   testDir: '.',
   testMatch: ['**/specs/**/*.spec.ts'],
+  // The release check has its own config and its own scratch stores.
+  testIgnore: ['release/**'],
   fullyParallel: false, // Shared DB — see comment in .env.example.
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
