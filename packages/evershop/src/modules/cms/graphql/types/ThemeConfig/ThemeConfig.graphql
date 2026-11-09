@@ -70,6 +70,11 @@ Represents a base theme config.
 type ThemeConfig {
   headTags: HeadTag
   copyRight: String
+  """
+  True unless the store owner wrote their own copyright text in admin (the
+  store's "copyright" custom field). The footers then add "Powered by EverShop".
+  """
+  showPoweredBy: Boolean
 }
 
 extend type Query {

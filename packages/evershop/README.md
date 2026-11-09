@@ -6,8 +6,7 @@
   <h1 align="center">EverShop</h1>
 </p>
 <h4 align="center">
-    <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a> |
-    <a href="https://demo.evershop.io/">Demo</a>
+    <a href="https://evershop.io/docs/development/getting-started/introduction">Documentation</a>
 </h4>
 
 <p align="center">
@@ -49,23 +48,6 @@ For the full installation guide, please refer to our [Installation guide](https:
 - [Extension development](https://evershop.io/docs/development/module/create-your-first-extension).
 
 - [Theme development](https://evershop.io/docs/development/theme/theme-overview).
-
-## Demo
-
-Explore our demo store.
-
-<p align="left">
-  <a href="https://demo.evershop.io/admin" target="_blank">
-    <img alt="evershop-backend-demo" height="35" alt="EverShop Admin Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-demo-back.png"/>
-  </a>
-  <a href="https://demo.evershop.io/" target="_blank">
-    <img alt="evershop-store-demo" height="35" alt="EverShop Store Demo" src="https://raw.githubusercontent.com/evershopcommerce/evershop/dev/.github/images/evershop-demo-front.png"/>
-  </a>
-</p>
-<b>Demo user:</b>
-
-Email: demo@evershop.io<br/>
-Password: 123456
 
 ## Support
 

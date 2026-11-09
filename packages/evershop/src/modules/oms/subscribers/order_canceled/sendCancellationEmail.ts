@@ -28,6 +28,12 @@ const TEMPLATE = `{{#> emailLayout preheader=(t "Order #\${number} has been canc
  * Emails the customer when their order is canceled. Fires from `cancelOrder`,
  * which emits the dedicated `order_canceled` event carrying the cancellation
  * reason.
+ *
+ * Not for an order that was never placed (`placed_at` NULL): its payment was
+ * abandoned or failed, the customer got no order confirmation either, and the
+ * abandoned order crons (`cancelAbandonedOrder`) give its cart back, so "your
+ * order is canceled" would only contradict an abandoned-cart reminder. The
+ * admin still sees the cancellation on the order.
  */
 export default async function sendCancellationEmail(
   data: EventData<'order_canceled'>
@@ -44,7 +50,7 @@ export default async function sendCancellationEmail(
       .from('order')
       .where('order_id', '=', data.orderId)
       .load(pool);
-    if (!order || !order.customer_email) {
+    if (!order || !order.customer_email || !order.placed_at) {
       return;
     }
 

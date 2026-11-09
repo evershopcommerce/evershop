@@ -1,0 +1,5 @@
+{
+  "methods": ["GET", "POST"],
+  "path": "/cart/recover",
+  "name": "Cart recovery"
+}

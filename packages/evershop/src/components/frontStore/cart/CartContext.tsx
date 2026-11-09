@@ -1,3 +1,9 @@
+import {
+  publishSafely,
+  toCommerceCart,
+  toLineChange
+} from '@components/frontStore/commerceEventData.js';
+import { dispatchCommerceEvent } from '@evershop/evershop/components/common/commerceEvents';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Address, AddressGraphql } from '@evershop/evershop/types/address';
 import { ApiResponse } from '@evershop/evershop/types/apiResponse';
@@ -9,7 +15,7 @@ import React, {
   ReactNode,
   useCallback
 } from 'react';
-import { useQuery, useClient } from 'urql';
+import { useClient } from 'urql';
 
 const ShippingMethodsQuery = `
   query GetCartShippingMethods($country: String!, $administrativeArea: String, $locality: String, $dependentLocality: String, $postalCode: String) {
@@ -119,6 +125,7 @@ export interface CartItem {
   removeApi: string; // API endpoint to remove item from cart
   updateQtyApi: string; // API endpoint to update item quantity
   errors?: string[]; // Validation errors for this item
+  category?: { name?: string | null } | null; // For the commerce events
 }
 
 export interface PaymentMethod {
@@ -277,6 +284,11 @@ export interface CartState {
     addingShippingMethod: boolean;
     addingShippingAddress: boolean;
     addingBillingAddress: boolean;
+    /**
+     * Never true: `addContactInfo` saves the email in the background, and
+     * the email changes no amount, so nothing shows as loading. Kept for
+     * code that reads it.
+     */
     addingContactInfo: boolean;
     applyingCoupon: boolean;
     removingCoupon: boolean;
@@ -302,6 +314,7 @@ type CartAction =
     }
   | { type: 'SET_ERROR'; payload: string | null }
   | { type: 'CLEAR_ERROR' }
+  | { type: 'SET_CUSTOMER_EMAIL'; payload: string }
   | {
       type: 'SET_SYNC_STATUS';
       payload: { syncing?: boolean; synced?: boolean; trigger?: string };
@@ -334,7 +347,22 @@ interface CartDispatch {
   fetchAvailableShippingMethods: (
     params: ShippingAddressParams
   ) => Promise<void>;
-  syncCartWithServer: (trigger?: string) => Promise<void>; // Added trigger parameter
+  // Resolves with the new cart, or undefined when it could not be fetched
+  syncCartWithServer: (trigger?: string) => Promise<CartData | undefined>;
+}
+
+/** Publish the quantity change of one line (none when it did not change) */
+function publishLineChange(
+  before: CartItem | undefined,
+  after: CartItem | undefined,
+  cart: CartData
+): void {
+  publishSafely(() => {
+    const change = toLineChange(before, after, cart);
+    if (change) {
+      dispatchCommerceEvent(change.name, change.data);
+    }
+  });
 }
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
@@ -403,6 +431,14 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
         if (draft.data) {
           draft.data.error = null;
           draft.data.errors = [];
+        }
+        break;
+
+      // Only the email: SET_CART would also clear the error and the loading
+      // states of other operations still running
+      case 'SET_CUSTOMER_EMAIL':
+        if (draft.data) {
+          draft.data.customerEmail = action.payload;
         }
         break;
 
@@ -504,12 +540,10 @@ export const CartProvider = ({
   }
 
   const [state, dispatch] = useReducer(cartReducer, hydratedInitialState);
-
-  // Use urql to query cart data
-  const [cartQueryResult, refetchCart] = useQuery({
-    query: query,
-    pause: true
-  });
+  // The cart as last rendered, for the "before" of an event: some callbacks
+  // below keep an older `state` in their closure
+  const stateRef = React.useRef(state);
+  stateRef.current = state;
 
   const retry = async function <T>(
     fn: () => Promise<T>,
@@ -527,8 +561,15 @@ export const CartProvider = ({
     }
   };
 
+  // Fetch the cart again and wait for it. This used `useQuery`'s re-run
+  // function, which in urql 3 returns nothing: awaiting it waited for
+  // nothing, so `synced` turned true, and every `await addItem()` (and the
+  // other changes) resolved, before the new cart arrived. MiniCart opens on
+  // `synced` after ADD_ITEM, so it showed the old contents, and a failed
+  // fetch never reached the catch. The new cart and `synced` now land
+  // together.
   const syncCartWithServer = useCallback(
-    async (trigger?: string): Promise<void> => {
+    async (trigger?: string): Promise<CartData | undefined> => {
       try {
         // Set syncing to true and synced to false when starting sync
         dispatch({
@@ -536,13 +577,25 @@ export const CartProvider = ({
           payload: { syncing: true, synced: false, trigger }
         });
 
-        await refetchCart({ requestPolicy: 'network-only' });
+        const result = await client
+          .query(query, {}, { requestPolicy: 'network-only' })
+          .toPromise();
+        if (result.error) {
+          throw new Error(result.error.message || 'Failed to sync cart');
+        }
+        // No cart on the server (yet): an empty one
+        const cart: CartData = result.data?.myCart ?? {
+          ...initialEmptyState.data,
+          addItemApi: addMineCartItemApi
+        };
+        dispatch({ type: 'SET_CART', payload: cart });
 
         // Set syncing to false and synced to true on success
         dispatch({
           type: 'SET_SYNC_STATUS',
           payload: { syncing: false, synced: true, trigger }
         });
+        return cart;
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -555,44 +608,11 @@ export const CartProvider = ({
           type: 'SET_SYNC_STATUS',
           payload: { syncing: false, synced: false, trigger }
         });
+        return undefined;
       }
     },
-    [refetchCart]
+    [client, query, addMineCartItemApi]
   );
-
-  // Effect to update cart when GraphQL query result changes
-  React.useEffect(() => {
-    // Only process if we have fetched data (either successful or error state)
-    if (cartQueryResult.fetching === false) {
-      if (cartQueryResult.data?.myCart) {
-        const serverCart = cartQueryResult.data.myCart;
-        dispatch({
-          type: 'SET_CART',
-          payload: serverCart
-        });
-      } else if (cartQueryResult.error) {
-        // Handle error case
-        dispatch({
-          type: 'SET_ERROR',
-          payload: cartQueryResult.error.message || 'Failed to fetch cart data'
-        });
-      } else if (cartQueryResult.operation) {
-        // Query executed but returned no data - initialize empty cart
-        dispatch({
-          type: 'SET_CART',
-          payload: {
-            ...initialEmptyState.data,
-            addItemApi: addMineCartItemApi
-          }
-        });
-      }
-    }
-  }, [
-    cartQueryResult.data,
-    cartQueryResult.error,
-    cartQueryResult.fetching,
-    cartQueryResult.operation
-  ]);
 
   React.useEffect(() => {
     if (cart && JSON.stringify(cart) !== JSON.stringify(state.data)) {
@@ -605,6 +625,7 @@ export const CartProvider = ({
       if (!state.data) {
         throw new Error('Cannot add item: cart not initialized');
       }
+      const linesBefore = stateRef.current.data?.items ?? [];
 
       try {
         // Set specific loading state
@@ -622,14 +643,26 @@ export const CartProvider = ({
           })
         );
 
-        const json = (await response.json()) as ApiResponse<CartData>;
+        const json = (await response.json()) as ApiResponse<{
+          item?: { uuid?: string };
+        }>;
 
         if (!response.ok) {
           throw new Error(json.error?.message || 'Failed to add item.');
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.ADD_ITEM);
+        const cart = await syncCartWithServer(CartSyncTrigger.ADD_ITEM);
+        if (cart) {
+          // The line the API added to: a new one, or one that had the product
+          const addedUuid =
+            'data' in json ? json.data?.item?.uuid : undefined;
+          const isAdded = (line: CartItem) =>
+            addedUuid ? line.uuid === addedUuid : line.productSku === payload.sku;
+          const after = cart.items.find(isAdded);
+          const before = linesBefore.find(isAdded);
+          publishLineChange(before, after, cart);
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -678,7 +711,14 @@ export const CartProvider = ({
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.REMOVE_ITEM);
+        const cart = await syncCartWithServer(CartSyncTrigger.REMOVE_ITEM);
+        if (cart) {
+          publishLineChange(
+            item,
+            cart.items.find((line) => line.uuid === item.uuid),
+            cart
+          );
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -733,7 +773,15 @@ export const CartProvider = ({
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.UPDATE_ITEM);
+        const cart = await syncCartWithServer(CartSyncTrigger.UPDATE_ITEM);
+        if (cart) {
+          // 2 → 5 is "added" with qty 3; 5 → 2 "removed" with qty 3
+          publishLineChange(
+            item,
+            cart.items.find((line) => line.uuid === item.uuid),
+            cart
+          );
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -849,7 +897,17 @@ export const CartProvider = ({
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.ADD_SHIPPING_METHOD);
+        const cart = await syncCartWithServer(
+          CartSyncTrigger.ADD_SHIPPING_METHOD
+        );
+        if (cart) {
+          publishSafely(() =>
+            dispatchCommerceEvent('checkout_shipping_info_submitted', {
+              ...toCommerceCart(cart),
+              shippingMethod: { code, name }
+            })
+          );
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -984,47 +1042,39 @@ export const CartProvider = ({
         throw new Error(_('Cannot add contact info: cart not initialized'));
       }
 
-      try {
-        dispatch({
-          type: 'SET_SPECIFIC_LOADING',
-          payload: { operation: 'addingContactInfo', loading: true }
-        });
+      // The checkout saves the email in the background, as soon as a guest
+      // enters it, and the email changes no amount. So no loading state (the
+      // cart items and totals would flash as loading), no refetch, and no
+      // SET_ERROR on a failure (the cart error shows in the coupon form): the
+      // caller gets the error.
+      const response = await retry(() =>
+        fetch(state.data!.addContactInfoApi, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(contactInfo)
+        })
+      );
 
-        const response = await retry(() =>
-          fetch(state.data!.addContactInfoApi, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(contactInfo)
+      const json = await response.json();
+
+      if (!response.ok) {
+        throw new Error(json.error?.message || _('Failed to add contact info.'));
+      }
+
+      // The cart keeps its data and gets the email the server saved
+      const email: string = json.data?.email ?? contactInfo.email;
+      dispatch({ type: 'SET_CUSTOMER_EMAIL', payload: email });
+      const cart = stateRef.current.data;
+      if (cart) {
+        publishSafely(() =>
+          dispatchCommerceEvent('checkout_contact_info_submitted', {
+            ...toCommerceCart(cart),
+            loggedIn: Boolean(cart.customerId)
           })
         );
-
-        const json = await response.json();
-
-        if (!response.ok) {
-          throw new Error(
-            json.error?.message || _('Failed to add contact info.')
-          );
-        }
-
-        // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.ADD_CONTACT_INFO);
-      } catch (error) {
-        dispatch({
-          type: 'SET_ERROR',
-          payload:
-            error instanceof Error
-              ? error.message
-              : _('Failed to add contact info')
-        });
-        throw error;
-      } finally {
-        dispatch({
-          type: 'SET_SPECIFIC_LOADING',
-          payload: { operation: 'addingContactInfo', loading: false }
-        });
       }
     },
-    [state.data?.addContactInfoApi, syncCartWithServer]
+    [state.data?.addContactInfoApi]
   );
 
   // Apply coupon
@@ -1055,7 +1105,15 @@ export const CartProvider = ({
         }
 
         // Sync with server (both immediate update and GraphQL refetch)
-        await syncCartWithServer(CartSyncTrigger.APPLY_COUPON);
+        const cart = await syncCartWithServer(CartSyncTrigger.APPLY_COUPON);
+        if (cart) {
+          publishSafely(() =>
+            dispatchCommerceEvent('coupon_applied', {
+              coupon: cart.coupon || couponCode,
+              cart: toCommerceCart(cart)
+            })
+          );
+        }
       } catch (error) {
         dispatch({
           type: 'SET_ERROR',
@@ -1081,6 +1139,7 @@ export const CartProvider = ({
     if (!state.data?.removeCouponApi) {
       throw new Error(_('No coupon to remove'));
     }
+    const removedCoupon = stateRef.current.data?.coupon || '';
 
     try {
       dispatch({
@@ -1102,7 +1161,15 @@ export const CartProvider = ({
       }
 
       // Sync with server (both immediate update and GraphQL refetch)
-      await syncCartWithServer(CartSyncTrigger.REMOVE_COUPON);
+      const cart = await syncCartWithServer(CartSyncTrigger.REMOVE_COUPON);
+      if (cart) {
+        publishSafely(() =>
+          dispatchCommerceEvent('coupon_removed', {
+            coupon: removedCoupon,
+            cart: toCommerceCart(cart)
+          })
+        );
+      }
     } catch (error) {
       dispatch({
         type: 'SET_ERROR',

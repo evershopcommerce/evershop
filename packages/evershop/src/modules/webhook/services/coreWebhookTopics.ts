@@ -100,7 +100,14 @@ export const coreWebhookTopics: WebhookTopic[] = [
     name: 'inventory_updated',
     label: 'Inventory updated',
     description:
-      "A product's inventory changes. Sends the inventory before and after the change."
+      "A product's inventory changes. Sends the product's ID, uuid and SKU, and the inventory before and after the change."
+  },
+  {
+    group: 'Products',
+    name: 'product_back_in_stock',
+    label: 'Product back in stock',
+    description:
+      'A product that was out of stock can be bought again. Sends the product ID, uuid and SKU, and its inventory now.'
   },
   {
     group: 'Categories',
@@ -147,5 +154,12 @@ export const coreWebhookTopics: WebhookTopic[] = [
     label: 'Customer deleted',
     description:
       'A customer account is deleted. Sends the deleted customer (never the password).'
+  },
+  {
+    group: 'Carts',
+    name: 'cart_email_added',
+    label: 'Cart email added',
+    description:
+      'An open cart gets an email: a guest enters it at checkout, or a signed-in customer has a cart. Use this for abandoned-cart emails. Sends the cart ID, the email and the customer ID.'
   }
 ];

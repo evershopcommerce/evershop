@@ -6,6 +6,11 @@ export * from './product/updateProduct.js';
 export { default as deleteProduct } from './product/deleteProduct.js';
 export * from './product/deleteProduct.js';
 export * from './product/productMetafield.js';
+export {
+  getProductUrl,
+  getProductUrls,
+  type ProductUrlOptions
+} from './product/productUrl.js';
 
 // Categories
 export { default as createCategory } from './category/createCategory.js';
@@ -42,6 +47,13 @@ export {
 } from './attribute/updateProductAttribute.js';
 export { default as deleteAttribute } from './attribute/deleteProductAttribute.js';
 export * from './attribute/deleteProductAttribute.js';
+
+// Variant groups
+export { default as createVariantGroup } from './variant/createVariantGroup.js';
+export * from './variant/createVariantGroup.js';
+export { default as addVariantItem } from './variant/addVariantItem.js';
+export * from './variant/addVariantItem.js';
+export * from './variant/VariantGroupError.js';
 
 // Query helpers
 export * from './getCategoriesBaseQuery.js';

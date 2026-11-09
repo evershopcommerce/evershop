@@ -23,7 +23,10 @@ import { CategoryData } from './createCategory.js';
 
 
 function validateCategoryDataBeforeInsert(data: CategoryData): CategoryData {
-  const ajv = getAjv();
+  // No schema defaults: Ajv writes them into `data` in place, and an update may
+  // carry only the fields to change. With defaults a position-only payload would
+  // also write description [] and parent_id null (moving the category to the top).
+  const ajv = getAjv({ useDefaults: false });
   categoryDataSchema.required = [];
   const jsonSchema = getValueSync(
     'updateCategoryDataJsonSchema',

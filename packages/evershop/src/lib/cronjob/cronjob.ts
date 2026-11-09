@@ -1,51 +1,36 @@
-import { pathToFileURL } from 'url';
 import cron from 'node-cron';
-import { getEnabledExtensions } from '../../bin/extension/index.js';
-import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
-import { getCoreModules } from '../../bin/lib/loadModules.js';
-import { lockAddressRegistry } from '../address/formats.js';
+import { headlessBoot } from '../../bin/lib/bootstrap/headlessBoot.js';
 import { debug, error } from '../log/logger.js';
-import { lockHooks } from '../util/hookable.js';
-import { lockRegistry } from '../util/registry.js';
 import { getEnabledJobs } from './jobManager.js';
+import { runJob } from './runJob.js';
 
 async function start() {
-  const modules = [...getCoreModules(), ...getEnabledExtensions()];
-  /** Loading bootstrap script from modules */
   try {
-    for (const module of modules) {
-      await loadBootstrapScript(module, {
+    // Every module's bootstrap (core, then extensions; the setting module's
+    // bootstrap warms the settings cache), then the hook, registry and
+    // address-registry locks, as the event process boots; then the routes, so
+    // jobs can build URLs (`buildUrl`, `buildAbsoluteUrl`). No extra settings
+    // load is asked for: runJob.ts refreshes them before each job.
+    await headlessBoot({
+      context: {
         ...JSON.parse(process.env.bootstrapContext || '{}'),
         process: 'cronjob'
-      });
-    }
-    lockHooks();
-    lockRegistry();
-    lockAddressRegistry();
+      },
+      loadRoutes: true
+    });
   } catch (e) {
     error(e);
     process.exit(0);
+    return;
   }
+  // After the boot: reading the jobs freezes the job manager, and the
+  // bootstraps register their jobs
   const jobs = getEnabledJobs();
 
-  // Schedule the jobs
+  // Schedule the jobs. Each run refreshes this process's settings first
+  // (runJob.ts).
   jobs.forEach((job) => {
-    cron.schedule(job.schedule, async () => {
-      try {
-        // Load the module
-        const module = await import(pathToFileURL(job.resolve).toString());
-        // Make sure the module is a function or async function
-        if (typeof module.default !== 'function') {
-          throw new Error(
-            `Job ${job.name} is not a function. Make sure the module exports a function as default.`
-          );
-        }
-        // Execute the job
-        await module.default();
-      } catch (e) {
-        error(e);
-      }
-    });
+    cron.schedule(job.schedule, () => runJob(job));
   });
 }
 

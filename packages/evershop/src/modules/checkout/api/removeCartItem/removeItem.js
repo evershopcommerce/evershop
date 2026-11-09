@@ -1,22 +1,22 @@
 import { translate } from '../../../../lib/locale/translate/translate.js';
 import {
-  INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
   OK
 } from '../../../../lib/util/httpStatus.js';
-import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { findCartByUUID } from '../../services/getCartByUUID.js';
 import { saveCart } from '../../services/saveCart.js';
 
 export default async (request, response, next) => {
   try {
     const { cart_id, item_id } = request.params;
-    const cart = await getCartByUUID(cart_id);
+    const cart = await findCartByUUID(cart_id);
     if (!cart) {
-      response.status(INVALID_PAYLOAD);
+      response.status(NOT_FOUND);
       response.json({
         error: {
           message: translate('Invalid cart'),
-          status: INVALID_PAYLOAD
+          status: NOT_FOUND
         }
       });
       return;

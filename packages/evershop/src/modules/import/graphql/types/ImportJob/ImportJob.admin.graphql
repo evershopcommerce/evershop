@@ -1,0 +1,68 @@
+"""
+One import of a CSV file (admin schema only): its state, its counts, and who
+started it. The whole story of a job, with its problems, is the REST API; this
+type is what the list of past imports shows.
+"""
+type ImportJob {
+  importJobId: Int!
+  uuid: String!
+  """
+  What is imported: category, product, customer or customerAddress.
+  """
+  entity: String!
+  """
+  What happens to a record that exists: upsert, create or update.
+  """
+  mode: String!
+  status: String!
+  stage: String
+  fileName: String!
+  fileSize: Float!
+  """
+  The counts of the job: total, createRows, updateRows, created, updated, failed,
+  skipped, errors, warnings, pagesRebuilt and more.
+  """
+  counts: JSON
+  errorMessage: String
+  createdByName: String
+  createdAt: DateTime
+  startedAt: DateTime
+  finishedAt: DateTime
+  """
+  True while a worker may be writing: the job cannot be deleted.
+  """
+  active: Boolean!
+  """
+  The address of the page of the import.
+  """
+  viewUrl: String!
+  deleteApi: String!
+}
+
+type ImportJobCollection {
+  items: [ImportJob]
+  currentPage: Int!
+  total: Int!
+  currentFilters: [Filter]
+}
+
+"""
+What the upload page needs to know before a file is sent: the largest file the
+store accepts, so that a file that is too big is refused before it is sent.
+"""
+type ImportLimits {
+  maxFileBytes: Float!
+}
+
+extend type Query {
+  """
+  The limits of an upload.
+  """
+  importLimits: ImportLimits
+
+  """
+  The past and present imports, newest first. Filters: status, entity, file (part
+  of the file name), ob (created_at, entity, status, file_name, file_size), od.
+  """
+  importJobs(filters: [FilterInput]): ImportJobCollection
+}

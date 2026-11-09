@@ -180,6 +180,10 @@ Analytics,Analytique
 Google Analytics 4 Measurement ID,ID de mesure Google Analytics 4
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Se trouve dans Google Analytics sous Admin → Data Streams → votre flux web. Laissez vide pour désactiver le suivi.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Saisissez un ID de mesure GA4 valide, p. ex. G-XXXXXXXXXX"
+Cookie consent,Consentement aux cookies
+Not required: collect from the first page,Non requis : collecter dès la première page
+Required: no cookies until the shopper accepts,Requis : aucun cookie avant l’accord du client
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","Avec « Requis », Google Analytics ne dépose aucun cookie tant que votre bannière de cookies n’a pas indiqué à Google que le client a accepté. En attendant, Google reçoit quand même les pages vues et les événements, sans cookies, et vos rapports n’en montrent que peu. Choisissez « Requis » dès que votre boutique affiche une bannière de cookies, et utilisez une bannière compatible avec Google Consent Mode, comme Cookiebot, OneTrust ou CookieYes. Avec « Requis » et sans une telle bannière, vos rapports restent presque vides."
 Allow guest checkout,Autoriser la commande en tant qu’invité
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Lorsque cette option est activée, les acheteurs peuvent commander sans compte. Lorsqu’elle est désactivée, ils doivent se connecter ou s’inscrire pour payer."
 Enable rule-based related products,Activer les produits associés basés sur des règles

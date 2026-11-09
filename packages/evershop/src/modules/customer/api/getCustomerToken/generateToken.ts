@@ -3,13 +3,9 @@ import {
   INVALID_PAYLOAD,
   OK
 } from '../../../../lib/util/httpStatus.js';
-import {
-  generateToken,
-  generateRefreshToken,
-  TOKEN_TYPES
-} from '../../../../lib/util/jwt.js';
 import { CurrentCustomer, EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import { signCustomerTokens } from '../../services/customer/issueCustomerTokens.js';
 
 export default async (
   request: EvershopRequest,
@@ -33,13 +29,9 @@ export default async (
       }
     });
     response.status(OK);
-    const accessToken = generateToken(
-      { customer: request.locals.customer as CurrentCustomer },
-      TOKEN_TYPES.CUSTOMER
-    );
-    const refreshToken = generateRefreshToken(
-      { customer: request.locals.customer as CurrentCustomer },
-      TOKEN_TYPES.CUSTOMER
+    // The same signing a social login gets through issueCustomerTokens
+    const { accessToken, refreshToken } = signCustomerTokens(
+      request.locals.customer as CurrentCustomer
     );
     response.json({
       data: {

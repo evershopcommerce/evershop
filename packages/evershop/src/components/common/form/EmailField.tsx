@@ -1,5 +1,6 @@
 import { Tooltip } from '@components/common/form/Tooltip.js';
 import { getNestedError } from '@components/common/form/utils/getNestedError.js';
+import { EMAIL_PATTERN } from '@components/common/form/utils/isValidEmail.js';
 import { useScopedFieldName } from '@components/common/page-builder/WidgetSettingsScope.js';
 import { Field, FieldError, FieldLabel } from '@components/common/ui/Field.js';
 import {
@@ -59,7 +60,7 @@ export function EmailField<T extends FieldValues = FieldValues>({
         required: _('${field} is required', { field: label || name })
       }),
     pattern: validation?.pattern || {
-      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      value: EMAIL_PATTERN,
       message: _('Please enter a valid email address')
     }
   };

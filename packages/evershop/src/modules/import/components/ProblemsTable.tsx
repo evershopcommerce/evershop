@@ -1,0 +1,248 @@
+import { Button } from '@components/common/ui/Button.js';
+import { Input } from '@components/common/ui/Input.js';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@components/common/ui/Table.js';
+import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import React, { useEffect, useState } from 'react';
+import type { ImportApi, IssuesPage } from '../ui/importApi.js';
+import {
+  codesBySize,
+  noIssueFilters,
+  pageCount,
+  toQuery,
+  withFilter
+} from '../ui/issueFilters.js';
+import type { IssueFilters } from '../ui/issueFilters.js';
+import { ChoiceSelect } from './ChoiceSelect.js';
+import { formatNumber } from './format.js';
+import { ToneIcon } from './Notice.js';
+
+export interface ProblemsTableProps {
+  api: ImportApi;
+  issuesUrl: string;
+}
+
+// A type to filter by: a pill, so that it reads as something to press.
+const pillClass =
+  'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs transition-colors outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]';
+
+/** The severity of a problem, by shape and colour (never colour alone) and for a screen reader. */
+function Severity({ severity }: { severity: 'error' | 'warning' }) {
+  return (
+    <>
+      <ToneIcon
+        tone={severity === 'error' ? 'error' : 'warning'}
+        className="mt-0.5"
+      />
+      <span className="sr-only">
+        {severity === 'error' ? _('Error') : _('Warning')}
+      </span>
+    </>
+  );
+}
+
+/**
+ * The problems of the job (§ 8.2): the totals per type, three filters, and the
+ * rows a page at a time. The messages come from the server in the admin's
+ * language. The state of the filters is the table's own; a new filter goes back
+ * to the first page.
+ */
+export function ProblemsTable({ api, issuesUrl }: ProblemsTableProps) {
+  const [filters, setFilters] = useState<IssueFilters>(noIssueFilters);
+  const [column, setColumn] = useState('');
+  const [data, setData] = useState<IssuesPage | null>(null);
+  const [failed, setFailed] = useState<string | null>(null);
+  useEffect(() => {
+    // The cleanup aborts the ask of the filters that were just replaced, and an
+    // aborted ask never shows: an older answer cannot replace a newer one.
+    const controller = new AbortController();
+    api
+      .issues(issuesUrl, toQuery(filters), controller.signal)
+      .then((result) => {
+        if (controller.signal.aborted) return;
+        if (result.ok) {
+          setData(result.data);
+          setFailed(null);
+        } else {
+          setFailed(result.error.message);
+        }
+      });
+    return () => controller.abort();
+  }, [api, issuesUrl, filters]);
+
+  // The totals per type are those of the whole job, whatever the filters are.
+  const types = codesBySize(data?.byCode ?? {});
+  const pages = data ? pageCount(data.total, data.limit) : 1;
+
+  return (
+    <div className="grid gap-3" data-testid="problems">
+      <h3 className="font-medium">{_('Problems')}</h3>
+      {types.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 text-sm">
+          <span className="text-muted-foreground">
+            {_('Problems by type:')}
+          </span>
+          {types.map(({ code, count }) => (
+            <button
+              key={code}
+              type="button"
+              aria-pressed={filters.code === code}
+              className={`${pillClass} ${
+                filters.code === code
+                  ? 'border-primary bg-primary/10 text-foreground font-medium'
+                  : 'border-border text-foreground hover:bg-muted'
+              }`}
+              onClick={() =>
+                setFilters(
+                  withFilter(filters, {
+                    code: filters.code === code ? '' : code
+                  })
+                )
+              }
+            >
+              {code} x{formatNumber(count)}
+            </button>
+          ))}
+        </div>
+      )}
+      <div className="flex flex-wrap gap-2">
+        <ChoiceSelect
+          label={_('Severity')}
+          className="w-44"
+          value={filters.severity}
+          choices={[
+            { value: '', label: _('All severities') },
+            { value: 'error', label: _('Errors') },
+            { value: 'warning', label: _('Warnings') }
+          ]}
+          onChange={(severity) =>
+            setFilters(
+              withFilter(filters, {
+                severity: severity as IssueFilters['severity']
+              })
+            )
+          }
+        />
+        <ChoiceSelect
+          label={_('Type')}
+          className="w-64"
+          value={filters.code}
+          choices={[
+            { value: '', label: _('All types') },
+            ...types.map(({ code }) => ({ value: code, label: code }))
+          ]}
+          onChange={(code) => setFilters(withFilter(filters, { code }))}
+        />
+        <Input
+          aria-label={_('Column')}
+          placeholder={_('Column')}
+          className="w-48"
+          value={column}
+          onChange={(e) => setColumn(e.target.value)}
+          onBlur={() => {
+            if (column !== filters.column)
+              setFilters(withFilter(filters, { column }));
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') setFilters(withFilter(filters, { column }));
+          }}
+        />
+      </div>
+      {failed && (
+        <p className="text-destructive flex items-center gap-1.5 text-sm">
+          <ToneIcon tone="error" />
+          {failed}
+        </p>
+      )}
+      <div className="border-border overflow-x-auto rounded-lg border">
+        <Table>
+          <TableHeader className="bg-muted/40">
+            <TableRow>
+              <TableHead style={{ width: '5rem' }}>{_('Row')}</TableHead>
+              <TableHead>{_('Key')}</TableHead>
+              <TableHead>{_('Column')}</TableHead>
+              <TableHead>{_('Problem')}</TableHead>
+              <TableHead>{_('Value')}</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {(data?.items ?? []).map((issue, i) => (
+              <TableRow key={`${issue.row}-${issue.column}-${issue.code}-${i}`}>
+                <TableCell>{issue.row ?? '--'}</TableCell>
+                <TableCell
+                  className="max-w-48 truncate"
+                  title={issue.key ?? undefined}
+                >
+                  {issue.key ?? '--'}
+                </TableCell>
+                <TableCell>{issue.column ?? '--'}</TableCell>
+                <TableCell className="min-w-64 break-words whitespace-normal">
+                  <span className="flex items-start gap-2">
+                    <Severity severity={issue.severity} />
+                    <span
+                      className={
+                        issue.severity === 'error'
+                          ? ''
+                          : 'text-muted-foreground'
+                      }
+                    >
+                      {issue.message}
+                    </span>
+                  </span>
+                </TableCell>
+                <TableCell
+                  className="max-w-48 truncate"
+                  title={issue.value ?? undefined}
+                >
+                  {issue.value ?? ''}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      {data && data.items.length === 0 && (
+        <p className="text-sm text-muted-foreground text-center">
+          {_('There is no problem to display.')}
+        </p>
+      )}
+      {data?.truncated && (
+        <p className="text-sm text-muted-foreground">
+          {_('More problems exist than are listed.')}
+        </p>
+      )}
+      {data && pages > 1 && (
+        <div className="flex items-center justify-center gap-3 text-sm">
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={filters.page <= 1}
+            onClick={() => setFilters({ ...filters, page: filters.page - 1 })}
+          >
+            {_('Previous')}
+          </Button>
+          <span>
+            {_('Page ${page} of ${pages}', {
+              page: formatNumber(filters.page),
+              pages: formatNumber(pages)
+            })}
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={filters.page >= pages}
+            onClick={() => setFilters({ ...filters, page: filters.page + 1 })}
+          >
+            {_('Next')}
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}

@@ -30,9 +30,30 @@ export function createFakeDb(seed: Record<string, Row[]> = {}): FakeDb {
   };
 }
 
+/** `ILIKE` as PostgreSQL has it: any letter case, `%` and `_` are wildcards, `\\` makes the next character literal. */
+function ilike(text: unknown, pattern: unknown): boolean {
+  if (typeof text !== 'string' || typeof pattern !== 'string') return false;
+  let expression = '';
+  for (let at = 0; at < pattern.length; at += 1) {
+    const character = pattern[at];
+    if (character === '\\' && at + 1 < pattern.length) {
+      at += 1;
+      expression += pattern[at].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    } else if (character === '%') {
+      expression += '.*';
+    } else if (character === '_') {
+      expression += '.';
+    } else {
+      expression += character.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+  }
+  return new RegExp(`^${expression}$`, 'is').test(text);
+}
+
 function matches(row: Row, conds: Cond[]): boolean {
   return conds.every(([column, op, value]) => {
     const name = column.includes('.') ? column.split('.').pop()! : column;
+    if (op === 'ILIKE') return ilike(row[name], value);
     if (op === '<>') return row[name] !== value;
     if (op === 'IN') return Array.isArray(value) && value.includes(row[name]);
     return row[name] === value;

@@ -1,0 +1,7 @@
+{
+  "name": "release-check-mail",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Release check only: writes every email the store sends to a folder, so the specs can read it."
+}

@@ -2,7 +2,7 @@ import { select } from '@evershop/postgres-query-builder';
 import { debug, error, info } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
-import cancelOrder from '../../oms/services/cancelOrder.js';
+import { cancelAbandonedOrder } from '../../oms/services/cancelAbandonedOrder.js';
 import { finalizePaypalOrderOrFail } from './finalizePaypalOrder.js';
 import { createStandaloneAxiosInstance } from './requester.js';
 
@@ -11,7 +11,7 @@ export const DEFAULT_ABANDONED_TTL_HOURS = 6;
 async function reconcileOrder(order): Promise<string> {
   if (!order.integration_order_id) {
     // The buyer never even reached PayPal — no PayPal order was created.
-    await cancelOrder(
+    await cancelAbandonedOrder(
       order.uuid,
       'Abandoned PayPal checkout: the payment was never started'
     );
@@ -23,7 +23,7 @@ async function reconcileOrder(order): Promise<string> {
     { validateStatus: (status) => status < 500 }
   );
   if (response.status === 404) {
-    await cancelOrder(
+    await cancelAbandonedOrder(
       order.uuid,
       'Abandoned PayPal checkout: the PayPal order no longer exists'
     );
@@ -46,7 +46,7 @@ async function reconcileOrder(order): Promise<string> {
   }
   // CREATED / SAVED / VOIDED / PAYER_ACTION_REQUIRED — the buyer never
   // approved and the approve link is long expired.
-  await cancelOrder(
+  await cancelAbandonedOrder(
     order.uuid,
     'Abandoned PayPal checkout: the buyer never approved the payment'
   );
@@ -55,7 +55,9 @@ async function reconcileOrder(order): Promise<string> {
 
 /**
  * Resolve every PayPal order still `pending` past the abandonment TTL:
- * capture the ones the buyer actually approved, cancel (and restock) the rest.
+ * capture the ones the buyer actually approved, cancel (and restock) the rest
+ * and give their carts back (`cancelAbandonedOrder`), so the shopper's cart
+ * recovery link works again.
  * Runs every 30 minutes; per-order failures are logged and retried on the
  * next run, never fatal to the sweep.
  */

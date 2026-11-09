@@ -5,7 +5,7 @@ export async function addPaymentTransaction(
   connection: Pool | PoolClient,
   orderId: number,
   amount: number,
-  transactionId: string | number,
+  transactionId: string | number | null | undefined,
   transactionType: string,
   paymentAction: string,
   additionalInformation?: string,

@@ -1,0 +1,6 @@
+email,full_name,status,group,password_hash,password,metafield:custom.birthday,metafield:custom.marketing_opt_in
+jane.doe@example.com,Jane Doe,1,Default,$2a$10$0Q/84zq6b8yKCPF.ds8js.NWMO/g5bzSlA8hOlhZxqTWeItH7T3XC,,1990-04-12,1
+john.smith@example.com,John Smith,1,Default,,Welcome-2026,,0
+aiko.tanaka@example.com,田中 愛子,1,,,,,
+lan.nguyen@example.com,Nguyễn Thị Lan,1,Default,,,,
+blocked.example@example.com,Blocked Example,0,Default,,,,

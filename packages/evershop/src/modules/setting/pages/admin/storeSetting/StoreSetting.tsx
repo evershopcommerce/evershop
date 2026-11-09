@@ -10,7 +10,6 @@ import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { TelField } from '@components/common/form/TelField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
-import { ToggleField } from '@components/common/form/ToggleField.js';
 import { Button } from '@components/common/ui/Button.js';
 import {
   Card,
@@ -368,7 +367,7 @@ interface StoreSettingProps {
     favicon?: string;
     socialSharingImage?: string;
     gaMeasurementId?: string;
-    allowGuestCheckout?: boolean;
+    gaConsentDefault?: string;
   };
 }
 
@@ -401,7 +400,7 @@ export default function StoreSetting({
     favicon,
     socialSharingImage,
     gaMeasurementId,
-    allowGuestCheckout
+    gaConsentDefault
   }
 }: StoreSettingProps) {
   const [selectedCountry, setSelectedCountry] = React.useState(() => {
@@ -668,16 +667,25 @@ export default function StoreSetting({
                     }}
                   />
                 </div>
-              </CardContent>
-              <CardContent className="pt-3 border-t border-border">
-                <CardTitle>{_('Checkout')}</CardTitle>
-                <div className="mt-4">
-                  <ToggleField
-                    name="allowGuestCheckout"
-                    label={_('Allow guest checkout')}
-                    defaultValue={allowGuestCheckout ?? true}
-                    helperText={_(
-                      'When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.'
+                <div className="mt-5">
+                  <SelectField
+                    name="gaConsentDefault"
+                    label={_('Cookie consent')}
+                    defaultValue={gaConsentDefault || 'granted'}
+                    options={[
+                      {
+                        value: 'granted',
+                        label: _('Not required: collect from the first page')
+                      },
+                      {
+                        value: 'denied',
+                        label: _(
+                          'Required: no cookies until the shopper accepts'
+                        )
+                      }
+                    ]}
+                    description={_(
+                      'With "Required", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose "Required" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With "Required" and no such banner, your reports stay almost empty.'
                     )}
                   />
                 </div>
@@ -750,7 +758,7 @@ export const query = `
       favicon
       socialSharingImage
       gaMeasurementId
-      allowGuestCheckout
+      gaConsentDefault
     }
   }
 `;

@@ -1,8 +1,11 @@
-import dns from 'dns';
-import { isIP } from 'net';
 import { Agent, fetch as undiciFetch } from 'undici';
+import { createGuardedAgent } from '../../../lib/ssrf/guardedAgent.js';
+import {
+  assertLiteralAllowed,
+  BLOCKED_MESSAGE
+} from '../../../lib/ssrf/guardedLookup.js';
 import { REQUEST_TIMEOUT_MS } from './constants.js';
-import { isBlockedAddress, isPrivateNetworkAllowed } from './ipBlockList.js';
+import { isPrivateNetworkAllowed } from './ipBlockList.js';
 
 export type WebhookFetchResult = {
   /** True for a 2xx response. */
@@ -13,68 +16,14 @@ export type WebhookFetchResult = {
   error: string | null;
 };
 
-const BLOCKED_MESSAGE =
-  'Blocked: the URL points to a private or reserved address';
-
-class BlockedAddressError extends Error {
-  code = 'EBLOCKED';
-
-  constructor() {
-    super(BLOCKED_MESSAGE);
-  }
-}
-
-/**
- * Connect-time SSRF guard. The hostname is resolved here and the connection is
- * refused if ANY resolved address is blocked. Checking the address we actually
- * connect to (not just the hostname when the admin saved it) is what defeats
- * DNS rebinding and a hostname that points at an internal address.
- */
-function guardedLookup(hostname: string, options: any, callback: any): void {
-  const cb = typeof options === 'function' ? options : callback;
-  let opts: Record<string, any> = {};
-  if (typeof options === 'number') {
-    opts = { family: options };
-  } else if (options && typeof options === 'object') {
-    opts = options;
-  }
-  dns.lookup(hostname, { ...opts, all: true }, (err, addresses) => {
-    if (err) {
-      cb(err);
-      return;
-    }
-    if (
-      !isPrivateNetworkAllowed() &&
-      addresses.some((a) => isBlockedAddress(a.address))
-    ) {
-      cb(new BlockedAddressError());
-      return;
-    }
-    if (opts.all) {
-      cb(null, addresses);
-    } else {
-      cb(null, addresses[0].address, addresses[0].family);
-    }
-  });
-}
-
+// The connect-time SSRF guard is shared (`lib/ssrf`); this decides whether
+// private addresses are allowed from the webhook configuration.
 let agent: Agent | null = null;
 function getAgent(): Agent {
   if (!agent) {
-    agent = new Agent({ connect: { lookup: guardedLookup } as any });
+    agent = createGuardedAgent({ allowPrivate: isPrivateNetworkAllowed });
   }
   return agent;
-}
-
-/**
- * An IP literal in the URL (`https://169.254.169.254/`) is never resolved, so
- * `guardedLookup` does not run for it. Check it here instead.
- */
-function assertLiteralAllowed(hostname: string): void {
-  const host = hostname.replace(/^\[|\]$/g, '');
-  if (isIP(host) && !isPrivateNetworkAllowed() && isBlockedAddress(host)) {
-    throw new BlockedAddressError();
-  }
 }
 
 /** Short, admin-readable reason for a network failure. */
@@ -112,7 +61,7 @@ export async function postWebhook(
   const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
   try {
     const parsed = new URL(url);
-    assertLiteralAllowed(parsed.hostname);
+    assertLiteralAllowed(parsed.hostname, isPrivateNetworkAllowed());
     const response = await undiciFetch(parsed, {
       method: 'POST',
       headers,

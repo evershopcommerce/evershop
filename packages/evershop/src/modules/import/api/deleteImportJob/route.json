@@ -1,0 +1,7 @@
+{
+  "methods": [
+    "DELETE"
+  ],
+  "path": "/import-jobs/:id",
+  "access": "private"
+}

@@ -19,8 +19,9 @@ import {
 
 /**
  * Settings → Customer: what your customers are asked for. One form, one card,
- * sections registered into Area `customerSettingSections` — Addresses is the
- * first; a module adds another section with `layout = { areaId:
+ * sections registered into Area `customerSettingSections` — Addresses here
+ * (sortOrder 10), Checkout from the checkout module (5, the guest-checkout
+ * toggle). A module adds another section with `layout = { areaId:
  * 'customerSettingSections', sortOrder }` on the `customerSetting` route and
  * its fields post with the same Save button (the generic `saveSetting` upsert
  * takes any setting rows).

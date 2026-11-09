@@ -75,6 +75,7 @@ async function updateCustomer(uuid: string, data: CustomerData, context: Record<
 
     // Do not allow to update password here. Use changePassword service instead
     delete customerData.password;
+    delete (customerData as Record<string, unknown>).password_hash;
     // Update customer data
     const customer = await hookable(updateCustomerData, {
       ...context,

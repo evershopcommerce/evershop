@@ -180,6 +180,10 @@ Analytics,Analytics
 Google Analytics 4 Measurement ID,Google Analytics 4 meet-ID
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Te vinden in Google Analytics onder Admin → Data Streams → je webstream. Laat leeg om tracking uit te schakelen.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Voer een geldig GA4-meet-ID in, bijv. G-XXXXXXXXXX"
+Cookie consent,Cookietoestemming
+Not required: collect from the first page,Niet vereist: verzamelen vanaf de eerste pagina
+Required: no cookies until the shopper accepts,Vereist: geen cookies tot de klant akkoord gaat
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","Met ""Vereist"" plaatst Google Analytics geen cookies totdat je cookiebanner Google laat weten dat de klant heeft ingestemd. Tot dan ontvangt Google wel paginaweergaven en gebeurtenissen, zonder cookies, en je rapporten tonen er maar weinig van. Kies ""Vereist"" zodra je winkel een cookiebanner heeft, en gebruik een banner die Google Consent Mode ondersteunt, zoals Cookiebot, OneTrust of CookieYes. Met ""Vereist"" en zonder zo’n banner blijven je rapporten bijna leeg."
 Allow guest checkout,Afrekenen als gast toestaan
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",Indien ingeschakeld kunnen klanten bestellen zonder account. Indien uitgeschakeld moeten ze inloggen of zich registreren om af te rekenen.
 Enable rule-based related products,Regelgebaseerde gerelateerde producten inschakelen

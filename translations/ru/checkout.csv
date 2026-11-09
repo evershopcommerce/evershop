@@ -50,3 +50,11 @@ Your order total is 0 — no payment is needed to place this order.,Сумма �
 Thank you for your order!,Спасибо за ваш заказ!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Заказ № ${orderNumber} подтверждён. Мы отправили чек на ${email}.
 Shipping is not available at the moment. Please contact us to complete your order.,"Доставка в данный момент недоступна. Свяжитесь с нами, чтобы завершить заказ."
+Restore your cart,Восстановить корзину
+The products from your saved cart will be added to your current cart.,Товары из сохранённой корзины будут добавлены в вашу текущую корзину.
+Restore my cart,Восстановить мою корзину
+This cart link is no longer valid,Эта ссылка на корзину больше недействительна
+The link may have expired or already been used.,"Возможно, срок действия ссылки истёк или она уже была использована."
+This cart was already restored,Эта корзина уже восстановлена
+Its products were added to a cart the first time this link was used.,Её товары были добавлены в корзину при первом использовании этой ссылки.
+Go to your cart,Перейти в корзину

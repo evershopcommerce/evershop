@@ -98,6 +98,13 @@ export default () => {
             },
             allowGuestCheckout: {
               type: 'boolean'
+            },
+            cartRecovery: {
+              type: 'object',
+              properties: {
+                // Days a cart recovery link works, from when it is made
+                ttlDays: { type: 'number', exclusiveMinimum: 0 }
+              }
             }
           }
         }

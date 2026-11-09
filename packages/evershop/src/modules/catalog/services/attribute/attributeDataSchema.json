@@ -51,12 +51,10 @@
     },
     "groups": {
       "type": "array",
-      "minItems": 1,
       "items": [
         {
           "type": ["string", "integer"],
           "pattern": "^[1-9][0-9]*$",
-          "default": 100000,
           "errorMessage": {
             "type": "Group ID must be a string or number",
             "pattern": "Group ID must be a valid positive number (e.g., 1, 10, 100)"
@@ -64,8 +62,7 @@
         }
       ],
       "errorMessage": {
-        "type": "Groups must be an array",
-        "minItems": "At least one group is required"
+        "type": "Groups must be an array"
       }
     },
     "options": {

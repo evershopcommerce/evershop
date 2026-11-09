@@ -126,6 +126,48 @@ type ConfigStructure = {
        */
       allowPrivateNetworks?: boolean;
     };
+    // NOTE: declared non-optional for the same reason as `webhook`; every key
+    // is optional and has a default in `modules/import/adapters/importConfig.ts`.
+    import: {
+      /** The largest upload, in MB. Default 100. */
+      maxFileSizeMb?: number;
+      /** The most rows a file may have. Default 200,000. */
+      maxRows?: number;
+      /** The longest cell, in characters. Default 65,536. */
+      maxCellLength?: number;
+      /** The most problems kept for one job and phase. Default 100,000. */
+      maxIssues?: number;
+      /** How long a finished job is kept, in days. Default 7. */
+      retentionDays?: number;
+      /** How long one image download may take, in seconds. Default 30. */
+      imageTimeoutSeconds?: number;
+      /** How many images the import fetches at the same time. Default 4. */
+      imageConcurrency?: number;
+      /** The most import workers one instance runs at a time. Default 2. */
+      maxWorkersPerInstance?: number;
+      /** The memory ceiling of one worker (`--max-old-space-size`), in MB. Default 1024. */
+      workerMemoryMb?: number;
+      /**
+       * The import pauses while more than this many events are waiting for the
+       * event process, so the store's own events (order emails) are not
+       * delayed. Default 500.
+       */
+      eventBacklogHigh?: number;
+      /** ...and goes on when fewer than this are waiting. Default 100. */
+      eventBacklogLow?: number;
+      /**
+       * An import that has waited this long, in minutes, for the queue to
+       * drain stops (`interrupted`) and can be resumed. Default 30.
+       */
+      eventBacklogMaxWaitMinutes?: number;
+      lockTimeoutSeconds?: number;
+      /**
+       * Download images from private/loopback addresses and plain `http:`. Off
+       * by default (SSRF protection); for the end-to-end tests and a source on
+       * the same network.
+       */
+      allowPrivateNetworks?: boolean;
+    };
   };
   catalog: {
     collectionPageSize: number;
@@ -145,6 +187,10 @@ type ConfigStructure = {
   checkout: {
     showShippingNote: boolean;
     allowGuestCheckout: boolean;
+    cartRecovery: {
+      /** How long a cart recovery link works, from when it is made (default 30) */
+      ttlDays: number;
+    };
   };
   pricing: {
     rounding: string;

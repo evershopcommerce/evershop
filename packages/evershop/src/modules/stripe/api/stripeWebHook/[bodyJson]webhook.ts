@@ -2,12 +2,10 @@ import {
   startTransaction,
   commit,
   rollback,
-  insertOnUpdate,
   PoolClient
 } from '@evershop/postgres-query-builder';
 import stripePgk from 'stripe';
 import { display } from 'zero-decimal-currencies';
-import { emit } from '../../../../lib/event/emitter.js';
 import { debug, error } from '../../../../lib/log/logger.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
@@ -17,6 +15,11 @@ import addOrderActivityLog from '../../../oms/services/addOrderActivityLog.js';
 import { recordRefund } from '../../../oms/services/recordRefund.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
+import {
+  isPaymentIntentRecorded,
+  recordStripeAuthorization,
+  recordStripeCapture
+} from '../../services/recordPaymentIntent.js';
 import { paymentIntentMatchesOrder } from '../../services/stripeAmount.js';
 import { isHandledPaymentIntentEvent } from '../../services/webhookEvents.js';
 
@@ -24,9 +27,10 @@ import { isHandledPaymentIntentEvent } from '../../services/webhookEvents.js';
  * Load the order row with `FOR UPDATE` so it stays locked for the life of the
  * webhook transaction. Stripe can deliver the same event twice (a retry can
  * overlap a slow original); without the lock both deliveries read "no
- * transaction yet" and both emit `order_placed` — duplicate confirmation email
- * and duplicate side effects. The lock serializes them: the second delivery
- * blocks until the first commits, then sees the transaction row and stops.
+ * transaction yet" and both write the status change and the activity line.
+ * The lock serializes them: the second delivery blocks until the first
+ * commits, then sees the transaction row and stops. (`order_placed` itself is
+ * sent once by `markOrderPlaced`, lock or not.)
  */
 async function loadOrderByUuidForUpdate(
   connection: PoolClient,
@@ -193,92 +197,32 @@ export default async (
 
     // Whether this is the first time we process this intent, decided under the
     // row lock so concurrent deliveries cannot both see "not processed".
-    const { rows: existingTxn } = await connection.query(
-      'SELECT 1 FROM "payment_transaction" WHERE "transaction_id" = $1 AND "payment_transaction_order_id" = $2',
-      [paymentIntent.id, order.order_id]
+    const alreadyProcessed = await isPaymentIntentRecorded(
+      connection,
+      order.order_id,
+      paymentIntent.id
     );
-    const alreadyProcessed = existingTxn.length > 0;
 
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded': {
         debug('payment_intent.succeeded event received');
-        await insertOnUpdate('payment_transaction', [
-          'transaction_id',
-          'payment_transaction_order_id'
-        ])
-          .given({
-            amount: parseFloat(
-              display(paymentIntent.amount, paymentIntent.currency)
-            ),
-            payment_transaction_order_id: order.order_id,
-            transaction_id: paymentIntent.id,
-            transaction_type: 'online',
-            payment_action:
-              paymentIntent.capture_method === 'manual' ? 'Manual' : 'Automatic'
-          })
-          .execute(connection);
-
-        if (!alreadyProcessed) {
-          await updatePaymentStatus(
-            order.order_id,
-            'stripe_captured',
-            connection
-          );
-          await addOrderActivityLog(
-            order.order_id,
-            `Payment captured by using Stripe. Transaction ID: ${paymentIntent.id}`,
-            false,
-            connection
-          );
-          // Emit on THIS connection so the event insert lives or dies with the
-          // status update and only becomes visible to subscribers after commit.
-          await emit(
-            'order_placed',
-            { ...order, payment_status: 'stripe_captured' },
-            connection
-          );
-        }
+        await recordStripeCapture(
+          connection,
+          order,
+          paymentIntent,
+          alreadyProcessed
+        );
         break;
       }
       case 'payment_intent.amount_capturable_updated': {
         debug('payment_intent.amount_capturable_updated event received');
-        await insertOnUpdate('payment_transaction', [
-          'transaction_id',
-          'payment_transaction_order_id'
-        ])
-          .given({
-            amount: parseFloat(
-              display(paymentIntent.amount, paymentIntent.currency)
-            ),
-            payment_transaction_order_id: order.order_id,
-            transaction_id: paymentIntent.id,
-            transaction_type: 'online',
-            payment_action:
-              paymentIntent.capture_method === 'manual'
-                ? 'authorize'
-                : 'capture'
-          })
-          .execute(connection);
-
-        if (!alreadyProcessed) {
-          await updatePaymentStatus(
-            order.order_id,
-            'stripe_authorized',
-            connection
-          );
-          await addOrderActivityLog(
-            order.order_id,
-            `Payment authorized by using Stripe. Transaction ID: ${paymentIntent.id}`,
-            false,
-            connection
-          );
-          await emit(
-            'order_placed',
-            { ...order, payment_status: 'stripe_authorized' },
-            connection
-          );
-        }
+        await recordStripeAuthorization(
+          connection,
+          order,
+          paymentIntent,
+          alreadyProcessed
+        );
         break;
       }
       case 'payment_intent.payment_failed': {

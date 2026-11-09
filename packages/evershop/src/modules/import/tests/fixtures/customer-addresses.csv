@@ -1,0 +1,8 @@
+email,recipient,given_name,family_name,organization,address_line_1,address_line_2,address_line_3,locality,dependent_locality,administrative_area,postal_code,sorting_code,country,telephone,extra,is_default
+jane.doe@example.com,Jane Doe,,,,1 Market Street,Suite 200,,San Francisco,,US-CA,94105,,US,415-555-0100,,1
+jane.doe@example.com,Jane Doe,,,,500 Howard Street,,,San Francisco,,US-CA,94105,,US,+14155550100,,0
+jane.doe@example.com,Lukas Schmidt,,,,Unter den Linden 77,,,Berlin,,,10117,,DE,+4930123456,,0
+john.smith@example.com,John Smith,,,Acme Corp,"Unit 4, 350 5th Avenue",Floor 21,Attn: Accounts,New York,,US-NY,10118,,US,+12125550123,,1
+john.smith@example.com,,Olivia,Brown,,10 Downing Street,,,London,,,SW1A 2AA,,GB,+442079250918,,0
+aiko.tanaka@example.com,田中 愛子,,,,1-1 Chiyoda,,,Chiyoda-ku,,JP-13,100-0001,,JP,+81312345678,,1
+lan.nguyen@example.com,Nguyễn Thị Lan,,,,12 Hàng Bài,,,Hoàn Kiếm,,VN-HN,100000,,VN,+84901234567,,1

@@ -23,7 +23,10 @@ import {
 } from './syncPageUrlRewrite.js';
 
 function validatePageDataBeforeInsert(data): any {
-  const ajv = getAjv();
+  // No schema defaults: Ajv writes them into `data` in place, and an update may
+  // carry only the fields to change. With defaults a status-only payload would
+  // also write content [] and erase the page's content.
+  const ajv = getAjv({ useDefaults: false });
   pageDataSchema.required = ['status'];
   const jsonSchema = getValueSync('updatePageDataJsonSchema', pageDataSchema, {});
   const validate = ajv.compile(jsonSchema);

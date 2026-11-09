@@ -180,6 +180,10 @@ Analytics,பகுப்பாய்வு
 Google Analytics 4 Measurement ID,Google Analytics 4 அளவீட்டு ID
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Google Analytics இல் Admin → Data Streams → உங்கள் வெப் ஸ்ட்ரீம் என்பதில் காணலாம். கண்காணிப்பை முடக்க காலியாக விடவும்.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","சரியான GA4 அளவீட்டு ID உள்ளிடவும், எ.கா. G-XXXXXXXXXX"
+Cookie consent,குக்கீ ஒப்புதல்
+Not required: collect from the first page,தேவையில்லை: முதல் பக்கத்திலிருந்தே சேகரி
+Required: no cookies until the shopper accepts,தேவை: வாடிக்கையாளர் ஏற்கும் வரை குக்கீகள் இல்லை
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","""தேவை"" தேர்ந்தெடுத்தால், வாடிக்கையாளர் ஏற்றுக்கொண்டதை உங்கள் குக்கீ பேனர் Google-க்குத் தெரிவிக்கும் வரை Google Analytics எந்தக் குக்கீயையும் சேமிக்காது. அதுவரை Google குக்கீகள் இல்லாமல் பக்கப் பார்வைகளையும் நிகழ்வுகளையும் பெற்றுக்கொண்டே இருக்கும், ஆனால் உங்கள் அறிக்கைகள் அவற்றில் சிலவற்றை மட்டுமே காட்டும். உங்கள் கடையில் குக்கீ பேனர் இருந்தால் ""தேவை"" என்பதைத் தேர்ந்தெடுத்து, Google Consent Mode-ஐ ஆதரிக்கும் பேனரைப் பயன்படுத்தவும் (எ.கா. Cookiebot, OneTrust அல்லது CookieYes). ""தேவை"" தேர்ந்தெடுத்து அத்தகைய பேனர் இல்லையெனில், உங்கள் அறிக்கைகள் கிட்டத்தட்ட காலியாக இருக்கும்."
 Allow guest checkout,விருந்தினர் செக்அவுட்டை அனுமதி
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","இயக்கப்பட்டால், வாங்குபவர்கள் கணக்கு இல்லாமல் ஆர்டர் செய்யலாம். முடக்கப்பட்டால், செக்அவுட் செய்ய உள்நுழைய அல்லது பதிவு செய்ய வேண்டும்."
 Enable rule-based related products,விதி அடிப்படையிலான தொடர்புடைய தயாரிப்புகளை இயக்கு

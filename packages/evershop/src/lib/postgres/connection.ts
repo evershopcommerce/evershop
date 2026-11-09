@@ -3,6 +3,7 @@ import { PoolClient } from '@evershop/postgres-query-builder';
 import { Pool } from 'pg';
 import type { PoolConfig } from 'pg';
 import { getConfig } from '../util/getConfig.js';
+import { applySessionSettings, getTimeoutStatements } from './sessionSettings.js';
 
 // Use env for the database connection, maintain the backward compatibility
 const connectionSetting: PoolConfig = {
@@ -55,14 +56,20 @@ switch (sslMode) {
   }
 }
 
+// Optional per-process limits (DB_LOCK_TIMEOUT_MS, DB_STATEMENT_TIMEOUT_MS).
+// Read once, here, so that a mistyped value stops the process at start.
+const timeoutStatements = getTimeoutStatements(process.env);
+
 // onConnect is awaited by pg before the client is handed to user code,
 // unlike pool.on('connect', ...) which is not awaited (deprecated in pg@8.19.0).
 // Cast needed because @types/pg doesn't yet declare onConnect in PoolConfig.
 const pool = new Pool({
   ...connectionSetting,
   onConnect: async (client: import('pg').PoolClient) => {
-    const timeZone = getConfig('shop.timezone', 'UTC');
-    await client.query(`SET TIMEZONE TO "${timeZone}";`);
+    await applySessionSettings(client, {
+      timeZone: getConfig('shop.timezone', 'UTC'),
+      timeoutStatements
+    });
   }
 } as PoolConfig);
 

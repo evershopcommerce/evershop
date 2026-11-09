@@ -50,3 +50,11 @@ Your order total is 0 — no payment is needed to place this order.,Ukupan iznos
 Thank you for your order!,Hvala vam na porudžbini!
 Order #${orderNumber} is confirmed. We’ve emailed a receipt to ${email}.,Porudžbina br. ${orderNumber} je potvrđena. Poslali smo račun na ${email}.
 Shipping is not available at the moment. Please contact us to complete your order.,Isporuka trenutno nije dostupna. Kontaktirajte nas da biste dovršili porudžbinu.
+Restore your cart,Vratite svoju korpu
+The products from your saved cart will be added to your current cart.,Proizvodi iz vaše sačuvane korpe biće dodati u vašu trenutnu korpu.
+Restore my cart,Vrati moju korpu
+This cart link is no longer valid,Ovaj link korpe više nije važeći
+The link may have expired or already been used.,Link je možda istekao ili je već iskorišćen.
+This cart was already restored,Ova korpa je već vraćena
+Its products were added to a cart the first time this link was used.,Njeni proizvodi su dodati u korpu kada je ovaj link prvi put iskorišćen.
+Go to your cart,Idite u svoju korpu

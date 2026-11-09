@@ -1,13 +1,10 @@
 import { Client } from 'pg';
 import { getEnabledExtensions } from '../../bin/extension/index.js';
-import { loadBootstrapScript } from '../../bin/lib/bootstrap/bootstrap.js';
+import { headlessBoot } from '../../bin/lib/bootstrap/headlessBoot.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { pool, connectionSetting } from '../../lib/postgres/connection.js';
 import { refreshSetting } from '../../modules/setting/services/setting.js';
-import { lockAddressRegistry } from '../address/formats.js';
 import { debug, error } from '../log/logger.js';
-import { lockHooks } from '../util/hookable.js';
-import { lockRegistry } from '../util/registry.js';
 import { createEventProcessor } from './EventProcessor.js';
 import { EventStorage } from './EventStorage.js';
 import { loadSubscribers } from './loadSubscribers.js';
@@ -29,15 +26,19 @@ const { loadAndProcess } = createEventProcessor({
 
 const init = async () => {
   try {
-    for (const module of modules) {
-      await loadBootstrapScript(module, {
+    // Every module's bootstrap, then the hook, registry and address-registry
+    // locks, then the routes, so subscribers can build URLs (`buildUrl`,
+    // `buildAbsoluteUrl`) instead of writing them by hand. No extra settings
+    // load is asked for: the setting module's bootstrap warms the cache, and
+    // it is refreshed before each batch of events (`beforeBatch` above).
+    await headlessBoot({
+      modules,
+      context: {
         ...JSON.parse(process.env.bootstrapContext || '{}'),
         process: 'event'
-      });
-    }
-    lockHooks();
-    lockRegistry();
-    lockAddressRegistry();
+      },
+      loadRoutes: true
+    });
   } catch (e) {
     error(e);
     process.exit(0);

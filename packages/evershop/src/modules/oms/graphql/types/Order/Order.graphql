@@ -117,6 +117,11 @@ type Order implements ShoppingCart {
   paymentMethodName: String
   paymentStatus: PaymentStatus
   shippingNote: String
+  """
+  When the order was placed (`markOrderPlaced`): its payment was accepted,
+  or its method needs none up front. Null while it is not placed.
+  """
+  placedAt: Date
   createdAt: Date!
   updatedAt: Date!
   activities: [Activity]

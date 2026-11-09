@@ -1,3 +1,4 @@
+import { toGaConsentDefault } from '../../../../../components/frontStore/googleAnalytics/googleAnalyticsHead.js';
 import { Setting } from '../../../services/setting.js';
 
 /**
@@ -20,6 +21,8 @@ export default {
     socialSharingImage: (setting: Setting[]) =>
       readValue(setting, 'socialSharingImage'),
     gaMeasurementId: (setting: Setting[]) =>
-      readValue(setting, 'gaMeasurementId')
+      readValue(setting, 'gaMeasurementId'),
+    gaConsentDefault: (setting: Setting[]) =>
+      toGaConsentDefault(readValue(setting, 'gaConsentDefault'))
   }
 };
