@@ -10,6 +10,10 @@ import { updatePaymentStatus } from '../../../../../modules/oms/services/updateP
 import { getSetting } from '../../../../../modules/setting/services/setting.js';
 import { EvershopRequest } from '../../../../../types/request.js';
 import { EvershopResponse } from '../../../../../types/response.js';
+import {
+  confirmPaymentIntent,
+  paymentIntentKind
+} from '../../../services/confirmPaymentIntent.js';
 import { resolveStripeReturnOutcome } from '../../../services/returnOutcome.js';
 
 export default async (
@@ -52,6 +56,21 @@ export default async (
     }
 
     const outcome = resolveStripeReturnOutcome(paymentIntent.status);
+    const kind = paymentIntentKind(paymentIntent.status);
+    if (kind) {
+      // The buyer has paid. Confirm the order now, with the code the webhook
+      // runs (row lock, amount check, idempotent), so an order does not stay
+      // `pending` when the webhook never arrives (no endpoint, a wrong signing
+      // secret, ...). Whichever of the two comes first does the work, the
+      // other changes nothing. A failure here must not strand the buyer on an
+      // error page: they did pay, and the webhook or the abandoned order job
+      // can still confirm the order.
+      try {
+        await confirmPaymentIntent(order, paymentIntent, kind);
+      } catch (e) {
+        error(e);
+      }
+    }
     if (outcome === 'success' || outcome === 'pending') {
       // `pending` = a delayed-notification method still settling. The order is
       // real and the webhook finalizes it, so send the buyer to the order

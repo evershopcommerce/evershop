@@ -47,6 +47,7 @@ const describeDb = scratch ? describe : describe.skip;
 describeDb('abandoned Stripe orders (scratch DB)', () => {
   const db = scratch?.db as ScratchDb['db'];
   let job: typeof import('../../services/reconcileAbandonedOrders.js');
+  let confirmPaymentIntent: typeof import('../../services/confirmPaymentIntent.js')['confirmPaymentIntent'];
   let recovery: typeof import('../../../checkout/services/cartRecovery.js');
   let signToken: (cartId: number) => string;
   let createPaymentIntent: (req: any, res: any, next: any) => Promise<void>;
@@ -64,6 +65,9 @@ describeDb('abandoned Stripe orders (scratch DB)', () => {
       await bootstrap();
     }
     job = await import('../../services/reconcileAbandonedOrders.js');
+    ({ confirmPaymentIntent } = await import(
+      '../../services/confirmPaymentIntent.js'
+    ));
     recovery = await import('../../../checkout/services/cartRecovery.js');
     ({ signCartRecoveryToken: signToken } = await import(
       '../../../checkout/services/cartRecoveryToken.js'
@@ -149,7 +153,7 @@ describeDb('abandoned Stripe orders (scratch DB)', () => {
       cancelIntent: async (id: string) => {
         canceled.push(id);
       },
-      record: job.recordLostPayment,
+      record: confirmPaymentIntent,
       cancelAbandonedOrder,
       now: () => Date.now()
     };
@@ -279,13 +283,13 @@ describeDb('abandoned Stripe orders (scratch DB)', () => {
     expect(placed.placed_at).toBeInstanceOf(Date);
     expect(await placedEvents(db, order.order_id)).toHaveLength(1);
     // A second run (or the late webhook) changes nothing
-    await job.recordLostPayment(order, await d.retrieve('pi_s1'), 'capture');
+    await confirmPaymentIntent(order, await d.retrieve('pi_s1'), 'capture');
     expect(await placedEvents(db, order.order_id)).toHaveLength(1);
     expect((await row('cart', 'cart_id', cart.cart_id)).status).toBe(false);
     // An amount that does not match the order is never recorded
     const other = await abandonedCheckout({ grand_total: 99 });
     expect(
-      await job.recordLostPayment(other.order, await d.retrieve('pi_x'), 'capture')
+      await confirmPaymentIntent(other.order, await d.retrieve('pi_x'), 'capture')
     ).toBe('mismatch');
     expect((await row('order', 'order_id', other.order.order_id)).payment_status).toBe('pending');
   });
