@@ -300,13 +300,16 @@ export function registerCartItemBaseFields(fields) {
           const qty =
             triggeredField === 'qty' ? requestedValue : this.getData('qty');
           const product = await this.getProduct();
-          if (product.manage_stock === true && product.qty < 1) {
+          const parsedQty = parseInt(qty, 10);
+          if (!Number.isInteger(parsedQty) || parsedQty < 1) {
+            this.setError('qty', 'Invalid quantity');
+          } else if (product.manage_stock === true && product.qty < 1) {
             this.setError('qty', 'This item is out of stock');
-          } else if (product.manage_stock === true && product.qty < qty) {
+          } else if (product.manage_stock === true && product.qty < parsedQty) {
             this.setError('qty', 'We do not have enough stock');
           }
 
-          return parseInt(qty, 10) ?? null;
+          return parsedQty;
         }
       ]
     },
