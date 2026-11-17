@@ -60,15 +60,12 @@ export function registerDefaultValidators() {
       return true;
     },
     function customerGroupValidator(cart, coupon) {
-      const conditions = coupon.condition;
-      const userConditions = coupon.user_condition;
-      if (userConditions.group && !userConditions.customer_group.includes(0)) {
-        const customerGroupId = cart.getData('customer_group_id');
-        if (!conditions.customer_group.includes(customerGroupId)) {
-          return false;
-        }
+      const groups = coupon.user_condition.groups || [];
+      if (groups.length === 0) {
+        return true;
       }
-      return true;
+      const customerGroupId = cart.getData('customer_group_id');
+      return groups.some((group) => parseInt(group, 10) === customerGroupId);
     },
     function subTotalValidator(cart, coupon) {
       const priceIncludingTax = getPriceIncludingTax();
@@ -358,9 +355,6 @@ export function registerDefaultValidators() {
       }
 
       return flag;
-    },
-    async function customerGroupValidator() {
-      return true;
     },
     async function customerEmailValidator(cart, coupon) {
       const conditions = coupon.user_condition;
