@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { translate } from '../../../../lib/locale/translate/translate.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
 import { calculateTaxAmount } from '../../../../modules/tax/services/calculateTaxAmount.js';
 import { getPriceIncludingTax } from '../../../../modules/tax/services/taxSettings.js';
@@ -38,7 +39,10 @@ export function registerCartItemBaseFields(fields) {
         async function resolver() {
           const product = await this.getProduct();
           if (product.status === false) {
-            this.setError('product_id', 'This product is not available');
+            this.setError(
+              'product_id',
+              translate('This product is not available')
+            );
           }
           return product.product_id;
         }
@@ -301,9 +305,9 @@ export function registerCartItemBaseFields(fields) {
             triggeredField === 'qty' ? requestedValue : this.getData('qty');
           const product = await this.getProduct();
           if (product.manage_stock === true && product.qty < 1) {
-            this.setError('qty', 'This item is out of stock');
+            this.setError('qty', translate('This item is out of stock'));
           } else if (product.manage_stock === true && product.qty < qty) {
-            this.setError('qty', 'We do not have enough stock');
+            this.setError('qty', translate('We do not have enough stock'));
           }
 
           return parseInt(qty, 10) ?? null;
