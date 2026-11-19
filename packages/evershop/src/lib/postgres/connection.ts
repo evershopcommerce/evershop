@@ -4,6 +4,7 @@ import { Pool } from 'pg';
 import type { PoolConfig } from 'pg';
 import { debug, warning } from '../log/logger.js';
 import { getConfig } from '../util/getConfig.js';
+import { getPoolSettings } from './poolSettings.js';
 import { applySessionSettings, getTimeoutStatements } from './sessionSettings.js';
 
 // Use env for the database connection, maintain the backward compatibility
@@ -13,7 +14,11 @@ const connectionSetting: PoolConfig = {
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  max: 20
+  // DB_POOL_MAX (default 20) and DB_POOL_TIMEOUT_MS (default 0, no limit),
+  // see poolSettings.ts; a mistyped value throws here, at start. The event
+  // process builds its LISTEN client from these settings too: the client
+  // ignores `max` and keeps the connect timeout.
+  ...getPoolSettings(process.env)
 };
 
 // Support SSL
