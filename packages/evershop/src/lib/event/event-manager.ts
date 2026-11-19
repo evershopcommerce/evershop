@@ -4,10 +4,11 @@ import { headlessBoot } from '../../bin/lib/bootstrap/headlessBoot.js';
 import { getCoreModules } from '../../bin/lib/loadModules.js';
 import { pool, connectionSetting } from '../../lib/postgres/connection.js';
 import { refreshSetting } from '../../modules/setting/services/setting.js';
-import { debug, error } from '../log/logger.js';
+import { debug, error, warning } from '../log/logger.js';
 import { createEventProcessor } from './EventProcessor.js';
 import { EventStorage } from './EventStorage.js';
 import { loadSubscribers } from './loadSubscribers.js';
+import { createNotificationListener } from './NotificationListener.js';
 
 const POLL_INTERVAL = 10000;
 
@@ -45,23 +46,24 @@ const init = async () => {
   }
   process.env.ALLOW_CONFIG_MUTATIONS = 'false';
 
-  // Dedicated client for LISTEN — pool connections are transient and cannot
-  // maintain a persistent LISTEN registration
-  const listenClient = new Client(connectionSetting);
-  await listenClient.connect();
-  await listenClient.query('LISTEN new_event');
-
-  listenClient.on('notification', () => {
-    debug('Received pg_notify(new_event), waking up event processor');
-    loadAndProcess().catch((e) => error(e));
+  // Wake up on pg_notify('new_event'), on a dedicated client: pool connections
+  // come and go and cannot keep a LISTEN. When that connection breaks (the
+  // database restarts), the listener opens a new one and then drains what was
+  // written meanwhile; the poll below keeps processing events in between. It
+  // used to exit the process here, and nothing started the process again.
+  const listener = createNotificationListener({
+    createClient: () => new Client(connectionSetting),
+    channel: 'new_event',
+    onNotification: () => {
+      debug('Received pg_notify(new_event), waking up event processor');
+      loadAndProcess().catch((e) => error(e));
+    },
+    onReconnect: () => {
+      loadAndProcess().catch((e) => error(e));
+    },
+    log: { warning, debug }
   });
-
-  // If the LISTEN connection drops, restart the process — the parent will respawn it
-  listenClient.on('error', (e) => {
-    error('LISTEN client error, restarting event-manager process:');
-    error(e);
-    process.exit(1);
-  });
+  await listener.start();
 
   // Fallback poll: catches events inserted before LISTEN was ready, or missed notifications
   setInterval(() => {
