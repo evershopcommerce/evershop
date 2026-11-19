@@ -3,6 +3,7 @@ import { headlessBoot } from '../../bin/lib/bootstrap/headlessBoot.js';
 import { debug, error } from '../log/logger.js';
 import { getEnabledJobs } from './jobManager.js';
 import { runJob } from './runJob.js';
+import { randomSecond, spreadSchedule } from './spreadSchedule.js';
 
 async function start() {
   try {
@@ -27,10 +28,14 @@ async function start() {
   // bootstraps register their jobs
   const jobs = getEnabledJobs();
 
-  // Schedule the jobs. Each run refreshes this process's settings first
+  // Schedule the jobs, each at a random second of its minute, so that jobs
+  // due in the same minute do not all start (and connect) in the same second
+  // (spreadSchedule.ts). Each run refreshes this process's settings first
   // (runJob.ts).
   jobs.forEach((job) => {
-    cron.schedule(job.schedule, () => runJob(job));
+    const schedule = spreadSchedule(job.schedule, randomSecond());
+    debug(`Job ${job.name} is scheduled as "${schedule}"`);
+    cron.schedule(schedule, () => runJob(job));
   });
 }
 
