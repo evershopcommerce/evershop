@@ -1,0 +1,18 @@
+admin-login
+product-create-new
+click button on the right of "Search"
+click "Logout"
+open url stored value "homePrefix"
+click "Account"
+account-login
+click "Search"
+enter stored value "productName" into "Search"
+type enter
+click stored value "productName"
+click "Add to cart"
+click "View cart"
+check that page contains stored value "productName"
+account-logout
+account-login
+click "Cart"
+check that page contains stored value "productName"

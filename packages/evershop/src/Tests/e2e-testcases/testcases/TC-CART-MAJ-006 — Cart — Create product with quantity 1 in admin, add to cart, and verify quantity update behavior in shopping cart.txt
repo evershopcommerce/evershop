@@ -1,0 +1,14 @@
+admin-login
+product-create-new-with-quantity-"1"
+click button on the right of "Search"
+click "Logout"
+open url stored value "homePrefix"
+click "Search"
+enter stored value "productName" into "Search"
+type enter
+click stored value "productName"
+click "Add to cart"
+click "View Cart"
+check that page contains "Shopping cart"
+click button below "Quantity" and to the left of "Enter Coupon Code"
+check that page contains "We do not have enough stock"
