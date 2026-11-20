@@ -9,7 +9,7 @@ name: End-to-end results for Consequa
 # Consequa > Run workflow).
 on:
   push:
-    branches: [demo, ci/consequa-results]
+    branches: [demo]
   workflow_dispatch:
 
 concurrency:
