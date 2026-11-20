@@ -1,0 +1,104 @@
+name: End-to-end results for Consequa
+
+# Runs the whole Playwright suite (tests/e2e) against a store built and started in the job, and
+# uploads the Result Bundle the Consequa results reporter wrote as the run artifact
+# `consequa-results`, with bundle.json at the root of the zip. Consequa reads it with
+# `consequa ingest actions --run <id>` or by polling finished runs.
+#
+# It runs on every push to the demo branch and by hand (Actions > End-to-end results for
+# Consequa > Run workflow).
+on:
+  push:
+    branches: [demo, ci/consequa-results]
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-consequa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DB_HOST: localhost
+      DB_PORT: '5432'
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: evershop_e2e
+      DB_SSLMODE: disable
+      PORT: '3000'
+      SUPPRESS_NO_CONFIG_WARNING: '1'
+      JWT_ADMIN_SECRET: e2e-admin-secret-0123456789abcdef
+      JWT_ADMIN_REFRESH_SECRET: e2e-admin-refresh-0123456789abcdef
+      JWT_CUSTOMER_SECRET: e2e-customer-secret-0123456789abcdef
+      JWT_CUSTOMER_REFRESH_SECRET: e2e-customer-refresh-0123456789abcdef
+      BASE_URL: http://localhost:3000
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/evershop_e2e
+      PLAYWRIGHT_WORKERS: '1'
+      IMPORT_E2E_PRIVATE_NETWORKS: '1'
+      # Relative to tests/e2e, where Playwright runs. The upload step reads the same folder.
+      CONSEQUA_RESULTS_DIR: consequa-results
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install -g npm@9
+      - run: npm install
+      - run: npm run compile
+      - name: Create the database of the store, with the schema of a store
+        run: |
+          PGPASSWORD=postgres psql -h localhost -U postgres -v ON_ERROR_STOP=1 -c 'CREATE DATABASE evershop_e2e'
+          node scripts/ci/migrateCoreSchema.mjs
+      - name: Build the store
+        env:
+          NODE_ENV: production
+        run: node packages/evershop/dist/bin/build/index.js
+      - name: Start the store
+        env:
+          NODE_ENV: production
+          NODE_CONFIG: '{"system":{"import":{"allowPrivateNetworks":true}}}'
+        run: |
+          nohup node packages/evershop/dist/bin/start/index.js > store.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fs -o /dev/null http://localhost:3000/; then echo "store is up"; exit 0; fi
+            sleep 2
+          done
+          echo "the store did not start"; tail -50 store.log; exit 1
+      - name: Install the browser and the specs' dependencies
+        working-directory: tests/e2e
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+      # The suite's own failures fail this step, and the bundle is uploaded either way: a
+      # failing Test is a result Consequa needs to see.
+      - name: Run the suite
+        working-directory: tests/e2e
+        run: npx playwright test --reporter=list,./consequa/results-reporter.ts
+      - name: The log of the store
+        if: always()
+        run: tail -200 store.log || true
+      # `error` rather than `warn`: a run with no bundle should be red here as well as
+      # missing evidence in Consequa.
+      - name: Upload the Result Bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: consequa-results
+          path: tests/e2e/consequa-results
+          if-no-files-found: error
+          retention-days: 30
