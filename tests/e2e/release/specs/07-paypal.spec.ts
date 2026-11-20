@@ -56,8 +56,9 @@ test.beforeAll(async () => {
   });
   // PayPal gets the order number as invoice_id and the sandbox refuses a
   // repeated one. run.mjs moves the store's order ids to a range of its own,
-  // but the next order number still follows the newest existing order: this
-  // COD order takes it, so the PayPal orders get numbers no store had before.
+  // and an order's number is 10000 plus its id. A core before that rule
+  // numbered the next order after the newest existing one: this COD order
+  // takes that low number, so the PayPal orders get numbers no store had.
   await placeCodOrder(world, [{ product: world.product, qty: 1 }]);
 });
 

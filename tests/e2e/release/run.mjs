@@ -521,16 +521,16 @@ async function stopRun(runDir) {
 }
 
 /**
- * Order numbers are `10000 + the newest order_id + 1`
- * (checkout/services/orderCreator.ts), so every new store starts at #10001.
- * PayPal gets the order number as `invoice_id`, and a PayPal account that
- * requires unique invoice ids (the sandbox's does) refuses a repeat with 422
- * DUPLICATE_INVOICE_ID after the buyer approved. One sandbox account serves
- * every scratch store, so each store's order ids start at a number of its
- * own: seconds since 2026-01-01 (stores are made minutes apart and make far
- * fewer orders than that). The formula reads the newest EXISTING id, so the
- * next order still gets a low number; the PayPal spec places one COD order
- * first for that reason.
+ * An order's number is `10000 + its own order_id` (oms/services/orderNumber.ts),
+ * so every new store starts at #10001. PayPal gets the order number as
+ * `invoice_id`, and a PayPal account that requires unique invoice ids (the
+ * sandbox's does) refuses a repeat with 422 DUPLICATE_INVOICE_ID after the
+ * buyer approved. One sandbox account serves every scratch store, so each
+ * store's order ids start at a number of its own: seconds since 2026-01-01
+ * (stores are made minutes apart and make far fewer orders than that). Cores
+ * before that rule numbered an order `10000 + the newest EXISTING order_id + 1`,
+ * so their next order still got a low number; the PayPal spec places one COD
+ * order first for that reason.
  */
 async function uniqueOrderNumbers(store) {
   const start = Math.floor(Date.now() / 1000) - 1_767_225_600;
