@@ -41,6 +41,18 @@ const guard = db
   ? (await import('../../../../checkout/migration/Version-1.0.13.js')).default
   : null;
 
+// One `orderNumber` processor for the whole file, doing nothing unless a test
+// sets `formatNumber` (the registry keeps processors once added)
+type FormatNumber = (this: any, value: string) => unknown;
+const keepNumber: FormatNumber = (value) => value;
+let formatNumber: FormatNumber = keepNumber;
+if (db) {
+  const { addProcessor } = await import('../../../../../lib/util/registry.js');
+  addProcessor('orderNumber', function (this: unknown, value: string) {
+    return formatNumber.call(this, value);
+  });
+}
+
 const OMS = {
   order: {
     shipmentStatus: {
@@ -512,15 +524,52 @@ describeDb('importOrder on the core scratch database', () => {
     });
   });
 
-  it('numbers the order as the next one, or as given', async () => {
+  it('numbers the order as a new order is numbered, or as given', async () => {
     const first = await service!.importOrder(order() as never);
     const second = await service!.importOrder(order() as never);
-    // Core's own formula, as `orderCreator` has it: 10000, plus the id of the last order, plus 1.
-    expect(Number(second.orderNumber)).toBe(10000 + first.orderId + 1);
+    // Core's own rule (oms/services/orderNumber.ts): 10000 plus the order's id
+    expect(first.orderNumber).toBe(String(10000 + first.orderId));
+    expect(second.orderNumber).toBe(String(10000 + second.orderId));
     const given = await service!.importOrder(
       order({ orderNumber: 'HO-2019-0001' }) as never
     );
     expect(given.orderNumber).toBe('HO-2019-0001');
+  });
+
+  it('runs the orderNumber processors only for an order without a number', async () => {
+    const seen: Array<Record<string, unknown>> = [];
+    formatNumber = function (value) {
+      seen.push({
+        value,
+        source: this.source,
+        cart: this.cart,
+        country: this.shippingAddress?.country
+      });
+      return `HO-IMP-${value}`;
+    };
+    try {
+      const imported = await service!.importOrder(
+        order({
+          shippingAddress: { recipient: 'HO Ship', country: 'US' }
+        }) as never
+      );
+      expect(imported.orderNumber).toBe(`HO-IMP-${10000 + imported.orderId}`);
+      expect(seen).toEqual([
+        {
+          value: String(10000 + imported.orderId),
+          source: 'import',
+          cart: null,
+          country: 'US'
+        }
+      ]);
+      const given = await service!.importOrder(
+        order({ orderNumber: 'HO-2019-0002' }) as never
+      );
+      expect(given.orderNumber).toBe('HO-2019-0002');
+      expect(seen).toHaveLength(1);
+    } finally {
+      formatNumber = keepNumber;
+    }
   });
 
   describe('when the data is not an order, nothing is written', () => {
