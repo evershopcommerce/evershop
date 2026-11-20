@@ -154,6 +154,14 @@ export interface ValueRegistry {
    * Keys are `"paymentStatus:shipmentStatus"` strings; values are order status strings.
    */
   psoMapping: Record<string, string>;
+  /**
+   * A new order's number. The init value is `String(10000 + order_id)`;
+   * `this` is an `OrderNumberContext` (oms/services/orderNumber.ts): the order
+   * about to be saved, its addresses, `source`, the cart and the order's
+   * transaction. A result that cannot be used falls back to the init value,
+   * with a warning.
+   */
+  orderNumber: string;
 
   // ── Email ─────────────────────────────────────────────────────────────────
 
