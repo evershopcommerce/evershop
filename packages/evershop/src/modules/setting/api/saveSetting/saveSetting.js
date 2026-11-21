@@ -1,7 +1,8 @@
 import {
   commit,
   insertOnUpdate,
-  rollback
+  rollback,
+  startTransaction
 } from '@evershop/postgres-query-builder';
 import { getAvailableLocales } from '../../../../lib/locale/dictionary.js';
 import { normalizeLocale } from '../../../../lib/locale/localeResolution.js';
@@ -52,38 +53,27 @@ export default async (request, response, next) => {
   const { warnings } = validateLanguageSettings(body);
   const connection = await getConnection();
   try {
-    // Loop through the body and insert the data
-    const promises = [];
-    Object.keys(body).forEach((key) => {
+    // All the keys are saved, or none: one transaction, started before the
+    // first query (a query on a connection that is not in a transaction
+    // commits on its own). The upserts run one after the other: on a failure
+    // the transaction is rolled back at once, and none still waiting can run
+    // after the rollback and be saved on its own.
+    await startTransaction(connection);
+    for (const key of Object.keys(body)) {
       const value = body[key];
       // Arrays/objects are persisted as JSON. Guard against null explicitly: `typeof null ===
       // 'object'`, so without the `!== null` check an absent optional field (e.g. storeEmail /
       // storePhoneNumber, which the resolver defaults to null) would be JSON.stringified to the
       // literal string "null" and shown as "null" in the form after saving. Null/undefined
       // scalars are stored as an empty string instead.
-      if (value !== null && typeof value === 'object') {
-        promises.push(
-          insertOnUpdate('setting', ['name'])
-            .given({
-              name: key,
-              value: JSON.stringify(value),
-              is_json: 1
-            })
-            .execute(connection, false)
-        );
-      } else {
-        promises.push(
-          insertOnUpdate('setting', ['name'])
-            .given({
-              name: key,
-              value: value ?? '',
-              is_json: 0
-            })
-            .execute(connection, false)
-        );
-      }
-    });
-    await Promise.all(promises);
+      const given =
+        value !== null && typeof value === 'object'
+          ? { name: key, value: JSON.stringify(value), is_json: 1 }
+          : { name: key, value: value ?? '', is_json: 0 };
+      await insertOnUpdate('setting', ['name'])
+        .given(given)
+        .execute(connection, false);
+    }
     await commit(connection);
     // Refresh the setting
     await refreshSetting();
