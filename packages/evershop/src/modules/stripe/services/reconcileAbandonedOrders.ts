@@ -1,20 +1,10 @@
-import {
-  commit,
-  rollback,
-  startTransaction
-} from '@evershop/postgres-query-builder';
 import Stripe from 'stripe';
 import { debug, error, info } from '../../../lib/log/logger.js';
-import { getConnection, pool } from '../../../lib/postgres/connection.js';
+import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { cancelAbandonedOrder } from '../../oms/services/cancelAbandonedOrder.js';
 import { getSetting } from '../../setting/services/setting.js';
-import {
-  isPaymentIntentRecorded,
-  recordStripeAuthorization,
-  recordStripeCapture
-} from './recordPaymentIntent.js';
-import { paymentIntentMatchesOrder } from './stripeAmount.js';
+import { confirmPaymentIntent } from './confirmPaymentIntent.js';
 
 /**
  * Stripe's side of abandoned orders, as PayPal's `reconcileAbandonedOrders`:
@@ -185,56 +175,6 @@ export async function storedIntentIds(orderId: number): Promise<string[]> {
   return rows.map((row) => row.payment_intent_id);
 }
 
-/** Records a lost webhook's payment under the order's row lock, as the webhook does */
-export async function recordLostPayment(
-  order: UnpaidStripeOrder,
-  intent: Stripe.PaymentIntent,
-  kind: 'capture' | 'authorization'
-): Promise<'recorded' | 'mismatch' | 'gone'> {
-  const connection = await getConnection();
-  await startTransaction(connection);
-  try {
-    const { rows } = await connection.query(
-      'SELECT * FROM "order" WHERE "order_id" = $1 FOR UPDATE',
-      [order.order_id]
-    );
-    const locked = rows[0];
-    if (!locked || locked.payment_method !== 'stripe') {
-      await commit(connection);
-      return 'gone';
-    }
-    if (!paymentIntentMatchesOrder(locked, intent)) {
-      error(
-        new Error(
-          `Stripe amount mismatch for order ${locked.order_id}: intent ${intent.id} charged ${intent.amount} ${intent.currency}, order expects ${locked.grand_total} ${locked.currency}. Not marking as paid.`
-        )
-      );
-      await commit(connection);
-      return 'mismatch';
-    }
-    const alreadyProcessed = await isPaymentIntentRecorded(
-      connection,
-      locked.order_id,
-      intent.id
-    );
-    if (kind === 'capture') {
-      await recordStripeCapture(connection, locked, intent, alreadyProcessed);
-    } else {
-      await recordStripeAuthorization(
-        connection,
-        locked,
-        intent,
-        alreadyProcessed
-      );
-    }
-    await commit(connection);
-    return 'recorded';
-  } catch (e) {
-    await rollback(connection);
-    throw e;
-  }
-}
-
 function realDeps(stripe: Stripe): ReconcileDeps {
   return {
     storedIntentIds,
@@ -260,7 +200,7 @@ function realDeps(stripe: Stripe): ReconcileDeps {
         cancellation_reason: 'abandoned'
       });
     },
-    record: recordLostPayment,
+    record: confirmPaymentIntent,
     cancelAbandonedOrder,
     now: () => Date.now()
   };
