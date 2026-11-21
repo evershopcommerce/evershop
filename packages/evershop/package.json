@@ -44,6 +44,10 @@
       "import": "./dist/lib/postgres/query.js",
       "types": "./dist/lib/postgres/query.d.ts"
     },
+    "./lib/postgres/updatedAtTrigger": {
+      "import": "./dist/lib/postgres/updatedAtTrigger.js",
+      "types": "./dist/lib/postgres/updatedAtTrigger.d.ts"
+    },
     "./lib/locale/*": {
       "import": "./dist/lib/locale/*.js",
       "types": "./dist/lib/locale/*.d.ts"
@@ -211,7 +215,6 @@
     "enquirer": "^2.3.6",
     "execa": "^9.6.0",
     "express": "^4.21.2",
-    "express-rate-limit": "^8.5.2",
     "express-session": "^1.17.3",
     "fast-glob": "^3.3.3",
     "fast-json-stable-stringify": "^2.1.0",

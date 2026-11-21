@@ -180,6 +180,10 @@ Analytics,Аналитика
 Google Analytics 4 Measurement ID,Идентификатор потока Google Analytics 4
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,"Находится в Google Analytics в разделе Admin → Data Streams → ваш веб-поток. Оставьте пустым, чтобы отключить отслеживание."
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Введите корректный идентификатор GA4, например G-XXXXXXXXXX"
+Cookie consent,Согласие на cookie
+Not required: collect from the first page,Не требуется: собирать с первой страницы
+Required: no cookies until the shopper accepts,"Требуется: без cookie, пока покупатель не согласится"
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","При варианте «Требуется» Google Analytics не сохраняет cookie, пока ваш баннер cookie не сообщит Google, что покупатель дал согласие. До этого Google всё равно получает просмотры страниц и события, только без cookie, а ваши отчёты показывают лишь немногие из них. Выбирайте «Требуется», если в магазине есть баннер cookie, и используйте баннер с поддержкой Google Consent Mode, например Cookiebot, OneTrust или CookieYes. С вариантом «Требуется» и без такого баннера отчёты остаются почти пустыми."
 Allow guest checkout,Разрешить оформление без регистрации
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Если включено, покупатели могут оформить заказ без аккаунта. Если отключено, для оформления нужно войти или зарегистрироваться."
 Enable rule-based related products,Включить похожие товары по правилам

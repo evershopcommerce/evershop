@@ -18,7 +18,10 @@ import couponDataSchema from './couponDataSchema.json' with { type: 'json' };
 import type { CouponData } from './createCoupon.js';
 
 function validateCouponDataBeforeUpdate(data: Partial<CouponData>): Partial<CouponData> {
-  const ajv = getAjv();
+  // No schema defaults: Ajv writes them into `data` in place, and an update may
+  // carry only the fields to change. With defaults a description-only payload
+  // would also write start_date null and end_date null.
+  const ajv = getAjv({ useDefaults: false });
   (couponDataSchema as any).required = [];
   const jsonSchema = getValueSync(
     'updateCouponDataJsonSchema',

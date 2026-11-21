@@ -102,12 +102,13 @@ async function updateAttributeOptions(
   );
 }
 
+/**
+ * `groups` is the complete list of groups the attribute belongs to afterwards.
+ * An empty list removes the attribute from every group: that is what the admin
+ * form sends when no group is selected. (The caller skips this step when the
+ * payload has no `groups` at all.)
+ */
 async function updateAttributeGroups(attributeId: number, groups: number[], connection: PoolClient): Promise<void> {
-  // Ignore updating groups if it is not present in the data
-  if (groups.length === 0) {
-    return;
-  }
-
   // Get the current groups
   const currentGroups = await select()
     .from('attribute_group_link')
@@ -188,12 +189,15 @@ async function updateAttribute(uuid: string, data: AttributeData, context: Recor
       connection
     })(uuid, attributeData, connection);
 
-    // Save attribute groups
-    await hookable(updateAttributeGroups, {
-      ...context,
-      connection,
-      attribute
-    })(attribute.attribute_id, attributeData.groups || [], connection);
+    // Save attribute groups. A payload without `groups` leaves the links alone;
+    // `groups: []` (the admin form with no group selected) removes them all.
+    if (Array.isArray(attributeData.groups)) {
+      await hookable(updateAttributeGroups, {
+        ...context,
+        connection,
+        attribute
+      })(attribute.attribute_id, attributeData.groups, connection);
+    }
 
     // Save attribute options
     await hookable(updateAttributeOptions, {

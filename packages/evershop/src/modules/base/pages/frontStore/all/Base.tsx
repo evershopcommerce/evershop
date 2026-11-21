@@ -18,6 +18,7 @@ interface BaseProps {
   customer: Customer;
   themeConfig: {
     copyRight: string;
+    showPoweredBy?: boolean;
   };
   addMineCartItemApi: string;
   loginApi: string;
@@ -55,7 +56,10 @@ export default function Base({
           wrapper="main"
           editableInPageBuilder
         />
-        <Footer copyRight={themeConfig.copyRight} />
+        <Footer
+          copyRight={themeConfig.copyRight}
+          showPoweredBy={themeConfig.showPoweredBy}
+        />
       </CartProvider>
     </CustomerProvider>
   );
@@ -98,6 +102,9 @@ export const query = `
         removeApi
         updateQtyApi
         errors
+        category {
+          name
+        }
       }
     }
     customer: currentCustomer {
@@ -175,6 +182,7 @@ export const query = `
     }
     themeConfig {
       copyRight
+      showPoweredBy
     }
     addMineCartItemApi: url(routeId: "addMineCartItem")
     loginApi: url(routeId: "customerLoginJson")

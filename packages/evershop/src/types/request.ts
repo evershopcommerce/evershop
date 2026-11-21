@@ -49,6 +49,11 @@ export interface EvershopRequest extends ExpressRequest {
     password: string,
     callback: (err: Error | null, customer?: any) => void
   ) => Promise<void>;
+  /** Sign in an active customer without a password (social login) */
+  loginCustomer: (
+    customerId: number,
+    callback?: (err: Error | null) => void
+  ) => Promise<void>;
   logoutCustomer: (callback: (err: Error | null) => void) => void;
   isCustomerLoggedIn: () => boolean;
   getCurrentCustomer: () => CurrentCustomer | null;

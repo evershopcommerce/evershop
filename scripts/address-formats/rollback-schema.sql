@@ -105,7 +105,10 @@ SELECT pg_temp.rename_column_if('tax_rate', 'postal_code', 'postcode');
 
 -- The `migration` table holds ONE row per module with its current version
 -- (UNIQUE("module")). Step each module back to the version before this
--- release so a later upgrade runs the three files again.
-UPDATE "migration" SET "version" = '1.0.11', "updated_at" = CURRENT_TIMESTAMP WHERE "module" = 'checkout' AND "version" = '1.0.12';
-UPDATE "migration" SET "version" = '1.0.4',  "updated_at" = CURRENT_TIMESTAMP WHERE "module" = 'customer' AND "version" = '1.0.5';
-UPDATE "migration" SET "version" = '1.0.0',  "updated_at" = CURRENT_TIMESTAMP WHERE "module" = 'tax'      AND "version" = '1.0.1';
+-- release so a later upgrade runs the three files again. A store that has
+-- since run later migrations steps back too: those after the release (checkout
+-- 1.0.13 and 1.0.14, customer 1.0.6) only replace functions and triggers, so
+-- running them again is safe.
+UPDATE "migration" SET "version" = '1.0.11', "updated_at" = CURRENT_TIMESTAMP WHERE "module" = 'checkout' AND string_to_array("version", '.')::int[] >= '{1,0,12}';
+UPDATE "migration" SET "version" = '1.0.4',  "updated_at" = CURRENT_TIMESTAMP WHERE "module" = 'customer' AND string_to_array("version", '.')::int[] >= '{1,0,5}';
+UPDATE "migration" SET "version" = '1.0.0',  "updated_at" = CURRENT_TIMESTAMP WHERE "module" = 'tax'      AND string_to_array("version", '.')::int[] >= '{1,0,1}';

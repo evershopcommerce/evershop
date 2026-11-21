@@ -26,4 +26,11 @@ extend type Setting {
   Google Analytics 4 Measurement ID (e.g. `G-XXXXXXXXXX`). Empty disables it.
   """
   gaMeasurementId: String
+  """
+  Google Consent Mode default for GA4: `granted` (GA4 collects as it always
+  did; also when a cookie banner sets the default itself) or `denied`
+  (analytics and ads storage denied until a cookie banner sends Google's
+  consent update).
+  """
+  gaConsentDefault: String!
 }

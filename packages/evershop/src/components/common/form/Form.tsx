@@ -151,6 +151,16 @@ export function Form<T extends FieldValues = FieldValues>({
           event.stopPropagation();
           handleSubmit(handleFormSubmit, onValidationError)(event);
         }}
+        // Before hydration (a click while the page script is still loading,
+        // or JavaScript off) the browser submits the form by itself. Without
+        // a method that is a GET, which puts every named field — the
+        // password on the login forms — in the URL: browser history, access
+        // logs, Referer. `method` above is only the fetch method (and a
+        // native form has no PATCH or DELETE). No native `action` either:
+        // the early submission posts to the page's own URL (a GET route, so
+        // the not-found page answers), never to the JSON endpoint behind
+        // `action`.
+        method="post"
         className={className}
         noValidate={noValidate}
         {...props}

@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { getActiveChangesetId } from '../../../shared/changesetDb.js';
 import { discardAdminChangesets, getDb } from '../../../shared/db.js';
+import { deleteCategory, insertCategory } from '../../../shared/importDb.js';
 import { seedWidgetPlacement } from '../../../shared/pbApi.js';
 
 /**
@@ -51,29 +52,49 @@ async function readChangesetToken(changesetId: number): Promise<string> {
   return rows[0].token;
 }
 
-async function pickExistingCategory(): Promise<{
+/**
+ * A category of the spec's own, so it runs on an empty store. Its
+ * `url_rewrite` row is written by the `category_created` subscriber, a
+ * moment after the insert, so wait for it.
+ */
+async function createCategory(urlKey: string): Promise<{
   uuid: string;
   requestPath: string;
 }> {
+  const categoryId = await insertCategory(urlKey, 'E2E URN Category');
   const db = getDb();
-  const { rows } = await db.query<{
-    entity_uuid: string;
-    request_path: string;
-  }>(
-    `SELECT entity_uuid, request_path
-     FROM url_rewrite
-     WHERE entity_type = 'category'
-     LIMIT 1`
+  let row: { entity_uuid: string; request_path: string } | undefined;
+  await expect
+    .poll(
+      async () => {
+        const { rows } = await db.query<{
+          entity_uuid: string;
+          request_path: string;
+        }>(
+          `SELECT r.entity_uuid, r.request_path
+           FROM url_rewrite r
+           JOIN category c ON c.uuid = r.entity_uuid
+           WHERE r.entity_type = 'category' AND c.category_id = $1`,
+          [categoryId]
+        );
+        row = rows[0];
+        return rows.length;
+      },
+      { timeout: 15_000 }
+    )
+    .toBe(1);
+  return { uuid: row!.entity_uuid, requestPath: row!.request_path };
+}
+
+async function deleteCategoryAndRewrite(urlKey: string): Promise<void> {
+  await getDb().query(
+    `DELETE FROM url_rewrite WHERE entity_type = 'category' AND entity_uuid IN (
+       SELECT c.uuid FROM category c
+       JOIN category_description d ON d.category_description_category_id = c.category_id
+       WHERE d.url_key = $1)`,
+    [urlKey]
   );
-  if (rows.length === 0) {
-    throw new Error(
-      'No url_rewrite rows for entity_type=category — seed at least one category in the dev DB before running this spec.'
-    );
-  }
-  return {
-    uuid: rows[0].entity_uuid,
-    requestPath: rows[0].request_path
-  };
+  await deleteCategory(urlKey);
 }
 
 /**
@@ -102,15 +123,23 @@ async function getOrCreateDraft(): Promise<{ id: number; token: string }> {
   return { id, token };
 }
 
+const cleanups: Array<() => Promise<void>> = [];
+
 test.describe('URN link resolution', () => {
   test.beforeEach(async () => {
     await discardAdminChangesets(loadAdminUserId());
   });
 
+  test.afterEach(async () => {
+    for (const c of cleanups.splice(0)) await c();
+  });
+
   test('coupon_block CTA URN resolves to current url_rewrite', async ({
     request
   }) => {
-    const category = await pickExistingCategory();
+    const urlKey = `e2e-urn-cat-${randomUUID().slice(0, 8)}`;
+    const category = await createCategory(urlKey);
+    cleanups.push(() => deleteCategoryAndRewrite(urlKey));
     const { id: changesetId, token } = await getOrCreateDraft();
 
     await seedWidgetPlacement(request, {

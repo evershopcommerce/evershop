@@ -16,13 +16,13 @@ import { PaletteTab } from '../../pages/PaletteTab.js';
  *
  * Each Columns widget renders one synthetic `<Area>` per column, IDs
  * `columnsContainer_<columnsUid>_col_<index>` (see `Columns.tsx:165`).
- * The column area itself isn't marked `isGlobal` — BUT it's nested
- * inside the homepage's `content` area, which IS global
- * (`base/.../Base.tsx:52`). `AreaStartDropZone.onDrop` derives
- * `isGlobal` from `zone.closest('[data-evershop-global="true"]')`,
- * which walks up the DOM and finds the outer global wrapper. Net
- * effect for direct drag-drop: a child dropped into a column nested
- * under a global Area defaults to `route='all'`.
+ * The column area itself isn't marked `isGlobal`, and neither is the
+ * homepage's `content` area it's nested in
+ * (`modules/base/pages/frontStore/all/Base.tsx`). `AreaStartDropZone.onDrop`
+ * derives `isGlobal` from `zone.closest('[data-evershop-global="true"]')`,
+ * which walks up the DOM and finds no global wrapper. Net effect for
+ * direct drag-drop: a child dropped into a column under `content` stays
+ * on the page's own route, `homepage`.
  *
  * (The `pendingParent` flow — clicking the column's "Add widget"
  * placeholder and picking from the palette — has different semantics:
@@ -31,7 +31,7 @@ import { PaletteTab } from '../../pages/PaletteTab.js';
  *
  * Verifies:
  *   - placement.area === `columnsContainer_<columnsUid>_col_0`
- *   - placement.route === 'all' (global inherited via DOM ancestor)
+ *   - placement.route === 'homepage' (no global DOM ancestor)
  *   - widget_instance + widget_placement INSERT ops both land
  */
 
@@ -103,9 +103,8 @@ test.describe('drag-drop / column container', () => {
       .toBeGreaterThanOrEqual(opsBefore + 2);
 
     // 4. The latest placement targets the synthetic column area.
-    //    Route is 'all' because the drop zone's closest
-    //    [data-evershop-global="true"] ancestor is the outer content
-    //    area (see docstring above).
+    //    Route is 'homepage' because the drop zone has no
+    //    [data-evershop-global="true"] ancestor (see docstring above).
     const db = getDb();
     const { rows } = await db.query<{
       route: string;
@@ -121,6 +120,6 @@ test.describe('drag-drop / column container', () => {
       [changesetId]
     );
     expect(rows[0].area).toBe(columnArea);
-    expect(rows[0].route).toBe('all');
+    expect(rows[0].route).toBe('homepage');
   });
 });

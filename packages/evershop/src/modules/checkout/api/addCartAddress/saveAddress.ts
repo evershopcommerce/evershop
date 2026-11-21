@@ -1,25 +1,25 @@
 import { translate } from '../../../../lib/locale/translate/translate.js';
 import {
   INTERNAL_SERVER_ERROR,
-  INVALID_PAYLOAD,
+  NOT_FOUND,
   OK
 } from '../../../../lib/util/httpStatus.js';
 import { respondAddressValidationError } from '../../../customer/services/customer/address/addressValidationResponse.js';
 import { addBillingAddress } from '../../services/addBillingAddress.js';
 import { addShippingAddress } from '../../services/addShippingAddress.js';
-import { getCartByUUID } from '../../services/getCartByUUID.js';
+import { findCartByUUID } from '../../services/getCartByUUID.js';
 
 export default async (request, response, next) => {
   try {
     const { cart_id } = request.params;
     const { address, type } = request.body;
     // Check if cart exists
-    const cart = await getCartByUUID(cart_id);
+    const cart = await findCartByUUID(cart_id);
     if (!cart) {
-      response.status(INVALID_PAYLOAD);
+      response.status(NOT_FOUND);
       return response.json({
         error: {
-          status: INVALID_PAYLOAD,
+          status: NOT_FOUND,
           message: translate('Invalid cart')
         }
       });

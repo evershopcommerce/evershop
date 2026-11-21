@@ -1,6 +1,4 @@
-import { select } from '@evershop/postgres-query-builder';
-import { pool } from '../../../lib/postgres/connection.js';
-import { buildUrl } from '../../../lib/router/buildUrl.js';
+import { getProductUrl } from './product/productUrl.js';
 
 export const registerCartItemProductUrlField = (fields) => {
   const newFields = fields.concat([
@@ -12,18 +10,8 @@ export const registerCartItemProductUrlField = (fields) => {
           if (!this.getData('product_id')) {
             return null;
           }
-          const urlRewrite = await select()
-            .from('url_rewrite')
-            .where('entity_uuid', '=', product.uuid)
-            .and('entity_type', '=', 'product')
-            .load(pool);
-          if (!urlRewrite) {
-            return buildUrl('productView', {
-              uuid: product.uuid
-            });
-          } else {
-            return urlRewrite.request_path;
-          }
+          // url_rewrite first, else the productView route
+          return getProductUrl(product.uuid);
         }
       ],
       dependencies: ['product_id']

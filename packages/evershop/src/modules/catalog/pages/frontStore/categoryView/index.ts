@@ -1,6 +1,6 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
-import { getBaseUrl } from '../../../../../lib/util/getBaseUrl.js';
+import { getImageUrl } from '../../../../../lib/util/getImageUrl.js';
 import { setPageMetaInfo } from '../../../../cms/services/pageMetaInfo.js';
 import { setContextValue } from '../../../../graphql/services/contextHelper.js';
 
@@ -29,15 +29,17 @@ export default async (request, response, next) => {
       });
 
       if (category.image) {
-        const baseUrl = getBaseUrl();
-        // Encode `category.image` as the `/images` src: it's a relative path for
-        // local storage but an ABSOLUTE URL for cloud storage (S3), and only the
-        // outer `/images` URL should be absolute. Mirrors PageInfo.ogInfo.
+        // `category.image` (a relative path for local storage, a full URL for
+        // cloud storage) goes as it is to the `/images` endpoint; only the
+        // endpoint URL is absolute, as social crawlers require.
         setPageMetaInfo(request, {
           ogInfo: {
-            image: `${baseUrl}/images?src=${encodeURIComponent(
-              category.image
-            )}&w=1200&q=80&h=675&f=png`
+            image: getImageUrl(category.image, {
+              width: 1200,
+              quality: 80,
+              height: 675,
+              format: 'png'
+            })
           }
         });
       }

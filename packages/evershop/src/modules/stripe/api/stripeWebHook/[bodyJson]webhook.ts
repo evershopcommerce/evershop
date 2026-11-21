@@ -7,13 +7,13 @@ import {
 } from '@evershop/postgres-query-builder';
 import stripePgk from 'stripe';
 import { display } from 'zero-decimal-currencies';
-import { emit } from '../../../../lib/event/emitter.js';
 import { debug, error } from '../../../../lib/log/logger.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
 import addOrderActivityLog from '../../../oms/services/addOrderActivityLog.js';
+import { markOrderPlaced } from '../../../oms/services/markOrderPlaced.js';
 import { recordRefund } from '../../../oms/services/recordRefund.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
@@ -24,9 +24,10 @@ import { isHandledPaymentIntentEvent } from '../../services/webhookEvents.js';
  * Load the order row with `FOR UPDATE` so it stays locked for the life of the
  * webhook transaction. Stripe can deliver the same event twice (a retry can
  * overlap a slow original); without the lock both deliveries read "no
- * transaction yet" and both emit `order_placed` — duplicate confirmation email
- * and duplicate side effects. The lock serializes them: the second delivery
- * blocks until the first commits, then sees the transaction row and stops.
+ * transaction yet" and both write the status change and the activity line.
+ * The lock serializes them: the second delivery blocks until the first
+ * commits, then sees the transaction row and stops. (`order_placed` itself is
+ * sent once by `markOrderPlaced`, lock or not.)
  */
 async function loadOrderByUuidForUpdate(
   connection: PoolClient,
@@ -231,13 +232,9 @@ export default async (
             false,
             connection
           );
-          // Emit on THIS connection so the event insert lives or dies with the
-          // status update and only becomes visible to subscribers after commit.
-          await emit(
-            'order_placed',
-            { ...order, payment_status: 'stripe_captured' },
-            connection
-          );
+          // On THIS connection, so `order_placed` lives or dies with the
+          // status update and subscribers see it only after the commit
+          await markOrderPlaced(order.order_id, connection);
         }
         break;
       }
@@ -273,11 +270,7 @@ export default async (
             false,
             connection
           );
-          await emit(
-            'order_placed',
-            { ...order, payment_status: 'stripe_authorized' },
-            connection
-          );
+          await markOrderPlaced(order.order_id, connection);
         }
         break;
       }

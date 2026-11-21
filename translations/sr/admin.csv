@@ -180,6 +180,10 @@ Analytics,Analitika
 Google Analytics 4 Measurement ID,Google Analytics 4 ID merenja
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Nalazi se u Google Analytics-u pod Admin → Data Streams → vaš veb tok. Ostavite prazno da biste isključili praćenje.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Unesite važeći GA4 ID merenja, npr. G-XXXXXXXXXX"
+Cookie consent,Saglasnost za kolačiće
+Not required: collect from the first page,Nije obavezno: prikupljaj od prve stranice
+Required: no cookies until the shopper accepts,Obavezno: bez kolačića dok kupac ne prihvati
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","Uz „Obavezno”, Google Analytics ne postavlja kolačiće dok vaš baner za kolačiće ne javi Google-u da je kupac prihvatio. Do tada Google ipak prima preglede stranica i događaje bez kolačića, a vaši izveštaji prikazuju samo mali deo njih. Izaberite „Obavezno” kad god vaša prodavnica ima baner za kolačiće, i koristite baner koji podržava Google Consent Mode, kao što su Cookiebot, OneTrust ili CookieYes. Uz „Obavezno” i bez takvog banera, vaši izveštaji ostaju skoro prazni."
 Allow guest checkout,Dozvoli plaćanje kao gost
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Kada je uključeno, kupci mogu da naruče bez naloga. Kada je isključeno, moraju da se prijave ili registruju da bi platili."
 Enable rule-based related products,Omogući povezane proizvode na osnovu pravila

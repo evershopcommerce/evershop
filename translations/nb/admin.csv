@@ -180,6 +180,10 @@ Analytics,Analyse
 Google Analytics 4 Measurement ID,Google Analytics 4 måle-ID
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Finnes i Google Analytics under Admin → Data Streams → nettstrømmen din. La stå tomt for å deaktivere sporing.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Skriv inn en gyldig GA4 måle-ID, f.eks. G-XXXXXXXXXX"
+Cookie consent,Samtykke til informasjonskapsler
+Not required: collect from the first page,Ikke påkrevd: samle inn fra første side
+Required: no cookies until the shopper accepts,Påkrevd: ingen informasjonskapsler før kunden godtar
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","Med «Påkrevd» lagrer Google Analytics ingen informasjonskapsler før cookie-banneret ditt forteller Google at kunden har godtatt. Frem til da mottar Google likevel sidevisninger og hendelser uten informasjonskapsler, og rapportene dine viser bare få av dem. Velg «Påkrevd» når butikken din har et cookie-banner, og bruk et banner som støtter Google Consent Mode, for eksempel Cookiebot, OneTrust eller CookieYes. Med «Påkrevd» og uten et slikt banner blir rapportene dine nesten tomme."
 Allow guest checkout,Tillat gjesteutsjekk
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Når dette er aktivert, kan kunder legge inn en bestilling uten konto. Når det er deaktivert, må de logge inn eller registrere seg for å betale."
 Enable rule-based related products,Aktiver regelbaserte relaterte produkter

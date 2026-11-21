@@ -1,0 +1,9 @@
+url_key,name,parent,status,position,description,meta_title,meta_description,image,metafield:custom.banner_color
+apparel,Apparel,,1,1,Everyday clothing made from organic cotton.,Apparel - Northline,Shop organic cotton t-shirts and hoodies.,https://example.com/img/categories/apparel.jpg,#1F2937
+t-shirts,T-Shirts,apparel,1,1,"<p>Soft, breathable <strong>organic cotton</strong> tees in classic cuts.</p>",T-Shirts - Northline,"Classic organic cotton t-shirts, pre-washed and soft.",https://example.com/img/categories/t-shirts.jpg,#2563EB
+hoodies,Hoodies,apparel,1,2,"Heavyweight hoodies built to last.
+
+Cut roomy and brushed soft on the inside.",Hoodies - Northline,Heavyweight organic cotton hoodies.,https://example.com/img/categories/hoodies.jpg,
+accessories,Accessories,,1,2,"Caps, bags and gift cards.",Accessories - Northline,"Caps, tote bags and gift cards.",https://example.com/img/categories/accessories.jpg,
+bags,Bags,accessories,1,1,Tote bags for every day.,Bags - Northline,Canvas tote bags and more.,https://example.com/img/categories/bags.jpg,
+archive,Archive,,0,3,"Past-season items, hidden from the storefront.",,,,

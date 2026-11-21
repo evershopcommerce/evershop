@@ -1,10 +1,21 @@
 import { del, insertOnUpdate, update } from '@evershop/postgres-query-builder';
 import type { PoolClient } from 'pg';
 
+export type RedirectStatusCode = 301 | 302;
+
 interface RedirectInput {
   fromPath: string;
   toPath: string;
   entityUrn?: string | null;
+  /**
+   * The HTTP status the storefront answers with. 302 (the default) is right for
+   * the redirects core records itself when a `url_key` changes, because the old
+   * address may come back. A migration from another store needs 301, so that
+   * search engines move the old address's ranking to the new one.
+   */
+  statusCode?: RedirectStatusCode;
+  /** Who wrote the row: `auto` (core, the default) or e.g. `import`. */
+  source?: string;
 }
 
 /**
@@ -16,11 +27,18 @@ interface RedirectInput {
  *  1. Reclaim  — a stale redirect sitting on the now-live destination must go.
  *  2. Collapse — repoint any redirect that pointed at the vacated `fromPath`
  *                to `toPath` (so A->B then B->C becomes A->C).
- *  3. Upsert   — the new `fromPath -> toPath` hop (overwrites in place).
+ *  3. Upsert   — the new `fromPath -> toPath` hop (overwrites in place,
+ *                including its status code and source).
  */
 export async function recordRedirect(
   connection: PoolClient,
-  { fromPath, toPath, entityUrn = null }: RedirectInput
+  {
+    fromPath,
+    toPath,
+    entityUrn = null,
+    statusCode = 302,
+    source = 'auto'
+  }: RedirectInput
 ): Promise<void> {
   // Never self-redirect (no-op rename, or from == to).
   if (!fromPath || !toPath || fromPath === toPath) {
@@ -44,7 +62,8 @@ export async function recordRedirect(
       from_path: fromPath,
       to_path: toPath,
       entity_urn: entityUrn,
-      source: 'auto'
+      status_code: statusCode,
+      source
     })
     .execute(connection);
 }
@@ -106,12 +125,16 @@ export async function recordRedirectsBatch(
   );
 
   // 3. Upsert every new hop (keyed on from_path).
+  //    The batch is for core's own fan-out, so every hop is a 302 written by
+  //    `auto`, exactly what `recordRedirect` writes by default (an existing
+  //    row on the same path takes the same values).
   await connection.query(
-    `INSERT INTO url_redirect (from_path, to_path, entity_urn, source)
-     SELECT unnest($1::text[]), unnest($2::text[]), unnest($3::text[]), 'auto'
+    `INSERT INTO url_redirect (from_path, to_path, entity_urn, status_code, source)
+     SELECT unnest($1::text[]), unnest($2::text[]), unnest($3::text[]), 302, 'auto'
      ON CONFLICT (from_path) DO UPDATE
         SET to_path = EXCLUDED.to_path,
             entity_urn = EXCLUDED.entity_urn,
+            status_code = EXCLUDED.status_code,
             source = EXCLUDED.source`,
     [froms, tos, urns]
   );

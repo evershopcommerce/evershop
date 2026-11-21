@@ -7,6 +7,7 @@ import { getConfig } from '../../../../lib/util/getConfig.js';
 import { OK, INTERNAL_SERVER_ERROR } from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
+import { emailPattern } from '../../services/customer/emailPattern.js';
 import { sendResetPasswordEmail } from '../../services/sendResetPasswordEmail.js';
 
 export default async (
@@ -32,7 +33,7 @@ export default async (
     // Check if email is existed
     const existingCustomer = await select()
       .from('customer')
-      .where('email', '=', email)
+      .where('email', 'ILIKE', emailPattern(email))
       .load(pool);
 
     if (existingCustomer) {

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
+import { COMMERCE_EVENT_STUB } from '../../components/common/react/server/commerceEventStub.js';
 import { FETCH_LOCALE_PATCH } from '../../components/common/react/server/fetchLocalePatch.js';
 import { getNotifications } from '../../modules/base/services/notifications.js';
 import { getProductImageDimensions } from '../../modules/catalog/services/catalogSettings.js';
@@ -107,11 +108,16 @@ function renderDevelopment(
   const localePatchScript = route.isAdmin
     ? ''
     : `<script>${FETCH_LOCALE_PATCH}</script>`;
+  // Storefront only: the commerce event stub, as in production (Server.tsx)
+  const commerceEventScript = route.isAdmin
+    ? ''
+    : `<script>${COMMERCE_EVENT_STUB}</script>`;
   response.send(`
             <!doctype html><html lang="${langCode}">
                 <head>
                   <script>var eContext = ${safeContextValue}</script>
                   ${localePatchScript}
+                  ${commerceEventScript}
                 </head>
                 <body class="${classes}">
                 <div id="app"></div>

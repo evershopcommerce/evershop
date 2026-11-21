@@ -1,9 +1,15 @@
+import { translate } from '../../../../lib/locale/translate/translate.js';
 import { error } from '../../../../lib/log/logger.js';
 import { buildUrl } from '../../../../lib/router/buildUrl.js';
-import { INTERNAL_SERVER_ERROR, OK } from '../../../../lib/util/httpStatus.js';
+import {
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  OK
+} from '../../../../lib/util/httpStatus.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
 import { checkout } from '../../services/checkout.js';
+import { CartNotFoundError } from '../../services/getCartByUUID.js';
 
 export default async (
   request: EvershopRequest,
@@ -44,6 +50,18 @@ export default async (
     };
     next();
   } catch (e) {
+    // No active cart with this id: unknown, not a UUID, or already ordered.
+    // Like the other cart routes: 404, not 500.
+    if (e instanceof CartNotFoundError) {
+      response.status(NOT_FOUND);
+      response.json({
+        error: {
+          message: translate('Invalid cart'),
+          status: NOT_FOUND
+        }
+      });
+      return;
+    }
     error(e);
     response.status(INTERNAL_SERVER_ERROR);
     response.json({

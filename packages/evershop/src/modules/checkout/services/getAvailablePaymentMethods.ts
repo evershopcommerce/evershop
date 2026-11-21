@@ -94,6 +94,11 @@ export type PaymentRefundHandler = (
  * A method omits any operation it doesn't support: an offline method (COD)
  * supplies trivial handlers that return `{ offline: true }`; a method with no
  * refund support omits `refund` and gets no refund action, by construction.
+ *
+ * Placing the order is the method's own step, not part of this contract: it
+ * calls `markOrderPlaced` (oms services) when its payment succeeds, or when
+ * the order is created for an offline method. That sets `placed_at` and emits
+ * `order_placed`, once per order.
  */
 export type PaymentMethodFactory = {
   /** Resolves the method's `{ code, name }`. */

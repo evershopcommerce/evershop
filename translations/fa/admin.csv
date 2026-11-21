@@ -180,6 +180,10 @@ Analytics,تحلیل‌ها
 Google Analytics 4 Measurement ID,شناسه اندازه‌گیری Google Analytics 4
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,در Google Analytics در مسیر Admin → Data Streams → جریان وب شما یافت می‌شود. برای غیرفعال کردن ردیابی خالی بگذارید.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX",یک شناسه اندازه‌گیری معتبر GA4 وارد کنید، مثلاً G-XXXXXXXXXX
+Cookie consent,رضایت کوکی
+Not required: collect from the first page,الزامی نیست: جمع‌آوری از اولین صفحه
+Required: no cookies until the shopper accepts,الزامی: بدون کوکی تا زمانی که مشتری بپذیرد
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.",با گزینه «الزامی»، Google Analytics تا زمانی که بنر کوکی شما به Google اطلاع ندهد که مشتری پذیرفته است، هیچ کوکی‌ای ذخیره نمی‌کند. تا آن زمان، Google همچنان بازدید صفحه‌ها و رویدادها را بدون کوکی دریافت می‌کند و گزارش‌های شما فقط تعداد کمی از آن‌ها را نشان می‌دهند. اگر فروشگاه شما بنر کوکی دارد، «الزامی» را انتخاب کنید و از بنری استفاده کنید که از Google Consent Mode پشتیبانی می‌کند، مانند Cookiebot، OneTrust یا CookieYes. با «الزامی» و بدون چنین بنری، گزارش‌های شما تقریباً خالی می‌مانند.
 Allow guest checkout,اجازه پرداخت مهمان
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",در صورت فعال بودن، خریداران می‌توانند بدون حساب سفارش ثبت کنند. در صورت غیرفعال بودن، باید برای پرداخت وارد شوند یا ثبت‌نام کنند.
 Enable rule-based related products,فعال‌سازی محصولات مرتبط مبتنی بر قانون

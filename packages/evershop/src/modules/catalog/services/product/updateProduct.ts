@@ -32,7 +32,10 @@ import type { ProductAttributeData, ProductData, ProductInventoryData } from './
 import { productDataSchema } from './productDataSchema.js';
 
 function validateProductDataBeforeUpdate(data: ProductData): ProductData {
-  const ajv = getAjv();
+  // No schema defaults: Ajv writes them into `data` in place, and an update may
+  // carry only the fields to change. With defaults a price-only payload would
+  // also write description [], tax_class null and category_id null.
+  const ajv = getAjv({ useDefaults: false });
   (productDataSchema as JSONSchemaType<any>).required = [];
   const jsonSchema = getValueSync(
     'updateProductDataJsonSchema',
@@ -325,6 +328,16 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
     if (!e.message.includes('No data was provided')) {
       throw e;
     }
+    // The payload changes no `product` column (only the description, stock,
+    // attributes or images). Update the row anyway, without changing it, so
+    // its triggers run as on any other save: `product_updated` comes only from
+    // the AFTER UPDATE trigger on `product`, and its subscriber rebuilds
+    // `url_rewrite`. Without it a new url_key kept the old URL, which the
+    // redirect captured below sends to the new path, which had no rewrite: 404.
+    await update('product')
+      .given({ uuid })
+      .where('product_id', '=', product.product_id)
+      .execute(connection);
   }
   let description;
   try {
@@ -472,7 +485,13 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
       }
     }
   }
+  // `product` is the stored row (with its description columns): the base of the
+  // result, so that the steps that follow (inventory, attributes, images) always
+  // have the id and the variant group of the product, also when this payload
+  // changed nothing in `product` or `product_description` (attributes only,
+  // images only: found by the import engine, 2026-10-19).
   return {
+    ...product,
     ...description,
     ...newProduct,
     updatedId: product.product_id

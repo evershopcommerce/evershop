@@ -2,14 +2,13 @@ import {
   commit,
   getConnection,
   rollback,
-  select,
   startTransaction
 } from '@evershop/postgres-query-builder';
-import { emit } from '../../../lib/event/emitter.js';
 import { error } from '../../../lib/log/logger.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import type { OrderRow } from '../../../types/db/index.js';
 import addOrderActivityLog from '../../oms/services/addOrderActivityLog.js';
+import { markOrderPlaced } from '../../oms/services/markOrderPlaced.js';
 import { updatePaymentStatus } from '../../oms/services/updatePaymentStatus.js';
 import { Cart } from './cart/Cart.js';
 import {
@@ -85,11 +84,11 @@ export function registerZeroCheckoutOrderValidation(): void {
 }
 
 /**
- * Flips a freshly placed zero-checkout order to `paid` (one transaction:
- * status update + activity log), then emits `order_placed` with the
- * re-loaded row so subscribers see the paid order. The `changePaymentStatus`
- * after-hook recomputes `order.status` from the PSO mapping on the same
- * connection.
+ * Flips a freshly created zero-checkout order to `paid` and marks it placed,
+ * in one transaction: status update, activity log, then `markOrderPlaced`,
+ * so `order_placed` carries the paid order and exists only if the payment
+ * status was saved. The `changePaymentStatus` after-hook recomputes
+ * `order.status` from the PSO mapping on the same connection.
  */
 export async function completeZeroCheckoutOrder(orderId: number): Promise<void> {
   const connection = await getConnection(pool);
@@ -102,16 +101,12 @@ export async function completeZeroCheckoutOrder(orderId: number): Promise<void> 
       false,
       connection
     );
+    await markOrderPlaced(orderId, connection);
     await commit(connection);
   } catch (e) {
     await rollback(connection);
     throw e;
   }
-  const order = await select()
-    .from('order')
-    .where('order_id', '=', orderId)
-    .load(pool);
-  await emit('order_placed', { ...order });
 }
 
 /**

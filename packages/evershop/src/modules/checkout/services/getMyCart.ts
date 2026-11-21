@@ -1,6 +1,7 @@
 import { select, update } from '@evershop/postgres-query-builder';
 import { pool } from '../../../lib/postgres/connection.js';
 import { Cart, getCart } from './cart/Cart.js';
+import { belongsToAnotherCustomer, releaseCartFromSession } from './cartSession.js';
 
 /**
  * This function return a Cart object by the session ID.
@@ -22,31 +23,35 @@ export const getMyCart = async (
     .load(pool);
 
   if (cartBySid) {
-    const cart = await getCart(cartBySid.uuid);
-    return cart;
-  } else {
-    // Get the customer id from the session
-    if (customerId) {
-      // Check if any cart is associated with the customer id
-      const abandonedCart = await select()
-        .from('cart')
-        .where('customer_id', '=', customerId)
-        .andWhere('status', '=', 1)
-        .load(pool);
+    if (!belongsToAnotherCustomer(cartBySid, customerId)) {
+      const cart = await getCart(cartBySid.uuid);
+      return cart;
+    }
+    // The session's cart is another customer's: they signed out on this
+    // browser and someone else is here now. Never hand it over — it carries
+    // their items and their address. Unlink it from the session instead; it
+    // stays theirs and comes back at their next sign-in (below).
+    await releaseCartFromSession(cartBySid.cart_id);
+  }
 
-      if (abandonedCart) {
-        // Update the cart with the session id
-        await update('cart')
-          .given({ sid: sid })
-          .where('uuid', '=', abandonedCart.uuid)
-          .execute(pool);
-        const cart = await getCart(abandonedCart.uuid);
-        return cart;
-      } else {
-        return null;
-      }
-    } else {
-      return null;
+  // Get the customer id from the session
+  if (customerId) {
+    // Check if any cart is associated with the customer id
+    const abandonedCart = await select()
+      .from('cart')
+      .where('customer_id', '=', customerId)
+      .andWhere('status', '=', 1)
+      .load(pool);
+
+    if (abandonedCart) {
+      // Update the cart with the session id
+      await update('cart')
+        .given({ sid: sid })
+        .where('uuid', '=', abandonedCart.uuid)
+        .execute(pool);
+      const cart = await getCart(abandonedCart.uuid);
+      return cart;
     }
   }
+  return null;
 };

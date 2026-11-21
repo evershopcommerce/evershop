@@ -2,7 +2,12 @@ import {
   useCartState,
   useCartDispatch
 } from '@components/frontStore/cart/CartContext.js';
+import {
+  publishSafely,
+  toCommerceCart
+} from '@components/frontStore/commerceEventData.js';
 import { CreateOrderResult } from '@evershop/evershop/checkout/services';
+import { dispatchCommerceEvent } from '@evershop/evershop/components/common/commerceEvents';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { CheckoutData } from '@evershop/evershop/types/checkoutData';
 import { produce } from 'immer';
@@ -212,6 +217,9 @@ export function CheckoutProvider({
   const cartState = useCartState();
   const cartDispatch = useCartDispatch();
   const cartId = cartState?.data?.uuid;
+  // The latest cart for checkout()'s event, which its closure may not have
+  const cartDataRef = useRef(cartState?.data);
+  cartDataRef.current = cartState?.data;
 
   // Get payment methods - return the list from cart context
   const getPaymentMethods = useCallback((): PaymentMethod[] => {
@@ -339,6 +347,24 @@ export function CheckoutProvider({
       enableForm();
       dispatch({ type: 'SET_PLACING_ORDER', payload: false });
       throw new Error(json.error?.message || _('Failed to checkout'));
+    }
+
+    // The order exists with its payment method: payment info submitted
+    const cart = cartDataRef.current;
+    const paymentCode = checkoutDataRef.current.paymentMethod;
+    if (cart && paymentCode) {
+      publishSafely(() =>
+        dispatchCommerceEvent('payment_info_submitted', {
+          ...toCommerceCart(cart),
+          paymentMethod: {
+            code: paymentCode,
+            name:
+              cart.availablePaymentMethods?.find(
+                (method) => method.code === paymentCode
+              )?.name ?? paymentCode
+          }
+        })
+      );
     }
 
     dispatch({

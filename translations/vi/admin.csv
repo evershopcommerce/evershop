@@ -180,6 +180,10 @@ Analytics,Phân tích
 Google Analytics 4 Measurement ID,ID đo lường Google Analytics 4
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,Tìm trong Google Analytics tại Admin → Data Streams → luồng web của bạn. Để trống để tắt theo dõi.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Nhập ID đo lường GA4 hợp lệ, ví dụ G-XXXXXXXXXX"
+Cookie consent,Đồng ý cookie
+Not required: collect from the first page,Không bắt buộc: thu thập ngay từ trang đầu tiên
+Required: no cookies until the shopper accepts,Bắt buộc: không dùng cookie cho đến khi khách hàng chấp nhận
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","Khi chọn ""Bắt buộc"", Google Analytics không đặt cookie nào cho đến khi banner cookie của bạn báo cho Google rằng khách hàng đã chấp nhận. Trước đó, Google vẫn nhận lượt xem trang và sự kiện mà không có cookie, và báo cáo của bạn chỉ hiển thị một phần nhỏ trong số đó. Hãy chọn ""Bắt buộc"" khi cửa hàng của bạn có banner cookie, và dùng banner hỗ trợ Google Consent Mode, như Cookiebot, OneTrust hoặc CookieYes. Nếu chọn ""Bắt buộc"" mà không có banner như vậy, báo cáo của bạn gần như trống."
 Allow guest checkout,Cho phép thanh toán với tư cách khách
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.","Khi bật, người mua có thể đặt hàng mà không cần tài khoản. Khi tắt, họ phải đăng nhập hoặc đăng ký để thanh toán."
 Enable rule-based related products,Bật sản phẩm liên quan theo quy tắc

@@ -1,4 +1,4 @@
-# v2.3.0 (unreleased)
+# v2.3.0 (2026-10-08)
 
 A feature release on top of v2.2.2: outbound webhooks, a country-aware address system, a unified payment capture/void/refund flow with a rebuilt PayPal integration, redesigned transactional emails, a media library, and storefront building blocks for theme authors. It includes everything in v2.2.2 (a start-up fix and several security fixes).
 

@@ -9,14 +9,16 @@ const port = normalizePort();
  *
  * @param   {string}  routeId
  * @param   {object}  params   Key-Pair value of route params
+ * @param   {object}  query    Key-Pair value of query string params, as `buildUrl` takes them
  *
  * @return  {string} The Url
  */
 export const buildAbsoluteUrl = (
   routeId: string,
-  params: Record<string, any> = {}
+  params: Record<string, any> = {},
+  query: Record<string, any> = {}
 ) => {
-  const url = buildUrl(routeId, params).replace(/^\/|\/$/g, '');
+  const url = buildUrl(routeId, params, query).replace(/^\/|\/$/g, '');
   const homeUrl = getBaseUrl();
   return `${homeUrl}/${url}`;
 };

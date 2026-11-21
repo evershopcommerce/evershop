@@ -12,14 +12,15 @@ import { PaletteTab } from '../../pages/PaletteTab.js';
 
 /**
  * Cross-frame drag-drop matrix. Five widget types × two storefront
- * areas exposed on the homepage (`headerTop` + `content`). Both areas
- * are marked `<Area isGlobal>` in `modules/base/.../Base.tsx`, so the
- * drop-zone reports `isGlobal: true` and the editor defaults the new
- * placement to `route='all'`. The matrix asserts:
+ * areas exposed on the homepage (`headerTop` + `content`). `headerTop`
+ * is an `<Area isGlobal>`, so the drop-zone reports `isGlobal: true` and
+ * the editor defaults the new placement to `route='all'`. `content` is
+ * not global (`modules/base/pages/frontStore/all/Base.tsx`), so its
+ * placement stays on the page's own route, `homepage`. The matrix asserts:
  *
  *   - widget_instance + widget_placement ops both land
  *   - placement.area matches the drop target
- *   - placement.route === 'all' (global default)
+ *   - placement.route is the area's default (see AREAS)
  *   - placement.sort_order is finite (exact value depends on pre-rendered
  *     siblings — see `dropSortOrder.ts`; we just confirm the editor wrote
  *     a numeric value, not the placeholder)
@@ -30,13 +31,8 @@ import { PaletteTab } from '../../pages/PaletteTab.js';
  * (see `pageBuilder/pages/admin/pageBuilderEdit/Editor.tsx`) — global
  * teardown sweeps them.
  *
- * The non-global / into-column branches of the drop logic are out of
- * scope here:
- *   - The homepage doesn't expose a non-global area at the top level
- *     (Header, Content, Footer are all global).
- *   - Into-column drops require a pre-seeded Columns widget and use a
- *     different message shape (`pendingParent`). Covered separately
- *     when we expand the matrix to nested containers.
+ * Into-column drops require a pre-seeded Columns widget and use a
+ * different message shape (`pendingParent`): see column-drop.spec.ts.
  */
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -69,7 +65,11 @@ const WIDGETS: WidgetSpec[] = [
   { label: 'Banner', code: 'banner' }
 ];
 
-const GLOBAL_AREAS = ['headerTop', 'content'] as const;
+// Each area, with the route a drop into it defaults to.
+const AREAS = [
+  { areaId: 'headerTop', route: 'all' },
+  { areaId: 'content', route: 'homepage' }
+] as const;
 
 interface PlacementRow {
   route: string;
@@ -106,8 +106,8 @@ test.describe('drag-drop / matrix', () => {
   });
 
   for (const widget of WIDGETS) {
-    for (const areaId of GLOBAL_AREAS) {
-      test(`drop ${widget.label} into ${areaId} → widget+placement ops, route='all'`, async ({
+    for (const { areaId, route } of AREAS) {
+      test(`drop ${widget.label} into ${areaId} → widget+placement ops, route='${route}'`, async ({
         page
       }) => {
         const editor = new EditorPage(page);
@@ -125,7 +125,7 @@ test.describe('drag-drop / matrix', () => {
 
         const placement = await readLatestPlacement(changesetId!);
         expect(placement.area).toBe(areaId);
-        expect(placement.route).toBe('all');
+        expect(placement.route).toBe(route);
         expect(Number.isFinite(placement.sort_order)).toBe(true);
       });
     }

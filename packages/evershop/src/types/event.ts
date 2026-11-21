@@ -87,12 +87,33 @@ export interface EventDataRegistry {
   category_deleted: CategoryRow;
 
   /**
-   * Fired when product inventory is updated
-   * Data: Complete product_inventory table row
+   * Fired when a product's inventory row changes (a save that changes nothing
+   * fires nothing): an admin save, an order taking stock, a restock, an
+   * import. Written by a database trigger (catalog migration 1.0.17).
+   * Data: the product, and the inventory row before and after the change
    */
   inventory_updated: {
+    product_id: number;
+    product_uuid: string;
+    sku: string;
     old: ProductInventoryRow;
     new: ProductInventoryRow;
+  };
+
+  /**
+   * Fired when a product goes from out of stock to in stock, together with
+   * `inventory_updated`. In stock is the storefront's rule: stock not
+   * managed, or a quantity above 0 with stock availability on. Written by the
+   * same database trigger.
+   * Data: the product and its inventory now
+   */
+  product_back_in_stock: {
+    product_id: number;
+    product_uuid: string;
+    sku: string;
+    qty: number;
+    manage_stock: boolean;
+    stock_availability: boolean;
   };
 
   /**
@@ -126,8 +147,12 @@ export interface EventDataRegistry {
   order_created: OrderRow;
 
   /**
-   * Fired when a new order is placed
-   * (This means the order is created and the payment is successful (decided by the payment method, for example, for cod, the order is created when the order is placed, but for online payment, the order is created when the payment is successful))
+   * Fired once per order when it is placed: the gateway accepts its payment
+   * (authorized or captured; for PayPal, also a capture pending review), or,
+   * for an offline method such as Cash on Delivery, the order is created. The
+   * payment method decides the moment and calls
+   * `markOrderPlaced`, which emits this event with the order row as it is
+   * then (new payment status and `placed_at` included).
    */
   order_placed: OrderRow;
 
@@ -245,6 +270,17 @@ export interface EventDataRegistry {
    * Data: the updated metafield_definition (API shape).
    */
   metafield_definition_updated: Record<string, any>;
+
+  /**
+   * Asks for a worker for an import job. Written when a job is ready to be
+   * checked or run (Start, Resume, Check again, a finished upload) and by the
+   * `importDispatch` cron job for a job that keeps waiting. The event process
+   * that claims it starts the worker on its own machine; a request that finds
+   * the machine full is dropped and the cron job asks again.
+   */
+  import_job_requested: {
+    jobUuid: string;
+  };
 
   /**
    * Fired when a metafield definition is deleted. Drives per-entity prune

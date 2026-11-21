@@ -2,6 +2,7 @@ import Area from '@components/common/Area.js';
 import { Alert } from '@components/common/modal/Alert.js';
 import React from 'react';
 import { Route } from '../../../../types/route.js';
+import { COMMERCE_EVENT_STUB } from './commerceEventStub.js';
 import { FETCH_LOCALE_PATCH } from './fetchLocalePatch.js';
 
 interface ServerHtmlProps {
@@ -24,6 +25,11 @@ function ServerHtml({ route, css, js, appContext }: ServerHtmlProps) {
             language, so it's not patched. */}
         {!route.isAdmin && (
           <script dangerouslySetInnerHTML={{ __html: FETCH_LOCALE_PATCH }} />
+        )}
+        {/* Storefront only: window.evershop.onCommerceEvent for head scripts,
+            before the bundle brings the commerce event bus */}
+        {!route.isAdmin && (
+          <script dangerouslySetInnerHTML={{ __html: COMMERCE_EVENT_STUB }} />
         )}
         {css.map((source, index) => (
           <style key={index} dangerouslySetInnerHTML={{ __html: source }} />

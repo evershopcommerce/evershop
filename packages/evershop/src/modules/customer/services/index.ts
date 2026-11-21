@@ -10,6 +10,15 @@ export * from './customer/updateCustomer.js';
 export { default as deleteCustomer } from './customer/deleteCustomer.js';
 export * from './customer/deleteCustomer.js';
 
+// Signing in without a password (social login): find the account by email in
+// any letter case, then `request.loginCustomer(id)` for a session or
+// `issueCustomerTokens(id)` for a headless storefront
+export { getCustomerByEmail } from './customer/getCustomerByEmail.js';
+export {
+  issueCustomerTokens,
+  type CustomerTokens
+} from './customer/issueCustomerTokens.js';
+
 // customer metafields
 export * from './customer/customerMetafield.js';
 

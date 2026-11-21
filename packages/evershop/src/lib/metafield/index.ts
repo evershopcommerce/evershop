@@ -11,7 +11,12 @@ export type {
   CreateDefinitionInput,
   UpdateDefinitionInput
 } from './definition.js';
-export { validateMetafields, validateMetafield } from './validate.js';
+export {
+  createFieldValidator,
+  validateMetafields,
+  validateMetafield
+} from './validate.js';
+export type { FieldCheck } from './validate.js';
 export { shapeMetafields } from './shape.js';
 export {
   createDefinitionCache,

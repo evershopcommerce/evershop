@@ -6,10 +6,10 @@ import {
   startTransaction
 } from '@evershop/postgres-query-builder';
 import type { AxiosInstance } from 'axios';
-import { emit } from '../../../lib/event/emitter.js';
 import { debug } from '../../../lib/log/logger.js';
 import { getConnection, pool } from '../../../lib/postgres/connection.js';
 import addOrderActivityLog from '../../oms/services/addOrderActivityLog.js';
+import { markOrderPlaced } from '../../oms/services/markOrderPlaced.js';
 import { updatePaymentStatus } from '../../oms/services/updatePaymentStatus.js';
 
 /**
@@ -50,9 +50,10 @@ interface FinalizeResult {
 
 /**
  * Record one settled/pending PayPal payment against a local order: update the
- * payment status, insert the transaction idempotently, log activity, and emit
- * `order_placed` exactly once per transaction id — shared by the return page,
- * the webhook, and the reconciliation cron so every path uses the same guard.
+ * payment status, insert the transaction idempotently, log activity once per
+ * transaction id, and mark the order placed (`markOrderPlaced`, which emits
+ * `order_placed` once per order) — shared by the return page, the webhook,
+ * and the reconciliation cron so every path uses the same guard.
  */
 export async function recordPaypalPayment(
   order: any,
@@ -65,6 +66,17 @@ export async function recordPaypalPayment(
   await startTransaction(connection);
   let firstFinalization = false;
   try {
+    // Serialize every finalization of this order (return page, webhook,
+    // reconciliation cron): lock the order row before the existence check.
+    // Without it, callers running at the same time all read "no transaction
+    // yet" and each log the payment (and, before markOrderPlaced, each
+    // emitted order_placed, #1180). The second caller now waits for the first
+    // to commit, then sees its transaction row (READ COMMITTED). The same
+    // guard as Stripe's webhook (loadOrderByUuidForUpdate).
+    await connection.query(
+      'SELECT "order_id" FROM "order" WHERE "order_id" = $1 FOR UPDATE',
+      [order.order_id]
+    );
     const existing = await select()
       .from('payment_transaction')
       .where('transaction_id', '=', payment.id)
@@ -96,6 +108,12 @@ export async function recordPaypalPayment(
         false,
         connection
       );
+      // In the transaction, with its connection: `order_placed` is saved with
+      // the payment or not at all. Emitted after the commit through the pool,
+      // a failed emit lost it for good, since every later caller sees the
+      // transaction row and skips it. The event carries the order with its
+      // new payment status.
+      await markOrderPlaced(order.order_id, connection);
     }
     await commit(connection);
   } catch (e) {
@@ -103,18 +121,8 @@ export async function recordPaypalPayment(
     throw e;
   }
 
-  if (firstFinalization) {
-    // After the commit so subscribers see the settled payment status, and
-    // from a re-loaded row so the payload isn't the stale pending one.
-    const freshOrder = await select()
-      .from('order')
-      .where('order_id', '=', order.order_id)
-      .load(pool);
-    await emit('order_placed', { ...(freshOrder ?? order) });
-  } else {
-    debug(
-      `PayPal ${action} for order ${order.uuid} was already recorded; skipping order_placed`
-    );
+  if (!firstFinalization) {
+    debug(`PayPal ${action} for order ${order.uuid} was already recorded`);
   }
 
   return { paymentStatus, transactionId: payment.id, firstFinalization };

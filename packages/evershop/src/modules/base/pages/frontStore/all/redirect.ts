@@ -5,7 +5,8 @@ import { EvershopRequest } from '../../../../../types/request.js';
 import { EvershopResponse } from '../../../../../types/response.js';
 
 /**
- * Storefront-wide 302 for old entity URLs after a `url_key` change, plus a
+ * Storefront-wide redirect (302, or the 301 an import stored in `status_code`)
+ * for old entity URLs after a `url_key` change, plus a
  * bare-slug fallback so `/<url_key>` resolves even for entities that never
  * lived at the root path.
  *
@@ -61,7 +62,10 @@ export default async (
     .where('from_path', '=', path)
     .load(pool);
   if (redirect && redirect.to_path !== path) {
-    response.redirect(302, localizeUrl(redirect.to_path) + query);
+    // 301 for a redirect an import wrote (a store moved from another platform),
+    // 302 for everything else. Only these two are ever stored (a CHECK).
+    const status = redirect.status_code === 301 ? 301 : 302;
+    response.redirect(status, localizeUrl(redirect.to_path) + query);
     return;
   }
 

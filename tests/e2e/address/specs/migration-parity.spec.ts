@@ -77,13 +77,21 @@ test.describe('address schema after the rename migrations', () => {
 
   test('the migration table records the new versions', async () => {
     const db = getDb();
-    const { rows } = await db.query<{ module: string; version: string }>(
-      `SELECT "module", "version" FROM "migration" WHERE "module" IN ('checkout', 'customer', 'tax')`
+    // At least the release's versions: later migrations move a module past them.
+    const { rows } = await db.query<{ module: string; reached: boolean }>(
+      `SELECT "module",
+              string_to_array("version", '.')::int[] >= CASE "module"
+                WHEN 'checkout' THEN '{1,0,12}'::int[]
+                WHEN 'customer' THEN '{1,0,5}'::int[]
+                ELSE '{1,0,1}'::int[]
+              END AS reached
+         FROM "migration" WHERE "module" IN ('checkout', 'customer', 'tax')`
     );
-    const byModule = Object.fromEntries(rows.map((r) => [r.module, r.version]));
-    expect(byModule.checkout).toBe('1.0.12');
-    expect(byModule.customer).toBe('1.0.5');
-    expect(byModule.tax).toBe('1.0.1');
+    expect(Object.fromEntries(rows.map((r) => [r.module, r.reached]))).toEqual({
+      checkout: true,
+      customer: true,
+      tax: true
+    });
   });
 
   test('replaying the three migration files on the migrated schema is a no-op', async () => {

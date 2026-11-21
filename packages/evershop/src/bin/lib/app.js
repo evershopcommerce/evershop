@@ -12,7 +12,7 @@ import { getCoreModules } from './loadModules.js';
 export const createApp = () => {
   /** Create express app */
   const app = express();
-  // Trust proxy — determines request.ip (and thus rate-limit bucketing). The
+  // Trust proxy — determines request.ip and request.protocol. The
   // number of proxy hops to trust is read from TRUST_PROXY_HOPS (default 1 = a
   // single reverse proxy). See lib/util/getTrustProxyHops.ts.
   app.set('trust proxy', getTrustProxyHops());

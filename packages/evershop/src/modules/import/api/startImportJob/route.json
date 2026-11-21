@@ -1,0 +1,7 @@
+{
+  "methods": [
+    "POST"
+  ],
+  "path": "/import-jobs/:id/start",
+  "access": "private"
+}

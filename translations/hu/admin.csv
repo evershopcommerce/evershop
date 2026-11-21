@@ -180,6 +180,10 @@ Analytics,Analitika
 Google Analytics 4 Measurement ID,Google Analytics 4 mérési azonosító
 Found in Google Analytics under Admin → Data Streams → your web stream. Leave empty to disable tracking.,A Google Analyticsben az Admin → Data Streams → a webes adatfolyam alatt található. Hagyja üresen a követés kikapcsolásához.
 "Enter a valid GA4 Measurement ID, e.g. G-XXXXXXXXXX","Adjon meg érvényes GA4 mérési azonosítót, pl. G-XXXXXXXXXX"
+Cookie consent,Sütihozzájárulás
+Not required: collect from the first page,Nem kötelező: gyűjtés az első oldaltól
+Required: no cookies until the shopper accepts,"Kötelező: nincs süti, amíg a vásárló el nem fogadja"
+"With ""Required"", Google Analytics sets no cookies until your cookie banner tells Google that the shopper accepted. Until then, Google still receives page views and events without cookies, and your reports show few of them. Choose ""Required"" whenever your store has a cookie banner, and use a banner that supports Google Consent Mode, such as Cookiebot, OneTrust or CookieYes. With ""Required"" and no such banner, your reports stay almost empty.","A „Kötelező” beállítással a Google Analytics nem helyez el sütiket, amíg a sütisávja nem jelzi a Google-nak, hogy a vásárló hozzájárult. Addig a Google sütik nélkül is megkapja az oldalmegtekintéseket és az eseményeket, de a jelentései ezekből csak keveset mutatnak. Válassza a „Kötelező” lehetőséget, ha az áruháza sütisávot használ, és olyan sávot használjon, amely támogatja a Google Consent Mode-ot, például a Cookiebot, a OneTrust vagy a CookieYes. „Kötelező” beállítással, ilyen sáv nélkül a jelentései szinte üresek maradnak."
 Allow guest checkout,Vendégként történő vásárlás engedélyezése
 "When enabled, shoppers can place an order without an account. When disabled, they must log in or register to check out.",Bekapcsolva a vásárlók fiók nélkül is leadhatnak rendelést. Kikapcsolva be kell jelentkezniük vagy regisztrálniuk kell a fizetéshez.
 Enable rule-based related products,Szabályalapú kapcsolódó termékek engedélyezése
