@@ -145,6 +145,11 @@ async function saveOrder<T = CreateOrderResult>(
     connection,
     {
       ...cart.exportData(),
+      // The cart's own times (when the shopper started it, when it last
+      // changed) are not the order's: left out, the order gets the time it
+      // is placed
+      created_at: undefined,
+      updated_at: undefined,
       uuid: uuidv4().replace(/-/g, ''),
       // FIXME: Must be structured
       shipping_address_id: shipAddr ? shipAddr.insertId : null,

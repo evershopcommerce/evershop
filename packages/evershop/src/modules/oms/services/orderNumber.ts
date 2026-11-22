@@ -179,8 +179,9 @@ async function insertRow(
  * default number, with a warning: a broken format never fails a checkout.
  *
  * `row` holds the order's columns; keys that are not columns of `order` are
- * left out, as `insert().given()` does. `options.orderNumber` keeps a number
- * as it is (no processor runs).
+ * left out, as `insert().given()` does, and so are keys set to `undefined`
+ * (the column gets its default). `options.orderNumber` keeps a number as it
+ * is (no processor runs).
  *
  * @returns The inserted row, with `insertId`.
  */
