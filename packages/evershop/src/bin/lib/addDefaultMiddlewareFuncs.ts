@@ -1,5 +1,4 @@
 import { select } from '@evershop/postgres-query-builder';
-import sessionStorage from 'connect-pg-simple';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import pathToRegexp from 'path-to-regexp';
@@ -21,6 +20,7 @@ import isProductionMode from '../../lib/util/isProductionMode.js';
 import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminSessionCookieName.js';
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
+import { getSessionStore } from '../../modules/auth/services/sessionStore.js';
 import { rateLimiter } from '../../modules/base/services/rateLimit.js';
 import { setPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
 import {
@@ -68,12 +68,8 @@ export function addDefaultMiddlewareFuncs(app) {
   // Express session
   const cookieSecret = getCookieSecret();
   const sess = {
-    store:
-      process.env.NODE_ENV === 'test'
-        ? undefined
-        : new (sessionStorage(session))({
-            pool
-          }),
+    // The store the API routes read sessions from too (sessionStore.ts)
+    store: process.env.NODE_ENV === 'test' ? undefined : getSessionStore(),
     secret: cookieSecret,
     cookie: {
       maxAge: getConfig('system.session.maxAge', 24 * 60 * 60 * 1000)
