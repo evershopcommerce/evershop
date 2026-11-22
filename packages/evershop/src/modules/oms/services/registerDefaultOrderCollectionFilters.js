@@ -96,7 +96,12 @@ export default async function registerDefaultOrderCollectionFilters() {
       operation: ['eq'],
       callback: (query, operation, value, currentFilters) => {
         const orderCollectionSortBy = getValueSync('orderCollectionSortBy', {
-          number: (query) => query.orderBy('order.order_number'),
+          // By id: a number core gives grows with the order's id (10000 plus
+          // the id), so this is the order the numbers were given in. Sorted
+          // as text, 100000 came before 99999, and an imported 9999 after
+          // 10001. Imported orders keep their own numbers and sort by when
+          // they were imported.
+          number: (query) => query.orderBy('order.order_id'),
           payment_status: (query) => query.orderBy('order.payment_status'),
           shipment_status: (query) => query.orderBy('order.shipment_status'),
           total: (query) => query.orderBy('order.grand_total'),
