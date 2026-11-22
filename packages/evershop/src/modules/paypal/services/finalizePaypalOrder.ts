@@ -11,6 +11,8 @@ import { getConnection, pool } from '../../../lib/postgres/connection.js';
 import addOrderActivityLog from '../../oms/services/addOrderActivityLog.js';
 import { markOrderPlaced } from '../../oms/services/markOrderPlaced.js';
 import { updatePaymentStatus } from '../../oms/services/updatePaymentStatus.js';
+import { buildOrderPaypalAmount } from './paypalOrderAmount.js';
+import { paypalAmountsMatch } from './paypalPayload.js';
 
 /**
  * The buyer went through the PayPal flow but the payment was declined or
@@ -18,6 +20,37 @@ import { updatePaymentStatus } from '../../oms/services/updatePaymentStatus.js';
  * decides what the buyer sees.
  */
 export class PaypalPaymentDeclinedError extends Error {}
+
+/**
+ * The PayPal payment is not for this order's amount or currency. The browser
+ * holds the PayPal order id and can change its amount before approving, and
+ * anyone can create a PayPal order for the store's client id with our order
+ * number as its invoice id, so a payment is only accepted for the amount the
+ * store asked for. A declined payment for the callers: nothing is marked paid.
+ */
+export class PaypalAmountMismatchError extends PaypalPaymentDeclinedError {}
+
+/**
+ * Throw `PaypalAmountMismatchError` unless `amount` is exactly what the store
+ * asks PayPal for this order (`buildOrderPaypalAmount`, the create-order
+ * amount).
+ */
+export async function assertPaypalAmountMatchesOrder(
+  order: any,
+  amount: { currency_code?: string; value?: string } | undefined,
+  what: string
+): Promise<void> {
+  const { amount: expected } = await buildOrderPaypalAmount(order);
+  if (!paypalAmountsMatch(amount, expected)) {
+    throw new PaypalAmountMismatchError(
+      `${what} is for ${amount?.value ?? '?'} ${
+        amount?.currency_code ?? '?'
+      }, the order expects ${expected?.value} ${
+        expected?.currency_code
+      }. Nothing was marked paid; if PayPal took the money, refund it in PayPal`
+    );
+  }
+}
 
 // A COMPLETED capture is settled money. A PENDING one (eCheck, manual review)
 // is initiated but not settled — the order must not read as paid until the
@@ -154,6 +187,13 @@ export async function finalizePaypalOrder(
   // capture/authorize again.
   const { data: paypalOrder } = await axiosInstance.get(
     `/v2/checkout/orders/${order.integration_order_id}`
+  );
+  // Before any money moves: the buyer can patch the PayPal order's amount
+  // between create and approve.
+  await assertPaypalAmountMatchesOrder(
+    order,
+    paypalOrder.purchase_units?.[0]?.amount,
+    `PayPal order ${order.integration_order_id}`
   );
 
   const strategy: FinalizeStrategy =

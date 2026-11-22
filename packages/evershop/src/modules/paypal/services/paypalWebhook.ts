@@ -6,7 +6,9 @@ import addOrderActivityLog from '../../oms/services/addOrderActivityLog.js';
 import { recordRefund } from '../../oms/services/recordRefund.js';
 import { updatePaymentStatus } from '../../oms/services/updatePaymentStatus.js';
 import {
+  assertPaypalAmountMatchesOrder,
   finalizePaypalOrderOrFail,
+  PaypalAmountMismatchError,
   recordPaypalPayment
 } from './finalizePaypalOrder.js';
 
@@ -52,7 +54,19 @@ export function extractEventOrderKeys(
   return keys;
 }
 
-async function resolveOrderForEvent(event: PaypalWebhookEvent) {
+interface ResolvedOrder {
+  order: any;
+  /**
+   * How the order was found. Only `paypalOrderId` proves the event is about
+   * the PayPal order the store created for it: an invoice id is just our
+   * order number, which anyone can put on a PayPal order of their own.
+   */
+  matchedBy: 'paypalOrderId' | 'invoiceNumber' | 'captureId';
+}
+
+async function resolveOrderForEvent(
+  event: PaypalWebhookEvent
+): Promise<ResolvedOrder | null> {
   const keys = extractEventOrderKeys(event);
   if (keys.paypalOrderId) {
     const order = await select()
@@ -61,7 +75,7 @@ async function resolveOrderForEvent(event: PaypalWebhookEvent) {
       .and('payment_method', '=', 'paypal')
       .load(pool);
     if (order) {
-      return order;
+      return { order, matchedBy: 'paypalOrderId' };
     }
   }
   if (keys.invoiceNumber) {
@@ -71,7 +85,7 @@ async function resolveOrderForEvent(event: PaypalWebhookEvent) {
       .and('payment_method', '=', 'paypal')
       .load(pool);
     if (order) {
-      return order;
+      return { order, matchedBy: 'invoiceNumber' };
     }
   }
   if (keys.captureId) {
@@ -80,16 +94,65 @@ async function resolveOrderForEvent(event: PaypalWebhookEvent) {
       .where('transaction_id', '=', keys.captureId)
       .load(pool);
     if (transaction) {
-      return select()
+      // Another payment method on the same PayPal app (Fastlane) records
+      // PayPal capture ids too: its orders are not ours to update.
+      const order = await select()
         .from('order')
         .where('order_id', '=', transaction.payment_transaction_order_id)
+        .and('payment_method', '=', 'paypal')
         .load(pool);
+      if (order) {
+        return { order, matchedBy: 'captureId' };
+      }
     }
   }
   return null;
 }
 
-const SETTLED = ['paypal_captured', 'paypal_refunded', 'paypal_partial_refunded'];
+// Events that move an order's payment state from a capture. They are only
+// accepted for the PayPal order the store created (see ResolvedOrder).
+const CAPTURE_STATE_EVENTS = [
+  'PAYMENT.CAPTURE.COMPLETED',
+  'PAYMENT.CAPTURE.PENDING',
+  'PAYMENT.CAPTURE.DENIED'
+];
+
+/**
+ * Record a capture event's money only when it is for the order's amount;
+ * otherwise mark a still-pending order failed for admin review. Returns
+ * whether the caller may record it.
+ */
+async function captureAmountAccepted(order: any, resource: any) {
+  try {
+    await assertPaypalAmountMatchesOrder(
+      order,
+      resource.amount,
+      `PayPal capture ${resource.id}`
+    );
+    return true;
+  } catch (e) {
+    if (!(e instanceof PaypalAmountMismatchError)) {
+      throw e;
+    }
+    warning(`PayPal webhook for order ${order.uuid}: ${e.message}`);
+    if (order.payment_status === 'pending') {
+      await updatePaymentStatus(order.order_id, 'paypal_failed');
+      await addOrderActivityLog(
+        order.order_id,
+        `PayPal payment failed: ${e.message}`,
+        false,
+        pool as any
+      );
+    }
+    return false;
+  }
+}
+
+const SETTLED = [
+  'paypal_captured',
+  'paypal_refunded',
+  'paypal_partial_refunded'
+];
 
 /**
  * Apply one verified webhook event. Unknown events and unknown orders are
@@ -101,14 +164,24 @@ export async function handlePaypalWebhookEvent(
   event: PaypalWebhookEvent,
   axiosInstance: AxiosInstance
 ): Promise<void> {
-  const order = await resolveOrderForEvent(event);
-  if (!order) {
+  const resolved = await resolveOrderForEvent(event);
+  if (!resolved) {
     debug(
       `PayPal webhook ${event.event_type}: no matching local order, ignoring`
     );
     return;
   }
+  const { order, matchedBy } = resolved;
   const resource = event.resource || {};
+  if (
+    CAPTURE_STATE_EVENTS.includes(event.event_type as string) &&
+    matchedBy !== 'paypalOrderId'
+  ) {
+    warning(
+      `PayPal webhook ${event.event_type}: capture ${resource.id} is not for the PayPal order of local order ${order.uuid}, ignoring`
+    );
+    return;
+  }
   switch (event.event_type) {
     case 'CHECKOUT.ORDER.APPROVED': {
       // The buyer approved but never came back through the return page.
@@ -125,6 +198,9 @@ export async function handlePaypalWebhookEvent(
       ) {
         break;
       }
+      if (!(await captureAmountAccepted(order, resource))) {
+        break;
+      }
       await recordPaypalPayment(
         order,
         resource,
@@ -136,7 +212,13 @@ export async function handlePaypalWebhookEvent(
     }
     case 'PAYMENT.CAPTURE.PENDING': {
       // Never downgrade an already-settled order on out-of-order delivery.
-      if (SETTLED.includes(order.payment_status) || order.payment_status === 'canceled') {
+      if (
+        SETTLED.includes(order.payment_status) ||
+        order.payment_status === 'canceled'
+      ) {
+        break;
+      }
+      if (!(await captureAmountAccepted(order, resource))) {
         break;
       }
       await recordPaypalPayment(

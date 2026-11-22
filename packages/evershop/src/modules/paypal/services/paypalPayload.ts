@@ -8,6 +8,27 @@ export function isZeroDecimalCurrency(currency: string): boolean {
   return ZERO_DECIMAL_CURRENCIES.includes((currency || '').toUpperCase());
 }
 
+/**
+ * Whether two PayPal amounts are the same money: same currency, same value in
+ * the currency's smallest unit (PayPal may answer "10" for a "10.00" request).
+ */
+export function paypalAmountsMatch(
+  a: { currency_code?: string; value?: string } | undefined,
+  b: { currency_code?: string; value?: string } | undefined
+): boolean {
+  if (!a?.currency_code || !b?.currency_code) {
+    return false;
+  }
+  if (a.currency_code.toUpperCase() !== b.currency_code.toUpperCase()) {
+    return false;
+  }
+  const factor = isZeroDecimalCurrency(a.currency_code) ? 1 : 100;
+  const toMinor = (value: string | undefined): number =>
+    Math.round(parseFloat(String(value)) * factor);
+  const minorA = toMinor(a.value);
+  return Number.isFinite(minorA) && minorA === toMinor(b.value);
+}
+
 export function formatPaypalAmount(value: number, currency: string): string {
   if (isZeroDecimalCurrency(currency)) {
     return String(Math.round(value));

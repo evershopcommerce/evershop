@@ -13,11 +13,8 @@ import { EvershopRequest } from '../../../../types/request.js';
 import { EvershopResponse } from '../../../../types/response.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getSetting } from '../../../setting/services/setting.js';
-import { getPriceIncludingTax } from '../../../tax/services/taxSettings.js';
-import {
-  buildPaypalAmount,
-  findApprovalUrl
-} from '../../services/paypalPayload.js';
+import { buildOrderPaypalAmount } from '../../services/paypalOrderAmount.js';
+import { findApprovalUrl } from '../../services/paypalPayload.js';
 import { buildPaypalShipping } from '../../services/paypalShippingAddress.js';
 import { createAxiosInstance } from '../../services/requester.js';
 
@@ -43,26 +40,18 @@ export default async (
         }
       });
     } else {
-      // Build the order for createOrder API PayPal
-      const items = await select()
-        .from('order_item')
-        .where('order_item_order_id', '=', order.order_id)
-        .execute(pool);
-      const catalogPriceInclTax = getPriceIncludingTax();
-      // All values ride through one builder that guarantees the breakdown
-      // sums exactly to the grand total (or drops the breakdown when per-unit
-      // rounding makes that impossible — a mismatched breakdown is a 422).
-      const built = buildPaypalAmount(order, items, catalogPriceInclTax);
+      // Build the order for createOrder API PayPal. The payment checks
+      // (return page, webhook, cron) compare against the same amount.
+      const {
+        built,
+        amount: finalAmount,
+        items
+      } = await buildOrderPaypalAmount(order);
       if (!built.identityHolds) {
         debug(
           `PayPal breakdown for order ${order_id} does not sum to the grand total; sending the amount without itemization`
         );
       }
-
-      const finalAmount = getValueSync('paypalFinalAmount', built.amount, {
-        order,
-        items
-      });
 
       const homeUrl = getContextValue<string>(request, 'homeUrl', '');
       const orderData = {
