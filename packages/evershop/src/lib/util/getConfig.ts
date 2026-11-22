@@ -208,6 +208,7 @@ type ConfigStructure = {
       metas: any[];
       scripts: any[];
       bases: any[];
+      noscripts: any[];
     };
     copyRight: string;
   };
