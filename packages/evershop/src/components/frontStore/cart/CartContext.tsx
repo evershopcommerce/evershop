@@ -568,7 +568,7 @@ export const CartProvider = ({
   // `synced` after ADD_ITEM, so it showed the old contents, and a failed
   // fetch never reached the catch. The new cart and `synced` now land
   // together.
-  const syncCartWithServer = useCallback(
+  const fetchCart = useCallback(
     async (trigger?: string): Promise<CartData | undefined> => {
       try {
         // Set syncing to true and synced to false when starting sync
@@ -612,6 +612,22 @@ export const CartProvider = ({
       }
     },
     [client, query, addMineCartItemApi]
+  );
+
+  // One fetch at a time: urql gives a query the result of an identical one
+  // already in flight (dedupExchange). Two changes close together (the
+  // quantities of two lines) made the second sync share the first one's
+  // fetch, sent before the second change reached the server, so the page
+  // kept that older cart (a line's old price, the old totals). Each sync now
+  // starts its fetch once the one before it has finished.
+  const syncQueue = React.useRef<Promise<unknown>>(Promise.resolve());
+  const syncCartWithServer = useCallback(
+    (trigger?: string): Promise<CartData | undefined> => {
+      const sync = syncQueue.current.then(() => fetchCart(trigger));
+      syncQueue.current = sync;
+      return sync;
+    },
+    [fetchCart]
   );
 
   React.useEffect(() => {
@@ -1218,12 +1234,18 @@ export const CartProvider = ({
     return state.data?.uuid ?? null;
   }, [state.data?.uuid]);
 
+  // The latest shipping quote: an address edited again while its quote was
+  // on the way (a country, then another) must not get the older address's
+  // methods when that answer lands last
+  const shippingQuote = React.useRef(0);
+
   // Fetch available shipping methods based on address parameters and update cart state
   const fetchAvailableShippingMethods = useCallback(
     async (params: ShippingAddressParams) => {
       if (!state.data?.uuid) {
         throw new Error('Cannot fetch shipping methods: cart not initialized');
       }
+      const quote = ++shippingQuote.current;
 
       try {
         dispatch({
@@ -1240,6 +1262,10 @@ export const CartProvider = ({
             postalCode: params.postalCode || null
           })
           .toPromise();
+        if (quote !== shippingQuote.current) {
+          // A newer address was quoted since: its answer decides
+          return;
+        }
 
         if (result.error) {
           throw new Error(
@@ -1270,10 +1296,13 @@ export const CartProvider = ({
 
         throw new Error(errorMessage);
       } finally {
-        dispatch({
-          type: 'SET_SPECIFIC_LOADING',
-          payload: { operation: 'fetchingShippingMethods', loading: false }
-        });
+        // The newer quote, still on the way, keeps the loading state
+        if (quote === shippingQuote.current) {
+          dispatch({
+            type: 'SET_SPECIFIC_LOADING',
+            payload: { operation: 'fetchingShippingMethods', loading: false }
+          });
+        }
       }
     },
     [state.data?.uuid, client]
