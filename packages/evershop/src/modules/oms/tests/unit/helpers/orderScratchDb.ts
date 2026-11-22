@@ -107,6 +107,11 @@ export async function openScratchDb(name: string): Promise<ScratchDb | null> {
     corePool: corePool as unknown as Pool,
     async close() {
       await (corePool as unknown as Pool).end().catch(() => {});
+      // end() resolves before the idle connections have closed, and the
+      // forced drop below can end one of them first: the pool then emits an
+      // error, which fails the whole test file when nothing listens (core's
+      // pool has its own listener)
+      db.on('error', () => {});
       await db.end().catch(() => {});
       process.env.DB_NAME = originalDbName;
       if (originalLockTimeout === undefined) {
