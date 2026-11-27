@@ -114,6 +114,9 @@ export default async () => {
                 },
                 saveUninitialized: {
                   type: 'boolean'
+                },
+                sameSite: {
+                  enum: ['lax', 'strict', 'none', true, false]
                 }
               }
             }

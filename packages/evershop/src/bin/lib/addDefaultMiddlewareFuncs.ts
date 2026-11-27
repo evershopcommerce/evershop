@@ -20,7 +20,7 @@ import isProductionMode from '../../lib/util/isProductionMode.js';
 import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminSessionCookieName.js';
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
-import { getSessionStore } from '../../modules/auth/services/sessionStore.js';
+import { getSessionConfig } from '../../modules/auth/services/getSessionConfig.js';
 import { rateLimiter } from '../../modules/base/services/rateLimit.js';
 import { setPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
 import {
@@ -67,29 +67,14 @@ export function addDefaultMiddlewareFuncs(app) {
 
   // Express session
   const cookieSecret = getCookieSecret();
-  const sess = {
-    // The store the API routes read sessions from too (sessionStore.ts)
-    store: process.env.NODE_ENV === 'test' ? undefined : getSessionStore(),
-    secret: cookieSecret,
-    cookie: {
-      maxAge: getConfig('system.session.maxAge', 24 * 60 * 60 * 1000)
-    },
-    resave: getConfig('system.session.resave', false),
-    saveUninitialized: getConfig('system.session.saveUninitialized', true)
-  } as session.SessionOptions;
-
-  if (isProductionMode()) {
-    // trust proxy is set centrally from TRUST_PROXY_HOPS in bin/lib/app.js.
-    sess.cookie!.secure = false;
-  }
 
   const adminSessionMiddleware = session({
-    ...sess,
+    ...getSessionConfig(cookieSecret),
     name: getAdminSessionCookieName()
   });
 
   const frontStoreSessionMiddleware = session({
-    ...sess,
+    ...getSessionConfig(cookieSecret),
     name: getFrontStoreSessionCookieName()
   });
 
