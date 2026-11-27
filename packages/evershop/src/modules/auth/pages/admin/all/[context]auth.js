@@ -1,6 +1,33 @@
 import { select } from '@evershop/postgres-query-builder';
 import { pool } from '../../../../../lib/postgres/connection.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
+import { getSafeRedirectPath } from '../../../../../lib/util/safeRedirect.js';
+
+/**
+ * The login page URL, with `?redirect=` set to the page the visitor asked
+ * for, so a shared admin link opens that page once they log in.
+ *
+ * Only a GET page load can be repeated after login. The dashboard needs no
+ * parameter (login goes there anyway), and returning to the logout route
+ * would log the user out again.
+ */
+function buildLoginUrl(request) {
+  const loginUrl = buildUrl('adminLogin');
+  if (
+    request.method !== 'GET' ||
+    request.currentRoute.id === 'adminLogoutJson'
+  ) {
+    return loginUrl;
+  }
+  const adminRoot = buildUrl('dashboard');
+  const target = getSafeRedirectPath(request.originalUrl, {
+    prefix: adminRoot
+  });
+  if (!target || target === adminRoot) {
+    return loginUrl;
+  }
+  return `${loginUrl}?redirect=${encodeURIComponent(target)}`;
+}
 
 export default async (request, response, next) => {
   // Asset-serving routes (adminStaticAsset) are exempt from session (see
@@ -30,7 +57,7 @@ export default async (request, response, next) => {
       ) {
         next();
       } else {
-        response.redirect(buildUrl('adminLogin'));
+        response.redirect(buildLoginUrl(request));
       }
     });
   } else {
