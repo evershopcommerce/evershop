@@ -1,0 +1,119 @@
+name: EverShop + testRigor CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  evershop-testrigor:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Get your repo (for the workflow + any tests config)
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2) Node only for testRigor CLI
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # 3) Prepare Docker Compose (same as on your server)
+      - name: Docker Setup Compose
+        uses: docker/setup-compose-action@v1.2.0
+
+      # 4) Start EverShop using official docker-compose.yml
+      - name: Start EverShop with Docker
+        run: |
+          # Download official EverShop docker-compose file
+          curl -sSL https://raw.githubusercontent.com/evershopcommerce/evershop/main/docker-compose.yml > docker-compose.yml
+
+          # Start containers (app + Postgres etc.)
+          docker compose up -d
+
+          echo "Waiting for EverShop containers to start..."
+          sleep 40
+
+          echo "Running containers:"
+          docker ps
+
+      # 5) Seed data + create admin INSIDE the EverShop app container
+      - name: Seed demo data and create admin
+        env:
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASS }}
+        run: |
+          # Find the EverShop app container (e.g. evershop-app-1)
+          APP_CONTAINER=$(docker ps --format '{{.Names}}' | grep evershop-app | head -n 1 || true)
+
+          if [ -z "$APP_CONTAINER" ]; then
+            echo "Could not find EverShop app container"
+            docker ps
+            exit 1
+          fi
+
+          echo "Using EverShop app container: $APP_CONTAINER"
+
+          # Seed demo data so storefront has products, categories, etc.
+          echo "Seeding demo data..."
+          docker exec "$APP_CONTAINER" npm run seed -- --all || echo "Seed command not available or failed, continuing..."
+
+          # Create admin user for testRigor
+          echo "Creating admin user..."
+          docker exec "$APP_CONTAINER" npm run user:create -- \
+            --email "$ADMIN_EMAIL" \
+            --password "$ADMIN_PASSWORD" \
+            --name "Admin"
+
+      # 6) Verify storefront is really up on port 3000
+      - name: Verify EverShop storefront is up
+        run: |
+          for i in {1..20}; do
+            if curl -sSf http://localhost:3000 > /dev/null; then
+              echo "EverShop storefront is up ✅"
+              exit 0
+            fi
+            echo "Waiting for EverShop storefront..."
+            sleep 5
+          done
+          echo "EverShop storefront did not start in time ❌"
+          exit 1
+            
+      # 6b) Verify admin is really up
+      - name: Verify EverShop admin is up
+        run: |
+          for i in {1..30}; do
+            if curl -sSf http://localhost:3000/admin > /dev/null; then
+              echo "EverShop admin is up ✅"
+              exit 0
+            fi
+            echo "Waiting for EverShop admin..."
+            sleep 5
+          done
+          echo "EverShop admin did not start in time ❌"
+          exit 1
+
+      # 7) Install testRigor CLI (like you did locally)
+      - name: Install testRigor CLI
+        run: |
+          npm install -g testrigor-cli
+          testrigor --version
+
+      # 8) Run testRigor suite against the EverShop admin panel
+      - name: Run testRigor suite via CLI
+        env:
+          TESTRIGOR_CICD_TOKEN: ${{ secrets.TESTRIGOR_CICD_TOKEN }}
+          TESTRIGOR_SUITE_ID: ${{ vars.TESTRIGOR_SUITE_ID }}
+        run: |
+          testrigor test-suite run "$TESTRIGOR_SUITE_ID" \
+            --token "$TESTRIGOR_CICD_TOKEN" \
+            --localhost \
+            --test-cases-path packages/evershop/src/Tests/e2e-testcases/testcases/**/*.txt \
+            --rules-path packages/evershop/src/Tests/e2e-testcases/reusable-rules/**/*.txt \
+            --url "http://localhost:3000/admin"
+

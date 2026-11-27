@@ -1,0 +1,9 @@
+admin-login
+product-create-new-with-category-"Accessories"-color-"Black"
+click button on the right of "Search"
+click "Logout"
+open url stored value "homePrefix"
+hover over "shop"
+click stored value "productCategory"
+click stored value "productColor"
+check that page contains stored value "productName"

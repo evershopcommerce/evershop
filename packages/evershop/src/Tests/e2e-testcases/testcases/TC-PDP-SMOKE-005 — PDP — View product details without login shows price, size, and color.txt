@@ -1,0 +1,13 @@
+admin-login
+product-create-new
+click button on the right of "Search"
+click "logout"
+open url stored value "homePrefix"
+click "Search"
+enter stored value "productName" into "Search"
+type enter
+click stored value "productName"
+check that page contains stored value "productPrice"
+check that page contains "Size"
+check that page contains "Color"
+check that page contains "Add to cart"

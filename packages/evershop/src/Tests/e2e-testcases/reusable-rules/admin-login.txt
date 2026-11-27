@@ -1,0 +1,3 @@
+log in
+check that page contains "Dashboard"
+check that page contains "Lifetime Sales"
