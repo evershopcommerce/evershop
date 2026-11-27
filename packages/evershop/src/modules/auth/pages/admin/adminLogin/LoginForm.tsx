@@ -1,4 +1,3 @@
-import React from 'react';
 import './LoginForm.scss';
 import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
@@ -6,7 +5,9 @@ import { Form, useFormContext } from '@components/common/form/Form.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
 import { Button } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
+import { getSafeRedirectPath } from '@evershop/evershop/lib/util/safeRedirect';
 import { LockKeyhole, Mail } from 'lucide-react';
+import React from 'react';
 
 interface LoginFormProps {
   authUrl: string;
@@ -36,7 +37,14 @@ export default function LoginForm({ authUrl, dashboardUrl }: LoginFormProps) {
 
   const onSuccess = (response) => {
     if (!response.error) {
-      window.location.href = dashboardUrl;
+      // Open the admin page named in `?redirect=` (a shared link), else the
+      // dashboard. Only admin paths on this site are accepted.
+      const adminRoot = new URL(dashboardUrl, window.location.origin).pathname;
+      const target = getSafeRedirectPath(
+        new URLSearchParams(window.location.search).get('redirect'),
+        { prefix: adminRoot }
+      );
+      window.location.href = target ?? dashboardUrl;
     } else {
       setError(response.error.message);
     }
