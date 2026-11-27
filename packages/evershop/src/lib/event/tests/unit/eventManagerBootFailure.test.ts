@@ -64,7 +64,8 @@ jest.unstable_mockModule('../../../log/logger.js', () => ({
   debug: () => undefined,
   error: (e: unknown) => {
     logged.push(e);
-  }
+  },
+  warning: () => undefined
 }));
 jest.unstable_mockModule('../../loadSubscribers.js', () => ({
   loadSubscribers: async () => []

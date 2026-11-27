@@ -4,15 +4,16 @@ import {
   insert,
   PoolClient,
   rollback,
-  select,
   startTransaction
 } from '@evershop/postgres-query-builder';
 import { v4 as uuidv4 } from 'uuid';
 import { isKnownCountry } from '../../../lib/address/index.js';
 import { pool } from '../../../lib/postgres/connection.js';
 import { hookable, hookAfter, hookBefore } from '../../../lib/util/hookable.js';
+import type { OrderAddressRow } from '../../../types/db/index.js';
 import addOrderActivityLog from './addOrderActivityLog.js';
 import { addPaymentTransaction } from './addPaymentTransaction.js';
+import { insertOrder } from './orderNumber.js';
 import { resolveOrderStatus } from './updateOrderStatus.js';
 
 /**
@@ -308,8 +309,8 @@ function validateInput(data: HistoricalOrderInput): void {
     }
   });
   // The numbers EverShop gives to new orders start at 10001: an imported order
-  // that keeps one of them would make a later checkout fail for good, when its
-  // own number comes up (the number is worked out from the highest order id).
+  // that keeps one of them would make a later checkout fail, the one whose
+  // own number it is (a new order's number is 10000 plus its id).
   if (
     data.orderNumber !== undefined &&
     /^[0-9]+$/.test(data.orderNumber) &&
@@ -331,14 +332,13 @@ function validateInput(data: HistoricalOrderInput): void {
 async function saveAddress(
   address: Record<string, unknown> | undefined,
   connection: PoolClient
-): Promise<number | null> {
+): Promise<OrderAddressRow | null> {
   if (address === undefined) return null;
   const row: Record<string, unknown> = {};
   ADDRESS_COLUMNS.forEach((column) => {
     if (address[column] !== undefined) row[column] = address[column];
   });
-  const saved = await insert('order_address').given(row).execute(connection);
-  return saved.insertId;
+  return insert('order_address').given(row).execute(connection);
 }
 
 async function importOrderFunc(
@@ -402,23 +402,16 @@ async function importOrderFunc(
     })
     .execute(connection);
 
-  const shippingAddressId = await saveAddress(data.shippingAddress, connection);
-  const billingAddressId = await saveAddress(data.billingAddress, connection);
-
-  const previous = await select('order_id')
-    .from('order')
-    .orderBy('order_id', 'DESC')
-    .limit(0, 1)
-    .execute(connection);
-  const orderNumber =
-    data.orderNumber ??
-    String(10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1);
+  const shippingAddress = await saveAddress(data.shippingAddress, connection);
+  const billingAddress = await saveAddress(data.billingAddress, connection);
 
   const orderUuid = uuidv4().replace(/-/g, '');
-  const order = await insert('order')
-    .given({
+  // An order imported with its own number keeps it; without one, it is
+  // numbered as a new order is (the `orderNumber` processors included)
+  const order = await insertOrder(
+    connection,
+    {
       uuid: orderUuid,
-      order_number: orderNumber,
       status,
       cart_id: cart.insertId,
       currency: data.currency,
@@ -431,8 +424,8 @@ async function importOrderFunc(
       shipping_method_data: data.shipping
         ? { name: data.shipping.methodName, ...data.shipping.methodData }
         : null,
-      shipping_address_id: shippingAddressId,
-      billing_address_id: billingAddressId,
+      shipping_address_id: shippingAddress?.order_address_id ?? null,
+      billing_address_id: billingAddress?.order_address_id ?? null,
       payment_method: data.paymentMethod ?? null,
       payment_method_name: data.paymentMethodName ?? null,
       payment_status: paymentStatus,
@@ -443,8 +436,16 @@ async function importOrderFunc(
       meta_data: data.metaData ?? {},
       created_at: createdAt,
       placed_at: placed ? createdAt : null
-    })
-    .execute(connection);
+    },
+    {
+      source: 'import',
+      shippingAddress,
+      billingAddress,
+      cart: null,
+      orderNumber: data.orderNumber
+    }
+  );
+  const orderNumber = order.order_number;
 
   for (let i = 0; i < priced.lines.length; i += 1) {
     const { item, ...line } = priced.lines[i];

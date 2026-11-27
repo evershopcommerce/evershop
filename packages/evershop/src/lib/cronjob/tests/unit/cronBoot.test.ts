@@ -5,10 +5,12 @@ import { jest, describe, it, expect } from '@jest/globals';
  * then extensions) with the cron context, the three locks, then the routes,
  * so jobs can build URLs (`buildUrl` threw "Route ... is not existed" in this
  * process, which never loaded them); then each job is scheduled through
- * `runJob`. No extra settings load is asked for at start (the setting
- * module's own bootstrap warms the cache): `runJob` refreshes them before
- * each job. cronjob.ts runs when it is imported, so everything around
- * it is faked, as in the event process's boot test.
+ * `runJob`, at a random second of its minute (spreadSchedule.ts; the random
+ * number is fixed at 0.5 here, so the second is 30). No extra settings load
+ * is asked for at start (the setting module's own bootstrap warms the
+ * cache): `runJob` refreshes them before each job. cronjob.ts runs when it
+ * is imported, so everything around it is faked, as in the event process's
+ * boot test.
  */
 const calls: string[] = [];
 const contexts: unknown[] = [];
@@ -94,6 +96,7 @@ const exitSpy = jest
   .spyOn(process, 'exit')
   .mockImplementation((() => undefined) as never);
 jest.spyOn(process, 'on').mockImplementation((() => process) as never);
+jest.spyOn(Math, 'random').mockReturnValue(0.5);
 
 await import('../../cronjob.js');
 for (let i = 0; i < 50 && scheduled.length === 0; i += 1) {
@@ -110,7 +113,7 @@ describe('cron process start-up', () => {
       'lockAddressRegistry',
       'ensureRoutesLoaded',
       'getEnabledJobs',
-      'schedule 0 * * * *'
+      'schedule 30 0 * * * *'
     ]);
   });
 

@@ -15,6 +15,7 @@ import { hookable, hookBefore, hookAfter } from '../../../lib/util/hookable.js';
 import type { OrderRow, InsertResultWithRow } from '../../../types/db/index.js';
 import { PaymentStatus } from '../../../types/order.js';
 import addOrderActivityLog from '../../oms/services/addOrderActivityLog.js';
+import { insertOrder } from '../../oms/services/orderNumber.js';
 import { resolveOrderStatus } from '../../oms/services/updateOrderStatus.js';
 import { Cart } from './cart/Cart.js';
 import { validateBeforeCreateOrder } from './orderValidator.js';
@@ -131,33 +132,40 @@ async function saveOrder<T = CreateOrderResult>(
       .execute(connection);
   }
 
-  const previous = await select('order_id')
-    .from('order')
-    .orderBy('order_id', 'DESC')
-    .limit(0, 1)
-    .execute(connection);
-
   const orderStatus = resolveOrderStatus(
     defaultPaymentStatus,
     defaultShipmentStatus
   );
 
-  // Save order to DB
-  const order = await insert('order')
-    .given({
+  // Save order to DB. Its number is built from the id it gets, so two
+  // checkouts at the same time never share one (they used to: both read the
+  // same highest order id). Extensions change the number with an
+  // `orderNumber` processor, see oms/services/orderNumber.ts.
+  const order = await insertOrder(
+    connection,
+    {
       ...cart.exportData(),
+      // The cart's own times (when the shopper started it, when it last
+      // changed) are not the order's: left out, the order gets the time it
+      // is placed
+      created_at: undefined,
+      updated_at: undefined,
       uuid: uuidv4().replace(/-/g, ''),
-      order_number:
-        10000 + parseInt(previous[0] ? previous[0].order_id : 0, 10) + 1,
       // FIXME: Must be structured
       shipping_address_id: shipAddr ? shipAddr.insertId : null,
       billing_address_id: billAddr ? billAddr.insertId : null,
       status: orderStatus,
       payment_status: defaultPaymentStatus,
       shipment_status: defaultShipmentStatus
-    })
-    .execute(connection);
-  return order;
+    },
+    {
+      source: 'checkout',
+      shippingAddress: shipAddr ?? null,
+      billingAddress: billAddr ?? null,
+      cart
+    }
+  );
+  return order as unknown as T;
 }
 
 async function saveOrderItems(

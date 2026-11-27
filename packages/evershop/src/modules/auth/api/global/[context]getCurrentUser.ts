@@ -1,11 +1,9 @@
-import util from 'util';
 import { select } from '@evershop/postgres-query-builder';
-import sessionStorage from 'connect-pg-simple';
-import session from 'express-session';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { setContextValue } from '../../../graphql/services/contextHelper.js';
 import { getAdminSessionCookieName } from '../../services/getAdminSessionCookieName.js';
+import { loadSession } from '../../services/sessionStore.js';
 
 /**
  * This is the session based authentication middleware.
@@ -26,12 +24,10 @@ export default async (request: EvershopRequest, response, next) => {
       // Check if the sessionID cookie is present
       const sessionID = cookies[adminSessionCookieName];
       if (sessionID) {
-        const storage = new (sessionStorage(session))({
-          pool
-        });
-        // Load the session using session storage
-        const getSession = util.promisify(storage.get).bind(storage);
-        const adminSessionData = await getSession(sessionID);
+        // Load the session from the shared session store
+        const adminSessionData = (await loadSession(sessionID)) as {
+          userID?: number;
+        } | null;
         if (adminSessionData) {
           // Set the user in the context
           currentAdminUser = await select()

@@ -116,6 +116,10 @@ describeDb('listing facet queries (scratch DB)', () => {
   });
 
   afterAll(async () => {
+    // end() resolves before the idle connections have closed, and the forced
+    // drop below can end one of them first: the pool then emits an error,
+    // which fails the whole file when nothing listens
+    db?.on('error', () => {});
     await db?.end().catch(() => {});
     const admin = new Pool({ ...poolConfig('postgres'), max: 1 });
     await admin

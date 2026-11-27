@@ -191,6 +191,11 @@ describeDb('saving the contact email on a cart (scratch DB)', () => {
 
   afterAll(async () => {
     await corePool?.end().catch(() => {});
+    // end() resolves before the idle connections have closed, and the forced
+    // drop below can end one of them first: the pool then emits an error,
+    // which fails the whole file when nothing listens (core's pool has its
+    // own listener)
+    db?.on('error', () => {});
     await db?.end();
     process.env.DB_NAME = originalDbName;
     const admin = new Pool({ ...poolConfig('postgres'), max: 1 });

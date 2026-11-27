@@ -59,6 +59,7 @@ type ConfigStructure = {
       cookieSecret: string;
       cookieName: string;
       adminCookieName: string;
+      sameSite?: boolean | 'lax' | 'strict' | 'none';
     };
     notification_emails: {
       from?: string;

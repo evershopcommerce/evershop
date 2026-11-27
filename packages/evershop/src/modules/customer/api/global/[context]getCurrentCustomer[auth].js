@@ -1,9 +1,7 @@
-import util from 'util';
 import { select } from '@evershop/postgres-query-builder';
-import sessionStorage from 'connect-pg-simple';
-import session from 'express-session';
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getFrontStoreSessionCookieName } from '../../../auth/services/getFrontStoreSessionCookieName.js';
+import { loadSession } from '../../../auth/services/sessionStore.js';
 import { setContextValue } from '../../../graphql/services/contextHelper.js';
 
 /**
@@ -27,12 +25,8 @@ export default async (request, response, next) => {
       // Check if the sessionID cookie is present
       const sessionID = cookies[storeFrontSessionCookieName];
       if (sessionID) {
-        const storage = new (sessionStorage(session))({
-          pool
-        });
-        // Load the session using session storage
-        const getSession = util.promisify(storage.get).bind(storage);
-        const customerSessionData = await getSession(sessionID);
+        // Load the session from the shared session store
+        const customerSessionData = await loadSession(sessionID);
         if (customerSessionData) {
           // Set the customer in the context
           currentCustomer = await select()

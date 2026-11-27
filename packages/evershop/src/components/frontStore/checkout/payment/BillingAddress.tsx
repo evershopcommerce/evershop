@@ -39,11 +39,6 @@ export function BillingAddress({
     formState: { disabled }
   } = form;
 
-  const shippingAddress = useWatch({
-    control: form.control,
-    name: 'shippingAddress'
-  });
-
   const billingAddressField = useWatch({
     control: form.control,
     name: 'billingAddress'
@@ -57,9 +52,18 @@ export function BillingAddress({
   // `locality` and `country` as objects, `addressLine1`-style keys no field
   // reads — so a saved address came back as City "[object Object]" and an
   // empty Country, and saving it again failed with unknown address fields.
+  //
+  // "Same as shipping address" copies the shipping address the order sends:
+  // the one the shipment step puts in `checkoutData` when a shipping method
+  // is picked (read from the form with `getValues`). It used to copy a
+  // `useWatch` snapshot of the form instead, which a field's initial value
+  // does not update: after a reload the snapshot could hold the country
+  // alone (it depends on whether the address form's two queries are handled
+  // in one render), the order went out with `{ country }` as its billing
+  // address and the server refused it (theme-lab FINDINGS #83).
   useEffect(() => {
-    if (useSameAddress && shippingAddress) {
-      updateCheckoutData({ billingAddress: shippingAddress });
+    if (useSameAddress && checkoutData.shippingAddress) {
+      updateCheckoutData({ billingAddress: checkoutData.shippingAddress });
     }
   }, [useSameAddress, checkoutData.shippingAddress]);
 
