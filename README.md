@@ -79,14 +79,6 @@ If you add some more information such as your thoughts and vision about the feat
 
 Please refer to our [Contribution Guidelines](./CONTRIBUTING.md) and [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-## 🚀 The Future of EverShop
-
-EverShop is seeing rapid organic growth and strong adoption from the developer community. We are now scaling our operations and building **EverShop Cloud**.
-
-If you are a strategic investor interested in the future of Node.js commerce and our mission to set a new standard for modern eCommerce, we’d love to share our vision and roadmap with you.
-
-📩 **Get in touch:** support@evershop.io
-
 ## License
 
 [GPL-3.0 License](https://github.com/evershopcommerce/evershop/blob/main/LICENSE)
