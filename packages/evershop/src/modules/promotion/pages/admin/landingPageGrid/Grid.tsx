@@ -6,6 +6,7 @@ import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
+import { AsyncButton } from '@components/common/ui/AsyncButton.js';
 import { Button } from '@components/common/ui/Button.js';
 import { ButtonGroup } from '@components/common/ui/ButtonGroup.js';
 import { Card } from '@components/common/ui/Card.js';
@@ -386,7 +387,7 @@ export default function LandingPageGrid({
                                 <LayoutTemplate className="size-4" aria-hidden="true" />
                                 {_('Build in page builder')}
                               </Button>
-                              <Button
+                              <AsyncButton
                                 type="button"
                                 size="sm"
                                 variant="outline"
@@ -397,7 +398,7 @@ export default function LandingPageGrid({
                               >
                                 <Copy className="size-4" aria-hidden="true" />
                                 {_('Duplicate')}
-                              </Button>
+                              </AsyncButton>
                             </div>
                           </TableCell>
                         )

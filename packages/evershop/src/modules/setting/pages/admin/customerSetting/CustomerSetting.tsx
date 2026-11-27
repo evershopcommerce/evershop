@@ -1,7 +1,7 @@
 import { SettingMenu } from '@components/admin/SettingMenu.js';
 import Area from '@components/common/Area.js';
 import { Form } from '@components/common/form/Form.js';
-import { Button } from '@components/common/ui/Button.js';
+import { SubmitButton } from '@components/common/form/SubmitButton.js';
 import {
   Card,
   CardDescription,
@@ -71,9 +71,9 @@ export default function CustomerSetting({
               />
               <CardFooter>
                 <div className="flex justify-end w-full">
-                  <Button type="submit" form="customerSetting">
+                  <SubmitButton form="customerSetting">
                     {_('Save Settings')}
-                  </Button>
+                  </SubmitButton>
                 </div>
               </CardFooter>
             </Card>

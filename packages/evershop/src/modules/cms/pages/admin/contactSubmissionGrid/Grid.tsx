@@ -2,6 +2,7 @@ import { GridPagination } from '@components/admin/grid/GridPagination.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
+import { AsyncButton } from '@components/common/ui/AsyncButton.js';
 import { Badge } from '@components/common/ui/Badge.js';
 import { Button } from '@components/common/ui/Button.js';
 import { ButtonGroup } from '@components/common/ui/ButtonGroup.js';
@@ -136,30 +137,30 @@ function BulkActions({
     <TableRow>
       <TableCell colSpan={100}>
         <ButtonGroup>
-          <Button
+          <AsyncButton
             variant="outline"
             onClick={() =>
               bulk((s) => axios.patch(s.updateApi, { status: 'read' }))
             }
           >
             {_('Mark read')}
-          </Button>
-          <Button
+          </AsyncButton>
+          <AsyncButton
             variant="outline"
             onClick={() =>
               bulk((s) => axios.patch(s.updateApi, { status: 'unread' }))
             }
           >
             {_('Mark unread')}
-          </Button>
-          <Button
+          </AsyncButton>
+          <AsyncButton
             variant="outline"
             onClick={() =>
               bulk((s) => axios.patch(s.updateApi, { status: 'spam' }))
             }
           >
             {_('Mark spam')}
-          </Button>
+          </AsyncButton>
           <Button
             variant="outline"
             onClick={(e) => {
@@ -334,32 +335,32 @@ export default function ContactSubmissionGrid({
                 <TableCell>
                   <ButtonGroup>
                     {s.status !== 'read' && (
-                      <Button
+                      <AsyncButton
                         variant="link"
                         onClick={() => setRowStatus(s.updateApi, 'read')}
                       >
                         {_('Mark read')}
-                      </Button>
+                      </AsyncButton>
                     )}
                     {s.status === 'read' && (
-                      <Button
+                      <AsyncButton
                         variant="link"
                         onClick={() => setRowStatus(s.updateApi, 'unread')}
                       >
                         {_('Mark unread')}
-                      </Button>
+                      </AsyncButton>
                     )}
                     {s.status !== 'spam' && (
-                      <Button
+                      <AsyncButton
                         variant="link"
                         onClick={() => setRowStatus(s.updateApi, 'spam')}
                       >
                         {_('Spam')}
-                      </Button>
+                      </AsyncButton>
                     )}
-                    <Button variant="link" onClick={() => remove(s.deleteApi)}>
+                    <AsyncButton variant="link" onClick={() => remove(s.deleteApi)}>
                       {_('Delete')}
-                    </Button>
+                    </AsyncButton>
                   </ButtonGroup>
                 </TableCell>
               </TableRow>

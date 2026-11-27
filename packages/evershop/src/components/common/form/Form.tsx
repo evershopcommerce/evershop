@@ -1,15 +1,39 @@
 import { Button } from '@components/common/ui/Button.js';
+import {
+  isPageLeaving,
+  onPageRestore
+} from '@components/common/ui/hooks/useAsyncAction.js';
 import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   useForm,
+  useFormContext,
   FormProvider,
   UseFormProps,
   FieldValues,
   SubmitHandler,
   UseFormReturn
 } from 'react-hook-form';
+
+/**
+ * True after a successful submit that is leaving the page (an `onSuccess`
+ * that redirects or reloads), until the next page replaces this one.
+ */
+const FormLeavingContext = React.createContext(false);
+
+/**
+ * True while the surrounding form is submitting, and while the page it
+ * redirected to is loading. For a save button outside the `<Form>`'s own
+ * (`submitBtn={false}`); `SubmitButton` uses it.
+ */
+export function useFormSubmitting(): boolean {
+  const {
+    formState: { isSubmitting }
+  } = useFormContext();
+  const leaving = useContext(FormLeavingContext);
+  return isSubmitting || leaving;
+}
 
 interface FormProps<T extends FieldValues = FieldValues>
   extends Omit<
@@ -132,10 +156,22 @@ export function Form<T extends FieldValues = FieldValues>({
     }
   }, [theForm.formState, canFocus]);
 
-  const handleFormSubmit = onSubmit || defaultSubmit;
+  // A submit whose success redirects or reloads keeps the buttons loading
+  // until the next page arrives: on a slow network that takes seconds, and a
+  // save button that looks idle again invites a second submit.
+  const [leaving, setLeaving] = useState(false);
+  useEffect(() => onPageRestore(() => setLeaving(false)), []);
+
+  const handleFormSubmit: SubmitHandler<T> = async (data, event) => {
+    await (onSubmit || defaultSubmit)(data, event);
+    if (isPageLeaving()) {
+      setLeaving(true);
+    }
+  };
 
   return (
     <FormProvider {...theForm}>
+      <FormLeavingContext.Provider value={leaving}>
       <form
         onSubmit={(event) => {
           // Nested forms must not submit this form. Dialogs render through
@@ -177,17 +213,18 @@ export function Form<T extends FieldValues = FieldValues>({
               // a second time — two validate+POST passes per click.
               type="submit"
               size={submitBtnSize}
-              isLoading={isSubmitting || loading}
+              isLoading={isSubmitting || leaving || loading}
             >
               {submitBtnText}
             </Button>
           </div>
         )}
       </form>
+      </FormLeavingContext.Provider>
     </FormProvider>
   );
 }
 
-export { useFormContext } from 'react-hook-form';
+export { useFormContext };
 export { Controller } from 'react-hook-form';
 export type { Control, FieldPath, FieldValues } from 'react-hook-form';

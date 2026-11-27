@@ -191,6 +191,7 @@ export function MethodForm({
             <Button
               type="button"
               variant="default"
+              isLoading={form.formState.isSubmitting}
               onClick={async () => {
                 const valid = await form.trigger();
                 if (!valid) return;

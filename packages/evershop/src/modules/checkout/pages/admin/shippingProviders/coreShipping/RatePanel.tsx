@@ -3,6 +3,7 @@ import { NumberField } from '@components/common/form/NumberField.js';
 import { RadioGroupField } from '@components/common/form/RadioGroupField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
+import { AsyncButton } from '@components/common/ui/AsyncButton.js';
 import { Button } from '@components/common/ui/Button.js';
 import { ConfirmDialog } from '@components/common/ui/ConfirmDialog.js';
 import { toast } from '@components/common/ui/Sonner.js';
@@ -306,9 +307,9 @@ export function RatePanel({
           ) : (
             <span />
           )}
-          <Button type="button" variant="default" onClick={save}>
+          <AsyncButton type="button" variant="default" onClick={save}>
             {existing ? _('Save rate') : _('Add rate')}
-          </Button>
+          </AsyncButton>
         </div>
       </div>
     </Form>

@@ -290,11 +290,15 @@ describe('the list of past imports (jsdom)', () => {
       await click(box('Select file-1.csv'));
       await click(box('Select file-3.csv'));
       await click(button('Delete') as Element);
+      let done: unknown;
       await act(async () => {
-        openAlert.mock.calls[0][0].secondaryAction.onAction();
+        done = openAlert.mock.calls[0][0].secondaryAction.onAction();
         await settle();
       });
-      expect(closeAlert).toHaveBeenCalledTimes(1);
+      // The alert stays open (its Delete button spinning) until the list
+      // reloads: the action returns the promise instead of closing first.
+      expect(done).toBeInstanceOf(Promise);
+      expect(closeAlert).not.toHaveBeenCalled();
       expect(sent.map((r) => [r.method, r.url, r.headers])).toEqual([
         ['DELETE', '/api/import-jobs/job-1', { 'X-Import-Request': '1' }],
         ['DELETE', '/api/import-jobs/job-3', { 'X-Import-Request': '1' }]

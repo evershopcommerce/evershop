@@ -1,15 +1,13 @@
+import { useFormSubmitting } from '@components/common/form/Form.js';
 import { Button } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 
 const FormButtons: React.FC<{
   formId: string;
   cancelUrl: string;
 }> = ({ cancelUrl, formId }) => {
-  const {
-    formState: { isSubmitting }
-  } = useFormContext();
+  const isSubmitting = useFormSubmitting();
 
   return (
     <div className="form-submit-button flex border-t border-border mt-4 pt-4 justify-between">

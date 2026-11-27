@@ -7,6 +7,7 @@ import { CardContent } from '@components/common/ui/Card.js';
 import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
+import { useForm } from 'react-hook-form';
 
 interface RefundButtonProps {
   order: {
@@ -28,8 +29,31 @@ interface RefundButtonProps {
 export default function RefundButton({
   order: { canRefund, refundApi, grandTotal }
 }: RefundButtonProps) {
-  const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
-  const [loading, setLoading] = React.useState(false);
+  const { openAlert, closeAlert } = useAlertContext();
+  // The same options `<Form>` uses for the form it creates itself.
+  const form = useForm({ shouldUnregister: true, shouldFocusError: false });
+
+  // Returns when the refund is done (or refused), so the alert's Refund
+  // button shows a spinner for exactly that long; on success it keeps it
+  // while the page reloads.
+  const refund = async (data: Record<string, unknown>) => {
+    try {
+      const response = await fetch(refundApi, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      if (result.error) {
+        toast.error(result.error.message);
+        return;
+      }
+      window.location.reload();
+    } catch (e) {
+      toast.error(_('Something went wrong! Please try again.'));
+    }
+  };
+
   return (
     <RenderIfTrue condition={canRefund}>
       <CardContent>
@@ -43,29 +67,9 @@ export default function RefundButton({
                   <div>
                     <Form
                       id="orderRefund"
-                      method="POST"
-                      action={refundApi}
+                      form={form}
+                      onSubmit={refund}
                       submitBtn={false}
-                      onSuccess={(response) => {
-                        setLoading(false);
-                        if (response.error) {
-                          toast.error(response.error.message);
-                          dispatchAlert({
-                            type: 'update',
-                            payload: { secondaryAction: { isLoading: false } }
-                          });
-                        } else {
-                          // Reload the page
-                          window.location.reload();
-                        }
-                      }}
-                      onInvalid={() => {
-                        setLoading(false);
-                        dispatchAlert({
-                          type: 'update',
-                          payload: { secondaryAction: { isLoading: false } }
-                        });
-                      }}
                     >
                       <div>
                         <NumberField
@@ -110,20 +114,10 @@ export default function RefundButton({
                 },
                 secondaryAction: {
                   title: _('Refund'),
-                  onAction: () => {
-                    setLoading(true);
-                    dispatchAlert({
-                      type: 'update',
-                      payload: { secondaryAction: { isLoading: true } }
-                    });
-                    (
-                      document.getElementById('orderRefund') as HTMLFormElement
-                    ).dispatchEvent(
-                      new Event('submit', { cancelable: true, bubbles: true })
-                    );
-                  },
-                  variant: 'destructive',
-                  isLoading: loading
+                  // Validates, then refunds; a failed check or a refused
+                  // refund ends the spinner so the user can correct and retry.
+                  onAction: () => form.handleSubmit(refund)(),
+                  variant: 'destructive'
                 }
               });
             }}
