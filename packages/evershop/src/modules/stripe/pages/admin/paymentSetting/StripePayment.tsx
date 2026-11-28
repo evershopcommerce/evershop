@@ -57,7 +57,7 @@ export default function StripePayment({
       <CardContent className="pt-4 border-t border-border">
         <div className="grid grid-cols-3 gap-5">
           <div className="col-span-1 items-center flex">
-            <h4>{_('Dislay Name')}</h4>
+            <h4>{_('Display Name')}</h4>
           </div>
           <div className="col-span-2">
             <InputField

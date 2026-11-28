@@ -672,7 +672,7 @@ Configure the available payment methods,Az elérhető fizetési módok beállít
 Configure the settings for the ${name} widget.,A(z) ${name} widget beállításainak konfigurálása.
 Configure the tax classes that will be available to your customers at checkout.,"Állítsa be az adóosztályokat, amelyek a vásárlók számára elérhetők lesznek a pénztárnál."
 Configure your Cash On Delivery payment gateway settings,Az utánvétes fizetési átjáró beállításainak konfigurálása
-Configure your Paypal payment gateway settings,A PayPal fizetési átjáró beállításainak konfigurálása
+Configure your PayPal payment gateway settings,A PayPal fizetési átjáró beállításainak konfigurálása
 Configure your Stripe payment gateway settings,A Stripe fizetési átjáró beállításainak konfigurálása
 Configure your store information,Az áruház adatainak beállítása
 "Conflicts with ${plan1}, ${plan2}","Ütközik ezzel: ${plan1}, ${plan2}"
@@ -761,7 +761,6 @@ Discount Type,Kedvezmény típusa
 Discount amount,Kedvezmény összege
 Discount amount is required,A kedvezmény összege kötelező
 Discount type is required,A kedvezmény típusa kötelező
-Dislay Name,Megjelenített név
 Display Name,Megjelenített név
 Draft,Piszkozat
 Draft — not scheduled,Piszkozat — nincs ütemezve
@@ -990,7 +989,7 @@ Parent category,Szülőkategória
 Payment Setting,Fizetési beállítás
 Payment mode,Fizetési mód
 Payment setting saved,Fizetési beállítás mentve
-Paypal Payment,Paypal fizetés
+PayPal Payment,PayPal fizetés
 Pending start time,Függőben lévő kezdési idő
 Percentage discount to entire order,Százalékos kedvezmény a teljes rendelésre
 Percentage discount to specific products,Százalékos kedvezmény meghatározott termékekre

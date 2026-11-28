@@ -669,7 +669,7 @@ Configure the available payment methods,Configureer de beschikbare betaalmethode
 Configure the settings for the ${name} widget.,Configureer de instellingen voor de ${name}-widget.
 Configure the tax classes that will be available to your customers at checkout.,Configureer de belastingklassen die voor je klanten beschikbaar zijn bij het afrekenen.
 Configure your Cash On Delivery payment gateway settings,Configureer je instellingen voor de betaalmethode rembours
-Configure your Paypal payment gateway settings,Configureer je instellingen voor de PayPal-betaalmethode
+Configure your PayPal payment gateway settings,Configureer je instellingen voor de PayPal-betaalmethode
 Configure your Stripe payment gateway settings,Configureer je instellingen voor de Stripe-betaalmethode
 Configure your store information,Configureer je winkelgegevens
 "Conflicts with ${plan1}, ${plan2}","Conflicteert met ${plan1}, ${plan2}"
@@ -758,7 +758,6 @@ Discount Type,Kortingstype
 Discount amount,Kortingsbedrag
 Discount amount is required,Kortingsbedrag is vereist
 Discount type is required,Kortingstype is vereist
-Dislay Name,Weergavenaam
 Display Name,Weergavenaam
 Draft,Concept
 Draft — not scheduled,Concept — niet ingepland
@@ -987,7 +986,7 @@ Parent category,Bovenliggende categorie
 Payment Setting,Betaalinstelling
 Payment mode,Betaalmodus
 Payment setting saved,Betaalinstelling opgeslagen
-Paypal Payment,PayPal-betaling
+PayPal Payment,PayPal-betaling
 Pending start time,In afwachting van starttijd
 Percentage discount to entire order,Procentuele korting op de hele bestelling
 Percentage discount to specific products,Procentuele korting op specifieke producten

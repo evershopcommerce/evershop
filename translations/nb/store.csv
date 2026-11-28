@@ -669,7 +669,7 @@ Configure the available payment methods,Konfigurer de tilgjengelige betalingsmet
 Configure the settings for the ${name} widget.,Konfigurer innstillingene for ${name}-widgeten.
 Configure the tax classes that will be available to your customers at checkout.,Konfigurer avgiftsklassene som vil være tilgjengelige for kundene dine i kassen.
 Configure your Cash On Delivery payment gateway settings,Konfigurer innstillingene for betaling ved oppkrav
-Configure your Paypal payment gateway settings,Konfigurer innstillingene for Paypal-betalingsgatewayen
+Configure your PayPal payment gateway settings,Konfigurer innstillingene for PayPal-betalingsgatewayen
 Configure your Stripe payment gateway settings,Konfigurer innstillingene for Stripe-betalingsgatewayen
 Configure your store information,Konfigurer butikkinformasjonen din
 "Conflicts with ${plan1}, ${plan2}","I konflikt med ${plan1}, ${plan2}"
@@ -758,7 +758,6 @@ Discount Type,Rabattype
 Discount amount,Rabattbeløp
 Discount amount is required,Rabattbeløp er påkrevd
 Discount type is required,Rabattype er påkrevd
-Dislay Name,Visningsnavn
 Display Name,Visningsnavn
 Draft,Utkast
 Draft — not scheduled,Utkast — ikke planlagt
@@ -987,7 +986,7 @@ Parent category,Overordnet kategori
 Payment Setting,Betalingsinnstilling
 Payment mode,Betalingsmodus
 Payment setting saved,Betalingsinnstilling lagret
-Paypal Payment,PayPal-betaling
+PayPal Payment,PayPal-betaling
 Pending start time,Ventende starttid
 Percentage discount to entire order,Prosentvis rabatt på hele ordren
 Percentage discount to specific products,Prosentvis rabatt på bestemte produkter

@@ -672,7 +672,7 @@ Configure the available payment methods,Подесите доступне нач
 Configure the settings for the ${name} widget.,Подесите подешавања за виџет ${name}.
 Configure the tax classes that will be available to your customers at checkout.,Подесите пореске класе које ће бити доступне вашим купцима при наплати.
 Configure your Cash On Delivery payment gateway settings,Подесите подешавања мрежног пролаза за плаћање поузећем
-Configure your Paypal payment gateway settings,Подесите подешавања Paypal мрежног пролаза за плаћање
+Configure your PayPal payment gateway settings,Подесите подешавања PayPal мрежног пролаза за плаћање
 Configure your Stripe payment gateway settings,Подесите подешавања Stripe мрежног пролаза за плаћање
 Configure your store information,Подесите информације о продавници
 "Conflicts with ${plan1}, ${plan2}","У сукобу са ${plan1}, ${plan2}"
@@ -761,7 +761,6 @@ Discount Type,Тип попуста
 Discount amount,Износ попуста
 Discount amount is required,Износ попуста је обавезан
 Discount type is required,Тип попуста је обавезан
-Dislay Name,Приказно име
 Display Name,Приказно име
 Draft,Нацрт
 Draft — not scheduled,Нацрт — није заказан
@@ -990,7 +989,7 @@ Parent category,Nadređena kategorija
 Payment Setting,Podešavanje plaćanja
 Payment mode,Režim plaćanja
 Payment setting saved,Podešavanje plaćanja je sačuvano
-Paypal Payment,Paypal plaćanje
+PayPal Payment,PayPal plaćanje
 Pending start time,Vreme početka na čekanju
 Percentage discount to entire order,Procentualni popust na celu porudžbinu
 Percentage discount to specific products,Procentualni popust na određene proizvode

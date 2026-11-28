@@ -673,7 +673,7 @@ Configure the available payment methods,Configura los métodos de pago disponibl
 Configure the settings for the ${name} widget.,Configura los ajustes del widget ${name}.
 Configure the tax classes that will be available to your customers at checkout.,Configura las clases de impuestos que estarán disponibles para tus clientes al pagar.
 Configure your Cash On Delivery payment gateway settings,Configura los ajustes de tu pasarela de pago contra reembolso
-Configure your Paypal payment gateway settings,Configura los ajustes de tu pasarela de pago de PayPal
+Configure your PayPal payment gateway settings,Configura los ajustes de tu pasarela de pago de PayPal
 Configure your Stripe payment gateway settings,Configura los ajustes de tu pasarela de pago de Stripe
 Configure your store information,Configura la información de tu tienda
 "Conflicts with ${plan1}, ${plan2}","Entra en conflicto con ${plan1}, ${plan2}"
@@ -761,7 +761,6 @@ Discount Type,Tipo de descuento
 Discount amount,Importe del descuento
 Discount amount is required,El importe del descuento es obligatorio
 Discount type is required,El tipo de descuento es obligatorio
-Dislay Name,Nombre para mostrar
 Display Name,Nombre para mostrar
 Draft,Borrador
 Draft — not scheduled,Borrador — no programado
@@ -990,7 +989,7 @@ Parent category,Categoría principal
 Payment Setting,Configuración de pago
 Payment mode,Modo de pago
 Payment setting saved,Configuración de pago guardada
-Paypal Payment,Pago con PayPal
+PayPal Payment,Pago con PayPal
 Pending start time,Hora de inicio pendiente
 Percentage discount to entire order,Descuento porcentual a todo el pedido
 Percentage discount to specific products,Descuento porcentual a productos específicos

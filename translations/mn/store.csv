@@ -669,7 +669,7 @@ Configure the available payment methods,Боломжтой төлбөрийн а
 Configure the settings for the ${name} widget.,${name} виджетийн тохиргоог тохируулах.
 Configure the tax classes that will be available to your customers at checkout.,Үйлчлүүлэгчдэд төлбөр төлөх үед боломжтой байх татварын ангиллыг тохируулна уу.
 Configure your Cash On Delivery payment gateway settings,Хүргэлтийн дараа төлбөрийн гарцын тохиргоог тохируулна уу
-Configure your Paypal payment gateway settings,Paypal төлбөрийн гарцын тохиргоог тохируулна уу
+Configure your PayPal payment gateway settings,PayPal төлбөрийн гарцын тохиргоог тохируулна уу
 Configure your Stripe payment gateway settings,Stripe төлбөрийн гарцын тохиргоог тохируулна уу
 Configure your store information,Дэлгүүрийн мэдээллээ тохируулна уу
 "Conflicts with ${plan1}, ${plan2}","${plan1}, ${plan2}-тэй зөрчилдөж байна"
@@ -758,7 +758,6 @@ Discount Type,Хөнгөлөлтийн төрөл
 Discount amount,Хөнгөлөлтийн дүн
 Discount amount is required,Хөнгөлөлтийн дүн шаардлагатай
 Discount type is required,Хөнгөлөлтийн төрөл шаардлагатай
-Dislay Name,Харагдах нэр
 Display Name,Харагдах нэр
 Draft,Ноорог
 Draft — not scheduled,Ноорог — товлоогүй
@@ -987,7 +986,7 @@ Parent category,Эх ангилал
 Payment Setting,Төлбөрийн тохиргоо
 Payment mode,Төлбөрийн горим
 Payment setting saved,Төлбөрийн тохиргоо хадгалагдлаа
-Paypal Payment,Paypal төлбөр
+PayPal Payment,PayPal төлбөр
 Pending start time,Эхлэх цаг хүлээгдэж байна
 Percentage discount to entire order,Бүх захиалгад хувийн хямдрал
 Percentage discount to specific products,Тодорхой бүтээгдэхүүнд хувийн хямдрал
