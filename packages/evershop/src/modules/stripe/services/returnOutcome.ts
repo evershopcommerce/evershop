@@ -5,7 +5,8 @@ export type StripeReturnOutcome = 'success' | 'pending' | 'failure';
  * storefront should do next.
  *
  * - `succeeded` / `requires_capture` — the money is secured (captured or
- *   authorized). Send the buyer to the order success page.
+ *   authorized). Send the buyer to the order success page (the return page
+ *   also confirms the order, as the webhook would: `confirmPaymentIntent`).
  * - `processing` — a delayed-notification method (some wallets, bank debits)
  *   still settling. This is NOT a failure; the webhook finalizes it. Marking it
  *   failed and dumping the buyer back to the cart (the old behavior) was wrong.
