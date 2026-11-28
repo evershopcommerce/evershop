@@ -1,8 +1,10 @@
 import {
   Controller,
   Form,
-  useFormContext
+  useFormContext,
+  useFormSubmitting
 } from '@components/common/form/Form.js';
+import { SubmitButton } from '@components/common/form/SubmitButton.js';
 import {
   Alert,
   AlertDescription,
@@ -149,6 +151,7 @@ function SaveSellTo({
   initial: SellToValue;
 }) {
   const { watch } = useFormContext();
+  const submitting = useFormSubmitting();
   const sellTo = watch('addressSellToCountries') as SellToValue | undefined;
   const stranded = strandedZones(zones, sellTo ?? initial);
   const summary = strandedSummary(stranded);
@@ -174,7 +177,7 @@ function SaveSellTo({
         {stranded.length > 0 ? (
           <ConfirmDialog
             trigger={
-              <Button type="button" size="sm">
+              <Button type="button" size="sm" isLoading={submitting}>
                 {_('Save Settings')}
               </Button>
             }
@@ -187,9 +190,9 @@ function SaveSellTo({
             onConfirm={submit}
           />
         ) : (
-          <Button type="submit" size="sm" form={FORM_ID}>
+          <SubmitButton size="sm" form={FORM_ID}>
             {_('Save Settings')}
-          </Button>
+          </SubmitButton>
         )}
       </div>
     </>

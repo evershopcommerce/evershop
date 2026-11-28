@@ -2,6 +2,7 @@ import { GridPagination } from '@components/admin/grid/GridPagination.js';
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { useAlertContext } from '@components/common/modal/Alert.js';
+import { AsyncButton } from '@components/common/ui/AsyncButton.js';
 import { Button } from '@components/common/ui/Button.js';
 import { ButtonGroup } from '@components/common/ui/ButtonGroup.js';
 import {
@@ -87,18 +88,18 @@ function BulkActions({
     <TableRow>
       <TableCell colSpan={100}>
         <ButtonGroup>
-          <Button
+          <AsyncButton
             variant="outline"
             onClick={() => bulk((c) => axios.patch(c.moderateApi, { status: 'approved' }))}
           >
             {_('Approve')}
-          </Button>
-          <Button
+          </AsyncButton>
+          <AsyncButton
             variant="outline"
             onClick={() => bulk((c) => axios.patch(c.moderateApi, { status: 'spam' }))}
           >
             {_('Mark spam')}
-          </Button>
+          </AsyncButton>
           <Button
             variant="outline"
             onClick={(e) => {
@@ -256,27 +257,27 @@ export default function BlogCommentGrid({
                 <TableCell>
                   <ButtonGroup>
                     {c.status !== 'approved' && (
-                      <Button
+                      <AsyncButton
                         variant="link"
                         onClick={() => moderate(c.moderateApi, 'approved')}
                       >
                         {_('Approve')}
-                      </Button>
+                      </AsyncButton>
                     )}
                     {c.status !== 'spam' && (
-                      <Button
+                      <AsyncButton
                         variant="link"
                         onClick={() => moderate(c.moderateApi, 'spam')}
                       >
                         {_('Spam')}
-                      </Button>
+                      </AsyncButton>
                     )}
-                    <Button
+                    <AsyncButton
                       variant="link"
                       onClick={() => remove(c.deleteApi)}
                     >
                       {_('Delete')}
-                    </Button>
+                    </AsyncButton>
                   </ButtonGroup>
                 </TableCell>
               </TableRow>

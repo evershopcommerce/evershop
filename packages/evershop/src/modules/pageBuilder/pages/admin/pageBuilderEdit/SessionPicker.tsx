@@ -1,4 +1,6 @@
 import { Button } from '@components/common/ui/Button.js';
+import { useAsyncAction } from '@components/common/ui/hooks/useAsyncAction.js';
+import { Spinner } from '@components/common/ui/Spinner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { Calendar, ChevronRight, History, Plus, X } from 'lucide-react';
 import React, { useEffect } from 'react';
@@ -202,12 +204,16 @@ function SessionCard({
   icon: React.ReactNode;
   title: string;
   description: React.ReactNode;
-  onClick: () => void;
+  /** May return a promise ("Start new changeset" discards the draft first). */
+  onClick: () => unknown;
 }): React.ReactElement {
+  const [run, running] = useAsyncAction(onClick);
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={run}
+      disabled={running}
+      aria-busy={running}
       className="w-full text-left flex items-center gap-3 p-3 rounded-md border border-divider hover:border-primary/40 hover:bg-primary/5 transition-colors group"
     >
       {icon}
@@ -217,7 +223,11 @@ function SessionCard({
           {description}
         </span>
       </span>
-      <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0 group-hover:text-foreground transition-colors" />
+      {running ? (
+        <Spinner className="text-muted-foreground shrink-0" />
+      ) : (
+        <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0 group-hover:text-foreground transition-colors" />
+      )}
     </button>
   );
 }

@@ -5,6 +5,8 @@ import {
   DialogTitle,
   DialogTrigger
 } from '@components/common/ui/Dialog.js';
+import { useAsyncAction } from '@components/common/ui/hooks/useAsyncAction.js';
+import { Spinner } from '@components/common/ui/Spinner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { RateForm } from './RateForm.js';
@@ -30,6 +32,12 @@ interface RateProps {
 
 function Rate({ rate, getTaxClasses }: RateProps) {
   const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [remove, removing] = useAsyncAction(async () => {
+    await fetch(rate.deleteApi, {
+      method: 'DELETE'
+    });
+    await getTaxClasses({ requestPolicy: 'network-only' });
+  });
   return (
     <>
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -54,16 +62,14 @@ function Rate({ rate, getTaxClasses }: RateProps) {
           </DialogTrigger>
           <a
             href="#"
-            className="text-destructive ml-5"
-            onClick={async (e) => {
+            className="text-destructive ml-5 inline-flex items-center"
+            aria-disabled={removing}
+            onClick={(e) => {
               e.preventDefault();
-              await fetch(rate.deleteApi, {
-                method: 'DELETE'
-              });
-              await getTaxClasses({ requestPolicy: 'network-only' });
+              remove();
             }}
           >
-            {_('Delete')}
+            {removing ? <Spinner /> : _('Delete')}
           </a>
         </td>
         <DialogContent>

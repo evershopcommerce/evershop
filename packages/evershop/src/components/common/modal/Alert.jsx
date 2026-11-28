@@ -1,4 +1,5 @@
 import { Button } from '@components/common/ui/Button.js';
+import { useAsyncAction } from '@components/common/ui/hooks/useAsyncAction.js';
 import { assign } from '@evershop/evershop/lib/util/assign';
 import { produce } from 'immer';
 import PropTypes from 'prop-types';
@@ -44,6 +45,34 @@ const alertReducer = produce((draff, action) => {
       throw new Error();
   }
 });
+
+/**
+ * A footer button of the alert. When its `onAction` returns a promise (a
+ * bulk delete, a status change), it shows a spinner until the promise
+ * settles, and keeps it while the page reloads after a success. The caller's
+ * `isLoading` still works for callers that manage it through `dispatchAlert`.
+ */
+function AlertActionButton({ action }) {
+  const [run, running] = useAsyncAction((event) => action.onAction?.(event));
+  return (
+    <Button
+      onClick={run}
+      variant={action.variant}
+      isLoading={action.isLoading || running}
+    >
+      {action.title}
+    </Button>
+  );
+}
+
+AlertActionButton.propTypes = {
+  action: PropTypes.shape({
+    title: PropTypes.node,
+    onAction: PropTypes.func,
+    variant: PropTypes.string,
+    isLoading: PropTypes.bool
+  }).isRequired
+};
 
 function Alert({ children }) {
   const [alert, dispatchAlert] = useReducer(alertReducer, {});
@@ -110,22 +139,10 @@ function Alert({ children }) {
                     <CardFooter>
                       <div className="flex justify-end space-x-2 w-full">
                         {alert.primaryAction && (
-                          <Button
-                            onClick={alert.primaryAction.onAction}
-                            variant={alert.primaryAction.variant}
-                            isLoading={alert.primaryAction.isLoading}
-                          >
-                            {alert.primaryAction.title}
-                          </Button>
+                          <AlertActionButton action={alert.primaryAction} />
                         )}
                         {alert.secondaryAction && (
-                          <Button
-                            onClick={alert.secondaryAction.onAction}
-                            variant={alert.secondaryAction.variant}
-                            isLoading={alert.secondaryAction.isLoading}
-                          >
-                            {alert.secondaryAction.title}
-                          </Button>
+                          <AlertActionButton action={alert.secondaryAction} />
                         )}
                       </div>
                     </CardFooter>

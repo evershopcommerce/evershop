@@ -4,7 +4,7 @@ import { NumberField } from '@components/common/form/NumberField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
-import { Button } from '@components/common/ui/Button.js';
+import { AsyncButton } from '@components/common/ui/AsyncButton.js';
 import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import axios from 'axios';
@@ -198,9 +198,9 @@ function AttachForm({
       )}
 
       <div className="flex justify-end pt-3">
-        <Button type="button" variant="default" onClick={attach}>
+        <AsyncButton type="button" variant="default" onClick={attach}>
           {_('Attach')}
-        </Button>
+        </AsyncButton>
       </div>
     </div>
   );

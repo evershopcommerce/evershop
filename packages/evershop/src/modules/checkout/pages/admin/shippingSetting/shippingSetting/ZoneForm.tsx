@@ -8,7 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger
 } from '@components/common/ui/Accordion.js';
-import { Button } from '@components/common/ui/Button.js';
+import { AsyncButton } from '@components/common/ui/AsyncButton.js';
 import { toast } from '@components/common/ui/Sonner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { cn } from '@evershop/evershop/lib/util/cn';
@@ -276,14 +276,14 @@ export function ZoneForm({
         </div>
 
         <div className="flex justify-end gap-2 pt-3 mt-3 border-t border-border">
-          <Button
+          <AsyncButton
             title={_('Save')}
             variant="default"
             type="button"
             onClick={onSubmit}
           >
             {_('Save')}
-          </Button>
+          </AsyncButton>
         </div>
       </div>
     </Form>

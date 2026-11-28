@@ -9,12 +9,14 @@ import {
   CardHeader,
   CardTitle
 } from '@components/common/ui/Card.js';
+import { useAsyncAction } from '@components/common/ui/hooks/useAsyncAction.js';
 import { Input } from '@components/common/ui/Input.js';
 import {
   InputGroupAddon,
   InputGroupInput
 } from '@components/common/ui/InputGroup.js';
 import { InputGroup } from '@components/common/ui/InputGroup.js';
+import { Spinner as LoadingIcon } from '@components/common/ui/Spinner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { PlusCircle } from 'lucide-react';
 import React from 'react';
@@ -72,7 +74,7 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
       setCreateGroupError(_('Group name is required'));
       return;
     }
-    fetch(createGroupApi, {
+    return fetch(createGroupApi, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -90,6 +92,7 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
         }
       });
   };
+  const [runCreateGroup, creatingGroup] = useAsyncAction(createGroup);
 
   if (fetching)
     return (
@@ -141,12 +144,17 @@ const Groups: React.FC<{ groups: Group[]; createGroupApi: string }> = ({
                   <a
                     className="flex w-8 items-center justify-center text-primary"
                     href="#"
+                    aria-disabled={creatingGroup}
                     onClick={(e) => {
                       e.preventDefault();
-                      createGroup();
+                      runCreateGroup();
                     }}
                   >
-                    <PlusCircle className="size-4" />
+                    {creatingGroup ? (
+                      <LoadingIcon />
+                    ) : (
+                      <PlusCircle className="size-4" />
+                    )}
                   </a>
                 </InputGroupAddon>
               </InputGroup>

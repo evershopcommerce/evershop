@@ -84,10 +84,9 @@ export default function ImportGrid({ importJobs }: ImportGridProps) {
                 },
                 secondaryAction: {
                   title: _('Delete'),
-                  onAction: () => {
-                    closeAlert();
-                    remove();
-                  },
+                  // Returning the promise keeps the alert open with a
+                  // spinner until the list reloads.
+                  onAction: () => remove(),
                   variant: 'destructive'
                 }
               })

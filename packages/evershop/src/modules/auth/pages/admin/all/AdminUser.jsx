@@ -6,7 +6,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@components/common/ui/DropdownMenu.js';
+import { useAsyncAction } from '@components/common/ui/hooks/useAsyncAction.js';
 import { toast } from '@components/common/ui/Sonner.js';
+import { Spinner } from '@components/common/ui/Spinner.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import { LogOut } from 'lucide-react';
 import PropTypes from 'prop-types';
@@ -26,6 +28,7 @@ export default function AdminUser({ adminUser = null, logoutUrl, loginPage }) {
       toast.error(_('Logout failed'));
     }
   };
+  const [runLogout, loggingOut] = useAsyncAction(logout);
 
   if (!adminUser) {
     return null;
@@ -59,13 +62,15 @@ export default function AdminUser({ adminUser = null, logoutUrl, loginPage }) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer"
+              // Stay open while logging out, so the spinner is seen.
+              closeOnClick={false}
               onClick={(e) => {
                 e.preventDefault();
-                logout();
+                runLogout();
               }}
             >
               <div className="flex justify-start items-center gap-2">
-                <LogOut className="w-4 h-4" />
+                {loggingOut ? <Spinner /> : <LogOut className="w-4 h-4" />}
                 <span>{_('Logout')}</span>
               </div>
             </DropdownMenuItem>

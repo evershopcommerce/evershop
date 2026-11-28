@@ -1,4 +1,5 @@
 import Spinner from '@components/admin/Spinner.js';
+import { AsyncButton } from '@components/common/ui/AsyncButton.js';
 import { Button } from '@components/common/ui/Button.js';
 import { Checkbox } from '@components/common/ui/Checkbox.js';
 import { toast } from '@components/common/ui/Sonner.js';
@@ -148,13 +149,13 @@ export const CreateVariantGroup: React.FC<{
               </label>
             ))}
             <div className="mt-5 space-x-2">
-              <Button
+              <AsyncButton
                 variant={'default'}
                 className={'hover:cursor-pointer'}
                 onClick={(e) => onCreate(e)}
               >
                 {_('Create')}
-              </Button>
+              </AsyncButton>
               <Button
                 variant="destructive"
                 onClick={(e) => {

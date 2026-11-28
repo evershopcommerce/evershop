@@ -1,6 +1,7 @@
 import { ProductSelector } from '@components/admin/ProductSelector.js';
 import { RadioGroupField } from '@components/common/form/RadioGroupField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
+import { AsyncButton } from '@components/common/ui/AsyncButton.js';
 import { Button } from '@components/common/ui/Button.js';
 import {
   Card,
@@ -386,41 +387,41 @@ function PicksList({
           </div>
           <div className="flex items-center gap-1.5">
             <HiddenChip reason={link.hiddenReason} />
-            <Button
+            <AsyncButton
               variant="ghost"
               size="sm"
               disabled={index === 0}
               onClick={(e) => {
                 e.preventDefault();
-                movePick(index, -1);
+                return movePick(index, -1);
               }}
               aria-label={_('Move up')}
             >
               <ArrowUp className="h-3.5 w-3.5" />
-            </Button>
-            <Button
+            </AsyncButton>
+            <AsyncButton
               variant="ghost"
               size="sm"
               disabled={index === links.length - 1}
               onClick={(e) => {
                 e.preventDefault();
-                movePick(index, 1);
+                return movePick(index, 1);
               }}
               aria-label={_('Move down')}
             >
               <ArrowDown className="h-3.5 w-3.5" />
-            </Button>
-            <Button
+            </AsyncButton>
+            <AsyncButton
               variant="ghost"
               size="sm"
               onClick={(e) => {
                 e.preventDefault();
-                removePick(link);
+                return removePick(link);
               }}
               aria-label={_('Remove')}
             >
               <Trash2 className="h-3.5 w-3.5 text-destructive" />
-            </Button>
+            </AsyncButton>
           </div>
         </div>
       ))}
@@ -739,16 +740,16 @@ export default function Recommendations({
                       <td className="py-1.5 text-right">
                         {candidate.product &&
                           !pinnedIds.has(candidate.product.productId) && (
-                            <Button
+                            <AsyncButton
                               variant="ghost"
                               size="sm"
                               onClick={(e) => {
                                 e.preventDefault();
-                                pinCandidate(candidate.product!.uuid);
+                                return pinCandidate(candidate.product!.uuid);
                               }}
                             >
                               {_('Pin')}
-                            </Button>
+                            </AsyncButton>
                           )}
                       </td>
                     </tr>

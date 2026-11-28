@@ -1,5 +1,6 @@
 import { Form } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
+import { SubmitButton } from '@components/common/form/SubmitButton.js';
 import { Button } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
@@ -39,22 +40,9 @@ function TaxClassForm({
         <Button title={_('Cancel')} variant="secondary" onClick={closeModal}>
           {_('Cancel')}
         </Button>
-        <Button
-          title={_('Save')}
-          variant="default"
-          onClick={() => {
-            (
-              document.getElementById('createTaxClass') as HTMLFormElement
-            ).dispatchEvent(
-              new Event('submit', {
-                cancelable: true,
-                bubbles: true
-              })
-            );
-          }}
-        >
+        <SubmitButton title={_('Save')} variant="default">
           {_('Save')}
-        </Button>
+        </SubmitButton>
       </div>
     </Form>
   );

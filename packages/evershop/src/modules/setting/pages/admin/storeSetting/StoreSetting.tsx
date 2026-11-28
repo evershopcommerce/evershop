@@ -8,9 +8,9 @@ import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import { SelectField } from '@components/common/form/SelectField.js';
+import { SubmitButton } from '@components/common/form/SubmitButton.js';
 import { TelField } from '@components/common/form/TelField.js';
 import { TextareaField } from '@components/common/form/TextareaField.js';
-import { Button } from '@components/common/ui/Button.js';
 import {
   Card,
   CardContent,
@@ -692,13 +692,9 @@ export default function StoreSetting({
               </CardContent>
               <CardFooter>
                 <div className="flex justify-end w-full">
-                  <Button
-                    type="submit"
-                    className="btn btn-primary"
-                    form="storeSetting"
-                  >
+                  <SubmitButton className="btn btn-primary" form="storeSetting">
                     {_('Save Settings')}
-                  </Button>
+                  </SubmitButton>
                 </div>
               </CardFooter>
             </Card>

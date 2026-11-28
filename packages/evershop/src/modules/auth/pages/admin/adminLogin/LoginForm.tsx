@@ -1,7 +1,7 @@
 import './LoginForm.scss';
 import Area from '@components/common/Area.js';
 import { EmailField } from '@components/common/form/EmailField.js';
-import { Form, useFormContext } from '@components/common/form/Form.js';
+import { Form, useFormSubmitting } from '@components/common/form/Form.js';
 import { PasswordField } from '@components/common/form/PasswordField.js';
 import { Button } from '@components/common/ui/Button.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
@@ -15,9 +15,8 @@ interface LoginFormProps {
 }
 
 const SubmitButton: React.FC = () => {
-  const {
-    formState: { isSubmitting }
-  } = useFormContext();
+  // Keeps spinning while the dashboard loads after a successful login.
+  const isSubmitting = useFormSubmitting();
   return (
     <div className="form-submit-button flex border-t border-border mt-4 pt-4 justify-between">
       <Button
