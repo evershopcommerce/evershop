@@ -1,14 +1,28 @@
 .admin-navigation {
   width: 15rem;
   float: left;
-  height: 100vh;
   border-right: 1px solid var(--divider);
   position: fixed;
   left: 0;
+  // Below the header, down to the bottom of the window: the menu scrolls
+  // inside this box, so its last item can scroll fully into view.
   top: 3.5rem;
+  bottom: 0;
   padding-right: 4px;
-  padding-bottom: 9.375rem;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+// A column from here down to the menu list, each part at least as tall as
+// the box above it, so the last menu group (Setting) can sit at the bottom
+// of the window when the menu is shorter than the window. See
+// `components/admin/NavigationItemGroup.scss`.
+.admin-nav-container,
+.admin-nav,
+.admin-nav > ul {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 .admin-navigation .top-bar {
   display: flex;

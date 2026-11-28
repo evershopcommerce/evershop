@@ -20,13 +20,20 @@
     padding-right: 10px;
   }
 }
+// The last menu group (Setting) stays at the bottom of the window while the
+// menu scrolls. It is `sticky`, not `fixed`: it keeps its place in the menu
+// and the menu's full width, so an item scrolling under it is covered whole
+// (a 200px fixed box let the rest of the item show beside it), and once the
+// menu is scrolled to the end it covers nothing.
 .root-nav-item {
   &:last-child {
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    width: 200px;
+    position: sticky;
+    bottom: 0;
+    // At the bottom of the window when the menu is short (the menu list is a
+    // column, see `modules/cms/pages/admin/all/Navigation.scss`).
+    margin-top: auto;
     background-color: #fff;
+    border-top: 1px solid var(--divider);
     padding-bottom: 1.25rem;
     padding-top: 1rem;
   }
