@@ -669,7 +669,7 @@ Configure the available payment methods,उपलब्ध भुक्तान
 Configure the settings for the ${name} widget.,${name} विजेटका लागि सेटिङहरू कन्फिगर गर्नुहोस्।
 Configure the tax classes that will be available to your customers at checkout.,चेकआउटमा तपाईंका ग्राहकहरूका लागि उपलब्ध हुने कर वर्गहरू कन्फिगर गर्नुहोस्।
 Configure your Cash On Delivery payment gateway settings,तपाईंको डेलिभरीमा नगद भुक्तानी गेटवे सेटिङहरू कन्फिगर गर्नुहोस्
-Configure your Paypal payment gateway settings,तपाईंको Paypal भुक्तानी गेटवे सेटिङहरू कन्फिगर गर्नुहोस्
+Configure your PayPal payment gateway settings,तपाईंको PayPal भुक्तानी गेटवे सेटिङहरू कन्फिगर गर्नुहोस्
 Configure your Stripe payment gateway settings,तपाईंको Stripe भुक्तानी गेटवे सेटिङहरू कन्फिगर गर्नुहोस्
 Configure your store information,तपाईंको स्टोर जानकारी कन्फिगर गर्नुहोस्
 "Conflicts with ${plan1}, ${plan2}","${plan1}, ${plan2} सँग द्वन्द्व छ"
@@ -758,7 +758,6 @@ Discount Type,छुटको प्रकार
 Discount amount,छुट रकम
 Discount amount is required,छुट रकम आवश्यक छ
 Discount type is required,छुटको प्रकार आवश्यक छ
-Dislay Name,प्रदर्शन नाम
 Display Name,प्रदर्शन नाम
 Draft,मस्यौदा
 Draft — not scheduled,मस्यौदा — तालिकाबद्ध छैन
@@ -987,7 +986,7 @@ Parent category,मूल श्रेणी
 Payment Setting,भुक्तानी सेटिङ
 Payment mode,भुक्तानी मोड
 Payment setting saved,भुक्तानी सेटिङ सुरक्षित गरियो
-Paypal Payment,Paypal भुक्तानी
+PayPal Payment,PayPal भुक्तानी
 Pending start time,सुरु हुने समय बाँकी
 Percentage discount to entire order,सम्पूर्ण अर्डरमा प्रतिशत छुट
 Percentage discount to specific products,निर्दिष्ट उत्पादनहरूमा प्रतिशत छुट

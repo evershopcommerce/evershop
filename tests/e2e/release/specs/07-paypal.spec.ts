@@ -113,7 +113,7 @@ test('R-PPL-01 The admin turns PayPal on in the payment settings (sandbox); the 
   await adminPage.goto('/admin/setting/payments');
   const card = adminPage.locator('[data-slot="card"]').filter({
     has: adminPage.locator('[data-slot="card-title"]', {
-      hasText: /^Paypal Payment$/
+      hasText: /^PayPal Payment$/
     })
   });
   await expect(card.locator('input[name="paypalClientId"]')).toHaveValue(

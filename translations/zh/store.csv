@@ -669,7 +669,7 @@ Configure the available payment methods,配置可用的付款方式
 Configure the settings for the ${name} widget.,配置 ${name} 小部件的设置。
 Configure the tax classes that will be available to your customers at checkout.,配置结账时可供客户使用的税务类别。
 Configure your Cash On Delivery payment gateway settings,配置您的货到付款支付网关设置
-Configure your Paypal payment gateway settings,配置您的 Paypal 支付网关设置
+Configure your PayPal payment gateway settings,配置您的 PayPal 支付网关设置
 Configure your Stripe payment gateway settings,配置您的 Stripe 支付网关设置
 Configure your store information,配置您的商店信息
 "Conflicts with ${plan1}, ${plan2}",与 ${plan1}、${plan2} 冲突
@@ -758,7 +758,6 @@ Discount Type,折扣类型
 Discount amount,折扣金额
 Discount amount is required,折扣金额为必填项
 Discount type is required,折扣类型为必填项
-Dislay Name,显示名称
 Display Name,显示名称
 Draft,草稿
 Draft — not scheduled,草稿 — 未排定
@@ -987,7 +986,7 @@ Parent category,父级分类
 Payment Setting,支付设置
 Payment mode,支付模式
 Payment setting saved,支付设置已保存
-Paypal Payment,PayPal 支付
+PayPal Payment,PayPal 支付
 Pending start time,待定开始时间
 Percentage discount to entire order,对整个订单的百分比折扣
 Percentage discount to specific products,对特定产品的百分比折扣

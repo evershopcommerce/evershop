@@ -633,7 +633,7 @@ Configure the available payment methods,Cấu hình các phương thức thanh t
 Configure the settings for the ${name} widget.,Cấu hình cài đặt cho tiện ích ${name}.
 Configure the tax classes that will be available to your customers at checkout.,Cấu hình các lớp thuế khả dụng cho khách khi thanh toán.
 Configure your Cash On Delivery payment gateway settings,Cấu hình cài đặt cổng thanh toán khi nhận hàng
-Configure your Paypal payment gateway settings,Cấu hình cài đặt cổng thanh toán PayPal
+Configure your PayPal payment gateway settings,Cấu hình cài đặt cổng thanh toán PayPal
 Configure your Stripe payment gateway settings,Cấu hình cài đặt cổng thanh toán Stripe
 Configure your store information,Cấu hình thông tin cửa hàng
 "Conflicts with ${plan1}, ${plan2}","Xung đột với ${plan1}, ${plan2}"
@@ -722,7 +722,6 @@ Discount Type,Loại giảm giá
 Discount amount,Số tiền giảm
 Discount amount is required,Bắt buộc nhập số tiền giảm
 Discount type is required,Bắt buộc chọn loại giảm giá
-Dislay Name,Tên hiển thị
 Display Name,Tên hiển thị
 Draft,Bản nháp
 Draft — not scheduled,Bản nháp — chưa lên lịch
@@ -951,7 +950,7 @@ Parent category,Danh mục cha
 Payment Setting,Cài đặt thanh toán
 Payment mode,Chế độ thanh toán
 Payment setting saved,Đã lưu cài đặt thanh toán
-Paypal Payment,Thanh toán PayPal
+PayPal Payment,Thanh toán PayPal
 Pending start time,Giờ bắt đầu chờ
 Percentage discount to entire order,Giảm % cho toàn đơn hàng
 Percentage discount to specific products,Giảm % cho sản phẩm cụ thể

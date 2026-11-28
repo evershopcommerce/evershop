@@ -665,7 +665,7 @@ Configure the available payment methods,Настройте доступные с
 Configure the settings for the ${name} widget.,Настройте параметры виджета ${name}.
 Configure the tax classes that will be available to your customers at checkout.,"Настройте налоговые классы, которые будут доступны вашим клиентам при оформлении заказа."
 Configure your Cash On Delivery payment gateway settings,Настройте параметры платёжного шлюза «Оплата при доставке»
-Configure your Paypal payment gateway settings,Настройте параметры платёжного шлюза PayPal
+Configure your PayPal payment gateway settings,Настройте параметры платёжного шлюза PayPal
 Configure your Stripe payment gateway settings,Настройте параметры платёжного шлюза Stripe
 Configure your store information,Настройте информацию о вашем магазине
 "Conflicts with ${plan1}, ${plan2}","Конфликтует с ${plan1}, ${plan2}"
@@ -754,7 +754,6 @@ Discount Type,Тип скидки
 Discount amount,Сумма скидки
 Discount amount is required,Сумма скидки обязательна
 Discount type is required,Тип скидки обязателен
-Dislay Name,Отображаемое имя
 Display Name,Отображаемое имя
 Draft,Черновик
 Draft — not scheduled,Черновик — не запланирован
@@ -983,7 +982,7 @@ Parent category,Родительская категория
 Payment Setting,Настройки оплаты
 Payment mode,Режим оплаты
 Payment setting saved,Настройки оплаты сохранены
-Paypal Payment,Оплата PayPal
+PayPal Payment,Оплата PayPal
 Pending start time,Ожидается время начала
 Percentage discount to entire order,Процентная скидка на весь заказ
 Percentage discount to specific products,Процентная скидка на конкретные товары

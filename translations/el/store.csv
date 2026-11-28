@@ -671,7 +671,7 @@ Configure the available payment methods,Διαμορφώστε τις διαθέ
 Configure the settings for the ${name} widget.,Διαμορφώστε τις ρυθμίσεις για το widget ${name}.
 Configure the tax classes that will be available to your customers at checkout.,Διαμορφώστε τις φορολογικές κλάσεις που θα είναι διαθέσιμες στους πελάτες σας στο ταμείο.
 Configure your Cash On Delivery payment gateway settings,Διαμορφώστε τις ρυθμίσεις της πύλης πληρωμής με αντικαταβολή
-Configure your Paypal payment gateway settings,Διαμορφώστε τις ρυθμίσεις της πύλης πληρωμής Paypal
+Configure your PayPal payment gateway settings,Διαμορφώστε τις ρυθμίσεις της πύλης πληρωμής PayPal
 Configure your Stripe payment gateway settings,Διαμορφώστε τις ρυθμίσεις της πύλης πληρωμής Stripe
 Configure your store information,Διαμορφώστε τις πληροφορίες του καταστήματός σας
 "Conflicts with ${plan1}, ${plan2}","Έρχεται σε σύγκρουση με ${plan1}, ${plan2}"
@@ -760,7 +760,6 @@ Discount Type,Τύπος έκπτωσης
 Discount amount,Ποσό έκπτωσης
 Discount amount is required,Το ποσό έκπτωσης είναι υποχρεωτικό
 Discount type is required,Ο τύπος έκπτωσης είναι υποχρεωτικός
-Dislay Name,Εμφανιζόμενο όνομα
 Display Name,Εμφανιζόμενο όνομα
 Draft,Πρόχειρο
 Draft — not scheduled,Πρόχειρο — δεν έχει προγραμματιστεί
@@ -989,7 +988,7 @@ Parent category,Γονική κατηγορία
 Payment Setting,Ρύθμιση Πληρωμών
 Payment mode,Λειτουργία πληρωμής
 Payment setting saved,Η ρύθμιση πληρωμών αποθηκεύτηκε
-Paypal Payment,Πληρωμή Paypal
+PayPal Payment,Πληρωμή PayPal
 Pending start time,Εκκρεμής χρόνος έναρξης
 Percentage discount to entire order,Ποσοστιαία έκπτωση σε ολόκληρη την παραγγελία
 Percentage discount to specific products,Ποσοστιαία έκπτωση σε συγκεκριμένα προϊόντα

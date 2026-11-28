@@ -674,7 +674,7 @@ Configure the available payment methods,கிடைக்கும் கட்
 Configure the settings for the ${name} widget.,${name} விட்ஜெட்டிற்கான அமைப்புகளை அமைக்கவும்.
 Configure the tax classes that will be available to your customers at checkout.,செக்அவுட்டில் உங்கள் வாடிக்கையாளர்களுக்குக் கிடைக்கும் வரி வகுப்புகளை அமைக்கவும்.
 Configure your Cash On Delivery payment gateway settings,டெலிவரியில் பணம் செலுத்தும் கட்டண நுழைவாயில் அமைப்புகளை அமைக்கவும்
-Configure your Paypal payment gateway settings,உங்கள் Paypal கட்டண நுழைவாயில் அமைப்புகளை அமைக்கவும்
+Configure your PayPal payment gateway settings,உங்கள் PayPal கட்டண நுழைவாயில் அமைப்புகளை அமைக்கவும்
 Configure your Stripe payment gateway settings,உங்கள் Stripe கட்டண நுழைவாயில் அமைப்புகளை அமைக்கவும்
 Configure your store information,உங்கள் கடை தகவலை அமைக்கவும்
 "Conflicts with ${plan1}, ${plan2}","${plan1}, ${plan2} உடன் முரண்படுகிறது"
@@ -763,7 +763,6 @@ Discount Type,தள்ளுபடி வகை
 Discount amount,தள்ளுபடி தொகை
 Discount amount is required,தள்ளுபடி தொகை தேவை
 Discount type is required,தள்ளுபடி வகை தேவை
-Dislay Name,காட்சிப் பெயர்
 Display Name,காட்சிப் பெயர்
 Draft,வரைவு
 Draft — not scheduled,வரைவு — திட்டமிடப்படவில்லை
@@ -992,7 +991,7 @@ Parent category,பெற்றோர் வகை
 Payment Setting,கட்டண அமைப்பு
 Payment mode,கட்டண முறை
 Payment setting saved,கட்டண அமைப்பு சேமிக்கப்பட்டது
-Paypal Payment,Paypal கட்டணம்
+PayPal Payment,PayPal கட்டணம்
 Pending start time,நிலுவையிலுள்ள தொடக்க நேரம்
 Percentage discount to entire order,முழு ஆர்டருக்கும் சதவீத தள்ளுபடி
 Percentage discount to specific products,குறிப்பிட்ட தயாரிப்புகளுக்கு சதவீத தள்ளுபடி

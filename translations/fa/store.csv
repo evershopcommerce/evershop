@@ -669,7 +669,7 @@ Configure the available payment methods,پیکربندی روش‌های پرد�
 Configure the settings for the ${name} widget.,تنظیمات ویجت ${name} را پیکربندی کنید.
 Configure the tax classes that will be available to your customers at checkout.,کلاس‌های مالیاتی را که در تسویه‌حساب برای مشتریان شما در دسترس خواهد بود پیکربندی کنید.
 Configure your Cash On Delivery payment gateway settings,تنظیمات درگاه پرداخت در محل تحویل خود را پیکربندی کنید
-Configure your Paypal payment gateway settings,تنظیمات درگاه پرداخت Paypal خود را پیکربندی کنید
+Configure your PayPal payment gateway settings,تنظیمات درگاه پرداخت PayPal خود را پیکربندی کنید
 Configure your Stripe payment gateway settings,تنظیمات درگاه پرداخت Stripe خود را پیکربندی کنید
 Configure your store information,اطلاعات فروشگاه خود را پیکربندی کنید
 "Conflicts with ${plan1}, ${plan2}",تداخل با ${plan1}، ${plan2}
@@ -758,7 +758,6 @@ Discount Type,نوع تخفیف
 Discount amount,مقدار تخفیف
 Discount amount is required,مقدار تخفیف الزامی است
 Discount type is required,نوع تخفیف الزامی است
-Dislay Name,نام نمایشی
 Display Name,نام نمایشی
 Draft,پیش‌نویس
 Draft — not scheduled,پیش‌نویس — زمان‌بندی نشده
@@ -987,7 +986,7 @@ Parent category,دسته‌بندی والد
 Payment Setting,تنظیمات پرداخت
 Payment mode,حالت پرداخت
 Payment setting saved,تنظیمات پرداخت ذخیره شد
-Paypal Payment,پرداخت پی‌پال
+PayPal Payment,پرداخت پی‌پال
 Pending start time,زمان شروع در انتظار
 Percentage discount to entire order,تخفیف درصدی برای کل سفارش
 Percentage discount to specific products,تخفیف درصدی برای محصولات خاص
